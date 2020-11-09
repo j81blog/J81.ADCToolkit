@@ -261,19 +261,19 @@ function Invoke-CleanADCCertificates {
 
             $Certs = Get-ADCCertificateRemoveInfo -Session $PriSession
             if ($($Certs | Where-Object { $_.certData.status -eq "Expired" }).count -gt 0) {
-                ""
+                Write-ConsoleText -Blank
                 Write-Warning "You still have EXPIRED certificates bound/active in the configuration!"
             }
 
             $ExpiringCerts = @($Certs | Where-Object { ($_.certData.daystoexpiration -in 0..$ExpirationDays) -and (-Not [String]::IsNullOrEmpty( $($_.certData.daystoexpiration) ) -and (-Not [String]::IsNullOrEmpty( $($_.certData.certkey) ) )) })
             if ($ExpiringCerts.Count -gt 0) {
-                ""
+                Write-ConsoleText -Blank
                 Write-Warning "You have $($ExpiringCerts.Count) certificate(s) that will expire within $ExpirationDays days"
 
                 $ExpiringCerts | ForEach-Object {
                     Write-Warning "=> Days To Expiration: $($_.certData.daystoexpiration), CertKey: $($_.certData.certkey)"
                 }
-                ""
+                Write-ConsoleText -Blank
             }
             if (-Not $NoSaveConfig) {
                 Write-ConsoleText -Line "Saving the config"

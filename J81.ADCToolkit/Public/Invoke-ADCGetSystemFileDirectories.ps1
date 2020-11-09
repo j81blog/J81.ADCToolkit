@@ -11,9 +11,7 @@ function Invoke-ADCGetSystemFileDirectories {
     $Output += "$FileLocation"
     try {
         $dirs = Invoke-ADCGetSystemFile -FileLocation $FileLocation -ADCSession $Session | Expand-ADCResult | Where-Object { $_.filemode -eq "DIRECTORY" } | Foreach-Object { "$($_.filelocation)/$($_.filename)" }
-    } catch {
-        
-    }
+    } catch { $dirs = $null }
     if ($dirs.count -gt 0) {
         $Output += $dirs | ForEach-Object { Invoke-ADCGetSystemFileDirectories -FileLocation $_ -ADCSession $Session }
     }

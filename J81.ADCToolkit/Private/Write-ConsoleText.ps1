@@ -18,7 +18,7 @@ function Write-ConsoleText {
         [Parameter(ParameterSetName = "Title")]
         [Parameter(ParameterSetName = "Line")]
         [Parameter(ParameterSetName = "Message")]
-        [Switch]$NoConsoleOutput = $Script:NoConsoleOutput,
+        [Switch]$NoConsoleOutput = $Global:NoConsoleOutput,
         
         [Parameter(ParameterSetName = "Message")]
         [Parameter(ParameterSetName = "Line")]
@@ -29,11 +29,6 @@ function Write-ConsoleText {
         [Parameter(ParameterSetName = "Message")]
         [System.ConsoleColor]$ForeGroundColor = "White",
         
-        [Parameter(ParameterSetName = "Title")]
-        [Parameter(ParameterSetName = "Line")]
-        [Parameter(ParameterSetName = "Message")]
-        [Switch]$Log,
-
         [Parameter(ParameterSetName = "Line")]
         [Parameter(ParameterSetName = "Message")]
         [Parameter(ParameterSetName = "Blank")]
@@ -64,8 +59,5 @@ function Write-ConsoleText {
         if ($PostBlank) {
             Write-Host ""
         } 
-    }
-    if ($Log) {
-        try { Write-ToLogFile -I -C Write-DisplayText -M "$Message" } catch {  }
     }
 }

@@ -16,7 +16,7 @@ Foreach ($import in @($Public + $Private)) {
 }
 
 # setup some module wide variables
-$Global:LogLevel = "Info"
+#$LogLevel = "Info"
 
 # Export the public modules and aliases
 Export-ModuleMember -Function $public.Basename -Alias *

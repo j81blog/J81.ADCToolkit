@@ -2,6 +2,7 @@ function ConvertFrom-ADCVersion {
     [cmdletbinding()]
     param(
         [Parameter(ValueFromPipeline = $true)]
+        [OutputType([Version])]
         [object]
         $Session
     )
@@ -14,7 +15,7 @@ function ConvertFrom-ADCVersion {
                 return $Session.Version
             }
         } catch {
-            return [Version]"0.0"
+            return [Version]"0.0.0.0"
         }
     }
 }
