@@ -36,3 +36,7 @@
 ehthumbs.db
 Thumbs.db
 Redists.xml
+
+# Visual Studio Code #
+######################
+*.code-workspace
