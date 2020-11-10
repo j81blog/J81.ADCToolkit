@@ -115,7 +115,7 @@ function Connect-ADCNode {
         } catch {
             Write-Verbose -Message "Error. See response: `n$($response | Format-List -Property * | Out-String)"
         }
-        $Global:ADCSession = $ADCSession
+        $Script:ADCSession = $ADCSession
         
         if ($PassThru) {
             return $ADCSession

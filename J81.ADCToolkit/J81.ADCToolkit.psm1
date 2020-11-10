@@ -17,6 +17,8 @@ Foreach ($import in @($Public + $Private)) {
 
 # setup some module wide variables
 #$LogLevel = "Info"
+$Script:ADCSession
+$Script:NoConsoleOutput = $false
 
 # Export the public modules and aliases
 Export-ModuleMember -Function $public.Basename -Alias *

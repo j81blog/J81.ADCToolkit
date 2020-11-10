@@ -18,7 +18,7 @@ function Write-ConsoleText {
         [Parameter(ParameterSetName = "Title")]
         [Parameter(ParameterSetName = "Line")]
         [Parameter(ParameterSetName = "Message")]
-        [Switch]$NoConsoleOutput = $Global:NoConsoleOutput,
+        [Switch]$NoConsoleOutput = $Script:NoConsoleOutput,
         
         [Parameter(ParameterSetName = "Message")]
         [Parameter(ParameterSetName = "Line")]

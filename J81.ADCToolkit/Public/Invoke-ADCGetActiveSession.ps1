@@ -17,7 +17,7 @@ function Invoke-ADCGetActiveSession {
         #>
     [cmdletbinding()]
     param(
-        $ADCSession = $Global:ADCSession
+        $ADCSession = $Script:ADCSession
     )
     if ([String]::IsNullOrEmpty($ADCSession)) {
         throw "Connect to the Citrix ADC Applicance first!"
