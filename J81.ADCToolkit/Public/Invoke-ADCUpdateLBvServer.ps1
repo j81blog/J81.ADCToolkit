@@ -12,7 +12,7 @@ function Invoke-ADCUpdateLBvServer {
             Invoke-ADCUpdateLBvServer 
         .NOTES
             File Name : Invoke-ADCUpdateLBvServer
-            Version   : v0.1
+            Version   : v0.2
             Author    : John Billekens
             Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/lb/lbvserver/
             Requires  : PowerShell v5.1 and up
@@ -59,6 +59,9 @@ function Invoke-ADCUpdateLBvServer {
 
         [Switch]$PassThru
     )
+    begin {
+        Write-Verbose "Invoke-ADCUpdateLBvServer: Starting"
+    }
     process {
         $Payload = @{
             name = $Name
@@ -74,13 +77,17 @@ function Invoke-ADCUpdateLBvServer {
             if ($PSBoundParameters.ContainsKey('HTTPSRedirectURL')) { $Payload.Add('httpsredirecturl', $HTTPSRedirectURL) }
             if ($PSBoundParameters.ContainsKey('Timeout')) { $Payload.Add('timeout', $Timeout) }
             if ($PSCmdlet.ShouldProcess($Name, 'Update Load Balance Virtual Server')) {
-                $null = Invoke-ADCNitroApi -Session $ADCSession -Method PUT -Type lbvserver -Payload $Payload -GetWarning
-
-                if ($PSBoundParameters.ContainsKey('PassThru')) { return Invoke-ADCGetLBvServer -Name $Name }
+                $null = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -Type lbvserver -Payload $Payload -GetWarning
+                if ($PSBoundParameters.ContainsKey('PassThru')) { 
+                    Write-Output (Invoke-ADCGetLBvServer -Name $Name)
+                }
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
             throw $_
         }
+    }
+    end {
+        Write-Verbose "Invoke-ADCUpdateLBvServer: Finished"
     }
 }

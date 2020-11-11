@@ -1,4 +1,4 @@
-function Invoke-CleanADCCertificates {
+function Invoke-ADCCleanCertKeyFiles {
     <#
     .SYNOPSIS
         Cleanup old/unused certificates on a Citrix ADC.
@@ -18,17 +18,17 @@ function Invoke-CleanADCCertificates {
         By specifying this parameter you can change the nr of days.
     .EXAMPLE
         $Credential = Get-Credential -UserName "nsroot" -Message "Citrix ADC account"
-        Invoke-CleanADCCertificates -ManagementURL = "https://citrixadc.domain.local" -Credential $Credential
+        Invoke-ADCCleanCertKeyFiles -ManagementURL = "https://citrixadc.domain.local" -Credential $Credential
     .EXAMPLE
         $Params = @{
             ManagementURL = "https://citrixadc.domain.local"
             Credential = (Get-Credential -UserName "nsroot" -Message "Citrix ADC account")
             Backup = $true
         }
-        Invoke-CleanADCCertificates @Params
+        Invoke-ADCCleanCertKeyFiles @Params
     .NOTES
-        File Name : Invoke-CleanADCCertificates.ps1
-        Version   : v0.3
+        File Name : Invoke-ADCCleanCertKeyFiles.ps1
+        Version   : v0.4
         Author    : John Billekens
         Requires  : PowerShell v5.1 and up
                     ADC 11.x and up
@@ -51,62 +51,7 @@ function Invoke-CleanADCCertificates {
         
         [Int]$ExpirationDays = 30       
     )
-
-    #requires -version 5.1
-
-    #region functions
-    
-    function Get-ADCCertificateRemoveInfo {
-        [cmdletbinding()]
-        param(
-            [hashtable]$Session = (Invoke-ADCGetActiveSession),
-            
-            [String[]]$ExcludedCertKey = @()
-        )
-        $SSLFileLocation = "/nsconfig/ssl"
-        $InstalledCertificates = Invoke-ADCGetSSLCertKey -ADCSession $Session | Expand-ADCResult | Where-Object { $_.certkey -NotMatch '^ns-server-certificate$' } | Select-Object certkey, status, linkcertkeyname, serial, @{label = "daystoexpiration"; expression = { $_.daystoexpiration -as [int] } }, @{label = "cert"; expression = { "$($_.cert.Replace('/nsconfig/ssl/',''))" } }, @{label = "key"; expression = { "$($_.key.Replace('/nsconfig/ssl/',''))" } }
-        $FileLocations = Invoke-ADCGetSystemFileDirectories -FileLocation $SSLFileLocation
-        $CertificateFiles = $FileLocations | ForEach-Object { Invoke-ADCGetSystemFile -FileLocation $_ -ADCSession $Session | Expand-ADCResult | Where-Object { ($_.filename -NotMatch '^ns-root.*$|^ns-server.*$|^ns-sftrust.*$') -And ($_.filemode -ne "DIRECTORY") } }
-        $CertificateBindings = Invoke-ADCGetSSLCertKeyBinding -ADCSession $Session | Expand-ADCResult
-        $LinkedCertificate = Invoke-ADCGetSSLCertLink -ADCSession $Session | Expand-ADCResult
-        $Certificates = @()
-        Foreach ($cert in $CertificateFiles) {
-            $Removable = $true
-            $certData = $InstalledCertificates | Where-Object { $_.cert -match "^$($cert.filename)$|^.*/$($cert.filename)$" }
-            $keyData = $InstalledCertificates | Where-Object { $_.key -match "^$($cert.filename)$|^.*/$($cert.filename)$" }
-            $CertFileData = @()
-            Foreach ($item in $certData) {
-                $Linked = $LinkedCertificate | Where-Object { $_.linkcertkeyname -eq $item.certkey } | Select-Object -ExpandProperty certkeyname
-                if ((($CertificateBindings | Where-Object { $_.certkey -eq $item.certkey } | Get-Member -MemberType NoteProperty | Where-Object Name -like "*binding").Name) -or ($Linked)) {
-                    $CertFileData += $certData | Select-Object *, @{label = "bound"; expression = { $true } }, @{label = "linkedcertkey"; expression = { $Linked } }
-                    $Removable = $false
-                } else {
-                    $CertFileData += $certData | Select-Object *, @{label = "bound"; expression = { $false } }, @{label = "linkedcertkey"; expression = { $Linked } }
-                }
-            }
-            $KeyFileData = @()
-            Foreach ($item in $keyData) {
-                $Linked = $InstalledCertificates | Where-Object { $_.linkcertkeyname -eq $item.certkey -and $null -ne $_.linkcertkeyname } | Select-Object -ExpandProperty certkey
-                if ((($CertificateBindings | Where-Object { $_.certkey -eq $item.certkey } | Get-Member -MemberType NoteProperty | Where-Object Name -like "*binding").Name) -or ($Linked)) {
-                    $KeyFileData += $keyData | Select-Object *, @{label = "bound"; expression = { $true } }, @{label = "linkedcertkey"; expression = { $Linked } }
-                    $Removable = $false
-                } else {
-                    $KeyFileData += $keyData | Select-Object *, @{label = "bound"; expression = { $false } }, @{label = "linkedcertkey"; expression = { $Linked } }
-                }
-            }
-            $Certificates += [PsCustomObject]@{
-                filename     = $cert.filename
-                filelocation = $cert.filelocation
-                certData     = $CertFileData
-                keyData      = $KeyFileData
-                removable    = $Removable
-            }
-        }
-        return $Certificates
-    }
-    
-    #endregion functions
-
+    Write-Verbose "Invoke-ADCCleanCertKeyFiles: Starting"
     Write-Verbose "Trying to login into the Citrix ADC."
     Write-ConsoleText -Title "ADC Connection"
     Write-ConsoleText -Line "Connecting"
@@ -191,8 +136,7 @@ function Invoke-CleanADCCertificates {
             Write-ConsoleText -ForeGroundColor Cyan "$($SecSession.Version)"
         }
         if ($($ADCSession | ConvertFrom-ADCVersion) -lt [System.Version]"11.0") {
-            Write-Warning "Only ADC version 11 and up is supported"
-            Exit (1)
+            Throw "Only ADC version 11 and up is supported"
         }
 
         Write-ConsoleText -Line "Backup"
@@ -201,7 +145,7 @@ function Invoke-CleanADCCertificates {
             Write-ConsoleText -Line "Backup Status"
             try {        
                 $BackupName = "CleanCerts_$((Get-Date).ToString("yyyyMMdd_HHmm"))"
-                $Response = Invoke-ADCNewSystemBackup -Session $PriSession -Name $BackupName -Comment "Backup created by PoSH function Invoke-CleanADCCertificates" -SaveConfigFirst -ErrorAction Stop
+                $Response = Invoke-ADCNewSystemBackup -ADCSession $PriSession -Name $BackupName -Comment "Backup created by PoSH function Invoke-ADCCleanCertKeyFiles" -SaveConfigFirst -ErrorAction Stop
                 Write-ConsoleText -ForeGroundColor Green "OK [$BackupName]"
             } catch {
                 Write-ConsoleText -ForeGroundColor Red "Failed $($Response.message)"
@@ -213,7 +157,7 @@ function Invoke-CleanADCCertificates {
         try {
             Write-Verbose "Retrieving the certificate details."
             Do {
-                $Certs = Get-ADCCertificateRemoveInfo -Session $PriSession
+                $Certs = Invoke-ADCRetrieveCertificateRemoveInfo -ADCSession $PriSession
                 $RemovableCerts = $Certs | Where-Object { $_.removable -eq $true }
                 if ($RemovableCerts.Count -gt 0) {
                     Write-ConsoleText "Removing CertKeys from the configuration for unused certificates, attempt $loop/$Attempts" -PreBlank
@@ -223,7 +167,7 @@ function Invoke-CleanADCCertificates {
                             Write-ConsoleText -Line "CertKey"
                             Write-ConsoleText "$($_.certData.certkey)"
                             Write-ConsoleText -Line "Removing"
-                            $result = Invoke-ADCDeleteSSLCertKey -Session $PriSession -CertKey $_.certData.certkey -ErrorAction SilentlyContinue | Write-ADCText
+                            $result = Invoke-ADCDeleteSSLCertKey -ADCSession $PriSession -CertKey $_.certData.certkey -ErrorAction SilentlyContinue | Write-ADCText
                             Write-Verbose "Result: $result"
                         }
                         if ($_.keyData.certkey -ne $_.certData.certkey) {
@@ -231,14 +175,14 @@ function Invoke-CleanADCCertificates {
                                 Write-ConsoleText -Line "CertKey"
                                 Write-ConsoleText "$($_.keyData.certkey)"
                                 Write-ConsoleText -Line "Removing"
-                                $result = Invoke-ADCDeleteSSLCertKey -Session $PriSession -CertKey $_.keyData.certkey -ErrorAction  SilentlyContinue | Write-ADCText
+                                $result = Invoke-ADCDeleteSSLCertKey -ADCSession $PriSession -CertKey $_.keyData.certkey -ErrorAction  SilentlyContinue | Write-ADCText
                                 Write-Verbose "Result: $result"
                             }
                         }
                     }
             
                     Write-Verbose "Retrieving certificates and remove unbound files"
-                    $Certs = Get-ADCCertificateRemoveInfo -Session $PriSession
+                    $Certs = Invoke-ADCRetrieveCertificateRemoveInfo -ADCSession $PriSession
                 }
                 $loop++
             } While ($loop -lt ($Attempts + 1) )
@@ -251,7 +195,7 @@ function Invoke-CleanADCCertificates {
                     foreach ($Session in $ADCSessions) {
                         Write-ConsoleText -Line "Deleting"
                         Write-ConsoleText -NoNewLine -ForeGroundColor Cyan "[$($Session.State)] "
-                        $result = Invoke-ADCDeleteSystemFile -Session $Session.Session -FileName $_.fileName -FileLocation $_.filelocation | Write-ADCText
+                        $result = Invoke-ADCDeleteSystemFile -ADCSession $Session.Session -FileName $_.fileName -FileLocation $_.filelocation | Write-ADCText
                         Write-Verbose "Result: $result"
                     }
                 }
@@ -259,7 +203,7 @@ function Invoke-CleanADCCertificates {
                 Write-ConsoleText "Nothing to remove (anymore), the location `"/nsconfig/ssl/`" is tidy!" -PreBlank
             }
 
-            $Certs = Get-ADCCertificateRemoveInfo -Session $PriSession
+            $Certs = Invoke-ADCRetrieveCertificateRemoveInfo -ADCSession $PriSession
             if ($($Certs | Where-Object { $_.certData.status -eq "Expired" }).count -gt 0) {
                 Write-ConsoleText -Blank
                 Write-Warning "You still have EXPIRED certificates bound/active in the configuration!"
@@ -278,7 +222,7 @@ function Invoke-CleanADCCertificates {
             if (-Not $NoSaveConfig) {
                 Write-ConsoleText -Line "Saving the config"
                 try {
-                    $result = Invoke-ADCSaveNSConfig -Session $ADCSession -ErrorAction Stop
+                    $result = Invoke-ADCSaveNSConfig -ADCSession $ADCSession -ErrorAction Stop
                     Write-ConsoleText -ForeGroundColor Green "Done"
                 } catch {
                     Write-ConsoleText -ForeGroundColor Red "Failed"
@@ -288,5 +232,6 @@ function Invoke-CleanADCCertificates {
         } catch {
             Write-ConsoleText -ForeGroundColor Red "Caught an error. Exception Message: $($_.Exception.Message)"
         }
+        Write-Verbose "Invoke-ADCCleanCertKeyFiles: Finished"
     }
 }

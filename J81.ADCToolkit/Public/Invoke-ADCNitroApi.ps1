@@ -28,11 +28,13 @@ function Invoke-ADCNitroApi {
         .PARAMETER OnErrorAction
             Use this parameter to set the onerror status for nitro request. Applicable only for bulk requests.
             Acceptable values: "EXIT", "CONTINUE", "ROLLBACK", default to "EXIT"
+        .EXAMPLE
+            Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type nsip
         #>
     [CmdletBinding()]
     param (
-        [alias("Session")]
         [Parameter(Mandatory = $true)]
+        [alias("Session")]
         [PSObject]$ADCSession,
     
         [Parameter(Mandatory = $true)]
@@ -172,6 +174,6 @@ function Invoke-ADCNitroApi {
         throw "Error. See response: `n$($response | Format-List -Property * | Out-String)"
     } 
     if (-Not [String]::IsNullOrEmpty($response)) {
-        return $response
+        Write-Output $response
     }
 }

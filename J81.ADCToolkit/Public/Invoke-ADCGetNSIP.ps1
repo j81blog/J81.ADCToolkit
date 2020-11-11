@@ -15,7 +15,7 @@ function Invoke-ADCGetNSIP {
             Invoke-ADCGetHANode -Summary
         .NOTES
             File Name : Invoke-ADCGetHANode
-            Version   : v0.1
+            Version   : v0.2
             Author    : John Billekens
             Requires  : PowerShell v5.1 and up
                         ADC 11.x and up
@@ -31,11 +31,19 @@ function Invoke-ADCGetNSIP {
     
         [Switch]$Summary = $false
     )
-    try {
-        $response = Invoke-ADCNitroApi -Session $ADCSession -Method GET -Type nsip -Filter $Filter -Summary:$Summary -GetWarning
-    } catch {
-        Write-Verbose "ERROR: $($_.Exception.Message)"
-        $response = $null
+    begin {
+        Write-Verbose "Invoke-ADCGetHANode: Starting"
     }
-    return $response
+    process {
+        try {
+            $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type nsip -Filter $Filter -Summary:$Summary -GetWarning
+        } catch {
+            Write-Verbose "ERROR: $($_.Exception.Message)"
+            $response = $null
+        }
+        Write-Output $response
+    }
+    end {
+        Write-Verbose "Invoke-ADCGetHANode: Finished"
+    }
 }

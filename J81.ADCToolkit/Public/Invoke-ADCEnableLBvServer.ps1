@@ -14,7 +14,7 @@ function Invoke-ADCEnableLBvServer {
             Invoke-ADCEnableLBvServer -Name "lb_domain1.com_https"
         .NOTES
             File Name : Invoke-ADCEnableLBvServer
-            Version   : v0.1
+            Version   : v0.2
             Author    : John Billekens
             Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/lb/lbvserver/
             Requires  : PowerShell v5.1 and up
@@ -30,11 +30,20 @@ function Invoke-ADCEnableLBvServer {
         [Parameter(Mandatory = $true)]
         [String]$Name
     )
-    $Payload = @{
-        name = $Name
+    begin {
+        Write-Verbose "Invoke-ADCEnableLBvServer: Starting"
     }
-    if ($PSCmdlet.ShouldProcess($Name, "Enable Load Balance Virtual Server")) {
-        $response = Invoke-ADCNitroApi -Session $ADCSession -Method POST -Type lbvserver -Action enable -Payload $Payload -GetWarning
-        return $response
+    process {
+        $Payload = @{
+            name = $Name
+        }
+        if ($PSCmdlet.ShouldProcess($Name, "Enable Load Balance Virtual Server")) {
+            Write-Verbose "Enable LB vServer: `"$Name`""
+            $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -Type lbvserver -Action enable -Payload $Payload -GetWarning
+            Write-Output $response
+        }
+    }
+    end {
+        Write-Verbose "Invoke-ADCEnableLBvServer: Finished"
     }
 }

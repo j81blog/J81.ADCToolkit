@@ -15,7 +15,7 @@ function Invoke-ADCGetHANode {
             Invoke-ADCGetHANode -Summary
         .NOTES
             File Name : Invoke-ADCGetHANode
-            Version   : v0.1
+            Version   : v0.2
             Author    : John Billekens
             Requires  : PowerShell v5.1 and up
                         ADC 11.x and up
@@ -32,12 +32,20 @@ function Invoke-ADCGetHANode {
     
         [Switch]$Summary
     )
-    try {
-        Write-Verbose "$($ADCSession | ConvertTo-json -compress)"
-        $response = Invoke-ADCNitroApi -Session $ADCSession -Method GET -Type hanode -Filter $Filter -Summary:$Summary
-    } catch {
-        Write-Verbose "ERROR: $($_.Exception.Message)"
-        $response = $null
+    begin {
+        Write-Verbose "Invoke-ADCGetHANode: Starting"
     }
-    return $response
+    process {
+        try {
+            Write-Verbose "$($ADCSession | ConvertTo-json -compress)"
+            $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type hanode -Filter $Filter -Summary:$Summary
+        } catch {
+            Write-Verbose "ERROR: $($_.Exception.Message)"
+            $response = $null
+        }
+        Write-Output $response
+    }
+    end {
+        Write-Verbose "Invoke-ADCGetHANode: Finished"
+    }
 }

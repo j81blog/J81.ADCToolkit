@@ -10,7 +10,7 @@ function Invoke-ADCGetNSFeature {
             Invoke-ADCGetNSFeature
         .NOTES
             File Name : Invoke-ADCGetNSFeature
-            Version   : v0.1
+            Version   : v0.2
             Author    : John Billekens
             Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ns/nsfeature/
             Requires  : PowerShell v5.1 and up
@@ -22,11 +22,19 @@ function Invoke-ADCGetNSFeature {
     Param(
         [hashtable]$ADCSession = (Invoke-ADCGetActiveSession)
     )
-    try {
-        $response = Invoke-ADCNitroApi -Session $ADCSession -Method GET -Type nsfeature
-    } catch {
-        Write-Verbose "ERROR: $($_.Exception.Message)"
-        $response = $null
+    begin {
+        Write-Verbose "Invoke-ADCGetNSFeature: Starting"
     }
-    return $response
+    process {
+        try {
+            $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type nsfeature
+        } catch {
+            Write-Verbose "ERROR: $($_.Exception.Message)"
+            $response = $null
+        }
+        Write-Output $response
+    }
+    end {
+        Write-Verbose "Invoke-ADCGetNSFeature: Finished"
+    }
 }

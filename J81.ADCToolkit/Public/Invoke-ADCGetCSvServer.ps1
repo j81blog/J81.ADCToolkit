@@ -21,7 +21,7 @@ function Invoke-ADCGetCSvServer {
             Invoke-ADCGetCSvServer -Name "cs_domain.com_https"
         .NOTES
             File Name : Invoke-ADCGetSSLCertKeyBinding
-            Version   : v0.1
+            Version   : v0.2
             Author    : John Billekens
             Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/cs/csvserver/
             Requires  : PowerShell v5.1 and up
@@ -44,19 +44,29 @@ function Invoke-ADCGetCSvServer {
     
         [Switch]$Summary = $false
     )
-    $Query = @{ }
-    try {
-        if ($PSBoundParameters.ContainsKey('Count')) {
-            $Query = @{ "count" = "yes" }
-        }			
-        if ($PSBoundParameters.ContainsKey('Name')) {
-            $response = Invoke-ADCNitroApi -Session $ADCSession -Method Get -Type csvserver -Resource $Name -Summary:$Summary -Filter $Filter -GetWarning
-        } else {
-            $response = Invoke-ADCNitroApi -Session $ADCSession -Method Get -Type csvserver -Summary:$Summary -Filter $Filter -Query $Query -GetWarning
-        }
-    } catch {
-        Write-Verbose "ERROR: $($_.Exception.Message)"
-        $response = $null
+    begin {
+        Write-Verbose "Invoke-ADCGetSSLCertKeyBinding: Starting"
     }
-    return $response
+    process {
+        $Query = @{ }
+        try {
+            if ($PSBoundParameters.ContainsKey('Count')) {
+                $Query = @{ "count" = "yes" }
+            }			
+            if ($PSBoundParameters.ContainsKey('Name')) {
+                Write-Verbose "Retrieving CS vServer `"$Name`""
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method Get -Type csvserver -Resource $Name -Summary:$Summary -Filter $Filter -GetWarning
+            } else {
+                Write-Verbose "Retrieving all CS vServer VIPs"
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method Get -Type csvserver -Summary:$Summary -Filter $Filter -Query $Query -GetWarning
+            }
+        } catch {
+            Write-Verbose "ERROR: $($_.Exception.Message)"
+            $response = $null
+        }
+        Write-Output $response
+    }
+    end {
+        Write-Verbose "Invoke-ADCGetSSLCertKeyBinding: Finished"
+    }
 }

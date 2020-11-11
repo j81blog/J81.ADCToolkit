@@ -16,7 +16,7 @@ function Invoke-ADCRenameLBvServer {
             Invoke-ADCRenameLBvServer -Name "lb_domain1.com_https" -NewName "lb_domain2.com_https"
         .NOTES
             File Name : Invoke-ADCRenameLBvServer
-            Version   : v0.1
+            Version   : v0.2
             Author    : John Billekens
             Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/lb/lbvserver/
             Requires  : PowerShell v5.1 and up
@@ -35,12 +35,21 @@ function Invoke-ADCRenameLBvServer {
         [Parameter(Mandatory = $true)]
         [String]$NewName
     )
-    $Payload = @{
-        name    = $Name
-        newname = $NewName
+    begin {
+        Write-Verbose "Invoke-ADCRenameLBvServer: Starting"
     }
-    if ($PSCmdlet.ShouldProcess($Name, "Rename Load Balance Virtual Server")) {
-        $response = Invoke-ADCNitroApi -Session $ADCSession -Method POST -Type lbvserver -Action rename -Payload $Payload -GetWarning
-        return $response
+    process {
+        $Payload = @{
+            name    = $Name
+            newname = $NewName
+        }
+        Write-Verbose "Renaming `"$Name`" to `"$NewName`""
+        if ($PSCmdlet.ShouldProcess($Name, "Rename Load Balance Virtual Server")) {
+            $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -Type lbvserver -Action rename -Payload $Payload -GetWarning
+            Write-Output $response
+        }
+    }
+    end {
+        Write-Verbose "Invoke-ADCRenameLBvServer: Finished"
     }
 }

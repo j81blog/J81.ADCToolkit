@@ -23,7 +23,7 @@ function Invoke-ADCGetLBvServer {
             Invoke-ADCGetLBvServer -Filter @{"curstate"="DOWN"}
         .NOTES
             File Name : Invoke-ADCGetLBvServer
-            Version   : v0.1
+            Version   : v0.2
             Author    : John Billekens
             Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/lb/lbvserver/
             Requires  : PowerShell v5.1 and up
@@ -46,18 +46,28 @@ function Invoke-ADCGetLBvServer {
     
         [Switch]$Summary = $false
     )
-    $Query = @{ }
-    try {
-        if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ "count" = "yes" } }
-
-        if ($PSBoundParameters.ContainsKey('Name')) {
-            $response = Invoke-ADCNitroApi -Session $ADCSession -Method Get -Type lbvserver -Resource $Name -Summary:$Summary -Filter $Filter -GetWarning
-        } else {
-            $response = Invoke-ADCNitroApi -Session $ADCSession -Method Get -Type lbvserver -Summary:$Summary -Filter $Filter -Query $Query -GetWarning
-        }
-    } catch {
-        Write-Verbose "ERROR: $($_.Exception.Message)"
-        $response = $null
+    begin {
+        Write-Verbose "Invoke-ADCGetLBvServer: Starting"
     }
-    return $response
+    process {
+        $Query = @{ }
+        try {
+            if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ "count" = "yes" } }
+
+            if ($PSBoundParameters.ContainsKey('Name')) {
+                Write-Verbose "Retrieving LB vServer `"$Name`""
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method Get -Type lbvserver -Resource $Name -Summary:$Summary -Filter $Filter -GetWarning
+            } else {
+                Write-Verbose "Retrieving all LB vServer VIPs"
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method Get -Type lbvserver -Summary:$Summary -Filter $Filter -Query $Query -GetWarning
+            }
+        } catch {
+            Write-Verbose "ERROR: $($_.Exception.Message)"
+            $response = $null
+        }
+        Write-Output $response
+    }
+    end {
+        Write-Verbose "Invoke-ADCGetLBvServer: Finished"
+    }
 }

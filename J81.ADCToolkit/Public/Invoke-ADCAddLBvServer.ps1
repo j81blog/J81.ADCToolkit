@@ -12,7 +12,7 @@ function Invoke-ADCAddLBvServer {
             Invoke-ADCAddLBvServer 
         .NOTES
             File Name : Invoke-ADCAddLBvServer
-            Version   : v0.1
+            Version   : v0.2
             Author    : John Billekens
             Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/lb/lbvserver/
             Requires  : PowerShell v5.1 and up
@@ -67,7 +67,9 @@ function Invoke-ADCAddLBvServer {
 
         [Switch]$PassThru
     )
-
+    begin {
+        Write-Verbose "Invoke-ADCAddLBvServer: Starting"
+    }
     process {
         foreach ($item in $Name) {
             try {
@@ -98,10 +100,10 @@ function Invoke-ADCAddLBvServer {
                 if ($PSBoundParameters.ContainsKey('Timeout')) { $Payload.Add('timeout', $Timeout) }
                             
                 if ($PSCmdlet.ShouldProcess($item, 'Create Load Balance Virtual Server')) {
-                    $null = Invoke-ADCNitroApi -Session $ADCSession -Method POST -Type lbvserver -Payload $Payload -Action add -GetWarning
+                    $null = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -Type lbvserver -Payload $Payload -Action add -GetWarning
 
                     if ($PSBoundParameters.ContainsKey('PassThru')) {
-                        return Invoke-ADCGetLBvServer -Name $item
+                        Write-Output (Invoke-ADCGetLBvServer -Name $item)
                     }
                 }
             } catch {
@@ -109,5 +111,8 @@ function Invoke-ADCAddLBvServer {
                 throw $_
             }
         }
+    }
+    end {
+        Write-Verbose "Invoke-ADCAddLBvServer: Finished"
     }
 }

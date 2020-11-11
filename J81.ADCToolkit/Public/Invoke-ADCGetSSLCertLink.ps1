@@ -18,7 +18,7 @@ function Invoke-ADCGetSSLCertLink {
             Invoke-ADCGetSSLCertLink -Filter @{certkeyname="domain.com"}
         .NOTES
             File Name : Invoke-ADCGetSSLCertLink
-            Version   : v0.1
+            Version   : v0.2
             Author    : John Billekens
             Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ssl/sslcertlink/
             Requires  : PowerShell v5.1 and up
@@ -34,11 +34,19 @@ function Invoke-ADCGetSSLCertLink {
     
         [Switch]$Summary = $false
     )
-    try {
-        $response = Invoke-ADCNitroApi -Session $ADCSession -Method GET -Type sslcertlink -Filter $Filter -Summary:$Summary -GetWarning
-    } catch {
-        Write-Verbose "ERROR: $($_.Exception.Message)"
-        $response = $null
+    begin {
+        Write-Verbose "Invoke-ADCGetSSLCertLink: Starting"
     }
-    return $response
+    process {
+        try {
+            $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type sslcertlink -Filter $Filter -Summary:$Summary -GetWarning
+        } catch {
+            Write-Verbose "ERROR: $($_.Exception.Message)"
+            $response = $null
+        }
+        Write-Output $response
+    }
+    end {
+        Write-Verbose "Invoke-ADCGetSSLCertLink: Finished"
+    }
 }

@@ -16,7 +16,7 @@ function Invoke-ADCGetSystemFile {
             Invoke-ADCGetSystemFile -FileLocation "/nsconfig" -FileName "ns.conf"
         .NOTES
             File Name : Invoke-ADCGetSystemFile
-            Version   : v0.1
+            Version   : v0.2
             Author    : John Billekens
             Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/system/systemfile/
             Requires  : PowerShell v5.1 and up
@@ -36,16 +36,24 @@ function Invoke-ADCGetSystemFile {
     
         [String]$FileName
     )
-    $Arguments = @{ "filelocation" = $($FileLocation.Replace('\', '/').TrimEnd('/')) }
+    begin {
+        Write-Verbose "Invoke-ADCGetSystemFile: Starting"
+    }
+    process {
+        $Arguments = @{ "filelocation" = $($FileLocation.Replace('\', '/').TrimEnd('/')) }
 		
-    if ($PSBoundParameters.ContainsKey('FileName')) {
-        $Arguments += @{ "filename" = $FileName }
+        if ($PSBoundParameters.ContainsKey('FileName')) {
+            $Arguments += @{ "filename" = $FileName }
+        }
+        try {
+            $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type systemfile -Filter $Filter -Arguments $Arguments -GetWarning
+        } catch {
+            Write-Verbose "ERROR: $($_.Exception.Message)"
+            $response = $null
+        }
+        Write-Output $response
     }
-    try {
-        $response = Invoke-ADCNitroApi -Session $ADCSession -Method GET -Type systemfile -Filter $Filter -Arguments $Arguments -GetWarning
-    } catch {
-        Write-Verbose "ERROR: $($_.Exception.Message)"
-        $response = $null
+    end {
+        Write-Verbose "Invoke-ADCGetSystemFile: Finished"
     }
-    return $response
 }

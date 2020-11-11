@@ -1,18 +1,20 @@
 function Connect-ADCNode {
     <#
-        .SYNOPSIS
-            Establish a session with Citrix ADC.
-        .DESCRIPTION
-            Establish a session with Citrix ADC.
-        .PARAMETER ManagementURL
-            The URI/URL to connect to, E.g. "https://citrixadc.domain.local".
-        .PARAMETER Credential
-            The credential to authenticate to the ADC with.
-        .PARAMETER Timeout
-            Timeout in seconds for session object.
-        .PARAMETER PassThru
-            Return the ADC session object.
-        #>
+    .SYNOPSIS
+        Establish a session with Citrix ADC.
+    .DESCRIPTION
+        Establish a session with Citrix ADC.
+    .PARAMETER ManagementURL
+        The URI/URL to connect to, E.g. "https://citrixadc.domain.local".
+    .PARAMETER Credential
+        The credential to authenticate to the ADC with.
+    .PARAMETER Timeout
+        Timeout in seconds for session object.
+    .PARAMETER PassThru
+        Return the ADC session object.
+    .EXAMPLE
+        Connect-ADCNode -ManagementURL https://citrixacd.domain.local -Credential (Get-Credential)
+    #>
     [cmdletbinding(SupportsShouldProcess = $true, ConfirmImpact = 'Low')]
     param(
         [Parameter(Mandatory = $true)]
@@ -28,8 +30,9 @@ function Connect-ADCNode {
     # Based on https://github.com/devblackops/NetScaler
     
     if ($PSCmdlet.ShouldProcess($ManagementURL, 'Connect Citrix ADC')) {
-        function Set-IgnoreTLSSettings {
-            Write-Verbose "Ignoring SSL checks"
+        Write-Verbose -Message "Connecting to $ManagementURL..."
+        if ($ManagementURL.scheme -eq "https") {
+            Write-Verbose "Connection is SSL, Ignoring SSL checks"
             $Provider = New-Object Microsoft.CSharp.CSharpCodeProvider
             $Provider.CreateCompiler() | Out-Null
             $Params = New-Object System.CodeDom.Compiler.CompilerParameters
@@ -57,11 +60,6 @@ function Connect-ADCNode {
             [System.Net.SecurityProtocolType]::Tls13 -bor `
                 [System.Net.SecurityProtocolType]::Tls12 -bor `
                 [System.Net.SecurityProtocolType]::Tls11
-        }
-        Write-Verbose -Message "Connecting to $ManagementURL..."
-        if ($ManagementURL.scheme -eq "https") {
-            Write-Verbose "Connection is SSL"
-            Set-IgnoreTLSSettings
         }
         try {
             $login = @{
@@ -118,7 +116,7 @@ function Connect-ADCNode {
         $Script:ADCSession = $ADCSession
         
         if ($PassThru) {
-            return $ADCSession
+            Write-Output $ADCSession
         }
     }
 }

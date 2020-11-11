@@ -14,7 +14,7 @@ function Invoke-ADCEnableNSFeature {
             Invoke-ADCEnableNSFeature -Feature lb, cs, rewrite, responder
         .NOTES
             File Name : Invoke-ADCEnableNSFeature
-            Version   : v0.1
+            Version   : v0.2
             Author    : John Billekens
             Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ns/nsfeature/
             Requires  : PowerShell v5.1 and up
@@ -32,12 +32,21 @@ function Invoke-ADCEnableNSFeature {
                 'urlfiltering', 'videooptimization', 'forwardproxy', 'sslinterception', 'adaptivetcp', 'cqa', 'ci', 'bot')]
         [String[]]$Feature = @()
     )
-    try {
-        $Payload = @{"feature" = $Feature }
-        $response = Invoke-ADCNitroApi -Session $ADCSession -Method POST -Type nsfeature -Payload $payload -Action enable -GetWarning
-    } catch {
-        Write-Verbose "ERROR: $($_.Exception.Message)"
-        $response = $null
+    begin {
+        Write-Verbose "Invoke-ADCEnableNSFeature: Starting"
     }
-    return $response
+    process {
+        try {
+            $Payload = @{"feature" = $Feature }
+            Write-Verbose "Enable feature: $($Feature -Join ", ")"
+            $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -Type nsfeature -Payload $payload -Action enable -GetWarning
+        } catch {
+            Write-Verbose "ERROR: $($_.Exception.Message)"
+            $response = $null
+        }
+        Write-Output $response
+    }
+    end {
+        Write-Verbose "Invoke-ADCEnableNSFeature: Finished"
+    }
 }

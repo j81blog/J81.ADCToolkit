@@ -14,7 +14,7 @@ function Invoke-ADCGetSSLCertKeyBinding {
             Invoke-ADCGetSSLCertKeyBinding -CertKey "domain.com"
         .NOTES
             File Name : Invoke-ADCGetSSLCertKeyBinding
-            Version   : v0.1
+            Version   : v0.2
             Author    : John Billekens
             Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ssl/sslcertkey_binding/
             Requires  : PowerShell v5.1 and up
@@ -30,17 +30,24 @@ function Invoke-ADCGetSSLCertKeyBinding {
         [Parameter(ParameterSetName = "GetResource", Mandatory = $true)]
         [String]$CertKey
     )
-
-    try {
-        if ($PSBoundParameters.ContainsKey('CertKey')) {
-            $response = Invoke-ADCNitroApi -Session $ADCSession -Method Get -Type sslcertkey_binding -Resource $CertKey -GetWarning
-        } else {
-            $Query = @{"bulkbindings" = "yes"; }
-            $response = Invoke-ADCNitroApi -Session $ADCSession -Method Get -Type sslcertkey_binding -Query $Query -GetWarning
-        }
-    } catch {
-        Write-Verbose "ERROR: $($_.Exception.Message)"
-        $response = $null
+    begin {
+        Write-Verbose "Invoke-ADCGetSSLCertKeyBinding: Starting"
     }
-    return $response
+    process {
+        try {
+            if ($PSBoundParameters.ContainsKey('CertKey')) {
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method Get -Type sslcertkey_binding -Resource $CertKey -GetWarning
+            } else {
+                $Query = @{"bulkbindings" = "yes"; }
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method Get -Type sslcertkey_binding -Query $Query -GetWarning
+            }
+        } catch {
+            Write-Verbose "ERROR: $($_.Exception.Message)"
+            $response = $null
+        }
+        Write-Output $response
+    }
+    end {
+        Write-Verbose "Invoke-ADCGetSSLCertKeyBinding: Finished"
+    }
 }

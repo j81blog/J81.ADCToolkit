@@ -7,3 +7,8 @@
 ## 2011.0922
 
 * Minor changes and updates.
+
+## 2011.1122
+
+* Added Pester test
+* Cleaned and unified code

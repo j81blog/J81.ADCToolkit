@@ -10,7 +10,7 @@
 RootModule = 'J81.ADCToolkit.psm1'
 
 # Version number of this module.
-ModuleVersion = '2011.0920'
+ModuleVersion = '2011.1122'
 
 # Supported PSEditions
 # CompatiblePSEditions = @()
@@ -31,7 +31,7 @@ Copyright = '(c) 2020 John Billekens. All rights reserved.'
 Description = 'Citrix ADC PowerShell Toolkit, Modules for managing Citrix ADC from PowerShell'
 
 # Minimum version of the Windows PowerShell engine required by this module
-PowerShellVersion = '3.0'
+PowerShellVersion = '5.0'
 
 # Name of the Windows PowerShell host required by this module
 # PowerShellHostName = ''
@@ -68,13 +68,11 @@ PowerShellVersion = '3.0'
 
 # Functions to export from this module, for best performance, do not use wildcards and do not delete the entry, use an empty array if there are no functions to export.
 FunctionsToExport = @(
-    'Invoke-CleanADCCertificates',
+    'Invoke-ADCCleanCertKeyFiles',
     'Connect-ADCNode',
     'Invoke-ADCNitroApi',
-    'ConvertFrom-ADCVersion',
     'Expand-ADCResult',
     'Write-ADCText',
-    'Invoke-ADCGetActiveSession',
     'Invoke-ADCGetSystemFileDirectories',
     'Invoke-ADCGetHANode',
     'Invoke-ADCGetNSIP',

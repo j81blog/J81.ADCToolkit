@@ -16,7 +16,7 @@ function Invoke-ADCGetSSLCertKey {
             Invoke-ADCGetSSLCertKey
         .NOTES
             File Name : Invoke-ADCGetSSLCertKey
-            Version   : v0.1
+            Version   : v0.2
             Author    : John Billekens
             Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ssl/sslcertkey/
             Requires  : PowerShell v5.1 and up
@@ -32,11 +32,19 @@ function Invoke-ADCGetSSLCertKey {
     
         [Switch]$Summary = $false
     )
-    try {
-        $response = Invoke-ADCNitroApi -Session $ADCSession -Method GET -Type sslcertkey -Filter $Filter -Summary:$Summary -GetWarning
-    } catch {
-        Write-Verbose "ERROR: $($_.Exception.Message)"
-        $response = $null
+    begin {
+        Write-Verbose "Invoke-ADCGetSSLCertKey: Starting"
     }
-    return $response
+    process {
+        try {
+            $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type sslcertkey -Filter $Filter -Summary:$Summary -GetWarning
+        } catch {
+            Write-Verbose "ERROR: $($_.Exception.Message)"
+            $response = $null
+        }
+        Write-Output $response
+    }
+    end {
+        Write-Verbose "Invoke-ADCGetSSLCertKey: Finished"
+    }
 }

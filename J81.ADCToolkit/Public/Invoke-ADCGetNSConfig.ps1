@@ -13,7 +13,7 @@ function Invoke-ADCGetNSConfig {
             Invoke-ADCGetNSConfig
         .NOTES
             File Name : Invoke-ADCGetNSConfig
-            Version   : v0.1
+            Version   : v0.2
             Author    : John Billekens
             Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ns/nsconfig/
             Requires  : PowerShell v5.1 and up
@@ -27,11 +27,19 @@ function Invoke-ADCGetNSConfig {
             
         [hashtable]$Filter = @{ }
     )
-    try {
-        $response = Invoke-ADCNitroApi -Session $ADCSession -Method GET -Type nsconfig -Filter $Filter -GetWarning
-    } catch {
-        Write-Verbose "ERROR: $($_.Exception.Message)"
-        $response = $null
+    begin {
+        Write-Verbose "Invoke-ADCGetNSConfig: Starting"
     }
-    return $response
+    process {
+        try {
+            $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type nsconfig -Filter $Filter -GetWarning
+        } catch {
+            Write-Verbose "ERROR: $($_.Exception.Message)"
+            $response = $null
+        }
+        Write-Output $response
+    }
+    end {
+        Write-Verbose "Invoke-ADCGetNSConfig: Finished"
+    }
 }
