@@ -19,6 +19,7 @@
         "primaryip",
         "sftrust",
         "sslcertlink",
-        "systemtype"
+        "systemtype",
+        "webclient"
     ]
 }

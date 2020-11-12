@@ -16,3 +16,7 @@
 ## 2011.1223
 
 * Added CS vServer functions
+
+## 2011.1224
+
+* Fixed an issue with Invoke-ADCDeleteSystemFile

@@ -19,7 +19,7 @@ if (('PSEdition' -notin $PSVersionTable.Keys -or
      $IsWindows) -and
      (Get-ExecutionPolicy) -notin 'Unrestricted','RemoteSigned','Bypass')
 {
-    Write-Host "Setting user execution policy to RemoteSigned" -ForegroundColor Cyan
+    Write-Verbose "Setting user execution policy to RemoteSigned"
     Set-ExecutionPolicy RemoteSigned -Scope CurrentUser -Force
 }
 
@@ -38,30 +38,30 @@ if ([String]::IsNullOrWhiteSpace($PSScriptRoot)) {
 
     # likely running from online, so download
     $url = 'https://github.com/j81blog/J81.ADCToolkit/archive/main.zip'
-    Write-Host "Downloading latest version of J81.ADCToolkit from $url" -ForegroundColor Cyan
+    Write-Verbose "Downloading latest version of J81.ADCToolkit from $url"
     $file = Join-Path ([system.io.path]::GetTempPath()) 'J81.ADCToolkit.zip'
     $webclient = New-Object System.Net.WebClient
     try { $webclient.DownloadFile($url,$file) }
     catch { throw }
-    Write-Host "File saved to $file" -ForegroundColor Green
+    Write-Verbose "File saved to $file"
 
     # extract the zip
-    Write-Host "Decompressing the Zip file to $($installpath)" -ForegroundColor Cyan
+    Write-Verbose "Decompressing the Zip file to $($installpath)"
     Expand-Archive $file -DestinationPath $installpath
 
-    Write-Host "Removing any old copy" -ForegroundColor Cyan
-    Remove-Item "$installpath\J81.ADCToolkit" -Recurse -Force -EA Ignore
-    Write-Host "Renaming folder" -ForegroundColor Cyan
-    Copy-Item "$installpath\J81.ADCToolkit-main\J81.ADCToolkit" $installpath -Recurse -Force -EA Continue
+    Write-Verbose "Removing any old copy"
+    Remove-Item "$installpath\J81.ADCToolkit" -Recurse -Force -ErrorAction Ignore
+    Write-Verbose "Renaming folder"
+    Copy-Item "$installpath\J81.ADCToolkit-main\J81.ADCToolkit" $installpath -Recurse -Force -ErrorAction Continue
     Remove-Item "$installpath\J81.ADCToolkit-main" -recurse -confirm:$false
     Import-Module -Name J81.ADCToolkit -Force
 } else {
     # running locally
-    Remove-Item "$installpath\J81.ADCToolkit" -Recurse -Force -EA Ignore
-    Copy-Item "$PSScriptRoot\J81.ADCToolkit" $installpath -Recurse -Force -EA Continue
+    Remove-Item "$installpath\J81.ADCToolkit" -Recurse -Force -ErrorAction Ignore
+    Copy-Item "$PSScriptRoot\J81.ADCToolkit" $installpath -Recurse -Force -EErrorActionA Continue
     # force re-load the module (assuming you're editing locally and want to see changes)
     Import-Module -Name J81.ADCToolkit -Force
 }
-Write-Host 'Module has been installed' -ForegroundColor Green
+Write-Verbose 'Module has been installed'
 
 Get-Command -Module J81.ADCToolkit

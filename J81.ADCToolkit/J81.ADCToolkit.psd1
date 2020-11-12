@@ -10,7 +10,7 @@
 RootModule = 'J81.ADCToolkit.psm1'
 
 # Version number of this module.
-ModuleVersion = '2011.1223'
+ModuleVersion = '2011.1224'
 
 # Supported PSEditions
 # CompatiblePSEditions = @()

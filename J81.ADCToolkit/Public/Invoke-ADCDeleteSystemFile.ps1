@@ -4,7 +4,7 @@ function Invoke-ADCDeleteSystemFile {
         Delete an ADC system file
     .DESCRIPTION
         Delete an ADC system file
-    .PARAMETER Session
+    .PARAMETER ADCSession
         Result from Connect-ADCNode
     .PARAMETER FileName
         A file name that needs to be deleted.
@@ -16,7 +16,7 @@ function Invoke-ADCDeleteSystemFile {
         Invoke-ADCDeleteSystemFile -ADCSession $ADCSession -FileName "www.domain.com_2019.pfx" -FileLocation "/nsconfig/ssl"
     .NOTES
         File Name : Invoke-ADCDeleteSystemFile
-        Version   : v0.2
+        Version   : v0.3
         Author    : John Billekens
         Requires  : PowerShell v5.1 and up
                     ADC 11.x and up
@@ -25,7 +25,7 @@ function Invoke-ADCDeleteSystemFile {
     #>
     [cmdletbinding(SupportsShouldProcess = $true, ConfirmImpact = 'Low')]
     param(
-        [hashtable]$Session = (Invoke-ADCGetActiveSession),
+        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
             
         [String]$FileName,
             
