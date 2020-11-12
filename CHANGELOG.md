@@ -12,3 +12,7 @@
 
 * Added Pester test
 * Cleaned and unified code
+
+## 2011.1223
+
+* Added CS vServer functions

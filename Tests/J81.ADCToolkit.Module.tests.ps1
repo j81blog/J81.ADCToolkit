@@ -15,8 +15,6 @@ $ManifestPath = Join-Path -Path $ModuleParent -ChildPath "$ModuleName.psd1"
 $ModulePath = Join-Path -Path $ModuleParent -ChildPath "$ModuleName.psm1"
 
 # Import module
-Write-Host ""
-Write-Host "Importing module." -ForegroundColor Cyan
 Import-Module $ManifestPath -Force
 
 # Run tests

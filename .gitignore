@@ -40,3 +40,7 @@ Redists.xml
 # Visual Studio Code #
 ######################
 *.code-workspace
+
+# Docs #
+########
+docs

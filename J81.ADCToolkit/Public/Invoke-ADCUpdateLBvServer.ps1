@@ -7,12 +7,34 @@ function Invoke-ADCUpdateLBvServer {
         .PARAMETER ADCSession
             Specify an active session (Output from Connect-ADCNode)
         .PARAMETER Name
+            Name for the virtual server. 
+        .PARAMETER IPAddress
+            IPv4 or IPv6 address to assign to the virtual server.
+        .PARAMETER Port
+            Port number for the virtual server.
+        .PARAMETER ServiceType
+            Protocol used by the service (also called the service type)
+        .PARAMETER LBMethod
             Specify a Load Balance Virtual Server Name
+        .PARAMETER PersistenceType
+            Type of persistence for the virtual server.
+        .PARAMETER RedirectFromPort
+            Port number for the virtual server, from which we absorb the traffic for http redirect.
+        .PARAMETER HTTPSRedirectURL
+            URL to which to redirect traffic if the traffic is recieved from redirect port.
+        .PARAMETER ICMPvSrResponse
+            How the Citrix ADC responds to ping requests received for an IP address that is common to one or more virtual servers. 
+        .PARAMETER Timeout
+            Time period for which a persistence session is in effect.
+        .PARAMETER Comment
+            Information about this virtual server.
+        .PARAMETER PassThru
+            Return details about the created virtual server.
         .EXAMPLE
-            Invoke-ADCUpdateLBvServer 
+            Invoke-ADCUpdateLBvServer -Name "lb_domain.com_https" -LBMethod ROUNDROBIN
         .NOTES
             File Name : Invoke-ADCUpdateLBvServer
-            Version   : v0.2
+            Version   : v0.3
             Author    : John Billekens
             Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/lb/lbvserver/
             Requires  : PowerShell v5.1 and up
@@ -52,7 +74,7 @@ function Invoke-ADCUpdateLBvServer {
 
         [ValidateSet("PASSIVE", "ACTIVE")]
         [string]
-        $ICMPVSResponse = "PASSIVE",
+        $ICMPvSrResponse = "PASSIVE",
 
         [int]
         $Timeout,
@@ -70,7 +92,7 @@ function Invoke-ADCUpdateLBvServer {
             if ($PSBoundParameters.ContainsKey('IPAddress')) { $Payload.Add('ipv46', $IPAddress) }
             if ($PSBoundParameters.ContainsKey('Port')) { $Payload.Add('port', $Port) }
             if ($PSBoundParameters.ContainsKey('LBMethod')) { $Payload.Add('lbmethod', $LBMethod) }
-            if ($PSBoundParameters.ContainsKey('ICMPVSResponse')) { $Payload.Add('icmpvsrresponse', $ICMPVSResponse) }
+            if ($PSBoundParameters.ContainsKey('ICMPvSrResponse')) { $Payload.Add('icmpvsrresponse', $ICMPvSrResponse) }
             if ($PSBoundParameters.ContainsKey('Comment')) { $Payload.Add('comment', $Comment) }
             if ($PSBoundParameters.ContainsKey('PersistenceType')) { $Payload.Add('persistencetype', $PersistenceType) }
             if ($PSBoundParameters.ContainsKey('RedirectFromPort')) { $Payload.Add('redirectfromport', $RedirectFromPort) }

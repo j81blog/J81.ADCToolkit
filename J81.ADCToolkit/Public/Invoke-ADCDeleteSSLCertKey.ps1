@@ -41,5 +41,5 @@ function Invoke-ADCDeleteSSLCertKey {
     }
     end {
         Write-Verbose "Invoke-ADCDeleteSSLCertKey: Finished"
-    }
+    } 
 }

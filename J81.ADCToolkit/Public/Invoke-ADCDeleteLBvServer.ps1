@@ -11,7 +11,7 @@ function Invoke-ADCDeleteLBvServer {
     .EXAMPLE
         Invoke-ADCDeleteLBvServer
     .EXAMPLE
-        Invoke-ADCDeleteLBvServer -Name "lb_domain1.com_https"
+        Invoke-ADCDeleteLBvServer -Name "lb_domain.com_https"
     .NOTES
         File Name : Invoke-ADCDeleteLBvServer
         Version   : v0.2

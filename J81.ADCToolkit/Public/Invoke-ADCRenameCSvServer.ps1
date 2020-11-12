@@ -1,26 +1,26 @@
-function Invoke-ADCRenameLBvServer {
+function Invoke-ADCRenameCSvServer {
     <#
         .SYNOPSIS
-            Rename Load Balance Virtual Server
+            Rename Content Switch Virtual Server
         .DESCRIPTION
-            Rename Load Balance Virtual Server
+            Rename Content Switch Virtual Server
         .PARAMETER ADCSession
             Specify an active session (Output from Connect-ADCNode)
         .PARAMETER Name
-            Name for the load balance virtual server.
+            Name for the content switching virtual server.
         .PARAMETER NewName
-            The new name for the load balance virtual server. Must begin with an ASCII alphanumeric or underscore (_) character, 
+            The new name for the content switching virtual server. Must begin with an ASCII alphanumeric or underscore (_) character, 
             and must contain only ASCII alphanumeric, underscore, hash (#), period (.), space, colon (:), at sign (@), 
             equal sign (=), and hyphen (-) characters.
         .EXAMPLE
-            Invoke-ADCRenameLBvServer
+            Invoke-ADCRenameCSvServer
         .EXAMPLE
-            Invoke-ADCRenameLBvServer -Name "lb_domain1.com_https" -NewName "lb_domain2.com_https"
+            Invoke-ADCRenameCSvServer -Name "cs_domain1.com_https" -NewName "cs_domain2.com_https"
         .NOTES
-            File Name : Invoke-ADCRenameLBvServer
-            Version   : v0.3
+            File Name : Invoke-ADCRenameCSvServer
+            Version   : v0.2
             Author    : John Billekens
-            Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/lb/lbvserver/
+            Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/cs/csvserver/
             Requires  : PowerShell v5.1 and up
                         ADC 11.x and up
         .LINK
@@ -40,7 +40,7 @@ function Invoke-ADCRenameLBvServer {
         [String]$NewName
     )
     begin {
-        Write-Verbose "Invoke-ADCRenameLBvServer: Starting"
+        Write-Verbose "Invoke-ADCRenameCSvServer: Starting"
     }
     process {
         $Payload = @{
@@ -48,12 +48,12 @@ function Invoke-ADCRenameLBvServer {
             newname = $NewName
         }
         Write-Verbose "Renaming `"$Name`" to `"$NewName`""
-        if ($PSCmdlet.ShouldProcess($Name, "Rename Load Balance Virtual Server")) {
-            $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -Type lbvserver -Action rename -Payload $Payload -GetWarning
+        if ($PSCmdlet.ShouldProcess($Name, "Rename Content Switch Virtual Server")) {
+            $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -Type csvserver -Action rename -Payload $Payload -GetWarning
             Write-Output $response
         }
     }
     end {
-        Write-Verbose "Invoke-ADCRenameLBvServer: Finished"
+        Write-Verbose "Invoke-ADCRenameCSvServer: Finished"
     }
 }

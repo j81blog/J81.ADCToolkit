@@ -10,7 +10,7 @@
 RootModule = 'J81.ADCToolkit.psm1'
 
 # Version number of this module.
-ModuleVersion = '2011.1122'
+ModuleVersion = '2011.1223'
 
 # Supported PSEditions
 # CompatiblePSEditions = @()
@@ -72,7 +72,6 @@ FunctionsToExport = @(
     'Connect-ADCNode',
     'Invoke-ADCNitroApi',
     'Expand-ADCResult',
-    'Write-ADCText',
     'Invoke-ADCGetSystemFileDirectories',
     'Invoke-ADCGetHANode',
     'Invoke-ADCGetNSIP',
@@ -88,7 +87,6 @@ FunctionsToExport = @(
     'Invoke-ADCGetSystemFile',
     'Invoke-ADCDeleteSystemFile',
     'Invoke-ADCNewSystemBackup',
-    'Invoke-ADCGetCSvServer',
     'Invoke-ADCAddLBvServer',
     'Invoke-ADCUpdateLBvServer',
     'Invoke-ADCGetLBvServer',
@@ -96,6 +94,13 @@ FunctionsToExport = @(
     'Invoke-ADCDisableLBvServer',
     'Invoke-ADCEnableLBvServer',
     'Invoke-ADCDeleteLBvServer'
+    'Invoke-ADCAddCSvServer',
+    'Invoke-ADCUpdateCSvServer',
+    'Invoke-ADCGetCSvServer',
+    'Invoke-ADCRenameCSvServer',
+    'Invoke-ADCDisableCSvServer',
+    'Invoke-ADCEnableCSvServer',
+    'Invoke-ADCDeleteCSvServer'
 )
 
 # Cmdlets to export from this module, for best performance, do not use wildcards and do not delete the entry, use an empty array if there are no cmdlets to export.

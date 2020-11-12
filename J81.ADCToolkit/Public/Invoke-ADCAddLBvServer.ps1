@@ -7,12 +7,38 @@ function Invoke-ADCAddLBvServer {
         .PARAMETER ADCSession
             Specify an active session (Output from Connect-ADCNode)
         .PARAMETER Name
+            Name for the virtual server. Must begin with an ASCII alphanumeric or underscore (_) character, 
+            and must contain only ASCII alphanumeric, underscore, hash (#), period (.), space, colon (:), at sign (@), 
+            equal sign (=), and hyphen (-) characters. Can be changed after the virtual server is created.
+        .PARAMETER IPAddress
+            IPv4 or IPv6 address to assign to the virtual server.
+        .PARAMETER Port
+            Port number for the virtual server.
+        .PARAMETER NonAddressable
+            Specify instead of an IP Address, an Non Addressable LB vServer will be created.
+        .PARAMETER ServiceType
+            Protocol used by the service (also called the service type)
+        .PARAMETER LBMethod
             Specify a Load Balance Virtual Server Name
+        .PARAMETER PersistenceType
+            Type of persistence for the virtual server.
+        .PARAMETER RedirectFromPort
+            Port number for the virtual server, from which we absorb the traffic for http redirect.
+        .PARAMETER HTTPSRedirectURL
+            URL to which to redirect traffic if the traffic is received from redirect port.
+        .PARAMETER ICMPvSrResponse
+            How the Citrix ADC responds to ping requests received for an IP address that is common to one or more virtual servers. 
+        .PARAMETER Timeout
+            Time period for which a persistence session is in effect.
+        .PARAMETER Comment
+            Information about this virtual server.
+        .PARAMETER PassThru
+            Return details about the created virtual server.
         .EXAMPLE
-            Invoke-ADCAddLBvServer 
+            Invoke-ADCAddLBvServer -Name "bl_domain.com_https" -NonAddressable -ServiceType HTTP -Comment "HTTP vServer for domain.com" -LBMethod LEASTCONNECTION 
         .NOTES
             File Name : Invoke-ADCAddLBvServer
-            Version   : v0.2
+            Version   : v0.3
             Author    : John Billekens
             Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/lb/lbvserver/
             Requires  : PowerShell v5.1 and up
@@ -25,6 +51,7 @@ function Invoke-ADCAddLBvServer {
         [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
 
         [parameter(Mandatory, ValueFromPipeline, ValueFromPipelineByPropertyName)]
+        [ValidatePattern('^(([a-zA-Z0-9]|\_)+([\x00-\x7F]|_|\#|\.|\s|\:|@|=|-)+)$', Options = 'None')]
         [string[]]$Name = (Read-Host -Prompt "LB Virtual Server Name"),
         
         [Parameter(Mandatory = $true, ParameterSetName = "Addressable")]
@@ -60,7 +87,7 @@ function Invoke-ADCAddLBvServer {
 
         [ValidateSet("PASSIVE", "ACTIVE")]
         [string]
-        $ICMPVSResponse = "PASSIVE",
+        $ICMPvSrResponse = "PASSIVE",
 
         [int]
         $Timeout,
@@ -80,7 +107,7 @@ function Invoke-ADCAddLBvServer {
                         ipv46           = "0.0.0.0"
                         port            = "0"
                         lbmethod        = $LBMethod
-                        icmpvsrresponse = $ICMPVSResponse
+                        icmpvsrresponse = $ICMPvSrResponse
                         comment         = $Comment
                     }
                 } else {
@@ -90,7 +117,7 @@ function Invoke-ADCAddLBvServer {
                         ipv46           = $IPAddress
                         port            = $Port
                         lbmethod        = $LBMethod
-                        icmpvsrresponse = $ICMPVSResponse
+                        icmpvsrresponse = $ICMPvSrResponse
                         comment         = $Comment
                     }
                 }
