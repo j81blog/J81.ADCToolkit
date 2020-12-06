@@ -24,7 +24,7 @@ function Invoke-ADCGetSSLCertKeyBinding {
         #>
     [CmdletBinding(DefaultParameterSetName = "GetAll")]  
     Param(
-        
+        [parameter(DontShow)]
         [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
 			
         [Parameter(ParameterSetName = "GetResource", Mandatory = $true)]

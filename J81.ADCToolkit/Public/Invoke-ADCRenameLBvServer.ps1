@@ -28,15 +28,15 @@ function Invoke-ADCRenameLBvServer {
         #>
     [CmdletBinding(SupportsShouldProcess = $true, ConfirmImpact = 'Low')]  
     Param(
-        
+        [parameter(DontShow)]
         [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
 			
         [Parameter(Mandatory = $true)]
-        [ValidatePattern('^(([a-zA-Z0-9]|\_)+([\x00-\x7F]|_|\#|\.|\s|\:|@|=|-)+)$', Options = 'None')]
+        [ValidatePattern('^(([a-zA-Z0-9]|[_])+([\x00-\x7F]|[_]|[#]|[.][s]|[:]|[@]|[=]|[-])+)$', Options = 'None')]
         [String]$Name,
             
         [Parameter(Mandatory = $true)]
-        [ValidatePattern('^(([a-zA-Z0-9]|\_)+([\x00-\x7F]|_|\#|\.|\s|\:|@|=|-)+)$', Options = 'None')]
+        [ValidatePattern('^(([a-zA-Z0-9]|[_])+([\x00-\x7F]|[_]|[#]|[.][s]|[:]|[@]|[=]|[-])+)$', Options = 'None')]
         [String]$NewName
     )
     begin {

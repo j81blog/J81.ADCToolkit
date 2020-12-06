@@ -22,6 +22,7 @@ function Invoke-ADCGetSystemFileDirectories {
     #>
     [cmdletbinding()]
     param(
+        [parameter(DontShow)]
         [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
             
         [Parameter(Mandatory = $true)]

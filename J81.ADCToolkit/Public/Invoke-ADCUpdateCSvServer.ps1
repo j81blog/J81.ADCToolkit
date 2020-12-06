@@ -30,6 +30,7 @@ function Invoke-ADCUpdateCSvServer {
         #>
     [cmdletbinding(SupportsShouldProcess = $true, ConfirmImpact = 'Low')]
     param(
+        [parameter(DontShow)]
         [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
 
         [parameter(Mandatory, ValueFromPipeline, ValueFromPipelineByPropertyName)]
@@ -58,9 +59,11 @@ function Invoke-ADCUpdateCSvServer {
             if ($PSBoundParameters.ContainsKey('Port')) { $Payload.Add('port', $Port) }
             if ($PSBoundParameters.ContainsKey('Comment')) { $Payload.Add('comment', $Comment) }
             if ($PSCmdlet.ShouldProcess($Name, 'Update Content Switch Virtual Server')) {
-                $null = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -Type csvserver -Payload $Payload -GetWarning
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -Type csvserver -Payload $Payload -GetWarning
                 if ($PSBoundParameters.ContainsKey('PassThru')) { 
                     Write-Output (Invoke-ADCGetCSvServer -Name $Name)
+                } else {
+                    Write-Output $result
                 }
             }
         } catch {

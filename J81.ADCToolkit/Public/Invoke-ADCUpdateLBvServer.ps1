@@ -44,6 +44,7 @@ function Invoke-ADCUpdateLBvServer {
         #>
     [cmdletbinding(SupportsShouldProcess = $true, ConfirmImpact = 'Low')]
     param(
+        [parameter(DontShow)]
         [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
 
         [parameter(Mandatory, ValueFromPipeline, ValueFromPipelineByPropertyName)]
@@ -99,9 +100,11 @@ function Invoke-ADCUpdateLBvServer {
             if ($PSBoundParameters.ContainsKey('HTTPSRedirectURL')) { $Payload.Add('httpsredirecturl', $HTTPSRedirectURL) }
             if ($PSBoundParameters.ContainsKey('Timeout')) { $Payload.Add('timeout', $Timeout) }
             if ($PSCmdlet.ShouldProcess($Name, 'Update Load Balance Virtual Server')) {
-                $null = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -Type lbvserver -Payload $Payload -GetWarning
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -Type lbvserver -Payload $Payload -GetWarning
                 if ($PSBoundParameters.ContainsKey('PassThru')) { 
                     Write-Output (Invoke-ADCGetLBvServer -Name $Name)
+                } else {
+                    Write-Output $result
                 }
             }
         } catch {

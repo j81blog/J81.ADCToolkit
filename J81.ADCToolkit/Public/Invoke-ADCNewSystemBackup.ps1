@@ -27,6 +27,7 @@ function Invoke-ADCNewSystemBackup {
     #>
     [cmdletbinding(SupportsShouldProcess = $true, ConfirmImpact = 'Low')]
     param(
+        [parameter(DontShow)]
         [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
             
         [String]$Name = "ADCBackup_$((Get-Date).ToString("yyyyMMdd_HHmm"))",

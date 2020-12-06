@@ -213,9 +213,12 @@ function Invoke-ADCCleanCertKeyFiles {
             if ($ExpiringCerts.Count -gt 0) {
                 Write-ConsoleText -Blank
                 Write-Warning "You have $($ExpiringCerts.Count) certificate(s) that will expire within $ExpirationDays days"
-
                 $ExpiringCerts | ForEach-Object {
-                    Write-Warning "=> Days To Expiration: $($_.certData.daystoexpiration), CertKey: $($_.certData.certkey)"
+                    if ($_.certData.daystoexpiration -eq 0) {
+                        Write-Warning "=> Days To Expiration: $($_.certData.daystoexpiration), CertKey: $($_.certData.certkey) !! EXPIRED !!"
+                    } else {
+                        Write-Warning "=> Days To Expiration: $($_.certData.daystoexpiration), CertKey: $($_.certData.certkey)"
+                    }
                 }
                 Write-ConsoleText -Blank
             }

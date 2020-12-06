@@ -20,6 +20,7 @@ function Invoke-ADCGetNSFeature {
         #>
     [CmdletBinding()]  
     Param(
+        [parameter(DontShow)]
         [hashtable]$ADCSession = (Invoke-ADCGetActiveSession)
     )
     begin {

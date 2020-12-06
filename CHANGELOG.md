@@ -20,3 +20,9 @@
 ## 2011.1224
 
 * Fixed an issue with Invoke-ADCDeleteSystemFile
+
+## 2012.0622
+
+* Fixed issue with Connect-ADCNode, part of the code was generating false-positive in defender
+* Added SSLCertKey and CS* modules
+* Fixed issue in Invoke-ADCRetrieveCertificateRemoveInfo (used by Invoke-ADCRetrieveCertificateRemoveInfo); not all certificates that could be deleted where deleted

@@ -23,6 +23,7 @@ function Invoke-ADCGetNSConfig {
         #>
     [cmdletbinding()]
     param(
+        [parameter(DontShow)]
         [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
             
         [hashtable]$Filter = @{ }

@@ -1,29 +1,31 @@
-function Invoke-ADCGetCSvServer {
+function Invoke-ADCGetCSvServerCSPolicyBinding {
     <#
         .SYNOPSIS
-            Get Content Switch Virtual Server details
+            Get Content Switch Virtual Server Content Switch Policy binding details
         .DESCRIPTION
-            Get Content Switch Virtual Server details
+            Get Content Switch Virtual Server Content Switch Policy binding details
         .PARAMETER ADCSession
             Specify an active session (Output from Connect-ADCNode)
         .PARAMETER Name
             Specify a Content Switch Virtual Server Name
         .PARAMETER Count
-            If specified, the number of Content Switch Virtual Servers will be returned
+            If specified, the number of Content Switch Virtual Server Content Switch Policy bindings will be returned
         .PARAMETER Filter
             Specify a filter
-            -Filter @{"curstate"="UP"}
+            -Filter @{"curstate"="DOWN"}
         .PARAMETER Summary
             When specified, only a subset of information is returned
         .EXAMPLE
-            Invoke-ADCGetCSvServer
+            Invoke-ADCGetCSvServerCSPolicyBinding
         .EXAMPLE
-            Invoke-ADCGetCSvServer -Name "cs_domain.com_https"
+            Invoke-ADCGetCSvServerCSPolicyBinding -Name "cs_domain.com_https"
+        .EXAMPLE
+            Invoke-ADCGetCSvServerCSPolicyBinding -Filter @{"curstate"="DOWN"}
         .NOTES
-            File Name : Invoke-ADCGetSSLCertKeyBinding
+            File Name : Invoke-ADCGetCSvServerCSPolicyBinding
             Version   : v0.2
             Author    : John Billekens
-            Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/cs/csvserver/
+            Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/cs/csvserver_cspolicy_binding/
             Requires  : PowerShell v5.1 and up
                         ADC 11.x and up
         .LINK
@@ -45,20 +47,20 @@ function Invoke-ADCGetCSvServer {
         [Switch]$Summary = $false
     )
     begin {
-        Write-Verbose "Invoke-ADCGetSSLCertKeyBinding: Starting"
+        Write-Verbose "Invoke-ADCGetCSvServerCSPolicyBinding: Starting"
     }
     process {
         try {
             $Query = @{ }
-            if ($PSBoundParameters.ContainsKey('Count')) {
-                $Query = @{ "count" = "yes" }
-            }			
+            if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ "count" = "yes" } }
+
             if ($PSBoundParameters.ContainsKey('Name')) {
                 Write-Verbose "Retrieving CS vServer `"$Name`""
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method Get -Type csvserver -Resource $Name -Summary:$Summary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method Get -Type csvserver_cspolicy_binding -Resource $Name -Summary:$Summary -Filter $Filter -GetWarning
             } else {
                 Write-Verbose "Retrieving all CS vServer VIPs"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method Get -Type csvserver -Summary:$Summary -Filter $Filter -Query $Query -GetWarning
+                $Query = @{ "bulkbindings" = "yes" }
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method Get -Type csvserver_cspolicy_binding -Summary:$Summary -Filter $Filter -Query $Query -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -67,6 +69,6 @@ function Invoke-ADCGetCSvServer {
         Write-Output $response
     }
     end {
-        Write-Verbose "Invoke-ADCGetSSLCertKeyBinding: Finished"
+        Write-Verbose "Invoke-ADCGetCSvServerCSPolicyBinding: Finished"
     }
 }

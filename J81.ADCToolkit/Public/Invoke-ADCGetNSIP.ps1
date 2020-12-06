@@ -17,6 +17,7 @@ function Invoke-ADCGetNSIP {
             File Name : Invoke-ADCGetHANode
             Version   : v0.2
             Author    : John Billekens
+            Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ns/nsip/
             Requires  : PowerShell v5.1 and up
                         ADC 11.x and up
         .LINK
@@ -24,6 +25,7 @@ function Invoke-ADCGetNSIP {
         #>
     [cmdletbinding()]
     param(
+        [parameter(DontShow)]
         [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
             
         #

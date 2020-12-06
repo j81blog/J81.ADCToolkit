@@ -24,7 +24,7 @@ function Invoke-ADCDisableLBvServer {
         #>
     [CmdletBinding(SupportsShouldProcess = $true, ConfirmImpact = 'Low')]  
     Param(
-        
+        [parameter(DontShow)]
         [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
 			
         [Parameter(Mandatory = $true)]

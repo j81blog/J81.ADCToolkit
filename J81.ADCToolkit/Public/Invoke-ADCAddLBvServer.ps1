@@ -48,10 +48,11 @@ function Invoke-ADCAddLBvServer {
         #>
     [cmdletbinding(SupportsShouldProcess = $true, ConfirmImpact = 'Low')]
     param(
+        [parameter(DontShow)]
         [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
 
         [parameter(Mandatory, ValueFromPipeline, ValueFromPipelineByPropertyName)]
-        [ValidatePattern('^(([a-zA-Z0-9]|\_)+([\x00-\x7F]|_|\#|\.|\s|\:|@|=|-)+)$', Options = 'None')]
+        [ValidatePattern('^(([a-zA-Z0-9]|[_])+([\x00-\x7F]|[_]|[#]|[.][s]|[:]|[@]|[=]|[-])+)$', Options = 'None')]
         [string[]]$Name = (Read-Host -Prompt "LB Virtual Server Name"),
         
         [Parameter(Mandatory = $true, ParameterSetName = "Addressable")]
@@ -75,8 +76,7 @@ function Invoke-ADCAddLBvServer {
         [string]$LBMethod = "LEASTCONNECTION",
 
         [ValidateSet("SOURCEIP", "COOKIEINSERT", "SSLSESSION", "CUSTOMSERVERID", "RULE", "URLPASSIVE", "DESTIP", "SRCIPDESTIP", "CALLID" , "RTSPID", "FIXSESSION", "NONE")]
-        [string]
-        $PersistenceType,
+        [string]$PersistenceType,
 
         [ValidateRange(1, 65535)]
         [int]
@@ -127,10 +127,12 @@ function Invoke-ADCAddLBvServer {
                 if ($PSBoundParameters.ContainsKey('Timeout')) { $Payload.Add('timeout', $Timeout) }
                             
                 if ($PSCmdlet.ShouldProcess($item, 'Create Load Balance Virtual Server')) {
-                    $null = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -Type lbvserver -Payload $Payload -Action add -GetWarning
+                    $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -Type lbvserver -Payload $Payload -Action add -GetWarning
 
                     if ($PSBoundParameters.ContainsKey('PassThru')) {
                         Write-Output (Invoke-ADCGetLBvServer -Name $item)
+                    } else {
+                        Write-Output $result
                     }
                 }
             } catch {

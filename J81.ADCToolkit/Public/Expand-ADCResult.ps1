@@ -10,7 +10,7 @@ function Expand-ADCResult {
         Invoke-ADCGetLBvServer | Expand-ADCResult
     .NOTES
         File Name : Expand-ADCResult
-        Version   : v0.2
+        Version   : v0.3
         Author    : John Billekens
         Requires  : PowerShell v5.1 and up
                     ADC 11.x and up
@@ -27,7 +27,9 @@ function Expand-ADCResult {
     }
     Process {
         try {
-            Write-Output ($Result | Select-Object -ExpandProperty $($Result.type) -ErrorAction Stop)
+            if ($Result | Get-Member -Name $Result.type -ErrorAction SilentlyContinue) {
+                Write-Output ($Result | Select-Object -ExpandProperty $($Result.type) -ErrorAction Stop)
+            }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
             Write-Output $Result

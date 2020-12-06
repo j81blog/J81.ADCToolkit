@@ -1,17 +1,17 @@
-function Invoke-ADCDeleteSSLCertKey {
+function Invoke-ADCUnlinkSSLCertKey {
     <#
     .SYNOPSIS
-        Delete SSL CertKey
+        Unlink SSL CertKey to a Certificate Authority certificate-key
     .DESCRIPTION
-        Delete SSL CertKey
+        Unlink SSL CertKey to a Certificate Authority certificate-key
     .PARAMETER ADCSession
         Specify an active session (Output from Connect-ADCNode)
     .PARAMETER CertKey
         Specify the CertKey Name
     .EXAMPLE
-        Invoke-ADCDeleteSSLCertKey -CertKey "wildcard_domain.com"
+        Invoke-ADCUnlinkSSLCertKey -CertKey "wildcard_domain.com"
     .NOTES
-        File Name : Invoke-ADCDeleteSSLCertKey
+        File Name : Invoke-ADCUnlinkSSLCertKey
         Version   : v0.2
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ssl/sslcertkey/
@@ -26,17 +26,18 @@ function Invoke-ADCDeleteSSLCertKey {
         [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
             
         [parameter(Mandatory = $true)]
-        [ValidateLength(1, 32)]
-        [ValidatePattern('^(([a-zA-Z0-9]|[_])+([\x00-\x7F]|[_]|[#]|[.][s]|[:]|[@]|[=]|[-])+)$', Options = 'None')]
         [String]$CertKey = (Read-Host -Prompt "Name for the Certificate Key pair")
     )
     begin {
-        Write-Verbose "Invoke-ADCDeleteSSLCertKey: Starting"
+        Write-Verbose "Invoke-ADCUnlinkSSLCertKey: Starting"
     }
     process {
         try {
-            Write-Verbose "Deleting `"$CertKey`""
-            $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type sslcertkey -Resource $CertKey
+            Write-Verbose "Unlinking `"$CertKey`""
+            $Payload = @{
+                certkey = $CertKey
+            }
+            $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -Type sslcertkey -Payload $Payload -Action unlink -GetWarning
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
             $response = $null
@@ -44,6 +45,6 @@ function Invoke-ADCDeleteSSLCertKey {
         Write-Output $response
     }
     end {
-        Write-Verbose "Invoke-ADCDeleteSSLCertKey: Finished"
+        Write-Verbose "Invoke-ADCUnlinkSSLCertKey: Finished"
     } 
 }

@@ -12,7 +12,7 @@ function Invoke-ADCRetrieveCertificateRemoveInfo {
         Invoke-ADCRetrieveCertificateRemoveInfo
     .NOTES
         File Name : Invoke-ADCRetrieveCertificateRemoveInfo
-        Version   : v0.2
+        Version   : v0.3
         Author    : John Billekens
         Requires  : PowerShell v5.1 and up
                     ADC 11.x and up
@@ -32,9 +32,10 @@ function Invoke-ADCRetrieveCertificateRemoveInfo {
         $SSLFileLocation = "/nsconfig/ssl"
         $InstalledCertificates = Invoke-ADCGetSSLCertKey -ADCSession $ADCSession | Expand-ADCResult | Where-Object { $_.certkey -NotMatch '^ns-server-certificate$' } | Select-Object certkey, status, linkcertkeyname, serial, @{label = "daystoexpiration"; expression = { $_.daystoexpiration -as [int] } }, @{label = "cert"; expression = { "$($_.cert.Replace('/nsconfig/ssl/',''))" } }, @{label = "key"; expression = { "$($_.key.Replace('/nsconfig/ssl/',''))" } }
         $FileLocations = Invoke-ADCGetSystemFileDirectories -FileLocation $SSLFileLocation
-        $CertificateFiles = $FileLocations | ForEach-Object { Invoke-ADCGetSystemFile -FileLocation $_ -ADCSession $ADCSession | Expand-ADCResult | Where-Object { ($_.filename -NotMatch '^ns-root.*$|^ns-server.*$|^ns-sftrust.*$') -And ($_.filemode -ne "DIRECTORY") } }
+        $CertificateFiles = $FileLocations | ForEach-Object { Invoke-ADCGetSystemFile -FileLocation $_ -ADCSession $ADCSession | Expand-ADCResult | Where-Object { ($_.filename -NotMatch '^ns-root.*$|^ns-server.*$|^ns-sftrust.*$|^trusted_root_certs.*$') -And ($_.filemode -ne "DIRECTORY") } }
         $CertificateBindings = Invoke-ADCGetSSLCertKeyBinding -ADCSession $ADCSession | Expand-ADCResult
         $LinkedCertificate = Invoke-ADCGetSSLCertLink -ADCSession $ADCSession | Expand-ADCResult
+        $SAMLCertificates = Invoke-ADCGetAuthenticationSAMLAction | Expand-ADCResult | ForEach-Object { $_ | Select-Object -ExpandProperty samlidpcertname -ErrorAction SilentlyContinue ; $_ | Select-Object -ExpandProperty samlsigningcertname -ErrorAction SilentlyContinue} | Select-Object -Unique
         $Certificates = @()
         Foreach ($cert in $CertificateFiles) {
             $Removable = $true
@@ -43,21 +44,24 @@ function Invoke-ADCRetrieveCertificateRemoveInfo {
             $CertFileData = @()
             Foreach ($item in $certData) {
                 $Linked = $LinkedCertificate | Where-Object { $_.linkcertkeyname -eq $item.certkey } | Select-Object -ExpandProperty certkeyname
-                if ((($CertificateBindings | Where-Object { $_.certkey -eq $item.certkey } | Get-Member -MemberType NoteProperty | Where-Object Name -like "*binding").Name) -or ($Linked)) {
-                    $CertFileData += $certData | Select-Object *, @{label = "bound"; expression = { $true } }, @{label = "linkedcertkey"; expression = { $Linked } }
+                if ((($CertificateBindings | Where-Object { $_.certkey -eq $item.certkey } | Get-Member -MemberType NoteProperty | Where-Object {($_.Name -like "*binding") -and -not ($_.Name -like "*crldistribution*") }).Name) -or ($Linked)) {
+                    $CertFileData += $item | Select-Object *, @{label = "bound"; expression = { $true } }, @{label = "linkedcertkey"; expression = { $Linked } }
+                    $Removable = $false
+                } elseif ($item.certkey -in $SAMLCertificates) {
+                    $CertFileData += $item | Select-Object *, @{label = "bound"; expression = { $true } }, @{label = "linkedcertkey"; expression = { "AuthenticationSAMLAction" } }
                     $Removable = $false
                 } else {
-                    $CertFileData += $certData | Select-Object *, @{label = "bound"; expression = { $false } }, @{label = "linkedcertkey"; expression = { $Linked } }
+                    $CertFileData += $item | Select-Object *, @{label = "bound"; expression = { $false } }, @{label = "linkedcertkey"; expression = { $Linked } }
                 }
             }
             $KeyFileData = @()
             Foreach ($item in $keyData) {
                 $Linked = $InstalledCertificates | Where-Object { $_.linkcertkeyname -eq $item.certkey -and $null -ne $_.linkcertkeyname } | Select-Object -ExpandProperty certkey
-                if ((($CertificateBindings | Where-Object { $_.certkey -eq $item.certkey } | Get-Member -MemberType NoteProperty | Where-Object Name -like "*binding").Name) -or ($Linked)) {
-                    $KeyFileData += $keyData | Select-Object *, @{label = "bound"; expression = { $true } }, @{label = "linkedcertkey"; expression = { $Linked } }
+                if ((($CertificateBindings | Where-Object { $_.certkey -eq $item.certkey } | Get-Member -MemberType NoteProperty | Where-Object {($_.Name -like "*binding") -and -not ($_.Name -like "*crldistribution*") }).Name) -or ($Linked)) {
+                    $KeyFileData += $item | Select-Object *, @{label = "bound"; expression = { $true } }, @{label = "linkedcertkey"; expression = { $Linked } }
                     $Removable = $false
                 } else {
-                    $KeyFileData += $keyData | Select-Object *, @{label = "bound"; expression = { $false } }, @{label = "linkedcertkey"; expression = { $Linked } }
+                    $KeyFileData += $item | Select-Object *, @{label = "bound"; expression = { $false } }, @{label = "linkedcertkey"; expression = { $Linked } }
                 }
             }
             $Certificates += [PsCustomObject]@{

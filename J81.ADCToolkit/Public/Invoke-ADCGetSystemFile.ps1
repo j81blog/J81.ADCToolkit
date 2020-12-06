@@ -26,6 +26,7 @@ function Invoke-ADCGetSystemFile {
         #>
     [cmdletbinding()]
     param(
+        [parameter(DontShow)]
         [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
             
         [Parameter(Mandatory = $true)]

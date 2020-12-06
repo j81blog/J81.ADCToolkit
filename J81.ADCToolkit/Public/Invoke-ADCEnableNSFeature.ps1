@@ -24,6 +24,7 @@ function Invoke-ADCEnableNSFeature {
         #>
     [CmdletBinding()]  
     Param(
+        [parameter(DontShow)]
         [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
 
         [ValidateSet('wl', 'sp', 'lb', 'cs', 'cr', 'sc', 'cmp', 'pq', 'ssl', 'gslb', 'hdosp', 'routing', 'cf', 'ic', 'sslvpn', `

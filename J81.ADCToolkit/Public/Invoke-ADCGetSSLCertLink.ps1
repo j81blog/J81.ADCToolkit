@@ -28,6 +28,7 @@ function Invoke-ADCGetSSLCertLink {
         #>
     [CmdletBinding()]  
     Param(
+        [parameter(DontShow)]
         [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
             
         [hashtable]$Filter = @{ },

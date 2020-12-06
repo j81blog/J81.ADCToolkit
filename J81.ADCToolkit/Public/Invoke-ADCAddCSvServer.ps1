@@ -34,10 +34,11 @@ function Invoke-ADCAddCSvServer {
         #>
     [cmdletbinding(SupportsShouldProcess = $true, ConfirmImpact = 'Low')]
     param(
+        [parameter(DontShow)]
         [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
 
         [parameter(Mandatory, ValueFromPipeline, ValueFromPipelineByPropertyName)]
-        [ValidatePattern('^(([a-zA-Z0-9]|\_)+([\x00-\x7F]|_|\#|\.|\s|\:|@|=|-)+)$', Options = 'None')]
+        [ValidatePattern('^(([a-zA-Z0-9]|[_])+([\x00-\x7F]|[_]|[#]|[.][s]|[:]|[@]|[=]|[-])+)$', Options = 'None')]
         [string[]]$Name = (Read-Host -Prompt "CS Virtual Server Name"),
         
         [Parameter(Mandatory = $true)]
@@ -76,10 +77,12 @@ function Invoke-ADCAddCSvServer {
                     state       = $State
                 }
                 if ($PSCmdlet.ShouldProcess($item, 'Create Content Switch Virtual Server')) {
-                    $null = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -Type csvserver -Payload $Payload -Action add -GetWarning
+                    $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -Type csvserver -Payload $Payload -Action add -GetWarning
 
                     if ($PSBoundParameters.ContainsKey('PassThru')) {
                         Write-Output (Invoke-ADCGetCSvServer -Name $item)
+                    } else {
+                        Write-Output $result
                     }
                 }
             } catch {

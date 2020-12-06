@@ -33,8 +33,8 @@ function Invoke-ADCNitroApi {
         #>
     [CmdletBinding()]
     param (
-        [Parameter(Mandatory = $true)]
         [alias("Session")]
+        [Parameter(Mandatory = $true)]
         [PSObject]$ADCSession,
     
         [Parameter(Mandatory = $true)]
@@ -73,7 +73,7 @@ function Invoke-ADCNitroApi {
     )
     # https://github.com/devblackops/NetScaler
     if ([string]::IsNullOrEmpty($($ADCSession.ManagementURL.AbsoluteUri))) {
-        throw "ERROR: Probably not logged into the ADC"
+        throw "ERROR. Probably not logged into the ADC, Connect by running `"Connect-ADCNode`""
     }
     if ($Stat) {
         $uri = "$($ADCSession.ManagementURL.AbsoluteUri)nitro/v1/stat/$Type"
@@ -137,8 +137,12 @@ function Invoke-ADCNitroApi {
         $jsonPayload = ConvertTo-Json -InputObject $hashtablePayload -Depth 100
         Write-Verbose -Message "Method: $Method | Payload:`n$jsonPayload"
     }
-        
-    $response = $null
+    $response = [PSCustomObject]@{
+        errorcode = 0
+        message   = "Done"
+        severity  = "NONE"
+    }
+    $webResult = $null
     $restError = $null
     try {
         $restError = @()
@@ -153,27 +157,37 @@ function Invoke-ADCNitroApi {
         if ($Method -ne 'GET') {
             $restParams.Add('Body', $jsonPayload)
         }
-        $response = Invoke-RestMethod @restParams
-			
+        #$response = Invoke-RestMethod @restParams
+        $webResult = Invoke-WebRequest @restParams
+        if (-Not [String]::IsNullOrEmpty($($webResult.Content))) {
+            $response = ConvertFrom-Json $([String]::new($webResult.Content))
+        }
+        
     } catch [Exception] {
+        $response = $restError.Message | ConvertFrom-Json -ErrorAction Continue
+        if ($restError.InnerException.Message) {
+            $response | Add-Member -Membertype NoteProperty -Name ErrorMessage -value $restError.InnerException.Message -ErrorAction SilentlyContinue
+        }
         if ($Type -eq 'reboot' -and $restError[0].Message -eq 'The underlying connection was closed: The connection was closed unexpectedly.') {
             Write-Warning -Message 'Connection closed due to reboot'
         } else {
-            try {
-                $response = $restError.Message | ConvertFrom-Json
-            } catch {
-                throw $_
+            if ([String]::IsNullOrEmpty($($restError.Message)) -and -not ($ErrorActionPreference -eq "SilentlyContinue")) {
+                Throw $_.Exception.Message
             }
         }
     }
     if ($response -and $type) {
-        $response | Add-Member -Membertype NoteProperty -Name type -value $Type
+        $response | Add-Member -Membertype NoteProperty -Name type -value $Type -ErrorAction SilentlyContinue
     }
-    Write-Verbose "Resp: $response"
-    if ($response.severity -eq 'ERROR') {
-        throw "Error. See response: `n$($response | Format-List -Property * | Out-String)"
-    } 
-    if (-Not [String]::IsNullOrEmpty($response)) {
-        Write-Output $response
+    if ($webResult.statuscode) {
+        $response | Add-Member -Membertype NoteProperty -Name StatusCode -value $webResult.statuscode -ErrorAction SilentlyContinue
+    }
+    if ($webResult.StatusDescription) {
+        $response | Add-Member -Membertype NoteProperty -Name StatusDescription -value $webResult.StatusDescription -ErrorAction SilentlyContinue
+    }
+    Write-Output $response
+    if (($response.severity -eq 'ERROR') -and -not ($ErrorActionPreference -eq "SilentlyContinue")) {
+        Write-Verbose "ERROR: $($response | Format-List -Property * | Out-String)"
+        Throw "[$($response.errorcode)] $($response.message)"
     }
 }

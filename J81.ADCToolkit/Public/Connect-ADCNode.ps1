@@ -15,8 +15,9 @@ function Connect-ADCNode {
     .EXAMPLE
         Connect-ADCNode -ManagementURL https://citrixacd.domain.local -Credential (Get-Credential)
     #>
-    [cmdletbinding(SupportsShouldProcess = $true, ConfirmImpact = 'Low')]
+    [cmdletbinding()]
     param(
+        [ValidatePattern('^(https?:[\/]{2}.*)$', Options = 'None')]
         [Parameter(Mandatory = $true)]
         [System.Uri]$ManagementURL,
     
@@ -29,94 +30,85 @@ function Connect-ADCNode {
     )
     # Based on https://github.com/devblackops/NetScaler
     
-    if ($PSCmdlet.ShouldProcess($ManagementURL, 'Connect Citrix ADC')) {
+    if ($ManagementURL.scheme -eq "https") {
+        Write-Verbose "Connecting to $ManagementURL... Connection is SSL, Ignoring SSL checks"
+        if (-Not ("TrustAllCertsPolicy" -as [type])) {
+            Add-Type -TypeDefinition @"
+using System.Net;
+using System.Security.Cryptography.X509Certificates;
+public class TrustAllCertsPolicy : ICertificatePolicy {
+    public bool CheckValidationResult(
+    ServicePoint srvPoint, X509Certificate certificate,
+    WebRequest request, int certificateProblem) {
+        return true;
+    }
+}
+"@ 
+        }
+        [System.Net.ServicePointManager]::CertificatePolicy = New-Object TrustAllCertsPolicy
+        # Set Tls versions
+        [System.Net.ServicePointManager]::SecurityProtocol = 
+        [System.Net.SecurityProtocolType]::Tls13 -bor `
+            [System.Net.SecurityProtocolType]::Tls12 -bor `
+            [System.Net.SecurityProtocolType]::Tls11
+    } else {
         Write-Verbose -Message "Connecting to $ManagementURL..."
-        if ($ManagementURL.scheme -eq "https") {
-            Write-Verbose "Connection is SSL, Ignoring SSL checks"
-            $Provider = New-Object Microsoft.CSharp.CSharpCodeProvider
-            $Provider.CreateCompiler() | Out-Null
-            $Params = New-Object System.CodeDom.Compiler.CompilerParameters
-            $Params.GenerateExecutable = $false
-            $Params.GenerateInMemory = $true
-            $Params.IncludeDebugInformation = $false
-            $Params.ReferencedAssemblies.Add("System.DLL") > $null
-            $TASource = @'
-                namespace Local.ToolkitExtensions.Net.CertificatePolicy
-                {
-                    public class TrustAll : System.Net.ICertificatePolicy
-                    {
-                        public bool CheckValidationResult(System.Net.ServicePoint sp,System.Security.Cryptography.X509Certificates.X509Certificate cert, System.Net.WebRequest req, int problem)
-                        {
-                            return true;
-                        }
-                    }
-                }
-'@ 
-            $TAResults = $Provider.CompileAssemblyFromSource($Params, $TASource)
-            $TAAssembly = $TAResults.CompiledAssembly
-            $TrustAll = $TAAssembly.CreateInstance("Local.ToolkitExtensions.Net.CertificatePolicy.TrustAll")
-            [System.Net.ServicePointManager]::CertificatePolicy = $TrustAll
-            [System.Net.ServicePointManager]::SecurityProtocol = 
-            [System.Net.SecurityProtocolType]::Tls13 -bor `
-                [System.Net.SecurityProtocolType]::Tls12 -bor `
-                [System.Net.SecurityProtocolType]::Tls11
+    }
+    try {
+        $login = @{
+            login = @{
+                username = $Credential.UserName;
+                password = $Credential.GetNetworkCredential().Password
+                timeout  = $Timeout
+            }
         }
-        try {
-            $login = @{
-                login = @{
-                    username = $Credential.UserName;
-                    password = $Credential.GetNetworkCredential().Password
-                    timeout  = $Timeout
-                }
-            }
-            $loginJson = ConvertTo-Json -InputObject $login
-            $saveSession = @{ }
-            $params = @{
-                Uri             = "$($ManagementURL.AbsoluteUri)nitro/v1/config/login"
-                Method          = 'POST'
-                Body            = $loginJson
-                SessionVariable = 'saveSession'
-                ContentType     = 'application/json'
-                ErrorVariable   = 'restError'
-                Verbose         = $false
-            }
-            $response = Invoke-RestMethod @params
+        $loginJson = ConvertTo-Json -InputObject $login
+        $saveSession = @{ }
+        $params = @{
+            Uri             = "$($ManagementURL.AbsoluteUri)nitro/v1/config/login"
+            Method          = 'POST'
+            Body            = $loginJson
+            SessionVariable = 'saveSession'
+            ContentType     = 'application/json'
+            ErrorVariable   = 'restError'
+            Verbose         = $false
+        }
+        $response = Invoke-RestMethod @params
     
-            if ($response.severity -eq 'ERROR') {
-                throw "Error. See response: `n$($response | Format-List -Property * | Out-String)"
-            } else {
-                Write-Verbose -Message "Response:`n$(ConvertTo-Json -InputObject $response | Out-String)"
-            }
-        } catch [Exception] {
-            throw $_
-        }
-        $ADCSession = [PSObject]@{
-            ManagementURL = $ManagementURL;
-            WebSession    = [Microsoft.PowerShell.Commands.WebRequestSession]$saveSession;
-            Username      = $Credential.UserName;
-            Version       = "UNKNOWN";
-        }
-    
-        try {
-            Write-Verbose -Message "Trying to retrieve the ADC version"
-            $params = @{
-                Uri           = "$($ManagementURL.AbsoluteUri)nitro/v1/config/nsversion"
-                Method        = 'GET'
-                WebSession    = $ADCSession.WebSession
-                ContentType   = 'application/json'
-                ErrorVariable = 'restError'
-                Verbose       = $false
-            }
-            $response = Invoke-RestMethod @params
+        if ($response.severity -eq 'ERROR') {
+            throw "Error. See response: `n$($response | Format-List -Property * | Out-String)"
+        } else {
             Write-Verbose -Message "Response:`n$(ConvertTo-Json -InputObject $response | Out-String)"
-            $ADCSession.version = ($response.nsversion.version.Split(","))[0]
-        } catch {
-            Write-Verbose -Message "Error. See response: `n$($response | Format-List -Property * | Out-String)"
         }
-        $Script:ADCSession = $ADCSession
+    } catch [Exception] {
+        throw $_
+    }
+    $ADCSession = [PSObject]@{
+        ManagementURL = $ManagementURL;
+        WebSession    = [Microsoft.PowerShell.Commands.WebRequestSession]$saveSession;
+        Username      = $Credential.UserName;
+        Version       = "UNKNOWN";
+    }
+    
+    try {
+        Write-Verbose -Message "Trying to retrieve the ADC version"
+        $params = @{
+            Uri           = "$($ManagementURL.AbsoluteUri)nitro/v1/config/nsversion"
+            Method        = 'GET'
+            WebSession    = $ADCSession.WebSession
+            ContentType   = 'application/json'
+            ErrorVariable = 'restError'
+            Verbose       = $false
+        }
+        $response = Invoke-RestMethod @params
+        Write-Verbose -Message "Response:`n$(ConvertTo-Json -InputObject $response | Out-String)"
+        $ADCSession.version = ($response.nsversion.version.Split(","))[0]
+    } catch {
+        Write-Verbose -Message "Error. See response: `n$($response | Format-List -Property * | Out-String)"
+    }
+    $Script:ADCSession = $ADCSession
         
-        if ($PassThru) {
-            Write-Output $ADCSession
-        }
+    if ($PassThru) {
+        return $ADCSession
     }
 }

@@ -24,9 +24,9 @@ function Invoke-ADCGetHANode {
         #>
     [cmdletbinding()]
     param(
+        [parameter(DontShow)]
         [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
             
-        #
         [Parameter(ParameterSetName = 'Filter')]
         [hashtable]$Filter = @{ },
     

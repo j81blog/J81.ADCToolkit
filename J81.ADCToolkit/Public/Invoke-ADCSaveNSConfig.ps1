@@ -20,6 +20,7 @@ function Invoke-ADCSaveNSConfig {
     #>
     [cmdletbinding()]
     param(
+        [parameter(DontShow)]
         [hashtable]$ADCSession = (Invoke-ADCGetActiveSession)
     )
     begin {

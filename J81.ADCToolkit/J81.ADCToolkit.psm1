@@ -16,7 +16,7 @@ Foreach ($import in @($Public + $Private)) {
 }
 
 # setup some module wide variables
-#$LogLevel = "Info"
+#$$LogLevel = "Info"
 $Script:ADCSession
 $Script:NoConsoleOutput = $false
 
