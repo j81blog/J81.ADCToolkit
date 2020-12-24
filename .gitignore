@@ -45,3 +45,8 @@ Redists.xml
 # Docs #
 ########
 docs
+
+# MISC #
+########
+NitroSources.zip
+*.bak

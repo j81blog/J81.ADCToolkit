@@ -10,7 +10,7 @@ function Invoke-ADCGetActiveSession {
         Invoke-ADCGetActiveSession
     .NOTES
         File Name : Invoke-ADCGetActiveSession
-        Version   : v0.2
+        Version   : v2012.2023
         Author    : John Billekens
         Requires  : PowerShell v5.1 and up
                     ADC 11.x and up
@@ -22,6 +22,9 @@ function Invoke-ADCGetActiveSession {
         $ADCSession = $Script:ADCSession
     )
     Write-Verbose "Invoke-ADCAddLBvServer: Starting"
+    if ([String]::IsNullOrEmpty($ADCSession) -and [String]::IsNullOrEmpty($(Get-Variable -Scope Script -ErrorAction SilentlyContinue | Where-Object Name -eq "ADCSession"))) {
+        $ADCSession = Connect-ADCNode -ManagementURL $(Read-Host -Prompt "Enter the Citrix ADC Management URL. E.g. https://citrixacd.domain.local") -Credential (Get-Credential) -PassThru
+    }
     if ([String]::IsNullOrEmpty($ADCSession)) {
         throw "Connect to the Citrix ADC Appliance first!"
     } else {

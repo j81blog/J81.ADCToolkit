@@ -21,8 +21,9 @@
 
 * Fixed an issue with Invoke-ADCDeleteSystemFile
 
-## 2012.0622
+## 2012.2023/2012.2411
 
 * Fixed issue with Connect-ADCNode, part of the code was generating false-positive in defender
-* Added SSLCertKey and CS* modules
 * Fixed issue in Invoke-ADCRetrieveCertificateRemoveInfo (used by Invoke-ADCRetrieveCertificateRemoveInfo); not all certificates that could be deleted where deleted
+* Added almost all (except for PING and TRACEROUTE) ADC functions (configuration and statistics) based on the Nitro documentation.
+* A lot of functions are still untested!

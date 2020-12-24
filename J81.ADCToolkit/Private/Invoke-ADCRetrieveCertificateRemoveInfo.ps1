@@ -12,7 +12,7 @@ function Invoke-ADCRetrieveCertificateRemoveInfo {
         Invoke-ADCRetrieveCertificateRemoveInfo
     .NOTES
         File Name : Invoke-ADCRetrieveCertificateRemoveInfo
-        Version   : v0.3
+        Version   : v2012.2023
         Author    : John Billekens
         Requires  : PowerShell v5.1 and up
                     ADC 11.x and up

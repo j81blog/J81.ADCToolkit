@@ -13,7 +13,7 @@ function Invoke-ADCGetSystemFileDirectories {
         Invoke-ADCGetSystemFileDirectories -FileLocation "/nsconfig/ssl"
     .NOTES
         File Name : Invoke-ADCGetSystemFileDirectories
-        Version   : v0.2
+        Version   : v2012.2023
         Author    : John Billekens
         Requires  : PowerShell v5.1 and up
                     ADC 11.x and up
@@ -36,7 +36,7 @@ function Invoke-ADCGetSystemFileDirectories {
         Write-Output "$FileLocation"
         try {
             Write-Verbose "Checking `"$FileLocation`" for sub directories."
-            $dirs = Invoke-ADCGetSystemFile -FileLocation $FileLocation -ADCSession $ADCSession | Expand-ADCResult | Where-Object { $_.filemode -eq "DIRECTORY" } | Foreach-Object { "$($_.filelocation)/$($_.filename)" }
+            $dirs = Invoke-ADCGetSystemFile -filelocation $FileLocation -ADCSession $ADCSession | Expand-ADCResult | Where-Object { $_.filemode -eq "DIRECTORY" } | Foreach-Object { "$($_.filelocation)/$($_.filename)" }
         } catch { 
             $dirs = $null 
         }

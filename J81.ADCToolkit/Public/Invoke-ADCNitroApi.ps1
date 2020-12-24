@@ -1,36 +1,43 @@
 function Invoke-ADCNitroApi {
-    <#
-        .SYNOPSIS
-            Invoke ADC NITRO REST API
-        .DESCRIPTION
-            Invoke ADC NITRO REST API
-        .PARAMETER ADCSession
-            An existing custom ADC Web Request Session object returned by Connect-ADCNode
-        .PARAMETER Method
-            Specifies the method used for the web request
-        .PARAMETER Type
-            Type of the ADC appliance resource
-        .PARAMETER Resource
-            Name of the ADC appliance resource, optional
-        .PARAMETER Action
-            Name of the action to perform on the ADC appliance resource
-        .PARAMETER Arguments
-            One or more arguments for the web request, in hashtable format
-        .PARAMETER Query
-            Specifies a query that can be send  in the web request
-        .PARAMETER Filters
-            Specifies a filter that can be send to the remote server, in hashtable format
-        .PARAMETER Payload
-            Payload  of the web request, in hashtable format
-        .PARAMETER GetWarning
-            Switch parameter, when turned on, warning message will be sent in 'message' field and 'WARNING' value is set in severity field of the response in case there is a warning.
-            Turned off by default
-        .PARAMETER OnErrorAction
-            Use this parameter to set the onerror status for nitro request. Applicable only for bulk requests.
-            Acceptable values: "EXIT", "CONTINUE", "ROLLBACK", default to "EXIT"
-        .EXAMPLE
-            Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type nsip
-        #>
+<#
+    .SYNOPSIS
+        Invoke ADC NITRO REST API
+    .DESCRIPTION
+        Invoke ADC NITRO REST API
+    .PARAMETER ADCSession
+        An existing custom ADC Web Request Session object returned by Connect-ADCNode
+    .PARAMETER Method
+        Specifies the method used for the web request
+    .PARAMETER Type
+        Type of the ADC appliance resource
+    .PARAMETER Resource
+        Name of the ADC appliance resource, optional
+    .PARAMETER Action
+        Name of the action to perform on the ADC appliance resource
+    .PARAMETER Arguments
+        One or more arguments for the web request, in hashtable format
+    .PARAMETER Query
+        Specifies a query that can be send  in the web request
+    .PARAMETER Filters
+        Specifies a filter that can be send to the remote server, in hashtable format
+    .PARAMETER Payload
+        Payload  of the web request, in hashtable format
+    .PARAMETER GetWarning
+        Switch parameter, when turned on, warning message will be sent in 'message' field and 'WARNING' value is set in severity field of the response in case there is a warning.
+        Turned off by default
+    .PARAMETER OnErrorAction
+        Use this parameter to set the onerror status for nitro request. Applicable only for bulk requests.
+        Acceptable values: "EXIT", "CONTINUE", "ROLLBACK", default to "EXIT"
+    .EXAMPLE
+        Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type nsip
+    .NOTES
+        File Name : Invoke-ADCGetSystemFileDirectories
+        Version   : v2012.2023
+        Author    : John Billekens
+        Requires  : PowerShell v5.1 and up
+                    ADC 11.x and up
+                    Initial source https://github.com/devblackops/NetScaler
+#>
     [CmdletBinding()]
     param (
         [alias("Session")]
@@ -40,7 +47,7 @@ function Invoke-ADCNitroApi {
         [Parameter(Mandatory = $true)]
         [ValidateSet('DELETE', 'GET', 'POST', 'PUT')]
         [string]$Method,
-    
+
         [Parameter(Mandatory = $true)]
         [string]$Type,
     
@@ -52,8 +59,6 @@ function Invoke-ADCNitroApi {
             
         [ValidateCount(0, 1)]
         [hashtable]$Query = @{ },
-    
-        [switch]$Stat = $false,
     
         [ValidateScript( { $Method -eq 'GET' })]
         [hashtable]$Filters = @{ },
@@ -68,18 +73,17 @@ function Invoke-ADCNitroApi {
     
         [ValidateSet('EXIT', 'CONTINUE', 'ROLLBACK')]
         [string]$OnErrorAction = 'EXIT',
+
+        [ValidatePattern('^nitro\/v[0-9]\/(config|stat)$')]
+        [string]$NitroPath = "nitro/v1/config",
             
         [Switch]$Clean
     )
-    # https://github.com/devblackops/NetScaler
     if ([string]::IsNullOrEmpty($($ADCSession.ManagementURL.AbsoluteUri))) {
         throw "ERROR. Probably not logged into the ADC, Connect by running `"Connect-ADCNode`""
     }
-    if ($Stat) {
-        $uri = "$($ADCSession.ManagementURL.AbsoluteUri)nitro/v1/stat/$Type"
-    } else {
-        $uri = "$($ADCSession.ManagementURL.AbsoluteUri)nitro/v1/config/$Type"
-    }
+    $uri = "$($ADCSession.ManagementURL.AbsoluteUri)$($NitroPath)/$Type"
+
     if (-not ([string]::IsNullOrEmpty($Resource))) {
         $uri += "/$Resource"
     }

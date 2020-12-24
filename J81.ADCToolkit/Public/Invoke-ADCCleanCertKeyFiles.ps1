@@ -28,7 +28,7 @@ function Invoke-ADCCleanCertKeyFiles {
         Invoke-ADCCleanCertKeyFiles @Params
     .NOTES
         File Name : Invoke-ADCCleanCertKeyFiles.ps1
-        Version   : v0.4
+        Version   : v2012.2023
         Author    : John Billekens
         Requires  : PowerShell v5.1 and up
                     ADC 11.x and up
@@ -116,7 +116,7 @@ function Invoke-ADCCleanCertKeyFiles {
     if ($IsConnected) {
         Write-ConsoleText -Title "ADC Info"
         Write-ConsoleText -Line "Username"
-        Write-ConsoleText -ForeGroundColor Cyan "$($ADCSession.Username)"
+        Write-ConsoleText -ForeGroundColor Cyan "$($PriSession.Username)"
         Write-ConsoleText -Line "Password"
         Write-ConsoleText -ForeGroundColor Cyan "**********"
         Write-ConsoleText -Line "Configuration"
@@ -135,7 +135,7 @@ function Invoke-ADCCleanCertKeyFiles {
             Write-ConsoleText -Line "Version"
             Write-ConsoleText -ForeGroundColor Cyan "$($SecSession.Version)"
         }
-        if ($($ADCSession | ConvertFrom-ADCVersion) -lt [System.Version]"11.0") {
+        if ($($PriSession | ConvertFrom-ADCVersion) -lt [System.Version]"11.0") {
             Throw "Only ADC version 11 and up is supported"
         }
 
@@ -145,7 +145,8 @@ function Invoke-ADCCleanCertKeyFiles {
             Write-ConsoleText -Line "Backup Status"
             try {        
                 $BackupName = "CleanCerts_$((Get-Date).ToString("yyyyMMdd_HHmm"))"
-                $Response = Invoke-ADCNewSystemBackup -ADCSession $PriSession -Name $BackupName -Comment "Backup created by PoSH function Invoke-ADCCleanCertKeyFiles" -SaveConfigFirst -ErrorAction Stop
+                $Response = Invoke-ADCSaveNsconfig -all $true -ADCSession $PriSession -ErrorAction Stop
+                $Response = Invoke-ADCCreateSystembackup -ADCSession $PriSession -filename $BackupName -comment "Backup created by PoSH function Invoke-ADCCleanCertKeyFiles" -ErrorAction Stop
                 Write-ConsoleText -ForeGroundColor Green "OK [$BackupName]"
             } catch {
                 Write-ConsoleText -ForeGroundColor Red "Failed $($Response.message)"
@@ -167,16 +168,16 @@ function Invoke-ADCCleanCertKeyFiles {
                             Write-ConsoleText -Line "CertKey"
                             Write-ConsoleText "$($_.certData.certkey)"
                             Write-ConsoleText -Line "Removing"
-                            $result = Invoke-ADCDeleteSSLCertKey -ADCSession $PriSession -CertKey $_.certData.certkey -ErrorAction SilentlyContinue | Write-ADCText
-                            Write-Verbose "Result: $result"
+                            $Response = Invoke-ADCDeleteSslCertkey -ADCSession $PriSession -certkey $_.certData.certkey -ErrorAction SilentlyContinue | Write-ADCText
+                            Write-Verbose "Response: $Response"
                         }
                         if ($_.keyData.certkey -ne $_.certData.certkey) {
                             $RemovableCert | Where-Object { $_.keyData.bound -eq $false } | ForEach-Object {
                                 Write-ConsoleText -Line "CertKey"
                                 Write-ConsoleText "$($_.keyData.certkey)"
                                 Write-ConsoleText -Line "Removing"
-                                $result = Invoke-ADCDeleteSSLCertKey -ADCSession $PriSession -CertKey $_.keyData.certkey -ErrorAction  SilentlyContinue | Write-ADCText
-                                Write-Verbose "Result: $result"
+                                $Response = Invoke-ADCDeleteSslCertkey -ADCSession $PriSession -certkey $_.keyData.certkey -ErrorAction  SilentlyContinue | Write-ADCText
+                                Write-Verbose "Response: $Response"
                             }
                         }
                     }
@@ -195,8 +196,8 @@ function Invoke-ADCCleanCertKeyFiles {
                     foreach ($Session in $ADCSessions) {
                         Write-ConsoleText -Line "Deleting"
                         Write-ConsoleText -NoNewLine -ForeGroundColor Cyan "[$($Session.State)] "
-                        $result = Invoke-ADCDeleteSystemFile -ADCSession $Session.Session -FileName $_.fileName -FileLocation $_.filelocation | Write-ADCText
-                        Write-Verbose "Result: $result"
+                        $Response = Invoke-ADCDeleteSystemFile -ADCSession $Session.Session -filename $_.fileName -filelocation $_.filelocation | Write-ADCText
+                        Write-Verbose "Response: $Response"
                     }
                 }
             } else {
@@ -225,7 +226,7 @@ function Invoke-ADCCleanCertKeyFiles {
             if (-Not $NoSaveConfig) {
                 Write-ConsoleText -Line "Saving the config"
                 try {
-                    $result = Invoke-ADCSaveNSConfig -ADCSession $ADCSession -ErrorAction Stop
+                    $Response = Invoke-ADCSaveNsconfig -all $true -ADCSession $PriSession -ErrorAction Stop
                     Write-ConsoleText -ForeGroundColor Green "Done"
                 } catch {
                     Write-ConsoleText -ForeGroundColor Red "Failed"

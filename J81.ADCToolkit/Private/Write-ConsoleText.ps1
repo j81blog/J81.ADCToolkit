@@ -36,7 +36,7 @@ function Write-ConsoleText {
          -Message Text................: 
     .NOTES
         File Name : Write-ConsoleText
-        Version   : v0.2
+        Version   : v2012.2023
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/lb/lbvserver/
         Requires  : PowerShell v5.1 and up

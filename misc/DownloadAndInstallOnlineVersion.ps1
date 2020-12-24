@@ -1,6 +1,6 @@
 #Requires -Version 5.1
 
-#Source https://github.com/rmbolger/Posh-ACME/blob/master/instdev.ps1
+#OriginalSource https://github.com/rmbolger/Posh-ACME/blob/master/instdev.ps1
 
 # set the user module path based on edition and platform
 if ('PSEdition' -notin $PSVersionTable.Keys -or $PSVersionTable.PSEdition -eq 'Desktop') {
@@ -14,11 +14,7 @@ if ('PSEdition' -notin $PSVersionTable.Keys -or $PSVersionTable.PSEdition -eq 'D
 }
 
 # deal with execution policy on Windows
-if (('PSEdition' -notin $PSVersionTable.Keys -or
-     $PSVersionTable.PSEdition -eq 'Desktop' -or
-     $IsWindows) -and
-     (Get-ExecutionPolicy) -notin 'Unrestricted','RemoteSigned','Bypass')
-{
+if (('PSEdition' -notin $PSVersionTable.Keys -or $PSVersionTable.PSEdition -eq 'Desktop' -or $IsWindows) -and (Get-ExecutionPolicy) -notin 'Unrestricted','RemoteSigned','Bypass') {
     Write-Verbose "Setting user execution policy to RemoteSigned"
     Set-ExecutionPolicy RemoteSigned -Scope CurrentUser -Force
 }
@@ -41,8 +37,10 @@ if ([String]::IsNullOrWhiteSpace($PSScriptRoot)) {
     Write-Verbose "Downloading latest version of J81.ADCToolkit from $url"
     $file = Join-Path ([system.io.path]::GetTempPath()) 'J81.ADCToolkit.zip'
     $webclient = New-Object System.Net.WebClient
-    try { $webclient.DownloadFile($url,$file) }
-    catch { throw }
+    try {
+        $webclient.DownloadFile($url,$file)
+        $file | Unblock-File
+    } catch { throw }
     Write-Verbose "File saved to $file"
 
     # extract the zip
@@ -58,7 +56,7 @@ if ([String]::IsNullOrWhiteSpace($PSScriptRoot)) {
 } else {
     # running locally
     Remove-Item "$installpath\J81.ADCToolkit" -Recurse -Force -ErrorAction Ignore
-    Copy-Item "$PSScriptRoot\J81.ADCToolkit" $installpath -Recurse -Force -EErrorActionA Continue
+    Copy-Item "$PSScriptRoot\J81.ADCToolkit" $installpath -Recurse -Force -ErrorAction Continue
     # force re-load the module (assuming you're editing locally and want to see changes)
     Import-Module -Name J81.ADCToolkit -Force
 }

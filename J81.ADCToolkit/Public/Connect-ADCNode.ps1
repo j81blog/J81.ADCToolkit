@@ -18,13 +18,14 @@ function Connect-ADCNode {
     [cmdletbinding()]
     param(
         [ValidatePattern('^(https?:[\/]{2}.*)$', Options = 'None')]
-        [Parameter(Mandatory = $true)]
-        [System.Uri]$ManagementURL,
+        [ValidateNotNullOrEmpty()]
+        [System.Uri]$ManagementURL = (Read-Host -Prompt "Enter the Citrix ADC Management URL. E.g. https://citrixacd.domain.local"),
     
         [Parameter(Mandatory = $true)]
-        [PSCredential]$Credential,
-    
-        [int]$Timeout = 3600,
+        [System.Management.Automation.PSCredential]
+        [System.Management.Automation.Credential()]$Credential = (Get-Credential -Message "Enter username and password for the Citrix ADC`r`nE.g. nsroot / P@ssw0rd" ),
+        
+        [int]$Timeout = 900,
     
         [switch]$PassThru
     )

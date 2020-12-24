@@ -11,7 +11,7 @@ function ConvertFrom-ADCVersion {
         $version = $ADCSession | ConvertFrom-ADCVersion
     .NOTES
         File Name : ConvertFrom-ADCVersion
-        Version   : v0.2
+        Version   : v2012.2023
         Author    : John Billekens
         Requires  : PowerShell v5.1 and up
                     ADC 11.x and up
