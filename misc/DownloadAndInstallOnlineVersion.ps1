@@ -39,7 +39,7 @@ if ([String]::IsNullOrWhiteSpace($PSScriptRoot)) {
     $webclient = New-Object System.Net.WebClient
     try {
         $webclient.DownloadFile($url,$file)
-        $file | Unblock-File
+        Unblock-File -Path $file
     } catch { throw }
     Write-Verbose "File saved to $file"
 

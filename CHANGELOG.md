@@ -27,3 +27,9 @@
 * Fixed issue in Invoke-ADCRetrieveCertificateRemoveInfo (used by Invoke-ADCRetrieveCertificateRemoveInfo); not all certificates that could be deleted where deleted
 * Added almost all (except for PING and TRACEROUTE) ADC functions (configuration and statistics) based on the Nitro documentation.
 * A lot of functions are still untested!
+
+## v2101.0315
+
+* Changed the Invoke-ADCCleanCertKeyFiles function so a full backup is created instead of a basic backup
+* Added a function Connect-ADCHANodes for connecting all HA nodes
+* Added option -HA to Connect-ADCNode to connect all HA nodes (Will call Connect-ADCHANodes internally)

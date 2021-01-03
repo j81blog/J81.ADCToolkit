@@ -28,7 +28,7 @@ function Invoke-ADCCleanCertKeyFiles {
         Invoke-ADCCleanCertKeyFiles @Params
     .NOTES
         File Name : Invoke-ADCCleanCertKeyFiles.ps1
-        Version   : v2012.2023
+        Version   : v2101.0121
         Author    : John Billekens
         Requires  : PowerShell v5.1 and up
                     ADC 11.x and up
@@ -49,95 +49,17 @@ function Invoke-ADCCleanCertKeyFiles {
         
         [Int]$Attempts = 2,
         
-        [Int]$ExpirationDays = 30       
+        [Int]$ExpirationDays = 30
     )
     Write-Verbose "Invoke-ADCCleanCertKeyFiles: Starting"
     Write-Verbose "Trying to login into the Citrix ADC."
-    Write-ConsoleText -Title "ADC Connection"
-    Write-ConsoleText -Line "Connecting"
-    try {
-        Write-ConsoleText -ForeGroundColor Yellow -NoNewLine "*"
-        $ADCSession = Connect-ADCNode -ManagementURL $ManagementURL -Credential $Credential -PassThru -ErrorAction Stop
-        $IsConnected = $true
-        Write-ConsoleText -ForeGroundColor Yellow -NoNewLine "*"
-        $HANode = Invoke-ADCGetHANode | Expand-ADCResult
-        $nsconfig = Invoke-ADCGetNSConfig | Expand-ADCResult
-        if ($nsconfig.ipaddress -ne $nsconfig.primaryip) {
-            Write-Warning "You are connected to a secondary node (Primary node is $($nsconfig.primaryip))"
-        }
-        $NodeState = $nsconfig.systemtype
-        $ADCSessions = @()
-        if ($NodeState -like "Stand-alone") {
-            Write-ConsoleText -ForeGroundColor Yellow -NoNewLine "*"
-            try {
-                $PrimaryURL = [System.URI]"$($ManagementURL.Scheme):\\$($nsconfig.ipaddress)"
-                $PriSession = Connect-ADCNode -ManagementURL $PrimaryURL -Credential $Credential -PassThru -ErrorAction Stop
-                $PriNode = $HANode | Where-Object { $_.ipaddress -eq $nsconfig.ipaddress }
-            } catch {
-                $PriSession = $ADCSession
-            }
-            $ADCSessions += [PsCustomObject]@{ ID = 0; State = "Primary"; Session = $PriSession }
-            Write-ConsoleText -ForeGroundColor Yellow -NoNewLine "*"
-        } elseif ($NodeState -like "HA") {
-            Write-ConsoleText -ForeGroundColor Yellow -NoNewLine "*"
-            try {
-                $PriNode = $HANode | Where-Object { $_.state -like "Primary" }
-                $PrimaryIP = $PriNode.ipaddress
-                $PrimaryURL = [System.URI]"$($ManagementURL.Scheme):\\$PrimaryIP"
-                $PriSession = Connect-ADCNode -ManagementURL $PrimaryURL -Credential $Credential -PassThru -ErrorAction Stop
-                Write-ConsoleText -ForeGroundColor Yellow -NoNewLine "*"
-            } catch {
-                Write-Verbose "Error, $($_.Exception.Message)"
-                $PriSession = $ADCSession
-            }
-            $ADCSessions += [PsCustomObject]@{ ID = 0; State = "Primary  "; Session = $PriSession }
-            Write-ConsoleText -ForeGroundColor Yellow -NoNewLine "*"
-            try {
-                $SecNode = $HANode | Where-Object { $_.state -like "Secondary" }
-                if ([String]::IsNullOrEmpty($SecNode)) {
-                    $SecNode = $HANode | Where-Object { $_.ipaddress -ne $PriNode.ipaddress }
-                }
-                $SecondaryIP = $SecNode.ipaddress
-                $SecondaryURL = [System.URI]"$($ManagementURL.Scheme):\\$SecondaryIP"
-                $SecSession = Connect-ADCNode -ManagementURL $SecondaryURL -Credential $Credential -PassThru -ErrorAction Stop
-                Write-ConsoleText -ForeGroundColor Yellow -NoNewLine "*"
-                $ADCSessions += [PsCustomObject]@{ ID = 1; State = "Secondary"; Session = $SecSession }
-            } catch {
-                Write-Verbose "Error, $($_.Exception.Message)"
-                $SecSession = $null
-            }
-        }
-        Write-ConsoleText -ForeGroundColor Green " Connected"
-    } catch {
-        Write-Verbose "Caught an error: $_.Exception.Message"
-        Write-ConsoleText -ForeGroundColor Red "  ERROR, Could not connect" -PostBlank
-        $IsConnected = $false
+    $ADCSession = Connect-ADCHANodes -ManagementURL $ManagementURL -Credential $Credential -PassThru -DisplayConsoleText
+    $ADCSessions = @()
+    $ADCSessions += $ADCSession["PrimarySession"].Session
+    if ($ADCSession.IsHA) {
+        $ADCSessions += $ADCSession["SecondarySession"].Session
     }
-    if ($IsConnected) {
-        Write-ConsoleText -Title "ADC Info"
-        Write-ConsoleText -Line "Username"
-        Write-ConsoleText -ForeGroundColor Cyan "$($PriSession.Username)"
-        Write-ConsoleText -Line "Password"
-        Write-ConsoleText -ForeGroundColor Cyan "**********"
-        Write-ConsoleText -Line "Configuration"
-        Write-ConsoleText -ForeGroundColor Cyan "$NodeState"
-        Write-ConsoleText -Line "Node"
-        Write-ConsoleText -ForeGroundColor Cyan "$($PriNode.state)"
-        Write-ConsoleText -Line "URL"
-        Write-ConsoleText -ForeGroundColor Cyan "$($PrimaryURL.OriginalString)"
-        Write-ConsoleText -Line "Version"
-        Write-ConsoleText -ForeGroundColor Cyan "$($PriSession.Version)"
-        if ((-Not [String]::IsNullOrEmpty($SecSession)) -Or ($SecNode.state -eq "UNKNOWN")) {
-            Write-ConsoleText -Line "Node"
-            Write-ConsoleText -ForeGroundColor Cyan "$($SecNode.state)"
-            Write-ConsoleText -Line "URL"
-            Write-ConsoleText -ForeGroundColor Cyan "$($SecondaryURL.OriginalString)"
-            Write-ConsoleText -Line "Version"
-            Write-ConsoleText -ForeGroundColor Cyan "$($SecSession.Version)"
-        }
-        if ($($PriSession | ConvertFrom-ADCVersion) -lt [System.Version]"11.0") {
-            Throw "Only ADC version 11 and up is supported"
-        }
+    if (-Not [String]::IsNullOrEmpty($($ADCSession["PrimarySession"].Session))) {
 
         Write-ConsoleText -Line "Backup"
         if ($Backup) {
@@ -145,8 +67,8 @@ function Invoke-ADCCleanCertKeyFiles {
             Write-ConsoleText -Line "Backup Status"
             try {        
                 $BackupName = "CleanCerts_$((Get-Date).ToString("yyyyMMdd_HHmm"))"
-                $Response = Invoke-ADCSaveNsconfig -all $true -ADCSession $PriSession -ErrorAction Stop
-                $Response = Invoke-ADCCreateSystembackup -ADCSession $PriSession -filename $BackupName -comment "Backup created by PoSH function Invoke-ADCCleanCertKeyFiles" -ErrorAction Stop
+                $Response = Invoke-ADCSaveNsconfig -all $true -ADCSession $ADCSession["PrimarySession"].Session -ErrorAction Stop
+                $Response = Invoke-ADCCreateSystembackup -ADCSession $ADCSession["PrimarySession"].Session -filename $BackupName -level full -comment "Backup created by PoSH function Invoke-ADCCleanCertKeyFiles" -ErrorAction Stop
                 Write-ConsoleText -ForeGroundColor Green "OK [$BackupName]"
             } catch {
                 Write-ConsoleText -ForeGroundColor Red "Failed $($Response.message)"
@@ -158,7 +80,7 @@ function Invoke-ADCCleanCertKeyFiles {
         try {
             Write-Verbose "Retrieving the certificate details."
             Do {
-                $Certs = Invoke-ADCRetrieveCertificateRemoveInfo -ADCSession $PriSession
+                $Certs = Invoke-ADCRetrieveCertificateRemoveInfo -ADCSession $ADCSession["PrimarySession"].Session
                 $RemovableCerts = $Certs | Where-Object { $_.removable -eq $true }
                 if ($RemovableCerts.Count -gt 0) {
                     Write-ConsoleText "Removing CertKeys from the configuration for unused certificates, attempt $loop/$Attempts" -PreBlank
@@ -168,7 +90,7 @@ function Invoke-ADCCleanCertKeyFiles {
                             Write-ConsoleText -Line "CertKey"
                             Write-ConsoleText "$($_.certData.certkey)"
                             Write-ConsoleText -Line "Removing"
-                            $Response = Invoke-ADCDeleteSslCertkey -ADCSession $PriSession -certkey $_.certData.certkey -ErrorAction SilentlyContinue | Write-ADCText
+                            $Response = Invoke-ADCDeleteSslCertkey -ADCSession $ADCSession["PrimarySession"].Session -certkey $_.certData.certkey -ErrorAction SilentlyContinue | Write-ADCText
                             Write-Verbose "Response: $Response"
                         }
                         if ($_.keyData.certkey -ne $_.certData.certkey) {
@@ -176,14 +98,14 @@ function Invoke-ADCCleanCertKeyFiles {
                                 Write-ConsoleText -Line "CertKey"
                                 Write-ConsoleText "$($_.keyData.certkey)"
                                 Write-ConsoleText -Line "Removing"
-                                $Response = Invoke-ADCDeleteSslCertkey -ADCSession $PriSession -certkey $_.keyData.certkey -ErrorAction  SilentlyContinue | Write-ADCText
+                                $Response = Invoke-ADCDeleteSslCertkey -ADCSession $ADCSession["PrimarySession"].Session -certkey $_.keyData.certkey -ErrorAction  SilentlyContinue | Write-ADCText
                                 Write-Verbose "Response: $Response"
                             }
                         }
                     }
             
                     Write-Verbose "Retrieving certificates and remove unbound files"
-                    $Certs = Invoke-ADCRetrieveCertificateRemoveInfo -ADCSession $PriSession
+                    $Certs = Invoke-ADCRetrieveCertificateRemoveInfo -ADCSession $ADCSession["PrimarySession"].Session
                 }
                 $loop++
             } While ($loop -lt ($Attempts + 1) )
@@ -204,7 +126,7 @@ function Invoke-ADCCleanCertKeyFiles {
                 Write-ConsoleText "Nothing to remove (anymore), the location `"/nsconfig/ssl/`" is tidy!" -PreBlank
             }
 
-            $Certs = Invoke-ADCRetrieveCertificateRemoveInfo -ADCSession $PriSession
+            $Certs = Invoke-ADCRetrieveCertificateRemoveInfo -ADCSession $ADCSession["PrimarySession"].Session
             if ($($Certs | Where-Object { $_.certData.status -eq "Expired" }).count -gt 0) {
                 Write-ConsoleText -Blank
                 Write-Warning "You still have EXPIRED certificates bound/active in the configuration!"
@@ -226,7 +148,7 @@ function Invoke-ADCCleanCertKeyFiles {
             if (-Not $NoSaveConfig) {
                 Write-ConsoleText -Line "Saving the config"
                 try {
-                    $Response = Invoke-ADCSaveNsconfig -all $true -ADCSession $PriSession -ErrorAction Stop
+                    $Response = Invoke-ADCSaveNsconfig -all $true -ADCSession $ADCSession["PrimarySession"].Session -ErrorAction Stop
                     Write-ConsoleText -ForeGroundColor Green "Done"
                 } catch {
                     Write-ConsoleText -ForeGroundColor Red "Failed"
