@@ -25,7 +25,7 @@ function Invoke-ADCGetUrlfilteringcategories {
         Invoke-ADCGetUrlfilteringcategories -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetUrlfilteringcategories
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/urlfiltering/urlfilteringcategories/
         Requires  : PowerShell v5.1 and up
@@ -58,22 +58,22 @@ function Invoke-ADCGetUrlfilteringcategories {
             if ( $PsCmdlet.ParameterSetName -eq 'Getall' ) {
                 $Query = @{ }
                 Write-Verbose "Retrieving all urlfilteringcategories objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type urlfilteringcategories -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type urlfilteringcategories -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
                 if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for urlfilteringcategories objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type urlfilteringcategories -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type urlfilteringcategories -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving urlfilteringcategories objects by arguments"
                 $Arguments = @{ } 
                 if ($PSBoundParameters.ContainsKey('group')) { $Arguments.Add('group', $group) }
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type urlfilteringcategories -Arguments $Arguments -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type urlfilteringcategories -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving urlfilteringcategories configuration for property ''"
 
             } else {
                 Write-Verbose "Retrieving urlfilteringcategories configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type urlfilteringcategories -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type urlfilteringcategories -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -99,7 +99,7 @@ function Invoke-ADCAddUrlfilteringcategorization {
         Invoke-ADCAddUrlfilteringcategorization 
     .NOTES
         File Name : Invoke-ADCAddUrlfilteringcategorization
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/urlfiltering/urlfilteringcategorization/
         Requires  : PowerShell v5.1 and up
@@ -130,7 +130,7 @@ function Invoke-ADCAddUrlfilteringcategorization {
             if ($PSBoundParameters.ContainsKey('url')) { $Payload.Add('url', $url) }
  
             if ($PSCmdlet.ShouldProcess("urlfilteringcategorization", "Add Urlfiltering configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -Type urlfilteringcategorization -Payload $Payload -GetWarning
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -NitroPath nitro/v1/config -Type urlfilteringcategorization -Payload $Payload -GetWarning
                 #HTTP Status Code on Success: 201 Created
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
             Write-Output $result
@@ -156,7 +156,7 @@ function Invoke-ADCClearUrlfilteringcategorization {
         Invoke-ADCClearUrlfilteringcategorization 
     .NOTES
         File Name : Invoke-ADCClearUrlfilteringcategorization
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/urlfiltering/urlfilteringcategorization/
         Requires  : PowerShell v5.1 and up
@@ -183,7 +183,7 @@ function Invoke-ADCClearUrlfilteringcategorization {
             }
 
             if ($PSCmdlet.ShouldProcess($Name, "Clear Urlfiltering configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -Type urlfilteringcategorization -Action clear -Payload $Payload -GetWarning
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -NitroPath nitro/v1/config -Type urlfilteringcategorization -Action clear -Payload $Payload -GetWarning
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $result
@@ -223,7 +223,7 @@ function Invoke-ADCGetUrlfilteringcategorization {
         Invoke-ADCGetUrlfilteringcategorization -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetUrlfilteringcategorization
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/urlfiltering/urlfilteringcategorization/
         Requires  : PowerShell v5.1 and up
@@ -252,21 +252,21 @@ function Invoke-ADCGetUrlfilteringcategorization {
             if ( $PsCmdlet.ParameterSetName -eq 'Getall' ) {
                 $Query = @{ }
                 Write-Verbose "Retrieving all urlfilteringcategorization objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type urlfilteringcategorization -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type urlfilteringcategorization -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
                 if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for urlfilteringcategorization objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type urlfilteringcategorization -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type urlfilteringcategorization -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving urlfilteringcategorization objects by arguments"
                 $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type urlfilteringcategorization -Arguments $Arguments -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type urlfilteringcategorization -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving urlfilteringcategorization configuration for property ''"
 
             } else {
                 Write-Verbose "Retrieving urlfilteringcategorization configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type urlfilteringcategorization -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type urlfilteringcategorization -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -304,7 +304,7 @@ function Invoke-ADCGetUrlfilteringcategorygroups {
         Invoke-ADCGetUrlfilteringcategorygroups -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetUrlfilteringcategorygroups
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/urlfiltering/urlfilteringcategorygroups/
         Requires  : PowerShell v5.1 and up
@@ -333,21 +333,21 @@ function Invoke-ADCGetUrlfilteringcategorygroups {
             if ( $PsCmdlet.ParameterSetName -eq 'Getall' ) {
                 $Query = @{ }
                 Write-Verbose "Retrieving all urlfilteringcategorygroups objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type urlfilteringcategorygroups -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type urlfilteringcategorygroups -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
                 if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for urlfilteringcategorygroups objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type urlfilteringcategorygroups -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type urlfilteringcategorygroups -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving urlfilteringcategorygroups objects by arguments"
                 $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type urlfilteringcategorygroups -Arguments $Arguments -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type urlfilteringcategorygroups -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving urlfilteringcategorygroups configuration for property ''"
 
             } else {
                 Write-Verbose "Retrieving urlfilteringcategorygroups configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type urlfilteringcategorygroups -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type urlfilteringcategorygroups -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -384,7 +384,7 @@ function Invoke-ADCUpdateUrlfilteringparameter {
         Invoke-ADCUpdateUrlfilteringparameter 
     .NOTES
         File Name : Invoke-ADCUpdateUrlfilteringparameter
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/urlfiltering/urlfilteringparameter/
         Requires  : PowerShell v5.1 and up
@@ -428,7 +428,7 @@ function Invoke-ADCUpdateUrlfilteringparameter {
             if ($PSBoundParameters.ContainsKey('seeddbpath')) { $Payload.Add('seeddbpath', $seeddbpath) }
  
             if ($PSCmdlet.ShouldProcess("urlfilteringparameter", "Update Urlfiltering configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -Type urlfilteringparameter -Payload $Payload -GetWarning
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -NitroPath nitro/v1/config -Type urlfilteringparameter -Payload $Payload -GetWarning
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
             Write-Output $result
@@ -464,7 +464,7 @@ function Invoke-ADCUnsetUrlfilteringparameter {
         Invoke-ADCUnsetUrlfilteringparameter 
     .NOTES
         File Name : Invoke-ADCUnsetUrlfilteringparameter
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/urlfiltering/urlfilteringparameter
         Requires  : PowerShell v5.1 and up
@@ -504,7 +504,7 @@ function Invoke-ADCUnsetUrlfilteringparameter {
             if ($PSBoundParameters.ContainsKey('cloudhost')) { $Payload.Add('cloudhost', $cloudhost) }
             if ($PSBoundParameters.ContainsKey('seeddbpath')) { $Payload.Add('seeddbpath', $seeddbpath) }
             if ($PSCmdlet.ShouldProcess("urlfilteringparameter", "Unset Urlfiltering configuration Object")) {
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -Type urlfilteringparameter -Action unset -Payload $Payload -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -Type urlfilteringparameter -NitroPath nitro/v1/config -Action unset -Payload $Payload -GetWarning
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $response
@@ -544,7 +544,7 @@ function Invoke-ADCGetUrlfilteringparameter {
         Invoke-ADCGetUrlfilteringparameter -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetUrlfilteringparameter
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/urlfiltering/urlfilteringparameter/
         Requires  : PowerShell v5.1 and up
@@ -573,21 +573,21 @@ function Invoke-ADCGetUrlfilteringparameter {
             if ( $PsCmdlet.ParameterSetName -eq 'Getall' ) {
                 $Query = @{ }
                 Write-Verbose "Retrieving all urlfilteringparameter objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type urlfilteringparameter -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type urlfilteringparameter -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
                 if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for urlfilteringparameter objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type urlfilteringparameter -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type urlfilteringparameter -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving urlfilteringparameter objects by arguments"
                 $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type urlfilteringparameter -Arguments $Arguments -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type urlfilteringparameter -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving urlfilteringparameter configuration for property ''"
 
             } else {
                 Write-Verbose "Retrieving urlfilteringparameter configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type urlfilteringparameter -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type urlfilteringparameter -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"

@@ -27,7 +27,7 @@ function Invoke-ADCGetPqbinding {
         Invoke-ADCGetPqbinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetPqbinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/pq/pqbinding/
         Requires  : PowerShell v5.1 and up
@@ -64,22 +64,22 @@ function Invoke-ADCGetPqbinding {
             if ( $PsCmdlet.ParameterSetName -eq 'Getall' ) {
                 $Query = @{ }
                 Write-Verbose "Retrieving all pqbinding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type pqbinding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type pqbinding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
                 if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for pqbinding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type pqbinding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type pqbinding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving pqbinding objects by arguments"
                 $Arguments = @{ } 
                 if ($PSBoundParameters.ContainsKey('vservername')) { $Arguments.Add('vservername', $vservername) }
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type pqbinding -Arguments $Arguments -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type pqbinding -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving pqbinding configuration for property ''"
 
             } else {
                 Write-Verbose "Retrieving pqbinding configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type pqbinding -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type pqbinding -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -139,7 +139,7 @@ function Invoke-ADCAddPqpolicy {
         Invoke-ADCAddPqpolicy -policyname <string> -rule <string> -priority <double>
     .NOTES
         File Name : Invoke-ADCAddPqpolicy
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/pq/pqpolicy/
         Requires  : PowerShell v5.1 and up
@@ -193,7 +193,7 @@ function Invoke-ADCAddPqpolicy {
             if ($PSBoundParameters.ContainsKey('polqdepth')) { $Payload.Add('polqdepth', $polqdepth) }
  
             if ($PSCmdlet.ShouldProcess("pqpolicy", "Add Priority Queuing configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -Type pqpolicy -Payload $Payload -GetWarning
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -NitroPath nitro/v1/config -Type pqpolicy -Payload $Payload -GetWarning
                 #HTTP Status Code on Success: 201 Created
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 if ($PSBoundParameters.ContainsKey('PassThru')) {
@@ -226,7 +226,7 @@ function Invoke-ADCDeletePqpolicy {
         Invoke-ADCDeletePqpolicy -policyname <string>
     .NOTES
         File Name : Invoke-ADCDeletePqpolicy
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/pq/pqpolicy/
         Requires  : PowerShell v5.1 and up
@@ -254,7 +254,7 @@ function Invoke-ADCDeletePqpolicy {
             }
 
             if ($PSCmdlet.ShouldProcess("$policyname", "Delete Priority Queuing configuration Object")) {
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type pqpolicy -Resource $policyname -Arguments $Arguments
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type pqpolicy -NitroPath nitro/v1/config -Resource $policyname -Arguments $Arguments
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $response
@@ -305,7 +305,7 @@ function Invoke-ADCUpdatePqpolicy {
         Invoke-ADCUpdatePqpolicy -policyname <string>
     .NOTES
         File Name : Invoke-ADCUpdatePqpolicy
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/pq/pqpolicy/
         Requires  : PowerShell v5.1 and up
@@ -350,7 +350,7 @@ function Invoke-ADCUpdatePqpolicy {
             if ($PSBoundParameters.ContainsKey('polqdepth')) { $Payload.Add('polqdepth', $polqdepth) }
  
             if ($PSCmdlet.ShouldProcess("pqpolicy", "Update Priority Queuing configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -Type pqpolicy -Payload $Payload -GetWarning
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -NitroPath nitro/v1/config -Type pqpolicy -Payload $Payload -GetWarning
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 if ($PSBoundParameters.ContainsKey('PassThru')) {
@@ -395,7 +395,7 @@ function Invoke-ADCUnsetPqpolicy {
         Invoke-ADCUnsetPqpolicy -policyname <string>
     .NOTES
         File Name : Invoke-ADCUnsetPqpolicy
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/pq/pqpolicy
         Requires  : PowerShell v5.1 and up
@@ -433,7 +433,7 @@ function Invoke-ADCUnsetPqpolicy {
             if ($PSBoundParameters.ContainsKey('qdepth')) { $Payload.Add('qdepth', $qdepth) }
             if ($PSBoundParameters.ContainsKey('polqdepth')) { $Payload.Add('polqdepth', $polqdepth) }
             if ($PSCmdlet.ShouldProcess("$policyname", "Unset Priority Queuing configuration Object")) {
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -Type pqpolicy -Action unset -Payload $Payload -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -Type pqpolicy -NitroPath nitro/v1/config -Action unset -Payload $Payload -GetWarning
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $response
@@ -477,7 +477,7 @@ function Invoke-ADCGetPqpolicy {
         Invoke-ADCGetPqpolicy -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetPqpolicy
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/pq/pqpolicy/
         Requires  : PowerShell v5.1 and up
@@ -518,21 +518,21 @@ function Invoke-ADCGetPqpolicy {
             if ( $PsCmdlet.ParameterSetName -eq 'Getall' ) {
                 $Query = @{ }
                 Write-Verbose "Retrieving all pqpolicy objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type pqpolicy -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type pqpolicy -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
                 if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for pqpolicy objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type pqpolicy -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type pqpolicy -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving pqpolicy objects by arguments"
                 $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type pqpolicy -Arguments $Arguments -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type pqpolicy -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving pqpolicy configuration for property 'policyname'"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type pqpolicy -Resource $policyname -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type pqpolicy -NitroPath nitro/v1/config -Resource $policyname -Summary:$ViewSummary -Filter $Filter -GetWarning
             } else {
                 Write-Verbose "Retrieving pqpolicy configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type pqpolicy -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type pqpolicy -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"

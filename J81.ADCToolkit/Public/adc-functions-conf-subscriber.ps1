@@ -76,7 +76,7 @@ function Invoke-ADCUpdateSubscribergxinterface {
         Invoke-ADCUpdateSubscribergxinterface 
     .NOTES
         File Name : Invoke-ADCUpdateSubscribergxinterface
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/subscriber/subscribergxinterface/
         Requires  : PowerShell v5.1 and up
@@ -164,7 +164,7 @@ function Invoke-ADCUpdateSubscribergxinterface {
             if ($PSBoundParameters.ContainsKey('servicepathvendorid')) { $Payload.Add('servicepathvendorid', $servicepathvendorid) }
  
             if ($PSCmdlet.ShouldProcess("subscribergxinterface", "Update Subscriber configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -Type subscribergxinterface -Payload $Payload -GetWarning
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -NitroPath nitro/v1/config -Type subscribergxinterface -Payload $Payload -GetWarning
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
             Write-Output $result
@@ -229,7 +229,7 @@ function Invoke-ADCUnsetSubscribergxinterface {
         Invoke-ADCUnsetSubscribergxinterface 
     .NOTES
         File Name : Invoke-ADCUnsetSubscribergxinterface
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/subscriber/subscribergxinterface
         Requires  : PowerShell v5.1 and up
@@ -299,7 +299,7 @@ function Invoke-ADCUnsetSubscribergxinterface {
             if ($PSBoundParameters.ContainsKey('servicepathavp')) { $Payload.Add('servicepathavp', $servicepathavp) }
             if ($PSBoundParameters.ContainsKey('servicepathvendorid')) { $Payload.Add('servicepathvendorid', $servicepathvendorid) }
             if ($PSCmdlet.ShouldProcess("subscribergxinterface", "Unset Subscriber configuration Object")) {
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -Type subscribergxinterface -Action unset -Payload $Payload -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -Type subscribergxinterface -NitroPath nitro/v1/config -Action unset -Payload $Payload -GetWarning
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $response
@@ -341,7 +341,7 @@ function Invoke-ADCGetSubscribergxinterface {
         Invoke-ADCGetSubscribergxinterface -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetSubscribergxinterface
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/subscriber/subscribergxinterface/
         Requires  : PowerShell v5.1 and up
@@ -374,22 +374,22 @@ function Invoke-ADCGetSubscribergxinterface {
             if ( $PsCmdlet.ParameterSetName -eq 'Getall' ) {
                 $Query = @{ }
                 Write-Verbose "Retrieving all subscribergxinterface objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type subscribergxinterface -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type subscribergxinterface -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
                 if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for subscribergxinterface objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type subscribergxinterface -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type subscribergxinterface -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving subscribergxinterface objects by arguments"
                 $Arguments = @{ } 
                 if ($PSBoundParameters.ContainsKey('nodeid')) { $Arguments.Add('nodeid', $nodeid) }
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type subscribergxinterface -Arguments $Arguments -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type subscribergxinterface -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving subscribergxinterface configuration for property ''"
 
             } else {
                 Write-Verbose "Retrieving subscribergxinterface configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type subscribergxinterface -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type subscribergxinterface -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -443,7 +443,7 @@ function Invoke-ADCUpdateSubscriberparam {
         Invoke-ADCUpdateSubscriberparam 
     .NOTES
         File Name : Invoke-ADCUpdateSubscriberparam
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/subscriber/subscriberparam/
         Requires  : PowerShell v5.1 and up
@@ -490,7 +490,7 @@ function Invoke-ADCUpdateSubscriberparam {
             if ($PSBoundParameters.ContainsKey('ipv6prefixlookuplist')) { $Payload.Add('ipv6prefixlookuplist', $ipv6prefixlookuplist) }
  
             if ($PSCmdlet.ShouldProcess("subscriberparam", "Update Subscriber configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -Type subscriberparam -Payload $Payload -GetWarning
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -NitroPath nitro/v1/config -Type subscriberparam -Payload $Payload -GetWarning
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
             Write-Output $result
@@ -537,7 +537,7 @@ function Invoke-ADCUnsetSubscriberparam {
         Invoke-ADCUnsetSubscriberparam 
     .NOTES
         File Name : Invoke-ADCUnsetSubscriberparam
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/subscriber/subscriberparam
         Requires  : PowerShell v5.1 and up
@@ -574,7 +574,7 @@ function Invoke-ADCUnsetSubscriberparam {
             if ($PSBoundParameters.ContainsKey('idlettl')) { $Payload.Add('idlettl', $idlettl) }
             if ($PSBoundParameters.ContainsKey('idleaction')) { $Payload.Add('idleaction', $idleaction) }
             if ($PSCmdlet.ShouldProcess("subscriberparam", "Unset Subscriber configuration Object")) {
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -Type subscriberparam -Action unset -Payload $Payload -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -Type subscriberparam -NitroPath nitro/v1/config -Action unset -Payload $Payload -GetWarning
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $response
@@ -614,7 +614,7 @@ function Invoke-ADCGetSubscriberparam {
         Invoke-ADCGetSubscriberparam -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetSubscriberparam
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/subscriber/subscriberparam/
         Requires  : PowerShell v5.1 and up
@@ -643,21 +643,21 @@ function Invoke-ADCGetSubscriberparam {
             if ( $PsCmdlet.ParameterSetName -eq 'Getall' ) {
                 $Query = @{ }
                 Write-Verbose "Retrieving all subscriberparam objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type subscriberparam -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type subscriberparam -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
                 if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for subscriberparam objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type subscriberparam -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type subscriberparam -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving subscriberparam objects by arguments"
                 $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type subscriberparam -Arguments $Arguments -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type subscriberparam -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving subscriberparam configuration for property ''"
 
             } else {
                 Write-Verbose "Retrieving subscriberparam configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type subscriberparam -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type subscriberparam -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -696,7 +696,7 @@ function Invoke-ADCAddSubscriberprofile {
         Invoke-ADCAddSubscriberprofile -ip <string>
     .NOTES
         File Name : Invoke-ADCAddSubscriberprofile
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/subscriber/subscriberprofile/
         Requires  : PowerShell v5.1 and up
@@ -743,7 +743,7 @@ function Invoke-ADCAddSubscriberprofile {
             if ($PSBoundParameters.ContainsKey('servicepath')) { $Payload.Add('servicepath', $servicepath) }
  
             if ($PSCmdlet.ShouldProcess("subscriberprofile", "Add Subscriber configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -Type subscriberprofile -Payload $Payload -GetWarning
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -NitroPath nitro/v1/config -Type subscriberprofile -Payload $Payload -GetWarning
                 #HTTP Status Code on Success: 201 Created
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
             Write-Output $result
@@ -785,7 +785,7 @@ function Invoke-ADCUpdateSubscriberprofile {
         Invoke-ADCUpdateSubscriberprofile -ip <string>
     .NOTES
         File Name : Invoke-ADCUpdateSubscriberprofile
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/subscriber/subscriberprofile/
         Requires  : PowerShell v5.1 and up
@@ -832,7 +832,7 @@ function Invoke-ADCUpdateSubscriberprofile {
             if ($PSBoundParameters.ContainsKey('servicepath')) { $Payload.Add('servicepath', $servicepath) }
  
             if ($PSCmdlet.ShouldProcess("subscriberprofile", "Update Subscriber configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -Type subscriberprofile -Payload $Payload -GetWarning
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -NitroPath nitro/v1/config -Type subscriberprofile -Payload $Payload -GetWarning
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
             Write-Output $result
@@ -862,7 +862,7 @@ function Invoke-ADCUnsetSubscriberprofile {
         Invoke-ADCUnsetSubscriberprofile -ip <string>
     .NOTES
         File Name : Invoke-ADCUnsetSubscriberprofile
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/subscriber/subscriberprofile
         Requires  : PowerShell v5.1 and up
@@ -893,7 +893,7 @@ function Invoke-ADCUnsetSubscriberprofile {
             }
             if ($PSBoundParameters.ContainsKey('servicepath')) { $Payload.Add('servicepath', $servicepath) }
             if ($PSCmdlet.ShouldProcess("$ip", "Unset Subscriber configuration Object")) {
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -Type subscriberprofile -Action unset -Payload $Payload -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -Type subscriberprofile -NitroPath nitro/v1/config -Action unset -Payload $Payload -GetWarning
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $response
@@ -924,7 +924,7 @@ function Invoke-ADCDeleteSubscriberprofile {
         Invoke-ADCDeleteSubscriberprofile -ip <string>
     .NOTES
         File Name : Invoke-ADCDeleteSubscriberprofile
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/subscriber/subscriberprofile/
         Requires  : PowerShell v5.1 and up
@@ -954,7 +954,7 @@ function Invoke-ADCDeleteSubscriberprofile {
             }
             if ($PSBoundParameters.ContainsKey('vlan')) { $Arguments.Add('vlan', $vlan) }
             if ($PSCmdlet.ShouldProcess("$ip", "Delete Subscriber configuration Object")) {
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type subscriberprofile -Resource $ip -Arguments $Arguments
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type subscriberprofile -NitroPath nitro/v1/config -Resource $ip -Arguments $Arguments
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $response
@@ -996,7 +996,7 @@ function Invoke-ADCGetSubscriberprofile {
         Invoke-ADCGetSubscriberprofile -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetSubscriberprofile
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/subscriber/subscriberprofile/
         Requires  : PowerShell v5.1 and up
@@ -1032,21 +1032,21 @@ function Invoke-ADCGetSubscriberprofile {
             if ( $PsCmdlet.ParameterSetName -eq 'Getall' ) {
                 $Query = @{ }
                 Write-Verbose "Retrieving all subscriberprofile objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type subscriberprofile -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type subscriberprofile -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
                 if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for subscriberprofile objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type subscriberprofile -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type subscriberprofile -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving subscriberprofile objects by arguments"
                 $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type subscriberprofile -Arguments $Arguments -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type subscriberprofile -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving subscriberprofile configuration for property ''"
 
             } else {
                 Write-Verbose "Retrieving subscriberprofile configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type subscriberprofile -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type subscriberprofile -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -1076,7 +1076,7 @@ function Invoke-ADCUpdateSubscriberradiusinterface {
         Invoke-ADCUpdateSubscriberradiusinterface 
     .NOTES
         File Name : Invoke-ADCUpdateSubscriberradiusinterface
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/subscriber/subscriberradiusinterface/
         Requires  : PowerShell v5.1 and up
@@ -1111,7 +1111,7 @@ function Invoke-ADCUpdateSubscriberradiusinterface {
             if ($PSBoundParameters.ContainsKey('radiusinterimasstart')) { $Payload.Add('radiusinterimasstart', $radiusinterimasstart) }
  
             if ($PSCmdlet.ShouldProcess("subscriberradiusinterface", "Update Subscriber configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -Type subscriberradiusinterface -Payload $Payload -GetWarning
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -NitroPath nitro/v1/config -Type subscriberradiusinterface -Payload $Payload -GetWarning
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
             Write-Output $result
@@ -1140,7 +1140,7 @@ function Invoke-ADCUnsetSubscriberradiusinterface {
         Invoke-ADCUnsetSubscriberradiusinterface 
     .NOTES
         File Name : Invoke-ADCUnsetSubscriberradiusinterface
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/subscriber/subscriberradiusinterface
         Requires  : PowerShell v5.1 and up
@@ -1168,7 +1168,7 @@ function Invoke-ADCUnsetSubscriberradiusinterface {
             }
             if ($PSBoundParameters.ContainsKey('radiusinterimasstart')) { $Payload.Add('radiusinterimasstart', $radiusinterimasstart) }
             if ($PSCmdlet.ShouldProcess("subscriberradiusinterface", "Unset Subscriber configuration Object")) {
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -Type subscriberradiusinterface -Action unset -Payload $Payload -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -Type subscriberradiusinterface -NitroPath nitro/v1/config -Action unset -Payload $Payload -GetWarning
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $response
@@ -1208,7 +1208,7 @@ function Invoke-ADCGetSubscriberradiusinterface {
         Invoke-ADCGetSubscriberradiusinterface -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetSubscriberradiusinterface
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/subscriber/subscriberradiusinterface/
         Requires  : PowerShell v5.1 and up
@@ -1237,21 +1237,21 @@ function Invoke-ADCGetSubscriberradiusinterface {
             if ( $PsCmdlet.ParameterSetName -eq 'Getall' ) {
                 $Query = @{ }
                 Write-Verbose "Retrieving all subscriberradiusinterface objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type subscriberradiusinterface -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type subscriberradiusinterface -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
                 if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for subscriberradiusinterface objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type subscriberradiusinterface -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type subscriberradiusinterface -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving subscriberradiusinterface objects by arguments"
                 $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type subscriberradiusinterface -Arguments $Arguments -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type subscriberradiusinterface -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving subscriberradiusinterface configuration for property ''"
 
             } else {
                 Write-Verbose "Retrieving subscriberradiusinterface configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type subscriberradiusinterface -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type subscriberradiusinterface -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -1278,7 +1278,7 @@ function Invoke-ADCClearSubscribersessions {
         Invoke-ADCClearSubscribersessions 
     .NOTES
         File Name : Invoke-ADCClearSubscribersessions
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/subscriber/subscribersessions/
         Requires  : PowerShell v5.1 and up
@@ -1311,7 +1311,7 @@ function Invoke-ADCClearSubscribersessions {
             if ($PSBoundParameters.ContainsKey('ip')) { $Payload.Add('ip', $ip) }
             if ($PSBoundParameters.ContainsKey('vlan')) { $Payload.Add('vlan', $vlan) }
             if ($PSCmdlet.ShouldProcess($Name, "Clear Subscriber configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -Type subscribersessions -Action clear -Payload $Payload -GetWarning
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -NitroPath nitro/v1/config -Type subscribersessions -Action clear -Payload $Payload -GetWarning
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $result
@@ -1359,7 +1359,7 @@ function Invoke-ADCGetSubscribersessions {
         Invoke-ADCGetSubscribersessions -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetSubscribersessions
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/subscriber/subscribersessions/
         Requires  : PowerShell v5.1 and up
@@ -1406,24 +1406,24 @@ function Invoke-ADCGetSubscribersessions {
             if ( $PsCmdlet.ParameterSetName -eq 'Getall' ) {
                 $Query = @{ }
                 Write-Verbose "Retrieving all subscribersessions objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type subscribersessions -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type subscribersessions -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
                 if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for subscribersessions objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type subscribersessions -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type subscribersessions -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving subscribersessions objects by arguments"
                 $Arguments = @{ } 
                 if ($PSBoundParameters.ContainsKey('ip')) { $Arguments.Add('ip', $ip) } 
                 if ($PSBoundParameters.ContainsKey('vlan')) { $Arguments.Add('vlan', $vlan) } 
                 if ($PSBoundParameters.ContainsKey('nodeid')) { $Arguments.Add('nodeid', $nodeid) }
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type subscribersessions -Arguments $Arguments -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type subscribersessions -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving subscribersessions configuration for property ''"
 
             } else {
                 Write-Verbose "Retrieving subscribersessions configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type subscribersessions -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type subscribersessions -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"

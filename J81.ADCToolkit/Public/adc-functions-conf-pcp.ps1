@@ -28,7 +28,7 @@ function Invoke-ADCGetPcpmap {
         Invoke-ADCGetPcpmap -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetPcpmap
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/pcp/pcpmap/
         Requires  : PowerShell v5.1 and up
@@ -68,22 +68,22 @@ function Invoke-ADCGetPcpmap {
             if ( $PsCmdlet.ParameterSetName -eq 'Getall' ) {
                 $Query = @{ }
                 Write-Verbose "Retrieving all pcpmap objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type pcpmap -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type pcpmap -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
                 if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for pcpmap objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type pcpmap -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type pcpmap -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving pcpmap objects by arguments"
                 $Arguments = @{ } 
                 if ($PSBoundParameters.ContainsKey('nattype')) { $Arguments.Add('nattype', $nattype) }
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type pcpmap -Arguments $Arguments -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type pcpmap -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving pcpmap configuration for property ''"
 
             } else {
                 Write-Verbose "Retrieving pcpmap configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type pcpmap -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type pcpmap -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -135,7 +135,7 @@ function Invoke-ADCAddPcpprofile {
         Invoke-ADCAddPcpprofile -name <string>
     .NOTES
         File Name : Invoke-ADCAddPcpprofile
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/pcp/pcpprofile/
         Requires  : PowerShell v5.1 and up
@@ -191,7 +191,7 @@ function Invoke-ADCAddPcpprofile {
             if ($PSBoundParameters.ContainsKey('thirdparty')) { $Payload.Add('thirdparty', $thirdparty) }
  
             if ($PSCmdlet.ShouldProcess("pcpprofile", "Add Pcp configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -Type pcpprofile -Payload $Payload -GetWarning
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -NitroPath nitro/v1/config -Type pcpprofile -Payload $Payload -GetWarning
                 #HTTP Status Code on Success: 201 Created
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 if ($PSBoundParameters.ContainsKey('PassThru')) {
@@ -223,7 +223,7 @@ function Invoke-ADCDeletePcpprofile {
         Invoke-ADCDeletePcpprofile -name <string>
     .NOTES
         File Name : Invoke-ADCDeletePcpprofile
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/pcp/pcpprofile/
         Requires  : PowerShell v5.1 and up
@@ -251,7 +251,7 @@ function Invoke-ADCDeletePcpprofile {
             }
 
             if ($PSCmdlet.ShouldProcess("$name", "Delete Pcp configuration Object")) {
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type pcpprofile -Resource $name -Arguments $Arguments
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type pcpprofile -NitroPath nitro/v1/config -Resource $name -Arguments $Arguments
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $response
@@ -305,7 +305,7 @@ function Invoke-ADCUpdatePcpprofile {
         Invoke-ADCUpdatePcpprofile -name <string>
     .NOTES
         File Name : Invoke-ADCUpdatePcpprofile
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/pcp/pcpprofile/
         Requires  : PowerShell v5.1 and up
@@ -361,7 +361,7 @@ function Invoke-ADCUpdatePcpprofile {
             if ($PSBoundParameters.ContainsKey('thirdparty')) { $Payload.Add('thirdparty', $thirdparty) }
  
             if ($PSCmdlet.ShouldProcess("pcpprofile", "Update Pcp configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -Type pcpprofile -Payload $Payload -GetWarning
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -NitroPath nitro/v1/config -Type pcpprofile -Payload $Payload -GetWarning
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 if ($PSBoundParameters.ContainsKey('PassThru')) {
@@ -408,7 +408,7 @@ function Invoke-ADCUnsetPcpprofile {
         Invoke-ADCUnsetPcpprofile -name <string>
     .NOTES
         File Name : Invoke-ADCUnsetPcpprofile
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/pcp/pcpprofile
         Requires  : PowerShell v5.1 and up
@@ -454,7 +454,7 @@ function Invoke-ADCUnsetPcpprofile {
             if ($PSBoundParameters.ContainsKey('announcemulticount')) { $Payload.Add('announcemulticount', $announcemulticount) }
             if ($PSBoundParameters.ContainsKey('thirdparty')) { $Payload.Add('thirdparty', $thirdparty) }
             if ($PSCmdlet.ShouldProcess("$name", "Unset Pcp configuration Object")) {
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -Type pcpprofile -Action unset -Payload $Payload -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -Type pcpprofile -NitroPath nitro/v1/config -Action unset -Payload $Payload -GetWarning
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $response
@@ -498,7 +498,7 @@ function Invoke-ADCGetPcpprofile {
         Invoke-ADCGetPcpprofile -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetPcpprofile
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/pcp/pcpprofile/
         Requires  : PowerShell v5.1 and up
@@ -538,21 +538,21 @@ function Invoke-ADCGetPcpprofile {
             if ( $PsCmdlet.ParameterSetName -eq 'Getall' ) {
                 $Query = @{ }
                 Write-Verbose "Retrieving all pcpprofile objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type pcpprofile -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type pcpprofile -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
                 if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for pcpprofile objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type pcpprofile -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type pcpprofile -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving pcpprofile objects by arguments"
                 $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type pcpprofile -Arguments $Arguments -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type pcpprofile -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving pcpprofile configuration for property 'name'"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type pcpprofile -Resource $name -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type pcpprofile -NitroPath nitro/v1/config -Resource $name -Summary:$ViewSummary -Filter $Filter -GetWarning
             } else {
                 Write-Verbose "Retrieving pcpprofile configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type pcpprofile -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type pcpprofile -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -588,7 +588,7 @@ function Invoke-ADCAddPcpserver {
         Invoke-ADCAddPcpserver -name <string> -ipaddress <string>
     .NOTES
         File Name : Invoke-ADCAddPcpserver
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/pcp/pcpserver/
         Requires  : PowerShell v5.1 and up
@@ -631,7 +631,7 @@ function Invoke-ADCAddPcpserver {
             if ($PSBoundParameters.ContainsKey('pcpprofile')) { $Payload.Add('pcpprofile', $pcpprofile) }
  
             if ($PSCmdlet.ShouldProcess("pcpserver", "Add Pcp configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -Type pcpserver -Payload $Payload -GetWarning
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -NitroPath nitro/v1/config -Type pcpserver -Payload $Payload -GetWarning
                 #HTTP Status Code on Success: 201 Created
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 if ($PSBoundParameters.ContainsKey('PassThru')) {
@@ -663,7 +663,7 @@ function Invoke-ADCDeletePcpserver {
         Invoke-ADCDeletePcpserver -name <string>
     .NOTES
         File Name : Invoke-ADCDeletePcpserver
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/pcp/pcpserver/
         Requires  : PowerShell v5.1 and up
@@ -691,7 +691,7 @@ function Invoke-ADCDeletePcpserver {
             }
 
             if ($PSCmdlet.ShouldProcess("$name", "Delete Pcp configuration Object")) {
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type pcpserver -Resource $name -Arguments $Arguments
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type pcpserver -NitroPath nitro/v1/config -Resource $name -Arguments $Arguments
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $response
@@ -727,7 +727,7 @@ function Invoke-ADCUpdatePcpserver {
         Invoke-ADCUpdatePcpserver -name <string>
     .NOTES
         File Name : Invoke-ADCUpdatePcpserver
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/pcp/pcpserver/
         Requires  : PowerShell v5.1 and up
@@ -766,7 +766,7 @@ function Invoke-ADCUpdatePcpserver {
             if ($PSBoundParameters.ContainsKey('pcpprofile')) { $Payload.Add('pcpprofile', $pcpprofile) }
  
             if ($PSCmdlet.ShouldProcess("pcpserver", "Update Pcp configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -Type pcpserver -Payload $Payload -GetWarning
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -NitroPath nitro/v1/config -Type pcpserver -Payload $Payload -GetWarning
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 if ($PSBoundParameters.ContainsKey('PassThru')) {
@@ -803,7 +803,7 @@ function Invoke-ADCUnsetPcpserver {
         Invoke-ADCUnsetPcpserver -name <string>
     .NOTES
         File Name : Invoke-ADCUnsetPcpserver
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/pcp/pcpserver
         Requires  : PowerShell v5.1 and up
@@ -837,7 +837,7 @@ function Invoke-ADCUnsetPcpserver {
             if ($PSBoundParameters.ContainsKey('port')) { $Payload.Add('port', $port) }
             if ($PSBoundParameters.ContainsKey('pcpprofile')) { $Payload.Add('pcpprofile', $pcpprofile) }
             if ($PSCmdlet.ShouldProcess("$name", "Unset Pcp configuration Object")) {
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -Type pcpserver -Action unset -Payload $Payload -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -Type pcpserver -NitroPath nitro/v1/config -Action unset -Payload $Payload -GetWarning
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $response
@@ -881,7 +881,7 @@ function Invoke-ADCGetPcpserver {
         Invoke-ADCGetPcpserver -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetPcpserver
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/pcp/pcpserver/
         Requires  : PowerShell v5.1 and up
@@ -921,21 +921,21 @@ function Invoke-ADCGetPcpserver {
             if ( $PsCmdlet.ParameterSetName -eq 'Getall' ) {
                 $Query = @{ }
                 Write-Verbose "Retrieving all pcpserver objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type pcpserver -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type pcpserver -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
                 if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for pcpserver objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type pcpserver -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type pcpserver -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving pcpserver objects by arguments"
                 $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type pcpserver -Arguments $Arguments -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type pcpserver -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving pcpserver configuration for property 'name'"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type pcpserver -Resource $name -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type pcpserver -NitroPath nitro/v1/config -Resource $name -Summary:$ViewSummary -Filter $Filter -GetWarning
             } else {
                 Write-Verbose "Retrieving pcpserver configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type pcpserver -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type pcpserver -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"

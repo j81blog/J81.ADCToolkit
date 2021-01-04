@@ -36,7 +36,7 @@ function Invoke-ADCAddTmformssoaction {
         Invoke-ADCAddTmformssoaction -name <string> -actionurl <string> -userfield <string> -passwdfield <string> -ssosuccessrule <string>
     .NOTES
         File Name : Invoke-ADCAddTmformssoaction
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/tm/tmformssoaction/
         Requires  : PowerShell v5.1 and up
@@ -103,7 +103,7 @@ function Invoke-ADCAddTmformssoaction {
             if ($PSBoundParameters.ContainsKey('submitmethod')) { $Payload.Add('submitmethod', $submitmethod) }
  
             if ($PSCmdlet.ShouldProcess("tmformssoaction", "Add Traffic Management configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -Type tmformssoaction -Payload $Payload -GetWarning
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -NitroPath nitro/v1/config -Type tmformssoaction -Payload $Payload -GetWarning
                 #HTTP Status Code on Success: 201 Created
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 if ($PSBoundParameters.ContainsKey('PassThru')) {
@@ -135,7 +135,7 @@ function Invoke-ADCDeleteTmformssoaction {
         Invoke-ADCDeleteTmformssoaction -name <string>
     .NOTES
         File Name : Invoke-ADCDeleteTmformssoaction
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/tm/tmformssoaction/
         Requires  : PowerShell v5.1 and up
@@ -163,7 +163,7 @@ function Invoke-ADCDeleteTmformssoaction {
             }
 
             if ($PSCmdlet.ShouldProcess("$name", "Delete Traffic Management configuration Object")) {
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type tmformssoaction -Resource $name -Arguments $Arguments
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type tmformssoaction -NitroPath nitro/v1/config -Resource $name -Arguments $Arguments
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $response
@@ -216,7 +216,7 @@ function Invoke-ADCUpdateTmformssoaction {
         Invoke-ADCUpdateTmformssoaction -name <string>
     .NOTES
         File Name : Invoke-ADCUpdateTmformssoaction
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/tm/tmformssoaction/
         Requires  : PowerShell v5.1 and up
@@ -279,7 +279,7 @@ function Invoke-ADCUpdateTmformssoaction {
             if ($PSBoundParameters.ContainsKey('submitmethod')) { $Payload.Add('submitmethod', $submitmethod) }
  
             if ($PSCmdlet.ShouldProcess("tmformssoaction", "Update Traffic Management configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -Type tmformssoaction -Payload $Payload -GetWarning
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -NitroPath nitro/v1/config -Type tmformssoaction -Payload $Payload -GetWarning
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 if ($PSBoundParameters.ContainsKey('PassThru')) {
@@ -321,7 +321,7 @@ function Invoke-ADCUnsetTmformssoaction {
         Invoke-ADCUnsetTmformssoaction -name <string>
     .NOTES
         File Name : Invoke-ADCUnsetTmformssoaction
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/tm/tmformssoaction
         Requires  : PowerShell v5.1 and up
@@ -363,7 +363,7 @@ function Invoke-ADCUnsetTmformssoaction {
             if ($PSBoundParameters.ContainsKey('nvtype')) { $Payload.Add('nvtype', $nvtype) }
             if ($PSBoundParameters.ContainsKey('submitmethod')) { $Payload.Add('submitmethod', $submitmethod) }
             if ($PSCmdlet.ShouldProcess("$name", "Unset Traffic Management configuration Object")) {
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -Type tmformssoaction -Action unset -Payload $Payload -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -Type tmformssoaction -NitroPath nitro/v1/config -Action unset -Payload $Payload -GetWarning
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $response
@@ -407,7 +407,7 @@ function Invoke-ADCGetTmformssoaction {
         Invoke-ADCGetTmformssoaction -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetTmformssoaction
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/tm/tmformssoaction/
         Requires  : PowerShell v5.1 and up
@@ -449,21 +449,21 @@ function Invoke-ADCGetTmformssoaction {
             if ( $PsCmdlet.ParameterSetName -eq 'Getall' ) {
                 $Query = @{ }
                 Write-Verbose "Retrieving all tmformssoaction objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type tmformssoaction -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type tmformssoaction -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
                 if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for tmformssoaction objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type tmformssoaction -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type tmformssoaction -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving tmformssoaction objects by arguments"
                 $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type tmformssoaction -Arguments $Arguments -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type tmformssoaction -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving tmformssoaction configuration for property 'name'"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type tmformssoaction -Resource $name -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type tmformssoaction -NitroPath nitro/v1/config -Resource $name -Summary:$ViewSummary -Filter $Filter -GetWarning
             } else {
                 Write-Verbose "Retrieving tmformssoaction configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type tmformssoaction -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type tmformssoaction -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -494,7 +494,7 @@ function Invoke-ADCAddTmglobalauditnslogpolicybinding {
         Invoke-ADCAddTmglobalauditnslogpolicybinding 
     .NOTES
         File Name : Invoke-ADCAddTmglobalauditnslogpolicybinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/tm/tmglobal_auditnslogpolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -532,7 +532,7 @@ function Invoke-ADCAddTmglobalauditnslogpolicybinding {
             if ($PSBoundParameters.ContainsKey('gotopriorityexpression')) { $Payload.Add('gotopriorityexpression', $gotopriorityexpression) }
  
             if ($PSCmdlet.ShouldProcess("tmglobal_auditnslogpolicy_binding", "Add Traffic Management configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -Type tmglobal_auditnslogpolicy_binding -Payload $Payload -GetWarning
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -NitroPath nitro/v1/config -Type tmglobal_auditnslogpolicy_binding -Payload $Payload -GetWarning
                 #HTTP Status Code on Success: 201 Created
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 if ($PSBoundParameters.ContainsKey('PassThru')) {
@@ -564,7 +564,7 @@ function Invoke-ADCDeleteTmglobalauditnslogpolicybinding {
         Invoke-ADCDeleteTmglobalauditnslogpolicybinding 
     .NOTES
         File Name : Invoke-ADCDeleteTmglobalauditnslogpolicybinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/tm/tmglobal_auditnslogpolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -591,7 +591,7 @@ function Invoke-ADCDeleteTmglobalauditnslogpolicybinding {
             }
             if ($PSBoundParameters.ContainsKey('policyname')) { $Arguments.Add('policyname', $policyname) }
             if ($PSCmdlet.ShouldProcess("tmglobal_auditnslogpolicy_binding", "Delete Traffic Management configuration Object")) {
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type tmglobal_auditnslogpolicy_binding -Resource $ -Arguments $Arguments
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type tmglobal_auditnslogpolicy_binding -NitroPath nitro/v1/config -Resource $ -Arguments $Arguments
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $response
@@ -633,7 +633,7 @@ function Invoke-ADCGetTmglobalauditnslogpolicybinding {
         Invoke-ADCGetTmglobalauditnslogpolicybinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetTmglobalauditnslogpolicybinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/tm/tmglobal_auditnslogpolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -667,21 +667,21 @@ function Invoke-ADCGetTmglobalauditnslogpolicybinding {
                     bulkbindings = 'yes'
                 }
                 Write-Verbose "Retrieving all tmglobal_auditnslogpolicy_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type tmglobal_auditnslogpolicy_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type tmglobal_auditnslogpolicy_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
                 if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for tmglobal_auditnslogpolicy_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type tmglobal_auditnslogpolicy_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type tmglobal_auditnslogpolicy_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving tmglobal_auditnslogpolicy_binding objects by arguments"
                 $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type tmglobal_auditnslogpolicy_binding -Arguments $Arguments -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type tmglobal_auditnslogpolicy_binding -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving tmglobal_auditnslogpolicy_binding configuration for property ''"
 
             } else {
                 Write-Verbose "Retrieving tmglobal_auditnslogpolicy_binding configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type tmglobal_auditnslogpolicy_binding -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type tmglobal_auditnslogpolicy_binding -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -712,7 +712,7 @@ function Invoke-ADCAddTmglobalauditsyslogpolicybinding {
         Invoke-ADCAddTmglobalauditsyslogpolicybinding 
     .NOTES
         File Name : Invoke-ADCAddTmglobalauditsyslogpolicybinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/tm/tmglobal_auditsyslogpolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -750,7 +750,7 @@ function Invoke-ADCAddTmglobalauditsyslogpolicybinding {
             if ($PSBoundParameters.ContainsKey('gotopriorityexpression')) { $Payload.Add('gotopriorityexpression', $gotopriorityexpression) }
  
             if ($PSCmdlet.ShouldProcess("tmglobal_auditsyslogpolicy_binding", "Add Traffic Management configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -Type tmglobal_auditsyslogpolicy_binding -Payload $Payload -GetWarning
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -NitroPath nitro/v1/config -Type tmglobal_auditsyslogpolicy_binding -Payload $Payload -GetWarning
                 #HTTP Status Code on Success: 201 Created
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 if ($PSBoundParameters.ContainsKey('PassThru')) {
@@ -782,7 +782,7 @@ function Invoke-ADCDeleteTmglobalauditsyslogpolicybinding {
         Invoke-ADCDeleteTmglobalauditsyslogpolicybinding 
     .NOTES
         File Name : Invoke-ADCDeleteTmglobalauditsyslogpolicybinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/tm/tmglobal_auditsyslogpolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -809,7 +809,7 @@ function Invoke-ADCDeleteTmglobalauditsyslogpolicybinding {
             }
             if ($PSBoundParameters.ContainsKey('policyname')) { $Arguments.Add('policyname', $policyname) }
             if ($PSCmdlet.ShouldProcess("tmglobal_auditsyslogpolicy_binding", "Delete Traffic Management configuration Object")) {
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type tmglobal_auditsyslogpolicy_binding -Resource $ -Arguments $Arguments
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type tmglobal_auditsyslogpolicy_binding -NitroPath nitro/v1/config -Resource $ -Arguments $Arguments
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $response
@@ -851,7 +851,7 @@ function Invoke-ADCGetTmglobalauditsyslogpolicybinding {
         Invoke-ADCGetTmglobalauditsyslogpolicybinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetTmglobalauditsyslogpolicybinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/tm/tmglobal_auditsyslogpolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -885,21 +885,21 @@ function Invoke-ADCGetTmglobalauditsyslogpolicybinding {
                     bulkbindings = 'yes'
                 }
                 Write-Verbose "Retrieving all tmglobal_auditsyslogpolicy_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type tmglobal_auditsyslogpolicy_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type tmglobal_auditsyslogpolicy_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
                 if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for tmglobal_auditsyslogpolicy_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type tmglobal_auditsyslogpolicy_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type tmglobal_auditsyslogpolicy_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving tmglobal_auditsyslogpolicy_binding objects by arguments"
                 $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type tmglobal_auditsyslogpolicy_binding -Arguments $Arguments -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type tmglobal_auditsyslogpolicy_binding -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving tmglobal_auditsyslogpolicy_binding configuration for property ''"
 
             } else {
                 Write-Verbose "Retrieving tmglobal_auditsyslogpolicy_binding configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type tmglobal_auditsyslogpolicy_binding -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type tmglobal_auditsyslogpolicy_binding -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -937,7 +937,7 @@ function Invoke-ADCGetTmglobalbinding {
         Invoke-ADCGetTmglobalbinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetTmglobalbinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/tm/tmglobal_binding/
         Requires  : PowerShell v5.1 and up
@@ -968,21 +968,21 @@ function Invoke-ADCGetTmglobalbinding {
                     bulkbindings = 'yes'
                 }
                 Write-Verbose "Retrieving all tmglobal_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type tmglobal_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type tmglobal_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
                 if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for tmglobal_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type tmglobal_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type tmglobal_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving tmglobal_binding objects by arguments"
                 $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type tmglobal_binding -Arguments $Arguments -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type tmglobal_binding -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving tmglobal_binding configuration for property ''"
 
             } else {
                 Write-Verbose "Retrieving tmglobal_binding configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type tmglobal_binding -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type tmglobal_binding -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -1013,7 +1013,7 @@ function Invoke-ADCAddTmglobaltmsessionpolicybinding {
         Invoke-ADCAddTmglobaltmsessionpolicybinding 
     .NOTES
         File Name : Invoke-ADCAddTmglobaltmsessionpolicybinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/tm/tmglobal_tmsessionpolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -1051,7 +1051,7 @@ function Invoke-ADCAddTmglobaltmsessionpolicybinding {
             if ($PSBoundParameters.ContainsKey('gotopriorityexpression')) { $Payload.Add('gotopriorityexpression', $gotopriorityexpression) }
  
             if ($PSCmdlet.ShouldProcess("tmglobal_tmsessionpolicy_binding", "Add Traffic Management configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -Type tmglobal_tmsessionpolicy_binding -Payload $Payload -GetWarning
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -NitroPath nitro/v1/config -Type tmglobal_tmsessionpolicy_binding -Payload $Payload -GetWarning
                 #HTTP Status Code on Success: 201 Created
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 if ($PSBoundParameters.ContainsKey('PassThru')) {
@@ -1083,7 +1083,7 @@ function Invoke-ADCDeleteTmglobaltmsessionpolicybinding {
         Invoke-ADCDeleteTmglobaltmsessionpolicybinding 
     .NOTES
         File Name : Invoke-ADCDeleteTmglobaltmsessionpolicybinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/tm/tmglobal_tmsessionpolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -1110,7 +1110,7 @@ function Invoke-ADCDeleteTmglobaltmsessionpolicybinding {
             }
             if ($PSBoundParameters.ContainsKey('policyname')) { $Arguments.Add('policyname', $policyname) }
             if ($PSCmdlet.ShouldProcess("tmglobal_tmsessionpolicy_binding", "Delete Traffic Management configuration Object")) {
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type tmglobal_tmsessionpolicy_binding -Resource $ -Arguments $Arguments
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type tmglobal_tmsessionpolicy_binding -NitroPath nitro/v1/config -Resource $ -Arguments $Arguments
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $response
@@ -1152,7 +1152,7 @@ function Invoke-ADCGetTmglobaltmsessionpolicybinding {
         Invoke-ADCGetTmglobaltmsessionpolicybinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetTmglobaltmsessionpolicybinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/tm/tmglobal_tmsessionpolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -1186,21 +1186,21 @@ function Invoke-ADCGetTmglobaltmsessionpolicybinding {
                     bulkbindings = 'yes'
                 }
                 Write-Verbose "Retrieving all tmglobal_tmsessionpolicy_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type tmglobal_tmsessionpolicy_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type tmglobal_tmsessionpolicy_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
                 if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for tmglobal_tmsessionpolicy_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type tmglobal_tmsessionpolicy_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type tmglobal_tmsessionpolicy_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving tmglobal_tmsessionpolicy_binding objects by arguments"
                 $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type tmglobal_tmsessionpolicy_binding -Arguments $Arguments -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type tmglobal_tmsessionpolicy_binding -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving tmglobal_tmsessionpolicy_binding configuration for property ''"
 
             } else {
                 Write-Verbose "Retrieving tmglobal_tmsessionpolicy_binding configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type tmglobal_tmsessionpolicy_binding -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type tmglobal_tmsessionpolicy_binding -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -1231,7 +1231,7 @@ function Invoke-ADCAddTmglobaltmtrafficpolicybinding {
         Invoke-ADCAddTmglobaltmtrafficpolicybinding 
     .NOTES
         File Name : Invoke-ADCAddTmglobaltmtrafficpolicybinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/tm/tmglobal_tmtrafficpolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -1269,7 +1269,7 @@ function Invoke-ADCAddTmglobaltmtrafficpolicybinding {
             if ($PSBoundParameters.ContainsKey('gotopriorityexpression')) { $Payload.Add('gotopriorityexpression', $gotopriorityexpression) }
  
             if ($PSCmdlet.ShouldProcess("tmglobal_tmtrafficpolicy_binding", "Add Traffic Management configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -Type tmglobal_tmtrafficpolicy_binding -Payload $Payload -GetWarning
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -NitroPath nitro/v1/config -Type tmglobal_tmtrafficpolicy_binding -Payload $Payload -GetWarning
                 #HTTP Status Code on Success: 201 Created
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 if ($PSBoundParameters.ContainsKey('PassThru')) {
@@ -1301,7 +1301,7 @@ function Invoke-ADCDeleteTmglobaltmtrafficpolicybinding {
         Invoke-ADCDeleteTmglobaltmtrafficpolicybinding 
     .NOTES
         File Name : Invoke-ADCDeleteTmglobaltmtrafficpolicybinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/tm/tmglobal_tmtrafficpolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -1328,7 +1328,7 @@ function Invoke-ADCDeleteTmglobaltmtrafficpolicybinding {
             }
             if ($PSBoundParameters.ContainsKey('policyname')) { $Arguments.Add('policyname', $policyname) }
             if ($PSCmdlet.ShouldProcess("tmglobal_tmtrafficpolicy_binding", "Delete Traffic Management configuration Object")) {
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type tmglobal_tmtrafficpolicy_binding -Resource $ -Arguments $Arguments
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type tmglobal_tmtrafficpolicy_binding -NitroPath nitro/v1/config -Resource $ -Arguments $Arguments
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $response
@@ -1370,7 +1370,7 @@ function Invoke-ADCGetTmglobaltmtrafficpolicybinding {
         Invoke-ADCGetTmglobaltmtrafficpolicybinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetTmglobaltmtrafficpolicybinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/tm/tmglobal_tmtrafficpolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -1404,21 +1404,21 @@ function Invoke-ADCGetTmglobaltmtrafficpolicybinding {
                     bulkbindings = 'yes'
                 }
                 Write-Verbose "Retrieving all tmglobal_tmtrafficpolicy_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type tmglobal_tmtrafficpolicy_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type tmglobal_tmtrafficpolicy_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
                 if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for tmglobal_tmtrafficpolicy_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type tmglobal_tmtrafficpolicy_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type tmglobal_tmtrafficpolicy_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving tmglobal_tmtrafficpolicy_binding objects by arguments"
                 $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type tmglobal_tmtrafficpolicy_binding -Arguments $Arguments -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type tmglobal_tmtrafficpolicy_binding -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving tmglobal_tmtrafficpolicy_binding configuration for property ''"
 
             } else {
                 Write-Verbose "Retrieving tmglobal_tmtrafficpolicy_binding configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type tmglobal_tmtrafficpolicy_binding -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type tmglobal_tmtrafficpolicy_binding -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -1656,7 +1656,7 @@ function Invoke-ADCAddTmsamlssoprofile {
         Invoke-ADCAddTmsamlssoprofile -name <string> -assertionconsumerserviceurl <string>
     .NOTES
         File Name : Invoke-ADCAddTmsamlssoprofile
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/tm/tmsamlssoprofile/
         Requires  : PowerShell v5.1 and up
@@ -1955,7 +1955,7 @@ function Invoke-ADCAddTmsamlssoprofile {
             if ($PSBoundParameters.ContainsKey('signassertion')) { $Payload.Add('signassertion', $signassertion) }
  
             if ($PSCmdlet.ShouldProcess("tmsamlssoprofile", "Add Traffic Management configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -Type tmsamlssoprofile -Payload $Payload -GetWarning
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -NitroPath nitro/v1/config -Type tmsamlssoprofile -Payload $Payload -GetWarning
                 #HTTP Status Code on Success: 201 Created
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 if ($PSBoundParameters.ContainsKey('PassThru')) {
@@ -1987,7 +1987,7 @@ function Invoke-ADCDeleteTmsamlssoprofile {
         Invoke-ADCDeleteTmsamlssoprofile -name <string>
     .NOTES
         File Name : Invoke-ADCDeleteTmsamlssoprofile
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/tm/tmsamlssoprofile/
         Requires  : PowerShell v5.1 and up
@@ -2015,7 +2015,7 @@ function Invoke-ADCDeleteTmsamlssoprofile {
             }
 
             if ($PSCmdlet.ShouldProcess("$name", "Delete Traffic Management configuration Object")) {
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type tmsamlssoprofile -Resource $name -Arguments $Arguments
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type tmsamlssoprofile -NitroPath nitro/v1/config -Resource $name -Arguments $Arguments
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $response
@@ -2255,7 +2255,7 @@ function Invoke-ADCUpdateTmsamlssoprofile {
         Invoke-ADCUpdateTmsamlssoprofile -name <string>
     .NOTES
         File Name : Invoke-ADCUpdateTmsamlssoprofile
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/tm/tmsamlssoprofile/
         Requires  : PowerShell v5.1 and up
@@ -2553,7 +2553,7 @@ function Invoke-ADCUpdateTmsamlssoprofile {
             if ($PSBoundParameters.ContainsKey('signassertion')) { $Payload.Add('signassertion', $signassertion) }
  
             if ($PSCmdlet.ShouldProcess("tmsamlssoprofile", "Update Traffic Management configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -Type tmsamlssoprofile -Payload $Payload -GetWarning
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -NitroPath nitro/v1/config -Type tmsamlssoprofile -Payload $Payload -GetWarning
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 if ($PSBoundParameters.ContainsKey('PassThru')) {
@@ -2733,7 +2733,7 @@ function Invoke-ADCUnsetTmsamlssoprofile {
         Invoke-ADCUnsetTmsamlssoprofile -name <string>
     .NOTES
         File Name : Invoke-ADCUnsetTmsamlssoprofile
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/tm/tmsamlssoprofile
         Requires  : PowerShell v5.1 and up
@@ -2949,7 +2949,7 @@ function Invoke-ADCUnsetTmsamlssoprofile {
             if ($PSBoundParameters.ContainsKey('skewtime')) { $Payload.Add('skewtime', $skewtime) }
             if ($PSBoundParameters.ContainsKey('signassertion')) { $Payload.Add('signassertion', $signassertion) }
             if ($PSCmdlet.ShouldProcess("$name", "Unset Traffic Management configuration Object")) {
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -Type tmsamlssoprofile -Action unset -Payload $Payload -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -Type tmsamlssoprofile -NitroPath nitro/v1/config -Action unset -Payload $Payload -GetWarning
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $response
@@ -2993,7 +2993,7 @@ function Invoke-ADCGetTmsamlssoprofile {
         Invoke-ADCGetTmsamlssoprofile -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetTmsamlssoprofile
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/tm/tmsamlssoprofile/
         Requires  : PowerShell v5.1 and up
@@ -3035,21 +3035,21 @@ function Invoke-ADCGetTmsamlssoprofile {
             if ( $PsCmdlet.ParameterSetName -eq 'Getall' ) {
                 $Query = @{ }
                 Write-Verbose "Retrieving all tmsamlssoprofile objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type tmsamlssoprofile -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type tmsamlssoprofile -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
                 if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for tmsamlssoprofile objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type tmsamlssoprofile -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type tmsamlssoprofile -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving tmsamlssoprofile objects by arguments"
                 $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type tmsamlssoprofile -Arguments $Arguments -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type tmsamlssoprofile -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving tmsamlssoprofile configuration for property 'name'"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type tmsamlssoprofile -Resource $name -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type tmsamlssoprofile -NitroPath nitro/v1/config -Resource $name -Summary:$ViewSummary -Filter $Filter -GetWarning
             } else {
                 Write-Verbose "Retrieving tmsamlssoprofile configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type tmsamlssoprofile -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type tmsamlssoprofile -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -3110,7 +3110,7 @@ function Invoke-ADCAddTmsessionaction {
         Invoke-ADCAddTmsessionaction -name <string>
     .NOTES
         File Name : Invoke-ADCAddTmsessionaction
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/tm/tmsessionaction/
         Requires  : PowerShell v5.1 and up
@@ -3181,7 +3181,7 @@ function Invoke-ADCAddTmsessionaction {
             if ($PSBoundParameters.ContainsKey('homepage')) { $Payload.Add('homepage', $homepage) }
  
             if ($PSCmdlet.ShouldProcess("tmsessionaction", "Add Traffic Management configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -Type tmsessionaction -Payload $Payload -GetWarning
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -NitroPath nitro/v1/config -Type tmsessionaction -Payload $Payload -GetWarning
                 #HTTP Status Code on Success: 201 Created
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 if ($PSBoundParameters.ContainsKey('PassThru')) {
@@ -3213,7 +3213,7 @@ function Invoke-ADCDeleteTmsessionaction {
         Invoke-ADCDeleteTmsessionaction -name <string>
     .NOTES
         File Name : Invoke-ADCDeleteTmsessionaction
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/tm/tmsessionaction/
         Requires  : PowerShell v5.1 and up
@@ -3241,7 +3241,7 @@ function Invoke-ADCDeleteTmsessionaction {
             }
 
             if ($PSCmdlet.ShouldProcess("$name", "Delete Traffic Management configuration Object")) {
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type tmsessionaction -Resource $name -Arguments $Arguments
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type tmsessionaction -NitroPath nitro/v1/config -Resource $name -Arguments $Arguments
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $response
@@ -3304,7 +3304,7 @@ function Invoke-ADCUpdateTmsessionaction {
         Invoke-ADCUpdateTmsessionaction -name <string>
     .NOTES
         File Name : Invoke-ADCUpdateTmsessionaction
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/tm/tmsessionaction/
         Requires  : PowerShell v5.1 and up
@@ -3375,7 +3375,7 @@ function Invoke-ADCUpdateTmsessionaction {
             if ($PSBoundParameters.ContainsKey('homepage')) { $Payload.Add('homepage', $homepage) }
  
             if ($PSCmdlet.ShouldProcess("tmsessionaction", "Update Traffic Management configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -Type tmsessionaction -Payload $Payload -GetWarning
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -NitroPath nitro/v1/config -Type tmsessionaction -Payload $Payload -GetWarning
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 if ($PSBoundParameters.ContainsKey('PassThru')) {
@@ -3433,7 +3433,7 @@ function Invoke-ADCUnsetTmsessionaction {
         Invoke-ADCUnsetTmsessionaction -name <string>
     .NOTES
         File Name : Invoke-ADCUnsetTmsessionaction
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/tm/tmsessionaction
         Requires  : PowerShell v5.1 and up
@@ -3493,7 +3493,7 @@ function Invoke-ADCUnsetTmsessionaction {
             if ($PSBoundParameters.ContainsKey('persistentcookievalidity')) { $Payload.Add('persistentcookievalidity', $persistentcookievalidity) }
             if ($PSBoundParameters.ContainsKey('homepage')) { $Payload.Add('homepage', $homepage) }
             if ($PSCmdlet.ShouldProcess("$name", "Unset Traffic Management configuration Object")) {
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -Type tmsessionaction -Action unset -Payload $Payload -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -Type tmsessionaction -NitroPath nitro/v1/config -Action unset -Payload $Payload -GetWarning
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $response
@@ -3537,7 +3537,7 @@ function Invoke-ADCGetTmsessionaction {
         Invoke-ADCGetTmsessionaction -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetTmsessionaction
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/tm/tmsessionaction/
         Requires  : PowerShell v5.1 and up
@@ -3579,21 +3579,21 @@ function Invoke-ADCGetTmsessionaction {
             if ( $PsCmdlet.ParameterSetName -eq 'Getall' ) {
                 $Query = @{ }
                 Write-Verbose "Retrieving all tmsessionaction objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type tmsessionaction -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type tmsessionaction -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
                 if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for tmsessionaction objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type tmsessionaction -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type tmsessionaction -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving tmsessionaction objects by arguments"
                 $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type tmsessionaction -Arguments $Arguments -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type tmsessionaction -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving tmsessionaction configuration for property 'name'"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type tmsessionaction -Resource $name -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type tmsessionaction -NitroPath nitro/v1/config -Resource $name -Summary:$ViewSummary -Filter $Filter -GetWarning
             } else {
                 Write-Verbose "Retrieving tmsessionaction configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type tmsessionaction -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type tmsessionaction -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -3654,7 +3654,7 @@ function Invoke-ADCUpdateTmsessionparameter {
         Invoke-ADCUpdateTmsessionparameter 
     .NOTES
         File Name : Invoke-ADCUpdateTmsessionparameter
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/tm/tmsessionparameter/
         Requires  : PowerShell v5.1 and up
@@ -3718,7 +3718,7 @@ function Invoke-ADCUpdateTmsessionparameter {
             if ($PSBoundParameters.ContainsKey('homepage')) { $Payload.Add('homepage', $homepage) }
  
             if ($PSCmdlet.ShouldProcess("tmsessionparameter", "Update Traffic Management configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -Type tmsessionparameter -Payload $Payload -GetWarning
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -NitroPath nitro/v1/config -Type tmsessionparameter -Payload $Payload -GetWarning
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
             Write-Output $result
@@ -3769,7 +3769,7 @@ function Invoke-ADCUnsetTmsessionparameter {
         Invoke-ADCUnsetTmsessionparameter 
     .NOTES
         File Name : Invoke-ADCUnsetTmsessionparameter
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/tm/tmsessionparameter
         Requires  : PowerShell v5.1 and up
@@ -3824,7 +3824,7 @@ function Invoke-ADCUnsetTmsessionparameter {
             if ($PSBoundParameters.ContainsKey('httponlycookie')) { $Payload.Add('httponlycookie', $httponlycookie) }
             if ($PSBoundParameters.ContainsKey('persistentcookievalidity')) { $Payload.Add('persistentcookievalidity', $persistentcookievalidity) }
             if ($PSCmdlet.ShouldProcess("tmsessionparameter", "Unset Traffic Management configuration Object")) {
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -Type tmsessionparameter -Action unset -Payload $Payload -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -Type tmsessionparameter -NitroPath nitro/v1/config -Action unset -Payload $Payload -GetWarning
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $response
@@ -3864,7 +3864,7 @@ function Invoke-ADCGetTmsessionparameter {
         Invoke-ADCGetTmsessionparameter -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetTmsessionparameter
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/tm/tmsessionparameter/
         Requires  : PowerShell v5.1 and up
@@ -3893,21 +3893,21 @@ function Invoke-ADCGetTmsessionparameter {
             if ( $PsCmdlet.ParameterSetName -eq 'Getall' ) {
                 $Query = @{ }
                 Write-Verbose "Retrieving all tmsessionparameter objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type tmsessionparameter -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type tmsessionparameter -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
                 if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for tmsessionparameter objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type tmsessionparameter -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type tmsessionparameter -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving tmsessionparameter objects by arguments"
                 $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type tmsessionparameter -Arguments $Arguments -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type tmsessionparameter -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving tmsessionparameter configuration for property ''"
 
             } else {
                 Write-Verbose "Retrieving tmsessionparameter configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type tmsessionparameter -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type tmsessionparameter -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -3943,7 +3943,7 @@ function Invoke-ADCAddTmsessionpolicy {
         Invoke-ADCAddTmsessionpolicy -name <string> -rule <string> -action <string>
     .NOTES
         File Name : Invoke-ADCAddTmsessionpolicy
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/tm/tmsessionpolicy/
         Requires  : PowerShell v5.1 and up
@@ -3987,7 +3987,7 @@ function Invoke-ADCAddTmsessionpolicy {
 
  
             if ($PSCmdlet.ShouldProcess("tmsessionpolicy", "Add Traffic Management configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -Type tmsessionpolicy -Payload $Payload -GetWarning
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -NitroPath nitro/v1/config -Type tmsessionpolicy -Payload $Payload -GetWarning
                 #HTTP Status Code on Success: 201 Created
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 if ($PSBoundParameters.ContainsKey('PassThru')) {
@@ -4019,7 +4019,7 @@ function Invoke-ADCDeleteTmsessionpolicy {
         Invoke-ADCDeleteTmsessionpolicy -name <string>
     .NOTES
         File Name : Invoke-ADCDeleteTmsessionpolicy
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/tm/tmsessionpolicy/
         Requires  : PowerShell v5.1 and up
@@ -4047,7 +4047,7 @@ function Invoke-ADCDeleteTmsessionpolicy {
             }
 
             if ($PSCmdlet.ShouldProcess("$name", "Delete Traffic Management configuration Object")) {
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type tmsessionpolicy -Resource $name -Arguments $Arguments
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type tmsessionpolicy -NitroPath nitro/v1/config -Resource $name -Arguments $Arguments
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $response
@@ -4085,7 +4085,7 @@ function Invoke-ADCUpdateTmsessionpolicy {
         Invoke-ADCUpdateTmsessionpolicy -name <string>
     .NOTES
         File Name : Invoke-ADCUpdateTmsessionpolicy
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/tm/tmsessionpolicy/
         Requires  : PowerShell v5.1 and up
@@ -4126,7 +4126,7 @@ function Invoke-ADCUpdateTmsessionpolicy {
             if ($PSBoundParameters.ContainsKey('action')) { $Payload.Add('action', $action) }
  
             if ($PSCmdlet.ShouldProcess("tmsessionpolicy", "Update Traffic Management configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -Type tmsessionpolicy -Payload $Payload -GetWarning
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -NitroPath nitro/v1/config -Type tmsessionpolicy -Payload $Payload -GetWarning
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 if ($PSBoundParameters.ContainsKey('PassThru')) {
@@ -4166,7 +4166,7 @@ function Invoke-ADCUnsetTmsessionpolicy {
         Invoke-ADCUnsetTmsessionpolicy -name <string>
     .NOTES
         File Name : Invoke-ADCUnsetTmsessionpolicy
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/tm/tmsessionpolicy
         Requires  : PowerShell v5.1 and up
@@ -4202,7 +4202,7 @@ function Invoke-ADCUnsetTmsessionpolicy {
             if ($PSBoundParameters.ContainsKey('rule')) { $Payload.Add('rule', $rule) }
             if ($PSBoundParameters.ContainsKey('action')) { $Payload.Add('action', $action) }
             if ($PSCmdlet.ShouldProcess("$name", "Unset Traffic Management configuration Object")) {
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -Type tmsessionpolicy -Action unset -Payload $Payload -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -Type tmsessionpolicy -NitroPath nitro/v1/config -Action unset -Payload $Payload -GetWarning
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $response
@@ -4246,7 +4246,7 @@ function Invoke-ADCGetTmsessionpolicy {
         Invoke-ADCGetTmsessionpolicy -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetTmsessionpolicy
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/tm/tmsessionpolicy/
         Requires  : PowerShell v5.1 and up
@@ -4288,21 +4288,21 @@ function Invoke-ADCGetTmsessionpolicy {
             if ( $PsCmdlet.ParameterSetName -eq 'Getall' ) {
                 $Query = @{ }
                 Write-Verbose "Retrieving all tmsessionpolicy objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type tmsessionpolicy -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type tmsessionpolicy -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
                 if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for tmsessionpolicy objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type tmsessionpolicy -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type tmsessionpolicy -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving tmsessionpolicy objects by arguments"
                 $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type tmsessionpolicy -Arguments $Arguments -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type tmsessionpolicy -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving tmsessionpolicy configuration for property 'name'"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type tmsessionpolicy -Resource $name -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type tmsessionpolicy -NitroPath nitro/v1/config -Resource $name -Summary:$ViewSummary -Filter $Filter -GetWarning
             } else {
                 Write-Verbose "Retrieving tmsessionpolicy configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type tmsessionpolicy -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type tmsessionpolicy -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -4344,7 +4344,7 @@ function Invoke-ADCGetTmsessionpolicyaaagroupbinding {
         Invoke-ADCGetTmsessionpolicyaaagroupbinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetTmsessionpolicyaaagroupbinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/tm/tmsessionpolicy_aaagroup_binding/
         Requires  : PowerShell v5.1 and up
@@ -4382,21 +4382,21 @@ function Invoke-ADCGetTmsessionpolicyaaagroupbinding {
                     bulkbindings = 'yes'
                 }
                 Write-Verbose "Retrieving all tmsessionpolicy_aaagroup_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type tmsessionpolicy_aaagroup_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type tmsessionpolicy_aaagroup_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
                 if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for tmsessionpolicy_aaagroup_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type tmsessionpolicy_aaagroup_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type tmsessionpolicy_aaagroup_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving tmsessionpolicy_aaagroup_binding objects by arguments"
                 $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type tmsessionpolicy_aaagroup_binding -Arguments $Arguments -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type tmsessionpolicy_aaagroup_binding -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving tmsessionpolicy_aaagroup_binding configuration for property 'name'"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type tmsessionpolicy_aaagroup_binding -Resource $name -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type tmsessionpolicy_aaagroup_binding -NitroPath nitro/v1/config -Resource $name -Summary:$ViewSummary -Filter $Filter -GetWarning
             } else {
                 Write-Verbose "Retrieving tmsessionpolicy_aaagroup_binding configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type tmsessionpolicy_aaagroup_binding -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type tmsessionpolicy_aaagroup_binding -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -4438,7 +4438,7 @@ function Invoke-ADCGetTmsessionpolicyaaauserbinding {
         Invoke-ADCGetTmsessionpolicyaaauserbinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetTmsessionpolicyaaauserbinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/tm/tmsessionpolicy_aaauser_binding/
         Requires  : PowerShell v5.1 and up
@@ -4476,21 +4476,21 @@ function Invoke-ADCGetTmsessionpolicyaaauserbinding {
                     bulkbindings = 'yes'
                 }
                 Write-Verbose "Retrieving all tmsessionpolicy_aaauser_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type tmsessionpolicy_aaauser_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type tmsessionpolicy_aaauser_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
                 if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for tmsessionpolicy_aaauser_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type tmsessionpolicy_aaauser_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type tmsessionpolicy_aaauser_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving tmsessionpolicy_aaauser_binding objects by arguments"
                 $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type tmsessionpolicy_aaauser_binding -Arguments $Arguments -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type tmsessionpolicy_aaauser_binding -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving tmsessionpolicy_aaauser_binding configuration for property 'name'"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type tmsessionpolicy_aaauser_binding -Resource $name -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type tmsessionpolicy_aaauser_binding -NitroPath nitro/v1/config -Resource $name -Summary:$ViewSummary -Filter $Filter -GetWarning
             } else {
                 Write-Verbose "Retrieving tmsessionpolicy_aaauser_binding configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type tmsessionpolicy_aaauser_binding -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type tmsessionpolicy_aaauser_binding -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -4532,7 +4532,7 @@ function Invoke-ADCGetTmsessionpolicyauthenticationvserverbinding {
         Invoke-ADCGetTmsessionpolicyauthenticationvserverbinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetTmsessionpolicyauthenticationvserverbinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/tm/tmsessionpolicy_authenticationvserver_binding/
         Requires  : PowerShell v5.1 and up
@@ -4570,21 +4570,21 @@ function Invoke-ADCGetTmsessionpolicyauthenticationvserverbinding {
                     bulkbindings = 'yes'
                 }
                 Write-Verbose "Retrieving all tmsessionpolicy_authenticationvserver_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type tmsessionpolicy_authenticationvserver_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type tmsessionpolicy_authenticationvserver_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
                 if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for tmsessionpolicy_authenticationvserver_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type tmsessionpolicy_authenticationvserver_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type tmsessionpolicy_authenticationvserver_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving tmsessionpolicy_authenticationvserver_binding objects by arguments"
                 $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type tmsessionpolicy_authenticationvserver_binding -Arguments $Arguments -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type tmsessionpolicy_authenticationvserver_binding -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving tmsessionpolicy_authenticationvserver_binding configuration for property 'name'"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type tmsessionpolicy_authenticationvserver_binding -Resource $name -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type tmsessionpolicy_authenticationvserver_binding -NitroPath nitro/v1/config -Resource $name -Summary:$ViewSummary -Filter $Filter -GetWarning
             } else {
                 Write-Verbose "Retrieving tmsessionpolicy_authenticationvserver_binding configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type tmsessionpolicy_authenticationvserver_binding -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type tmsessionpolicy_authenticationvserver_binding -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -4624,7 +4624,7 @@ function Invoke-ADCGetTmsessionpolicybinding {
         Invoke-ADCGetTmsessionpolicybinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetTmsessionpolicybinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/tm/tmsessionpolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -4659,21 +4659,21 @@ function Invoke-ADCGetTmsessionpolicybinding {
                     bulkbindings = 'yes'
                 }
                 Write-Verbose "Retrieving all tmsessionpolicy_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type tmsessionpolicy_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type tmsessionpolicy_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
                 if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for tmsessionpolicy_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type tmsessionpolicy_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type tmsessionpolicy_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving tmsessionpolicy_binding objects by arguments"
                 $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type tmsessionpolicy_binding -Arguments $Arguments -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type tmsessionpolicy_binding -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving tmsessionpolicy_binding configuration for property 'name'"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type tmsessionpolicy_binding -Resource $name -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type tmsessionpolicy_binding -NitroPath nitro/v1/config -Resource $name -Summary:$ViewSummary -Filter $Filter -GetWarning
             } else {
                 Write-Verbose "Retrieving tmsessionpolicy_binding configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type tmsessionpolicy_binding -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type tmsessionpolicy_binding -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -4715,7 +4715,7 @@ function Invoke-ADCGetTmsessionpolicytmglobalbinding {
         Invoke-ADCGetTmsessionpolicytmglobalbinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetTmsessionpolicytmglobalbinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/tm/tmsessionpolicy_tmglobal_binding/
         Requires  : PowerShell v5.1 and up
@@ -4753,21 +4753,21 @@ function Invoke-ADCGetTmsessionpolicytmglobalbinding {
                     bulkbindings = 'yes'
                 }
                 Write-Verbose "Retrieving all tmsessionpolicy_tmglobal_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type tmsessionpolicy_tmglobal_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type tmsessionpolicy_tmglobal_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
                 if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for tmsessionpolicy_tmglobal_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type tmsessionpolicy_tmglobal_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type tmsessionpolicy_tmglobal_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving tmsessionpolicy_tmglobal_binding objects by arguments"
                 $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type tmsessionpolicy_tmglobal_binding -Arguments $Arguments -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type tmsessionpolicy_tmglobal_binding -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving tmsessionpolicy_tmglobal_binding configuration for property 'name'"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type tmsessionpolicy_tmglobal_binding -Resource $name -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type tmsessionpolicy_tmglobal_binding -NitroPath nitro/v1/config -Resource $name -Summary:$ViewSummary -Filter $Filter -GetWarning
             } else {
                 Write-Verbose "Retrieving tmsessionpolicy_tmglobal_binding configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type tmsessionpolicy_tmglobal_binding -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type tmsessionpolicy_tmglobal_binding -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -4828,7 +4828,7 @@ function Invoke-ADCAddTmtrafficaction {
         Invoke-ADCAddTmtrafficaction -name <string>
     .NOTES
         File Name : Invoke-ADCAddTmtrafficaction
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/tm/tmtrafficaction/
         Requires  : PowerShell v5.1 and up
@@ -4902,7 +4902,7 @@ function Invoke-ADCAddTmtrafficaction {
             if ($PSBoundParameters.ContainsKey('passwdexpression')) { $Payload.Add('passwdexpression', $passwdexpression) }
  
             if ($PSCmdlet.ShouldProcess("tmtrafficaction", "Add Traffic Management configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -Type tmtrafficaction -Payload $Payload -GetWarning
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -NitroPath nitro/v1/config -Type tmtrafficaction -Payload $Payload -GetWarning
                 #HTTP Status Code on Success: 201 Created
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 if ($PSBoundParameters.ContainsKey('PassThru')) {
@@ -4934,7 +4934,7 @@ function Invoke-ADCDeleteTmtrafficaction {
         Invoke-ADCDeleteTmtrafficaction -name <string>
     .NOTES
         File Name : Invoke-ADCDeleteTmtrafficaction
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/tm/tmtrafficaction/
         Requires  : PowerShell v5.1 and up
@@ -4962,7 +4962,7 @@ function Invoke-ADCDeleteTmtrafficaction {
             }
 
             if ($PSCmdlet.ShouldProcess("$name", "Delete Traffic Management configuration Object")) {
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type tmtrafficaction -Resource $name -Arguments $Arguments
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type tmtrafficaction -NitroPath nitro/v1/config -Resource $name -Arguments $Arguments
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $response
@@ -5025,7 +5025,7 @@ function Invoke-ADCUpdateTmtrafficaction {
         Invoke-ADCUpdateTmtrafficaction -name <string>
     .NOTES
         File Name : Invoke-ADCUpdateTmtrafficaction
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/tm/tmtrafficaction/
         Requires  : PowerShell v5.1 and up
@@ -5099,7 +5099,7 @@ function Invoke-ADCUpdateTmtrafficaction {
             if ($PSBoundParameters.ContainsKey('passwdexpression')) { $Payload.Add('passwdexpression', $passwdexpression) }
  
             if ($PSCmdlet.ShouldProcess("tmtrafficaction", "Update Traffic Management configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -Type tmtrafficaction -Payload $Payload -GetWarning
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -NitroPath nitro/v1/config -Type tmtrafficaction -Payload $Payload -GetWarning
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 if ($PSBoundParameters.ContainsKey('PassThru')) {
@@ -5143,7 +5143,7 @@ function Invoke-ADCUnsetTmtrafficaction {
         Invoke-ADCUnsetTmtrafficaction -name <string>
     .NOTES
         File Name : Invoke-ADCUnsetTmtrafficaction
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/tm/tmtrafficaction
         Requires  : PowerShell v5.1 and up
@@ -5188,7 +5188,7 @@ function Invoke-ADCUnsetTmtrafficaction {
             if ($PSBoundParameters.ContainsKey('userexpression')) { $Payload.Add('userexpression', $userexpression) }
             if ($PSBoundParameters.ContainsKey('passwdexpression')) { $Payload.Add('passwdexpression', $passwdexpression) }
             if ($PSCmdlet.ShouldProcess("$name", "Unset Traffic Management configuration Object")) {
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -Type tmtrafficaction -Action unset -Payload $Payload -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -Type tmtrafficaction -NitroPath nitro/v1/config -Action unset -Payload $Payload -GetWarning
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $response
@@ -5232,7 +5232,7 @@ function Invoke-ADCGetTmtrafficaction {
         Invoke-ADCGetTmtrafficaction -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetTmtrafficaction
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/tm/tmtrafficaction/
         Requires  : PowerShell v5.1 and up
@@ -5274,21 +5274,21 @@ function Invoke-ADCGetTmtrafficaction {
             if ( $PsCmdlet.ParameterSetName -eq 'Getall' ) {
                 $Query = @{ }
                 Write-Verbose "Retrieving all tmtrafficaction objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type tmtrafficaction -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type tmtrafficaction -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
                 if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for tmtrafficaction objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type tmtrafficaction -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type tmtrafficaction -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving tmtrafficaction objects by arguments"
                 $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type tmtrafficaction -Arguments $Arguments -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type tmtrafficaction -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving tmtrafficaction configuration for property 'name'"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type tmtrafficaction -Resource $name -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type tmtrafficaction -NitroPath nitro/v1/config -Resource $name -Summary:$ViewSummary -Filter $Filter -GetWarning
             } else {
                 Write-Verbose "Retrieving tmtrafficaction configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type tmtrafficaction -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type tmtrafficaction -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -5320,7 +5320,7 @@ function Invoke-ADCAddTmtrafficpolicy {
         Invoke-ADCAddTmtrafficpolicy -name <string> -rule <string> -action <string>
     .NOTES
         File Name : Invoke-ADCAddTmtrafficpolicy
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/tm/tmtrafficpolicy/
         Requires  : PowerShell v5.1 and up
@@ -5364,7 +5364,7 @@ function Invoke-ADCAddTmtrafficpolicy {
 
  
             if ($PSCmdlet.ShouldProcess("tmtrafficpolicy", "Add Traffic Management configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -Type tmtrafficpolicy -Payload $Payload -GetWarning
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -NitroPath nitro/v1/config -Type tmtrafficpolicy -Payload $Payload -GetWarning
                 #HTTP Status Code on Success: 201 Created
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 if ($PSBoundParameters.ContainsKey('PassThru')) {
@@ -5396,7 +5396,7 @@ function Invoke-ADCDeleteTmtrafficpolicy {
         Invoke-ADCDeleteTmtrafficpolicy -name <string>
     .NOTES
         File Name : Invoke-ADCDeleteTmtrafficpolicy
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/tm/tmtrafficpolicy/
         Requires  : PowerShell v5.1 and up
@@ -5424,7 +5424,7 @@ function Invoke-ADCDeleteTmtrafficpolicy {
             }
 
             if ($PSCmdlet.ShouldProcess("$name", "Delete Traffic Management configuration Object")) {
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type tmtrafficpolicy -Resource $name -Arguments $Arguments
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type tmtrafficpolicy -NitroPath nitro/v1/config -Resource $name -Arguments $Arguments
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $response
@@ -5458,7 +5458,7 @@ function Invoke-ADCUpdateTmtrafficpolicy {
         Invoke-ADCUpdateTmtrafficpolicy -name <string>
     .NOTES
         File Name : Invoke-ADCUpdateTmtrafficpolicy
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/tm/tmtrafficpolicy/
         Requires  : PowerShell v5.1 and up
@@ -5499,7 +5499,7 @@ function Invoke-ADCUpdateTmtrafficpolicy {
             if ($PSBoundParameters.ContainsKey('action')) { $Payload.Add('action', $action) }
  
             if ($PSCmdlet.ShouldProcess("tmtrafficpolicy", "Update Traffic Management configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -Type tmtrafficpolicy -Payload $Payload -GetWarning
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -NitroPath nitro/v1/config -Type tmtrafficpolicy -Payload $Payload -GetWarning
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 if ($PSBoundParameters.ContainsKey('PassThru')) {
@@ -5535,7 +5535,7 @@ function Invoke-ADCUnsetTmtrafficpolicy {
         Invoke-ADCUnsetTmtrafficpolicy -name <string>
     .NOTES
         File Name : Invoke-ADCUnsetTmtrafficpolicy
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/tm/tmtrafficpolicy
         Requires  : PowerShell v5.1 and up
@@ -5571,7 +5571,7 @@ function Invoke-ADCUnsetTmtrafficpolicy {
             if ($PSBoundParameters.ContainsKey('rule')) { $Payload.Add('rule', $rule) }
             if ($PSBoundParameters.ContainsKey('action')) { $Payload.Add('action', $action) }
             if ($PSCmdlet.ShouldProcess("$name", "Unset Traffic Management configuration Object")) {
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -Type tmtrafficpolicy -Action unset -Payload $Payload -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -Type tmtrafficpolicy -NitroPath nitro/v1/config -Action unset -Payload $Payload -GetWarning
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $response
@@ -5615,7 +5615,7 @@ function Invoke-ADCGetTmtrafficpolicy {
         Invoke-ADCGetTmtrafficpolicy -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetTmtrafficpolicy
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/tm/tmtrafficpolicy/
         Requires  : PowerShell v5.1 and up
@@ -5657,21 +5657,21 @@ function Invoke-ADCGetTmtrafficpolicy {
             if ( $PsCmdlet.ParameterSetName -eq 'Getall' ) {
                 $Query = @{ }
                 Write-Verbose "Retrieving all tmtrafficpolicy objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type tmtrafficpolicy -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type tmtrafficpolicy -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
                 if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for tmtrafficpolicy objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type tmtrafficpolicy -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type tmtrafficpolicy -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving tmtrafficpolicy objects by arguments"
                 $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type tmtrafficpolicy -Arguments $Arguments -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type tmtrafficpolicy -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving tmtrafficpolicy configuration for property 'name'"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type tmtrafficpolicy -Resource $name -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type tmtrafficpolicy -NitroPath nitro/v1/config -Resource $name -Summary:$ViewSummary -Filter $Filter -GetWarning
             } else {
                 Write-Verbose "Retrieving tmtrafficpolicy configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type tmtrafficpolicy -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type tmtrafficpolicy -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -5711,7 +5711,7 @@ function Invoke-ADCGetTmtrafficpolicybinding {
         Invoke-ADCGetTmtrafficpolicybinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetTmtrafficpolicybinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/tm/tmtrafficpolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -5746,21 +5746,21 @@ function Invoke-ADCGetTmtrafficpolicybinding {
                     bulkbindings = 'yes'
                 }
                 Write-Verbose "Retrieving all tmtrafficpolicy_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type tmtrafficpolicy_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type tmtrafficpolicy_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
                 if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for tmtrafficpolicy_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type tmtrafficpolicy_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type tmtrafficpolicy_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving tmtrafficpolicy_binding objects by arguments"
                 $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type tmtrafficpolicy_binding -Arguments $Arguments -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type tmtrafficpolicy_binding -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving tmtrafficpolicy_binding configuration for property 'name'"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type tmtrafficpolicy_binding -Resource $name -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type tmtrafficpolicy_binding -NitroPath nitro/v1/config -Resource $name -Summary:$ViewSummary -Filter $Filter -GetWarning
             } else {
                 Write-Verbose "Retrieving tmtrafficpolicy_binding configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type tmtrafficpolicy_binding -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type tmtrafficpolicy_binding -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -5802,7 +5802,7 @@ function Invoke-ADCGetTmtrafficpolicycsvserverbinding {
         Invoke-ADCGetTmtrafficpolicycsvserverbinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetTmtrafficpolicycsvserverbinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/tm/tmtrafficpolicy_csvserver_binding/
         Requires  : PowerShell v5.1 and up
@@ -5840,21 +5840,21 @@ function Invoke-ADCGetTmtrafficpolicycsvserverbinding {
                     bulkbindings = 'yes'
                 }
                 Write-Verbose "Retrieving all tmtrafficpolicy_csvserver_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type tmtrafficpolicy_csvserver_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type tmtrafficpolicy_csvserver_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
                 if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for tmtrafficpolicy_csvserver_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type tmtrafficpolicy_csvserver_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type tmtrafficpolicy_csvserver_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving tmtrafficpolicy_csvserver_binding objects by arguments"
                 $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type tmtrafficpolicy_csvserver_binding -Arguments $Arguments -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type tmtrafficpolicy_csvserver_binding -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving tmtrafficpolicy_csvserver_binding configuration for property 'name'"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type tmtrafficpolicy_csvserver_binding -Resource $name -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type tmtrafficpolicy_csvserver_binding -NitroPath nitro/v1/config -Resource $name -Summary:$ViewSummary -Filter $Filter -GetWarning
             } else {
                 Write-Verbose "Retrieving tmtrafficpolicy_csvserver_binding configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type tmtrafficpolicy_csvserver_binding -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type tmtrafficpolicy_csvserver_binding -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -5896,7 +5896,7 @@ function Invoke-ADCGetTmtrafficpolicylbvserverbinding {
         Invoke-ADCGetTmtrafficpolicylbvserverbinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetTmtrafficpolicylbvserverbinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/tm/tmtrafficpolicy_lbvserver_binding/
         Requires  : PowerShell v5.1 and up
@@ -5934,21 +5934,21 @@ function Invoke-ADCGetTmtrafficpolicylbvserverbinding {
                     bulkbindings = 'yes'
                 }
                 Write-Verbose "Retrieving all tmtrafficpolicy_lbvserver_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type tmtrafficpolicy_lbvserver_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type tmtrafficpolicy_lbvserver_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
                 if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for tmtrafficpolicy_lbvserver_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type tmtrafficpolicy_lbvserver_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type tmtrafficpolicy_lbvserver_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving tmtrafficpolicy_lbvserver_binding objects by arguments"
                 $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type tmtrafficpolicy_lbvserver_binding -Arguments $Arguments -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type tmtrafficpolicy_lbvserver_binding -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving tmtrafficpolicy_lbvserver_binding configuration for property 'name'"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type tmtrafficpolicy_lbvserver_binding -Resource $name -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type tmtrafficpolicy_lbvserver_binding -NitroPath nitro/v1/config -Resource $name -Summary:$ViewSummary -Filter $Filter -GetWarning
             } else {
                 Write-Verbose "Retrieving tmtrafficpolicy_lbvserver_binding configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type tmtrafficpolicy_lbvserver_binding -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type tmtrafficpolicy_lbvserver_binding -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -5990,7 +5990,7 @@ function Invoke-ADCGetTmtrafficpolicytmglobalbinding {
         Invoke-ADCGetTmtrafficpolicytmglobalbinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetTmtrafficpolicytmglobalbinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/tm/tmtrafficpolicy_tmglobal_binding/
         Requires  : PowerShell v5.1 and up
@@ -6028,21 +6028,21 @@ function Invoke-ADCGetTmtrafficpolicytmglobalbinding {
                     bulkbindings = 'yes'
                 }
                 Write-Verbose "Retrieving all tmtrafficpolicy_tmglobal_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type tmtrafficpolicy_tmglobal_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type tmtrafficpolicy_tmglobal_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
                 if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for tmtrafficpolicy_tmglobal_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type tmtrafficpolicy_tmglobal_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type tmtrafficpolicy_tmglobal_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving tmtrafficpolicy_tmglobal_binding objects by arguments"
                 $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type tmtrafficpolicy_tmglobal_binding -Arguments $Arguments -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type tmtrafficpolicy_tmglobal_binding -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving tmtrafficpolicy_tmglobal_binding configuration for property 'name'"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type tmtrafficpolicy_tmglobal_binding -Resource $name -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type tmtrafficpolicy_tmglobal_binding -NitroPath nitro/v1/config -Resource $name -Summary:$ViewSummary -Filter $Filter -GetWarning
             } else {
                 Write-Verbose "Retrieving tmtrafficpolicy_tmglobal_binding configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type tmtrafficpolicy_tmglobal_binding -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type tmtrafficpolicy_tmglobal_binding -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"

@@ -21,7 +21,7 @@ function Invoke-ADCAddCsaction {
         Invoke-ADCAddCsaction -name <string>
     .NOTES
         File Name : Invoke-ADCAddCsaction
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/cs/csaction/
         Requires  : PowerShell v5.1 and up
@@ -66,7 +66,7 @@ function Invoke-ADCAddCsaction {
             if ($PSBoundParameters.ContainsKey('comment')) { $Payload.Add('comment', $comment) }
  
             if ($PSCmdlet.ShouldProcess("csaction", "Add Content Switching configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -Type csaction -Payload $Payload -GetWarning
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -NitroPath nitro/v1/config -Type csaction -Payload $Payload -GetWarning
                 #HTTP Status Code on Success: 201 Created
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 if ($PSBoundParameters.ContainsKey('PassThru')) {
@@ -98,7 +98,7 @@ function Invoke-ADCDeleteCsaction {
         Invoke-ADCDeleteCsaction -name <string>
     .NOTES
         File Name : Invoke-ADCDeleteCsaction
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/cs/csaction/
         Requires  : PowerShell v5.1 and up
@@ -126,7 +126,7 @@ function Invoke-ADCDeleteCsaction {
             }
 
             if ($PSCmdlet.ShouldProcess("$name", "Delete Content Switching configuration Object")) {
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type csaction -Resource $name -Arguments $Arguments
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type csaction -NitroPath nitro/v1/config -Resource $name -Arguments $Arguments
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $response
@@ -164,7 +164,7 @@ function Invoke-ADCUpdateCsaction {
         Invoke-ADCUpdateCsaction -name <string>
     .NOTES
         File Name : Invoke-ADCUpdateCsaction
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/cs/csaction/
         Requires  : PowerShell v5.1 and up
@@ -209,7 +209,7 @@ function Invoke-ADCUpdateCsaction {
             if ($PSBoundParameters.ContainsKey('comment')) { $Payload.Add('comment', $comment) }
  
             if ($PSCmdlet.ShouldProcess("csaction", "Update Content Switching configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -Type csaction -Payload $Payload -GetWarning
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -NitroPath nitro/v1/config -Type csaction -Payload $Payload -GetWarning
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 if ($PSBoundParameters.ContainsKey('PassThru')) {
@@ -243,7 +243,7 @@ function Invoke-ADCUnsetCsaction {
         Invoke-ADCUnsetCsaction -name <string>
     .NOTES
         File Name : Invoke-ADCUnsetCsaction
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/cs/csaction
         Requires  : PowerShell v5.1 and up
@@ -275,7 +275,7 @@ function Invoke-ADCUnsetCsaction {
             }
             if ($PSBoundParameters.ContainsKey('comment')) { $Payload.Add('comment', $comment) }
             if ($PSCmdlet.ShouldProcess("$name", "Unset Content Switching configuration Object")) {
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -Type csaction -Action unset -Payload $Payload -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -Type csaction -NitroPath nitro/v1/config -Action unset -Payload $Payload -GetWarning
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $response
@@ -306,7 +306,7 @@ function Invoke-ADCRenameCsaction {
         Invoke-ADCRenameCsaction -name <string> -newname <string>
     .NOTES
         File Name : Invoke-ADCRenameCsaction
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/cs/csaction/
         Requires  : PowerShell v5.1 and up
@@ -346,7 +346,7 @@ function Invoke-ADCRenameCsaction {
 
  
             if ($PSCmdlet.ShouldProcess("csaction", "Rename Content Switching configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -Type csaction -Action rename -Payload $Payload -GetWarning
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -NitroPath nitro/v1/config -Type csaction -Action rename -Payload $Payload -GetWarning
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 if ($PSBoundParameters.ContainsKey('PassThru')) {
@@ -395,7 +395,7 @@ function Invoke-ADCGetCsaction {
         Invoke-ADCGetCsaction -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetCsaction
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/cs/csaction/
         Requires  : PowerShell v5.1 and up
@@ -436,21 +436,21 @@ function Invoke-ADCGetCsaction {
             if ( $PsCmdlet.ParameterSetName -eq 'Getall' ) {
                 $Query = @{ }
                 Write-Verbose "Retrieving all csaction objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type csaction -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type csaction -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
                 if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for csaction objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type csaction -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type csaction -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving csaction objects by arguments"
                 $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type csaction -Arguments $Arguments -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type csaction -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving csaction configuration for property 'name'"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type csaction -Resource $name -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type csaction -NitroPath nitro/v1/config -Resource $name -Summary:$ViewSummary -Filter $Filter -GetWarning
             } else {
                 Write-Verbose "Retrieving csaction configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type csaction -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type csaction -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -477,7 +477,7 @@ function Invoke-ADCUpdateCsparameter {
         Invoke-ADCUpdateCsparameter 
     .NOTES
         File Name : Invoke-ADCUpdateCsparameter
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/cs/csparameter/
         Requires  : PowerShell v5.1 and up
@@ -508,7 +508,7 @@ function Invoke-ADCUpdateCsparameter {
             if ($PSBoundParameters.ContainsKey('stateupdate')) { $Payload.Add('stateupdate', $stateupdate) }
  
             if ($PSCmdlet.ShouldProcess("csparameter", "Update Content Switching configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -Type csparameter -Payload $Payload -GetWarning
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -NitroPath nitro/v1/config -Type csparameter -Payload $Payload -GetWarning
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
             Write-Output $result
@@ -537,7 +537,7 @@ function Invoke-ADCUnsetCsparameter {
         Invoke-ADCUnsetCsparameter 
     .NOTES
         File Name : Invoke-ADCUnsetCsparameter
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/cs/csparameter
         Requires  : PowerShell v5.1 and up
@@ -565,7 +565,7 @@ function Invoke-ADCUnsetCsparameter {
             }
             if ($PSBoundParameters.ContainsKey('stateupdate')) { $Payload.Add('stateupdate', $stateupdate) }
             if ($PSCmdlet.ShouldProcess("csparameter", "Unset Content Switching configuration Object")) {
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -Type csparameter -Action unset -Payload $Payload -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -Type csparameter -NitroPath nitro/v1/config -Action unset -Payload $Payload -GetWarning
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $response
@@ -605,7 +605,7 @@ function Invoke-ADCGetCsparameter {
         Invoke-ADCGetCsparameter -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetCsparameter
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/cs/csparameter/
         Requires  : PowerShell v5.1 and up
@@ -634,21 +634,21 @@ function Invoke-ADCGetCsparameter {
             if ( $PsCmdlet.ParameterSetName -eq 'Getall' ) {
                 $Query = @{ }
                 Write-Verbose "Retrieving all csparameter objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type csparameter -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type csparameter -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
                 if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for csparameter objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type csparameter -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type csparameter -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving csparameter objects by arguments"
                 $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type csparameter -Arguments $Arguments -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type csparameter -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving csparameter configuration for property ''"
 
             } else {
                 Write-Verbose "Retrieving csparameter configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type csparameter -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type csparameter -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -692,7 +692,7 @@ function Invoke-ADCAddCspolicy {
         Invoke-ADCAddCspolicy -policyname <string>
     .NOTES
         File Name : Invoke-ADCAddCspolicy
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/cs/cspolicy/
         Requires  : PowerShell v5.1 and up
@@ -743,7 +743,7 @@ function Invoke-ADCAddCspolicy {
             if ($PSBoundParameters.ContainsKey('logaction')) { $Payload.Add('logaction', $logaction) }
  
             if ($PSCmdlet.ShouldProcess("cspolicy", "Add Content Switching configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -Type cspolicy -Payload $Payload -GetWarning
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -NitroPath nitro/v1/config -Type cspolicy -Payload $Payload -GetWarning
                 #HTTP Status Code on Success: 201 Created
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 if ($PSBoundParameters.ContainsKey('PassThru')) {
@@ -775,7 +775,7 @@ function Invoke-ADCDeleteCspolicy {
         Invoke-ADCDeleteCspolicy -policyname <string>
     .NOTES
         File Name : Invoke-ADCDeleteCspolicy
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/cs/cspolicy/
         Requires  : PowerShell v5.1 and up
@@ -803,7 +803,7 @@ function Invoke-ADCDeleteCspolicy {
             }
 
             if ($PSCmdlet.ShouldProcess("$policyname", "Delete Content Switching configuration Object")) {
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type cspolicy -Resource $policyname -Arguments $Arguments
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type cspolicy -NitroPath nitro/v1/config -Resource $policyname -Arguments $Arguments
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $response
@@ -849,7 +849,7 @@ function Invoke-ADCUpdateCspolicy {
         Invoke-ADCUpdateCspolicy -policyname <string>
     .NOTES
         File Name : Invoke-ADCUpdateCspolicy
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/cs/cspolicy/
         Requires  : PowerShell v5.1 and up
@@ -900,7 +900,7 @@ function Invoke-ADCUpdateCspolicy {
             if ($PSBoundParameters.ContainsKey('logaction')) { $Payload.Add('logaction', $logaction) }
  
             if ($PSCmdlet.ShouldProcess("cspolicy", "Update Content Switching configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -Type cspolicy -Payload $Payload -GetWarning
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -NitroPath nitro/v1/config -Type cspolicy -Payload $Payload -GetWarning
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 if ($PSBoundParameters.ContainsKey('PassThru')) {
@@ -944,7 +944,7 @@ function Invoke-ADCUnsetCspolicy {
         Invoke-ADCUnsetCspolicy -policyname <string>
     .NOTES
         File Name : Invoke-ADCUnsetCspolicy
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/cs/cspolicy
         Requires  : PowerShell v5.1 and up
@@ -986,7 +986,7 @@ function Invoke-ADCUnsetCspolicy {
             if ($PSBoundParameters.ContainsKey('rule')) { $Payload.Add('rule', $rule) }
             if ($PSBoundParameters.ContainsKey('domain')) { $Payload.Add('domain', $domain) }
             if ($PSCmdlet.ShouldProcess("$policyname", "Unset Content Switching configuration Object")) {
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -Type cspolicy -Action unset -Payload $Payload -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -Type cspolicy -NitroPath nitro/v1/config -Action unset -Payload $Payload -GetWarning
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $response
@@ -1018,7 +1018,7 @@ function Invoke-ADCRenameCspolicy {
         Invoke-ADCRenameCspolicy -policyname <string> -newname <string>
     .NOTES
         File Name : Invoke-ADCRenameCspolicy
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/cs/cspolicy/
         Requires  : PowerShell v5.1 and up
@@ -1058,7 +1058,7 @@ function Invoke-ADCRenameCspolicy {
 
  
             if ($PSCmdlet.ShouldProcess("cspolicy", "Rename Content Switching configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -Type cspolicy -Action rename -Payload $Payload -GetWarning
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -NitroPath nitro/v1/config -Type cspolicy -Action rename -Payload $Payload -GetWarning
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 if ($PSBoundParameters.ContainsKey('PassThru')) {
@@ -1107,7 +1107,7 @@ function Invoke-ADCGetCspolicy {
         Invoke-ADCGetCspolicy -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetCspolicy
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/cs/cspolicy/
         Requires  : PowerShell v5.1 and up
@@ -1149,21 +1149,21 @@ function Invoke-ADCGetCspolicy {
             if ( $PsCmdlet.ParameterSetName -eq 'Getall' ) {
                 $Query = @{ }
                 Write-Verbose "Retrieving all cspolicy objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type cspolicy -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type cspolicy -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
                 if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for cspolicy objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type cspolicy -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type cspolicy -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving cspolicy objects by arguments"
                 $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type cspolicy -Arguments $Arguments -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type cspolicy -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving cspolicy configuration for property 'policyname'"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type cspolicy -Resource $policyname -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type cspolicy -NitroPath nitro/v1/config -Resource $policyname -Summary:$ViewSummary -Filter $Filter -GetWarning
             } else {
                 Write-Verbose "Retrieving cspolicy configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type cspolicy -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type cspolicy -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -1206,7 +1206,7 @@ function Invoke-ADCAddCspolicylabel {
         Invoke-ADCAddCspolicylabel -labelname <string> -cspolicylabeltype <string>
     .NOTES
         File Name : Invoke-ADCAddCspolicylabel
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/cs/cspolicylabel/
         Requires  : PowerShell v5.1 and up
@@ -1245,7 +1245,7 @@ function Invoke-ADCAddCspolicylabel {
 
  
             if ($PSCmdlet.ShouldProcess("cspolicylabel", "Add Content Switching configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -Type cspolicylabel -Payload $Payload -GetWarning
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -NitroPath nitro/v1/config -Type cspolicylabel -Payload $Payload -GetWarning
                 #HTTP Status Code on Success: 201 Created
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 if ($PSBoundParameters.ContainsKey('PassThru')) {
@@ -1278,7 +1278,7 @@ function Invoke-ADCDeleteCspolicylabel {
         Invoke-ADCDeleteCspolicylabel -labelname <string>
     .NOTES
         File Name : Invoke-ADCDeleteCspolicylabel
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/cs/cspolicylabel/
         Requires  : PowerShell v5.1 and up
@@ -1306,7 +1306,7 @@ function Invoke-ADCDeleteCspolicylabel {
             }
 
             if ($PSCmdlet.ShouldProcess("$labelname", "Delete Content Switching configuration Object")) {
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type cspolicylabel -Resource $labelname -Arguments $Arguments
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type cspolicylabel -NitroPath nitro/v1/config -Resource $labelname -Arguments $Arguments
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $response
@@ -1339,7 +1339,7 @@ function Invoke-ADCRenameCspolicylabel {
         Invoke-ADCRenameCspolicylabel -labelname <string> -newname <string>
     .NOTES
         File Name : Invoke-ADCRenameCspolicylabel
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/cs/cspolicylabel/
         Requires  : PowerShell v5.1 and up
@@ -1378,7 +1378,7 @@ function Invoke-ADCRenameCspolicylabel {
 
  
             if ($PSCmdlet.ShouldProcess("cspolicylabel", "Rename Content Switching configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -Type cspolicylabel -Action rename -Payload $Payload -GetWarning
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -NitroPath nitro/v1/config -Type cspolicylabel -Action rename -Payload $Payload -GetWarning
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 if ($PSBoundParameters.ContainsKey('PassThru')) {
@@ -1428,7 +1428,7 @@ function Invoke-ADCGetCspolicylabel {
         Invoke-ADCGetCspolicylabel -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetCspolicylabel
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/cs/cspolicylabel/
         Requires  : PowerShell v5.1 and up
@@ -1469,21 +1469,21 @@ function Invoke-ADCGetCspolicylabel {
             if ( $PsCmdlet.ParameterSetName -eq 'Getall' ) {
                 $Query = @{ }
                 Write-Verbose "Retrieving all cspolicylabel objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type cspolicylabel -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type cspolicylabel -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
                 if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for cspolicylabel objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type cspolicylabel -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type cspolicylabel -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving cspolicylabel objects by arguments"
                 $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type cspolicylabel -Arguments $Arguments -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type cspolicylabel -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving cspolicylabel configuration for property 'labelname'"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type cspolicylabel -Resource $labelname -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type cspolicylabel -NitroPath nitro/v1/config -Resource $labelname -Summary:$ViewSummary -Filter $Filter -GetWarning
             } else {
                 Write-Verbose "Retrieving cspolicylabel configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type cspolicylabel -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type cspolicylabel -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -1523,7 +1523,7 @@ function Invoke-ADCGetCspolicylabelbinding {
         Invoke-ADCGetCspolicylabelbinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetCspolicylabelbinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/cs/cspolicylabel_binding/
         Requires  : PowerShell v5.1 and up
@@ -1557,21 +1557,21 @@ function Invoke-ADCGetCspolicylabelbinding {
                     bulkbindings = 'yes'
                 }
                 Write-Verbose "Retrieving all cspolicylabel_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type cspolicylabel_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type cspolicylabel_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
                 if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for cspolicylabel_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type cspolicylabel_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type cspolicylabel_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving cspolicylabel_binding objects by arguments"
                 $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type cspolicylabel_binding -Arguments $Arguments -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type cspolicylabel_binding -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving cspolicylabel_binding configuration for property 'labelname'"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type cspolicylabel_binding -Resource $labelname -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type cspolicylabel_binding -NitroPath nitro/v1/config -Resource $labelname -Summary:$ViewSummary -Filter $Filter -GetWarning
             } else {
                 Write-Verbose "Retrieving cspolicylabel_binding configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type cspolicylabel_binding -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type cspolicylabel_binding -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -1613,7 +1613,7 @@ function Invoke-ADCAddCspolicylabelcspolicybinding {
         Invoke-ADCAddCspolicylabelcspolicybinding -labelname <string> -policyname <string> -priority <double>
     .NOTES
         File Name : Invoke-ADCAddCspolicylabelcspolicybinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/cs/cspolicylabel_cspolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -1669,7 +1669,7 @@ function Invoke-ADCAddCspolicylabelcspolicybinding {
             if ($PSBoundParameters.ContainsKey('invoke_labelname')) { $Payload.Add('invoke_labelname', $invoke_labelname) }
  
             if ($PSCmdlet.ShouldProcess("cspolicylabel_cspolicy_binding", "Add Content Switching configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -Type cspolicylabel_cspolicy_binding -Payload $Payload -GetWarning
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -NitroPath nitro/v1/config -Type cspolicylabel_cspolicy_binding -Payload $Payload -GetWarning
                 #HTTP Status Code on Success: 201 Created
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 if ($PSBoundParameters.ContainsKey('PassThru')) {
@@ -1702,7 +1702,7 @@ function Invoke-ADCDeleteCspolicylabelcspolicybinding {
         Invoke-ADCDeleteCspolicylabelcspolicybinding -labelname <string>
     .NOTES
         File Name : Invoke-ADCDeleteCspolicylabelcspolicybinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/cs/cspolicylabel_cspolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -1732,7 +1732,7 @@ function Invoke-ADCDeleteCspolicylabelcspolicybinding {
             }
             if ($PSBoundParameters.ContainsKey('policyname')) { $Arguments.Add('policyname', $policyname) }
             if ($PSCmdlet.ShouldProcess("$labelname", "Delete Content Switching configuration Object")) {
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type cspolicylabel_cspolicy_binding -Resource $labelname -Arguments $Arguments
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type cspolicylabel_cspolicy_binding -NitroPath nitro/v1/config -Resource $labelname -Arguments $Arguments
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $response
@@ -1776,7 +1776,7 @@ function Invoke-ADCGetCspolicylabelcspolicybinding {
         Invoke-ADCGetCspolicylabelcspolicybinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetCspolicylabelcspolicybinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/cs/cspolicylabel_cspolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -1813,21 +1813,21 @@ function Invoke-ADCGetCspolicylabelcspolicybinding {
                     bulkbindings = 'yes'
                 }
                 Write-Verbose "Retrieving all cspolicylabel_cspolicy_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type cspolicylabel_cspolicy_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type cspolicylabel_cspolicy_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
                 if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for cspolicylabel_cspolicy_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type cspolicylabel_cspolicy_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type cspolicylabel_cspolicy_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving cspolicylabel_cspolicy_binding objects by arguments"
                 $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type cspolicylabel_cspolicy_binding -Arguments $Arguments -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type cspolicylabel_cspolicy_binding -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving cspolicylabel_cspolicy_binding configuration for property 'labelname'"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type cspolicylabel_cspolicy_binding -Resource $labelname -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type cspolicylabel_cspolicy_binding -NitroPath nitro/v1/config -Resource $labelname -Summary:$ViewSummary -Filter $Filter -GetWarning
             } else {
                 Write-Verbose "Retrieving cspolicylabel_cspolicy_binding configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type cspolicylabel_cspolicy_binding -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type cspolicylabel_cspolicy_binding -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -1867,7 +1867,7 @@ function Invoke-ADCGetCspolicybinding {
         Invoke-ADCGetCspolicybinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetCspolicybinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/cs/cspolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -1902,21 +1902,21 @@ function Invoke-ADCGetCspolicybinding {
                     bulkbindings = 'yes'
                 }
                 Write-Verbose "Retrieving all cspolicy_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type cspolicy_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type cspolicy_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
                 if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for cspolicy_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type cspolicy_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type cspolicy_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving cspolicy_binding objects by arguments"
                 $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type cspolicy_binding -Arguments $Arguments -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type cspolicy_binding -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving cspolicy_binding configuration for property 'policyname'"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type cspolicy_binding -Resource $policyname -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type cspolicy_binding -NitroPath nitro/v1/config -Resource $policyname -Summary:$ViewSummary -Filter $Filter -GetWarning
             } else {
                 Write-Verbose "Retrieving cspolicy_binding configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type cspolicy_binding -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type cspolicy_binding -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -1958,7 +1958,7 @@ function Invoke-ADCGetCspolicycrvserverbinding {
         Invoke-ADCGetCspolicycrvserverbinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetCspolicycrvserverbinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/cs/cspolicy_crvserver_binding/
         Requires  : PowerShell v5.1 and up
@@ -1996,21 +1996,21 @@ function Invoke-ADCGetCspolicycrvserverbinding {
                     bulkbindings = 'yes'
                 }
                 Write-Verbose "Retrieving all cspolicy_crvserver_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type cspolicy_crvserver_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type cspolicy_crvserver_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
                 if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for cspolicy_crvserver_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type cspolicy_crvserver_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type cspolicy_crvserver_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving cspolicy_crvserver_binding objects by arguments"
                 $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type cspolicy_crvserver_binding -Arguments $Arguments -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type cspolicy_crvserver_binding -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving cspolicy_crvserver_binding configuration for property 'policyname'"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type cspolicy_crvserver_binding -Resource $policyname -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type cspolicy_crvserver_binding -NitroPath nitro/v1/config -Resource $policyname -Summary:$ViewSummary -Filter $Filter -GetWarning
             } else {
                 Write-Verbose "Retrieving cspolicy_crvserver_binding configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type cspolicy_crvserver_binding -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type cspolicy_crvserver_binding -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -2052,7 +2052,7 @@ function Invoke-ADCGetCspolicycspolicylabelbinding {
         Invoke-ADCGetCspolicycspolicylabelbinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetCspolicycspolicylabelbinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/cs/cspolicy_cspolicylabel_binding/
         Requires  : PowerShell v5.1 and up
@@ -2090,21 +2090,21 @@ function Invoke-ADCGetCspolicycspolicylabelbinding {
                     bulkbindings = 'yes'
                 }
                 Write-Verbose "Retrieving all cspolicy_cspolicylabel_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type cspolicy_cspolicylabel_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type cspolicy_cspolicylabel_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
                 if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for cspolicy_cspolicylabel_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type cspolicy_cspolicylabel_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type cspolicy_cspolicylabel_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving cspolicy_cspolicylabel_binding objects by arguments"
                 $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type cspolicy_cspolicylabel_binding -Arguments $Arguments -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type cspolicy_cspolicylabel_binding -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving cspolicy_cspolicylabel_binding configuration for property 'policyname'"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type cspolicy_cspolicylabel_binding -Resource $policyname -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type cspolicy_cspolicylabel_binding -NitroPath nitro/v1/config -Resource $policyname -Summary:$ViewSummary -Filter $Filter -GetWarning
             } else {
                 Write-Verbose "Retrieving cspolicy_cspolicylabel_binding configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type cspolicy_cspolicylabel_binding -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type cspolicy_cspolicylabel_binding -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -2146,7 +2146,7 @@ function Invoke-ADCGetCspolicycsvserverbinding {
         Invoke-ADCGetCspolicycsvserverbinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetCspolicycsvserverbinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/cs/cspolicy_csvserver_binding/
         Requires  : PowerShell v5.1 and up
@@ -2184,21 +2184,21 @@ function Invoke-ADCGetCspolicycsvserverbinding {
                     bulkbindings = 'yes'
                 }
                 Write-Verbose "Retrieving all cspolicy_csvserver_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type cspolicy_csvserver_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type cspolicy_csvserver_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
                 if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for cspolicy_csvserver_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type cspolicy_csvserver_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type cspolicy_csvserver_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving cspolicy_csvserver_binding objects by arguments"
                 $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type cspolicy_csvserver_binding -Arguments $Arguments -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type cspolicy_csvserver_binding -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving cspolicy_csvserver_binding configuration for property 'policyname'"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type cspolicy_csvserver_binding -Resource $policyname -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type cspolicy_csvserver_binding -NitroPath nitro/v1/config -Resource $policyname -Summary:$ViewSummary -Filter $Filter -GetWarning
             } else {
                 Write-Verbose "Retrieving cspolicy_csvserver_binding configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type cspolicy_csvserver_binding -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type cspolicy_csvserver_binding -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -2489,7 +2489,7 @@ function Invoke-ADCAddCsvserver {
         Invoke-ADCAddCsvserver -name <string> -servicetype <string>
     .NOTES
         File Name : Invoke-ADCAddCsvserver
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/cs/csvserver/
         Requires  : PowerShell v5.1 and up
@@ -2779,7 +2779,7 @@ function Invoke-ADCAddCsvserver {
             if ($PSBoundParameters.ContainsKey('tcpprobeport')) { $Payload.Add('tcpprobeport', $tcpprobeport) }
  
             if ($PSCmdlet.ShouldProcess("csvserver", "Add Content Switching configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -Type csvserver -Payload $Payload -GetWarning
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -NitroPath nitro/v1/config -Type csvserver -Payload $Payload -GetWarning
                 #HTTP Status Code on Success: 201 Created
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 if ($PSBoundParameters.ContainsKey('PassThru')) {
@@ -2812,7 +2812,7 @@ function Invoke-ADCDeleteCsvserver {
         Invoke-ADCDeleteCsvserver -name <string>
     .NOTES
         File Name : Invoke-ADCDeleteCsvserver
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/cs/csvserver/
         Requires  : PowerShell v5.1 and up
@@ -2840,7 +2840,7 @@ function Invoke-ADCDeleteCsvserver {
             }
 
             if ($PSCmdlet.ShouldProcess("$name", "Delete Content Switching configuration Object")) {
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type csvserver -Resource $name -Arguments $Arguments
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type csvserver -NitroPath nitro/v1/config -Resource $name -Arguments $Arguments
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $response
@@ -3128,7 +3128,7 @@ function Invoke-ADCUpdateCsvserver {
         Invoke-ADCUpdateCsvserver -name <string>
     .NOTES
         File Name : Invoke-ADCUpdateCsvserver
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/cs/csvserver/
         Requires  : PowerShell v5.1 and up
@@ -3415,7 +3415,7 @@ function Invoke-ADCUpdateCsvserver {
             if ($PSBoundParameters.ContainsKey('tcpprobeport')) { $Payload.Add('tcpprobeport', $tcpprobeport) }
  
             if ($PSCmdlet.ShouldProcess("csvserver", "Update Content Switching configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -Type csvserver -Payload $Payload -GetWarning
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -NitroPath nitro/v1/config -Type csvserver -Payload $Payload -GetWarning
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 if ($PSBoundParameters.ContainsKey('PassThru')) {
@@ -3609,7 +3609,7 @@ function Invoke-ADCUnsetCsvserver {
         Invoke-ADCUnsetCsvserver -name <string>
     .NOTES
         File Name : Invoke-ADCUnsetCsvserver
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/cs/csvserver
         Requires  : PowerShell v5.1 and up
@@ -3810,7 +3810,7 @@ function Invoke-ADCUnsetCsvserver {
             if ($PSBoundParameters.ContainsKey('persistencebackup')) { $Payload.Add('persistencebackup', $persistencebackup) }
             if ($PSBoundParameters.ContainsKey('backuppersistencetimeout')) { $Payload.Add('backuppersistencetimeout', $backuppersistencetimeout) }
             if ($PSCmdlet.ShouldProcess("$name", "Unset Content Switching configuration Object")) {
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -Type csvserver -Action unset -Payload $Payload -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -Type csvserver -NitroPath nitro/v1/config -Action unset -Payload $Payload -GetWarning
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $response
@@ -3838,7 +3838,7 @@ function Invoke-ADCEnableCsvserver {
         Invoke-ADCEnableCsvserver -name <string>
     .NOTES
         File Name : Invoke-ADCEnableCsvserver
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/cs/csvserver/
         Requires  : PowerShell v5.1 and up
@@ -3870,7 +3870,7 @@ function Invoke-ADCEnableCsvserver {
             }
 
             if ($PSCmdlet.ShouldProcess($Name, "Enable Content Switching configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -Type csvserver -Action enable -Payload $Payload -GetWarning
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -NitroPath nitro/v1/config -Type csvserver -Action enable -Payload $Payload -GetWarning
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $result
@@ -3898,7 +3898,7 @@ function Invoke-ADCDisableCsvserver {
         Invoke-ADCDisableCsvserver -name <string>
     .NOTES
         File Name : Invoke-ADCDisableCsvserver
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/cs/csvserver/
         Requires  : PowerShell v5.1 and up
@@ -3930,7 +3930,7 @@ function Invoke-ADCDisableCsvserver {
             }
 
             if ($PSCmdlet.ShouldProcess($Name, "Disable Content Switching configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -Type csvserver -Action disable -Payload $Payload -GetWarning
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -NitroPath nitro/v1/config -Type csvserver -Action disable -Payload $Payload -GetWarning
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $result
@@ -3962,7 +3962,7 @@ function Invoke-ADCRenameCsvserver {
         Invoke-ADCRenameCsvserver -name <string> -newname <string>
     .NOTES
         File Name : Invoke-ADCRenameCsvserver
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/cs/csvserver/
         Requires  : PowerShell v5.1 and up
@@ -4003,7 +4003,7 @@ function Invoke-ADCRenameCsvserver {
 
  
             if ($PSCmdlet.ShouldProcess("csvserver", "Rename Content Switching configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -Type csvserver -Action rename -Payload $Payload -GetWarning
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -NitroPath nitro/v1/config -Type csvserver -Action rename -Payload $Payload -GetWarning
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 if ($PSBoundParameters.ContainsKey('PassThru')) {
@@ -4053,7 +4053,7 @@ function Invoke-ADCGetCsvserver {
         Invoke-ADCGetCsvserver -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetCsvserver
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/cs/csvserver/
         Requires  : PowerShell v5.1 and up
@@ -4095,21 +4095,21 @@ function Invoke-ADCGetCsvserver {
             if ( $PsCmdlet.ParameterSetName -eq 'Getall' ) {
                 $Query = @{ }
                 Write-Verbose "Retrieving all csvserver objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type csvserver -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type csvserver -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
                 if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for csvserver objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type csvserver -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type csvserver -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving csvserver objects by arguments"
                 $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type csvserver -Arguments $Arguments -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type csvserver -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving csvserver configuration for property 'name'"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type csvserver -Resource $name -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type csvserver -NitroPath nitro/v1/config -Resource $name -Summary:$ViewSummary -Filter $Filter -GetWarning
             } else {
                 Write-Verbose "Retrieving csvserver configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type csvserver -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type csvserver -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -4139,7 +4139,7 @@ function Invoke-ADCAddCsvserveranalyticsprofilebinding {
         Invoke-ADCAddCsvserveranalyticsprofilebinding -name <string>
     .NOTES
         File Name : Invoke-ADCAddCsvserveranalyticsprofilebinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/cs/csvserver_analyticsprofile_binding/
         Requires  : PowerShell v5.1 and up
@@ -4175,7 +4175,7 @@ function Invoke-ADCAddCsvserveranalyticsprofilebinding {
             if ($PSBoundParameters.ContainsKey('analyticsprofile')) { $Payload.Add('analyticsprofile', $analyticsprofile) }
  
             if ($PSCmdlet.ShouldProcess("csvserver_analyticsprofile_binding", "Add Content Switching configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -Type csvserver_analyticsprofile_binding -Payload $Payload -GetWarning
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -NitroPath nitro/v1/config -Type csvserver_analyticsprofile_binding -Payload $Payload -GetWarning
                 #HTTP Status Code on Success: 201 Created
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 if ($PSBoundParameters.ContainsKey('PassThru')) {
@@ -4209,7 +4209,7 @@ function Invoke-ADCDeleteCsvserveranalyticsprofilebinding {
         Invoke-ADCDeleteCsvserveranalyticsprofilebinding -name <string>
     .NOTES
         File Name : Invoke-ADCDeleteCsvserveranalyticsprofilebinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/cs/csvserver_analyticsprofile_binding/
         Requires  : PowerShell v5.1 and up
@@ -4239,7 +4239,7 @@ function Invoke-ADCDeleteCsvserveranalyticsprofilebinding {
             }
             if ($PSBoundParameters.ContainsKey('analyticsprofile')) { $Arguments.Add('analyticsprofile', $analyticsprofile) }
             if ($PSCmdlet.ShouldProcess("$name", "Delete Content Switching configuration Object")) {
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type csvserver_analyticsprofile_binding -Resource $name -Arguments $Arguments
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type csvserver_analyticsprofile_binding -NitroPath nitro/v1/config -Resource $name -Arguments $Arguments
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $response
@@ -4283,7 +4283,7 @@ function Invoke-ADCGetCsvserveranalyticsprofilebinding {
         Invoke-ADCGetCsvserveranalyticsprofilebinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetCsvserveranalyticsprofilebinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/cs/csvserver_analyticsprofile_binding/
         Requires  : PowerShell v5.1 and up
@@ -4321,21 +4321,21 @@ function Invoke-ADCGetCsvserveranalyticsprofilebinding {
                     bulkbindings = 'yes'
                 }
                 Write-Verbose "Retrieving all csvserver_analyticsprofile_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type csvserver_analyticsprofile_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type csvserver_analyticsprofile_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
                 if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for csvserver_analyticsprofile_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type csvserver_analyticsprofile_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type csvserver_analyticsprofile_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving csvserver_analyticsprofile_binding objects by arguments"
                 $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type csvserver_analyticsprofile_binding -Arguments $Arguments -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type csvserver_analyticsprofile_binding -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving csvserver_analyticsprofile_binding configuration for property 'name'"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type csvserver_analyticsprofile_binding -Resource $name -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type csvserver_analyticsprofile_binding -NitroPath nitro/v1/config -Resource $name -Summary:$ViewSummary -Filter $Filter -GetWarning
             } else {
                 Write-Verbose "Retrieving csvserver_analyticsprofile_binding configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type csvserver_analyticsprofile_binding -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type csvserver_analyticsprofile_binding -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -4382,7 +4382,7 @@ function Invoke-ADCAddCsvserverappflowpolicybinding {
         Invoke-ADCAddCsvserverappflowpolicybinding -name <string>
     .NOTES
         File Name : Invoke-ADCAddCsvserverappflowpolicybinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/cs/csvserver_appflowpolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -4442,7 +4442,7 @@ function Invoke-ADCAddCsvserverappflowpolicybinding {
             if ($PSBoundParameters.ContainsKey('labelname')) { $Payload.Add('labelname', $labelname) }
  
             if ($PSCmdlet.ShouldProcess("csvserver_appflowpolicy_binding", "Add Content Switching configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -Type csvserver_appflowpolicy_binding -Payload $Payload -GetWarning
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -NitroPath nitro/v1/config -Type csvserver_appflowpolicy_binding -Payload $Payload -GetWarning
                 #HTTP Status Code on Success: 201 Created
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 if ($PSBoundParameters.ContainsKey('PassThru')) {
@@ -4479,7 +4479,7 @@ function Invoke-ADCDeleteCsvserverappflowpolicybinding {
         Invoke-ADCDeleteCsvserverappflowpolicybinding -name <string>
     .NOTES
         File Name : Invoke-ADCDeleteCsvserverappflowpolicybinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/cs/csvserver_appflowpolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -4515,7 +4515,7 @@ function Invoke-ADCDeleteCsvserverappflowpolicybinding {
             if ($PSBoundParameters.ContainsKey('bindpoint')) { $Arguments.Add('bindpoint', $bindpoint) }
             if ($PSBoundParameters.ContainsKey('priority')) { $Arguments.Add('priority', $priority) }
             if ($PSCmdlet.ShouldProcess("$name", "Delete Content Switching configuration Object")) {
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type csvserver_appflowpolicy_binding -Resource $name -Arguments $Arguments
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type csvserver_appflowpolicy_binding -NitroPath nitro/v1/config -Resource $name -Arguments $Arguments
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $response
@@ -4559,7 +4559,7 @@ function Invoke-ADCGetCsvserverappflowpolicybinding {
         Invoke-ADCGetCsvserverappflowpolicybinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetCsvserverappflowpolicybinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/cs/csvserver_appflowpolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -4597,21 +4597,21 @@ function Invoke-ADCGetCsvserverappflowpolicybinding {
                     bulkbindings = 'yes'
                 }
                 Write-Verbose "Retrieving all csvserver_appflowpolicy_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type csvserver_appflowpolicy_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type csvserver_appflowpolicy_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
                 if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for csvserver_appflowpolicy_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type csvserver_appflowpolicy_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type csvserver_appflowpolicy_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving csvserver_appflowpolicy_binding objects by arguments"
                 $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type csvserver_appflowpolicy_binding -Arguments $Arguments -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type csvserver_appflowpolicy_binding -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving csvserver_appflowpolicy_binding configuration for property 'name'"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type csvserver_appflowpolicy_binding -Resource $name -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type csvserver_appflowpolicy_binding -NitroPath nitro/v1/config -Resource $name -Summary:$ViewSummary -Filter $Filter -GetWarning
             } else {
                 Write-Verbose "Retrieving csvserver_appflowpolicy_binding configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type csvserver_appflowpolicy_binding -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type csvserver_appflowpolicy_binding -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -4658,7 +4658,7 @@ function Invoke-ADCAddCsvserverappfwpolicybinding {
         Invoke-ADCAddCsvserverappfwpolicybinding -name <string>
     .NOTES
         File Name : Invoke-ADCAddCsvserverappfwpolicybinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/cs/csvserver_appfwpolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -4718,7 +4718,7 @@ function Invoke-ADCAddCsvserverappfwpolicybinding {
             if ($PSBoundParameters.ContainsKey('labelname')) { $Payload.Add('labelname', $labelname) }
  
             if ($PSCmdlet.ShouldProcess("csvserver_appfwpolicy_binding", "Add Content Switching configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -Type csvserver_appfwpolicy_binding -Payload $Payload -GetWarning
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -NitroPath nitro/v1/config -Type csvserver_appfwpolicy_binding -Payload $Payload -GetWarning
                 #HTTP Status Code on Success: 201 Created
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 if ($PSBoundParameters.ContainsKey('PassThru')) {
@@ -4755,7 +4755,7 @@ function Invoke-ADCDeleteCsvserverappfwpolicybinding {
         Invoke-ADCDeleteCsvserverappfwpolicybinding -name <string>
     .NOTES
         File Name : Invoke-ADCDeleteCsvserverappfwpolicybinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/cs/csvserver_appfwpolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -4791,7 +4791,7 @@ function Invoke-ADCDeleteCsvserverappfwpolicybinding {
             if ($PSBoundParameters.ContainsKey('bindpoint')) { $Arguments.Add('bindpoint', $bindpoint) }
             if ($PSBoundParameters.ContainsKey('priority')) { $Arguments.Add('priority', $priority) }
             if ($PSCmdlet.ShouldProcess("$name", "Delete Content Switching configuration Object")) {
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type csvserver_appfwpolicy_binding -Resource $name -Arguments $Arguments
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type csvserver_appfwpolicy_binding -NitroPath nitro/v1/config -Resource $name -Arguments $Arguments
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $response
@@ -4835,7 +4835,7 @@ function Invoke-ADCGetCsvserverappfwpolicybinding {
         Invoke-ADCGetCsvserverappfwpolicybinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetCsvserverappfwpolicybinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/cs/csvserver_appfwpolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -4873,21 +4873,21 @@ function Invoke-ADCGetCsvserverappfwpolicybinding {
                     bulkbindings = 'yes'
                 }
                 Write-Verbose "Retrieving all csvserver_appfwpolicy_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type csvserver_appfwpolicy_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type csvserver_appfwpolicy_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
                 if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for csvserver_appfwpolicy_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type csvserver_appfwpolicy_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type csvserver_appfwpolicy_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving csvserver_appfwpolicy_binding objects by arguments"
                 $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type csvserver_appfwpolicy_binding -Arguments $Arguments -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type csvserver_appfwpolicy_binding -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving csvserver_appfwpolicy_binding configuration for property 'name'"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type csvserver_appfwpolicy_binding -Resource $name -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type csvserver_appfwpolicy_binding -NitroPath nitro/v1/config -Resource $name -Summary:$ViewSummary -Filter $Filter -GetWarning
             } else {
                 Write-Verbose "Retrieving csvserver_appfwpolicy_binding configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type csvserver_appfwpolicy_binding -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type csvserver_appfwpolicy_binding -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -4934,7 +4934,7 @@ function Invoke-ADCAddCsvserverappqoepolicybinding {
         Invoke-ADCAddCsvserverappqoepolicybinding -name <string>
     .NOTES
         File Name : Invoke-ADCAddCsvserverappqoepolicybinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/cs/csvserver_appqoepolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -4994,7 +4994,7 @@ function Invoke-ADCAddCsvserverappqoepolicybinding {
             if ($PSBoundParameters.ContainsKey('labelname')) { $Payload.Add('labelname', $labelname) }
  
             if ($PSCmdlet.ShouldProcess("csvserver_appqoepolicy_binding", "Add Content Switching configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -Type csvserver_appqoepolicy_binding -Payload $Payload -GetWarning
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -NitroPath nitro/v1/config -Type csvserver_appqoepolicy_binding -Payload $Payload -GetWarning
                 #HTTP Status Code on Success: 201 Created
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 if ($PSBoundParameters.ContainsKey('PassThru')) {
@@ -5031,7 +5031,7 @@ function Invoke-ADCDeleteCsvserverappqoepolicybinding {
         Invoke-ADCDeleteCsvserverappqoepolicybinding -name <string>
     .NOTES
         File Name : Invoke-ADCDeleteCsvserverappqoepolicybinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/cs/csvserver_appqoepolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -5067,7 +5067,7 @@ function Invoke-ADCDeleteCsvserverappqoepolicybinding {
             if ($PSBoundParameters.ContainsKey('bindpoint')) { $Arguments.Add('bindpoint', $bindpoint) }
             if ($PSBoundParameters.ContainsKey('priority')) { $Arguments.Add('priority', $priority) }
             if ($PSCmdlet.ShouldProcess("$name", "Delete Content Switching configuration Object")) {
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type csvserver_appqoepolicy_binding -Resource $name -Arguments $Arguments
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type csvserver_appqoepolicy_binding -NitroPath nitro/v1/config -Resource $name -Arguments $Arguments
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $response
@@ -5111,7 +5111,7 @@ function Invoke-ADCGetCsvserverappqoepolicybinding {
         Invoke-ADCGetCsvserverappqoepolicybinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetCsvserverappqoepolicybinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/cs/csvserver_appqoepolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -5149,21 +5149,21 @@ function Invoke-ADCGetCsvserverappqoepolicybinding {
                     bulkbindings = 'yes'
                 }
                 Write-Verbose "Retrieving all csvserver_appqoepolicy_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type csvserver_appqoepolicy_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type csvserver_appqoepolicy_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
                 if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for csvserver_appqoepolicy_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type csvserver_appqoepolicy_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type csvserver_appqoepolicy_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving csvserver_appqoepolicy_binding objects by arguments"
                 $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type csvserver_appqoepolicy_binding -Arguments $Arguments -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type csvserver_appqoepolicy_binding -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving csvserver_appqoepolicy_binding configuration for property 'name'"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type csvserver_appqoepolicy_binding -Resource $name -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type csvserver_appqoepolicy_binding -NitroPath nitro/v1/config -Resource $name -Summary:$ViewSummary -Filter $Filter -GetWarning
             } else {
                 Write-Verbose "Retrieving csvserver_appqoepolicy_binding configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type csvserver_appqoepolicy_binding -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type csvserver_appqoepolicy_binding -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -5210,7 +5210,7 @@ function Invoke-ADCAddCsvserverauditnslogpolicybinding {
         Invoke-ADCAddCsvserverauditnslogpolicybinding -name <string>
     .NOTES
         File Name : Invoke-ADCAddCsvserverauditnslogpolicybinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/cs/csvserver_auditnslogpolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -5270,7 +5270,7 @@ function Invoke-ADCAddCsvserverauditnslogpolicybinding {
             if ($PSBoundParameters.ContainsKey('labelname')) { $Payload.Add('labelname', $labelname) }
  
             if ($PSCmdlet.ShouldProcess("csvserver_auditnslogpolicy_binding", "Add Content Switching configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -Type csvserver_auditnslogpolicy_binding -Payload $Payload -GetWarning
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -NitroPath nitro/v1/config -Type csvserver_auditnslogpolicy_binding -Payload $Payload -GetWarning
                 #HTTP Status Code on Success: 201 Created
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 if ($PSBoundParameters.ContainsKey('PassThru')) {
@@ -5307,7 +5307,7 @@ function Invoke-ADCDeleteCsvserverauditnslogpolicybinding {
         Invoke-ADCDeleteCsvserverauditnslogpolicybinding -name <string>
     .NOTES
         File Name : Invoke-ADCDeleteCsvserverauditnslogpolicybinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/cs/csvserver_auditnslogpolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -5343,7 +5343,7 @@ function Invoke-ADCDeleteCsvserverauditnslogpolicybinding {
             if ($PSBoundParameters.ContainsKey('bindpoint')) { $Arguments.Add('bindpoint', $bindpoint) }
             if ($PSBoundParameters.ContainsKey('priority')) { $Arguments.Add('priority', $priority) }
             if ($PSCmdlet.ShouldProcess("$name", "Delete Content Switching configuration Object")) {
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type csvserver_auditnslogpolicy_binding -Resource $name -Arguments $Arguments
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type csvserver_auditnslogpolicy_binding -NitroPath nitro/v1/config -Resource $name -Arguments $Arguments
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $response
@@ -5387,7 +5387,7 @@ function Invoke-ADCGetCsvserverauditnslogpolicybinding {
         Invoke-ADCGetCsvserverauditnslogpolicybinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetCsvserverauditnslogpolicybinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/cs/csvserver_auditnslogpolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -5425,21 +5425,21 @@ function Invoke-ADCGetCsvserverauditnslogpolicybinding {
                     bulkbindings = 'yes'
                 }
                 Write-Verbose "Retrieving all csvserver_auditnslogpolicy_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type csvserver_auditnslogpolicy_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type csvserver_auditnslogpolicy_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
                 if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for csvserver_auditnslogpolicy_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type csvserver_auditnslogpolicy_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type csvserver_auditnslogpolicy_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving csvserver_auditnslogpolicy_binding objects by arguments"
                 $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type csvserver_auditnslogpolicy_binding -Arguments $Arguments -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type csvserver_auditnslogpolicy_binding -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving csvserver_auditnslogpolicy_binding configuration for property 'name'"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type csvserver_auditnslogpolicy_binding -Resource $name -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type csvserver_auditnslogpolicy_binding -NitroPath nitro/v1/config -Resource $name -Summary:$ViewSummary -Filter $Filter -GetWarning
             } else {
                 Write-Verbose "Retrieving csvserver_auditnslogpolicy_binding configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type csvserver_auditnslogpolicy_binding -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type csvserver_auditnslogpolicy_binding -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -5486,7 +5486,7 @@ function Invoke-ADCAddCsvserverauditsyslogpolicybinding {
         Invoke-ADCAddCsvserverauditsyslogpolicybinding -name <string>
     .NOTES
         File Name : Invoke-ADCAddCsvserverauditsyslogpolicybinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/cs/csvserver_auditsyslogpolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -5546,7 +5546,7 @@ function Invoke-ADCAddCsvserverauditsyslogpolicybinding {
             if ($PSBoundParameters.ContainsKey('labelname')) { $Payload.Add('labelname', $labelname) }
  
             if ($PSCmdlet.ShouldProcess("csvserver_auditsyslogpolicy_binding", "Add Content Switching configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -Type csvserver_auditsyslogpolicy_binding -Payload $Payload -GetWarning
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -NitroPath nitro/v1/config -Type csvserver_auditsyslogpolicy_binding -Payload $Payload -GetWarning
                 #HTTP Status Code on Success: 201 Created
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 if ($PSBoundParameters.ContainsKey('PassThru')) {
@@ -5583,7 +5583,7 @@ function Invoke-ADCDeleteCsvserverauditsyslogpolicybinding {
         Invoke-ADCDeleteCsvserverauditsyslogpolicybinding -name <string>
     .NOTES
         File Name : Invoke-ADCDeleteCsvserverauditsyslogpolicybinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/cs/csvserver_auditsyslogpolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -5619,7 +5619,7 @@ function Invoke-ADCDeleteCsvserverauditsyslogpolicybinding {
             if ($PSBoundParameters.ContainsKey('bindpoint')) { $Arguments.Add('bindpoint', $bindpoint) }
             if ($PSBoundParameters.ContainsKey('priority')) { $Arguments.Add('priority', $priority) }
             if ($PSCmdlet.ShouldProcess("$name", "Delete Content Switching configuration Object")) {
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type csvserver_auditsyslogpolicy_binding -Resource $name -Arguments $Arguments
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type csvserver_auditsyslogpolicy_binding -NitroPath nitro/v1/config -Resource $name -Arguments $Arguments
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $response
@@ -5663,7 +5663,7 @@ function Invoke-ADCGetCsvserverauditsyslogpolicybinding {
         Invoke-ADCGetCsvserverauditsyslogpolicybinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetCsvserverauditsyslogpolicybinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/cs/csvserver_auditsyslogpolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -5701,21 +5701,21 @@ function Invoke-ADCGetCsvserverauditsyslogpolicybinding {
                     bulkbindings = 'yes'
                 }
                 Write-Verbose "Retrieving all csvserver_auditsyslogpolicy_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type csvserver_auditsyslogpolicy_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type csvserver_auditsyslogpolicy_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
                 if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for csvserver_auditsyslogpolicy_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type csvserver_auditsyslogpolicy_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type csvserver_auditsyslogpolicy_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving csvserver_auditsyslogpolicy_binding objects by arguments"
                 $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type csvserver_auditsyslogpolicy_binding -Arguments $Arguments -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type csvserver_auditsyslogpolicy_binding -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving csvserver_auditsyslogpolicy_binding configuration for property 'name'"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type csvserver_auditsyslogpolicy_binding -Resource $name -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type csvserver_auditsyslogpolicy_binding -NitroPath nitro/v1/config -Resource $name -Summary:$ViewSummary -Filter $Filter -GetWarning
             } else {
                 Write-Verbose "Retrieving csvserver_auditsyslogpolicy_binding configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type csvserver_auditsyslogpolicy_binding -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type csvserver_auditsyslogpolicy_binding -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -5762,7 +5762,7 @@ function Invoke-ADCAddCsvserverauthorizationpolicybinding {
         Invoke-ADCAddCsvserverauthorizationpolicybinding -name <string>
     .NOTES
         File Name : Invoke-ADCAddCsvserverauthorizationpolicybinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/cs/csvserver_authorizationpolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -5822,7 +5822,7 @@ function Invoke-ADCAddCsvserverauthorizationpolicybinding {
             if ($PSBoundParameters.ContainsKey('labelname')) { $Payload.Add('labelname', $labelname) }
  
             if ($PSCmdlet.ShouldProcess("csvserver_authorizationpolicy_binding", "Add Content Switching configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -Type csvserver_authorizationpolicy_binding -Payload $Payload -GetWarning
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -NitroPath nitro/v1/config -Type csvserver_authorizationpolicy_binding -Payload $Payload -GetWarning
                 #HTTP Status Code on Success: 201 Created
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 if ($PSBoundParameters.ContainsKey('PassThru')) {
@@ -5859,7 +5859,7 @@ function Invoke-ADCDeleteCsvserverauthorizationpolicybinding {
         Invoke-ADCDeleteCsvserverauthorizationpolicybinding -name <string>
     .NOTES
         File Name : Invoke-ADCDeleteCsvserverauthorizationpolicybinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/cs/csvserver_authorizationpolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -5895,7 +5895,7 @@ function Invoke-ADCDeleteCsvserverauthorizationpolicybinding {
             if ($PSBoundParameters.ContainsKey('bindpoint')) { $Arguments.Add('bindpoint', $bindpoint) }
             if ($PSBoundParameters.ContainsKey('priority')) { $Arguments.Add('priority', $priority) }
             if ($PSCmdlet.ShouldProcess("$name", "Delete Content Switching configuration Object")) {
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type csvserver_authorizationpolicy_binding -Resource $name -Arguments $Arguments
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type csvserver_authorizationpolicy_binding -NitroPath nitro/v1/config -Resource $name -Arguments $Arguments
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $response
@@ -5939,7 +5939,7 @@ function Invoke-ADCGetCsvserverauthorizationpolicybinding {
         Invoke-ADCGetCsvserverauthorizationpolicybinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetCsvserverauthorizationpolicybinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/cs/csvserver_authorizationpolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -5977,21 +5977,21 @@ function Invoke-ADCGetCsvserverauthorizationpolicybinding {
                     bulkbindings = 'yes'
                 }
                 Write-Verbose "Retrieving all csvserver_authorizationpolicy_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type csvserver_authorizationpolicy_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type csvserver_authorizationpolicy_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
                 if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for csvserver_authorizationpolicy_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type csvserver_authorizationpolicy_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type csvserver_authorizationpolicy_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving csvserver_authorizationpolicy_binding objects by arguments"
                 $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type csvserver_authorizationpolicy_binding -Arguments $Arguments -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type csvserver_authorizationpolicy_binding -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving csvserver_authorizationpolicy_binding configuration for property 'name'"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type csvserver_authorizationpolicy_binding -Resource $name -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type csvserver_authorizationpolicy_binding -NitroPath nitro/v1/config -Resource $name -Summary:$ViewSummary -Filter $Filter -GetWarning
             } else {
                 Write-Verbose "Retrieving csvserver_authorizationpolicy_binding configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type csvserver_authorizationpolicy_binding -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type csvserver_authorizationpolicy_binding -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -6031,7 +6031,7 @@ function Invoke-ADCGetCsvserverbinding {
         Invoke-ADCGetCsvserverbinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetCsvserverbinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/cs/csvserver_binding/
         Requires  : PowerShell v5.1 and up
@@ -6066,21 +6066,21 @@ function Invoke-ADCGetCsvserverbinding {
                     bulkbindings = 'yes'
                 }
                 Write-Verbose "Retrieving all csvserver_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type csvserver_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type csvserver_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
                 if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for csvserver_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type csvserver_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type csvserver_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving csvserver_binding objects by arguments"
                 $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type csvserver_binding -Arguments $Arguments -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type csvserver_binding -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving csvserver_binding configuration for property 'name'"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type csvserver_binding -Resource $name -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type csvserver_binding -NitroPath nitro/v1/config -Resource $name -Summary:$ViewSummary -Filter $Filter -GetWarning
             } else {
                 Write-Verbose "Retrieving csvserver_binding configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type csvserver_binding -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type csvserver_binding -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -6127,7 +6127,7 @@ function Invoke-ADCAddCsvserverbotpolicybinding {
         Invoke-ADCAddCsvserverbotpolicybinding -name <string>
     .NOTES
         File Name : Invoke-ADCAddCsvserverbotpolicybinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/cs/csvserver_botpolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -6187,7 +6187,7 @@ function Invoke-ADCAddCsvserverbotpolicybinding {
             if ($PSBoundParameters.ContainsKey('labelname')) { $Payload.Add('labelname', $labelname) }
  
             if ($PSCmdlet.ShouldProcess("csvserver_botpolicy_binding", "Add Content Switching configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -Type csvserver_botpolicy_binding -Payload $Payload -GetWarning
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -NitroPath nitro/v1/config -Type csvserver_botpolicy_binding -Payload $Payload -GetWarning
                 #HTTP Status Code on Success: 201 Created
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 if ($PSBoundParameters.ContainsKey('PassThru')) {
@@ -6224,7 +6224,7 @@ function Invoke-ADCDeleteCsvserverbotpolicybinding {
         Invoke-ADCDeleteCsvserverbotpolicybinding -name <string>
     .NOTES
         File Name : Invoke-ADCDeleteCsvserverbotpolicybinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/cs/csvserver_botpolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -6260,7 +6260,7 @@ function Invoke-ADCDeleteCsvserverbotpolicybinding {
             if ($PSBoundParameters.ContainsKey('bindpoint')) { $Arguments.Add('bindpoint', $bindpoint) }
             if ($PSBoundParameters.ContainsKey('priority')) { $Arguments.Add('priority', $priority) }
             if ($PSCmdlet.ShouldProcess("$name", "Delete Content Switching configuration Object")) {
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type csvserver_botpolicy_binding -Resource $name -Arguments $Arguments
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type csvserver_botpolicy_binding -NitroPath nitro/v1/config -Resource $name -Arguments $Arguments
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $response
@@ -6304,7 +6304,7 @@ function Invoke-ADCGetCsvserverbotpolicybinding {
         Invoke-ADCGetCsvserverbotpolicybinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetCsvserverbotpolicybinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/cs/csvserver_botpolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -6342,21 +6342,21 @@ function Invoke-ADCGetCsvserverbotpolicybinding {
                     bulkbindings = 'yes'
                 }
                 Write-Verbose "Retrieving all csvserver_botpolicy_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type csvserver_botpolicy_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type csvserver_botpolicy_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
                 if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for csvserver_botpolicy_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type csvserver_botpolicy_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type csvserver_botpolicy_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving csvserver_botpolicy_binding objects by arguments"
                 $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type csvserver_botpolicy_binding -Arguments $Arguments -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type csvserver_botpolicy_binding -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving csvserver_botpolicy_binding configuration for property 'name'"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type csvserver_botpolicy_binding -Resource $name -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type csvserver_botpolicy_binding -NitroPath nitro/v1/config -Resource $name -Summary:$ViewSummary -Filter $Filter -GetWarning
             } else {
                 Write-Verbose "Retrieving csvserver_botpolicy_binding configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type csvserver_botpolicy_binding -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type csvserver_botpolicy_binding -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -6403,7 +6403,7 @@ function Invoke-ADCAddCsvservercachepolicybinding {
         Invoke-ADCAddCsvservercachepolicybinding -name <string>
     .NOTES
         File Name : Invoke-ADCAddCsvservercachepolicybinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/cs/csvserver_cachepolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -6463,7 +6463,7 @@ function Invoke-ADCAddCsvservercachepolicybinding {
             if ($PSBoundParameters.ContainsKey('labelname')) { $Payload.Add('labelname', $labelname) }
  
             if ($PSCmdlet.ShouldProcess("csvserver_cachepolicy_binding", "Add Content Switching configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -Type csvserver_cachepolicy_binding -Payload $Payload -GetWarning
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -NitroPath nitro/v1/config -Type csvserver_cachepolicy_binding -Payload $Payload -GetWarning
                 #HTTP Status Code on Success: 201 Created
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 if ($PSBoundParameters.ContainsKey('PassThru')) {
@@ -6500,7 +6500,7 @@ function Invoke-ADCDeleteCsvservercachepolicybinding {
         Invoke-ADCDeleteCsvservercachepolicybinding -name <string>
     .NOTES
         File Name : Invoke-ADCDeleteCsvservercachepolicybinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/cs/csvserver_cachepolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -6536,7 +6536,7 @@ function Invoke-ADCDeleteCsvservercachepolicybinding {
             if ($PSBoundParameters.ContainsKey('bindpoint')) { $Arguments.Add('bindpoint', $bindpoint) }
             if ($PSBoundParameters.ContainsKey('priority')) { $Arguments.Add('priority', $priority) }
             if ($PSCmdlet.ShouldProcess("$name", "Delete Content Switching configuration Object")) {
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type csvserver_cachepolicy_binding -Resource $name -Arguments $Arguments
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type csvserver_cachepolicy_binding -NitroPath nitro/v1/config -Resource $name -Arguments $Arguments
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $response
@@ -6580,7 +6580,7 @@ function Invoke-ADCGetCsvservercachepolicybinding {
         Invoke-ADCGetCsvservercachepolicybinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetCsvservercachepolicybinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/cs/csvserver_cachepolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -6618,21 +6618,21 @@ function Invoke-ADCGetCsvservercachepolicybinding {
                     bulkbindings = 'yes'
                 }
                 Write-Verbose "Retrieving all csvserver_cachepolicy_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type csvserver_cachepolicy_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type csvserver_cachepolicy_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
                 if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for csvserver_cachepolicy_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type csvserver_cachepolicy_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type csvserver_cachepolicy_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving csvserver_cachepolicy_binding objects by arguments"
                 $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type csvserver_cachepolicy_binding -Arguments $Arguments -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type csvserver_cachepolicy_binding -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving csvserver_cachepolicy_binding configuration for property 'name'"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type csvserver_cachepolicy_binding -Resource $name -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type csvserver_cachepolicy_binding -NitroPath nitro/v1/config -Resource $name -Summary:$ViewSummary -Filter $Filter -GetWarning
             } else {
                 Write-Verbose "Retrieving csvserver_cachepolicy_binding configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type csvserver_cachepolicy_binding -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type csvserver_cachepolicy_binding -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -6679,7 +6679,7 @@ function Invoke-ADCAddCsvservercmppolicybinding {
         Invoke-ADCAddCsvservercmppolicybinding -name <string>
     .NOTES
         File Name : Invoke-ADCAddCsvservercmppolicybinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/cs/csvserver_cmppolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -6739,7 +6739,7 @@ function Invoke-ADCAddCsvservercmppolicybinding {
             if ($PSBoundParameters.ContainsKey('labelname')) { $Payload.Add('labelname', $labelname) }
  
             if ($PSCmdlet.ShouldProcess("csvserver_cmppolicy_binding", "Add Content Switching configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -Type csvserver_cmppolicy_binding -Payload $Payload -GetWarning
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -NitroPath nitro/v1/config -Type csvserver_cmppolicy_binding -Payload $Payload -GetWarning
                 #HTTP Status Code on Success: 201 Created
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 if ($PSBoundParameters.ContainsKey('PassThru')) {
@@ -6776,7 +6776,7 @@ function Invoke-ADCDeleteCsvservercmppolicybinding {
         Invoke-ADCDeleteCsvservercmppolicybinding -name <string>
     .NOTES
         File Name : Invoke-ADCDeleteCsvservercmppolicybinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/cs/csvserver_cmppolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -6812,7 +6812,7 @@ function Invoke-ADCDeleteCsvservercmppolicybinding {
             if ($PSBoundParameters.ContainsKey('bindpoint')) { $Arguments.Add('bindpoint', $bindpoint) }
             if ($PSBoundParameters.ContainsKey('priority')) { $Arguments.Add('priority', $priority) }
             if ($PSCmdlet.ShouldProcess("$name", "Delete Content Switching configuration Object")) {
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type csvserver_cmppolicy_binding -Resource $name -Arguments $Arguments
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type csvserver_cmppolicy_binding -NitroPath nitro/v1/config -Resource $name -Arguments $Arguments
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $response
@@ -6856,7 +6856,7 @@ function Invoke-ADCGetCsvservercmppolicybinding {
         Invoke-ADCGetCsvservercmppolicybinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetCsvservercmppolicybinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/cs/csvserver_cmppolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -6894,21 +6894,21 @@ function Invoke-ADCGetCsvservercmppolicybinding {
                     bulkbindings = 'yes'
                 }
                 Write-Verbose "Retrieving all csvserver_cmppolicy_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type csvserver_cmppolicy_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type csvserver_cmppolicy_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
                 if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for csvserver_cmppolicy_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type csvserver_cmppolicy_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type csvserver_cmppolicy_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving csvserver_cmppolicy_binding objects by arguments"
                 $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type csvserver_cmppolicy_binding -Arguments $Arguments -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type csvserver_cmppolicy_binding -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving csvserver_cmppolicy_binding configuration for property 'name'"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type csvserver_cmppolicy_binding -Resource $name -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type csvserver_cmppolicy_binding -NitroPath nitro/v1/config -Resource $name -Summary:$ViewSummary -Filter $Filter -GetWarning
             } else {
                 Write-Verbose "Retrieving csvserver_cmppolicy_binding configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type csvserver_cmppolicy_binding -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type csvserver_cmppolicy_binding -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -6955,7 +6955,7 @@ function Invoke-ADCAddCsvservercontentinspectionpolicybinding {
         Invoke-ADCAddCsvservercontentinspectionpolicybinding -name <string>
     .NOTES
         File Name : Invoke-ADCAddCsvservercontentinspectionpolicybinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/cs/csvserver_contentinspectionpolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -7015,7 +7015,7 @@ function Invoke-ADCAddCsvservercontentinspectionpolicybinding {
             if ($PSBoundParameters.ContainsKey('labelname')) { $Payload.Add('labelname', $labelname) }
  
             if ($PSCmdlet.ShouldProcess("csvserver_contentinspectionpolicy_binding", "Add Content Switching configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -Type csvserver_contentinspectionpolicy_binding -Payload $Payload -GetWarning
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -NitroPath nitro/v1/config -Type csvserver_contentinspectionpolicy_binding -Payload $Payload -GetWarning
                 #HTTP Status Code on Success: 201 Created
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 if ($PSBoundParameters.ContainsKey('PassThru')) {
@@ -7052,7 +7052,7 @@ function Invoke-ADCDeleteCsvservercontentinspectionpolicybinding {
         Invoke-ADCDeleteCsvservercontentinspectionpolicybinding -name <string>
     .NOTES
         File Name : Invoke-ADCDeleteCsvservercontentinspectionpolicybinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/cs/csvserver_contentinspectionpolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -7088,7 +7088,7 @@ function Invoke-ADCDeleteCsvservercontentinspectionpolicybinding {
             if ($PSBoundParameters.ContainsKey('bindpoint')) { $Arguments.Add('bindpoint', $bindpoint) }
             if ($PSBoundParameters.ContainsKey('priority')) { $Arguments.Add('priority', $priority) }
             if ($PSCmdlet.ShouldProcess("$name", "Delete Content Switching configuration Object")) {
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type csvserver_contentinspectionpolicy_binding -Resource $name -Arguments $Arguments
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type csvserver_contentinspectionpolicy_binding -NitroPath nitro/v1/config -Resource $name -Arguments $Arguments
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $response
@@ -7132,7 +7132,7 @@ function Invoke-ADCGetCsvservercontentinspectionpolicybinding {
         Invoke-ADCGetCsvservercontentinspectionpolicybinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetCsvservercontentinspectionpolicybinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/cs/csvserver_contentinspectionpolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -7170,21 +7170,21 @@ function Invoke-ADCGetCsvservercontentinspectionpolicybinding {
                     bulkbindings = 'yes'
                 }
                 Write-Verbose "Retrieving all csvserver_contentinspectionpolicy_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type csvserver_contentinspectionpolicy_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type csvserver_contentinspectionpolicy_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
                 if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for csvserver_contentinspectionpolicy_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type csvserver_contentinspectionpolicy_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type csvserver_contentinspectionpolicy_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving csvserver_contentinspectionpolicy_binding objects by arguments"
                 $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type csvserver_contentinspectionpolicy_binding -Arguments $Arguments -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type csvserver_contentinspectionpolicy_binding -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving csvserver_contentinspectionpolicy_binding configuration for property 'name'"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type csvserver_contentinspectionpolicy_binding -Resource $name -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type csvserver_contentinspectionpolicy_binding -NitroPath nitro/v1/config -Resource $name -Summary:$ViewSummary -Filter $Filter -GetWarning
             } else {
                 Write-Verbose "Retrieving csvserver_contentinspectionpolicy_binding configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type csvserver_contentinspectionpolicy_binding -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type csvserver_contentinspectionpolicy_binding -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -7230,7 +7230,7 @@ function Invoke-ADCAddCsvservercspolicybinding {
         Invoke-ADCAddCsvservercspolicybinding -name <string>
     .NOTES
         File Name : Invoke-ADCAddCsvservercspolicybinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/cs/csvserver_cspolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -7289,7 +7289,7 @@ function Invoke-ADCAddCsvservercspolicybinding {
             if ($PSBoundParameters.ContainsKey('labelname')) { $Payload.Add('labelname', $labelname) }
  
             if ($PSCmdlet.ShouldProcess("csvserver_cspolicy_binding", "Add Content Switching configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -Type csvserver_cspolicy_binding -Payload $Payload -GetWarning
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -NitroPath nitro/v1/config -Type csvserver_cspolicy_binding -Payload $Payload -GetWarning
                 #HTTP Status Code on Success: 201 Created
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 if ($PSBoundParameters.ContainsKey('PassThru')) {
@@ -7326,7 +7326,7 @@ function Invoke-ADCDeleteCsvservercspolicybinding {
         Invoke-ADCDeleteCsvservercspolicybinding -name <string>
     .NOTES
         File Name : Invoke-ADCDeleteCsvservercspolicybinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/cs/csvserver_cspolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -7362,7 +7362,7 @@ function Invoke-ADCDeleteCsvservercspolicybinding {
             if ($PSBoundParameters.ContainsKey('bindpoint')) { $Arguments.Add('bindpoint', $bindpoint) }
             if ($PSBoundParameters.ContainsKey('priority')) { $Arguments.Add('priority', $priority) }
             if ($PSCmdlet.ShouldProcess("$name", "Delete Content Switching configuration Object")) {
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type csvserver_cspolicy_binding -Resource $name -Arguments $Arguments
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type csvserver_cspolicy_binding -NitroPath nitro/v1/config -Resource $name -Arguments $Arguments
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $response
@@ -7406,7 +7406,7 @@ function Invoke-ADCGetCsvservercspolicybinding {
         Invoke-ADCGetCsvservercspolicybinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetCsvservercspolicybinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/cs/csvserver_cspolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -7444,21 +7444,21 @@ function Invoke-ADCGetCsvservercspolicybinding {
                     bulkbindings = 'yes'
                 }
                 Write-Verbose "Retrieving all csvserver_cspolicy_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type csvserver_cspolicy_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type csvserver_cspolicy_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
                 if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for csvserver_cspolicy_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type csvserver_cspolicy_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type csvserver_cspolicy_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving csvserver_cspolicy_binding objects by arguments"
                 $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type csvserver_cspolicy_binding -Arguments $Arguments -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type csvserver_cspolicy_binding -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving csvserver_cspolicy_binding configuration for property 'name'"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type csvserver_cspolicy_binding -Resource $name -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type csvserver_cspolicy_binding -NitroPath nitro/v1/config -Resource $name -Summary:$ViewSummary -Filter $Filter -GetWarning
             } else {
                 Write-Verbose "Retrieving csvserver_cspolicy_binding configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type csvserver_cspolicy_binding -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type csvserver_cspolicy_binding -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -7505,7 +7505,7 @@ function Invoke-ADCAddCsvserverdomainbinding {
         Invoke-ADCAddCsvserverdomainbinding -name <string>
     .NOTES
         File Name : Invoke-ADCAddCsvserverdomainbinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/cs/csvserver_domain_binding/
         Requires  : PowerShell v5.1 and up
@@ -7560,7 +7560,7 @@ function Invoke-ADCAddCsvserverdomainbinding {
             if ($PSBoundParameters.ContainsKey('sitedomainttl')) { $Payload.Add('sitedomainttl', $sitedomainttl) }
  
             if ($PSCmdlet.ShouldProcess("csvserver_domain_binding", "Add Content Switching configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -Type csvserver_domain_binding -Payload $Payload -GetWarning
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -NitroPath nitro/v1/config -Type csvserver_domain_binding -Payload $Payload -GetWarning
                 #HTTP Status Code on Success: 201 Created
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 if ($PSBoundParameters.ContainsKey('PassThru')) {
@@ -7595,7 +7595,7 @@ function Invoke-ADCDeleteCsvserverdomainbinding {
         Invoke-ADCDeleteCsvserverdomainbinding -name <string>
     .NOTES
         File Name : Invoke-ADCDeleteCsvserverdomainbinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/cs/csvserver_domain_binding/
         Requires  : PowerShell v5.1 and up
@@ -7625,7 +7625,7 @@ function Invoke-ADCDeleteCsvserverdomainbinding {
             }
             if ($PSBoundParameters.ContainsKey('domainname')) { $Arguments.Add('domainname', $domainname) }
             if ($PSCmdlet.ShouldProcess("$name", "Delete Content Switching configuration Object")) {
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type csvserver_domain_binding -Resource $name -Arguments $Arguments
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type csvserver_domain_binding -NitroPath nitro/v1/config -Resource $name -Arguments $Arguments
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $response
@@ -7669,7 +7669,7 @@ function Invoke-ADCGetCsvserverdomainbinding {
         Invoke-ADCGetCsvserverdomainbinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetCsvserverdomainbinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/cs/csvserver_domain_binding/
         Requires  : PowerShell v5.1 and up
@@ -7707,21 +7707,21 @@ function Invoke-ADCGetCsvserverdomainbinding {
                     bulkbindings = 'yes'
                 }
                 Write-Verbose "Retrieving all csvserver_domain_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type csvserver_domain_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type csvserver_domain_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
                 if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for csvserver_domain_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type csvserver_domain_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type csvserver_domain_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving csvserver_domain_binding objects by arguments"
                 $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type csvserver_domain_binding -Arguments $Arguments -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type csvserver_domain_binding -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving csvserver_domain_binding configuration for property 'name'"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type csvserver_domain_binding -Resource $name -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type csvserver_domain_binding -NitroPath nitro/v1/config -Resource $name -Summary:$ViewSummary -Filter $Filter -GetWarning
             } else {
                 Write-Verbose "Retrieving csvserver_domain_binding configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type csvserver_domain_binding -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type csvserver_domain_binding -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -7768,7 +7768,7 @@ function Invoke-ADCAddCsvserverfeopolicybinding {
         Invoke-ADCAddCsvserverfeopolicybinding -name <string>
     .NOTES
         File Name : Invoke-ADCAddCsvserverfeopolicybinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/cs/csvserver_feopolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -7828,7 +7828,7 @@ function Invoke-ADCAddCsvserverfeopolicybinding {
             if ($PSBoundParameters.ContainsKey('labelname')) { $Payload.Add('labelname', $labelname) }
  
             if ($PSCmdlet.ShouldProcess("csvserver_feopolicy_binding", "Add Content Switching configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -Type csvserver_feopolicy_binding -Payload $Payload -GetWarning
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -NitroPath nitro/v1/config -Type csvserver_feopolicy_binding -Payload $Payload -GetWarning
                 #HTTP Status Code on Success: 201 Created
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 if ($PSBoundParameters.ContainsKey('PassThru')) {
@@ -7865,7 +7865,7 @@ function Invoke-ADCDeleteCsvserverfeopolicybinding {
         Invoke-ADCDeleteCsvserverfeopolicybinding -name <string>
     .NOTES
         File Name : Invoke-ADCDeleteCsvserverfeopolicybinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/cs/csvserver_feopolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -7901,7 +7901,7 @@ function Invoke-ADCDeleteCsvserverfeopolicybinding {
             if ($PSBoundParameters.ContainsKey('bindpoint')) { $Arguments.Add('bindpoint', $bindpoint) }
             if ($PSBoundParameters.ContainsKey('priority')) { $Arguments.Add('priority', $priority) }
             if ($PSCmdlet.ShouldProcess("$name", "Delete Content Switching configuration Object")) {
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type csvserver_feopolicy_binding -Resource $name -Arguments $Arguments
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type csvserver_feopolicy_binding -NitroPath nitro/v1/config -Resource $name -Arguments $Arguments
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $response
@@ -7945,7 +7945,7 @@ function Invoke-ADCGetCsvserverfeopolicybinding {
         Invoke-ADCGetCsvserverfeopolicybinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetCsvserverfeopolicybinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/cs/csvserver_feopolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -7983,21 +7983,21 @@ function Invoke-ADCGetCsvserverfeopolicybinding {
                     bulkbindings = 'yes'
                 }
                 Write-Verbose "Retrieving all csvserver_feopolicy_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type csvserver_feopolicy_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type csvserver_feopolicy_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
                 if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for csvserver_feopolicy_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type csvserver_feopolicy_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type csvserver_feopolicy_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving csvserver_feopolicy_binding objects by arguments"
                 $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type csvserver_feopolicy_binding -Arguments $Arguments -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type csvserver_feopolicy_binding -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving csvserver_feopolicy_binding configuration for property 'name'"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type csvserver_feopolicy_binding -Resource $name -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type csvserver_feopolicy_binding -NitroPath nitro/v1/config -Resource $name -Summary:$ViewSummary -Filter $Filter -GetWarning
             } else {
                 Write-Verbose "Retrieving csvserver_feopolicy_binding configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type csvserver_feopolicy_binding -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type csvserver_feopolicy_binding -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -8044,7 +8044,7 @@ function Invoke-ADCAddCsvserverfilterpolicybinding {
         Invoke-ADCAddCsvserverfilterpolicybinding -name <string>
     .NOTES
         File Name : Invoke-ADCAddCsvserverfilterpolicybinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/cs/csvserver_filterpolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -8104,7 +8104,7 @@ function Invoke-ADCAddCsvserverfilterpolicybinding {
             if ($PSBoundParameters.ContainsKey('labelname')) { $Payload.Add('labelname', $labelname) }
  
             if ($PSCmdlet.ShouldProcess("csvserver_filterpolicy_binding", "Add Content Switching configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -Type csvserver_filterpolicy_binding -Payload $Payload -GetWarning
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -NitroPath nitro/v1/config -Type csvserver_filterpolicy_binding -Payload $Payload -GetWarning
                 #HTTP Status Code on Success: 201 Created
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 if ($PSBoundParameters.ContainsKey('PassThru')) {
@@ -8141,7 +8141,7 @@ function Invoke-ADCDeleteCsvserverfilterpolicybinding {
         Invoke-ADCDeleteCsvserverfilterpolicybinding -name <string>
     .NOTES
         File Name : Invoke-ADCDeleteCsvserverfilterpolicybinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/cs/csvserver_filterpolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -8177,7 +8177,7 @@ function Invoke-ADCDeleteCsvserverfilterpolicybinding {
             if ($PSBoundParameters.ContainsKey('bindpoint')) { $Arguments.Add('bindpoint', $bindpoint) }
             if ($PSBoundParameters.ContainsKey('priority')) { $Arguments.Add('priority', $priority) }
             if ($PSCmdlet.ShouldProcess("$name", "Delete Content Switching configuration Object")) {
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type csvserver_filterpolicy_binding -Resource $name -Arguments $Arguments
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type csvserver_filterpolicy_binding -NitroPath nitro/v1/config -Resource $name -Arguments $Arguments
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $response
@@ -8221,7 +8221,7 @@ function Invoke-ADCGetCsvserverfilterpolicybinding {
         Invoke-ADCGetCsvserverfilterpolicybinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetCsvserverfilterpolicybinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/cs/csvserver_filterpolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -8259,21 +8259,21 @@ function Invoke-ADCGetCsvserverfilterpolicybinding {
                     bulkbindings = 'yes'
                 }
                 Write-Verbose "Retrieving all csvserver_filterpolicy_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type csvserver_filterpolicy_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type csvserver_filterpolicy_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
                 if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for csvserver_filterpolicy_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type csvserver_filterpolicy_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type csvserver_filterpolicy_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving csvserver_filterpolicy_binding objects by arguments"
                 $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type csvserver_filterpolicy_binding -Arguments $Arguments -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type csvserver_filterpolicy_binding -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving csvserver_filterpolicy_binding configuration for property 'name'"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type csvserver_filterpolicy_binding -Resource $name -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type csvserver_filterpolicy_binding -NitroPath nitro/v1/config -Resource $name -Summary:$ViewSummary -Filter $Filter -GetWarning
             } else {
                 Write-Verbose "Retrieving csvserver_filterpolicy_binding configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type csvserver_filterpolicy_binding -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type csvserver_filterpolicy_binding -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -8304,7 +8304,7 @@ function Invoke-ADCAddCsvservergslbvserverbinding {
         Invoke-ADCAddCsvservergslbvserverbinding -name <string>
     .NOTES
         File Name : Invoke-ADCAddCsvservergslbvserverbinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/cs/csvserver_gslbvserver_binding/
         Requires  : PowerShell v5.1 and up
@@ -8341,7 +8341,7 @@ function Invoke-ADCAddCsvservergslbvserverbinding {
             if ($PSBoundParameters.ContainsKey('vserver')) { $Payload.Add('vserver', $vserver) }
  
             if ($PSCmdlet.ShouldProcess("csvserver_gslbvserver_binding", "Add Content Switching configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -Type csvserver_gslbvserver_binding -Payload $Payload -GetWarning
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -NitroPath nitro/v1/config -Type csvserver_gslbvserver_binding -Payload $Payload -GetWarning
                 #HTTP Status Code on Success: 201 Created
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 if ($PSBoundParameters.ContainsKey('PassThru')) {
@@ -8376,7 +8376,7 @@ function Invoke-ADCDeleteCsvservergslbvserverbinding {
         Invoke-ADCDeleteCsvservergslbvserverbinding -name <string>
     .NOTES
         File Name : Invoke-ADCDeleteCsvservergslbvserverbinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/cs/csvserver_gslbvserver_binding/
         Requires  : PowerShell v5.1 and up
@@ -8406,7 +8406,7 @@ function Invoke-ADCDeleteCsvservergslbvserverbinding {
             }
             if ($PSBoundParameters.ContainsKey('vserver')) { $Arguments.Add('vserver', $vserver) }
             if ($PSCmdlet.ShouldProcess("$name", "Delete Content Switching configuration Object")) {
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type csvserver_gslbvserver_binding -Resource $name -Arguments $Arguments
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type csvserver_gslbvserver_binding -NitroPath nitro/v1/config -Resource $name -Arguments $Arguments
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $response
@@ -8450,7 +8450,7 @@ function Invoke-ADCGetCsvservergslbvserverbinding {
         Invoke-ADCGetCsvservergslbvserverbinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetCsvservergslbvserverbinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/cs/csvserver_gslbvserver_binding/
         Requires  : PowerShell v5.1 and up
@@ -8488,21 +8488,21 @@ function Invoke-ADCGetCsvservergslbvserverbinding {
                     bulkbindings = 'yes'
                 }
                 Write-Verbose "Retrieving all csvserver_gslbvserver_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type csvserver_gslbvserver_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type csvserver_gslbvserver_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
                 if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for csvserver_gslbvserver_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type csvserver_gslbvserver_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type csvserver_gslbvserver_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving csvserver_gslbvserver_binding objects by arguments"
                 $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type csvserver_gslbvserver_binding -Arguments $Arguments -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type csvserver_gslbvserver_binding -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving csvserver_gslbvserver_binding configuration for property 'name'"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type csvserver_gslbvserver_binding -Resource $name -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type csvserver_gslbvserver_binding -NitroPath nitro/v1/config -Resource $name -Summary:$ViewSummary -Filter $Filter -GetWarning
             } else {
                 Write-Verbose "Retrieving csvserver_gslbvserver_binding configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type csvserver_gslbvserver_binding -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type csvserver_gslbvserver_binding -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -8536,7 +8536,7 @@ function Invoke-ADCAddCsvserverlbvserverbinding {
         Invoke-ADCAddCsvserverlbvserverbinding -name <string>
     .NOTES
         File Name : Invoke-ADCAddCsvserverlbvserverbinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/cs/csvserver_lbvserver_binding/
         Requires  : PowerShell v5.1 and up
@@ -8577,7 +8577,7 @@ function Invoke-ADCAddCsvserverlbvserverbinding {
             if ($PSBoundParameters.ContainsKey('targetvserver')) { $Payload.Add('targetvserver', $targetvserver) }
  
             if ($PSCmdlet.ShouldProcess("csvserver_lbvserver_binding", "Add Content Switching configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -Type csvserver_lbvserver_binding -Payload $Payload -GetWarning
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -NitroPath nitro/v1/config -Type csvserver_lbvserver_binding -Payload $Payload -GetWarning
                 #HTTP Status Code on Success: 201 Created
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 if ($PSBoundParameters.ContainsKey('PassThru')) {
@@ -8612,7 +8612,7 @@ function Invoke-ADCDeleteCsvserverlbvserverbinding {
         Invoke-ADCDeleteCsvserverlbvserverbinding -name <string>
     .NOTES
         File Name : Invoke-ADCDeleteCsvserverlbvserverbinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/cs/csvserver_lbvserver_binding/
         Requires  : PowerShell v5.1 and up
@@ -8642,7 +8642,7 @@ function Invoke-ADCDeleteCsvserverlbvserverbinding {
             }
             if ($PSBoundParameters.ContainsKey('lbvserver')) { $Arguments.Add('lbvserver', $lbvserver) }
             if ($PSCmdlet.ShouldProcess("$name", "Delete Content Switching configuration Object")) {
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type csvserver_lbvserver_binding -Resource $name -Arguments $Arguments
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type csvserver_lbvserver_binding -NitroPath nitro/v1/config -Resource $name -Arguments $Arguments
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $response
@@ -8686,7 +8686,7 @@ function Invoke-ADCGetCsvserverlbvserverbinding {
         Invoke-ADCGetCsvserverlbvserverbinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetCsvserverlbvserverbinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/cs/csvserver_lbvserver_binding/
         Requires  : PowerShell v5.1 and up
@@ -8724,21 +8724,21 @@ function Invoke-ADCGetCsvserverlbvserverbinding {
                     bulkbindings = 'yes'
                 }
                 Write-Verbose "Retrieving all csvserver_lbvserver_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type csvserver_lbvserver_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type csvserver_lbvserver_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
                 if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for csvserver_lbvserver_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type csvserver_lbvserver_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type csvserver_lbvserver_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving csvserver_lbvserver_binding objects by arguments"
                 $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type csvserver_lbvserver_binding -Arguments $Arguments -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type csvserver_lbvserver_binding -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving csvserver_lbvserver_binding configuration for property 'name'"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type csvserver_lbvserver_binding -Resource $name -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type csvserver_lbvserver_binding -NitroPath nitro/v1/config -Resource $name -Summary:$ViewSummary -Filter $Filter -GetWarning
             } else {
                 Write-Verbose "Retrieving csvserver_lbvserver_binding configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type csvserver_lbvserver_binding -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type csvserver_lbvserver_binding -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -8785,7 +8785,7 @@ function Invoke-ADCAddCsvserverresponderpolicybinding {
         Invoke-ADCAddCsvserverresponderpolicybinding -name <string>
     .NOTES
         File Name : Invoke-ADCAddCsvserverresponderpolicybinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/cs/csvserver_responderpolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -8845,7 +8845,7 @@ function Invoke-ADCAddCsvserverresponderpolicybinding {
             if ($PSBoundParameters.ContainsKey('labelname')) { $Payload.Add('labelname', $labelname) }
  
             if ($PSCmdlet.ShouldProcess("csvserver_responderpolicy_binding", "Add Content Switching configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -Type csvserver_responderpolicy_binding -Payload $Payload -GetWarning
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -NitroPath nitro/v1/config -Type csvserver_responderpolicy_binding -Payload $Payload -GetWarning
                 #HTTP Status Code on Success: 201 Created
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 if ($PSBoundParameters.ContainsKey('PassThru')) {
@@ -8882,7 +8882,7 @@ function Invoke-ADCDeleteCsvserverresponderpolicybinding {
         Invoke-ADCDeleteCsvserverresponderpolicybinding -name <string>
     .NOTES
         File Name : Invoke-ADCDeleteCsvserverresponderpolicybinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/cs/csvserver_responderpolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -8918,7 +8918,7 @@ function Invoke-ADCDeleteCsvserverresponderpolicybinding {
             if ($PSBoundParameters.ContainsKey('bindpoint')) { $Arguments.Add('bindpoint', $bindpoint) }
             if ($PSBoundParameters.ContainsKey('priority')) { $Arguments.Add('priority', $priority) }
             if ($PSCmdlet.ShouldProcess("$name", "Delete Content Switching configuration Object")) {
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type csvserver_responderpolicy_binding -Resource $name -Arguments $Arguments
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type csvserver_responderpolicy_binding -NitroPath nitro/v1/config -Resource $name -Arguments $Arguments
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $response
@@ -8962,7 +8962,7 @@ function Invoke-ADCGetCsvserverresponderpolicybinding {
         Invoke-ADCGetCsvserverresponderpolicybinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetCsvserverresponderpolicybinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/cs/csvserver_responderpolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -9000,21 +9000,21 @@ function Invoke-ADCGetCsvserverresponderpolicybinding {
                     bulkbindings = 'yes'
                 }
                 Write-Verbose "Retrieving all csvserver_responderpolicy_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type csvserver_responderpolicy_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type csvserver_responderpolicy_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
                 if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for csvserver_responderpolicy_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type csvserver_responderpolicy_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type csvserver_responderpolicy_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving csvserver_responderpolicy_binding objects by arguments"
                 $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type csvserver_responderpolicy_binding -Arguments $Arguments -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type csvserver_responderpolicy_binding -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving csvserver_responderpolicy_binding configuration for property 'name'"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type csvserver_responderpolicy_binding -Resource $name -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type csvserver_responderpolicy_binding -NitroPath nitro/v1/config -Resource $name -Summary:$ViewSummary -Filter $Filter -GetWarning
             } else {
                 Write-Verbose "Retrieving csvserver_responderpolicy_binding configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type csvserver_responderpolicy_binding -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type csvserver_responderpolicy_binding -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -9061,7 +9061,7 @@ function Invoke-ADCAddCsvserverrewritepolicybinding {
         Invoke-ADCAddCsvserverrewritepolicybinding -name <string>
     .NOTES
         File Name : Invoke-ADCAddCsvserverrewritepolicybinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/cs/csvserver_rewritepolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -9121,7 +9121,7 @@ function Invoke-ADCAddCsvserverrewritepolicybinding {
             if ($PSBoundParameters.ContainsKey('labelname')) { $Payload.Add('labelname', $labelname) }
  
             if ($PSCmdlet.ShouldProcess("csvserver_rewritepolicy_binding", "Add Content Switching configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -Type csvserver_rewritepolicy_binding -Payload $Payload -GetWarning
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -NitroPath nitro/v1/config -Type csvserver_rewritepolicy_binding -Payload $Payload -GetWarning
                 #HTTP Status Code on Success: 201 Created
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 if ($PSBoundParameters.ContainsKey('PassThru')) {
@@ -9158,7 +9158,7 @@ function Invoke-ADCDeleteCsvserverrewritepolicybinding {
         Invoke-ADCDeleteCsvserverrewritepolicybinding -name <string>
     .NOTES
         File Name : Invoke-ADCDeleteCsvserverrewritepolicybinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/cs/csvserver_rewritepolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -9194,7 +9194,7 @@ function Invoke-ADCDeleteCsvserverrewritepolicybinding {
             if ($PSBoundParameters.ContainsKey('bindpoint')) { $Arguments.Add('bindpoint', $bindpoint) }
             if ($PSBoundParameters.ContainsKey('priority')) { $Arguments.Add('priority', $priority) }
             if ($PSCmdlet.ShouldProcess("$name", "Delete Content Switching configuration Object")) {
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type csvserver_rewritepolicy_binding -Resource $name -Arguments $Arguments
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type csvserver_rewritepolicy_binding -NitroPath nitro/v1/config -Resource $name -Arguments $Arguments
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $response
@@ -9238,7 +9238,7 @@ function Invoke-ADCGetCsvserverrewritepolicybinding {
         Invoke-ADCGetCsvserverrewritepolicybinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetCsvserverrewritepolicybinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/cs/csvserver_rewritepolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -9276,21 +9276,21 @@ function Invoke-ADCGetCsvserverrewritepolicybinding {
                     bulkbindings = 'yes'
                 }
                 Write-Verbose "Retrieving all csvserver_rewritepolicy_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type csvserver_rewritepolicy_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type csvserver_rewritepolicy_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
                 if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for csvserver_rewritepolicy_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type csvserver_rewritepolicy_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type csvserver_rewritepolicy_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving csvserver_rewritepolicy_binding objects by arguments"
                 $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type csvserver_rewritepolicy_binding -Arguments $Arguments -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type csvserver_rewritepolicy_binding -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving csvserver_rewritepolicy_binding configuration for property 'name'"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type csvserver_rewritepolicy_binding -Resource $name -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type csvserver_rewritepolicy_binding -NitroPath nitro/v1/config -Resource $name -Summary:$ViewSummary -Filter $Filter -GetWarning
             } else {
                 Write-Verbose "Retrieving csvserver_rewritepolicy_binding configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type csvserver_rewritepolicy_binding -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type csvserver_rewritepolicy_binding -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -9337,7 +9337,7 @@ function Invoke-ADCAddCsvserverspilloverpolicybinding {
         Invoke-ADCAddCsvserverspilloverpolicybinding -name <string>
     .NOTES
         File Name : Invoke-ADCAddCsvserverspilloverpolicybinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/cs/csvserver_spilloverpolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -9397,7 +9397,7 @@ function Invoke-ADCAddCsvserverspilloverpolicybinding {
             if ($PSBoundParameters.ContainsKey('labelname')) { $Payload.Add('labelname', $labelname) }
  
             if ($PSCmdlet.ShouldProcess("csvserver_spilloverpolicy_binding", "Add Content Switching configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -Type csvserver_spilloverpolicy_binding -Payload $Payload -GetWarning
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -NitroPath nitro/v1/config -Type csvserver_spilloverpolicy_binding -Payload $Payload -GetWarning
                 #HTTP Status Code on Success: 201 Created
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 if ($PSBoundParameters.ContainsKey('PassThru')) {
@@ -9434,7 +9434,7 @@ function Invoke-ADCDeleteCsvserverspilloverpolicybinding {
         Invoke-ADCDeleteCsvserverspilloverpolicybinding -name <string>
     .NOTES
         File Name : Invoke-ADCDeleteCsvserverspilloverpolicybinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/cs/csvserver_spilloverpolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -9470,7 +9470,7 @@ function Invoke-ADCDeleteCsvserverspilloverpolicybinding {
             if ($PSBoundParameters.ContainsKey('bindpoint')) { $Arguments.Add('bindpoint', $bindpoint) }
             if ($PSBoundParameters.ContainsKey('priority')) { $Arguments.Add('priority', $priority) }
             if ($PSCmdlet.ShouldProcess("$name", "Delete Content Switching configuration Object")) {
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type csvserver_spilloverpolicy_binding -Resource $name -Arguments $Arguments
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type csvserver_spilloverpolicy_binding -NitroPath nitro/v1/config -Resource $name -Arguments $Arguments
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $response
@@ -9514,7 +9514,7 @@ function Invoke-ADCGetCsvserverspilloverpolicybinding {
         Invoke-ADCGetCsvserverspilloverpolicybinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetCsvserverspilloverpolicybinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/cs/csvserver_spilloverpolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -9552,21 +9552,21 @@ function Invoke-ADCGetCsvserverspilloverpolicybinding {
                     bulkbindings = 'yes'
                 }
                 Write-Verbose "Retrieving all csvserver_spilloverpolicy_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type csvserver_spilloverpolicy_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type csvserver_spilloverpolicy_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
                 if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for csvserver_spilloverpolicy_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type csvserver_spilloverpolicy_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type csvserver_spilloverpolicy_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving csvserver_spilloverpolicy_binding objects by arguments"
                 $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type csvserver_spilloverpolicy_binding -Arguments $Arguments -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type csvserver_spilloverpolicy_binding -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving csvserver_spilloverpolicy_binding configuration for property 'name'"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type csvserver_spilloverpolicy_binding -Resource $name -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type csvserver_spilloverpolicy_binding -NitroPath nitro/v1/config -Resource $name -Summary:$ViewSummary -Filter $Filter -GetWarning
             } else {
                 Write-Verbose "Retrieving csvserver_spilloverpolicy_binding configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type csvserver_spilloverpolicy_binding -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type csvserver_spilloverpolicy_binding -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -9613,7 +9613,7 @@ function Invoke-ADCAddCsvservertmtrafficpolicybinding {
         Invoke-ADCAddCsvservertmtrafficpolicybinding -name <string>
     .NOTES
         File Name : Invoke-ADCAddCsvservertmtrafficpolicybinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/cs/csvserver_tmtrafficpolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -9673,7 +9673,7 @@ function Invoke-ADCAddCsvservertmtrafficpolicybinding {
             if ($PSBoundParameters.ContainsKey('labelname')) { $Payload.Add('labelname', $labelname) }
  
             if ($PSCmdlet.ShouldProcess("csvserver_tmtrafficpolicy_binding", "Add Content Switching configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -Type csvserver_tmtrafficpolicy_binding -Payload $Payload -GetWarning
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -NitroPath nitro/v1/config -Type csvserver_tmtrafficpolicy_binding -Payload $Payload -GetWarning
                 #HTTP Status Code on Success: 201 Created
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 if ($PSBoundParameters.ContainsKey('PassThru')) {
@@ -9710,7 +9710,7 @@ function Invoke-ADCDeleteCsvservertmtrafficpolicybinding {
         Invoke-ADCDeleteCsvservertmtrafficpolicybinding -name <string>
     .NOTES
         File Name : Invoke-ADCDeleteCsvservertmtrafficpolicybinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/cs/csvserver_tmtrafficpolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -9746,7 +9746,7 @@ function Invoke-ADCDeleteCsvservertmtrafficpolicybinding {
             if ($PSBoundParameters.ContainsKey('bindpoint')) { $Arguments.Add('bindpoint', $bindpoint) }
             if ($PSBoundParameters.ContainsKey('priority')) { $Arguments.Add('priority', $priority) }
             if ($PSCmdlet.ShouldProcess("$name", "Delete Content Switching configuration Object")) {
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type csvserver_tmtrafficpolicy_binding -Resource $name -Arguments $Arguments
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type csvserver_tmtrafficpolicy_binding -NitroPath nitro/v1/config -Resource $name -Arguments $Arguments
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $response
@@ -9790,7 +9790,7 @@ function Invoke-ADCGetCsvservertmtrafficpolicybinding {
         Invoke-ADCGetCsvservertmtrafficpolicybinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetCsvservertmtrafficpolicybinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/cs/csvserver_tmtrafficpolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -9828,21 +9828,21 @@ function Invoke-ADCGetCsvservertmtrafficpolicybinding {
                     bulkbindings = 'yes'
                 }
                 Write-Verbose "Retrieving all csvserver_tmtrafficpolicy_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type csvserver_tmtrafficpolicy_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type csvserver_tmtrafficpolicy_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
                 if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for csvserver_tmtrafficpolicy_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type csvserver_tmtrafficpolicy_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type csvserver_tmtrafficpolicy_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving csvserver_tmtrafficpolicy_binding objects by arguments"
                 $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type csvserver_tmtrafficpolicy_binding -Arguments $Arguments -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type csvserver_tmtrafficpolicy_binding -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving csvserver_tmtrafficpolicy_binding configuration for property 'name'"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type csvserver_tmtrafficpolicy_binding -Resource $name -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type csvserver_tmtrafficpolicy_binding -NitroPath nitro/v1/config -Resource $name -Summary:$ViewSummary -Filter $Filter -GetWarning
             } else {
                 Write-Verbose "Retrieving csvserver_tmtrafficpolicy_binding configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type csvserver_tmtrafficpolicy_binding -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type csvserver_tmtrafficpolicy_binding -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -9889,7 +9889,7 @@ function Invoke-ADCAddCsvservertransformpolicybinding {
         Invoke-ADCAddCsvservertransformpolicybinding -name <string>
     .NOTES
         File Name : Invoke-ADCAddCsvservertransformpolicybinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/cs/csvserver_transformpolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -9949,7 +9949,7 @@ function Invoke-ADCAddCsvservertransformpolicybinding {
             if ($PSBoundParameters.ContainsKey('labelname')) { $Payload.Add('labelname', $labelname) }
  
             if ($PSCmdlet.ShouldProcess("csvserver_transformpolicy_binding", "Add Content Switching configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -Type csvserver_transformpolicy_binding -Payload $Payload -GetWarning
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -NitroPath nitro/v1/config -Type csvserver_transformpolicy_binding -Payload $Payload -GetWarning
                 #HTTP Status Code on Success: 201 Created
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 if ($PSBoundParameters.ContainsKey('PassThru')) {
@@ -9986,7 +9986,7 @@ function Invoke-ADCDeleteCsvservertransformpolicybinding {
         Invoke-ADCDeleteCsvservertransformpolicybinding -name <string>
     .NOTES
         File Name : Invoke-ADCDeleteCsvservertransformpolicybinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/cs/csvserver_transformpolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -10022,7 +10022,7 @@ function Invoke-ADCDeleteCsvservertransformpolicybinding {
             if ($PSBoundParameters.ContainsKey('bindpoint')) { $Arguments.Add('bindpoint', $bindpoint) }
             if ($PSBoundParameters.ContainsKey('priority')) { $Arguments.Add('priority', $priority) }
             if ($PSCmdlet.ShouldProcess("$name", "Delete Content Switching configuration Object")) {
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type csvserver_transformpolicy_binding -Resource $name -Arguments $Arguments
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type csvserver_transformpolicy_binding -NitroPath nitro/v1/config -Resource $name -Arguments $Arguments
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $response
@@ -10066,7 +10066,7 @@ function Invoke-ADCGetCsvservertransformpolicybinding {
         Invoke-ADCGetCsvservertransformpolicybinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetCsvservertransformpolicybinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/cs/csvserver_transformpolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -10104,21 +10104,21 @@ function Invoke-ADCGetCsvservertransformpolicybinding {
                     bulkbindings = 'yes'
                 }
                 Write-Verbose "Retrieving all csvserver_transformpolicy_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type csvserver_transformpolicy_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type csvserver_transformpolicy_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
                 if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for csvserver_transformpolicy_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type csvserver_transformpolicy_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type csvserver_transformpolicy_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving csvserver_transformpolicy_binding objects by arguments"
                 $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type csvserver_transformpolicy_binding -Arguments $Arguments -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type csvserver_transformpolicy_binding -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving csvserver_transformpolicy_binding configuration for property 'name'"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type csvserver_transformpolicy_binding -Resource $name -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type csvserver_transformpolicy_binding -NitroPath nitro/v1/config -Resource $name -Summary:$ViewSummary -Filter $Filter -GetWarning
             } else {
                 Write-Verbose "Retrieving csvserver_transformpolicy_binding configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type csvserver_transformpolicy_binding -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type csvserver_transformpolicy_binding -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -10149,7 +10149,7 @@ function Invoke-ADCAddCsvservervpnvserverbinding {
         Invoke-ADCAddCsvservervpnvserverbinding -name <string>
     .NOTES
         File Name : Invoke-ADCAddCsvservervpnvserverbinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/cs/csvserver_vpnvserver_binding/
         Requires  : PowerShell v5.1 and up
@@ -10186,7 +10186,7 @@ function Invoke-ADCAddCsvservervpnvserverbinding {
             if ($PSBoundParameters.ContainsKey('vserver')) { $Payload.Add('vserver', $vserver) }
  
             if ($PSCmdlet.ShouldProcess("csvserver_vpnvserver_binding", "Add Content Switching configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -Type csvserver_vpnvserver_binding -Payload $Payload -GetWarning
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -NitroPath nitro/v1/config -Type csvserver_vpnvserver_binding -Payload $Payload -GetWarning
                 #HTTP Status Code on Success: 201 Created
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 if ($PSBoundParameters.ContainsKey('PassThru')) {
@@ -10221,7 +10221,7 @@ function Invoke-ADCDeleteCsvservervpnvserverbinding {
         Invoke-ADCDeleteCsvservervpnvserverbinding -name <string>
     .NOTES
         File Name : Invoke-ADCDeleteCsvservervpnvserverbinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/cs/csvserver_vpnvserver_binding/
         Requires  : PowerShell v5.1 and up
@@ -10251,7 +10251,7 @@ function Invoke-ADCDeleteCsvservervpnvserverbinding {
             }
             if ($PSBoundParameters.ContainsKey('vserver')) { $Arguments.Add('vserver', $vserver) }
             if ($PSCmdlet.ShouldProcess("$name", "Delete Content Switching configuration Object")) {
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type csvserver_vpnvserver_binding -Resource $name -Arguments $Arguments
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type csvserver_vpnvserver_binding -NitroPath nitro/v1/config -Resource $name -Arguments $Arguments
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $response
@@ -10295,7 +10295,7 @@ function Invoke-ADCGetCsvservervpnvserverbinding {
         Invoke-ADCGetCsvservervpnvserverbinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetCsvservervpnvserverbinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/cs/csvserver_vpnvserver_binding/
         Requires  : PowerShell v5.1 and up
@@ -10333,21 +10333,21 @@ function Invoke-ADCGetCsvservervpnvserverbinding {
                     bulkbindings = 'yes'
                 }
                 Write-Verbose "Retrieving all csvserver_vpnvserver_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type csvserver_vpnvserver_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type csvserver_vpnvserver_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
                 if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for csvserver_vpnvserver_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type csvserver_vpnvserver_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type csvserver_vpnvserver_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving csvserver_vpnvserver_binding objects by arguments"
                 $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type csvserver_vpnvserver_binding -Arguments $Arguments -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type csvserver_vpnvserver_binding -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving csvserver_vpnvserver_binding configuration for property 'name'"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type csvserver_vpnvserver_binding -Resource $name -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type csvserver_vpnvserver_binding -NitroPath nitro/v1/config -Resource $name -Summary:$ViewSummary -Filter $Filter -GetWarning
             } else {
                 Write-Verbose "Retrieving csvserver_vpnvserver_binding configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type csvserver_vpnvserver_binding -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type csvserver_vpnvserver_binding -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"

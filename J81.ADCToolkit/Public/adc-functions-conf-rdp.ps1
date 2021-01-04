@@ -85,7 +85,7 @@ function Invoke-ADCAddRdpclientprofile {
         Invoke-ADCAddRdpclientprofile -name <string>
     .NOTES
         File Name : Invoke-ADCAddRdpclientprofile
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/rdp/rdpclientprofile/
         Requires  : PowerShell v5.1 and up
@@ -190,7 +190,7 @@ function Invoke-ADCAddRdpclientprofile {
             if ($PSBoundParameters.ContainsKey('rdplinkattribute')) { $Payload.Add('rdplinkattribute', $rdplinkattribute) }
  
             if ($PSCmdlet.ShouldProcess("rdpclientprofile", "Add Rdp configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -Type rdpclientprofile -Payload $Payload -GetWarning
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -NitroPath nitro/v1/config -Type rdpclientprofile -Payload $Payload -GetWarning
                 #HTTP Status Code on Success: 201 Created
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 if ($PSBoundParameters.ContainsKey('PassThru')) {
@@ -297,7 +297,7 @@ function Invoke-ADCUpdateRdpclientprofile {
         Invoke-ADCUpdateRdpclientprofile -name <string>
     .NOTES
         File Name : Invoke-ADCUpdateRdpclientprofile
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/rdp/rdpclientprofile/
         Requires  : PowerShell v5.1 and up
@@ -402,7 +402,7 @@ function Invoke-ADCUpdateRdpclientprofile {
             if ($PSBoundParameters.ContainsKey('rdplinkattribute')) { $Payload.Add('rdplinkattribute', $rdplinkattribute) }
  
             if ($PSCmdlet.ShouldProcess("rdpclientprofile", "Update Rdp configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -Type rdpclientprofile -Payload $Payload -GetWarning
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -NitroPath nitro/v1/config -Type rdpclientprofile -Payload $Payload -GetWarning
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 if ($PSBoundParameters.ContainsKey('PassThru')) {
@@ -485,7 +485,7 @@ function Invoke-ADCUnsetRdpclientprofile {
         Invoke-ADCUnsetRdpclientprofile -name <string>
     .NOTES
         File Name : Invoke-ADCUnsetRdpclientprofile
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/rdp/rdpclientprofile
         Requires  : PowerShell v5.1 and up
@@ -571,7 +571,7 @@ function Invoke-ADCUnsetRdpclientprofile {
             if ($PSBoundParameters.ContainsKey('randomizerdpfilename')) { $Payload.Add('randomizerdpfilename', $randomizerdpfilename) }
             if ($PSBoundParameters.ContainsKey('rdplinkattribute')) { $Payload.Add('rdplinkattribute', $rdplinkattribute) }
             if ($PSCmdlet.ShouldProcess("$name", "Unset Rdp configuration Object")) {
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -Type rdpclientprofile -Action unset -Payload $Payload -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -Type rdpclientprofile -NitroPath nitro/v1/config -Action unset -Payload $Payload -GetWarning
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $response
@@ -599,7 +599,7 @@ function Invoke-ADCDeleteRdpclientprofile {
         Invoke-ADCDeleteRdpclientprofile -name <string>
     .NOTES
         File Name : Invoke-ADCDeleteRdpclientprofile
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/rdp/rdpclientprofile/
         Requires  : PowerShell v5.1 and up
@@ -627,7 +627,7 @@ function Invoke-ADCDeleteRdpclientprofile {
             }
 
             if ($PSCmdlet.ShouldProcess("$name", "Delete Rdp configuration Object")) {
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type rdpclientprofile -Resource $name -Arguments $Arguments
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type rdpclientprofile -NitroPath nitro/v1/config -Resource $name -Arguments $Arguments
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $response
@@ -671,7 +671,7 @@ function Invoke-ADCGetRdpclientprofile {
         Invoke-ADCGetRdpclientprofile -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetRdpclientprofile
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/rdp/rdpclientprofile/
         Requires  : PowerShell v5.1 and up
@@ -712,21 +712,21 @@ function Invoke-ADCGetRdpclientprofile {
             if ( $PsCmdlet.ParameterSetName -eq 'Getall' ) {
                 $Query = @{ }
                 Write-Verbose "Retrieving all rdpclientprofile objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type rdpclientprofile -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type rdpclientprofile -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
                 if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for rdpclientprofile objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type rdpclientprofile -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type rdpclientprofile -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving rdpclientprofile objects by arguments"
                 $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type rdpclientprofile -Arguments $Arguments -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type rdpclientprofile -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving rdpclientprofile configuration for property 'name'"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type rdpclientprofile -Resource $name -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type rdpclientprofile -NitroPath nitro/v1/config -Resource $name -Summary:$ViewSummary -Filter $Filter -GetWarning
             } else {
                 Write-Verbose "Retrieving rdpclientprofile configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type rdpclientprofile -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type rdpclientprofile -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -753,7 +753,7 @@ function Invoke-ADCKillRdpconnections {
         Invoke-ADCKillRdpconnections 
     .NOTES
         File Name : Invoke-ADCKillRdpconnections
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/rdp/rdpconnections/
         Requires  : PowerShell v5.1 and up
@@ -786,7 +786,7 @@ function Invoke-ADCKillRdpconnections {
             if ($PSBoundParameters.ContainsKey('username')) { $Payload.Add('username', $username) }
             if ($PSBoundParameters.ContainsKey('all')) { $Payload.Add('all', $all) }
             if ($PSCmdlet.ShouldProcess($Name, "Kill Rdp configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -Type rdpconnections -Action kill -Payload $Payload -GetWarning
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -NitroPath nitro/v1/config -Type rdpconnections -Action kill -Payload $Payload -GetWarning
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $result
@@ -830,7 +830,7 @@ function Invoke-ADCGetRdpconnections {
         Invoke-ADCGetRdpconnections -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetRdpconnections
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/rdp/rdpconnections/
         Requires  : PowerShell v5.1 and up
@@ -870,22 +870,22 @@ function Invoke-ADCGetRdpconnections {
             if ( $PsCmdlet.ParameterSetName -eq 'Getall' ) {
                 $Query = @{ }
                 Write-Verbose "Retrieving all rdpconnections objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type rdpconnections -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type rdpconnections -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
                 if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for rdpconnections objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type rdpconnections -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type rdpconnections -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving rdpconnections objects by arguments"
                 $Arguments = @{ } 
                 if ($PSBoundParameters.ContainsKey('username')) { $Arguments.Add('username', $username) }
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type rdpconnections -Arguments $Arguments -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type rdpconnections -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving rdpconnections configuration for property ''"
 
             } else {
                 Write-Verbose "Retrieving rdpconnections configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type rdpconnections -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type rdpconnections -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -928,7 +928,7 @@ function Invoke-ADCAddRdpserverprofile {
         Invoke-ADCAddRdpserverprofile -name <string> -psk <string>
     .NOTES
         File Name : Invoke-ADCAddRdpserverprofile
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/rdp/rdpserverprofile/
         Requires  : PowerShell v5.1 and up
@@ -977,7 +977,7 @@ function Invoke-ADCAddRdpserverprofile {
             if ($PSBoundParameters.ContainsKey('rdpredirection')) { $Payload.Add('rdpredirection', $rdpredirection) }
  
             if ($PSCmdlet.ShouldProcess("rdpserverprofile", "Add Rdp configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -Type rdpserverprofile -Payload $Payload -GetWarning
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -NitroPath nitro/v1/config -Type rdpserverprofile -Payload $Payload -GetWarning
                 #HTTP Status Code on Success: 201 Created
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 if ($PSBoundParameters.ContainsKey('PassThru')) {
@@ -1027,7 +1027,7 @@ function Invoke-ADCUpdateRdpserverprofile {
         Invoke-ADCUpdateRdpserverprofile -name <string>
     .NOTES
         File Name : Invoke-ADCUpdateRdpserverprofile
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/rdp/rdpserverprofile/
         Requires  : PowerShell v5.1 and up
@@ -1075,7 +1075,7 @@ function Invoke-ADCUpdateRdpserverprofile {
             if ($PSBoundParameters.ContainsKey('rdpredirection')) { $Payload.Add('rdpredirection', $rdpredirection) }
  
             if ($PSCmdlet.ShouldProcess("rdpserverprofile", "Update Rdp configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -Type rdpserverprofile -Payload $Payload -GetWarning
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -NitroPath nitro/v1/config -Type rdpserverprofile -Payload $Payload -GetWarning
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 if ($PSBoundParameters.ContainsKey('PassThru')) {
@@ -1116,7 +1116,7 @@ function Invoke-ADCUnsetRdpserverprofile {
         Invoke-ADCUnsetRdpserverprofile -name <string>
     .NOTES
         File Name : Invoke-ADCUnsetRdpserverprofile
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/rdp/rdpserverprofile
         Requires  : PowerShell v5.1 and up
@@ -1157,7 +1157,7 @@ function Invoke-ADCUnsetRdpserverprofile {
             if ($PSBoundParameters.ContainsKey('psk')) { $Payload.Add('psk', $psk) }
             if ($PSBoundParameters.ContainsKey('rdpredirection')) { $Payload.Add('rdpredirection', $rdpredirection) }
             if ($PSCmdlet.ShouldProcess("$name", "Unset Rdp configuration Object")) {
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -Type rdpserverprofile -Action unset -Payload $Payload -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -Type rdpserverprofile -NitroPath nitro/v1/config -Action unset -Payload $Payload -GetWarning
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $response
@@ -1186,7 +1186,7 @@ function Invoke-ADCDeleteRdpserverprofile {
         Invoke-ADCDeleteRdpserverprofile -name <string>
     .NOTES
         File Name : Invoke-ADCDeleteRdpserverprofile
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/rdp/rdpserverprofile/
         Requires  : PowerShell v5.1 and up
@@ -1214,7 +1214,7 @@ function Invoke-ADCDeleteRdpserverprofile {
             }
 
             if ($PSCmdlet.ShouldProcess("$name", "Delete Rdp configuration Object")) {
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type rdpserverprofile -Resource $name -Arguments $Arguments
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type rdpserverprofile -NitroPath nitro/v1/config -Resource $name -Arguments $Arguments
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $response
@@ -1258,7 +1258,7 @@ function Invoke-ADCGetRdpserverprofile {
         Invoke-ADCGetRdpserverprofile -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetRdpserverprofile
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/rdp/rdpserverprofile/
         Requires  : PowerShell v5.1 and up
@@ -1299,21 +1299,21 @@ function Invoke-ADCGetRdpserverprofile {
             if ( $PsCmdlet.ParameterSetName -eq 'Getall' ) {
                 $Query = @{ }
                 Write-Verbose "Retrieving all rdpserverprofile objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type rdpserverprofile -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type rdpserverprofile -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
                 if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for rdpserverprofile objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type rdpserverprofile -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type rdpserverprofile -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving rdpserverprofile objects by arguments"
                 $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type rdpserverprofile -Arguments $Arguments -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type rdpserverprofile -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving rdpserverprofile configuration for property 'name'"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type rdpserverprofile -Resource $name -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type rdpserverprofile -NitroPath nitro/v1/config -Resource $name -Summary:$ViewSummary -Filter $Filter -GetWarning
             } else {
                 Write-Verbose "Retrieving rdpserverprofile configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type rdpserverprofile -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type rdpserverprofile -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"

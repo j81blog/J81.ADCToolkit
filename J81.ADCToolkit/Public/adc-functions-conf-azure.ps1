@@ -30,7 +30,7 @@ function Invoke-ADCAddAzureapplication {
         Invoke-ADCAddAzureapplication -name <string> -clientid <string> -clientsecret <string> -tenantid <string> -vaultresource <string>
     .NOTES
         File Name : Invoke-ADCAddAzureapplication
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/azure/azureapplication/
         Requires  : PowerShell v5.1 and up
@@ -88,7 +88,7 @@ function Invoke-ADCAddAzureapplication {
             if ($PSBoundParameters.ContainsKey('tokenendpoint')) { $Payload.Add('tokenendpoint', $tokenendpoint) }
  
             if ($PSCmdlet.ShouldProcess("azureapplication", "Add Azure configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -Type azureapplication -Payload $Payload -GetWarning
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -NitroPath nitro/v1/config -Type azureapplication -Payload $Payload -GetWarning
                 #HTTP Status Code on Success: 201 Created
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 if ($PSBoundParameters.ContainsKey('PassThru')) {
@@ -122,7 +122,7 @@ function Invoke-ADCDeleteAzureapplication {
         Invoke-ADCDeleteAzureapplication -name <string>
     .NOTES
         File Name : Invoke-ADCDeleteAzureapplication
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/azure/azureapplication/
         Requires  : PowerShell v5.1 and up
@@ -150,7 +150,7 @@ function Invoke-ADCDeleteAzureapplication {
             }
 
             if ($PSCmdlet.ShouldProcess("$name", "Delete Azure configuration Object")) {
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type azureapplication -Resource $name -Arguments $Arguments
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type azureapplication -NitroPath nitro/v1/config -Resource $name -Arguments $Arguments
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $response
@@ -195,7 +195,7 @@ function Invoke-ADCGetAzureapplication {
         Invoke-ADCGetAzureapplication -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetAzureapplication
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/azure/azureapplication/
         Requires  : PowerShell v5.1 and up
@@ -237,21 +237,21 @@ function Invoke-ADCGetAzureapplication {
             if ( $PsCmdlet.ParameterSetName -eq 'Getall' ) {
                 $Query = @{ }
                 Write-Verbose "Retrieving all azureapplication objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type azureapplication -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type azureapplication -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
                 if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for azureapplication objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type azureapplication -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type azureapplication -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving azureapplication objects by arguments"
                 $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type azureapplication -Arguments $Arguments -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type azureapplication -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving azureapplication configuration for property 'name'"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type azureapplication -Resource $name -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type azureapplication -NitroPath nitro/v1/config -Resource $name -Summary:$ViewSummary -Filter $Filter -GetWarning
             } else {
                 Write-Verbose "Retrieving azureapplication configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type azureapplication -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type azureapplication -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -288,7 +288,7 @@ function Invoke-ADCAddAzurekeyvault {
         Invoke-ADCAddAzurekeyvault -name <string> -azureapplication <string>
     .NOTES
         File Name : Invoke-ADCAddAzurekeyvault
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/azure/azurekeyvault/
         Requires  : PowerShell v5.1 and up
@@ -331,7 +331,7 @@ function Invoke-ADCAddAzurekeyvault {
             if ($PSBoundParameters.ContainsKey('azurevaultname')) { $Payload.Add('azurevaultname', $azurevaultname) }
  
             if ($PSCmdlet.ShouldProcess("azurekeyvault", "Add Azure configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -Type azurekeyvault -Payload $Payload -GetWarning
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -NitroPath nitro/v1/config -Type azurekeyvault -Payload $Payload -GetWarning
                 #HTTP Status Code on Success: 201 Created
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 if ($PSBoundParameters.ContainsKey('PassThru')) {
@@ -365,7 +365,7 @@ function Invoke-ADCDeleteAzurekeyvault {
         Invoke-ADCDeleteAzurekeyvault -name <string>
     .NOTES
         File Name : Invoke-ADCDeleteAzurekeyvault
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/azure/azurekeyvault/
         Requires  : PowerShell v5.1 and up
@@ -393,7 +393,7 @@ function Invoke-ADCDeleteAzurekeyvault {
             }
 
             if ($PSCmdlet.ShouldProcess("$name", "Delete Azure configuration Object")) {
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type azurekeyvault -Resource $name -Arguments $Arguments
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type azurekeyvault -NitroPath nitro/v1/config -Resource $name -Arguments $Arguments
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $response
@@ -438,7 +438,7 @@ function Invoke-ADCGetAzurekeyvault {
         Invoke-ADCGetAzurekeyvault -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetAzurekeyvault
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/azure/azurekeyvault/
         Requires  : PowerShell v5.1 and up
@@ -480,21 +480,21 @@ function Invoke-ADCGetAzurekeyvault {
             if ( $PsCmdlet.ParameterSetName -eq 'Getall' ) {
                 $Query = @{ }
                 Write-Verbose "Retrieving all azurekeyvault objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type azurekeyvault -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type azurekeyvault -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
                 if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for azurekeyvault objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type azurekeyvault -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type azurekeyvault -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving azurekeyvault objects by arguments"
                 $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type azurekeyvault -Arguments $Arguments -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type azurekeyvault -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving azurekeyvault configuration for property 'name'"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type azurekeyvault -Resource $name -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type azurekeyvault -NitroPath nitro/v1/config -Resource $name -Summary:$ViewSummary -Filter $Filter -GetWarning
             } else {
                 Write-Verbose "Retrieving azurekeyvault configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type azurekeyvault -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type azurekeyvault -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"

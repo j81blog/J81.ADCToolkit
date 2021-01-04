@@ -12,7 +12,7 @@ function Invoke-ADCAddAnalyticsglobalanalyticsprofilebinding {
         Invoke-ADCAddAnalyticsglobalanalyticsprofilebinding -analyticsprofile <string>
     .NOTES
         File Name : Invoke-ADCAddAnalyticsglobalanalyticsprofilebinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/analytics/analyticsglobal_analyticsprofile_binding/
         Requires  : PowerShell v5.1 and up
@@ -45,7 +45,7 @@ function Invoke-ADCAddAnalyticsglobalanalyticsprofilebinding {
 
  
             if ($PSCmdlet.ShouldProcess("analyticsglobal_analyticsprofile_binding", "Add Analytics configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -Type analyticsglobal_analyticsprofile_binding -Payload $Payload -GetWarning
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -NitroPath nitro/v1/config -Type analyticsglobal_analyticsprofile_binding -Payload $Payload -GetWarning
                 #HTTP Status Code on Success: 201 Created
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 if ($PSBoundParameters.ContainsKey('PassThru')) {
@@ -77,7 +77,7 @@ function Invoke-ADCDeleteAnalyticsglobalanalyticsprofilebinding {
         Invoke-ADCDeleteAnalyticsglobalanalyticsprofilebinding 
     .NOTES
         File Name : Invoke-ADCDeleteAnalyticsglobalanalyticsprofilebinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/analytics/analyticsglobal_analyticsprofile_binding/
         Requires  : PowerShell v5.1 and up
@@ -104,7 +104,7 @@ function Invoke-ADCDeleteAnalyticsglobalanalyticsprofilebinding {
             }
             if ($PSBoundParameters.ContainsKey('analyticsprofile')) { $Arguments.Add('analyticsprofile', $analyticsprofile) }
             if ($PSCmdlet.ShouldProcess("analyticsglobal_analyticsprofile_binding", "Delete Analytics configuration Object")) {
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type analyticsglobal_analyticsprofile_binding -Resource $ -Arguments $Arguments
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type analyticsglobal_analyticsprofile_binding -NitroPath nitro/v1/config -Resource $ -Arguments $Arguments
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $response
@@ -146,7 +146,7 @@ function Invoke-ADCGetAnalyticsglobalanalyticsprofilebinding {
         Invoke-ADCGetAnalyticsglobalanalyticsprofilebinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetAnalyticsglobalanalyticsprofilebinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/analytics/analyticsglobal_analyticsprofile_binding/
         Requires  : PowerShell v5.1 and up
@@ -180,21 +180,21 @@ function Invoke-ADCGetAnalyticsglobalanalyticsprofilebinding {
                     bulkbindings = 'yes'
                 }
                 Write-Verbose "Retrieving all analyticsglobal_analyticsprofile_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type analyticsglobal_analyticsprofile_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type analyticsglobal_analyticsprofile_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
                 if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for analyticsglobal_analyticsprofile_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type analyticsglobal_analyticsprofile_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type analyticsglobal_analyticsprofile_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving analyticsglobal_analyticsprofile_binding objects by arguments"
                 $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type analyticsglobal_analyticsprofile_binding -Arguments $Arguments -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type analyticsglobal_analyticsprofile_binding -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving analyticsglobal_analyticsprofile_binding configuration for property ''"
 
             } else {
                 Write-Verbose "Retrieving analyticsglobal_analyticsprofile_binding configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type analyticsglobal_analyticsprofile_binding -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type analyticsglobal_analyticsprofile_binding -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -232,7 +232,7 @@ function Invoke-ADCGetAnalyticsglobalbinding {
         Invoke-ADCGetAnalyticsglobalbinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetAnalyticsglobalbinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/analytics/analyticsglobal_binding/
         Requires  : PowerShell v5.1 and up
@@ -263,21 +263,21 @@ function Invoke-ADCGetAnalyticsglobalbinding {
                     bulkbindings = 'yes'
                 }
                 Write-Verbose "Retrieving all analyticsglobal_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type analyticsglobal_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type analyticsglobal_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
                 if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for analyticsglobal_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type analyticsglobal_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type analyticsglobal_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving analyticsglobal_binding objects by arguments"
                 $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type analyticsglobal_binding -Arguments $Arguments -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type analyticsglobal_binding -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving analyticsglobal_binding configuration for property ''"
 
             } else {
                 Write-Verbose "Retrieving analyticsglobal_binding configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type analyticsglobal_binding -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type analyticsglobal_binding -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -423,7 +423,7 @@ function Invoke-ADCAddAnalyticsprofile {
         Invoke-ADCAddAnalyticsprofile -name <string> -type <string>
     .NOTES
         File Name : Invoke-ADCAddAnalyticsprofile
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/analytics/analyticsprofile/
         Requires  : PowerShell v5.1 and up
@@ -577,7 +577,7 @@ function Invoke-ADCAddAnalyticsprofile {
             if ($PSBoundParameters.ContainsKey('aaainsight')) { $Payload.Add('aaainsight', $aaainsight) }
  
             if ($PSCmdlet.ShouldProcess("analyticsprofile", "Add Analytics configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -Type analyticsprofile -Payload $Payload -GetWarning
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -NitroPath nitro/v1/config -Type analyticsprofile -Payload $Payload -GetWarning
                 #HTTP Status Code on Success: 201 Created
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 if ($PSBoundParameters.ContainsKey('PassThru')) {
@@ -730,7 +730,7 @@ function Invoke-ADCUpdateAnalyticsprofile {
         Invoke-ADCUpdateAnalyticsprofile -name <string>
     .NOTES
         File Name : Invoke-ADCUpdateAnalyticsprofile
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/analytics/analyticsprofile/
         Requires  : PowerShell v5.1 and up
@@ -883,7 +883,7 @@ function Invoke-ADCUpdateAnalyticsprofile {
             if ($PSBoundParameters.ContainsKey('aaainsight')) { $Payload.Add('aaainsight', $aaainsight) }
  
             if ($PSCmdlet.ShouldProcess("analyticsprofile", "Update Analytics configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -Type analyticsprofile -Payload $Payload -GetWarning
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -NitroPath nitro/v1/config -Type analyticsprofile -Payload $Payload -GetWarning
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 if ($PSBoundParameters.ContainsKey('PassThru')) {
@@ -1005,7 +1005,7 @@ function Invoke-ADCUnsetAnalyticsprofile {
         Invoke-ADCUnsetAnalyticsprofile -name <string>
     .NOTES
         File Name : Invoke-ADCUnsetAnalyticsprofile
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/analytics/analyticsprofile
         Requires  : PowerShell v5.1 and up
@@ -1124,7 +1124,7 @@ function Invoke-ADCUnsetAnalyticsprofile {
             if ($PSBoundParameters.ContainsKey('auditlogs')) { $Payload.Add('auditlogs', $auditlogs) }
             if ($PSBoundParameters.ContainsKey('aaainsight')) { $Payload.Add('aaainsight', $aaainsight) }
             if ($PSCmdlet.ShouldProcess("$name", "Unset Analytics configuration Object")) {
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -Type analyticsprofile -Action unset -Payload $Payload -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -Type analyticsprofile -NitroPath nitro/v1/config -Action unset -Payload $Payload -GetWarning
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $response
@@ -1152,7 +1152,7 @@ function Invoke-ADCDeleteAnalyticsprofile {
         Invoke-ADCDeleteAnalyticsprofile -name <string>
     .NOTES
         File Name : Invoke-ADCDeleteAnalyticsprofile
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/analytics/analyticsprofile/
         Requires  : PowerShell v5.1 and up
@@ -1180,7 +1180,7 @@ function Invoke-ADCDeleteAnalyticsprofile {
             }
 
             if ($PSCmdlet.ShouldProcess("$name", "Delete Analytics configuration Object")) {
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type analyticsprofile -Resource $name -Arguments $Arguments
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type analyticsprofile -NitroPath nitro/v1/config -Resource $name -Arguments $Arguments
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $response
@@ -1225,7 +1225,7 @@ function Invoke-ADCGetAnalyticsprofile {
         Invoke-ADCGetAnalyticsprofile -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetAnalyticsprofile
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/analytics/analyticsprofile/
         Requires  : PowerShell v5.1 and up
@@ -1266,21 +1266,21 @@ function Invoke-ADCGetAnalyticsprofile {
             if ( $PsCmdlet.ParameterSetName -eq 'Getall' ) {
                 $Query = @{ }
                 Write-Verbose "Retrieving all analyticsprofile objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type analyticsprofile -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type analyticsprofile -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
                 if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for analyticsprofile objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type analyticsprofile -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type analyticsprofile -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving analyticsprofile objects by arguments"
                 $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type analyticsprofile -Arguments $Arguments -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type analyticsprofile -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving analyticsprofile configuration for property 'name'"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type analyticsprofile -Resource $name -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type analyticsprofile -NitroPath nitro/v1/config -Resource $name -Summary:$ViewSummary -Filter $Filter -GetWarning
             } else {
                 Write-Verbose "Retrieving analyticsprofile configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type analyticsprofile -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type analyticsprofile -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"

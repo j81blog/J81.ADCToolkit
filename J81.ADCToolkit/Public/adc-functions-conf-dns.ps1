@@ -19,7 +19,7 @@ function Invoke-ADCAddDnsaaaarec {
         Invoke-ADCAddDnsaaaarec -hostname <string> -ipv6address <string>
     .NOTES
         File Name : Invoke-ADCAddDnsaaaarec
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/dns/dnsaaaarec/
         Requires  : PowerShell v5.1 and up
@@ -59,7 +59,7 @@ function Invoke-ADCAddDnsaaaarec {
             if ($PSBoundParameters.ContainsKey('ttl')) { $Payload.Add('ttl', $ttl) }
  
             if ($PSCmdlet.ShouldProcess("dnsaaaarec", "Add Domain Name Service configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -Type dnsaaaarec -Payload $Payload -GetWarning
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -NitroPath nitro/v1/config -Type dnsaaaarec -Payload $Payload -GetWarning
                 #HTTP Status Code on Success: 201 Created
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
             Write-Output $result
@@ -91,7 +91,7 @@ function Invoke-ADCDeleteDnsaaaarec {
         Invoke-ADCDeleteDnsaaaarec -hostname <string>
     .NOTES
         File Name : Invoke-ADCDeleteDnsaaaarec
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/dns/dnsaaaarec/
         Requires  : PowerShell v5.1 and up
@@ -124,7 +124,7 @@ function Invoke-ADCDeleteDnsaaaarec {
             if ($PSBoundParameters.ContainsKey('ecssubnet')) { $Arguments.Add('ecssubnet', $ecssubnet) }
             if ($PSBoundParameters.ContainsKey('ipv6address')) { $Arguments.Add('ipv6address', $ipv6address) }
             if ($PSCmdlet.ShouldProcess("$hostname", "Delete Domain Name Service configuration Object")) {
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type dnsaaaarec -Resource $hostname -Arguments $Arguments
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type dnsaaaarec -NitroPath nitro/v1/config -Resource $hostname -Arguments $Arguments
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $response
@@ -178,7 +178,7 @@ function Invoke-ADCGetDnsaaaarec {
         Invoke-ADCGetDnsaaaarec -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetDnsaaaarec
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/dns/dnsaaaarec/
         Requires  : PowerShell v5.1 and up
@@ -230,11 +230,11 @@ function Invoke-ADCGetDnsaaaarec {
             if ( $PsCmdlet.ParameterSetName -eq 'Getall' ) {
                 $Query = @{ }
                 Write-Verbose "Retrieving all dnsaaaarec objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type dnsaaaarec -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type dnsaaaarec -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
                 if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for dnsaaaarec objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type dnsaaaarec -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type dnsaaaarec -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving dnsaaaarec objects by arguments"
                 $Arguments = @{ } 
@@ -242,13 +242,13 @@ function Invoke-ADCGetDnsaaaarec {
                 if ($PSBoundParameters.ContainsKey('ipv6address')) { $Arguments.Add('ipv6address', $ipv6address) } 
                 if ($PSBoundParameters.ContainsKey('type')) { $Arguments.Add('type', $type) } 
                 if ($PSBoundParameters.ContainsKey('nodeid')) { $Arguments.Add('nodeid', $nodeid) }
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type dnsaaaarec -Arguments $Arguments -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type dnsaaaarec -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving dnsaaaarec configuration for property ''"
 
             } else {
                 Write-Verbose "Retrieving dnsaaaarec configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type dnsaaaarec -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type dnsaaaarec -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -295,7 +295,7 @@ function Invoke-ADCAddDnsaction {
         Invoke-ADCAddDnsaction -actionname <string> -actiontype <string>
     .NOTES
         File Name : Invoke-ADCAddDnsaction
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/dns/dnsaction/
         Requires  : PowerShell v5.1 and up
@@ -350,7 +350,7 @@ function Invoke-ADCAddDnsaction {
             if ($PSBoundParameters.ContainsKey('dnsprofilename')) { $Payload.Add('dnsprofilename', $dnsprofilename) }
  
             if ($PSCmdlet.ShouldProcess("dnsaction", "Add Domain Name Service configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -Type dnsaction -Payload $Payload -GetWarning
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -NitroPath nitro/v1/config -Type dnsaction -Payload $Payload -GetWarning
                 #HTTP Status Code on Success: 201 Created
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 if ($PSBoundParameters.ContainsKey('PassThru')) {
@@ -382,7 +382,7 @@ function Invoke-ADCDeleteDnsaction {
         Invoke-ADCDeleteDnsaction -actionname <string>
     .NOTES
         File Name : Invoke-ADCDeleteDnsaction
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/dns/dnsaction/
         Requires  : PowerShell v5.1 and up
@@ -410,7 +410,7 @@ function Invoke-ADCDeleteDnsaction {
             }
 
             if ($PSCmdlet.ShouldProcess("$actionname", "Delete Domain Name Service configuration Object")) {
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type dnsaction -Resource $actionname -Arguments $Arguments
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type dnsaction -NitroPath nitro/v1/config -Resource $actionname -Arguments $Arguments
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $response
@@ -456,7 +456,7 @@ function Invoke-ADCUpdateDnsaction {
         Invoke-ADCUpdateDnsaction -actionname <string>
     .NOTES
         File Name : Invoke-ADCUpdateDnsaction
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/dns/dnsaction/
         Requires  : PowerShell v5.1 and up
@@ -506,7 +506,7 @@ function Invoke-ADCUpdateDnsaction {
             if ($PSBoundParameters.ContainsKey('dnsprofilename')) { $Payload.Add('dnsprofilename', $dnsprofilename) }
  
             if ($PSCmdlet.ShouldProcess("dnsaction", "Update Domain Name Service configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -Type dnsaction -Payload $Payload -GetWarning
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -NitroPath nitro/v1/config -Type dnsaction -Payload $Payload -GetWarning
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 if ($PSBoundParameters.ContainsKey('PassThru')) {
@@ -542,7 +542,7 @@ function Invoke-ADCUnsetDnsaction {
         Invoke-ADCUnsetDnsaction -actionname <string>
     .NOTES
         File Name : Invoke-ADCUnsetDnsaction
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/dns/dnsaction
         Requires  : PowerShell v5.1 and up
@@ -576,7 +576,7 @@ function Invoke-ADCUnsetDnsaction {
             if ($PSBoundParameters.ContainsKey('ttl')) { $Payload.Add('ttl', $ttl) }
             if ($PSBoundParameters.ContainsKey('dnsprofilename')) { $Payload.Add('dnsprofilename', $dnsprofilename) }
             if ($PSCmdlet.ShouldProcess("$actionname", "Unset Domain Name Service configuration Object")) {
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -Type dnsaction -Action unset -Payload $Payload -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -Type dnsaction -NitroPath nitro/v1/config -Action unset -Payload $Payload -GetWarning
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $response
@@ -620,7 +620,7 @@ function Invoke-ADCGetDnsaction {
         Invoke-ADCGetDnsaction -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetDnsaction
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/dns/dnsaction/
         Requires  : PowerShell v5.1 and up
@@ -660,21 +660,21 @@ function Invoke-ADCGetDnsaction {
             if ( $PsCmdlet.ParameterSetName -eq 'Getall' ) {
                 $Query = @{ }
                 Write-Verbose "Retrieving all dnsaction objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type dnsaction -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type dnsaction -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
                 if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for dnsaction objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type dnsaction -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type dnsaction -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving dnsaction objects by arguments"
                 $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type dnsaction -Arguments $Arguments -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type dnsaction -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving dnsaction configuration for property 'actionname'"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type dnsaction -Resource $actionname -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type dnsaction -NitroPath nitro/v1/config -Resource $actionname -Summary:$ViewSummary -Filter $Filter -GetWarning
             } else {
                 Write-Verbose "Retrieving dnsaction configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type dnsaction -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type dnsaction -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -709,7 +709,7 @@ function Invoke-ADCAddDnsaction64 {
         Invoke-ADCAddDnsaction64 -actionname <string> -prefix <string>
     .NOTES
         File Name : Invoke-ADCAddDnsaction64
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/dns/dnsaction64/
         Requires  : PowerShell v5.1 and up
@@ -751,7 +751,7 @@ function Invoke-ADCAddDnsaction64 {
             if ($PSBoundParameters.ContainsKey('excluderule')) { $Payload.Add('excluderule', $excluderule) }
  
             if ($PSCmdlet.ShouldProcess("dnsaction64", "Add Domain Name Service configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -Type dnsaction64 -Payload $Payload -GetWarning
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -NitroPath nitro/v1/config -Type dnsaction64 -Payload $Payload -GetWarning
                 #HTTP Status Code on Success: 201 Created
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 if ($PSBoundParameters.ContainsKey('PassThru')) {
@@ -783,7 +783,7 @@ function Invoke-ADCDeleteDnsaction64 {
         Invoke-ADCDeleteDnsaction64 -actionname <string>
     .NOTES
         File Name : Invoke-ADCDeleteDnsaction64
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/dns/dnsaction64/
         Requires  : PowerShell v5.1 and up
@@ -811,7 +811,7 @@ function Invoke-ADCDeleteDnsaction64 {
             }
 
             if ($PSCmdlet.ShouldProcess("$actionname", "Delete Domain Name Service configuration Object")) {
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type dnsaction64 -Resource $actionname -Arguments $Arguments
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type dnsaction64 -NitroPath nitro/v1/config -Resource $actionname -Arguments $Arguments
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $response
@@ -848,7 +848,7 @@ function Invoke-ADCUpdateDnsaction64 {
         Invoke-ADCUpdateDnsaction64 -actionname <string>
     .NOTES
         File Name : Invoke-ADCUpdateDnsaction64
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/dns/dnsaction64/
         Requires  : PowerShell v5.1 and up
@@ -889,7 +889,7 @@ function Invoke-ADCUpdateDnsaction64 {
             if ($PSBoundParameters.ContainsKey('excluderule')) { $Payload.Add('excluderule', $excluderule) }
  
             if ($PSCmdlet.ShouldProcess("dnsaction64", "Update Domain Name Service configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -Type dnsaction64 -Payload $Payload -GetWarning
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -NitroPath nitro/v1/config -Type dnsaction64 -Payload $Payload -GetWarning
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 if ($PSBoundParameters.ContainsKey('PassThru')) {
@@ -929,7 +929,7 @@ function Invoke-ADCUnsetDnsaction64 {
         Invoke-ADCUnsetDnsaction64 -actionname <string>
     .NOTES
         File Name : Invoke-ADCUnsetDnsaction64
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/dns/dnsaction64
         Requires  : PowerShell v5.1 and up
@@ -966,7 +966,7 @@ function Invoke-ADCUnsetDnsaction64 {
             if ($PSBoundParameters.ContainsKey('mappedrule')) { $Payload.Add('mappedrule', $mappedrule) }
             if ($PSBoundParameters.ContainsKey('excluderule')) { $Payload.Add('excluderule', $excluderule) }
             if ($PSCmdlet.ShouldProcess("$actionname", "Unset Domain Name Service configuration Object")) {
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -Type dnsaction64 -Action unset -Payload $Payload -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -Type dnsaction64 -NitroPath nitro/v1/config -Action unset -Payload $Payload -GetWarning
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $response
@@ -1010,7 +1010,7 @@ function Invoke-ADCGetDnsaction64 {
         Invoke-ADCGetDnsaction64 -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetDnsaction64
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/dns/dnsaction64/
         Requires  : PowerShell v5.1 and up
@@ -1050,21 +1050,21 @@ function Invoke-ADCGetDnsaction64 {
             if ( $PsCmdlet.ParameterSetName -eq 'Getall' ) {
                 $Query = @{ }
                 Write-Verbose "Retrieving all dnsaction64 objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type dnsaction64 -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type dnsaction64 -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
                 if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for dnsaction64 objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type dnsaction64 -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type dnsaction64 -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving dnsaction64 objects by arguments"
                 $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type dnsaction64 -Arguments $Arguments -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type dnsaction64 -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving dnsaction64 configuration for property 'actionname'"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type dnsaction64 -Resource $actionname -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type dnsaction64 -NitroPath nitro/v1/config -Resource $actionname -Summary:$ViewSummary -Filter $Filter -GetWarning
             } else {
                 Write-Verbose "Retrieving dnsaction64 configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type dnsaction64 -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type dnsaction64 -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -1100,7 +1100,7 @@ function Invoke-ADCAddDnsaddrec {
         Invoke-ADCAddDnsaddrec -hostname <string> -ipaddress <string>
     .NOTES
         File Name : Invoke-ADCAddDnsaddrec
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/dns/dnsaddrec/
         Requires  : PowerShell v5.1 and up
@@ -1142,7 +1142,7 @@ function Invoke-ADCAddDnsaddrec {
             if ($PSBoundParameters.ContainsKey('ttl')) { $Payload.Add('ttl', $ttl) }
  
             if ($PSCmdlet.ShouldProcess("dnsaddrec", "Add Domain Name Service configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -Type dnsaddrec -Payload $Payload -GetWarning
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -NitroPath nitro/v1/config -Type dnsaddrec -Payload $Payload -GetWarning
                 #HTTP Status Code on Success: 201 Created
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 if ($PSBoundParameters.ContainsKey('PassThru')) {
@@ -1178,7 +1178,7 @@ function Invoke-ADCDeleteDnsaddrec {
         Invoke-ADCDeleteDnsaddrec -hostname <string>
     .NOTES
         File Name : Invoke-ADCDeleteDnsaddrec
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/dns/dnsaddrec/
         Requires  : PowerShell v5.1 and up
@@ -1211,7 +1211,7 @@ function Invoke-ADCDeleteDnsaddrec {
             if ($PSBoundParameters.ContainsKey('ecssubnet')) { $Arguments.Add('ecssubnet', $ecssubnet) }
             if ($PSBoundParameters.ContainsKey('ipaddress')) { $Arguments.Add('ipaddress', $ipaddress) }
             if ($PSCmdlet.ShouldProcess("$hostname", "Delete Domain Name Service configuration Object")) {
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type dnsaddrec -Resource $hostname -Arguments $Arguments
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type dnsaddrec -NitroPath nitro/v1/config -Resource $hostname -Arguments $Arguments
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $response
@@ -1255,7 +1255,7 @@ function Invoke-ADCGetDnsaddrec {
         Invoke-ADCGetDnsaddrec -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetDnsaddrec
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/dns/dnsaddrec/
         Requires  : PowerShell v5.1 and up
@@ -1296,21 +1296,21 @@ function Invoke-ADCGetDnsaddrec {
             if ( $PsCmdlet.ParameterSetName -eq 'Getall' ) {
                 $Query = @{ }
                 Write-Verbose "Retrieving all dnsaddrec objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type dnsaddrec -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type dnsaddrec -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
                 if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for dnsaddrec objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type dnsaddrec -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type dnsaddrec -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving dnsaddrec objects by arguments"
                 $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type dnsaddrec -Arguments $Arguments -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type dnsaddrec -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving dnsaddrec configuration for property 'hostname'"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type dnsaddrec -Resource $hostname -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type dnsaddrec -NitroPath nitro/v1/config -Resource $hostname -Summary:$ViewSummary -Filter $Filter -GetWarning
             } else {
                 Write-Verbose "Retrieving dnsaddrec configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type dnsaddrec -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type dnsaddrec -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -1346,7 +1346,7 @@ function Invoke-ADCAddDnscnamerec {
         Invoke-ADCAddDnscnamerec -aliasname <string> -canonicalname <string>
     .NOTES
         File Name : Invoke-ADCAddDnscnamerec
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/dns/dnscnamerec/
         Requires  : PowerShell v5.1 and up
@@ -1388,7 +1388,7 @@ function Invoke-ADCAddDnscnamerec {
             if ($PSBoundParameters.ContainsKey('ttl')) { $Payload.Add('ttl', $ttl) }
  
             if ($PSCmdlet.ShouldProcess("dnscnamerec", "Add Domain Name Service configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -Type dnscnamerec -Payload $Payload -GetWarning
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -NitroPath nitro/v1/config -Type dnscnamerec -Payload $Payload -GetWarning
                 #HTTP Status Code on Success: 201 Created
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 if ($PSBoundParameters.ContainsKey('PassThru')) {
@@ -1422,7 +1422,7 @@ function Invoke-ADCDeleteDnscnamerec {
         Invoke-ADCDeleteDnscnamerec -aliasname <string>
     .NOTES
         File Name : Invoke-ADCDeleteDnscnamerec
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/dns/dnscnamerec/
         Requires  : PowerShell v5.1 and up
@@ -1452,7 +1452,7 @@ function Invoke-ADCDeleteDnscnamerec {
             }
             if ($PSBoundParameters.ContainsKey('ecssubnet')) { $Arguments.Add('ecssubnet', $ecssubnet) }
             if ($PSCmdlet.ShouldProcess("$aliasname", "Delete Domain Name Service configuration Object")) {
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type dnscnamerec -Resource $aliasname -Arguments $Arguments
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type dnscnamerec -NitroPath nitro/v1/config -Resource $aliasname -Arguments $Arguments
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $response
@@ -1496,7 +1496,7 @@ function Invoke-ADCGetDnscnamerec {
         Invoke-ADCGetDnscnamerec -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetDnscnamerec
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/dns/dnscnamerec/
         Requires  : PowerShell v5.1 and up
@@ -1537,21 +1537,21 @@ function Invoke-ADCGetDnscnamerec {
             if ( $PsCmdlet.ParameterSetName -eq 'Getall' ) {
                 $Query = @{ }
                 Write-Verbose "Retrieving all dnscnamerec objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type dnscnamerec -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type dnscnamerec -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
                 if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for dnscnamerec objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type dnscnamerec -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type dnscnamerec -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving dnscnamerec objects by arguments"
                 $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type dnscnamerec -Arguments $Arguments -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type dnscnamerec -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving dnscnamerec configuration for property 'aliasname'"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type dnscnamerec -Resource $aliasname -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type dnscnamerec -NitroPath nitro/v1/config -Resource $aliasname -Summary:$ViewSummary -Filter $Filter -GetWarning
             } else {
                 Write-Verbose "Retrieving dnscnamerec configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type dnscnamerec -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type dnscnamerec -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -1589,7 +1589,7 @@ function Invoke-ADCGetDnsglobalbinding {
         Invoke-ADCGetDnsglobalbinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetDnsglobalbinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/dns/dnsglobal_binding/
         Requires  : PowerShell v5.1 and up
@@ -1620,21 +1620,21 @@ function Invoke-ADCGetDnsglobalbinding {
                     bulkbindings = 'yes'
                 }
                 Write-Verbose "Retrieving all dnsglobal_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type dnsglobal_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type dnsglobal_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
                 if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for dnsglobal_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type dnsglobal_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type dnsglobal_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving dnsglobal_binding objects by arguments"
                 $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type dnsglobal_binding -Arguments $Arguments -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type dnsglobal_binding -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving dnsglobal_binding configuration for property ''"
 
             } else {
                 Write-Verbose "Retrieving dnsglobal_binding configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type dnsglobal_binding -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type dnsglobal_binding -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -1676,7 +1676,7 @@ function Invoke-ADCAddDnsglobaldnspolicybinding {
         Invoke-ADCAddDnsglobaldnspolicybinding -policyname <string> -priority <double>
     .NOTES
         File Name : Invoke-ADCAddDnsglobaldnspolicybinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/dns/dnsglobal_dnspolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -1730,7 +1730,7 @@ function Invoke-ADCAddDnsglobaldnspolicybinding {
             if ($PSBoundParameters.ContainsKey('labelname')) { $Payload.Add('labelname', $labelname) }
  
             if ($PSCmdlet.ShouldProcess("dnsglobal_dnspolicy_binding", "Add Domain Name Service configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -Type dnsglobal_dnspolicy_binding -Payload $Payload -GetWarning
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -NitroPath nitro/v1/config -Type dnsglobal_dnspolicy_binding -Payload $Payload -GetWarning
                 #HTTP Status Code on Success: 201 Created
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 if ($PSBoundParameters.ContainsKey('PassThru')) {
@@ -1764,7 +1764,7 @@ function Invoke-ADCDeleteDnsglobaldnspolicybinding {
         Invoke-ADCDeleteDnsglobaldnspolicybinding 
     .NOTES
         File Name : Invoke-ADCDeleteDnsglobaldnspolicybinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/dns/dnsglobal_dnspolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -1794,7 +1794,7 @@ function Invoke-ADCDeleteDnsglobaldnspolicybinding {
             if ($PSBoundParameters.ContainsKey('policyname')) { $Arguments.Add('policyname', $policyname) }
             if ($PSBoundParameters.ContainsKey('type')) { $Arguments.Add('type', $type) }
             if ($PSCmdlet.ShouldProcess("dnsglobal_dnspolicy_binding", "Delete Domain Name Service configuration Object")) {
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type dnsglobal_dnspolicy_binding -Resource $ -Arguments $Arguments
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type dnsglobal_dnspolicy_binding -NitroPath nitro/v1/config -Resource $ -Arguments $Arguments
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $response
@@ -1836,7 +1836,7 @@ function Invoke-ADCGetDnsglobaldnspolicybinding {
         Invoke-ADCGetDnsglobaldnspolicybinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetDnsglobaldnspolicybinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/dns/dnsglobal_dnspolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -1870,21 +1870,21 @@ function Invoke-ADCGetDnsglobaldnspolicybinding {
                     bulkbindings = 'yes'
                 }
                 Write-Verbose "Retrieving all dnsglobal_dnspolicy_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type dnsglobal_dnspolicy_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type dnsglobal_dnspolicy_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
                 if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for dnsglobal_dnspolicy_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type dnsglobal_dnspolicy_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type dnsglobal_dnspolicy_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving dnsglobal_dnspolicy_binding objects by arguments"
                 $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type dnsglobal_dnspolicy_binding -Arguments $Arguments -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type dnsglobal_dnspolicy_binding -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving dnsglobal_dnspolicy_binding configuration for property ''"
 
             } else {
                 Write-Verbose "Retrieving dnsglobal_dnspolicy_binding configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type dnsglobal_dnspolicy_binding -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type dnsglobal_dnspolicy_binding -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -1942,7 +1942,7 @@ function Invoke-ADCAddDnskey {
         Invoke-ADCAddDnskey -keyname <string> -publickey <string> -privatekey <string>
     .NOTES
         File Name : Invoke-ADCAddDnskey
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/dns/dnskey/
         Requires  : PowerShell v5.1 and up
@@ -2007,7 +2007,7 @@ function Invoke-ADCAddDnskey {
             if ($PSBoundParameters.ContainsKey('password')) { $Payload.Add('password', $password) }
  
             if ($PSCmdlet.ShouldProcess("dnskey", "Add Domain Name Service configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -Type dnskey -Payload $Payload -GetWarning
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -NitroPath nitro/v1/config -Type dnskey -Payload $Payload -GetWarning
                 #HTTP Status Code on Success: 201 Created
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 if ($PSBoundParameters.ContainsKey('PassThru')) {
@@ -2051,7 +2051,7 @@ function Invoke-ADCCreateDnskey {
         Invoke-ADCCreateDnskey -zonename <string> -keytype <string> -algorithm <string> -keysize <double> -filenameprefix <string>
     .NOTES
         File Name : Invoke-ADCCreateDnskey
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/dns/dnskey/
         Requires  : PowerShell v5.1 and up
@@ -2104,7 +2104,7 @@ function Invoke-ADCCreateDnskey {
             }
             if ($PSBoundParameters.ContainsKey('password')) { $Payload.Add('password', $password) }
             if ($PSCmdlet.ShouldProcess($Name, "Create Domain Name Service configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -Type dnskey -Action create -Payload $Payload -GetWarning
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -NitroPath nitro/v1/config -Type dnskey -Action create -Payload $Payload -GetWarning
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $result
@@ -2157,7 +2157,7 @@ function Invoke-ADCUpdateDnskey {
         Invoke-ADCUpdateDnskey -keyname <string>
     .NOTES
         File Name : Invoke-ADCUpdateDnskey
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/dns/dnskey/
         Requires  : PowerShell v5.1 and up
@@ -2210,7 +2210,7 @@ function Invoke-ADCUpdateDnskey {
             if ($PSBoundParameters.ContainsKey('ttl')) { $Payload.Add('ttl', $ttl) }
  
             if ($PSCmdlet.ShouldProcess("dnskey", "Update Domain Name Service configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -Type dnskey -Payload $Payload -GetWarning
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -NitroPath nitro/v1/config -Type dnskey -Payload $Payload -GetWarning
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 if ($PSBoundParameters.ContainsKey('PassThru')) {
@@ -2254,7 +2254,7 @@ function Invoke-ADCUnsetDnskey {
         Invoke-ADCUnsetDnskey -keyname <string>
     .NOTES
         File Name : Invoke-ADCUnsetDnskey
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/dns/dnskey
         Requires  : PowerShell v5.1 and up
@@ -2298,7 +2298,7 @@ function Invoke-ADCUnsetDnskey {
             if ($PSBoundParameters.ContainsKey('units2')) { $Payload.Add('units2', $units2) }
             if ($PSBoundParameters.ContainsKey('ttl')) { $Payload.Add('ttl', $ttl) }
             if ($PSCmdlet.ShouldProcess("$keyname", "Unset Domain Name Service configuration Object")) {
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -Type dnskey -Action unset -Payload $Payload -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -Type dnskey -NitroPath nitro/v1/config -Action unset -Payload $Payload -GetWarning
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $response
@@ -2326,7 +2326,7 @@ function Invoke-ADCDeleteDnskey {
         Invoke-ADCDeleteDnskey -keyname <string>
     .NOTES
         File Name : Invoke-ADCDeleteDnskey
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/dns/dnskey/
         Requires  : PowerShell v5.1 and up
@@ -2354,7 +2354,7 @@ function Invoke-ADCDeleteDnskey {
             }
 
             if ($PSCmdlet.ShouldProcess("$keyname", "Delete Domain Name Service configuration Object")) {
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type dnskey -Resource $keyname -Arguments $Arguments
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type dnskey -NitroPath nitro/v1/config -Resource $keyname -Arguments $Arguments
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $response
@@ -2383,7 +2383,7 @@ function Invoke-ADCImportDnskey {
         Invoke-ADCImportDnskey -keyname <string> -src <string>
     .NOTES
         File Name : Invoke-ADCImportDnskey
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/dns/dnskey/
         Requires  : PowerShell v5.1 and up
@@ -2419,7 +2419,7 @@ function Invoke-ADCImportDnskey {
             }
 
             if ($PSCmdlet.ShouldProcess($Name, "Import Domain Name Service configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -Type dnskey -Action import -Payload $Payload -GetWarning
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -NitroPath nitro/v1/config -Type dnskey -Action import -Payload $Payload -GetWarning
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $result
@@ -2463,7 +2463,7 @@ function Invoke-ADCGetDnskey {
         Invoke-ADCGetDnskey -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetDnskey
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/dns/dnskey/
         Requires  : PowerShell v5.1 and up
@@ -2504,21 +2504,21 @@ function Invoke-ADCGetDnskey {
             if ( $PsCmdlet.ParameterSetName -eq 'Getall' ) {
                 $Query = @{ }
                 Write-Verbose "Retrieving all dnskey objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type dnskey -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type dnskey -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
                 if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for dnskey objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type dnskey -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type dnskey -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving dnskey objects by arguments"
                 $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type dnskey -Arguments $Arguments -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type dnskey -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving dnskey configuration for property 'keyname'"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type dnskey -Resource $keyname -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type dnskey -NitroPath nitro/v1/config -Resource $keyname -Summary:$ViewSummary -Filter $Filter -GetWarning
             } else {
                 Write-Verbose "Retrieving dnskey configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type dnskey -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type dnskey -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -2558,7 +2558,7 @@ function Invoke-ADCAddDnsmxrec {
         Invoke-ADCAddDnsmxrec -domain <string> -mx <string> -pref <double>
     .NOTES
         File Name : Invoke-ADCAddDnsmxrec
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/dns/dnsmxrec/
         Requires  : PowerShell v5.1 and up
@@ -2605,7 +2605,7 @@ function Invoke-ADCAddDnsmxrec {
             if ($PSBoundParameters.ContainsKey('ttl')) { $Payload.Add('ttl', $ttl) }
  
             if ($PSCmdlet.ShouldProcess("dnsmxrec", "Add Domain Name Service configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -Type dnsmxrec -Payload $Payload -GetWarning
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -NitroPath nitro/v1/config -Type dnsmxrec -Payload $Payload -GetWarning
                 #HTTP Status Code on Success: 201 Created
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 if ($PSBoundParameters.ContainsKey('PassThru')) {
@@ -2641,7 +2641,7 @@ function Invoke-ADCDeleteDnsmxrec {
         Invoke-ADCDeleteDnsmxrec -domain <string>
     .NOTES
         File Name : Invoke-ADCDeleteDnsmxrec
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/dns/dnsmxrec/
         Requires  : PowerShell v5.1 and up
@@ -2674,7 +2674,7 @@ function Invoke-ADCDeleteDnsmxrec {
             if ($PSBoundParameters.ContainsKey('mx')) { $Arguments.Add('mx', $mx) }
             if ($PSBoundParameters.ContainsKey('ecssubnet')) { $Arguments.Add('ecssubnet', $ecssubnet) }
             if ($PSCmdlet.ShouldProcess("$domain", "Delete Domain Name Service configuration Object")) {
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type dnsmxrec -Resource $domain -Arguments $Arguments
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type dnsmxrec -NitroPath nitro/v1/config -Resource $domain -Arguments $Arguments
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $response
@@ -2716,7 +2716,7 @@ function Invoke-ADCUpdateDnsmxrec {
         Invoke-ADCUpdateDnsmxrec -domain <string> -mx <string>
     .NOTES
         File Name : Invoke-ADCUpdateDnsmxrec
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/dns/dnsmxrec/
         Requires  : PowerShell v5.1 and up
@@ -2762,7 +2762,7 @@ function Invoke-ADCUpdateDnsmxrec {
             if ($PSBoundParameters.ContainsKey('ttl')) { $Payload.Add('ttl', $ttl) }
  
             if ($PSCmdlet.ShouldProcess("dnsmxrec", "Update Domain Name Service configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -Type dnsmxrec -Payload $Payload -GetWarning
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -NitroPath nitro/v1/config -Type dnsmxrec -Payload $Payload -GetWarning
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 if ($PSBoundParameters.ContainsKey('PassThru')) {
@@ -2798,7 +2798,7 @@ function Invoke-ADCUnsetDnsmxrec {
         Invoke-ADCUnsetDnsmxrec -domain <string> -mx <string>
     .NOTES
         File Name : Invoke-ADCUnsetDnsmxrec
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/dns/dnsmxrec
         Requires  : PowerShell v5.1 and up
@@ -2835,7 +2835,7 @@ function Invoke-ADCUnsetDnsmxrec {
             }
             if ($PSBoundParameters.ContainsKey('ttl')) { $Payload.Add('ttl', $ttl) }
             if ($PSCmdlet.ShouldProcess("$domain mx", "Unset Domain Name Service configuration Object")) {
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -Type dnsmxrec -Action unset -Payload $Payload -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -Type dnsmxrec -NitroPath nitro/v1/config -Action unset -Payload $Payload -GetWarning
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $response
@@ -2879,7 +2879,7 @@ function Invoke-ADCGetDnsmxrec {
         Invoke-ADCGetDnsmxrec -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetDnsmxrec
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/dns/dnsmxrec/
         Requires  : PowerShell v5.1 and up
@@ -2920,21 +2920,21 @@ function Invoke-ADCGetDnsmxrec {
             if ( $PsCmdlet.ParameterSetName -eq 'Getall' ) {
                 $Query = @{ }
                 Write-Verbose "Retrieving all dnsmxrec objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type dnsmxrec -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type dnsmxrec -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
                 if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for dnsmxrec objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type dnsmxrec -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type dnsmxrec -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving dnsmxrec objects by arguments"
                 $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type dnsmxrec -Arguments $Arguments -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type dnsmxrec -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving dnsmxrec configuration for property 'domain'"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type dnsmxrec -Resource $domain -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type dnsmxrec -NitroPath nitro/v1/config -Resource $domain -Summary:$ViewSummary -Filter $Filter -GetWarning
             } else {
                 Write-Verbose "Retrieving dnsmxrec configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type dnsmxrec -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type dnsmxrec -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -2977,7 +2977,7 @@ function Invoke-ADCAddDnsnameserver {
         Invoke-ADCAddDnsnameserver 
     .NOTES
         File Name : Invoke-ADCAddDnsnameserver
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/dns/dnsnameserver/
         Requires  : PowerShell v5.1 and up
@@ -3027,7 +3027,7 @@ function Invoke-ADCAddDnsnameserver {
             if ($PSBoundParameters.ContainsKey('dnsprofilename')) { $Payload.Add('dnsprofilename', $dnsprofilename) }
  
             if ($PSCmdlet.ShouldProcess("dnsnameserver", "Add Domain Name Service configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -Type dnsnameserver -Payload $Payload -GetWarning
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -NitroPath nitro/v1/config -Type dnsnameserver -Payload $Payload -GetWarning
                 #HTTP Status Code on Success: 201 Created
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
             Write-Output $result
@@ -3063,7 +3063,7 @@ function Invoke-ADCUpdateDnsnameserver {
         Invoke-ADCUpdateDnsnameserver -ip <string>
     .NOTES
         File Name : Invoke-ADCUpdateDnsnameserver
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/dns/dnsnameserver/
         Requires  : PowerShell v5.1 and up
@@ -3102,7 +3102,7 @@ function Invoke-ADCUpdateDnsnameserver {
             if ($PSBoundParameters.ContainsKey('type')) { $Payload.Add('type', $type) }
  
             if ($PSCmdlet.ShouldProcess("dnsnameserver", "Update Domain Name Service configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -Type dnsnameserver -Payload $Payload -GetWarning
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -NitroPath nitro/v1/config -Type dnsnameserver -Payload $Payload -GetWarning
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
             Write-Output $result
@@ -3135,7 +3135,7 @@ function Invoke-ADCUnsetDnsnameserver {
         Invoke-ADCUnsetDnsnameserver -ip <string>
     .NOTES
         File Name : Invoke-ADCUnsetDnsnameserver
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/dns/dnsnameserver
         Requires  : PowerShell v5.1 and up
@@ -3170,7 +3170,7 @@ function Invoke-ADCUnsetDnsnameserver {
             if ($PSBoundParameters.ContainsKey('dnsprofilename')) { $Payload.Add('dnsprofilename', $dnsprofilename) }
             if ($PSBoundParameters.ContainsKey('type')) { $Payload.Add('type', $type) }
             if ($PSCmdlet.ShouldProcess("$ip", "Unset Domain Name Service configuration Object")) {
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -Type dnsnameserver -Action unset -Payload $Payload -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -Type dnsnameserver -NitroPath nitro/v1/config -Action unset -Payload $Payload -GetWarning
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $response
@@ -3203,7 +3203,7 @@ function Invoke-ADCDeleteDnsnameserver {
         Invoke-ADCDeleteDnsnameserver -ip <string>
     .NOTES
         File Name : Invoke-ADCDeleteDnsnameserver
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/dns/dnsnameserver/
         Requires  : PowerShell v5.1 and up
@@ -3236,7 +3236,7 @@ function Invoke-ADCDeleteDnsnameserver {
             if ($PSBoundParameters.ContainsKey('dnsvservername')) { $Arguments.Add('dnsvservername', $dnsvservername) }
             if ($PSBoundParameters.ContainsKey('type')) { $Arguments.Add('type', $type) }
             if ($PSCmdlet.ShouldProcess("$ip", "Delete Domain Name Service configuration Object")) {
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type dnsnameserver -Resource $ip -Arguments $Arguments
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type dnsnameserver -NitroPath nitro/v1/config -Resource $ip -Arguments $Arguments
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $response
@@ -3268,7 +3268,7 @@ function Invoke-ADCEnableDnsnameserver {
         Invoke-ADCEnableDnsnameserver 
     .NOTES
         File Name : Invoke-ADCEnableDnsnameserver
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/dns/dnsnameserver/
         Requires  : PowerShell v5.1 and up
@@ -3306,7 +3306,7 @@ function Invoke-ADCEnableDnsnameserver {
             if ($PSBoundParameters.ContainsKey('dnsvservername')) { $Payload.Add('dnsvservername', $dnsvservername) }
             if ($PSBoundParameters.ContainsKey('type')) { $Payload.Add('type', $type) }
             if ($PSCmdlet.ShouldProcess($Name, "Enable Domain Name Service configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -Type dnsnameserver -Action enable -Payload $Payload -GetWarning
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -NitroPath nitro/v1/config -Type dnsnameserver -Action enable -Payload $Payload -GetWarning
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $result
@@ -3338,7 +3338,7 @@ function Invoke-ADCDisableDnsnameserver {
         Invoke-ADCDisableDnsnameserver 
     .NOTES
         File Name : Invoke-ADCDisableDnsnameserver
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/dns/dnsnameserver/
         Requires  : PowerShell v5.1 and up
@@ -3376,7 +3376,7 @@ function Invoke-ADCDisableDnsnameserver {
             if ($PSBoundParameters.ContainsKey('dnsvservername')) { $Payload.Add('dnsvservername', $dnsvservername) }
             if ($PSBoundParameters.ContainsKey('type')) { $Payload.Add('type', $type) }
             if ($PSCmdlet.ShouldProcess($Name, "Disable Domain Name Service configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -Type dnsnameserver -Action disable -Payload $Payload -GetWarning
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -NitroPath nitro/v1/config -Type dnsnameserver -Action disable -Payload $Payload -GetWarning
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $result
@@ -3418,7 +3418,7 @@ function Invoke-ADCGetDnsnameserver {
         Invoke-ADCGetDnsnameserver -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetDnsnameserver
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/dns/dnsnameserver/
         Requires  : PowerShell v5.1 and up
@@ -3454,21 +3454,21 @@ function Invoke-ADCGetDnsnameserver {
             if ( $PsCmdlet.ParameterSetName -eq 'Getall' ) {
                 $Query = @{ }
                 Write-Verbose "Retrieving all dnsnameserver objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type dnsnameserver -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type dnsnameserver -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
                 if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for dnsnameserver objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type dnsnameserver -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type dnsnameserver -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving dnsnameserver objects by arguments"
                 $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type dnsnameserver -Arguments $Arguments -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type dnsnameserver -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving dnsnameserver configuration for property ''"
 
             } else {
                 Write-Verbose "Retrieving dnsnameserver configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type dnsnameserver -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type dnsnameserver -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -3521,7 +3521,7 @@ function Invoke-ADCAddDnsnaptrrec {
         Invoke-ADCAddDnsnaptrrec -domain <string> -order <double> -preference <double>
     .NOTES
         File Name : Invoke-ADCAddDnsnaptrrec
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/dns/dnsnaptrrec/
         Requires  : PowerShell v5.1 and up
@@ -3580,7 +3580,7 @@ function Invoke-ADCAddDnsnaptrrec {
             if ($PSBoundParameters.ContainsKey('ttl')) { $Payload.Add('ttl', $ttl) }
  
             if ($PSCmdlet.ShouldProcess("dnsnaptrrec", "Add Domain Name Service configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -Type dnsnaptrrec -Payload $Payload -GetWarning
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -NitroPath nitro/v1/config -Type dnsnaptrrec -Payload $Payload -GetWarning
                 #HTTP Status Code on Success: 201 Created
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 if ($PSBoundParameters.ContainsKey('PassThru')) {
@@ -3632,7 +3632,7 @@ function Invoke-ADCDeleteDnsnaptrrec {
         Invoke-ADCDeleteDnsnaptrrec -domain <string>
     .NOTES
         File Name : Invoke-ADCDeleteDnsnaptrrec
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/dns/dnsnaptrrec/
         Requires  : PowerShell v5.1 and up
@@ -3683,7 +3683,7 @@ function Invoke-ADCDeleteDnsnaptrrec {
             if ($PSBoundParameters.ContainsKey('regexp')) { $Arguments.Add('regexp', $regexp) }
             if ($PSBoundParameters.ContainsKey('replacement')) { $Arguments.Add('replacement', $replacement) }
             if ($PSCmdlet.ShouldProcess("$domain", "Delete Domain Name Service configuration Object")) {
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type dnsnaptrrec -Resource $domain -Arguments $Arguments
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type dnsnaptrrec -NitroPath nitro/v1/config -Resource $domain -Arguments $Arguments
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $response
@@ -3727,7 +3727,7 @@ function Invoke-ADCGetDnsnaptrrec {
         Invoke-ADCGetDnsnaptrrec -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetDnsnaptrrec
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/dns/dnsnaptrrec/
         Requires  : PowerShell v5.1 and up
@@ -3768,21 +3768,21 @@ function Invoke-ADCGetDnsnaptrrec {
             if ( $PsCmdlet.ParameterSetName -eq 'Getall' ) {
                 $Query = @{ }
                 Write-Verbose "Retrieving all dnsnaptrrec objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type dnsnaptrrec -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type dnsnaptrrec -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
                 if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for dnsnaptrrec objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type dnsnaptrrec -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type dnsnaptrrec -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving dnsnaptrrec objects by arguments"
                 $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type dnsnaptrrec -Arguments $Arguments -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type dnsnaptrrec -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving dnsnaptrrec configuration for property 'domain'"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type dnsnaptrrec -Resource $domain -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type dnsnaptrrec -NitroPath nitro/v1/config -Resource $domain -Summary:$ViewSummary -Filter $Filter -GetWarning
             } else {
                 Write-Verbose "Retrieving dnsnaptrrec configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type dnsnaptrrec -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type dnsnaptrrec -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -3824,7 +3824,7 @@ function Invoke-ADCGetDnsnsecrec {
         Invoke-ADCGetDnsnsecrec -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetDnsnsecrec
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/dns/dnsnsecrec/
         Requires  : PowerShell v5.1 and up
@@ -3865,21 +3865,21 @@ function Invoke-ADCGetDnsnsecrec {
             if ( $PsCmdlet.ParameterSetName -eq 'Getall' ) {
                 $Query = @{ }
                 Write-Verbose "Retrieving all dnsnsecrec objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type dnsnsecrec -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type dnsnsecrec -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
                 if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for dnsnsecrec objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type dnsnsecrec -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type dnsnsecrec -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving dnsnsecrec objects by arguments"
                 $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type dnsnsecrec -Arguments $Arguments -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type dnsnsecrec -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving dnsnsecrec configuration for property 'hostname'"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type dnsnsecrec -Resource $hostname -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type dnsnsecrec -NitroPath nitro/v1/config -Resource $hostname -Summary:$ViewSummary -Filter $Filter -GetWarning
             } else {
                 Write-Verbose "Retrieving dnsnsecrec configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type dnsnsecrec -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type dnsnsecrec -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -3915,7 +3915,7 @@ function Invoke-ADCAddDnsnsrec {
         Invoke-ADCAddDnsnsrec -domain <string> -nameserver <string>
     .NOTES
         File Name : Invoke-ADCAddDnsnsrec
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/dns/dnsnsrec/
         Requires  : PowerShell v5.1 and up
@@ -3957,7 +3957,7 @@ function Invoke-ADCAddDnsnsrec {
             if ($PSBoundParameters.ContainsKey('ttl')) { $Payload.Add('ttl', $ttl) }
  
             if ($PSCmdlet.ShouldProcess("dnsnsrec", "Add Domain Name Service configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -Type dnsnsrec -Payload $Payload -GetWarning
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -NitroPath nitro/v1/config -Type dnsnsrec -Payload $Payload -GetWarning
                 #HTTP Status Code on Success: 201 Created
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 if ($PSBoundParameters.ContainsKey('PassThru')) {
@@ -3993,7 +3993,7 @@ function Invoke-ADCDeleteDnsnsrec {
         Invoke-ADCDeleteDnsnsrec -domain <string>
     .NOTES
         File Name : Invoke-ADCDeleteDnsnsrec
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/dns/dnsnsrec/
         Requires  : PowerShell v5.1 and up
@@ -4026,7 +4026,7 @@ function Invoke-ADCDeleteDnsnsrec {
             if ($PSBoundParameters.ContainsKey('nameserver')) { $Arguments.Add('nameserver', $nameserver) }
             if ($PSBoundParameters.ContainsKey('ecssubnet')) { $Arguments.Add('ecssubnet', $ecssubnet) }
             if ($PSCmdlet.ShouldProcess("$domain", "Delete Domain Name Service configuration Object")) {
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type dnsnsrec -Resource $domain -Arguments $Arguments
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type dnsnsrec -NitroPath nitro/v1/config -Resource $domain -Arguments $Arguments
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $response
@@ -4070,7 +4070,7 @@ function Invoke-ADCGetDnsnsrec {
         Invoke-ADCGetDnsnsrec -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetDnsnsrec
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/dns/dnsnsrec/
         Requires  : PowerShell v5.1 and up
@@ -4111,21 +4111,21 @@ function Invoke-ADCGetDnsnsrec {
             if ( $PsCmdlet.ParameterSetName -eq 'Getall' ) {
                 $Query = @{ }
                 Write-Verbose "Retrieving all dnsnsrec objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type dnsnsrec -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type dnsnsrec -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
                 if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for dnsnsrec objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type dnsnsrec -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type dnsnsrec -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving dnsnsrec objects by arguments"
                 $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type dnsnsrec -Arguments $Arguments -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type dnsnsrec -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving dnsnsrec configuration for property 'domain'"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type dnsnsrec -Resource $domain -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type dnsnsrec -NitroPath nitro/v1/config -Resource $domain -Summary:$ViewSummary -Filter $Filter -GetWarning
             } else {
                 Write-Verbose "Retrieving dnsnsrec configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type dnsnsrec -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type dnsnsrec -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -4233,7 +4233,7 @@ function Invoke-ADCUpdateDnsparameter {
         Invoke-ADCUpdateDnsparameter 
     .NOTES
         File Name : Invoke-ADCUpdateDnsparameter
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/dns/dnsparameter/
         Requires  : PowerShell v5.1 and up
@@ -4340,7 +4340,7 @@ function Invoke-ADCUpdateDnsparameter {
             if ($PSBoundParameters.ContainsKey('nxdomainratelimitthreshold')) { $Payload.Add('nxdomainratelimitthreshold', $nxdomainratelimitthreshold) }
  
             if ($PSCmdlet.ShouldProcess("dnsparameter", "Update Domain Name Service configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -Type dnsparameter -Payload $Payload -GetWarning
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -NitroPath nitro/v1/config -Type dnsparameter -Payload $Payload -GetWarning
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
             Write-Output $result
@@ -4422,7 +4422,7 @@ function Invoke-ADCUnsetDnsparameter {
         Invoke-ADCUnsetDnsparameter 
     .NOTES
         File Name : Invoke-ADCUnsetDnsparameter
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/dns/dnsparameter
         Requires  : PowerShell v5.1 and up
@@ -4510,7 +4510,7 @@ function Invoke-ADCUnsetDnsparameter {
             if ($PSBoundParameters.ContainsKey('maxudppacketsize')) { $Payload.Add('maxudppacketsize', $maxudppacketsize) }
             if ($PSBoundParameters.ContainsKey('nxdomainratelimitthreshold')) { $Payload.Add('nxdomainratelimitthreshold', $nxdomainratelimitthreshold) }
             if ($PSCmdlet.ShouldProcess("dnsparameter", "Unset Domain Name Service configuration Object")) {
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -Type dnsparameter -Action unset -Payload $Payload -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -Type dnsparameter -NitroPath nitro/v1/config -Action unset -Payload $Payload -GetWarning
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $response
@@ -4550,7 +4550,7 @@ function Invoke-ADCGetDnsparameter {
         Invoke-ADCGetDnsparameter -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetDnsparameter
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/dns/dnsparameter/
         Requires  : PowerShell v5.1 and up
@@ -4579,21 +4579,21 @@ function Invoke-ADCGetDnsparameter {
             if ( $PsCmdlet.ParameterSetName -eq 'Getall' ) {
                 $Query = @{ }
                 Write-Verbose "Retrieving all dnsparameter objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type dnsparameter -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type dnsparameter -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
                 if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for dnsparameter objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type dnsparameter -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type dnsparameter -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving dnsparameter objects by arguments"
                 $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type dnsparameter -Arguments $Arguments -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type dnsparameter -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving dnsparameter configuration for property ''"
 
             } else {
                 Write-Verbose "Retrieving dnsparameter configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type dnsparameter -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type dnsparameter -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -4647,7 +4647,7 @@ function Invoke-ADCAddDnspolicy {
         Invoke-ADCAddDnspolicy -name <string> -rule <string>
     .NOTES
         File Name : Invoke-ADCAddDnspolicy
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/dns/dnspolicy/
         Requires  : PowerShell v5.1 and up
@@ -4707,7 +4707,7 @@ function Invoke-ADCAddDnspolicy {
             if ($PSBoundParameters.ContainsKey('logaction')) { $Payload.Add('logaction', $logaction) }
  
             if ($PSCmdlet.ShouldProcess("dnspolicy", "Add Domain Name Service configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -Type dnspolicy -Payload $Payload -GetWarning
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -NitroPath nitro/v1/config -Type dnspolicy -Payload $Payload -GetWarning
                 #HTTP Status Code on Success: 201 Created
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 if ($PSBoundParameters.ContainsKey('PassThru')) {
@@ -4739,7 +4739,7 @@ function Invoke-ADCDeleteDnspolicy {
         Invoke-ADCDeleteDnspolicy -name <string>
     .NOTES
         File Name : Invoke-ADCDeleteDnspolicy
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/dns/dnspolicy/
         Requires  : PowerShell v5.1 and up
@@ -4767,7 +4767,7 @@ function Invoke-ADCDeleteDnspolicy {
             }
 
             if ($PSCmdlet.ShouldProcess("$name", "Delete Domain Name Service configuration Object")) {
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type dnspolicy -Resource $name -Arguments $Arguments
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type dnspolicy -NitroPath nitro/v1/config -Resource $name -Arguments $Arguments
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $response
@@ -4823,7 +4823,7 @@ function Invoke-ADCUpdateDnspolicy {
         Invoke-ADCUpdateDnspolicy -name <string>
     .NOTES
         File Name : Invoke-ADCUpdateDnspolicy
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/dns/dnspolicy/
         Requires  : PowerShell v5.1 and up
@@ -4882,7 +4882,7 @@ function Invoke-ADCUpdateDnspolicy {
             if ($PSBoundParameters.ContainsKey('logaction')) { $Payload.Add('logaction', $logaction) }
  
             if ($PSCmdlet.ShouldProcess("dnspolicy", "Update Domain Name Service configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -Type dnspolicy -Payload $Payload -GetWarning
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -NitroPath nitro/v1/config -Type dnspolicy -Payload $Payload -GetWarning
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 if ($PSBoundParameters.ContainsKey('PassThru')) {
@@ -4916,7 +4916,7 @@ function Invoke-ADCUnsetDnspolicy {
         Invoke-ADCUnsetDnspolicy -name <string>
     .NOTES
         File Name : Invoke-ADCUnsetDnspolicy
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/dns/dnspolicy
         Requires  : PowerShell v5.1 and up
@@ -4947,7 +4947,7 @@ function Invoke-ADCUnsetDnspolicy {
             }
             if ($PSBoundParameters.ContainsKey('logaction')) { $Payload.Add('logaction', $logaction) }
             if ($PSCmdlet.ShouldProcess("$name", "Unset Domain Name Service configuration Object")) {
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -Type dnspolicy -Action unset -Payload $Payload -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -Type dnspolicy -NitroPath nitro/v1/config -Action unset -Payload $Payload -GetWarning
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $response
@@ -4991,7 +4991,7 @@ function Invoke-ADCGetDnspolicy {
         Invoke-ADCGetDnspolicy -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetDnspolicy
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/dns/dnspolicy/
         Requires  : PowerShell v5.1 and up
@@ -5031,21 +5031,21 @@ function Invoke-ADCGetDnspolicy {
             if ( $PsCmdlet.ParameterSetName -eq 'Getall' ) {
                 $Query = @{ }
                 Write-Verbose "Retrieving all dnspolicy objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type dnspolicy -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type dnspolicy -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
                 if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for dnspolicy objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type dnspolicy -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type dnspolicy -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving dnspolicy objects by arguments"
                 $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type dnspolicy -Arguments $Arguments -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type dnspolicy -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving dnspolicy configuration for property 'name'"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type dnspolicy -Resource $name -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type dnspolicy -NitroPath nitro/v1/config -Resource $name -Summary:$ViewSummary -Filter $Filter -GetWarning
             } else {
                 Write-Verbose "Retrieving dnspolicy configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type dnspolicy -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type dnspolicy -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -5083,7 +5083,7 @@ function Invoke-ADCAddDnspolicy64 {
         Invoke-ADCAddDnspolicy64 -name <string> -rule <string>
     .NOTES
         File Name : Invoke-ADCAddDnspolicy64
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/dns/dnspolicy64/
         Requires  : PowerShell v5.1 and up
@@ -5122,7 +5122,7 @@ function Invoke-ADCAddDnspolicy64 {
             if ($PSBoundParameters.ContainsKey('action')) { $Payload.Add('action', $action) }
  
             if ($PSCmdlet.ShouldProcess("dnspolicy64", "Add Domain Name Service configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -Type dnspolicy64 -Payload $Payload -GetWarning
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -NitroPath nitro/v1/config -Type dnspolicy64 -Payload $Payload -GetWarning
                 #HTTP Status Code on Success: 201 Created
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 if ($PSBoundParameters.ContainsKey('PassThru')) {
@@ -5154,7 +5154,7 @@ function Invoke-ADCDeleteDnspolicy64 {
         Invoke-ADCDeleteDnspolicy64 -name <string>
     .NOTES
         File Name : Invoke-ADCDeleteDnspolicy64
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/dns/dnspolicy64/
         Requires  : PowerShell v5.1 and up
@@ -5182,7 +5182,7 @@ function Invoke-ADCDeleteDnspolicy64 {
             }
 
             if ($PSCmdlet.ShouldProcess("$name", "Delete Domain Name Service configuration Object")) {
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type dnspolicy64 -Resource $name -Arguments $Arguments
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type dnspolicy64 -NitroPath nitro/v1/config -Resource $name -Arguments $Arguments
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $response
@@ -5222,7 +5222,7 @@ function Invoke-ADCUpdateDnspolicy64 {
         Invoke-ADCUpdateDnspolicy64 -name <string>
     .NOTES
         File Name : Invoke-ADCUpdateDnspolicy64
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/dns/dnspolicy64/
         Requires  : PowerShell v5.1 and up
@@ -5260,7 +5260,7 @@ function Invoke-ADCUpdateDnspolicy64 {
             if ($PSBoundParameters.ContainsKey('action')) { $Payload.Add('action', $action) }
  
             if ($PSCmdlet.ShouldProcess("dnspolicy64", "Update Domain Name Service configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -Type dnspolicy64 -Payload $Payload -GetWarning
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -NitroPath nitro/v1/config -Type dnspolicy64 -Payload $Payload -GetWarning
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 if ($PSBoundParameters.ContainsKey('PassThru')) {
@@ -5309,7 +5309,7 @@ function Invoke-ADCGetDnspolicy64 {
         Invoke-ADCGetDnspolicy64 -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetDnspolicy64
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/dns/dnspolicy64/
         Requires  : PowerShell v5.1 and up
@@ -5349,21 +5349,21 @@ function Invoke-ADCGetDnspolicy64 {
             if ( $PsCmdlet.ParameterSetName -eq 'Getall' ) {
                 $Query = @{ }
                 Write-Verbose "Retrieving all dnspolicy64 objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type dnspolicy64 -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type dnspolicy64 -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
                 if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for dnspolicy64 objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type dnspolicy64 -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type dnspolicy64 -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving dnspolicy64 objects by arguments"
                 $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type dnspolicy64 -Arguments $Arguments -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type dnspolicy64 -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving dnspolicy64 configuration for property 'name'"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type dnspolicy64 -Resource $name -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type dnspolicy64 -NitroPath nitro/v1/config -Resource $name -Summary:$ViewSummary -Filter $Filter -GetWarning
             } else {
                 Write-Verbose "Retrieving dnspolicy64 configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type dnspolicy64 -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type dnspolicy64 -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -5403,7 +5403,7 @@ function Invoke-ADCGetDnspolicy64binding {
         Invoke-ADCGetDnspolicy64binding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetDnspolicy64binding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/dns/dnspolicy64_binding/
         Requires  : PowerShell v5.1 and up
@@ -5437,21 +5437,21 @@ function Invoke-ADCGetDnspolicy64binding {
                     bulkbindings = 'yes'
                 }
                 Write-Verbose "Retrieving all dnspolicy64_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type dnspolicy64_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type dnspolicy64_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
                 if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for dnspolicy64_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type dnspolicy64_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type dnspolicy64_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving dnspolicy64_binding objects by arguments"
                 $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type dnspolicy64_binding -Arguments $Arguments -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type dnspolicy64_binding -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving dnspolicy64_binding configuration for property 'name'"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type dnspolicy64_binding -Resource $name -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type dnspolicy64_binding -NitroPath nitro/v1/config -Resource $name -Summary:$ViewSummary -Filter $Filter -GetWarning
             } else {
                 Write-Verbose "Retrieving dnspolicy64_binding configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type dnspolicy64_binding -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type dnspolicy64_binding -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -5493,7 +5493,7 @@ function Invoke-ADCGetDnspolicy64lbvserverbinding {
         Invoke-ADCGetDnspolicy64lbvserverbinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetDnspolicy64lbvserverbinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/dns/dnspolicy64_lbvserver_binding/
         Requires  : PowerShell v5.1 and up
@@ -5530,21 +5530,21 @@ function Invoke-ADCGetDnspolicy64lbvserverbinding {
                     bulkbindings = 'yes'
                 }
                 Write-Verbose "Retrieving all dnspolicy64_lbvserver_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type dnspolicy64_lbvserver_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type dnspolicy64_lbvserver_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
                 if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for dnspolicy64_lbvserver_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type dnspolicy64_lbvserver_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type dnspolicy64_lbvserver_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving dnspolicy64_lbvserver_binding objects by arguments"
                 $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type dnspolicy64_lbvserver_binding -Arguments $Arguments -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type dnspolicy64_lbvserver_binding -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving dnspolicy64_lbvserver_binding configuration for property 'name'"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type dnspolicy64_lbvserver_binding -Resource $name -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type dnspolicy64_lbvserver_binding -NitroPath nitro/v1/config -Resource $name -Summary:$ViewSummary -Filter $Filter -GetWarning
             } else {
                 Write-Verbose "Retrieving dnspolicy64_lbvserver_binding configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type dnspolicy64_lbvserver_binding -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type dnspolicy64_lbvserver_binding -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -5574,7 +5574,7 @@ function Invoke-ADCAddDnspolicylabel {
         Invoke-ADCAddDnspolicylabel -labelname <string> -transform <string>
     .NOTES
         File Name : Invoke-ADCAddDnspolicylabel
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/dns/dnspolicylabel/
         Requires  : PowerShell v5.1 and up
@@ -5612,7 +5612,7 @@ function Invoke-ADCAddDnspolicylabel {
 
  
             if ($PSCmdlet.ShouldProcess("dnspolicylabel", "Add Domain Name Service configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -Type dnspolicylabel -Payload $Payload -GetWarning
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -NitroPath nitro/v1/config -Type dnspolicylabel -Payload $Payload -GetWarning
                 #HTTP Status Code on Success: 201 Created
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 if ($PSBoundParameters.ContainsKey('PassThru')) {
@@ -5644,7 +5644,7 @@ function Invoke-ADCDeleteDnspolicylabel {
         Invoke-ADCDeleteDnspolicylabel -labelname <string>
     .NOTES
         File Name : Invoke-ADCDeleteDnspolicylabel
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/dns/dnspolicylabel/
         Requires  : PowerShell v5.1 and up
@@ -5672,7 +5672,7 @@ function Invoke-ADCDeleteDnspolicylabel {
             }
 
             if ($PSCmdlet.ShouldProcess("$labelname", "Delete Domain Name Service configuration Object")) {
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type dnspolicylabel -Resource $labelname -Arguments $Arguments
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type dnspolicylabel -NitroPath nitro/v1/config -Resource $labelname -Arguments $Arguments
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $response
@@ -5704,7 +5704,7 @@ function Invoke-ADCRenameDnspolicylabel {
         Invoke-ADCRenameDnspolicylabel -labelname <string> -newname <string>
     .NOTES
         File Name : Invoke-ADCRenameDnspolicylabel
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/dns/dnspolicylabel/
         Requires  : PowerShell v5.1 and up
@@ -5742,7 +5742,7 @@ function Invoke-ADCRenameDnspolicylabel {
 
  
             if ($PSCmdlet.ShouldProcess("dnspolicylabel", "Rename Domain Name Service configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -Type dnspolicylabel -Action rename -Payload $Payload -GetWarning
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -NitroPath nitro/v1/config -Type dnspolicylabel -Action rename -Payload $Payload -GetWarning
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 if ($PSBoundParameters.ContainsKey('PassThru')) {
@@ -5791,7 +5791,7 @@ function Invoke-ADCGetDnspolicylabel {
         Invoke-ADCGetDnspolicylabel -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetDnspolicylabel
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/dns/dnspolicylabel/
         Requires  : PowerShell v5.1 and up
@@ -5831,21 +5831,21 @@ function Invoke-ADCGetDnspolicylabel {
             if ( $PsCmdlet.ParameterSetName -eq 'Getall' ) {
                 $Query = @{ }
                 Write-Verbose "Retrieving all dnspolicylabel objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type dnspolicylabel -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type dnspolicylabel -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
                 if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for dnspolicylabel objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type dnspolicylabel -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type dnspolicylabel -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving dnspolicylabel objects by arguments"
                 $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type dnspolicylabel -Arguments $Arguments -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type dnspolicylabel -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving dnspolicylabel configuration for property 'labelname'"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type dnspolicylabel -Resource $labelname -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type dnspolicylabel -NitroPath nitro/v1/config -Resource $labelname -Summary:$ViewSummary -Filter $Filter -GetWarning
             } else {
                 Write-Verbose "Retrieving dnspolicylabel configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type dnspolicylabel -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type dnspolicylabel -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -5885,7 +5885,7 @@ function Invoke-ADCGetDnspolicylabelbinding {
         Invoke-ADCGetDnspolicylabelbinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetDnspolicylabelbinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/dns/dnspolicylabel_binding/
         Requires  : PowerShell v5.1 and up
@@ -5919,21 +5919,21 @@ function Invoke-ADCGetDnspolicylabelbinding {
                     bulkbindings = 'yes'
                 }
                 Write-Verbose "Retrieving all dnspolicylabel_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type dnspolicylabel_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type dnspolicylabel_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
                 if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for dnspolicylabel_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type dnspolicylabel_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type dnspolicylabel_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving dnspolicylabel_binding objects by arguments"
                 $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type dnspolicylabel_binding -Arguments $Arguments -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type dnspolicylabel_binding -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving dnspolicylabel_binding configuration for property 'labelname'"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type dnspolicylabel_binding -Resource $labelname -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type dnspolicylabel_binding -NitroPath nitro/v1/config -Resource $labelname -Summary:$ViewSummary -Filter $Filter -GetWarning
             } else {
                 Write-Verbose "Retrieving dnspolicylabel_binding configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type dnspolicylabel_binding -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type dnspolicylabel_binding -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -5973,7 +5973,7 @@ function Invoke-ADCAddDnspolicylabeldnspolicybinding {
         Invoke-ADCAddDnspolicylabeldnspolicybinding -labelname <string> -policyname <string> -priority <double>
     .NOTES
         File Name : Invoke-ADCAddDnspolicylabeldnspolicybinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/dns/dnspolicylabel_dnspolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -6026,7 +6026,7 @@ function Invoke-ADCAddDnspolicylabeldnspolicybinding {
             if ($PSBoundParameters.ContainsKey('invoke_labelname')) { $Payload.Add('invoke_labelname', $invoke_labelname) }
  
             if ($PSCmdlet.ShouldProcess("dnspolicylabel_dnspolicy_binding", "Add Domain Name Service configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -Type dnspolicylabel_dnspolicy_binding -Payload $Payload -GetWarning
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -NitroPath nitro/v1/config -Type dnspolicylabel_dnspolicy_binding -Payload $Payload -GetWarning
                 #HTTP Status Code on Success: 201 Created
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 if ($PSBoundParameters.ContainsKey('PassThru')) {
@@ -6060,7 +6060,7 @@ function Invoke-ADCDeleteDnspolicylabeldnspolicybinding {
         Invoke-ADCDeleteDnspolicylabeldnspolicybinding -labelname <string>
     .NOTES
         File Name : Invoke-ADCDeleteDnspolicylabeldnspolicybinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/dns/dnspolicylabel_dnspolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -6093,7 +6093,7 @@ function Invoke-ADCDeleteDnspolicylabeldnspolicybinding {
             if ($PSBoundParameters.ContainsKey('policyname')) { $Arguments.Add('policyname', $policyname) }
             if ($PSBoundParameters.ContainsKey('priority')) { $Arguments.Add('priority', $priority) }
             if ($PSCmdlet.ShouldProcess("$labelname", "Delete Domain Name Service configuration Object")) {
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type dnspolicylabel_dnspolicy_binding -Resource $labelname -Arguments $Arguments
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type dnspolicylabel_dnspolicy_binding -NitroPath nitro/v1/config -Resource $labelname -Arguments $Arguments
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $response
@@ -6137,7 +6137,7 @@ function Invoke-ADCGetDnspolicylabeldnspolicybinding {
         Invoke-ADCGetDnspolicylabeldnspolicybinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetDnspolicylabeldnspolicybinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/dns/dnspolicylabel_dnspolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -6174,21 +6174,21 @@ function Invoke-ADCGetDnspolicylabeldnspolicybinding {
                     bulkbindings = 'yes'
                 }
                 Write-Verbose "Retrieving all dnspolicylabel_dnspolicy_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type dnspolicylabel_dnspolicy_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type dnspolicylabel_dnspolicy_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
                 if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for dnspolicylabel_dnspolicy_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type dnspolicylabel_dnspolicy_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type dnspolicylabel_dnspolicy_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving dnspolicylabel_dnspolicy_binding objects by arguments"
                 $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type dnspolicylabel_dnspolicy_binding -Arguments $Arguments -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type dnspolicylabel_dnspolicy_binding -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving dnspolicylabel_dnspolicy_binding configuration for property 'labelname'"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type dnspolicylabel_dnspolicy_binding -Resource $labelname -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type dnspolicylabel_dnspolicy_binding -NitroPath nitro/v1/config -Resource $labelname -Summary:$ViewSummary -Filter $Filter -GetWarning
             } else {
                 Write-Verbose "Retrieving dnspolicylabel_dnspolicy_binding configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type dnspolicylabel_dnspolicy_binding -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type dnspolicylabel_dnspolicy_binding -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -6230,7 +6230,7 @@ function Invoke-ADCGetDnspolicylabelpolicybindingbinding {
         Invoke-ADCGetDnspolicylabelpolicybindingbinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetDnspolicylabelpolicybindingbinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/dns/dnspolicylabel_policybinding_binding/
         Requires  : PowerShell v5.1 and up
@@ -6267,21 +6267,21 @@ function Invoke-ADCGetDnspolicylabelpolicybindingbinding {
                     bulkbindings = 'yes'
                 }
                 Write-Verbose "Retrieving all dnspolicylabel_policybinding_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type dnspolicylabel_policybinding_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type dnspolicylabel_policybinding_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
                 if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for dnspolicylabel_policybinding_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type dnspolicylabel_policybinding_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type dnspolicylabel_policybinding_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving dnspolicylabel_policybinding_binding objects by arguments"
                 $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type dnspolicylabel_policybinding_binding -Arguments $Arguments -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type dnspolicylabel_policybinding_binding -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving dnspolicylabel_policybinding_binding configuration for property 'labelname'"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type dnspolicylabel_policybinding_binding -Resource $labelname -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type dnspolicylabel_policybinding_binding -NitroPath nitro/v1/config -Resource $labelname -Summary:$ViewSummary -Filter $Filter -GetWarning
             } else {
                 Write-Verbose "Retrieving dnspolicylabel_policybinding_binding configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type dnspolicylabel_policybinding_binding -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type dnspolicylabel_policybinding_binding -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -6321,7 +6321,7 @@ function Invoke-ADCGetDnspolicybinding {
         Invoke-ADCGetDnspolicybinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetDnspolicybinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/dns/dnspolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -6355,21 +6355,21 @@ function Invoke-ADCGetDnspolicybinding {
                     bulkbindings = 'yes'
                 }
                 Write-Verbose "Retrieving all dnspolicy_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type dnspolicy_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type dnspolicy_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
                 if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for dnspolicy_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type dnspolicy_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type dnspolicy_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving dnspolicy_binding objects by arguments"
                 $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type dnspolicy_binding -Arguments $Arguments -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type dnspolicy_binding -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving dnspolicy_binding configuration for property 'name'"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type dnspolicy_binding -Resource $name -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type dnspolicy_binding -NitroPath nitro/v1/config -Resource $name -Summary:$ViewSummary -Filter $Filter -GetWarning
             } else {
                 Write-Verbose "Retrieving dnspolicy_binding configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type dnspolicy_binding -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type dnspolicy_binding -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -6411,7 +6411,7 @@ function Invoke-ADCGetDnspolicydnsglobalbinding {
         Invoke-ADCGetDnspolicydnsglobalbinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetDnspolicydnsglobalbinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/dns/dnspolicy_dnsglobal_binding/
         Requires  : PowerShell v5.1 and up
@@ -6448,21 +6448,21 @@ function Invoke-ADCGetDnspolicydnsglobalbinding {
                     bulkbindings = 'yes'
                 }
                 Write-Verbose "Retrieving all dnspolicy_dnsglobal_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type dnspolicy_dnsglobal_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type dnspolicy_dnsglobal_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
                 if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for dnspolicy_dnsglobal_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type dnspolicy_dnsglobal_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type dnspolicy_dnsglobal_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving dnspolicy_dnsglobal_binding objects by arguments"
                 $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type dnspolicy_dnsglobal_binding -Arguments $Arguments -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type dnspolicy_dnsglobal_binding -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving dnspolicy_dnsglobal_binding configuration for property 'name'"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type dnspolicy_dnsglobal_binding -Resource $name -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type dnspolicy_dnsglobal_binding -NitroPath nitro/v1/config -Resource $name -Summary:$ViewSummary -Filter $Filter -GetWarning
             } else {
                 Write-Verbose "Retrieving dnspolicy_dnsglobal_binding configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type dnspolicy_dnsglobal_binding -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type dnspolicy_dnsglobal_binding -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -6504,7 +6504,7 @@ function Invoke-ADCGetDnspolicydnspolicylabelbinding {
         Invoke-ADCGetDnspolicydnspolicylabelbinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetDnspolicydnspolicylabelbinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/dns/dnspolicy_dnspolicylabel_binding/
         Requires  : PowerShell v5.1 and up
@@ -6541,21 +6541,21 @@ function Invoke-ADCGetDnspolicydnspolicylabelbinding {
                     bulkbindings = 'yes'
                 }
                 Write-Verbose "Retrieving all dnspolicy_dnspolicylabel_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type dnspolicy_dnspolicylabel_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type dnspolicy_dnspolicylabel_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
                 if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for dnspolicy_dnspolicylabel_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type dnspolicy_dnspolicylabel_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type dnspolicy_dnspolicylabel_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving dnspolicy_dnspolicylabel_binding objects by arguments"
                 $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type dnspolicy_dnspolicylabel_binding -Arguments $Arguments -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type dnspolicy_dnspolicylabel_binding -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving dnspolicy_dnspolicylabel_binding configuration for property 'name'"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type dnspolicy_dnspolicylabel_binding -Resource $name -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type dnspolicy_dnspolicylabel_binding -NitroPath nitro/v1/config -Resource $name -Summary:$ViewSummary -Filter $Filter -GetWarning
             } else {
                 Write-Verbose "Retrieving dnspolicy_dnspolicylabel_binding configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type dnspolicy_dnspolicylabel_binding -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type dnspolicy_dnspolicylabel_binding -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -6616,7 +6616,7 @@ function Invoke-ADCAddDnsprofile {
         Invoke-ADCAddDnsprofile -dnsprofilename <string>
     .NOTES
         File Name : Invoke-ADCAddDnsprofile
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/dns/dnsprofile/
         Requires  : PowerShell v5.1 and up
@@ -6681,7 +6681,7 @@ function Invoke-ADCAddDnsprofile {
             if ($PSBoundParameters.ContainsKey('cacheecsresponses')) { $Payload.Add('cacheecsresponses', $cacheecsresponses) }
  
             if ($PSCmdlet.ShouldProcess("dnsprofile", "Add Domain Name Service configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -Type dnsprofile -Payload $Payload -GetWarning
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -NitroPath nitro/v1/config -Type dnsprofile -Payload $Payload -GetWarning
                 #HTTP Status Code on Success: 201 Created
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 if ($PSBoundParameters.ContainsKey('PassThru')) {
@@ -6749,7 +6749,7 @@ function Invoke-ADCUpdateDnsprofile {
         Invoke-ADCUpdateDnsprofile -dnsprofilename <string>
     .NOTES
         File Name : Invoke-ADCUpdateDnsprofile
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/dns/dnsprofile/
         Requires  : PowerShell v5.1 and up
@@ -6814,7 +6814,7 @@ function Invoke-ADCUpdateDnsprofile {
             if ($PSBoundParameters.ContainsKey('cacheecsresponses')) { $Payload.Add('cacheecsresponses', $cacheecsresponses) }
  
             if ($PSCmdlet.ShouldProcess("dnsprofile", "Update Domain Name Service configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -Type dnsprofile -Payload $Payload -GetWarning
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -NitroPath nitro/v1/config -Type dnsprofile -Payload $Payload -GetWarning
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 if ($PSBoundParameters.ContainsKey('PassThru')) {
@@ -6870,7 +6870,7 @@ function Invoke-ADCUnsetDnsprofile {
         Invoke-ADCUnsetDnsprofile -dnsprofilename <string>
     .NOTES
         File Name : Invoke-ADCUnsetDnsprofile
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/dns/dnsprofile
         Requires  : PowerShell v5.1 and up
@@ -6923,7 +6923,7 @@ function Invoke-ADCUnsetDnsprofile {
             if ($PSBoundParameters.ContainsKey('dropmultiqueryrequest')) { $Payload.Add('dropmultiqueryrequest', $dropmultiqueryrequest) }
             if ($PSBoundParameters.ContainsKey('cacheecsresponses')) { $Payload.Add('cacheecsresponses', $cacheecsresponses) }
             if ($PSCmdlet.ShouldProcess("$dnsprofilename", "Unset Domain Name Service configuration Object")) {
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -Type dnsprofile -Action unset -Payload $Payload -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -Type dnsprofile -NitroPath nitro/v1/config -Action unset -Payload $Payload -GetWarning
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $response
@@ -6952,7 +6952,7 @@ function Invoke-ADCDeleteDnsprofile {
         Invoke-ADCDeleteDnsprofile -dnsprofilename <string>
     .NOTES
         File Name : Invoke-ADCDeleteDnsprofile
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/dns/dnsprofile/
         Requires  : PowerShell v5.1 and up
@@ -6980,7 +6980,7 @@ function Invoke-ADCDeleteDnsprofile {
             }
 
             if ($PSCmdlet.ShouldProcess("$dnsprofilename", "Delete Domain Name Service configuration Object")) {
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type dnsprofile -Resource $dnsprofilename -Arguments $Arguments
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type dnsprofile -NitroPath nitro/v1/config -Resource $dnsprofilename -Arguments $Arguments
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $response
@@ -7024,7 +7024,7 @@ function Invoke-ADCGetDnsprofile {
         Invoke-ADCGetDnsprofile -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetDnsprofile
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/dns/dnsprofile/
         Requires  : PowerShell v5.1 and up
@@ -7065,21 +7065,21 @@ function Invoke-ADCGetDnsprofile {
             if ( $PsCmdlet.ParameterSetName -eq 'Getall' ) {
                 $Query = @{ }
                 Write-Verbose "Retrieving all dnsprofile objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type dnsprofile -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type dnsprofile -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
                 if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for dnsprofile objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type dnsprofile -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type dnsprofile -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving dnsprofile objects by arguments"
                 $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type dnsprofile -Arguments $Arguments -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type dnsprofile -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving dnsprofile configuration for property 'dnsprofilename'"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type dnsprofile -Resource $dnsprofilename -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type dnsprofile -NitroPath nitro/v1/config -Resource $dnsprofilename -Summary:$ViewSummary -Filter $Filter -GetWarning
             } else {
                 Write-Verbose "Retrieving dnsprofile configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type dnsprofile -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type dnsprofile -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -7108,7 +7108,7 @@ function Invoke-ADCFlushDnsproxyrecords {
         Invoke-ADCFlushDnsproxyrecords 
     .NOTES
         File Name : Invoke-ADCFlushDnsproxyrecords
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/dns/dnsproxyrecords/
         Requires  : PowerShell v5.1 and up
@@ -7142,7 +7142,7 @@ function Invoke-ADCFlushDnsproxyrecords {
             if ($PSBoundParameters.ContainsKey('type')) { $Payload.Add('type', $type) }
             if ($PSBoundParameters.ContainsKey('negrectype')) { $Payload.Add('negrectype', $negrectype) }
             if ($PSCmdlet.ShouldProcess($Name, "Flush Domain Name Service configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -Type dnsproxyrecords -Action flush -Payload $Payload -GetWarning
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -NitroPath nitro/v1/config -Type dnsproxyrecords -Action flush -Payload $Payload -GetWarning
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $result
@@ -7180,7 +7180,7 @@ function Invoke-ADCAddDnsptrrec {
         Invoke-ADCAddDnsptrrec -reversedomain <string> -domain <string>
     .NOTES
         File Name : Invoke-ADCAddDnsptrrec
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/dns/dnsptrrec/
         Requires  : PowerShell v5.1 and up
@@ -7222,7 +7222,7 @@ function Invoke-ADCAddDnsptrrec {
             if ($PSBoundParameters.ContainsKey('ttl')) { $Payload.Add('ttl', $ttl) }
  
             if ($PSCmdlet.ShouldProcess("dnsptrrec", "Add Domain Name Service configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -Type dnsptrrec -Payload $Payload -GetWarning
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -NitroPath nitro/v1/config -Type dnsptrrec -Payload $Payload -GetWarning
                 #HTTP Status Code on Success: 201 Created
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 if ($PSBoundParameters.ContainsKey('PassThru')) {
@@ -7258,7 +7258,7 @@ function Invoke-ADCDeleteDnsptrrec {
         Invoke-ADCDeleteDnsptrrec -reversedomain <string>
     .NOTES
         File Name : Invoke-ADCDeleteDnsptrrec
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/dns/dnsptrrec/
         Requires  : PowerShell v5.1 and up
@@ -7291,7 +7291,7 @@ function Invoke-ADCDeleteDnsptrrec {
             if ($PSBoundParameters.ContainsKey('ecssubnet')) { $Arguments.Add('ecssubnet', $ecssubnet) }
             if ($PSBoundParameters.ContainsKey('domain')) { $Arguments.Add('domain', $domain) }
             if ($PSCmdlet.ShouldProcess("$reversedomain", "Delete Domain Name Service configuration Object")) {
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type dnsptrrec -Resource $reversedomain -Arguments $Arguments
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type dnsptrrec -NitroPath nitro/v1/config -Resource $reversedomain -Arguments $Arguments
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $response
@@ -7335,7 +7335,7 @@ function Invoke-ADCGetDnsptrrec {
         Invoke-ADCGetDnsptrrec -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetDnsptrrec
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/dns/dnsptrrec/
         Requires  : PowerShell v5.1 and up
@@ -7376,21 +7376,21 @@ function Invoke-ADCGetDnsptrrec {
             if ( $PsCmdlet.ParameterSetName -eq 'Getall' ) {
                 $Query = @{ }
                 Write-Verbose "Retrieving all dnsptrrec objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type dnsptrrec -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type dnsptrrec -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
                 if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for dnsptrrec objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type dnsptrrec -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type dnsptrrec -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving dnsptrrec objects by arguments"
                 $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type dnsptrrec -Arguments $Arguments -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type dnsptrrec -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving dnsptrrec configuration for property 'reversedomain'"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type dnsptrrec -Resource $reversedomain -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type dnsptrrec -NitroPath nitro/v1/config -Resource $reversedomain -Summary:$ViewSummary -Filter $Filter -GetWarning
             } else {
                 Write-Verbose "Retrieving dnsptrrec configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type dnsptrrec -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type dnsptrrec -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -7454,7 +7454,7 @@ function Invoke-ADCAddDnssoarec {
         Invoke-ADCAddDnssoarec -domain <string> -originserver <string> -contact <string>
     .NOTES
         File Name : Invoke-ADCAddDnssoarec
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/dns/dnssoarec/
         Requires  : PowerShell v5.1 and up
@@ -7521,7 +7521,7 @@ function Invoke-ADCAddDnssoarec {
             if ($PSBoundParameters.ContainsKey('ttl')) { $Payload.Add('ttl', $ttl) }
  
             if ($PSCmdlet.ShouldProcess("dnssoarec", "Add Domain Name Service configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -Type dnssoarec -Payload $Payload -GetWarning
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -NitroPath nitro/v1/config -Type dnssoarec -Payload $Payload -GetWarning
                 #HTTP Status Code on Success: 201 Created
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 if ($PSBoundParameters.ContainsKey('PassThru')) {
@@ -7555,7 +7555,7 @@ function Invoke-ADCDeleteDnssoarec {
         Invoke-ADCDeleteDnssoarec -domain <string>
     .NOTES
         File Name : Invoke-ADCDeleteDnssoarec
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/dns/dnssoarec/
         Requires  : PowerShell v5.1 and up
@@ -7585,7 +7585,7 @@ function Invoke-ADCDeleteDnssoarec {
             }
             if ($PSBoundParameters.ContainsKey('ecssubnet')) { $Arguments.Add('ecssubnet', $ecssubnet) }
             if ($PSCmdlet.ShouldProcess("$domain", "Delete Domain Name Service configuration Object")) {
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type dnssoarec -Resource $domain -Arguments $Arguments
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type dnssoarec -NitroPath nitro/v1/config -Resource $domain -Arguments $Arguments
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $response
@@ -7651,7 +7651,7 @@ function Invoke-ADCUpdateDnssoarec {
         Invoke-ADCUpdateDnssoarec -domain <string>
     .NOTES
         File Name : Invoke-ADCUpdateDnssoarec
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/dns/dnssoarec/
         Requires  : PowerShell v5.1 and up
@@ -7716,7 +7716,7 @@ function Invoke-ADCUpdateDnssoarec {
             if ($PSBoundParameters.ContainsKey('ttl')) { $Payload.Add('ttl', $ttl) }
  
             if ($PSCmdlet.ShouldProcess("dnssoarec", "Update Domain Name Service configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -Type dnssoarec -Payload $Payload -GetWarning
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -NitroPath nitro/v1/config -Type dnssoarec -Payload $Payload -GetWarning
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 if ($PSBoundParameters.ContainsKey('PassThru')) {
@@ -7760,7 +7760,7 @@ function Invoke-ADCUnsetDnssoarec {
         Invoke-ADCUnsetDnssoarec -domain <string>
     .NOTES
         File Name : Invoke-ADCUnsetDnssoarec
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/dns/dnssoarec
         Requires  : PowerShell v5.1 and up
@@ -7807,7 +7807,7 @@ function Invoke-ADCUnsetDnssoarec {
             if ($PSBoundParameters.ContainsKey('minimum')) { $Payload.Add('minimum', $minimum) }
             if ($PSBoundParameters.ContainsKey('ttl')) { $Payload.Add('ttl', $ttl) }
             if ($PSCmdlet.ShouldProcess("$domain", "Unset Domain Name Service configuration Object")) {
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -Type dnssoarec -Action unset -Payload $Payload -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -Type dnssoarec -NitroPath nitro/v1/config -Action unset -Payload $Payload -GetWarning
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $response
@@ -7851,7 +7851,7 @@ function Invoke-ADCGetDnssoarec {
         Invoke-ADCGetDnssoarec -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetDnssoarec
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/dns/dnssoarec/
         Requires  : PowerShell v5.1 and up
@@ -7892,21 +7892,21 @@ function Invoke-ADCGetDnssoarec {
             if ( $PsCmdlet.ParameterSetName -eq 'Getall' ) {
                 $Query = @{ }
                 Write-Verbose "Retrieving all dnssoarec objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type dnssoarec -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type dnssoarec -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
                 if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for dnssoarec objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type dnssoarec -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type dnssoarec -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving dnssoarec objects by arguments"
                 $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type dnssoarec -Arguments $Arguments -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type dnssoarec -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving dnssoarec configuration for property 'domain'"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type dnssoarec -Resource $domain -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type dnssoarec -NitroPath nitro/v1/config -Resource $domain -Summary:$ViewSummary -Filter $Filter -GetWarning
             } else {
                 Write-Verbose "Retrieving dnssoarec configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type dnssoarec -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type dnssoarec -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -7951,7 +7951,7 @@ function Invoke-ADCAddDnssrvrec {
         Invoke-ADCAddDnssrvrec -domain <string> -target <string> -priority <double> -weight <double> -port <double>
     .NOTES
         File Name : Invoke-ADCAddDnssrvrec
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/dns/dnssrvrec/
         Requires  : PowerShell v5.1 and up
@@ -8005,7 +8005,7 @@ function Invoke-ADCAddDnssrvrec {
             if ($PSBoundParameters.ContainsKey('ttl')) { $Payload.Add('ttl', $ttl) }
  
             if ($PSCmdlet.ShouldProcess("dnssrvrec", "Add Domain Name Service configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -Type dnssrvrec -Payload $Payload -GetWarning
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -NitroPath nitro/v1/config -Type dnssrvrec -Payload $Payload -GetWarning
                 #HTTP Status Code on Success: 201 Created
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
             Write-Output $result
@@ -8036,7 +8036,7 @@ function Invoke-ADCDeleteDnssrvrec {
         Invoke-ADCDeleteDnssrvrec -domain <string>
     .NOTES
         File Name : Invoke-ADCDeleteDnssrvrec
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/dns/dnssrvrec/
         Requires  : PowerShell v5.1 and up
@@ -8069,7 +8069,7 @@ function Invoke-ADCDeleteDnssrvrec {
             if ($PSBoundParameters.ContainsKey('target')) { $Arguments.Add('target', $target) }
             if ($PSBoundParameters.ContainsKey('ecssubnet')) { $Arguments.Add('ecssubnet', $ecssubnet) }
             if ($PSCmdlet.ShouldProcess("$domain", "Delete Domain Name Service configuration Object")) {
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type dnssrvrec -Resource $domain -Arguments $Arguments
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type dnssrvrec -NitroPath nitro/v1/config -Resource $domain -Arguments $Arguments
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $response
@@ -8116,7 +8116,7 @@ function Invoke-ADCUpdateDnssrvrec {
         Invoke-ADCUpdateDnssrvrec -domain <string> -target <string>
     .NOTES
         File Name : Invoke-ADCUpdateDnssrvrec
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/dns/dnssrvrec/
         Requires  : PowerShell v5.1 and up
@@ -8167,7 +8167,7 @@ function Invoke-ADCUpdateDnssrvrec {
             if ($PSBoundParameters.ContainsKey('ttl')) { $Payload.Add('ttl', $ttl) }
  
             if ($PSCmdlet.ShouldProcess("dnssrvrec", "Update Domain Name Service configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -Type dnssrvrec -Payload $Payload -GetWarning
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -NitroPath nitro/v1/config -Type dnssrvrec -Payload $Payload -GetWarning
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
             Write-Output $result
@@ -8199,7 +8199,7 @@ function Invoke-ADCUnsetDnssrvrec {
         Invoke-ADCUnsetDnssrvrec -domain <string> -target <string>
     .NOTES
         File Name : Invoke-ADCUnsetDnssrvrec
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/dns/dnssrvrec
         Requires  : PowerShell v5.1 and up
@@ -8235,7 +8235,7 @@ function Invoke-ADCUnsetDnssrvrec {
             }
             if ($PSBoundParameters.ContainsKey('ttl')) { $Payload.Add('ttl', $ttl) }
             if ($PSCmdlet.ShouldProcess("$domain target", "Unset Domain Name Service configuration Object")) {
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -Type dnssrvrec -Action unset -Payload $Payload -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -Type dnssrvrec -NitroPath nitro/v1/config -Action unset -Payload $Payload -GetWarning
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $response
@@ -8289,7 +8289,7 @@ function Invoke-ADCGetDnssrvrec {
         Invoke-ADCGetDnssrvrec -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetDnssrvrec
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/dns/dnssrvrec/
         Requires  : PowerShell v5.1 and up
@@ -8340,11 +8340,11 @@ function Invoke-ADCGetDnssrvrec {
             if ( $PsCmdlet.ParameterSetName -eq 'Getall' ) {
                 $Query = @{ }
                 Write-Verbose "Retrieving all dnssrvrec objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type dnssrvrec -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type dnssrvrec -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
                 if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for dnssrvrec objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type dnssrvrec -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type dnssrvrec -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving dnssrvrec objects by arguments"
                 $Arguments = @{ } 
@@ -8352,13 +8352,13 @@ function Invoke-ADCGetDnssrvrec {
                 if ($PSBoundParameters.ContainsKey('target')) { $Arguments.Add('target', $target) } 
                 if ($PSBoundParameters.ContainsKey('type')) { $Arguments.Add('type', $type) } 
                 if ($PSBoundParameters.ContainsKey('nodeid')) { $Arguments.Add('nodeid', $nodeid) }
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type dnssrvrec -Arguments $Arguments -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type dnssrvrec -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving dnssrvrec configuration for property ''"
 
             } else {
                 Write-Verbose "Retrieving dnssrvrec configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type dnssrvrec -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type dnssrvrec -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -8385,7 +8385,7 @@ function Invoke-ADCFlushDnssubnetcache {
         Invoke-ADCFlushDnssubnetcache 
     .NOTES
         File Name : Invoke-ADCFlushDnssubnetcache
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/dns/dnssubnetcache/
         Requires  : PowerShell v5.1 and up
@@ -8417,7 +8417,7 @@ function Invoke-ADCFlushDnssubnetcache {
             if ($PSBoundParameters.ContainsKey('ecssubnet')) { $Payload.Add('ecssubnet', $ecssubnet) }
             if ($PSBoundParameters.ContainsKey('all')) { $Payload.Add('all', $all) }
             if ($PSCmdlet.ShouldProcess($Name, "Flush Domain Name Service configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -Type dnssubnetcache -Action flush -Payload $Payload -GetWarning
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -NitroPath nitro/v1/config -Type dnssubnetcache -Action flush -Payload $Payload -GetWarning
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $result
@@ -8461,7 +8461,7 @@ function Invoke-ADCGetDnssubnetcache {
         Invoke-ADCGetDnssubnetcache -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetDnssubnetcache
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/dns/dnssubnetcache/
         Requires  : PowerShell v5.1 and up
@@ -8501,21 +8501,21 @@ function Invoke-ADCGetDnssubnetcache {
             if ( $PsCmdlet.ParameterSetName -eq 'Getall' ) {
                 $Query = @{ }
                 Write-Verbose "Retrieving all dnssubnetcache objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type dnssubnetcache -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type dnssubnetcache -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
                 if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for dnssubnetcache objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type dnssubnetcache -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type dnssubnetcache -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving dnssubnetcache objects by arguments"
                 $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type dnssubnetcache -Arguments $Arguments -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type dnssubnetcache -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving dnssubnetcache configuration for property 'ecssubnet'"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type dnssubnetcache -Resource $ecssubnet -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type dnssubnetcache -NitroPath nitro/v1/config -Resource $ecssubnet -Summary:$ViewSummary -Filter $Filter -GetWarning
             } else {
                 Write-Verbose "Retrieving dnssubnetcache configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type dnssubnetcache -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type dnssubnetcache -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -8543,7 +8543,7 @@ function Invoke-ADCAddDnssuffix {
         Invoke-ADCAddDnssuffix -Dnssuffix <string>
     .NOTES
         File Name : Invoke-ADCAddDnssuffix
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/dns/dnssuffix/
         Requires  : PowerShell v5.1 and up
@@ -8577,7 +8577,7 @@ function Invoke-ADCAddDnssuffix {
 
  
             if ($PSCmdlet.ShouldProcess("dnssuffix", "Add Domain Name Service configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -Type dnssuffix -Payload $Payload -GetWarning
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -NitroPath nitro/v1/config -Type dnssuffix -Payload $Payload -GetWarning
                 #HTTP Status Code on Success: 201 Created
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 if ($PSBoundParameters.ContainsKey('PassThru')) {
@@ -8610,7 +8610,7 @@ function Invoke-ADCDeleteDnssuffix {
         Invoke-ADCDeleteDnssuffix -Dnssuffix <string>
     .NOTES
         File Name : Invoke-ADCDeleteDnssuffix
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/dns/dnssuffix/
         Requires  : PowerShell v5.1 and up
@@ -8638,7 +8638,7 @@ function Invoke-ADCDeleteDnssuffix {
             }
 
             if ($PSCmdlet.ShouldProcess("$Dnssuffix", "Delete Domain Name Service configuration Object")) {
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type dnssuffix -Resource $Dnssuffix -Arguments $Arguments
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type dnssuffix -NitroPath nitro/v1/config -Resource $Dnssuffix -Arguments $Arguments
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $response
@@ -8682,7 +8682,7 @@ function Invoke-ADCGetDnssuffix {
         Invoke-ADCGetDnssuffix -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetDnssuffix
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/dns/dnssuffix/
         Requires  : PowerShell v5.1 and up
@@ -8723,21 +8723,21 @@ function Invoke-ADCGetDnssuffix {
             if ( $PsCmdlet.ParameterSetName -eq 'Getall' ) {
                 $Query = @{ }
                 Write-Verbose "Retrieving all dnssuffix objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type dnssuffix -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type dnssuffix -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
                 if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for dnssuffix objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type dnssuffix -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type dnssuffix -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving dnssuffix objects by arguments"
                 $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type dnssuffix -Arguments $Arguments -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type dnssuffix -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving dnssuffix configuration for property 'Dnssuffix'"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type dnssuffix -Resource $Dnssuffix -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type dnssuffix -NitroPath nitro/v1/config -Resource $Dnssuffix -Summary:$ViewSummary -Filter $Filter -GetWarning
             } else {
                 Write-Verbose "Retrieving dnssuffix configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type dnssuffix -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type dnssuffix -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -8773,7 +8773,7 @@ function Invoke-ADCAddDnstxtrec {
         Invoke-ADCAddDnstxtrec -domain <string> -String <string[]>
     .NOTES
         File Name : Invoke-ADCAddDnstxtrec
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/dns/dnstxtrec/
         Requires  : PowerShell v5.1 and up
@@ -8814,7 +8814,7 @@ function Invoke-ADCAddDnstxtrec {
             if ($PSBoundParameters.ContainsKey('ttl')) { $Payload.Add('ttl', $ttl) }
  
             if ($PSCmdlet.ShouldProcess("dnstxtrec", "Add Domain Name Service configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -Type dnstxtrec -Payload $Payload -GetWarning
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -NitroPath nitro/v1/config -Type dnstxtrec -Payload $Payload -GetWarning
                 #HTTP Status Code on Success: 201 Created
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 if ($PSBoundParameters.ContainsKey('PassThru')) {
@@ -8853,7 +8853,7 @@ function Invoke-ADCDeleteDnstxtrec {
         Invoke-ADCDeleteDnstxtrec -domain <string>
     .NOTES
         File Name : Invoke-ADCDeleteDnstxtrec
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/dns/dnstxtrec/
         Requires  : PowerShell v5.1 and up
@@ -8889,7 +8889,7 @@ function Invoke-ADCDeleteDnstxtrec {
             if ($PSBoundParameters.ContainsKey('recordid')) { $Arguments.Add('recordid', $recordid) }
             if ($PSBoundParameters.ContainsKey('ecssubnet')) { $Arguments.Add('ecssubnet', $ecssubnet) }
             if ($PSCmdlet.ShouldProcess("$domain", "Delete Domain Name Service configuration Object")) {
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type dnstxtrec -Resource $domain -Arguments $Arguments
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type dnstxtrec -NitroPath nitro/v1/config -Resource $domain -Arguments $Arguments
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $response
@@ -8933,7 +8933,7 @@ function Invoke-ADCGetDnstxtrec {
         Invoke-ADCGetDnstxtrec -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetDnstxtrec
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/dns/dnstxtrec/
         Requires  : PowerShell v5.1 and up
@@ -8974,21 +8974,21 @@ function Invoke-ADCGetDnstxtrec {
             if ( $PsCmdlet.ParameterSetName -eq 'Getall' ) {
                 $Query = @{ }
                 Write-Verbose "Retrieving all dnstxtrec objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type dnstxtrec -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type dnstxtrec -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
                 if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for dnstxtrec objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type dnstxtrec -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type dnstxtrec -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving dnstxtrec objects by arguments"
                 $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type dnstxtrec -Arguments $Arguments -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type dnstxtrec -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving dnstxtrec configuration for property 'domain'"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type dnstxtrec -Resource $domain -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type dnstxtrec -NitroPath nitro/v1/config -Resource $domain -Summary:$ViewSummary -Filter $Filter -GetWarning
             } else {
                 Write-Verbose "Retrieving dnstxtrec configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type dnstxtrec -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type dnstxtrec -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -9016,7 +9016,7 @@ function Invoke-ADCAddDnsview {
         Invoke-ADCAddDnsview -viewname <string>
     .NOTES
         File Name : Invoke-ADCAddDnsview
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/dns/dnsview/
         Requires  : PowerShell v5.1 and up
@@ -9050,7 +9050,7 @@ function Invoke-ADCAddDnsview {
 
  
             if ($PSCmdlet.ShouldProcess("dnsview", "Add Domain Name Service configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -Type dnsview -Payload $Payload -GetWarning
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -NitroPath nitro/v1/config -Type dnsview -Payload $Payload -GetWarning
                 #HTTP Status Code on Success: 201 Created
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 if ($PSBoundParameters.ContainsKey('PassThru')) {
@@ -9083,7 +9083,7 @@ function Invoke-ADCDeleteDnsview {
         Invoke-ADCDeleteDnsview -viewname <string>
     .NOTES
         File Name : Invoke-ADCDeleteDnsview
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/dns/dnsview/
         Requires  : PowerShell v5.1 and up
@@ -9111,7 +9111,7 @@ function Invoke-ADCDeleteDnsview {
             }
 
             if ($PSCmdlet.ShouldProcess("$viewname", "Delete Domain Name Service configuration Object")) {
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type dnsview -Resource $viewname -Arguments $Arguments
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type dnsview -NitroPath nitro/v1/config -Resource $viewname -Arguments $Arguments
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $response
@@ -9155,7 +9155,7 @@ function Invoke-ADCGetDnsview {
         Invoke-ADCGetDnsview -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetDnsview
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/dns/dnsview/
         Requires  : PowerShell v5.1 and up
@@ -9196,21 +9196,21 @@ function Invoke-ADCGetDnsview {
             if ( $PsCmdlet.ParameterSetName -eq 'Getall' ) {
                 $Query = @{ }
                 Write-Verbose "Retrieving all dnsview objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type dnsview -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type dnsview -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
                 if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for dnsview objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type dnsview -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type dnsview -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving dnsview objects by arguments"
                 $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type dnsview -Arguments $Arguments -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type dnsview -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving dnsview configuration for property 'viewname'"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type dnsview -Resource $viewname -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type dnsview -NitroPath nitro/v1/config -Resource $viewname -Summary:$ViewSummary -Filter $Filter -GetWarning
             } else {
                 Write-Verbose "Retrieving dnsview configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type dnsview -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type dnsview -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -9250,7 +9250,7 @@ function Invoke-ADCGetDnsviewbinding {
         Invoke-ADCGetDnsviewbinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetDnsviewbinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/dns/dnsview_binding/
         Requires  : PowerShell v5.1 and up
@@ -9285,21 +9285,21 @@ function Invoke-ADCGetDnsviewbinding {
                     bulkbindings = 'yes'
                 }
                 Write-Verbose "Retrieving all dnsview_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type dnsview_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type dnsview_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
                 if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for dnsview_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type dnsview_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type dnsview_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving dnsview_binding objects by arguments"
                 $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type dnsview_binding -Arguments $Arguments -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type dnsview_binding -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving dnsview_binding configuration for property 'viewname'"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type dnsview_binding -Resource $viewname -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type dnsview_binding -NitroPath nitro/v1/config -Resource $viewname -Summary:$ViewSummary -Filter $Filter -GetWarning
             } else {
                 Write-Verbose "Retrieving dnsview_binding configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type dnsview_binding -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type dnsview_binding -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -9341,7 +9341,7 @@ function Invoke-ADCGetDnsviewdnspolicybinding {
         Invoke-ADCGetDnsviewdnspolicybinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetDnsviewdnspolicybinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/dns/dnsview_dnspolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -9379,21 +9379,21 @@ function Invoke-ADCGetDnsviewdnspolicybinding {
                     bulkbindings = 'yes'
                 }
                 Write-Verbose "Retrieving all dnsview_dnspolicy_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type dnsview_dnspolicy_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type dnsview_dnspolicy_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
                 if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for dnsview_dnspolicy_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type dnsview_dnspolicy_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type dnsview_dnspolicy_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving dnsview_dnspolicy_binding objects by arguments"
                 $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type dnsview_dnspolicy_binding -Arguments $Arguments -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type dnsview_dnspolicy_binding -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving dnsview_dnspolicy_binding configuration for property 'viewname'"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type dnsview_dnspolicy_binding -Resource $viewname -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type dnsview_dnspolicy_binding -NitroPath nitro/v1/config -Resource $viewname -Summary:$ViewSummary -Filter $Filter -GetWarning
             } else {
                 Write-Verbose "Retrieving dnsview_dnspolicy_binding configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type dnsview_dnspolicy_binding -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type dnsview_dnspolicy_binding -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -9435,7 +9435,7 @@ function Invoke-ADCGetDnsviewgslbservicebinding {
         Invoke-ADCGetDnsviewgslbservicebinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetDnsviewgslbservicebinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/dns/dnsview_gslbservice_binding/
         Requires  : PowerShell v5.1 and up
@@ -9473,21 +9473,21 @@ function Invoke-ADCGetDnsviewgslbservicebinding {
                     bulkbindings = 'yes'
                 }
                 Write-Verbose "Retrieving all dnsview_gslbservice_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type dnsview_gslbservice_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type dnsview_gslbservice_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
                 if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for dnsview_gslbservice_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type dnsview_gslbservice_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type dnsview_gslbservice_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving dnsview_gslbservice_binding objects by arguments"
                 $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type dnsview_gslbservice_binding -Arguments $Arguments -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type dnsview_gslbservice_binding -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving dnsview_gslbservice_binding configuration for property 'viewname'"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type dnsview_gslbservice_binding -Resource $viewname -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type dnsview_gslbservice_binding -NitroPath nitro/v1/config -Resource $viewname -Summary:$ViewSummary -Filter $Filter -GetWarning
             } else {
                 Write-Verbose "Retrieving dnsview_gslbservice_binding configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type dnsview_gslbservice_binding -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type dnsview_gslbservice_binding -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -9531,7 +9531,7 @@ function Invoke-ADCAddDnszone {
         Invoke-ADCAddDnszone -zonename <string> -proxymode <string>
     .NOTES
         File Name : Invoke-ADCAddDnszone
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/dns/dnszone/
         Requires  : PowerShell v5.1 and up
@@ -9577,7 +9577,7 @@ function Invoke-ADCAddDnszone {
             if ($PSBoundParameters.ContainsKey('nsec')) { $Payload.Add('nsec', $nsec) }
  
             if ($PSCmdlet.ShouldProcess("dnszone", "Add Domain Name Service configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -Type dnszone -Payload $Payload -GetWarning
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -NitroPath nitro/v1/config -Type dnszone -Payload $Payload -GetWarning
                 #HTTP Status Code on Success: 201 Created
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 if ($PSBoundParameters.ContainsKey('PassThru')) {
@@ -9628,7 +9628,7 @@ function Invoke-ADCUpdateDnszone {
         Invoke-ADCUpdateDnszone -zonename <string>
     .NOTES
         File Name : Invoke-ADCUpdateDnszone
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/dns/dnszone/
         Requires  : PowerShell v5.1 and up
@@ -9673,7 +9673,7 @@ function Invoke-ADCUpdateDnszone {
             if ($PSBoundParameters.ContainsKey('nsec')) { $Payload.Add('nsec', $nsec) }
  
             if ($PSCmdlet.ShouldProcess("dnszone", "Update Domain Name Service configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -Type dnszone -Payload $Payload -GetWarning
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -NitroPath nitro/v1/config -Type dnszone -Payload $Payload -GetWarning
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 if ($PSBoundParameters.ContainsKey('PassThru')) {
@@ -9718,7 +9718,7 @@ function Invoke-ADCUnsetDnszone {
         Invoke-ADCUnsetDnszone -zonename <string>
     .NOTES
         File Name : Invoke-ADCUnsetDnszone
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/dns/dnszone
         Requires  : PowerShell v5.1 and up
@@ -9756,7 +9756,7 @@ function Invoke-ADCUnsetDnszone {
             if ($PSBoundParameters.ContainsKey('dnssecoffload')) { $Payload.Add('dnssecoffload', $dnssecoffload) }
             if ($PSBoundParameters.ContainsKey('nsec')) { $Payload.Add('nsec', $nsec) }
             if ($PSCmdlet.ShouldProcess("$zonename", "Unset Domain Name Service configuration Object")) {
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -Type dnszone -Action unset -Payload $Payload -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -Type dnszone -NitroPath nitro/v1/config -Action unset -Payload $Payload -GetWarning
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $response
@@ -9784,7 +9784,7 @@ function Invoke-ADCDeleteDnszone {
         Invoke-ADCDeleteDnszone -zonename <string>
     .NOTES
         File Name : Invoke-ADCDeleteDnszone
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/dns/dnszone/
         Requires  : PowerShell v5.1 and up
@@ -9812,7 +9812,7 @@ function Invoke-ADCDeleteDnszone {
             }
 
             if ($PSCmdlet.ShouldProcess("$zonename", "Delete Domain Name Service configuration Object")) {
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type dnszone -Resource $zonename -Arguments $Arguments
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type dnszone -NitroPath nitro/v1/config -Resource $zonename -Arguments $Arguments
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $response
@@ -9841,7 +9841,7 @@ function Invoke-ADCSignDnszone {
         Invoke-ADCSignDnszone -zonename <string>
     .NOTES
         File Name : Invoke-ADCSignDnszone
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/dns/dnszone/
         Requires  : PowerShell v5.1 and up
@@ -9875,7 +9875,7 @@ function Invoke-ADCSignDnszone {
             }
             if ($PSBoundParameters.ContainsKey('keyname')) { $Payload.Add('keyname', $keyname) }
             if ($PSCmdlet.ShouldProcess($Name, "Sign Domain Name Service configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -Type dnszone -Action sign -Payload $Payload -GetWarning
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -NitroPath nitro/v1/config -Type dnszone -Action sign -Payload $Payload -GetWarning
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $result
@@ -9904,7 +9904,7 @@ function Invoke-ADCUnsignDnszone {
         Invoke-ADCUnsignDnszone -zonename <string>
     .NOTES
         File Name : Invoke-ADCUnsignDnszone
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/dns/dnszone/
         Requires  : PowerShell v5.1 and up
@@ -9938,7 +9938,7 @@ function Invoke-ADCUnsignDnszone {
             }
             if ($PSBoundParameters.ContainsKey('keyname')) { $Payload.Add('keyname', $keyname) }
             if ($PSCmdlet.ShouldProcess($Name, "Unsign Domain Name Service configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -Type dnszone -Action unsign -Payload $Payload -GetWarning
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -NitroPath nitro/v1/config -Type dnszone -Action unsign -Payload $Payload -GetWarning
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $result
@@ -9982,7 +9982,7 @@ function Invoke-ADCGetDnszone {
         Invoke-ADCGetDnszone -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetDnszone
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/dns/dnszone/
         Requires  : PowerShell v5.1 and up
@@ -10023,21 +10023,21 @@ function Invoke-ADCGetDnszone {
             if ( $PsCmdlet.ParameterSetName -eq 'Getall' ) {
                 $Query = @{ }
                 Write-Verbose "Retrieving all dnszone objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type dnszone -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type dnszone -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
                 if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for dnszone objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type dnszone -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type dnszone -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving dnszone objects by arguments"
                 $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type dnszone -Arguments $Arguments -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type dnszone -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving dnszone configuration for property 'zonename'"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type dnszone -Resource $zonename -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type dnszone -NitroPath nitro/v1/config -Resource $zonename -Summary:$ViewSummary -Filter $Filter -GetWarning
             } else {
                 Write-Verbose "Retrieving dnszone configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type dnszone -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type dnszone -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -10077,7 +10077,7 @@ function Invoke-ADCGetDnszonebinding {
         Invoke-ADCGetDnszonebinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetDnszonebinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/dns/dnszone_binding/
         Requires  : PowerShell v5.1 and up
@@ -10112,21 +10112,21 @@ function Invoke-ADCGetDnszonebinding {
                     bulkbindings = 'yes'
                 }
                 Write-Verbose "Retrieving all dnszone_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type dnszone_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type dnszone_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
                 if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for dnszone_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type dnszone_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type dnszone_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving dnszone_binding objects by arguments"
                 $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type dnszone_binding -Arguments $Arguments -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type dnszone_binding -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving dnszone_binding configuration for property 'zonename'"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type dnszone_binding -Resource $zonename -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type dnszone_binding -NitroPath nitro/v1/config -Resource $zonename -Summary:$ViewSummary -Filter $Filter -GetWarning
             } else {
                 Write-Verbose "Retrieving dnszone_binding configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type dnszone_binding -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type dnszone_binding -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -10168,7 +10168,7 @@ function Invoke-ADCGetDnszonednskeybinding {
         Invoke-ADCGetDnszonednskeybinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetDnszonednskeybinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/dns/dnszone_dnskey_binding/
         Requires  : PowerShell v5.1 and up
@@ -10206,21 +10206,21 @@ function Invoke-ADCGetDnszonednskeybinding {
                     bulkbindings = 'yes'
                 }
                 Write-Verbose "Retrieving all dnszone_dnskey_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type dnszone_dnskey_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type dnszone_dnskey_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
                 if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for dnszone_dnskey_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type dnszone_dnskey_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type dnszone_dnskey_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving dnszone_dnskey_binding objects by arguments"
                 $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type dnszone_dnskey_binding -Arguments $Arguments -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type dnszone_dnskey_binding -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving dnszone_dnskey_binding configuration for property 'zonename'"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type dnszone_dnskey_binding -Resource $zonename -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type dnszone_dnskey_binding -NitroPath nitro/v1/config -Resource $zonename -Summary:$ViewSummary -Filter $Filter -GetWarning
             } else {
                 Write-Verbose "Retrieving dnszone_dnskey_binding configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type dnszone_dnskey_binding -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type dnszone_dnskey_binding -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -10262,7 +10262,7 @@ function Invoke-ADCGetDnszonedomainbinding {
         Invoke-ADCGetDnszonedomainbinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetDnszonedomainbinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/dns/dnszone_domain_binding/
         Requires  : PowerShell v5.1 and up
@@ -10300,21 +10300,21 @@ function Invoke-ADCGetDnszonedomainbinding {
                     bulkbindings = 'yes'
                 }
                 Write-Verbose "Retrieving all dnszone_domain_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type dnszone_domain_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type dnszone_domain_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
                 if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for dnszone_domain_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type dnszone_domain_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type dnszone_domain_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving dnszone_domain_binding objects by arguments"
                 $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type dnszone_domain_binding -Arguments $Arguments -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type dnszone_domain_binding -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving dnszone_domain_binding configuration for property 'zonename'"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type dnszone_domain_binding -Resource $zonename -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type dnszone_domain_binding -NitroPath nitro/v1/config -Resource $zonename -Summary:$ViewSummary -Filter $Filter -GetWarning
             } else {
                 Write-Verbose "Retrieving dnszone_domain_binding configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type dnszone_domain_binding -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type dnszone_domain_binding -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"

@@ -43,7 +43,7 @@ function Invoke-ADCAddContentinspectionaction {
         Invoke-ADCAddContentinspectionaction -name <string> -type <string>
     .NOTES
         File Name : Invoke-ADCAddContentinspectionaction
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/contentinspection/contentinspectionaction/
         Requires  : PowerShell v5.1 and up
@@ -101,7 +101,7 @@ function Invoke-ADCAddContentinspectionaction {
             if ($PSBoundParameters.ContainsKey('ifserverdown')) { $Payload.Add('ifserverdown', $ifserverdown) }
  
             if ($PSCmdlet.ShouldProcess("contentinspectionaction", "Add CI configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -Type contentinspectionaction -Payload $Payload -GetWarning
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -NitroPath nitro/v1/config -Type contentinspectionaction -Payload $Payload -GetWarning
                 #HTTP Status Code on Success: 201 Created
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 if ($PSBoundParameters.ContainsKey('PassThru')) {
@@ -158,7 +158,7 @@ function Invoke-ADCUpdateContentinspectionaction {
         Invoke-ADCUpdateContentinspectionaction -name <string>
     .NOTES
         File Name : Invoke-ADCUpdateContentinspectionaction
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/contentinspection/contentinspectionaction/
         Requires  : PowerShell v5.1 and up
@@ -211,7 +211,7 @@ function Invoke-ADCUpdateContentinspectionaction {
             if ($PSBoundParameters.ContainsKey('ifserverdown')) { $Payload.Add('ifserverdown', $ifserverdown) }
  
             if ($PSCmdlet.ShouldProcess("contentinspectionaction", "Update CI configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -Type contentinspectionaction -Payload $Payload -GetWarning
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -NitroPath nitro/v1/config -Type contentinspectionaction -Payload $Payload -GetWarning
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 if ($PSBoundParameters.ContainsKey('PassThru')) {
@@ -251,7 +251,7 @@ function Invoke-ADCUnsetContentinspectionaction {
         Invoke-ADCUnsetContentinspectionaction -name <string>
     .NOTES
         File Name : Invoke-ADCUnsetContentinspectionaction
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/contentinspection/contentinspectionaction
         Requires  : PowerShell v5.1 and up
@@ -286,7 +286,7 @@ function Invoke-ADCUnsetContentinspectionaction {
             if ($PSBoundParameters.ContainsKey('serverport')) { $Payload.Add('serverport', $serverport) }
             if ($PSBoundParameters.ContainsKey('ifserverdown')) { $Payload.Add('ifserverdown', $ifserverdown) }
             if ($PSCmdlet.ShouldProcess("$name", "Unset CI configuration Object")) {
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -Type contentinspectionaction -Action unset -Payload $Payload -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -Type contentinspectionaction -NitroPath nitro/v1/config -Action unset -Payload $Payload -GetWarning
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $response
@@ -313,7 +313,7 @@ function Invoke-ADCDeleteContentinspectionaction {
         Invoke-ADCDeleteContentinspectionaction -name <string>
     .NOTES
         File Name : Invoke-ADCDeleteContentinspectionaction
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/contentinspection/contentinspectionaction/
         Requires  : PowerShell v5.1 and up
@@ -341,7 +341,7 @@ function Invoke-ADCDeleteContentinspectionaction {
             }
 
             if ($PSCmdlet.ShouldProcess("$name", "Delete CI configuration Object")) {
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type contentinspectionaction -Resource $name -Arguments $Arguments
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type contentinspectionaction -NitroPath nitro/v1/config -Resource $name -Arguments $Arguments
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $response
@@ -385,7 +385,7 @@ function Invoke-ADCGetContentinspectionaction {
         Invoke-ADCGetContentinspectionaction -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetContentinspectionaction
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/contentinspection/contentinspectionaction/
         Requires  : PowerShell v5.1 and up
@@ -426,21 +426,21 @@ function Invoke-ADCGetContentinspectionaction {
             if ( $PsCmdlet.ParameterSetName -eq 'Getall' ) {
                 $Query = @{ }
                 Write-Verbose "Retrieving all contentinspectionaction objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type contentinspectionaction -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type contentinspectionaction -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
                 if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for contentinspectionaction objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type contentinspectionaction -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type contentinspectionaction -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving contentinspectionaction objects by arguments"
                 $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type contentinspectionaction -Arguments $Arguments -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type contentinspectionaction -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving contentinspectionaction configuration for property 'name'"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type contentinspectionaction -Resource $name -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type contentinspectionaction -NitroPath nitro/v1/config -Resource $name -Summary:$ViewSummary -Filter $Filter -GetWarning
             } else {
                 Write-Verbose "Retrieving contentinspectionaction configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type contentinspectionaction -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type contentinspectionaction -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -501,7 +501,7 @@ function Invoke-ADCAddContentinspectioncallout {
         Invoke-ADCAddContentinspectioncallout -name <string> -type <string> -returntype <string> -resultexpr <string>
     .NOTES
         File Name : Invoke-ADCAddContentinspectioncallout
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/contentinspection/contentinspectioncallout/
         Requires  : PowerShell v5.1 and up
@@ -569,7 +569,7 @@ function Invoke-ADCAddContentinspectioncallout {
             if ($PSBoundParameters.ContainsKey('comment')) { $Payload.Add('comment', $comment) }
  
             if ($PSCmdlet.ShouldProcess("contentinspectioncallout", "Add CI configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -Type contentinspectioncallout -Payload $Payload -GetWarning
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -NitroPath nitro/v1/config -Type contentinspectioncallout -Payload $Payload -GetWarning
                 #HTTP Status Code on Success: 201 Created
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 if ($PSBoundParameters.ContainsKey('PassThru')) {
@@ -602,7 +602,7 @@ function Invoke-ADCDeleteContentinspectioncallout {
         Invoke-ADCDeleteContentinspectioncallout -name <string>
     .NOTES
         File Name : Invoke-ADCDeleteContentinspectioncallout
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/contentinspection/contentinspectioncallout/
         Requires  : PowerShell v5.1 and up
@@ -630,7 +630,7 @@ function Invoke-ADCDeleteContentinspectioncallout {
             }
 
             if ($PSCmdlet.ShouldProcess("$name", "Delete CI configuration Object")) {
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type contentinspectioncallout -Resource $name -Arguments $Arguments
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type contentinspectioncallout -NitroPath nitro/v1/config -Resource $name -Arguments $Arguments
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $response
@@ -689,7 +689,7 @@ function Invoke-ADCUpdateContentinspectioncallout {
         Invoke-ADCUpdateContentinspectioncallout -name <string>
     .NOTES
         File Name : Invoke-ADCUpdateContentinspectioncallout
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/contentinspection/contentinspectioncallout/
         Requires  : PowerShell v5.1 and up
@@ -750,7 +750,7 @@ function Invoke-ADCUpdateContentinspectioncallout {
             if ($PSBoundParameters.ContainsKey('comment')) { $Payload.Add('comment', $comment) }
  
             if ($PSCmdlet.ShouldProcess("contentinspectioncallout", "Update CI configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -Type contentinspectioncallout -Payload $Payload -GetWarning
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -NitroPath nitro/v1/config -Type contentinspectioncallout -Payload $Payload -GetWarning
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 if ($PSBoundParameters.ContainsKey('PassThru')) {
@@ -786,7 +786,7 @@ function Invoke-ADCUnsetContentinspectioncallout {
         Invoke-ADCUnsetContentinspectioncallout -name <string>
     .NOTES
         File Name : Invoke-ADCUnsetContentinspectioncallout
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/contentinspection/contentinspectioncallout
         Requires  : PowerShell v5.1 and up
@@ -822,7 +822,7 @@ function Invoke-ADCUnsetContentinspectioncallout {
             if ($PSBoundParameters.ContainsKey('serverport')) { $Payload.Add('serverport', $serverport) }
             if ($PSBoundParameters.ContainsKey('comment')) { $Payload.Add('comment', $comment) }
             if ($PSCmdlet.ShouldProcess("$name", "Unset CI configuration Object")) {
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -Type contentinspectioncallout -Action unset -Payload $Payload -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -Type contentinspectioncallout -NitroPath nitro/v1/config -Action unset -Payload $Payload -GetWarning
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $response
@@ -866,7 +866,7 @@ function Invoke-ADCGetContentinspectioncallout {
         Invoke-ADCGetContentinspectioncallout -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetContentinspectioncallout
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/contentinspection/contentinspectioncallout/
         Requires  : PowerShell v5.1 and up
@@ -908,21 +908,21 @@ function Invoke-ADCGetContentinspectioncallout {
             if ( $PsCmdlet.ParameterSetName -eq 'Getall' ) {
                 $Query = @{ }
                 Write-Verbose "Retrieving all contentinspectioncallout objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type contentinspectioncallout -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type contentinspectioncallout -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
                 if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for contentinspectioncallout objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type contentinspectioncallout -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type contentinspectioncallout -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving contentinspectioncallout objects by arguments"
                 $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type contentinspectioncallout -Arguments $Arguments -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type contentinspectioncallout -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving contentinspectioncallout configuration for property 'name'"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type contentinspectioncallout -Resource $name -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type contentinspectioncallout -NitroPath nitro/v1/config -Resource $name -Summary:$ViewSummary -Filter $Filter -GetWarning
             } else {
                 Write-Verbose "Retrieving contentinspectioncallout configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type contentinspectioncallout -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type contentinspectioncallout -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -960,7 +960,7 @@ function Invoke-ADCGetContentinspectionglobalbinding {
         Invoke-ADCGetContentinspectionglobalbinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetContentinspectionglobalbinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/contentinspection/contentinspectionglobal_binding/
         Requires  : PowerShell v5.1 and up
@@ -991,21 +991,21 @@ function Invoke-ADCGetContentinspectionglobalbinding {
                     bulkbindings = 'yes'
                 }
                 Write-Verbose "Retrieving all contentinspectionglobal_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type contentinspectionglobal_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type contentinspectionglobal_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
                 if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for contentinspectionglobal_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type contentinspectionglobal_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type contentinspectionglobal_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving contentinspectionglobal_binding objects by arguments"
                 $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type contentinspectionglobal_binding -Arguments $Arguments -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type contentinspectionglobal_binding -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving contentinspectionglobal_binding configuration for property ''"
 
             } else {
                 Write-Verbose "Retrieving contentinspectionglobal_binding configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type contentinspectionglobal_binding -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type contentinspectionglobal_binding -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -1046,7 +1046,7 @@ function Invoke-ADCAddContentinspectionglobalcontentinspectionpolicybinding {
         Invoke-ADCAddContentinspectionglobalcontentinspectionpolicybinding -policyname <string> -priority <double>
     .NOTES
         File Name : Invoke-ADCAddContentinspectionglobalcontentinspectionpolicybinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/contentinspection/contentinspectionglobal_contentinspectionpolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -1099,7 +1099,7 @@ function Invoke-ADCAddContentinspectionglobalcontentinspectionpolicybinding {
             if ($PSBoundParameters.ContainsKey('labelname')) { $Payload.Add('labelname', $labelname) }
  
             if ($PSCmdlet.ShouldProcess("contentinspectionglobal_contentinspectionpolicy_binding", "Add CI configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -Type contentinspectionglobal_contentinspectionpolicy_binding -Payload $Payload -GetWarning
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -NitroPath nitro/v1/config -Type contentinspectionglobal_contentinspectionpolicy_binding -Payload $Payload -GetWarning
                 #HTTP Status Code on Success: 201 Created
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 if ($PSBoundParameters.ContainsKey('PassThru')) {
@@ -1134,7 +1134,7 @@ function Invoke-ADCDeleteContentinspectionglobalcontentinspectionpolicybinding {
         Invoke-ADCDeleteContentinspectionglobalcontentinspectionpolicybinding 
     .NOTES
         File Name : Invoke-ADCDeleteContentinspectionglobalcontentinspectionpolicybinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/contentinspection/contentinspectionglobal_contentinspectionpolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -1167,7 +1167,7 @@ function Invoke-ADCDeleteContentinspectionglobalcontentinspectionpolicybinding {
             if ($PSBoundParameters.ContainsKey('type')) { $Arguments.Add('type', $type) }
             if ($PSBoundParameters.ContainsKey('priority')) { $Arguments.Add('priority', $priority) }
             if ($PSCmdlet.ShouldProcess("contentinspectionglobal_contentinspectionpolicy_binding", "Delete CI configuration Object")) {
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type contentinspectionglobal_contentinspectionpolicy_binding -Resource $ -Arguments $Arguments
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type contentinspectionglobal_contentinspectionpolicy_binding -NitroPath nitro/v1/config -Resource $ -Arguments $Arguments
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $response
@@ -1209,7 +1209,7 @@ function Invoke-ADCGetContentinspectionglobalcontentinspectionpolicybinding {
         Invoke-ADCGetContentinspectionglobalcontentinspectionpolicybinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetContentinspectionglobalcontentinspectionpolicybinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/contentinspection/contentinspectionglobal_contentinspectionpolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -1243,21 +1243,21 @@ function Invoke-ADCGetContentinspectionglobalcontentinspectionpolicybinding {
                     bulkbindings = 'yes'
                 }
                 Write-Verbose "Retrieving all contentinspectionglobal_contentinspectionpolicy_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type contentinspectionglobal_contentinspectionpolicy_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type contentinspectionglobal_contentinspectionpolicy_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
                 if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for contentinspectionglobal_contentinspectionpolicy_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type contentinspectionglobal_contentinspectionpolicy_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type contentinspectionglobal_contentinspectionpolicy_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving contentinspectionglobal_contentinspectionpolicy_binding objects by arguments"
                 $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type contentinspectionglobal_contentinspectionpolicy_binding -Arguments $Arguments -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type contentinspectionglobal_contentinspectionpolicy_binding -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving contentinspectionglobal_contentinspectionpolicy_binding configuration for property ''"
 
             } else {
                 Write-Verbose "Retrieving contentinspectionglobal_contentinspectionpolicy_binding configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type contentinspectionglobal_contentinspectionpolicy_binding -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type contentinspectionglobal_contentinspectionpolicy_binding -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -1287,7 +1287,7 @@ function Invoke-ADCUpdateContentinspectionparameter {
         Invoke-ADCUpdateContentinspectionparameter 
     .NOTES
         File Name : Invoke-ADCUpdateContentinspectionparameter
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/contentinspection/contentinspectionparameter/
         Requires  : PowerShell v5.1 and up
@@ -1317,7 +1317,7 @@ function Invoke-ADCUpdateContentinspectionparameter {
             if ($PSBoundParameters.ContainsKey('undefaction')) { $Payload.Add('undefaction', $undefaction) }
  
             if ($PSCmdlet.ShouldProcess("contentinspectionparameter", "Update CI configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -Type contentinspectionparameter -Payload $Payload -GetWarning
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -NitroPath nitro/v1/config -Type contentinspectionparameter -Payload $Payload -GetWarning
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
             Write-Output $result
@@ -1349,7 +1349,7 @@ function Invoke-ADCUnsetContentinspectionparameter {
         Invoke-ADCUnsetContentinspectionparameter 
     .NOTES
         File Name : Invoke-ADCUnsetContentinspectionparameter
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/contentinspection/contentinspectionparameter
         Requires  : PowerShell v5.1 and up
@@ -1377,7 +1377,7 @@ function Invoke-ADCUnsetContentinspectionparameter {
             }
             if ($PSBoundParameters.ContainsKey('undefaction')) { $Payload.Add('undefaction', $undefaction) }
             if ($PSCmdlet.ShouldProcess("contentinspectionparameter", "Unset CI configuration Object")) {
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -Type contentinspectionparameter -Action unset -Payload $Payload -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -Type contentinspectionparameter -NitroPath nitro/v1/config -Action unset -Payload $Payload -GetWarning
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $response
@@ -1417,7 +1417,7 @@ function Invoke-ADCGetContentinspectionparameter {
         Invoke-ADCGetContentinspectionparameter -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetContentinspectionparameter
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/contentinspection/contentinspectionparameter/
         Requires  : PowerShell v5.1 and up
@@ -1446,21 +1446,21 @@ function Invoke-ADCGetContentinspectionparameter {
             if ( $PsCmdlet.ParameterSetName -eq 'Getall' ) {
                 $Query = @{ }
                 Write-Verbose "Retrieving all contentinspectionparameter objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type contentinspectionparameter -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type contentinspectionparameter -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
                 if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for contentinspectionparameter objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type contentinspectionparameter -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type contentinspectionparameter -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving contentinspectionparameter objects by arguments"
                 $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type contentinspectionparameter -Arguments $Arguments -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type contentinspectionparameter -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving contentinspectionparameter configuration for property ''"
 
             } else {
                 Write-Verbose "Retrieving contentinspectionparameter configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type contentinspectionparameter -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type contentinspectionparameter -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -1502,7 +1502,7 @@ function Invoke-ADCAddContentinspectionpolicy {
         Invoke-ADCAddContentinspectionpolicy -name <string> -rule <string> -action <string>
     .NOTES
         File Name : Invoke-ADCAddContentinspectionpolicy
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/contentinspection/contentinspectionpolicy/
         Requires  : PowerShell v5.1 and up
@@ -1551,7 +1551,7 @@ function Invoke-ADCAddContentinspectionpolicy {
             if ($PSBoundParameters.ContainsKey('logaction')) { $Payload.Add('logaction', $logaction) }
  
             if ($PSCmdlet.ShouldProcess("contentinspectionpolicy", "Add CI configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -Type contentinspectionpolicy -Payload $Payload -GetWarning
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -NitroPath nitro/v1/config -Type contentinspectionpolicy -Payload $Payload -GetWarning
                 #HTTP Status Code on Success: 201 Created
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 if ($PSBoundParameters.ContainsKey('PassThru')) {
@@ -1584,7 +1584,7 @@ function Invoke-ADCDeleteContentinspectionpolicy {
         Invoke-ADCDeleteContentinspectionpolicy -name <string>
     .NOTES
         File Name : Invoke-ADCDeleteContentinspectionpolicy
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/contentinspection/contentinspectionpolicy/
         Requires  : PowerShell v5.1 and up
@@ -1612,7 +1612,7 @@ function Invoke-ADCDeleteContentinspectionpolicy {
             }
 
             if ($PSCmdlet.ShouldProcess("$name", "Delete CI configuration Object")) {
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type contentinspectionpolicy -Resource $name -Arguments $Arguments
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type contentinspectionpolicy -NitroPath nitro/v1/config -Resource $name -Arguments $Arguments
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $response
@@ -1656,7 +1656,7 @@ function Invoke-ADCUpdateContentinspectionpolicy {
         Invoke-ADCUpdateContentinspectionpolicy -name <string>
     .NOTES
         File Name : Invoke-ADCUpdateContentinspectionpolicy
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/contentinspection/contentinspectionpolicy/
         Requires  : PowerShell v5.1 and up
@@ -1703,7 +1703,7 @@ function Invoke-ADCUpdateContentinspectionpolicy {
             if ($PSBoundParameters.ContainsKey('logaction')) { $Payload.Add('logaction', $logaction) }
  
             if ($PSCmdlet.ShouldProcess("contentinspectionpolicy", "Update CI configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -Type contentinspectionpolicy -Payload $Payload -GetWarning
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -NitroPath nitro/v1/config -Type contentinspectionpolicy -Payload $Payload -GetWarning
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 if ($PSBoundParameters.ContainsKey('PassThru')) {
@@ -1742,7 +1742,7 @@ function Invoke-ADCUnsetContentinspectionpolicy {
         Invoke-ADCUnsetContentinspectionpolicy -name <string>
     .NOTES
         File Name : Invoke-ADCUnsetContentinspectionpolicy
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/contentinspection/contentinspectionpolicy
         Requires  : PowerShell v5.1 and up
@@ -1779,7 +1779,7 @@ function Invoke-ADCUnsetContentinspectionpolicy {
             if ($PSBoundParameters.ContainsKey('comment')) { $Payload.Add('comment', $comment) }
             if ($PSBoundParameters.ContainsKey('logaction')) { $Payload.Add('logaction', $logaction) }
             if ($PSCmdlet.ShouldProcess("$name", "Unset CI configuration Object")) {
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -Type contentinspectionpolicy -Action unset -Payload $Payload -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -Type contentinspectionpolicy -NitroPath nitro/v1/config -Action unset -Payload $Payload -GetWarning
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $response
@@ -1811,7 +1811,7 @@ function Invoke-ADCRenameContentinspectionpolicy {
         Invoke-ADCRenameContentinspectionpolicy -name <string> -newname <string>
     .NOTES
         File Name : Invoke-ADCRenameContentinspectionpolicy
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/contentinspection/contentinspectionpolicy/
         Requires  : PowerShell v5.1 and up
@@ -1849,7 +1849,7 @@ function Invoke-ADCRenameContentinspectionpolicy {
 
  
             if ($PSCmdlet.ShouldProcess("contentinspectionpolicy", "Rename CI configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -Type contentinspectionpolicy -Action rename -Payload $Payload -GetWarning
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -NitroPath nitro/v1/config -Type contentinspectionpolicy -Action rename -Payload $Payload -GetWarning
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 if ($PSBoundParameters.ContainsKey('PassThru')) {
@@ -1899,7 +1899,7 @@ function Invoke-ADCGetContentinspectionpolicy {
         Invoke-ADCGetContentinspectionpolicy -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetContentinspectionpolicy
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/contentinspection/contentinspectionpolicy/
         Requires  : PowerShell v5.1 and up
@@ -1939,21 +1939,21 @@ function Invoke-ADCGetContentinspectionpolicy {
             if ( $PsCmdlet.ParameterSetName -eq 'Getall' ) {
                 $Query = @{ }
                 Write-Verbose "Retrieving all contentinspectionpolicy objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type contentinspectionpolicy -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type contentinspectionpolicy -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
                 if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for contentinspectionpolicy objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type contentinspectionpolicy -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type contentinspectionpolicy -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving contentinspectionpolicy objects by arguments"
                 $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type contentinspectionpolicy -Arguments $Arguments -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type contentinspectionpolicy -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving contentinspectionpolicy configuration for property 'name'"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type contentinspectionpolicy -Resource $name -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type contentinspectionpolicy -NitroPath nitro/v1/config -Resource $name -Summary:$ViewSummary -Filter $Filter -GetWarning
             } else {
                 Write-Verbose "Retrieving contentinspectionpolicy configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type contentinspectionpolicy -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type contentinspectionpolicy -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -1985,7 +1985,7 @@ function Invoke-ADCAddContentinspectionpolicylabel {
         Invoke-ADCAddContentinspectionpolicylabel -labelname <string> -type <string>
     .NOTES
         File Name : Invoke-ADCAddContentinspectionpolicylabel
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/contentinspection/contentinspectionpolicylabel/
         Requires  : PowerShell v5.1 and up
@@ -2025,7 +2025,7 @@ function Invoke-ADCAddContentinspectionpolicylabel {
             if ($PSBoundParameters.ContainsKey('comment')) { $Payload.Add('comment', $comment) }
  
             if ($PSCmdlet.ShouldProcess("contentinspectionpolicylabel", "Add CI configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -Type contentinspectionpolicylabel -Payload $Payload -GetWarning
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -NitroPath nitro/v1/config -Type contentinspectionpolicylabel -Payload $Payload -GetWarning
                 #HTTP Status Code on Success: 201 Created
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 if ($PSBoundParameters.ContainsKey('PassThru')) {
@@ -2057,7 +2057,7 @@ function Invoke-ADCDeleteContentinspectionpolicylabel {
         Invoke-ADCDeleteContentinspectionpolicylabel -labelname <string>
     .NOTES
         File Name : Invoke-ADCDeleteContentinspectionpolicylabel
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/contentinspection/contentinspectionpolicylabel/
         Requires  : PowerShell v5.1 and up
@@ -2085,7 +2085,7 @@ function Invoke-ADCDeleteContentinspectionpolicylabel {
             }
 
             if ($PSCmdlet.ShouldProcess("$labelname", "Delete CI configuration Object")) {
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type contentinspectionpolicylabel -Resource $labelname -Arguments $Arguments
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type contentinspectionpolicylabel -NitroPath nitro/v1/config -Resource $labelname -Arguments $Arguments
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $response
@@ -2117,7 +2117,7 @@ function Invoke-ADCRenameContentinspectionpolicylabel {
         Invoke-ADCRenameContentinspectionpolicylabel -labelname <string> -newname <string>
     .NOTES
         File Name : Invoke-ADCRenameContentinspectionpolicylabel
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/contentinspection/contentinspectionpolicylabel/
         Requires  : PowerShell v5.1 and up
@@ -2155,7 +2155,7 @@ function Invoke-ADCRenameContentinspectionpolicylabel {
 
  
             if ($PSCmdlet.ShouldProcess("contentinspectionpolicylabel", "Rename CI configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -Type contentinspectionpolicylabel -Action rename -Payload $Payload -GetWarning
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -NitroPath nitro/v1/config -Type contentinspectionpolicylabel -Action rename -Payload $Payload -GetWarning
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 if ($PSBoundParameters.ContainsKey('PassThru')) {
@@ -2204,7 +2204,7 @@ function Invoke-ADCGetContentinspectionpolicylabel {
         Invoke-ADCGetContentinspectionpolicylabel -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetContentinspectionpolicylabel
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/contentinspection/contentinspectionpolicylabel/
         Requires  : PowerShell v5.1 and up
@@ -2244,21 +2244,21 @@ function Invoke-ADCGetContentinspectionpolicylabel {
             if ( $PsCmdlet.ParameterSetName -eq 'Getall' ) {
                 $Query = @{ }
                 Write-Verbose "Retrieving all contentinspectionpolicylabel objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type contentinspectionpolicylabel -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type contentinspectionpolicylabel -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
                 if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for contentinspectionpolicylabel objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type contentinspectionpolicylabel -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type contentinspectionpolicylabel -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving contentinspectionpolicylabel objects by arguments"
                 $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type contentinspectionpolicylabel -Arguments $Arguments -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type contentinspectionpolicylabel -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving contentinspectionpolicylabel configuration for property 'labelname'"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type contentinspectionpolicylabel -Resource $labelname -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type contentinspectionpolicylabel -NitroPath nitro/v1/config -Resource $labelname -Summary:$ViewSummary -Filter $Filter -GetWarning
             } else {
                 Write-Verbose "Retrieving contentinspectionpolicylabel configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type contentinspectionpolicylabel -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type contentinspectionpolicylabel -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -2298,7 +2298,7 @@ function Invoke-ADCGetContentinspectionpolicylabelbinding {
         Invoke-ADCGetContentinspectionpolicylabelbinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetContentinspectionpolicylabelbinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/contentinspection/contentinspectionpolicylabel_binding/
         Requires  : PowerShell v5.1 and up
@@ -2332,21 +2332,21 @@ function Invoke-ADCGetContentinspectionpolicylabelbinding {
                     bulkbindings = 'yes'
                 }
                 Write-Verbose "Retrieving all contentinspectionpolicylabel_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type contentinspectionpolicylabel_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type contentinspectionpolicylabel_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
                 if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for contentinspectionpolicylabel_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type contentinspectionpolicylabel_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type contentinspectionpolicylabel_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving contentinspectionpolicylabel_binding objects by arguments"
                 $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type contentinspectionpolicylabel_binding -Arguments $Arguments -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type contentinspectionpolicylabel_binding -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving contentinspectionpolicylabel_binding configuration for property 'labelname'"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type contentinspectionpolicylabel_binding -Resource $labelname -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type contentinspectionpolicylabel_binding -NitroPath nitro/v1/config -Resource $labelname -Summary:$ViewSummary -Filter $Filter -GetWarning
             } else {
                 Write-Verbose "Retrieving contentinspectionpolicylabel_binding configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type contentinspectionpolicylabel_binding -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type contentinspectionpolicylabel_binding -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -2386,7 +2386,7 @@ function Invoke-ADCAddContentinspectionpolicylabelcontentinspectionpolicybinding
         Invoke-ADCAddContentinspectionpolicylabelcontentinspectionpolicybinding -labelname <string> -policyname <string> -priority <double>
     .NOTES
         File Name : Invoke-ADCAddContentinspectionpolicylabelcontentinspectionpolicybinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/contentinspection/contentinspectionpolicylabel_contentinspectionpolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -2439,7 +2439,7 @@ function Invoke-ADCAddContentinspectionpolicylabelcontentinspectionpolicybinding
             if ($PSBoundParameters.ContainsKey('invoke_labelname')) { $Payload.Add('invoke_labelname', $invoke_labelname) }
  
             if ($PSCmdlet.ShouldProcess("contentinspectionpolicylabel_contentinspectionpolicy_binding", "Add CI configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -Type contentinspectionpolicylabel_contentinspectionpolicy_binding -Payload $Payload -GetWarning
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -NitroPath nitro/v1/config -Type contentinspectionpolicylabel_contentinspectionpolicy_binding -Payload $Payload -GetWarning
                 #HTTP Status Code on Success: 201 Created
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 if ($PSBoundParameters.ContainsKey('PassThru')) {
@@ -2473,7 +2473,7 @@ function Invoke-ADCDeleteContentinspectionpolicylabelcontentinspectionpolicybind
         Invoke-ADCDeleteContentinspectionpolicylabelcontentinspectionpolicybinding -labelname <string>
     .NOTES
         File Name : Invoke-ADCDeleteContentinspectionpolicylabelcontentinspectionpolicybinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/contentinspection/contentinspectionpolicylabel_contentinspectionpolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -2506,7 +2506,7 @@ function Invoke-ADCDeleteContentinspectionpolicylabelcontentinspectionpolicybind
             if ($PSBoundParameters.ContainsKey('policyname')) { $Arguments.Add('policyname', $policyname) }
             if ($PSBoundParameters.ContainsKey('priority')) { $Arguments.Add('priority', $priority) }
             if ($PSCmdlet.ShouldProcess("$labelname", "Delete CI configuration Object")) {
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type contentinspectionpolicylabel_contentinspectionpolicy_binding -Resource $labelname -Arguments $Arguments
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type contentinspectionpolicylabel_contentinspectionpolicy_binding -NitroPath nitro/v1/config -Resource $labelname -Arguments $Arguments
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $response
@@ -2550,7 +2550,7 @@ function Invoke-ADCGetContentinspectionpolicylabelcontentinspectionpolicybinding
         Invoke-ADCGetContentinspectionpolicylabelcontentinspectionpolicybinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetContentinspectionpolicylabelcontentinspectionpolicybinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/contentinspection/contentinspectionpolicylabel_contentinspectionpolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -2587,21 +2587,21 @@ function Invoke-ADCGetContentinspectionpolicylabelcontentinspectionpolicybinding
                     bulkbindings = 'yes'
                 }
                 Write-Verbose "Retrieving all contentinspectionpolicylabel_contentinspectionpolicy_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type contentinspectionpolicylabel_contentinspectionpolicy_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type contentinspectionpolicylabel_contentinspectionpolicy_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
                 if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for contentinspectionpolicylabel_contentinspectionpolicy_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type contentinspectionpolicylabel_contentinspectionpolicy_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type contentinspectionpolicylabel_contentinspectionpolicy_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving contentinspectionpolicylabel_contentinspectionpolicy_binding objects by arguments"
                 $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type contentinspectionpolicylabel_contentinspectionpolicy_binding -Arguments $Arguments -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type contentinspectionpolicylabel_contentinspectionpolicy_binding -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving contentinspectionpolicylabel_contentinspectionpolicy_binding configuration for property 'labelname'"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type contentinspectionpolicylabel_contentinspectionpolicy_binding -Resource $labelname -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type contentinspectionpolicylabel_contentinspectionpolicy_binding -NitroPath nitro/v1/config -Resource $labelname -Summary:$ViewSummary -Filter $Filter -GetWarning
             } else {
                 Write-Verbose "Retrieving contentinspectionpolicylabel_contentinspectionpolicy_binding configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type contentinspectionpolicylabel_contentinspectionpolicy_binding -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type contentinspectionpolicylabel_contentinspectionpolicy_binding -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -2643,7 +2643,7 @@ function Invoke-ADCGetContentinspectionpolicylabelpolicybindingbinding {
         Invoke-ADCGetContentinspectionpolicylabelpolicybindingbinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetContentinspectionpolicylabelpolicybindingbinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/contentinspection/contentinspectionpolicylabel_policybinding_binding/
         Requires  : PowerShell v5.1 and up
@@ -2680,21 +2680,21 @@ function Invoke-ADCGetContentinspectionpolicylabelpolicybindingbinding {
                     bulkbindings = 'yes'
                 }
                 Write-Verbose "Retrieving all contentinspectionpolicylabel_policybinding_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type contentinspectionpolicylabel_policybinding_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type contentinspectionpolicylabel_policybinding_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
                 if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for contentinspectionpolicylabel_policybinding_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type contentinspectionpolicylabel_policybinding_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type contentinspectionpolicylabel_policybinding_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving contentinspectionpolicylabel_policybinding_binding objects by arguments"
                 $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type contentinspectionpolicylabel_policybinding_binding -Arguments $Arguments -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type contentinspectionpolicylabel_policybinding_binding -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving contentinspectionpolicylabel_policybinding_binding configuration for property 'labelname'"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type contentinspectionpolicylabel_policybinding_binding -Resource $labelname -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type contentinspectionpolicylabel_policybinding_binding -NitroPath nitro/v1/config -Resource $labelname -Summary:$ViewSummary -Filter $Filter -GetWarning
             } else {
                 Write-Verbose "Retrieving contentinspectionpolicylabel_policybinding_binding configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type contentinspectionpolicylabel_policybinding_binding -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type contentinspectionpolicylabel_policybinding_binding -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -2734,7 +2734,7 @@ function Invoke-ADCGetContentinspectionpolicybinding {
         Invoke-ADCGetContentinspectionpolicybinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetContentinspectionpolicybinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/contentinspection/contentinspectionpolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -2768,21 +2768,21 @@ function Invoke-ADCGetContentinspectionpolicybinding {
                     bulkbindings = 'yes'
                 }
                 Write-Verbose "Retrieving all contentinspectionpolicy_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type contentinspectionpolicy_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type contentinspectionpolicy_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
                 if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for contentinspectionpolicy_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type contentinspectionpolicy_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type contentinspectionpolicy_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving contentinspectionpolicy_binding objects by arguments"
                 $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type contentinspectionpolicy_binding -Arguments $Arguments -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type contentinspectionpolicy_binding -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving contentinspectionpolicy_binding configuration for property 'name'"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type contentinspectionpolicy_binding -Resource $name -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type contentinspectionpolicy_binding -NitroPath nitro/v1/config -Resource $name -Summary:$ViewSummary -Filter $Filter -GetWarning
             } else {
                 Write-Verbose "Retrieving contentinspectionpolicy_binding configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type contentinspectionpolicy_binding -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type contentinspectionpolicy_binding -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -2824,7 +2824,7 @@ function Invoke-ADCGetContentinspectionpolicycontentinspectionglobalbinding {
         Invoke-ADCGetContentinspectionpolicycontentinspectionglobalbinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetContentinspectionpolicycontentinspectionglobalbinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/contentinspection/contentinspectionpolicy_contentinspectionglobal_binding/
         Requires  : PowerShell v5.1 and up
@@ -2861,21 +2861,21 @@ function Invoke-ADCGetContentinspectionpolicycontentinspectionglobalbinding {
                     bulkbindings = 'yes'
                 }
                 Write-Verbose "Retrieving all contentinspectionpolicy_contentinspectionglobal_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type contentinspectionpolicy_contentinspectionglobal_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type contentinspectionpolicy_contentinspectionglobal_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
                 if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for contentinspectionpolicy_contentinspectionglobal_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type contentinspectionpolicy_contentinspectionglobal_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type contentinspectionpolicy_contentinspectionglobal_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving contentinspectionpolicy_contentinspectionglobal_binding objects by arguments"
                 $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type contentinspectionpolicy_contentinspectionglobal_binding -Arguments $Arguments -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type contentinspectionpolicy_contentinspectionglobal_binding -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving contentinspectionpolicy_contentinspectionglobal_binding configuration for property 'name'"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type contentinspectionpolicy_contentinspectionglobal_binding -Resource $name -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type contentinspectionpolicy_contentinspectionglobal_binding -NitroPath nitro/v1/config -Resource $name -Summary:$ViewSummary -Filter $Filter -GetWarning
             } else {
                 Write-Verbose "Retrieving contentinspectionpolicy_contentinspectionglobal_binding configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type contentinspectionpolicy_contentinspectionglobal_binding -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type contentinspectionpolicy_contentinspectionglobal_binding -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -2917,7 +2917,7 @@ function Invoke-ADCGetContentinspectionpolicycontentinspectionpolicylabelbinding
         Invoke-ADCGetContentinspectionpolicycontentinspectionpolicylabelbinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetContentinspectionpolicycontentinspectionpolicylabelbinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/contentinspection/contentinspectionpolicy_contentinspectionpolicylabel_binding/
         Requires  : PowerShell v5.1 and up
@@ -2954,21 +2954,21 @@ function Invoke-ADCGetContentinspectionpolicycontentinspectionpolicylabelbinding
                     bulkbindings = 'yes'
                 }
                 Write-Verbose "Retrieving all contentinspectionpolicy_contentinspectionpolicylabel_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type contentinspectionpolicy_contentinspectionpolicylabel_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type contentinspectionpolicy_contentinspectionpolicylabel_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
                 if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for contentinspectionpolicy_contentinspectionpolicylabel_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type contentinspectionpolicy_contentinspectionpolicylabel_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type contentinspectionpolicy_contentinspectionpolicylabel_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving contentinspectionpolicy_contentinspectionpolicylabel_binding objects by arguments"
                 $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type contentinspectionpolicy_contentinspectionpolicylabel_binding -Arguments $Arguments -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type contentinspectionpolicy_contentinspectionpolicylabel_binding -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving contentinspectionpolicy_contentinspectionpolicylabel_binding configuration for property 'name'"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type contentinspectionpolicy_contentinspectionpolicylabel_binding -Resource $name -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type contentinspectionpolicy_contentinspectionpolicylabel_binding -NitroPath nitro/v1/config -Resource $name -Summary:$ViewSummary -Filter $Filter -GetWarning
             } else {
                 Write-Verbose "Retrieving contentinspectionpolicy_contentinspectionpolicylabel_binding configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type contentinspectionpolicy_contentinspectionpolicylabel_binding -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type contentinspectionpolicy_contentinspectionpolicylabel_binding -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -3010,7 +3010,7 @@ function Invoke-ADCGetContentinspectionpolicycsvserverbinding {
         Invoke-ADCGetContentinspectionpolicycsvserverbinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetContentinspectionpolicycsvserverbinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/contentinspection/contentinspectionpolicy_csvserver_binding/
         Requires  : PowerShell v5.1 and up
@@ -3047,21 +3047,21 @@ function Invoke-ADCGetContentinspectionpolicycsvserverbinding {
                     bulkbindings = 'yes'
                 }
                 Write-Verbose "Retrieving all contentinspectionpolicy_csvserver_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type contentinspectionpolicy_csvserver_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type contentinspectionpolicy_csvserver_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
                 if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for contentinspectionpolicy_csvserver_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type contentinspectionpolicy_csvserver_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type contentinspectionpolicy_csvserver_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving contentinspectionpolicy_csvserver_binding objects by arguments"
                 $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type contentinspectionpolicy_csvserver_binding -Arguments $Arguments -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type contentinspectionpolicy_csvserver_binding -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving contentinspectionpolicy_csvserver_binding configuration for property 'name'"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type contentinspectionpolicy_csvserver_binding -Resource $name -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type contentinspectionpolicy_csvserver_binding -NitroPath nitro/v1/config -Resource $name -Summary:$ViewSummary -Filter $Filter -GetWarning
             } else {
                 Write-Verbose "Retrieving contentinspectionpolicy_csvserver_binding configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type contentinspectionpolicy_csvserver_binding -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type contentinspectionpolicy_csvserver_binding -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -3103,7 +3103,7 @@ function Invoke-ADCGetContentinspectionpolicylbvserverbinding {
         Invoke-ADCGetContentinspectionpolicylbvserverbinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetContentinspectionpolicylbvserverbinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/contentinspection/contentinspectionpolicy_lbvserver_binding/
         Requires  : PowerShell v5.1 and up
@@ -3140,21 +3140,21 @@ function Invoke-ADCGetContentinspectionpolicylbvserverbinding {
                     bulkbindings = 'yes'
                 }
                 Write-Verbose "Retrieving all contentinspectionpolicy_lbvserver_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type contentinspectionpolicy_lbvserver_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type contentinspectionpolicy_lbvserver_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
                 if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for contentinspectionpolicy_lbvserver_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type contentinspectionpolicy_lbvserver_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type contentinspectionpolicy_lbvserver_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving contentinspectionpolicy_lbvserver_binding objects by arguments"
                 $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type contentinspectionpolicy_lbvserver_binding -Arguments $Arguments -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type contentinspectionpolicy_lbvserver_binding -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving contentinspectionpolicy_lbvserver_binding configuration for property 'name'"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type contentinspectionpolicy_lbvserver_binding -Resource $name -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type contentinspectionpolicy_lbvserver_binding -NitroPath nitro/v1/config -Resource $name -Summary:$ViewSummary -Filter $Filter -GetWarning
             } else {
                 Write-Verbose "Retrieving contentinspectionpolicy_lbvserver_binding configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type contentinspectionpolicy_lbvserver_binding -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type contentinspectionpolicy_lbvserver_binding -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -3201,7 +3201,7 @@ function Invoke-ADCAddContentinspectionprofile {
         Invoke-ADCAddContentinspectionprofile -name <string> -type <string>
     .NOTES
         File Name : Invoke-ADCAddContentinspectionprofile
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/contentinspection/contentinspectionprofile/
         Requires  : PowerShell v5.1 and up
@@ -3255,7 +3255,7 @@ function Invoke-ADCAddContentinspectionprofile {
             if ($PSBoundParameters.ContainsKey('egressvlan')) { $Payload.Add('egressvlan', $egressvlan) }
  
             if ($PSCmdlet.ShouldProcess("contentinspectionprofile", "Add CI configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -Type contentinspectionprofile -Payload $Payload -GetWarning
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -NitroPath nitro/v1/config -Type contentinspectionprofile -Payload $Payload -GetWarning
                 #HTTP Status Code on Success: 201 Created
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 if ($PSBoundParameters.ContainsKey('PassThru')) {
@@ -3290,7 +3290,7 @@ function Invoke-ADCDeleteContentinspectionprofile {
         Invoke-ADCDeleteContentinspectionprofile -name <string>
     .NOTES
         File Name : Invoke-ADCDeleteContentinspectionprofile
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/contentinspection/contentinspectionprofile/
         Requires  : PowerShell v5.1 and up
@@ -3318,7 +3318,7 @@ function Invoke-ADCDeleteContentinspectionprofile {
             }
 
             if ($PSCmdlet.ShouldProcess("$name", "Delete CI configuration Object")) {
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type contentinspectionprofile -Resource $name -Arguments $Arguments
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type contentinspectionprofile -NitroPath nitro/v1/config -Resource $name -Arguments $Arguments
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $response
@@ -3362,7 +3362,7 @@ function Invoke-ADCUpdateContentinspectionprofile {
         Invoke-ADCUpdateContentinspectionprofile -name <string>
     .NOTES
         File Name : Invoke-ADCUpdateContentinspectionprofile
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/contentinspection/contentinspectionprofile/
         Requires  : PowerShell v5.1 and up
@@ -3411,7 +3411,7 @@ function Invoke-ADCUpdateContentinspectionprofile {
             if ($PSBoundParameters.ContainsKey('iptunnel')) { $Payload.Add('iptunnel', $iptunnel) }
  
             if ($PSCmdlet.ShouldProcess("contentinspectionprofile", "Update CI configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -Type contentinspectionprofile -Payload $Payload -GetWarning
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -NitroPath nitro/v1/config -Type contentinspectionprofile -Payload $Payload -GetWarning
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 if ($PSBoundParameters.ContainsKey('PassThru')) {
@@ -3448,7 +3448,7 @@ function Invoke-ADCUnsetContentinspectionprofile {
         Invoke-ADCUnsetContentinspectionprofile -name <string>
     .NOTES
         File Name : Invoke-ADCUnsetContentinspectionprofile
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/contentinspection/contentinspectionprofile
         Requires  : PowerShell v5.1 and up
@@ -3483,7 +3483,7 @@ function Invoke-ADCUnsetContentinspectionprofile {
             if ($PSBoundParameters.ContainsKey('egressvlan')) { $Payload.Add('egressvlan', $egressvlan) }
             if ($PSBoundParameters.ContainsKey('ingressvlan')) { $Payload.Add('ingressvlan', $ingressvlan) }
             if ($PSCmdlet.ShouldProcess("$name", "Unset CI configuration Object")) {
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -Type contentinspectionprofile -Action unset -Payload $Payload -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -Type contentinspectionprofile -NitroPath nitro/v1/config -Action unset -Payload $Payload -GetWarning
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $response
@@ -3528,7 +3528,7 @@ function Invoke-ADCGetContentinspectionprofile {
         Invoke-ADCGetContentinspectionprofile -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetContentinspectionprofile
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/contentinspection/contentinspectionprofile/
         Requires  : PowerShell v5.1 and up
@@ -3569,21 +3569,21 @@ function Invoke-ADCGetContentinspectionprofile {
             if ( $PsCmdlet.ParameterSetName -eq 'Getall' ) {
                 $Query = @{ }
                 Write-Verbose "Retrieving all contentinspectionprofile objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type contentinspectionprofile -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type contentinspectionprofile -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
                 if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for contentinspectionprofile objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type contentinspectionprofile -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type contentinspectionprofile -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving contentinspectionprofile objects by arguments"
                 $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type contentinspectionprofile -Arguments $Arguments -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type contentinspectionprofile -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving contentinspectionprofile configuration for property 'name'"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type contentinspectionprofile -Resource $name -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type contentinspectionprofile -NitroPath nitro/v1/config -Resource $name -Summary:$ViewSummary -Filter $Filter -GetWarning
             } else {
                 Write-Verbose "Retrieving contentinspectionprofile configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type contentinspectionprofile -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type contentinspectionprofile -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"

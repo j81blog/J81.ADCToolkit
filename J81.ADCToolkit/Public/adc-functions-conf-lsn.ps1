@@ -23,7 +23,7 @@ function Invoke-ADCAddLsnappsattributes {
         Invoke-ADCAddLsnappsattributes -name <string> -transportprotocol <string>
     .NOTES
         File Name : Invoke-ADCAddLsnappsattributes
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/lsn/lsnappsattributes/
         Requires  : PowerShell v5.1 and up
@@ -71,7 +71,7 @@ function Invoke-ADCAddLsnappsattributes {
             if ($PSBoundParameters.ContainsKey('sessiontimeout')) { $Payload.Add('sessiontimeout', $sessiontimeout) }
  
             if ($PSCmdlet.ShouldProcess("lsnappsattributes", "Add Lsn configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -Type lsnappsattributes -Payload $Payload -GetWarning
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -NitroPath nitro/v1/config -Type lsnappsattributes -Payload $Payload -GetWarning
                 #HTTP Status Code on Success: 201 Created
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 if ($PSBoundParameters.ContainsKey('PassThru')) {
@@ -103,7 +103,7 @@ function Invoke-ADCDeleteLsnappsattributes {
         Invoke-ADCDeleteLsnappsattributes -name <string>
     .NOTES
         File Name : Invoke-ADCDeleteLsnappsattributes
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/lsn/lsnappsattributes/
         Requires  : PowerShell v5.1 and up
@@ -131,7 +131,7 @@ function Invoke-ADCDeleteLsnappsattributes {
             }
 
             if ($PSCmdlet.ShouldProcess("$name", "Delete Lsn configuration Object")) {
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type lsnappsattributes -Resource $name -Arguments $Arguments
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type lsnappsattributes -NitroPath nitro/v1/config -Resource $name -Arguments $Arguments
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $response
@@ -165,7 +165,7 @@ function Invoke-ADCUpdateLsnappsattributes {
         Invoke-ADCUpdateLsnappsattributes -name <string>
     .NOTES
         File Name : Invoke-ADCUpdateLsnappsattributes
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/lsn/lsnappsattributes/
         Requires  : PowerShell v5.1 and up
@@ -203,7 +203,7 @@ function Invoke-ADCUpdateLsnappsattributes {
             if ($PSBoundParameters.ContainsKey('sessiontimeout')) { $Payload.Add('sessiontimeout', $sessiontimeout) }
  
             if ($PSCmdlet.ShouldProcess("lsnappsattributes", "Update Lsn configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -Type lsnappsattributes -Payload $Payload -GetWarning
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -NitroPath nitro/v1/config -Type lsnappsattributes -Payload $Payload -GetWarning
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 if ($PSBoundParameters.ContainsKey('PassThru')) {
@@ -237,7 +237,7 @@ function Invoke-ADCUnsetLsnappsattributes {
         Invoke-ADCUnsetLsnappsattributes -name <string>
     .NOTES
         File Name : Invoke-ADCUnsetLsnappsattributes
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/lsn/lsnappsattributes
         Requires  : PowerShell v5.1 and up
@@ -270,7 +270,7 @@ function Invoke-ADCUnsetLsnappsattributes {
             }
             if ($PSBoundParameters.ContainsKey('sessiontimeout')) { $Payload.Add('sessiontimeout', $sessiontimeout) }
             if ($PSCmdlet.ShouldProcess("$name", "Unset Lsn configuration Object")) {
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -Type lsnappsattributes -Action unset -Payload $Payload -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -Type lsnappsattributes -NitroPath nitro/v1/config -Action unset -Payload $Payload -GetWarning
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $response
@@ -314,7 +314,7 @@ function Invoke-ADCGetLsnappsattributes {
         Invoke-ADCGetLsnappsattributes -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetLsnappsattributes
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/lsn/lsnappsattributes/
         Requires  : PowerShell v5.1 and up
@@ -356,21 +356,21 @@ function Invoke-ADCGetLsnappsattributes {
             if ( $PsCmdlet.ParameterSetName -eq 'Getall' ) {
                 $Query = @{ }
                 Write-Verbose "Retrieving all lsnappsattributes objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type lsnappsattributes -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type lsnappsattributes -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
                 if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for lsnappsattributes objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type lsnappsattributes -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type lsnappsattributes -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving lsnappsattributes objects by arguments"
                 $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type lsnappsattributes -Arguments $Arguments -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type lsnappsattributes -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving lsnappsattributes configuration for property 'name'"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type lsnappsattributes -Resource $name -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type lsnappsattributes -NitroPath nitro/v1/config -Resource $name -Summary:$ViewSummary -Filter $Filter -GetWarning
             } else {
                 Write-Verbose "Retrieving lsnappsattributes configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type lsnappsattributes -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type lsnappsattributes -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -438,7 +438,7 @@ function Invoke-ADCAddLsnappsprofile {
         Invoke-ADCAddLsnappsprofile -appsprofilename <string> -transportprotocol <string>
     .NOTES
         File Name : Invoke-ADCAddLsnappsprofile
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/lsn/lsnappsprofile/
         Requires  : PowerShell v5.1 and up
@@ -500,7 +500,7 @@ function Invoke-ADCAddLsnappsprofile {
             if ($PSBoundParameters.ContainsKey('l2info')) { $Payload.Add('l2info', $l2info) }
  
             if ($PSCmdlet.ShouldProcess("lsnappsprofile", "Add Lsn configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -Type lsnappsprofile -Payload $Payload -GetWarning
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -NitroPath nitro/v1/config -Type lsnappsprofile -Payload $Payload -GetWarning
                 #HTTP Status Code on Success: 201 Created
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 if ($PSBoundParameters.ContainsKey('PassThru')) {
@@ -532,7 +532,7 @@ function Invoke-ADCDeleteLsnappsprofile {
         Invoke-ADCDeleteLsnappsprofile -appsprofilename <string>
     .NOTES
         File Name : Invoke-ADCDeleteLsnappsprofile
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/lsn/lsnappsprofile/
         Requires  : PowerShell v5.1 and up
@@ -560,7 +560,7 @@ function Invoke-ADCDeleteLsnappsprofile {
             }
 
             if ($PSCmdlet.ShouldProcess("$appsprofilename", "Delete Lsn configuration Object")) {
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type lsnappsprofile -Resource $appsprofilename -Arguments $Arguments
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type lsnappsprofile -NitroPath nitro/v1/config -Resource $appsprofilename -Arguments $Arguments
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $response
@@ -627,7 +627,7 @@ function Invoke-ADCUpdateLsnappsprofile {
         Invoke-ADCUpdateLsnappsprofile -appsprofilename <string>
     .NOTES
         File Name : Invoke-ADCUpdateLsnappsprofile
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/lsn/lsnappsprofile/
         Requires  : PowerShell v5.1 and up
@@ -684,7 +684,7 @@ function Invoke-ADCUpdateLsnappsprofile {
             if ($PSBoundParameters.ContainsKey('l2info')) { $Payload.Add('l2info', $l2info) }
  
             if ($PSCmdlet.ShouldProcess("lsnappsprofile", "Update Lsn configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -Type lsnappsprofile -Payload $Payload -GetWarning
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -NitroPath nitro/v1/config -Type lsnappsprofile -Payload $Payload -GetWarning
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 if ($PSBoundParameters.ContainsKey('PassThru')) {
@@ -748,7 +748,7 @@ function Invoke-ADCUnsetLsnappsprofile {
         Invoke-ADCUnsetLsnappsprofile -appsprofilename <string>
     .NOTES
         File Name : Invoke-ADCUnsetLsnappsprofile
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/lsn/lsnappsprofile
         Requires  : PowerShell v5.1 and up
@@ -796,7 +796,7 @@ function Invoke-ADCUnsetLsnappsprofile {
             if ($PSBoundParameters.ContainsKey('td')) { $Payload.Add('td', $td) }
             if ($PSBoundParameters.ContainsKey('l2info')) { $Payload.Add('l2info', $l2info) }
             if ($PSCmdlet.ShouldProcess("$appsprofilename", "Unset Lsn configuration Object")) {
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -Type lsnappsprofile -Action unset -Payload $Payload -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -Type lsnappsprofile -NitroPath nitro/v1/config -Action unset -Payload $Payload -GetWarning
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $response
@@ -840,7 +840,7 @@ function Invoke-ADCGetLsnappsprofile {
         Invoke-ADCGetLsnappsprofile -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetLsnappsprofile
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/lsn/lsnappsprofile/
         Requires  : PowerShell v5.1 and up
@@ -882,21 +882,21 @@ function Invoke-ADCGetLsnappsprofile {
             if ( $PsCmdlet.ParameterSetName -eq 'Getall' ) {
                 $Query = @{ }
                 Write-Verbose "Retrieving all lsnappsprofile objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type lsnappsprofile -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type lsnappsprofile -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
                 if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for lsnappsprofile objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type lsnappsprofile -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type lsnappsprofile -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving lsnappsprofile objects by arguments"
                 $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type lsnappsprofile -Arguments $Arguments -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type lsnappsprofile -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving lsnappsprofile configuration for property 'appsprofilename'"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type lsnappsprofile -Resource $appsprofilename -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type lsnappsprofile -NitroPath nitro/v1/config -Resource $appsprofilename -Summary:$ViewSummary -Filter $Filter -GetWarning
             } else {
                 Write-Verbose "Retrieving lsnappsprofile configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type lsnappsprofile -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type lsnappsprofile -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -936,7 +936,7 @@ function Invoke-ADCGetLsnappsprofilebinding {
         Invoke-ADCGetLsnappsprofilebinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetLsnappsprofilebinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/lsn/lsnappsprofile_binding/
         Requires  : PowerShell v5.1 and up
@@ -972,21 +972,21 @@ function Invoke-ADCGetLsnappsprofilebinding {
                     bulkbindings = 'yes'
                 }
                 Write-Verbose "Retrieving all lsnappsprofile_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type lsnappsprofile_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type lsnappsprofile_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
                 if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for lsnappsprofile_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type lsnappsprofile_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type lsnappsprofile_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving lsnappsprofile_binding objects by arguments"
                 $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type lsnappsprofile_binding -Arguments $Arguments -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type lsnappsprofile_binding -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving lsnappsprofile_binding configuration for property 'appsprofilename'"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type lsnappsprofile_binding -Resource $appsprofilename -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type lsnappsprofile_binding -NitroPath nitro/v1/config -Resource $appsprofilename -Summary:$ViewSummary -Filter $Filter -GetWarning
             } else {
                 Write-Verbose "Retrieving lsnappsprofile_binding configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type lsnappsprofile_binding -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type lsnappsprofile_binding -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -1015,7 +1015,7 @@ function Invoke-ADCAddLsnappsprofilelsnappsattributesbinding {
         Invoke-ADCAddLsnappsprofilelsnappsattributesbinding -appsprofilename <string>
     .NOTES
         File Name : Invoke-ADCAddLsnappsprofilelsnappsattributesbinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/lsn/lsnappsprofile_lsnappsattributes_binding/
         Requires  : PowerShell v5.1 and up
@@ -1052,7 +1052,7 @@ function Invoke-ADCAddLsnappsprofilelsnappsattributesbinding {
             if ($PSBoundParameters.ContainsKey('appsattributesname')) { $Payload.Add('appsattributesname', $appsattributesname) }
  
             if ($PSCmdlet.ShouldProcess("lsnappsprofile_lsnappsattributes_binding", "Add Lsn configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -Type lsnappsprofile_lsnappsattributes_binding -Payload $Payload -GetWarning
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -NitroPath nitro/v1/config -Type lsnappsprofile_lsnappsattributes_binding -Payload $Payload -GetWarning
                 #HTTP Status Code on Success: 201 Created
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 if ($PSBoundParameters.ContainsKey('PassThru')) {
@@ -1085,7 +1085,7 @@ function Invoke-ADCDeleteLsnappsprofilelsnappsattributesbinding {
         Invoke-ADCDeleteLsnappsprofilelsnappsattributesbinding -appsprofilename <string>
     .NOTES
         File Name : Invoke-ADCDeleteLsnappsprofilelsnappsattributesbinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/lsn/lsnappsprofile_lsnappsattributes_binding/
         Requires  : PowerShell v5.1 and up
@@ -1115,7 +1115,7 @@ function Invoke-ADCDeleteLsnappsprofilelsnappsattributesbinding {
             }
             if ($PSBoundParameters.ContainsKey('appsattributesname')) { $Arguments.Add('appsattributesname', $appsattributesname) }
             if ($PSCmdlet.ShouldProcess("$appsprofilename", "Delete Lsn configuration Object")) {
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type lsnappsprofile_lsnappsattributes_binding -Resource $appsprofilename -Arguments $Arguments
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type lsnappsprofile_lsnappsattributes_binding -NitroPath nitro/v1/config -Resource $appsprofilename -Arguments $Arguments
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $response
@@ -1159,7 +1159,7 @@ function Invoke-ADCGetLsnappsprofilelsnappsattributesbinding {
         Invoke-ADCGetLsnappsprofilelsnappsattributesbinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetLsnappsprofilelsnappsattributesbinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/lsn/lsnappsprofile_lsnappsattributes_binding/
         Requires  : PowerShell v5.1 and up
@@ -1198,21 +1198,21 @@ function Invoke-ADCGetLsnappsprofilelsnappsattributesbinding {
                     bulkbindings = 'yes'
                 }
                 Write-Verbose "Retrieving all lsnappsprofile_lsnappsattributes_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type lsnappsprofile_lsnappsattributes_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type lsnappsprofile_lsnappsattributes_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
                 if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for lsnappsprofile_lsnappsattributes_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type lsnappsprofile_lsnappsattributes_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type lsnappsprofile_lsnappsattributes_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving lsnappsprofile_lsnappsattributes_binding objects by arguments"
                 $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type lsnappsprofile_lsnappsattributes_binding -Arguments $Arguments -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type lsnappsprofile_lsnappsattributes_binding -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving lsnappsprofile_lsnappsattributes_binding configuration for property 'appsprofilename'"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type lsnappsprofile_lsnappsattributes_binding -Resource $appsprofilename -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type lsnappsprofile_lsnappsattributes_binding -NitroPath nitro/v1/config -Resource $appsprofilename -Summary:$ViewSummary -Filter $Filter -GetWarning
             } else {
                 Write-Verbose "Retrieving lsnappsprofile_lsnappsattributes_binding configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type lsnappsprofile_lsnappsattributes_binding -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type lsnappsprofile_lsnappsattributes_binding -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -1242,7 +1242,7 @@ function Invoke-ADCAddLsnappsprofileportbinding {
         Invoke-ADCAddLsnappsprofileportbinding -appsprofilename <string>
     .NOTES
         File Name : Invoke-ADCAddLsnappsprofileportbinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/lsn/lsnappsprofile_port_binding/
         Requires  : PowerShell v5.1 and up
@@ -1281,7 +1281,7 @@ function Invoke-ADCAddLsnappsprofileportbinding {
             if ($PSBoundParameters.ContainsKey('lsnport')) { $Payload.Add('lsnport', $lsnport) }
  
             if ($PSCmdlet.ShouldProcess("lsnappsprofile_port_binding", "Add Lsn configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -Type lsnappsprofile_port_binding -Payload $Payload -GetWarning
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -NitroPath nitro/v1/config -Type lsnappsprofile_port_binding -Payload $Payload -GetWarning
                 #HTTP Status Code on Success: 201 Created
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 if ($PSBoundParameters.ContainsKey('PassThru')) {
@@ -1315,7 +1315,7 @@ function Invoke-ADCDeleteLsnappsprofileportbinding {
         Invoke-ADCDeleteLsnappsprofileportbinding -appsprofilename <string>
     .NOTES
         File Name : Invoke-ADCDeleteLsnappsprofileportbinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/lsn/lsnappsprofile_port_binding/
         Requires  : PowerShell v5.1 and up
@@ -1345,7 +1345,7 @@ function Invoke-ADCDeleteLsnappsprofileportbinding {
             }
             if ($PSBoundParameters.ContainsKey('lsnport')) { $Arguments.Add('lsnport', $lsnport) }
             if ($PSCmdlet.ShouldProcess("$appsprofilename", "Delete Lsn configuration Object")) {
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type lsnappsprofile_port_binding -Resource $appsprofilename -Arguments $Arguments
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type lsnappsprofile_port_binding -NitroPath nitro/v1/config -Resource $appsprofilename -Arguments $Arguments
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $response
@@ -1389,7 +1389,7 @@ function Invoke-ADCGetLsnappsprofileportbinding {
         Invoke-ADCGetLsnappsprofileportbinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetLsnappsprofileportbinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/lsn/lsnappsprofile_port_binding/
         Requires  : PowerShell v5.1 and up
@@ -1428,21 +1428,21 @@ function Invoke-ADCGetLsnappsprofileportbinding {
                     bulkbindings = 'yes'
                 }
                 Write-Verbose "Retrieving all lsnappsprofile_port_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type lsnappsprofile_port_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type lsnappsprofile_port_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
                 if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for lsnappsprofile_port_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type lsnappsprofile_port_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type lsnappsprofile_port_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving lsnappsprofile_port_binding objects by arguments"
                 $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type lsnappsprofile_port_binding -Arguments $Arguments -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type lsnappsprofile_port_binding -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving lsnappsprofile_port_binding configuration for property 'appsprofilename'"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type lsnappsprofile_port_binding -Resource $appsprofilename -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type lsnappsprofile_port_binding -NitroPath nitro/v1/config -Resource $appsprofilename -Summary:$ViewSummary -Filter $Filter -GetWarning
             } else {
                 Write-Verbose "Retrieving lsnappsprofile_port_binding configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type lsnappsprofile_port_binding -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type lsnappsprofile_port_binding -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -1469,7 +1469,7 @@ function Invoke-ADCAddLsnclient {
         Invoke-ADCAddLsnclient -clientname <string>
     .NOTES
         File Name : Invoke-ADCAddLsnclient
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/lsn/lsnclient/
         Requires  : PowerShell v5.1 and up
@@ -1504,7 +1504,7 @@ function Invoke-ADCAddLsnclient {
 
  
             if ($PSCmdlet.ShouldProcess("lsnclient", "Add Lsn configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -Type lsnclient -Payload $Payload -GetWarning
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -NitroPath nitro/v1/config -Type lsnclient -Payload $Payload -GetWarning
                 #HTTP Status Code on Success: 201 Created
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 if ($PSBoundParameters.ContainsKey('PassThru')) {
@@ -1536,7 +1536,7 @@ function Invoke-ADCDeleteLsnclient {
         Invoke-ADCDeleteLsnclient -clientname <string>
     .NOTES
         File Name : Invoke-ADCDeleteLsnclient
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/lsn/lsnclient/
         Requires  : PowerShell v5.1 and up
@@ -1564,7 +1564,7 @@ function Invoke-ADCDeleteLsnclient {
             }
 
             if ($PSCmdlet.ShouldProcess("$clientname", "Delete Lsn configuration Object")) {
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type lsnclient -Resource $clientname -Arguments $Arguments
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type lsnclient -NitroPath nitro/v1/config -Resource $clientname -Arguments $Arguments
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $response
@@ -1608,7 +1608,7 @@ function Invoke-ADCGetLsnclient {
         Invoke-ADCGetLsnclient -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetLsnclient
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/lsn/lsnclient/
         Requires  : PowerShell v5.1 and up
@@ -1650,21 +1650,21 @@ function Invoke-ADCGetLsnclient {
             if ( $PsCmdlet.ParameterSetName -eq 'Getall' ) {
                 $Query = @{ }
                 Write-Verbose "Retrieving all lsnclient objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type lsnclient -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type lsnclient -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
                 if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for lsnclient objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type lsnclient -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type lsnclient -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving lsnclient objects by arguments"
                 $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type lsnclient -Arguments $Arguments -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type lsnclient -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving lsnclient configuration for property 'clientname'"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type lsnclient -Resource $clientname -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type lsnclient -NitroPath nitro/v1/config -Resource $clientname -Summary:$ViewSummary -Filter $Filter -GetWarning
             } else {
                 Write-Verbose "Retrieving lsnclient configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type lsnclient -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type lsnclient -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -1704,7 +1704,7 @@ function Invoke-ADCGetLsnclientbinding {
         Invoke-ADCGetLsnclientbinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetLsnclientbinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/lsn/lsnclient_binding/
         Requires  : PowerShell v5.1 and up
@@ -1740,21 +1740,21 @@ function Invoke-ADCGetLsnclientbinding {
                     bulkbindings = 'yes'
                 }
                 Write-Verbose "Retrieving all lsnclient_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type lsnclient_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type lsnclient_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
                 if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for lsnclient_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type lsnclient_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type lsnclient_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving lsnclient_binding objects by arguments"
                 $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type lsnclient_binding -Arguments $Arguments -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type lsnclient_binding -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving lsnclient_binding configuration for property 'clientname'"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type lsnclient_binding -Resource $clientname -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type lsnclient_binding -NitroPath nitro/v1/config -Resource $clientname -Summary:$ViewSummary -Filter $Filter -GetWarning
             } else {
                 Write-Verbose "Retrieving lsnclient_binding configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type lsnclient_binding -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type lsnclient_binding -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -1794,7 +1794,7 @@ function Invoke-ADCAddLsnclientnetwork6binding {
         Invoke-ADCAddLsnclientnetwork6binding -clientname <string>
     .NOTES
         File Name : Invoke-ADCAddLsnclientnetwork6binding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/lsn/lsnclient_network6_binding/
         Requires  : PowerShell v5.1 and up
@@ -1843,7 +1843,7 @@ function Invoke-ADCAddLsnclientnetwork6binding {
             if ($PSBoundParameters.ContainsKey('td')) { $Payload.Add('td', $td) }
  
             if ($PSCmdlet.ShouldProcess("lsnclient_network6_binding", "Add Lsn configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -Type lsnclient_network6_binding -Payload $Payload -GetWarning
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -NitroPath nitro/v1/config -Type lsnclient_network6_binding -Payload $Payload -GetWarning
                 #HTTP Status Code on Success: 201 Created
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 if ($PSBoundParameters.ContainsKey('PassThru')) {
@@ -1884,7 +1884,7 @@ function Invoke-ADCDeleteLsnclientnetwork6binding {
         Invoke-ADCDeleteLsnclientnetwork6binding -clientname <string>
     .NOTES
         File Name : Invoke-ADCDeleteLsnclientnetwork6binding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/lsn/lsnclient_network6_binding/
         Requires  : PowerShell v5.1 and up
@@ -1923,7 +1923,7 @@ function Invoke-ADCDeleteLsnclientnetwork6binding {
             if ($PSBoundParameters.ContainsKey('network6')) { $Arguments.Add('network6', $network6) }
             if ($PSBoundParameters.ContainsKey('td')) { $Arguments.Add('td', $td) }
             if ($PSCmdlet.ShouldProcess("$clientname", "Delete Lsn configuration Object")) {
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type lsnclient_network6_binding -Resource $clientname -Arguments $Arguments
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type lsnclient_network6_binding -NitroPath nitro/v1/config -Resource $clientname -Arguments $Arguments
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $response
@@ -1967,7 +1967,7 @@ function Invoke-ADCGetLsnclientnetwork6binding {
         Invoke-ADCGetLsnclientnetwork6binding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetLsnclientnetwork6binding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/lsn/lsnclient_network6_binding/
         Requires  : PowerShell v5.1 and up
@@ -2006,21 +2006,21 @@ function Invoke-ADCGetLsnclientnetwork6binding {
                     bulkbindings = 'yes'
                 }
                 Write-Verbose "Retrieving all lsnclient_network6_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type lsnclient_network6_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type lsnclient_network6_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
                 if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for lsnclient_network6_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type lsnclient_network6_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type lsnclient_network6_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving lsnclient_network6_binding objects by arguments"
                 $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type lsnclient_network6_binding -Arguments $Arguments -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type lsnclient_network6_binding -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving lsnclient_network6_binding configuration for property 'clientname'"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type lsnclient_network6_binding -Resource $clientname -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type lsnclient_network6_binding -NitroPath nitro/v1/config -Resource $clientname -Summary:$ViewSummary -Filter $Filter -GetWarning
             } else {
                 Write-Verbose "Retrieving lsnclient_network6_binding configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type lsnclient_network6_binding -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type lsnclient_network6_binding -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -2057,7 +2057,7 @@ function Invoke-ADCAddLsnclientnetworkbinding {
         Invoke-ADCAddLsnclientnetworkbinding -clientname <string>
     .NOTES
         File Name : Invoke-ADCAddLsnclientnetworkbinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/lsn/lsnclient_network_binding/
         Requires  : PowerShell v5.1 and up
@@ -2102,7 +2102,7 @@ function Invoke-ADCAddLsnclientnetworkbinding {
             if ($PSBoundParameters.ContainsKey('td')) { $Payload.Add('td', $td) }
  
             if ($PSCmdlet.ShouldProcess("lsnclient_network_binding", "Add Lsn configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -Type lsnclient_network_binding -Payload $Payload -GetWarning
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -NitroPath nitro/v1/config -Type lsnclient_network_binding -Payload $Payload -GetWarning
                 #HTTP Status Code on Success: 201 Created
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 if ($PSBoundParameters.ContainsKey('PassThru')) {
@@ -2141,7 +2141,7 @@ function Invoke-ADCDeleteLsnclientnetworkbinding {
         Invoke-ADCDeleteLsnclientnetworkbinding -clientname <string>
     .NOTES
         File Name : Invoke-ADCDeleteLsnclientnetworkbinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/lsn/lsnclient_network_binding/
         Requires  : PowerShell v5.1 and up
@@ -2177,7 +2177,7 @@ function Invoke-ADCDeleteLsnclientnetworkbinding {
             if ($PSBoundParameters.ContainsKey('netmask')) { $Arguments.Add('netmask', $netmask) }
             if ($PSBoundParameters.ContainsKey('td')) { $Arguments.Add('td', $td) }
             if ($PSCmdlet.ShouldProcess("$clientname", "Delete Lsn configuration Object")) {
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type lsnclient_network_binding -Resource $clientname -Arguments $Arguments
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type lsnclient_network_binding -NitroPath nitro/v1/config -Resource $clientname -Arguments $Arguments
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $response
@@ -2221,7 +2221,7 @@ function Invoke-ADCGetLsnclientnetworkbinding {
         Invoke-ADCGetLsnclientnetworkbinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetLsnclientnetworkbinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/lsn/lsnclient_network_binding/
         Requires  : PowerShell v5.1 and up
@@ -2260,21 +2260,21 @@ function Invoke-ADCGetLsnclientnetworkbinding {
                     bulkbindings = 'yes'
                 }
                 Write-Verbose "Retrieving all lsnclient_network_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type lsnclient_network_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type lsnclient_network_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
                 if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for lsnclient_network_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type lsnclient_network_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type lsnclient_network_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving lsnclient_network_binding objects by arguments"
                 $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type lsnclient_network_binding -Arguments $Arguments -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type lsnclient_network_binding -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving lsnclient_network_binding configuration for property 'clientname'"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type lsnclient_network_binding -Resource $clientname -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type lsnclient_network_binding -NitroPath nitro/v1/config -Resource $clientname -Summary:$ViewSummary -Filter $Filter -GetWarning
             } else {
                 Write-Verbose "Retrieving lsnclient_network_binding configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type lsnclient_network_binding -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type lsnclient_network_binding -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -2309,7 +2309,7 @@ function Invoke-ADCAddLsnclientnsacl6binding {
         Invoke-ADCAddLsnclientnsacl6binding -clientname <string>
     .NOTES
         File Name : Invoke-ADCAddLsnclientnsacl6binding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/lsn/lsnclient_nsacl6_binding/
         Requires  : PowerShell v5.1 and up
@@ -2351,7 +2351,7 @@ function Invoke-ADCAddLsnclientnsacl6binding {
             if ($PSBoundParameters.ContainsKey('td')) { $Payload.Add('td', $td) }
  
             if ($PSCmdlet.ShouldProcess("lsnclient_nsacl6_binding", "Add Lsn configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -Type lsnclient_nsacl6_binding -Payload $Payload -GetWarning
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -NitroPath nitro/v1/config -Type lsnclient_nsacl6_binding -Payload $Payload -GetWarning
                 #HTTP Status Code on Success: 201 Created
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 if ($PSBoundParameters.ContainsKey('PassThru')) {
@@ -2389,7 +2389,7 @@ function Invoke-ADCDeleteLsnclientnsacl6binding {
         Invoke-ADCDeleteLsnclientnsacl6binding -clientname <string>
     .NOTES
         File Name : Invoke-ADCDeleteLsnclientnsacl6binding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/lsn/lsnclient_nsacl6_binding/
         Requires  : PowerShell v5.1 and up
@@ -2422,7 +2422,7 @@ function Invoke-ADCDeleteLsnclientnsacl6binding {
             if ($PSBoundParameters.ContainsKey('acl6name')) { $Arguments.Add('acl6name', $acl6name) }
             if ($PSBoundParameters.ContainsKey('td')) { $Arguments.Add('td', $td) }
             if ($PSCmdlet.ShouldProcess("$clientname", "Delete Lsn configuration Object")) {
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type lsnclient_nsacl6_binding -Resource $clientname -Arguments $Arguments
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type lsnclient_nsacl6_binding -NitroPath nitro/v1/config -Resource $clientname -Arguments $Arguments
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $response
@@ -2466,7 +2466,7 @@ function Invoke-ADCGetLsnclientnsacl6binding {
         Invoke-ADCGetLsnclientnsacl6binding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetLsnclientnsacl6binding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/lsn/lsnclient_nsacl6_binding/
         Requires  : PowerShell v5.1 and up
@@ -2505,21 +2505,21 @@ function Invoke-ADCGetLsnclientnsacl6binding {
                     bulkbindings = 'yes'
                 }
                 Write-Verbose "Retrieving all lsnclient_nsacl6_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type lsnclient_nsacl6_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type lsnclient_nsacl6_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
                 if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for lsnclient_nsacl6_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type lsnclient_nsacl6_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type lsnclient_nsacl6_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving lsnclient_nsacl6_binding objects by arguments"
                 $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type lsnclient_nsacl6_binding -Arguments $Arguments -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type lsnclient_nsacl6_binding -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving lsnclient_nsacl6_binding configuration for property 'clientname'"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type lsnclient_nsacl6_binding -Resource $clientname -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type lsnclient_nsacl6_binding -NitroPath nitro/v1/config -Resource $clientname -Summary:$ViewSummary -Filter $Filter -GetWarning
             } else {
                 Write-Verbose "Retrieving lsnclient_nsacl6_binding configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type lsnclient_nsacl6_binding -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type lsnclient_nsacl6_binding -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -2554,7 +2554,7 @@ function Invoke-ADCAddLsnclientnsaclbinding {
         Invoke-ADCAddLsnclientnsaclbinding -clientname <string>
     .NOTES
         File Name : Invoke-ADCAddLsnclientnsaclbinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/lsn/lsnclient_nsacl_binding/
         Requires  : PowerShell v5.1 and up
@@ -2596,7 +2596,7 @@ function Invoke-ADCAddLsnclientnsaclbinding {
             if ($PSBoundParameters.ContainsKey('td')) { $Payload.Add('td', $td) }
  
             if ($PSCmdlet.ShouldProcess("lsnclient_nsacl_binding", "Add Lsn configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -Type lsnclient_nsacl_binding -Payload $Payload -GetWarning
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -NitroPath nitro/v1/config -Type lsnclient_nsacl_binding -Payload $Payload -GetWarning
                 #HTTP Status Code on Success: 201 Created
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 if ($PSBoundParameters.ContainsKey('PassThru')) {
@@ -2634,7 +2634,7 @@ function Invoke-ADCDeleteLsnclientnsaclbinding {
         Invoke-ADCDeleteLsnclientnsaclbinding -clientname <string>
     .NOTES
         File Name : Invoke-ADCDeleteLsnclientnsaclbinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/lsn/lsnclient_nsacl_binding/
         Requires  : PowerShell v5.1 and up
@@ -2667,7 +2667,7 @@ function Invoke-ADCDeleteLsnclientnsaclbinding {
             if ($PSBoundParameters.ContainsKey('aclname')) { $Arguments.Add('aclname', $aclname) }
             if ($PSBoundParameters.ContainsKey('td')) { $Arguments.Add('td', $td) }
             if ($PSCmdlet.ShouldProcess("$clientname", "Delete Lsn configuration Object")) {
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type lsnclient_nsacl_binding -Resource $clientname -Arguments $Arguments
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type lsnclient_nsacl_binding -NitroPath nitro/v1/config -Resource $clientname -Arguments $Arguments
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $response
@@ -2711,7 +2711,7 @@ function Invoke-ADCGetLsnclientnsaclbinding {
         Invoke-ADCGetLsnclientnsaclbinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetLsnclientnsaclbinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/lsn/lsnclient_nsacl_binding/
         Requires  : PowerShell v5.1 and up
@@ -2750,21 +2750,21 @@ function Invoke-ADCGetLsnclientnsaclbinding {
                     bulkbindings = 'yes'
                 }
                 Write-Verbose "Retrieving all lsnclient_nsacl_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type lsnclient_nsacl_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type lsnclient_nsacl_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
                 if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for lsnclient_nsacl_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type lsnclient_nsacl_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type lsnclient_nsacl_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving lsnclient_nsacl_binding objects by arguments"
                 $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type lsnclient_nsacl_binding -Arguments $Arguments -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type lsnclient_nsacl_binding -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving lsnclient_nsacl_binding configuration for property 'clientname'"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type lsnclient_nsacl_binding -Resource $clientname -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type lsnclient_nsacl_binding -NitroPath nitro/v1/config -Resource $clientname -Summary:$ViewSummary -Filter $Filter -GetWarning
             } else {
                 Write-Verbose "Retrieving lsnclient_nsacl_binding configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type lsnclient_nsacl_binding -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type lsnclient_nsacl_binding -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -2814,7 +2814,7 @@ function Invoke-ADCGetLsndeterministicnat {
         Invoke-ADCGetLsndeterministicnat -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetLsndeterministicnat
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/lsn/lsndeterministicnat/
         Requires  : PowerShell v5.1 and up
@@ -2867,11 +2867,11 @@ function Invoke-ADCGetLsndeterministicnat {
             if ( $PsCmdlet.ParameterSetName -eq 'Getall' ) {
                 $Query = @{ }
                 Write-Verbose "Retrieving all lsndeterministicnat objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type lsndeterministicnat -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type lsndeterministicnat -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
                 if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for lsndeterministicnat objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type lsndeterministicnat -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type lsndeterministicnat -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving lsndeterministicnat objects by arguments"
                 $Arguments = @{ } 
@@ -2880,13 +2880,13 @@ function Invoke-ADCGetLsndeterministicnat {
                 if ($PSBoundParameters.ContainsKey('subscrip')) { $Arguments.Add('subscrip', $subscrip) } 
                 if ($PSBoundParameters.ContainsKey('td')) { $Arguments.Add('td', $td) } 
                 if ($PSBoundParameters.ContainsKey('natip')) { $Arguments.Add('natip', $natip) }
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type lsndeterministicnat -Arguments $Arguments -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type lsndeterministicnat -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving lsndeterministicnat configuration for property ''"
 
             } else {
                 Write-Verbose "Retrieving lsndeterministicnat configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type lsndeterministicnat -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type lsndeterministicnat -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -3016,7 +3016,7 @@ function Invoke-ADCAddLsngroup {
         Invoke-ADCAddLsngroup -groupname <string> -clientname <string>
     .NOTES
         File Name : Invoke-ADCAddLsngroup
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/lsn/lsngroup/
         Requires  : PowerShell v5.1 and up
@@ -3106,7 +3106,7 @@ function Invoke-ADCAddLsngroup {
             if ($PSBoundParameters.ContainsKey('ftpcm')) { $Payload.Add('ftpcm', $ftpcm) }
  
             if ($PSCmdlet.ShouldProcess("lsngroup", "Add Lsn configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -Type lsngroup -Payload $Payload -GetWarning
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -NitroPath nitro/v1/config -Type lsngroup -Payload $Payload -GetWarning
                 #HTTP Status Code on Success: 201 Created
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 if ($PSBoundParameters.ContainsKey('PassThru')) {
@@ -3138,7 +3138,7 @@ function Invoke-ADCDeleteLsngroup {
         Invoke-ADCDeleteLsngroup -groupname <string>
     .NOTES
         File Name : Invoke-ADCDeleteLsngroup
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/lsn/lsngroup/
         Requires  : PowerShell v5.1 and up
@@ -3166,7 +3166,7 @@ function Invoke-ADCDeleteLsngroup {
             }
 
             if ($PSCmdlet.ShouldProcess("$groupname", "Delete Lsn configuration Object")) {
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type lsngroup -Resource $groupname -Arguments $Arguments
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type lsngroup -NitroPath nitro/v1/config -Resource $groupname -Arguments $Arguments
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $response
@@ -3264,7 +3264,7 @@ function Invoke-ADCUpdateLsngroup {
         Invoke-ADCUpdateLsngroup -groupname <string>
     .NOTES
         File Name : Invoke-ADCUpdateLsngroup
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/lsn/lsngroup/
         Requires  : PowerShell v5.1 and up
@@ -3338,7 +3338,7 @@ function Invoke-ADCUpdateLsngroup {
             if ($PSBoundParameters.ContainsKey('ftpcm')) { $Payload.Add('ftpcm', $ftpcm) }
  
             if ($PSCmdlet.ShouldProcess("lsngroup", "Update Lsn configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -Type lsngroup -Payload $Payload -GetWarning
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -NitroPath nitro/v1/config -Type lsngroup -Payload $Payload -GetWarning
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 if ($PSBoundParameters.ContainsKey('PassThru')) {
@@ -3425,7 +3425,7 @@ function Invoke-ADCUnsetLsngroup {
         Invoke-ADCUnsetLsngroup -groupname <string>
     .NOTES
         File Name : Invoke-ADCUnsetLsngroup
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/lsn/lsngroup
         Requires  : PowerShell v5.1 and up
@@ -3485,7 +3485,7 @@ function Invoke-ADCUnsetLsngroup {
             if ($PSBoundParameters.ContainsKey('rtspalg')) { $Payload.Add('rtspalg', $rtspalg) }
             if ($PSBoundParameters.ContainsKey('ftpcm')) { $Payload.Add('ftpcm', $ftpcm) }
             if ($PSCmdlet.ShouldProcess("$groupname", "Unset Lsn configuration Object")) {
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -Type lsngroup -Action unset -Payload $Payload -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -Type lsngroup -NitroPath nitro/v1/config -Action unset -Payload $Payload -GetWarning
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $response
@@ -3529,7 +3529,7 @@ function Invoke-ADCGetLsngroup {
         Invoke-ADCGetLsngroup -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetLsngroup
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/lsn/lsngroup/
         Requires  : PowerShell v5.1 and up
@@ -3571,21 +3571,21 @@ function Invoke-ADCGetLsngroup {
             if ( $PsCmdlet.ParameterSetName -eq 'Getall' ) {
                 $Query = @{ }
                 Write-Verbose "Retrieving all lsngroup objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type lsngroup -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type lsngroup -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
                 if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for lsngroup objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type lsngroup -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type lsngroup -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving lsngroup objects by arguments"
                 $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type lsngroup -Arguments $Arguments -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type lsngroup -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving lsngroup configuration for property 'groupname'"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type lsngroup -Resource $groupname -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type lsngroup -NitroPath nitro/v1/config -Resource $groupname -Summary:$ViewSummary -Filter $Filter -GetWarning
             } else {
                 Write-Verbose "Retrieving lsngroup configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type lsngroup -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type lsngroup -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -3625,7 +3625,7 @@ function Invoke-ADCGetLsngroupbinding {
         Invoke-ADCGetLsngroupbinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetLsngroupbinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/lsn/lsngroup_binding/
         Requires  : PowerShell v5.1 and up
@@ -3661,21 +3661,21 @@ function Invoke-ADCGetLsngroupbinding {
                     bulkbindings = 'yes'
                 }
                 Write-Verbose "Retrieving all lsngroup_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type lsngroup_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type lsngroup_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
                 if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for lsngroup_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type lsngroup_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type lsngroup_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving lsngroup_binding objects by arguments"
                 $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type lsngroup_binding -Arguments $Arguments -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type lsngroup_binding -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving lsngroup_binding configuration for property 'groupname'"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type lsngroup_binding -Resource $groupname -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type lsngroup_binding -NitroPath nitro/v1/config -Resource $groupname -Summary:$ViewSummary -Filter $Filter -GetWarning
             } else {
                 Write-Verbose "Retrieving lsngroup_binding configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type lsngroup_binding -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type lsngroup_binding -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -3704,7 +3704,7 @@ function Invoke-ADCAddLsngroupipsecalgprofilebinding {
         Invoke-ADCAddLsngroupipsecalgprofilebinding -groupname <string>
     .NOTES
         File Name : Invoke-ADCAddLsngroupipsecalgprofilebinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/lsn/lsngroup_ipsecalgprofile_binding/
         Requires  : PowerShell v5.1 and up
@@ -3741,7 +3741,7 @@ function Invoke-ADCAddLsngroupipsecalgprofilebinding {
             if ($PSBoundParameters.ContainsKey('ipsecalgprofile')) { $Payload.Add('ipsecalgprofile', $ipsecalgprofile) }
  
             if ($PSCmdlet.ShouldProcess("lsngroup_ipsecalgprofile_binding", "Add Lsn configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -Type lsngroup_ipsecalgprofile_binding -Payload $Payload -GetWarning
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -NitroPath nitro/v1/config -Type lsngroup_ipsecalgprofile_binding -Payload $Payload -GetWarning
                 #HTTP Status Code on Success: 201 Created
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 if ($PSBoundParameters.ContainsKey('PassThru')) {
@@ -3774,7 +3774,7 @@ function Invoke-ADCDeleteLsngroupipsecalgprofilebinding {
         Invoke-ADCDeleteLsngroupipsecalgprofilebinding -groupname <string>
     .NOTES
         File Name : Invoke-ADCDeleteLsngroupipsecalgprofilebinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/lsn/lsngroup_ipsecalgprofile_binding/
         Requires  : PowerShell v5.1 and up
@@ -3804,7 +3804,7 @@ function Invoke-ADCDeleteLsngroupipsecalgprofilebinding {
             }
             if ($PSBoundParameters.ContainsKey('ipsecalgprofile')) { $Arguments.Add('ipsecalgprofile', $ipsecalgprofile) }
             if ($PSCmdlet.ShouldProcess("$groupname", "Delete Lsn configuration Object")) {
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type lsngroup_ipsecalgprofile_binding -Resource $groupname -Arguments $Arguments
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type lsngroup_ipsecalgprofile_binding -NitroPath nitro/v1/config -Resource $groupname -Arguments $Arguments
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $response
@@ -3848,7 +3848,7 @@ function Invoke-ADCGetLsngroupipsecalgprofilebinding {
         Invoke-ADCGetLsngroupipsecalgprofilebinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetLsngroupipsecalgprofilebinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/lsn/lsngroup_ipsecalgprofile_binding/
         Requires  : PowerShell v5.1 and up
@@ -3887,21 +3887,21 @@ function Invoke-ADCGetLsngroupipsecalgprofilebinding {
                     bulkbindings = 'yes'
                 }
                 Write-Verbose "Retrieving all lsngroup_ipsecalgprofile_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type lsngroup_ipsecalgprofile_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type lsngroup_ipsecalgprofile_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
                 if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for lsngroup_ipsecalgprofile_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type lsngroup_ipsecalgprofile_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type lsngroup_ipsecalgprofile_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving lsngroup_ipsecalgprofile_binding objects by arguments"
                 $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type lsngroup_ipsecalgprofile_binding -Arguments $Arguments -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type lsngroup_ipsecalgprofile_binding -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving lsngroup_ipsecalgprofile_binding configuration for property 'groupname'"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type lsngroup_ipsecalgprofile_binding -Resource $groupname -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type lsngroup_ipsecalgprofile_binding -NitroPath nitro/v1/config -Resource $groupname -Summary:$ViewSummary -Filter $Filter -GetWarning
             } else {
                 Write-Verbose "Retrieving lsngroup_ipsecalgprofile_binding configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type lsngroup_ipsecalgprofile_binding -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type lsngroup_ipsecalgprofile_binding -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -3930,7 +3930,7 @@ function Invoke-ADCAddLsngrouplsnappsprofilebinding {
         Invoke-ADCAddLsngrouplsnappsprofilebinding -groupname <string>
     .NOTES
         File Name : Invoke-ADCAddLsngrouplsnappsprofilebinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/lsn/lsngroup_lsnappsprofile_binding/
         Requires  : PowerShell v5.1 and up
@@ -3967,7 +3967,7 @@ function Invoke-ADCAddLsngrouplsnappsprofilebinding {
             if ($PSBoundParameters.ContainsKey('appsprofilename')) { $Payload.Add('appsprofilename', $appsprofilename) }
  
             if ($PSCmdlet.ShouldProcess("lsngroup_lsnappsprofile_binding", "Add Lsn configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -Type lsngroup_lsnappsprofile_binding -Payload $Payload -GetWarning
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -NitroPath nitro/v1/config -Type lsngroup_lsnappsprofile_binding -Payload $Payload -GetWarning
                 #HTTP Status Code on Success: 201 Created
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 if ($PSBoundParameters.ContainsKey('PassThru')) {
@@ -4000,7 +4000,7 @@ function Invoke-ADCDeleteLsngrouplsnappsprofilebinding {
         Invoke-ADCDeleteLsngrouplsnappsprofilebinding -groupname <string>
     .NOTES
         File Name : Invoke-ADCDeleteLsngrouplsnappsprofilebinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/lsn/lsngroup_lsnappsprofile_binding/
         Requires  : PowerShell v5.1 and up
@@ -4030,7 +4030,7 @@ function Invoke-ADCDeleteLsngrouplsnappsprofilebinding {
             }
             if ($PSBoundParameters.ContainsKey('appsprofilename')) { $Arguments.Add('appsprofilename', $appsprofilename) }
             if ($PSCmdlet.ShouldProcess("$groupname", "Delete Lsn configuration Object")) {
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type lsngroup_lsnappsprofile_binding -Resource $groupname -Arguments $Arguments
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type lsngroup_lsnappsprofile_binding -NitroPath nitro/v1/config -Resource $groupname -Arguments $Arguments
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $response
@@ -4074,7 +4074,7 @@ function Invoke-ADCGetLsngrouplsnappsprofilebinding {
         Invoke-ADCGetLsngrouplsnappsprofilebinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetLsngrouplsnappsprofilebinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/lsn/lsngroup_lsnappsprofile_binding/
         Requires  : PowerShell v5.1 and up
@@ -4113,21 +4113,21 @@ function Invoke-ADCGetLsngrouplsnappsprofilebinding {
                     bulkbindings = 'yes'
                 }
                 Write-Verbose "Retrieving all lsngroup_lsnappsprofile_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type lsngroup_lsnappsprofile_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type lsngroup_lsnappsprofile_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
                 if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for lsngroup_lsnappsprofile_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type lsngroup_lsnappsprofile_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type lsngroup_lsnappsprofile_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving lsngroup_lsnappsprofile_binding objects by arguments"
                 $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type lsngroup_lsnappsprofile_binding -Arguments $Arguments -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type lsngroup_lsnappsprofile_binding -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving lsngroup_lsnappsprofile_binding configuration for property 'groupname'"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type lsngroup_lsnappsprofile_binding -Resource $groupname -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type lsngroup_lsnappsprofile_binding -NitroPath nitro/v1/config -Resource $groupname -Summary:$ViewSummary -Filter $Filter -GetWarning
             } else {
                 Write-Verbose "Retrieving lsngroup_lsnappsprofile_binding configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type lsngroup_lsnappsprofile_binding -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type lsngroup_lsnappsprofile_binding -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -4156,7 +4156,7 @@ function Invoke-ADCAddLsngrouplsnhttphdrlogprofilebinding {
         Invoke-ADCAddLsngrouplsnhttphdrlogprofilebinding -groupname <string>
     .NOTES
         File Name : Invoke-ADCAddLsngrouplsnhttphdrlogprofilebinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/lsn/lsngroup_lsnhttphdrlogprofile_binding/
         Requires  : PowerShell v5.1 and up
@@ -4193,7 +4193,7 @@ function Invoke-ADCAddLsngrouplsnhttphdrlogprofilebinding {
             if ($PSBoundParameters.ContainsKey('httphdrlogprofilename')) { $Payload.Add('httphdrlogprofilename', $httphdrlogprofilename) }
  
             if ($PSCmdlet.ShouldProcess("lsngroup_lsnhttphdrlogprofile_binding", "Add Lsn configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -Type lsngroup_lsnhttphdrlogprofile_binding -Payload $Payload -GetWarning
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -NitroPath nitro/v1/config -Type lsngroup_lsnhttphdrlogprofile_binding -Payload $Payload -GetWarning
                 #HTTP Status Code on Success: 201 Created
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 if ($PSBoundParameters.ContainsKey('PassThru')) {
@@ -4226,7 +4226,7 @@ function Invoke-ADCDeleteLsngrouplsnhttphdrlogprofilebinding {
         Invoke-ADCDeleteLsngrouplsnhttphdrlogprofilebinding -groupname <string>
     .NOTES
         File Name : Invoke-ADCDeleteLsngrouplsnhttphdrlogprofilebinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/lsn/lsngroup_lsnhttphdrlogprofile_binding/
         Requires  : PowerShell v5.1 and up
@@ -4256,7 +4256,7 @@ function Invoke-ADCDeleteLsngrouplsnhttphdrlogprofilebinding {
             }
             if ($PSBoundParameters.ContainsKey('httphdrlogprofilename')) { $Arguments.Add('httphdrlogprofilename', $httphdrlogprofilename) }
             if ($PSCmdlet.ShouldProcess("$groupname", "Delete Lsn configuration Object")) {
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type lsngroup_lsnhttphdrlogprofile_binding -Resource $groupname -Arguments $Arguments
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type lsngroup_lsnhttphdrlogprofile_binding -NitroPath nitro/v1/config -Resource $groupname -Arguments $Arguments
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $response
@@ -4300,7 +4300,7 @@ function Invoke-ADCGetLsngrouplsnhttphdrlogprofilebinding {
         Invoke-ADCGetLsngrouplsnhttphdrlogprofilebinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetLsngrouplsnhttphdrlogprofilebinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/lsn/lsngroup_lsnhttphdrlogprofile_binding/
         Requires  : PowerShell v5.1 and up
@@ -4339,21 +4339,21 @@ function Invoke-ADCGetLsngrouplsnhttphdrlogprofilebinding {
                     bulkbindings = 'yes'
                 }
                 Write-Verbose "Retrieving all lsngroup_lsnhttphdrlogprofile_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type lsngroup_lsnhttphdrlogprofile_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type lsngroup_lsnhttphdrlogprofile_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
                 if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for lsngroup_lsnhttphdrlogprofile_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type lsngroup_lsnhttphdrlogprofile_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type lsngroup_lsnhttphdrlogprofile_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving lsngroup_lsnhttphdrlogprofile_binding objects by arguments"
                 $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type lsngroup_lsnhttphdrlogprofile_binding -Arguments $Arguments -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type lsngroup_lsnhttphdrlogprofile_binding -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving lsngroup_lsnhttphdrlogprofile_binding configuration for property 'groupname'"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type lsngroup_lsnhttphdrlogprofile_binding -Resource $groupname -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type lsngroup_lsnhttphdrlogprofile_binding -NitroPath nitro/v1/config -Resource $groupname -Summary:$ViewSummary -Filter $Filter -GetWarning
             } else {
                 Write-Verbose "Retrieving lsngroup_lsnhttphdrlogprofile_binding configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type lsngroup_lsnhttphdrlogprofile_binding -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type lsngroup_lsnhttphdrlogprofile_binding -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -4382,7 +4382,7 @@ function Invoke-ADCAddLsngrouplsnlogprofilebinding {
         Invoke-ADCAddLsngrouplsnlogprofilebinding -groupname <string>
     .NOTES
         File Name : Invoke-ADCAddLsngrouplsnlogprofilebinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/lsn/lsngroup_lsnlogprofile_binding/
         Requires  : PowerShell v5.1 and up
@@ -4419,7 +4419,7 @@ function Invoke-ADCAddLsngrouplsnlogprofilebinding {
             if ($PSBoundParameters.ContainsKey('logprofilename')) { $Payload.Add('logprofilename', $logprofilename) }
  
             if ($PSCmdlet.ShouldProcess("lsngroup_lsnlogprofile_binding", "Add Lsn configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -Type lsngroup_lsnlogprofile_binding -Payload $Payload -GetWarning
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -NitroPath nitro/v1/config -Type lsngroup_lsnlogprofile_binding -Payload $Payload -GetWarning
                 #HTTP Status Code on Success: 201 Created
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 if ($PSBoundParameters.ContainsKey('PassThru')) {
@@ -4452,7 +4452,7 @@ function Invoke-ADCDeleteLsngrouplsnlogprofilebinding {
         Invoke-ADCDeleteLsngrouplsnlogprofilebinding -groupname <string>
     .NOTES
         File Name : Invoke-ADCDeleteLsngrouplsnlogprofilebinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/lsn/lsngroup_lsnlogprofile_binding/
         Requires  : PowerShell v5.1 and up
@@ -4482,7 +4482,7 @@ function Invoke-ADCDeleteLsngrouplsnlogprofilebinding {
             }
             if ($PSBoundParameters.ContainsKey('logprofilename')) { $Arguments.Add('logprofilename', $logprofilename) }
             if ($PSCmdlet.ShouldProcess("$groupname", "Delete Lsn configuration Object")) {
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type lsngroup_lsnlogprofile_binding -Resource $groupname -Arguments $Arguments
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type lsngroup_lsnlogprofile_binding -NitroPath nitro/v1/config -Resource $groupname -Arguments $Arguments
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $response
@@ -4526,7 +4526,7 @@ function Invoke-ADCGetLsngrouplsnlogprofilebinding {
         Invoke-ADCGetLsngrouplsnlogprofilebinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetLsngrouplsnlogprofilebinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/lsn/lsngroup_lsnlogprofile_binding/
         Requires  : PowerShell v5.1 and up
@@ -4565,21 +4565,21 @@ function Invoke-ADCGetLsngrouplsnlogprofilebinding {
                     bulkbindings = 'yes'
                 }
                 Write-Verbose "Retrieving all lsngroup_lsnlogprofile_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type lsngroup_lsnlogprofile_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type lsngroup_lsnlogprofile_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
                 if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for lsngroup_lsnlogprofile_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type lsngroup_lsnlogprofile_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type lsngroup_lsnlogprofile_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving lsngroup_lsnlogprofile_binding objects by arguments"
                 $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type lsngroup_lsnlogprofile_binding -Arguments $Arguments -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type lsngroup_lsnlogprofile_binding -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving lsngroup_lsnlogprofile_binding configuration for property 'groupname'"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type lsngroup_lsnlogprofile_binding -Resource $groupname -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type lsngroup_lsnlogprofile_binding -NitroPath nitro/v1/config -Resource $groupname -Summary:$ViewSummary -Filter $Filter -GetWarning
             } else {
                 Write-Verbose "Retrieving lsngroup_lsnlogprofile_binding configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type lsngroup_lsnlogprofile_binding -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type lsngroup_lsnlogprofile_binding -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -4608,7 +4608,7 @@ function Invoke-ADCAddLsngrouplsnpoolbinding {
         Invoke-ADCAddLsngrouplsnpoolbinding -groupname <string>
     .NOTES
         File Name : Invoke-ADCAddLsngrouplsnpoolbinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/lsn/lsngroup_lsnpool_binding/
         Requires  : PowerShell v5.1 and up
@@ -4645,7 +4645,7 @@ function Invoke-ADCAddLsngrouplsnpoolbinding {
             if ($PSBoundParameters.ContainsKey('poolname')) { $Payload.Add('poolname', $poolname) }
  
             if ($PSCmdlet.ShouldProcess("lsngroup_lsnpool_binding", "Add Lsn configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -Type lsngroup_lsnpool_binding -Payload $Payload -GetWarning
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -NitroPath nitro/v1/config -Type lsngroup_lsnpool_binding -Payload $Payload -GetWarning
                 #HTTP Status Code on Success: 201 Created
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 if ($PSBoundParameters.ContainsKey('PassThru')) {
@@ -4678,7 +4678,7 @@ function Invoke-ADCDeleteLsngrouplsnpoolbinding {
         Invoke-ADCDeleteLsngrouplsnpoolbinding -groupname <string>
     .NOTES
         File Name : Invoke-ADCDeleteLsngrouplsnpoolbinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/lsn/lsngroup_lsnpool_binding/
         Requires  : PowerShell v5.1 and up
@@ -4708,7 +4708,7 @@ function Invoke-ADCDeleteLsngrouplsnpoolbinding {
             }
             if ($PSBoundParameters.ContainsKey('poolname')) { $Arguments.Add('poolname', $poolname) }
             if ($PSCmdlet.ShouldProcess("$groupname", "Delete Lsn configuration Object")) {
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type lsngroup_lsnpool_binding -Resource $groupname -Arguments $Arguments
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type lsngroup_lsnpool_binding -NitroPath nitro/v1/config -Resource $groupname -Arguments $Arguments
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $response
@@ -4752,7 +4752,7 @@ function Invoke-ADCGetLsngrouplsnpoolbinding {
         Invoke-ADCGetLsngrouplsnpoolbinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetLsngrouplsnpoolbinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/lsn/lsngroup_lsnpool_binding/
         Requires  : PowerShell v5.1 and up
@@ -4791,21 +4791,21 @@ function Invoke-ADCGetLsngrouplsnpoolbinding {
                     bulkbindings = 'yes'
                 }
                 Write-Verbose "Retrieving all lsngroup_lsnpool_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type lsngroup_lsnpool_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type lsngroup_lsnpool_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
                 if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for lsngroup_lsnpool_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type lsngroup_lsnpool_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type lsngroup_lsnpool_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving lsngroup_lsnpool_binding objects by arguments"
                 $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type lsngroup_lsnpool_binding -Arguments $Arguments -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type lsngroup_lsnpool_binding -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving lsngroup_lsnpool_binding configuration for property 'groupname'"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type lsngroup_lsnpool_binding -Resource $groupname -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type lsngroup_lsnpool_binding -NitroPath nitro/v1/config -Resource $groupname -Summary:$ViewSummary -Filter $Filter -GetWarning
             } else {
                 Write-Verbose "Retrieving lsngroup_lsnpool_binding configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type lsngroup_lsnpool_binding -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type lsngroup_lsnpool_binding -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -4834,7 +4834,7 @@ function Invoke-ADCAddLsngrouplsnrtspalgprofilebinding {
         Invoke-ADCAddLsngrouplsnrtspalgprofilebinding -groupname <string>
     .NOTES
         File Name : Invoke-ADCAddLsngrouplsnrtspalgprofilebinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/lsn/lsngroup_lsnrtspalgprofile_binding/
         Requires  : PowerShell v5.1 and up
@@ -4871,7 +4871,7 @@ function Invoke-ADCAddLsngrouplsnrtspalgprofilebinding {
             if ($PSBoundParameters.ContainsKey('rtspalgprofilename')) { $Payload.Add('rtspalgprofilename', $rtspalgprofilename) }
  
             if ($PSCmdlet.ShouldProcess("lsngroup_lsnrtspalgprofile_binding", "Add Lsn configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -Type lsngroup_lsnrtspalgprofile_binding -Payload $Payload -GetWarning
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -NitroPath nitro/v1/config -Type lsngroup_lsnrtspalgprofile_binding -Payload $Payload -GetWarning
                 #HTTP Status Code on Success: 201 Created
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 if ($PSBoundParameters.ContainsKey('PassThru')) {
@@ -4904,7 +4904,7 @@ function Invoke-ADCDeleteLsngrouplsnrtspalgprofilebinding {
         Invoke-ADCDeleteLsngrouplsnrtspalgprofilebinding -groupname <string>
     .NOTES
         File Name : Invoke-ADCDeleteLsngrouplsnrtspalgprofilebinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/lsn/lsngroup_lsnrtspalgprofile_binding/
         Requires  : PowerShell v5.1 and up
@@ -4934,7 +4934,7 @@ function Invoke-ADCDeleteLsngrouplsnrtspalgprofilebinding {
             }
             if ($PSBoundParameters.ContainsKey('rtspalgprofilename')) { $Arguments.Add('rtspalgprofilename', $rtspalgprofilename) }
             if ($PSCmdlet.ShouldProcess("$groupname", "Delete Lsn configuration Object")) {
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type lsngroup_lsnrtspalgprofile_binding -Resource $groupname -Arguments $Arguments
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type lsngroup_lsnrtspalgprofile_binding -NitroPath nitro/v1/config -Resource $groupname -Arguments $Arguments
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $response
@@ -4978,7 +4978,7 @@ function Invoke-ADCGetLsngrouplsnrtspalgprofilebinding {
         Invoke-ADCGetLsngrouplsnrtspalgprofilebinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetLsngrouplsnrtspalgprofilebinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/lsn/lsngroup_lsnrtspalgprofile_binding/
         Requires  : PowerShell v5.1 and up
@@ -5017,21 +5017,21 @@ function Invoke-ADCGetLsngrouplsnrtspalgprofilebinding {
                     bulkbindings = 'yes'
                 }
                 Write-Verbose "Retrieving all lsngroup_lsnrtspalgprofile_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type lsngroup_lsnrtspalgprofile_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type lsngroup_lsnrtspalgprofile_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
                 if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for lsngroup_lsnrtspalgprofile_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type lsngroup_lsnrtspalgprofile_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type lsngroup_lsnrtspalgprofile_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving lsngroup_lsnrtspalgprofile_binding objects by arguments"
                 $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type lsngroup_lsnrtspalgprofile_binding -Arguments $Arguments -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type lsngroup_lsnrtspalgprofile_binding -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving lsngroup_lsnrtspalgprofile_binding configuration for property 'groupname'"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type lsngroup_lsnrtspalgprofile_binding -Resource $groupname -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type lsngroup_lsnrtspalgprofile_binding -NitroPath nitro/v1/config -Resource $groupname -Summary:$ViewSummary -Filter $Filter -GetWarning
             } else {
                 Write-Verbose "Retrieving lsngroup_lsnrtspalgprofile_binding configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type lsngroup_lsnrtspalgprofile_binding -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type lsngroup_lsnrtspalgprofile_binding -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -5060,7 +5060,7 @@ function Invoke-ADCAddLsngrouplsnsipalgprofilebinding {
         Invoke-ADCAddLsngrouplsnsipalgprofilebinding -groupname <string>
     .NOTES
         File Name : Invoke-ADCAddLsngrouplsnsipalgprofilebinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/lsn/lsngroup_lsnsipalgprofile_binding/
         Requires  : PowerShell v5.1 and up
@@ -5097,7 +5097,7 @@ function Invoke-ADCAddLsngrouplsnsipalgprofilebinding {
             if ($PSBoundParameters.ContainsKey('sipalgprofilename')) { $Payload.Add('sipalgprofilename', $sipalgprofilename) }
  
             if ($PSCmdlet.ShouldProcess("lsngroup_lsnsipalgprofile_binding", "Add Lsn configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -Type lsngroup_lsnsipalgprofile_binding -Payload $Payload -GetWarning
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -NitroPath nitro/v1/config -Type lsngroup_lsnsipalgprofile_binding -Payload $Payload -GetWarning
                 #HTTP Status Code on Success: 201 Created
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 if ($PSBoundParameters.ContainsKey('PassThru')) {
@@ -5130,7 +5130,7 @@ function Invoke-ADCDeleteLsngrouplsnsipalgprofilebinding {
         Invoke-ADCDeleteLsngrouplsnsipalgprofilebinding -groupname <string>
     .NOTES
         File Name : Invoke-ADCDeleteLsngrouplsnsipalgprofilebinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/lsn/lsngroup_lsnsipalgprofile_binding/
         Requires  : PowerShell v5.1 and up
@@ -5160,7 +5160,7 @@ function Invoke-ADCDeleteLsngrouplsnsipalgprofilebinding {
             }
             if ($PSBoundParameters.ContainsKey('sipalgprofilename')) { $Arguments.Add('sipalgprofilename', $sipalgprofilename) }
             if ($PSCmdlet.ShouldProcess("$groupname", "Delete Lsn configuration Object")) {
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type lsngroup_lsnsipalgprofile_binding -Resource $groupname -Arguments $Arguments
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type lsngroup_lsnsipalgprofile_binding -NitroPath nitro/v1/config -Resource $groupname -Arguments $Arguments
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $response
@@ -5204,7 +5204,7 @@ function Invoke-ADCGetLsngrouplsnsipalgprofilebinding {
         Invoke-ADCGetLsngrouplsnsipalgprofilebinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetLsngrouplsnsipalgprofilebinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/lsn/lsngroup_lsnsipalgprofile_binding/
         Requires  : PowerShell v5.1 and up
@@ -5243,21 +5243,21 @@ function Invoke-ADCGetLsngrouplsnsipalgprofilebinding {
                     bulkbindings = 'yes'
                 }
                 Write-Verbose "Retrieving all lsngroup_lsnsipalgprofile_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type lsngroup_lsnsipalgprofile_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type lsngroup_lsnsipalgprofile_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
                 if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for lsngroup_lsnsipalgprofile_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type lsngroup_lsnsipalgprofile_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type lsngroup_lsnsipalgprofile_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving lsngroup_lsnsipalgprofile_binding objects by arguments"
                 $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type lsngroup_lsnsipalgprofile_binding -Arguments $Arguments -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type lsngroup_lsnsipalgprofile_binding -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving lsngroup_lsnsipalgprofile_binding configuration for property 'groupname'"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type lsngroup_lsnsipalgprofile_binding -Resource $groupname -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type lsngroup_lsnsipalgprofile_binding -NitroPath nitro/v1/config -Resource $groupname -Summary:$ViewSummary -Filter $Filter -GetWarning
             } else {
                 Write-Verbose "Retrieving lsngroup_lsnsipalgprofile_binding configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type lsngroup_lsnsipalgprofile_binding -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type lsngroup_lsnsipalgprofile_binding -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -5286,7 +5286,7 @@ function Invoke-ADCAddLsngrouplsntransportprofilebinding {
         Invoke-ADCAddLsngrouplsntransportprofilebinding -groupname <string>
     .NOTES
         File Name : Invoke-ADCAddLsngrouplsntransportprofilebinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/lsn/lsngroup_lsntransportprofile_binding/
         Requires  : PowerShell v5.1 and up
@@ -5323,7 +5323,7 @@ function Invoke-ADCAddLsngrouplsntransportprofilebinding {
             if ($PSBoundParameters.ContainsKey('transportprofilename')) { $Payload.Add('transportprofilename', $transportprofilename) }
  
             if ($PSCmdlet.ShouldProcess("lsngroup_lsntransportprofile_binding", "Add Lsn configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -Type lsngroup_lsntransportprofile_binding -Payload $Payload -GetWarning
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -NitroPath nitro/v1/config -Type lsngroup_lsntransportprofile_binding -Payload $Payload -GetWarning
                 #HTTP Status Code on Success: 201 Created
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 if ($PSBoundParameters.ContainsKey('PassThru')) {
@@ -5356,7 +5356,7 @@ function Invoke-ADCDeleteLsngrouplsntransportprofilebinding {
         Invoke-ADCDeleteLsngrouplsntransportprofilebinding -groupname <string>
     .NOTES
         File Name : Invoke-ADCDeleteLsngrouplsntransportprofilebinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/lsn/lsngroup_lsntransportprofile_binding/
         Requires  : PowerShell v5.1 and up
@@ -5386,7 +5386,7 @@ function Invoke-ADCDeleteLsngrouplsntransportprofilebinding {
             }
             if ($PSBoundParameters.ContainsKey('transportprofilename')) { $Arguments.Add('transportprofilename', $transportprofilename) }
             if ($PSCmdlet.ShouldProcess("$groupname", "Delete Lsn configuration Object")) {
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type lsngroup_lsntransportprofile_binding -Resource $groupname -Arguments $Arguments
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type lsngroup_lsntransportprofile_binding -NitroPath nitro/v1/config -Resource $groupname -Arguments $Arguments
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $response
@@ -5430,7 +5430,7 @@ function Invoke-ADCGetLsngrouplsntransportprofilebinding {
         Invoke-ADCGetLsngrouplsntransportprofilebinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetLsngrouplsntransportprofilebinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/lsn/lsngroup_lsntransportprofile_binding/
         Requires  : PowerShell v5.1 and up
@@ -5469,21 +5469,21 @@ function Invoke-ADCGetLsngrouplsntransportprofilebinding {
                     bulkbindings = 'yes'
                 }
                 Write-Verbose "Retrieving all lsngroup_lsntransportprofile_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type lsngroup_lsntransportprofile_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type lsngroup_lsntransportprofile_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
                 if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for lsngroup_lsntransportprofile_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type lsngroup_lsntransportprofile_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type lsngroup_lsntransportprofile_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving lsngroup_lsntransportprofile_binding objects by arguments"
                 $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type lsngroup_lsntransportprofile_binding -Arguments $Arguments -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type lsngroup_lsntransportprofile_binding -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving lsngroup_lsntransportprofile_binding configuration for property 'groupname'"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type lsngroup_lsntransportprofile_binding -Resource $groupname -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type lsngroup_lsntransportprofile_binding -NitroPath nitro/v1/config -Resource $groupname -Summary:$ViewSummary -Filter $Filter -GetWarning
             } else {
                 Write-Verbose "Retrieving lsngroup_lsntransportprofile_binding configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type lsngroup_lsntransportprofile_binding -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type lsngroup_lsntransportprofile_binding -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -5512,7 +5512,7 @@ function Invoke-ADCAddLsngrouppcpserverbinding {
         Invoke-ADCAddLsngrouppcpserverbinding -groupname <string>
     .NOTES
         File Name : Invoke-ADCAddLsngrouppcpserverbinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/lsn/lsngroup_pcpserver_binding/
         Requires  : PowerShell v5.1 and up
@@ -5549,7 +5549,7 @@ function Invoke-ADCAddLsngrouppcpserverbinding {
             if ($PSBoundParameters.ContainsKey('pcpserver')) { $Payload.Add('pcpserver', $pcpserver) }
  
             if ($PSCmdlet.ShouldProcess("lsngroup_pcpserver_binding", "Add Lsn configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -Type lsngroup_pcpserver_binding -Payload $Payload -GetWarning
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -NitroPath nitro/v1/config -Type lsngroup_pcpserver_binding -Payload $Payload -GetWarning
                 #HTTP Status Code on Success: 201 Created
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 if ($PSBoundParameters.ContainsKey('PassThru')) {
@@ -5582,7 +5582,7 @@ function Invoke-ADCDeleteLsngrouppcpserverbinding {
         Invoke-ADCDeleteLsngrouppcpserverbinding -groupname <string>
     .NOTES
         File Name : Invoke-ADCDeleteLsngrouppcpserverbinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/lsn/lsngroup_pcpserver_binding/
         Requires  : PowerShell v5.1 and up
@@ -5612,7 +5612,7 @@ function Invoke-ADCDeleteLsngrouppcpserverbinding {
             }
             if ($PSBoundParameters.ContainsKey('pcpserver')) { $Arguments.Add('pcpserver', $pcpserver) }
             if ($PSCmdlet.ShouldProcess("$groupname", "Delete Lsn configuration Object")) {
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type lsngroup_pcpserver_binding -Resource $groupname -Arguments $Arguments
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type lsngroup_pcpserver_binding -NitroPath nitro/v1/config -Resource $groupname -Arguments $Arguments
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $response
@@ -5656,7 +5656,7 @@ function Invoke-ADCGetLsngrouppcpserverbinding {
         Invoke-ADCGetLsngrouppcpserverbinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetLsngrouppcpserverbinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/lsn/lsngroup_pcpserver_binding/
         Requires  : PowerShell v5.1 and up
@@ -5695,21 +5695,21 @@ function Invoke-ADCGetLsngrouppcpserverbinding {
                     bulkbindings = 'yes'
                 }
                 Write-Verbose "Retrieving all lsngroup_pcpserver_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type lsngroup_pcpserver_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type lsngroup_pcpserver_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
                 if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for lsngroup_pcpserver_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type lsngroup_pcpserver_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type lsngroup_pcpserver_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving lsngroup_pcpserver_binding objects by arguments"
                 $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type lsngroup_pcpserver_binding -Arguments $Arguments -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type lsngroup_pcpserver_binding -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving lsngroup_pcpserver_binding configuration for property 'groupname'"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type lsngroup_pcpserver_binding -Resource $groupname -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type lsngroup_pcpserver_binding -NitroPath nitro/v1/config -Resource $groupname -Summary:$ViewSummary -Filter $Filter -GetWarning
             } else {
                 Write-Verbose "Retrieving lsngroup_pcpserver_binding configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type lsngroup_pcpserver_binding -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type lsngroup_pcpserver_binding -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -5754,7 +5754,7 @@ function Invoke-ADCAddLsnhttphdrlogprofile {
         Invoke-ADCAddLsnhttphdrlogprofile -httphdrlogprofilename <string>
     .NOTES
         File Name : Invoke-ADCAddLsnhttphdrlogprofile
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/lsn/lsnhttphdrlogprofile/
         Requires  : PowerShell v5.1 and up
@@ -5803,7 +5803,7 @@ function Invoke-ADCAddLsnhttphdrlogprofile {
             if ($PSBoundParameters.ContainsKey('loghost')) { $Payload.Add('loghost', $loghost) }
  
             if ($PSCmdlet.ShouldProcess("lsnhttphdrlogprofile", "Add Lsn configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -Type lsnhttphdrlogprofile -Payload $Payload -GetWarning
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -NitroPath nitro/v1/config -Type lsnhttphdrlogprofile -Payload $Payload -GetWarning
                 #HTTP Status Code on Success: 201 Created
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 if ($PSBoundParameters.ContainsKey('PassThru')) {
@@ -5837,7 +5837,7 @@ function Invoke-ADCDeleteLsnhttphdrlogprofile {
         Invoke-ADCDeleteLsnhttphdrlogprofile -httphdrlogprofilename <string>
     .NOTES
         File Name : Invoke-ADCDeleteLsnhttphdrlogprofile
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/lsn/lsnhttphdrlogprofile/
         Requires  : PowerShell v5.1 and up
@@ -5865,7 +5865,7 @@ function Invoke-ADCDeleteLsnhttphdrlogprofile {
             }
 
             if ($PSCmdlet.ShouldProcess("$httphdrlogprofilename", "Delete Lsn configuration Object")) {
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type lsnhttphdrlogprofile -Resource $httphdrlogprofilename -Arguments $Arguments
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type lsnhttphdrlogprofile -NitroPath nitro/v1/config -Resource $httphdrlogprofilename -Arguments $Arguments
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $response
@@ -5912,7 +5912,7 @@ function Invoke-ADCUpdateLsnhttphdrlogprofile {
         Invoke-ADCUpdateLsnhttphdrlogprofile -httphdrlogprofilename <string>
     .NOTES
         File Name : Invoke-ADCUpdateLsnhttphdrlogprofile
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/lsn/lsnhttphdrlogprofile/
         Requires  : PowerShell v5.1 and up
@@ -5961,7 +5961,7 @@ function Invoke-ADCUpdateLsnhttphdrlogprofile {
             if ($PSBoundParameters.ContainsKey('loghost')) { $Payload.Add('loghost', $loghost) }
  
             if ($PSCmdlet.ShouldProcess("lsnhttphdrlogprofile", "Update Lsn configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -Type lsnhttphdrlogprofile -Payload $Payload -GetWarning
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -NitroPath nitro/v1/config -Type lsnhttphdrlogprofile -Payload $Payload -GetWarning
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 if ($PSBoundParameters.ContainsKey('PassThru')) {
@@ -6005,7 +6005,7 @@ function Invoke-ADCUnsetLsnhttphdrlogprofile {
         Invoke-ADCUnsetLsnhttphdrlogprofile -httphdrlogprofilename <string>
     .NOTES
         File Name : Invoke-ADCUnsetLsnhttphdrlogprofile
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/lsn/lsnhttphdrlogprofile
         Requires  : PowerShell v5.1 and up
@@ -6046,7 +6046,7 @@ function Invoke-ADCUnsetLsnhttphdrlogprofile {
             if ($PSBoundParameters.ContainsKey('logversion')) { $Payload.Add('logversion', $logversion) }
             if ($PSBoundParameters.ContainsKey('loghost')) { $Payload.Add('loghost', $loghost) }
             if ($PSCmdlet.ShouldProcess("$httphdrlogprofilename", "Unset Lsn configuration Object")) {
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -Type lsnhttphdrlogprofile -Action unset -Payload $Payload -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -Type lsnhttphdrlogprofile -NitroPath nitro/v1/config -Action unset -Payload $Payload -GetWarning
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $response
@@ -6090,7 +6090,7 @@ function Invoke-ADCGetLsnhttphdrlogprofile {
         Invoke-ADCGetLsnhttphdrlogprofile -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetLsnhttphdrlogprofile
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/lsn/lsnhttphdrlogprofile/
         Requires  : PowerShell v5.1 and up
@@ -6131,21 +6131,21 @@ function Invoke-ADCGetLsnhttphdrlogprofile {
             if ( $PsCmdlet.ParameterSetName -eq 'Getall' ) {
                 $Query = @{ }
                 Write-Verbose "Retrieving all lsnhttphdrlogprofile objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type lsnhttphdrlogprofile -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type lsnhttphdrlogprofile -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
                 if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for lsnhttphdrlogprofile objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type lsnhttphdrlogprofile -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type lsnhttphdrlogprofile -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving lsnhttphdrlogprofile objects by arguments"
                 $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type lsnhttphdrlogprofile -Arguments $Arguments -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type lsnhttphdrlogprofile -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving lsnhttphdrlogprofile configuration for property 'httphdrlogprofilename'"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type lsnhttphdrlogprofile -Resource $httphdrlogprofilename -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type lsnhttphdrlogprofile -NitroPath nitro/v1/config -Resource $httphdrlogprofilename -Summary:$ViewSummary -Filter $Filter -GetWarning
             } else {
                 Write-Verbose "Retrieving lsnhttphdrlogprofile configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type lsnhttphdrlogprofile -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type lsnhttphdrlogprofile -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -6179,7 +6179,7 @@ function Invoke-ADCAddLsnip6profile {
         Invoke-ADCAddLsnip6profile -name <string> -type <string>
     .NOTES
         File Name : Invoke-ADCAddLsnip6profile
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/lsn/lsnip6profile/
         Requires  : PowerShell v5.1 and up
@@ -6224,7 +6224,7 @@ function Invoke-ADCAddLsnip6profile {
             if ($PSBoundParameters.ContainsKey('network6')) { $Payload.Add('network6', $network6) }
  
             if ($PSCmdlet.ShouldProcess("lsnip6profile", "Add Lsn configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -Type lsnip6profile -Payload $Payload -GetWarning
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -NitroPath nitro/v1/config -Type lsnip6profile -Payload $Payload -GetWarning
                 #HTTP Status Code on Success: 201 Created
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 if ($PSBoundParameters.ContainsKey('PassThru')) {
@@ -6256,7 +6256,7 @@ function Invoke-ADCDeleteLsnip6profile {
         Invoke-ADCDeleteLsnip6profile -name <string>
     .NOTES
         File Name : Invoke-ADCDeleteLsnip6profile
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/lsn/lsnip6profile/
         Requires  : PowerShell v5.1 and up
@@ -6284,7 +6284,7 @@ function Invoke-ADCDeleteLsnip6profile {
             }
 
             if ($PSCmdlet.ShouldProcess("$name", "Delete Lsn configuration Object")) {
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type lsnip6profile -Resource $name -Arguments $Arguments
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type lsnip6profile -NitroPath nitro/v1/config -Resource $name -Arguments $Arguments
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $response
@@ -6328,7 +6328,7 @@ function Invoke-ADCGetLsnip6profile {
         Invoke-ADCGetLsnip6profile -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetLsnip6profile
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/lsn/lsnip6profile/
         Requires  : PowerShell v5.1 and up
@@ -6370,21 +6370,21 @@ function Invoke-ADCGetLsnip6profile {
             if ( $PsCmdlet.ParameterSetName -eq 'Getall' ) {
                 $Query = @{ }
                 Write-Verbose "Retrieving all lsnip6profile objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type lsnip6profile -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type lsnip6profile -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
                 if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for lsnip6profile objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type lsnip6profile -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type lsnip6profile -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving lsnip6profile objects by arguments"
                 $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type lsnip6profile -Arguments $Arguments -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type lsnip6profile -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving lsnip6profile configuration for property 'name'"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type lsnip6profile -Resource $name -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type lsnip6profile -NitroPath nitro/v1/config -Resource $name -Summary:$ViewSummary -Filter $Filter -GetWarning
             } else {
                 Write-Verbose "Retrieving lsnip6profile configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type lsnip6profile -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type lsnip6profile -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -6431,7 +6431,7 @@ function Invoke-ADCAddLsnlogprofile {
         Invoke-ADCAddLsnlogprofile -logprofilename <string>
     .NOTES
         File Name : Invoke-ADCAddLsnlogprofile
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/lsn/lsnlogprofile/
         Requires  : PowerShell v5.1 and up
@@ -6483,7 +6483,7 @@ function Invoke-ADCAddLsnlogprofile {
             if ($PSBoundParameters.ContainsKey('logsessdeletion')) { $Payload.Add('logsessdeletion', $logsessdeletion) }
  
             if ($PSCmdlet.ShouldProcess("lsnlogprofile", "Add Lsn configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -Type lsnlogprofile -Payload $Payload -GetWarning
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -NitroPath nitro/v1/config -Type lsnlogprofile -Payload $Payload -GetWarning
                 #HTTP Status Code on Success: 201 Created
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 if ($PSBoundParameters.ContainsKey('PassThru')) {
@@ -6517,7 +6517,7 @@ function Invoke-ADCDeleteLsnlogprofile {
         Invoke-ADCDeleteLsnlogprofile -logprofilename <string>
     .NOTES
         File Name : Invoke-ADCDeleteLsnlogprofile
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/lsn/lsnlogprofile/
         Requires  : PowerShell v5.1 and up
@@ -6545,7 +6545,7 @@ function Invoke-ADCDeleteLsnlogprofile {
             }
 
             if ($PSCmdlet.ShouldProcess("$logprofilename", "Delete Lsn configuration Object")) {
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type lsnlogprofile -Resource $logprofilename -Arguments $Arguments
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type lsnlogprofile -NitroPath nitro/v1/config -Resource $logprofilename -Arguments $Arguments
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $response
@@ -6594,7 +6594,7 @@ function Invoke-ADCUpdateLsnlogprofile {
         Invoke-ADCUpdateLsnlogprofile -logprofilename <string>
     .NOTES
         File Name : Invoke-ADCUpdateLsnlogprofile
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/lsn/lsnlogprofile/
         Requires  : PowerShell v5.1 and up
@@ -6646,7 +6646,7 @@ function Invoke-ADCUpdateLsnlogprofile {
             if ($PSBoundParameters.ContainsKey('logsessdeletion')) { $Payload.Add('logsessdeletion', $logsessdeletion) }
  
             if ($PSCmdlet.ShouldProcess("lsnlogprofile", "Update Lsn configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -Type lsnlogprofile -Payload $Payload -GetWarning
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -NitroPath nitro/v1/config -Type lsnlogprofile -Payload $Payload -GetWarning
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 if ($PSBoundParameters.ContainsKey('PassThru')) {
@@ -6692,7 +6692,7 @@ function Invoke-ADCUnsetLsnlogprofile {
         Invoke-ADCUnsetLsnlogprofile -logprofilename <string>
     .NOTES
         File Name : Invoke-ADCUnsetLsnlogprofile
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/lsn/lsnlogprofile
         Requires  : PowerShell v5.1 and up
@@ -6736,7 +6736,7 @@ function Invoke-ADCUnsetLsnlogprofile {
             if ($PSBoundParameters.ContainsKey('analyticsprofile')) { $Payload.Add('analyticsprofile', $analyticsprofile) }
             if ($PSBoundParameters.ContainsKey('logsessdeletion')) { $Payload.Add('logsessdeletion', $logsessdeletion) }
             if ($PSCmdlet.ShouldProcess("$logprofilename", "Unset Lsn configuration Object")) {
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -Type lsnlogprofile -Action unset -Payload $Payload -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -Type lsnlogprofile -NitroPath nitro/v1/config -Action unset -Payload $Payload -GetWarning
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $response
@@ -6780,7 +6780,7 @@ function Invoke-ADCGetLsnlogprofile {
         Invoke-ADCGetLsnlogprofile -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetLsnlogprofile
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/lsn/lsnlogprofile/
         Requires  : PowerShell v5.1 and up
@@ -6821,21 +6821,21 @@ function Invoke-ADCGetLsnlogprofile {
             if ( $PsCmdlet.ParameterSetName -eq 'Getall' ) {
                 $Query = @{ }
                 Write-Verbose "Retrieving all lsnlogprofile objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type lsnlogprofile -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type lsnlogprofile -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
                 if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for lsnlogprofile objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type lsnlogprofile -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type lsnlogprofile -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving lsnlogprofile objects by arguments"
                 $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type lsnlogprofile -Arguments $Arguments -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type lsnlogprofile -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving lsnlogprofile configuration for property 'logprofilename'"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type lsnlogprofile -Resource $logprofilename -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type lsnlogprofile -NitroPath nitro/v1/config -Resource $logprofilename -Summary:$ViewSummary -Filter $Filter -GetWarning
             } else {
                 Write-Verbose "Retrieving lsnlogprofile configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type lsnlogprofile -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type lsnlogprofile -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -6872,7 +6872,7 @@ function Invoke-ADCUpdateLsnparameter {
         Invoke-ADCUpdateLsnparameter 
     .NOTES
         File Name : Invoke-ADCUpdateLsnparameter
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/lsn/lsnparameter/
         Requires  : PowerShell v5.1 and up
@@ -6910,7 +6910,7 @@ function Invoke-ADCUpdateLsnparameter {
             if ($PSBoundParameters.ContainsKey('subscrsessionremoval')) { $Payload.Add('subscrsessionremoval', $subscrsessionremoval) }
  
             if ($PSCmdlet.ShouldProcess("lsnparameter", "Update Lsn configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -Type lsnparameter -Payload $Payload -GetWarning
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -NitroPath nitro/v1/config -Type lsnparameter -Payload $Payload -GetWarning
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
             Write-Output $result
@@ -6948,7 +6948,7 @@ function Invoke-ADCUnsetLsnparameter {
         Invoke-ADCUnsetLsnparameter 
     .NOTES
         File Name : Invoke-ADCUnsetLsnparameter
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/lsn/lsnparameter
         Requires  : PowerShell v5.1 and up
@@ -6982,7 +6982,7 @@ function Invoke-ADCUnsetLsnparameter {
             if ($PSBoundParameters.ContainsKey('sessionsync')) { $Payload.Add('sessionsync', $sessionsync) }
             if ($PSBoundParameters.ContainsKey('subscrsessionremoval')) { $Payload.Add('subscrsessionremoval', $subscrsessionremoval) }
             if ($PSCmdlet.ShouldProcess("lsnparameter", "Unset Lsn configuration Object")) {
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -Type lsnparameter -Action unset -Payload $Payload -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -Type lsnparameter -NitroPath nitro/v1/config -Action unset -Payload $Payload -GetWarning
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $response
@@ -7022,7 +7022,7 @@ function Invoke-ADCGetLsnparameter {
         Invoke-ADCGetLsnparameter -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetLsnparameter
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/lsn/lsnparameter/
         Requires  : PowerShell v5.1 and up
@@ -7051,21 +7051,21 @@ function Invoke-ADCGetLsnparameter {
             if ( $PsCmdlet.ParameterSetName -eq 'Getall' ) {
                 $Query = @{ }
                 Write-Verbose "Retrieving all lsnparameter objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type lsnparameter -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type lsnparameter -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
                 if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for lsnparameter objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type lsnparameter -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type lsnparameter -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving lsnparameter objects by arguments"
                 $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type lsnparameter -Arguments $Arguments -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type lsnparameter -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving lsnparameter configuration for property ''"
 
             } else {
                 Write-Verbose "Retrieving lsnparameter configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type lsnparameter -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type lsnparameter -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -7121,7 +7121,7 @@ function Invoke-ADCAddLsnpool {
         Invoke-ADCAddLsnpool -poolname <string>
     .NOTES
         File Name : Invoke-ADCAddLsnpool
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/lsn/lsnpool/
         Requires  : PowerShell v5.1 and up
@@ -7171,7 +7171,7 @@ function Invoke-ADCAddLsnpool {
             if ($PSBoundParameters.ContainsKey('maxportrealloctmq')) { $Payload.Add('maxportrealloctmq', $maxportrealloctmq) }
  
             if ($PSCmdlet.ShouldProcess("lsnpool", "Add Lsn configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -Type lsnpool -Payload $Payload -GetWarning
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -NitroPath nitro/v1/config -Type lsnpool -Payload $Payload -GetWarning
                 #HTTP Status Code on Success: 201 Created
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 if ($PSBoundParameters.ContainsKey('PassThru')) {
@@ -7203,7 +7203,7 @@ function Invoke-ADCDeleteLsnpool {
         Invoke-ADCDeleteLsnpool -poolname <string>
     .NOTES
         File Name : Invoke-ADCDeleteLsnpool
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/lsn/lsnpool/
         Requires  : PowerShell v5.1 and up
@@ -7231,7 +7231,7 @@ function Invoke-ADCDeleteLsnpool {
             }
 
             if ($PSCmdlet.ShouldProcess("$poolname", "Delete Lsn configuration Object")) {
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type lsnpool -Resource $poolname -Arguments $Arguments
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type lsnpool -NitroPath nitro/v1/config -Resource $poolname -Arguments $Arguments
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $response
@@ -7275,7 +7275,7 @@ function Invoke-ADCUpdateLsnpool {
         Invoke-ADCUpdateLsnpool -poolname <string>
     .NOTES
         File Name : Invoke-ADCUpdateLsnpool
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/lsn/lsnpool/
         Requires  : PowerShell v5.1 and up
@@ -7317,7 +7317,7 @@ function Invoke-ADCUpdateLsnpool {
             if ($PSBoundParameters.ContainsKey('maxportrealloctmq')) { $Payload.Add('maxportrealloctmq', $maxportrealloctmq) }
  
             if ($PSCmdlet.ShouldProcess("lsnpool", "Update Lsn configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -Type lsnpool -Payload $Payload -GetWarning
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -NitroPath nitro/v1/config -Type lsnpool -Payload $Payload -GetWarning
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 if ($PSBoundParameters.ContainsKey('PassThru')) {
@@ -7358,7 +7358,7 @@ function Invoke-ADCUnsetLsnpool {
         Invoke-ADCUnsetLsnpool -poolname <string>
     .NOTES
         File Name : Invoke-ADCUnsetLsnpool
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/lsn/lsnpool
         Requires  : PowerShell v5.1 and up
@@ -7394,7 +7394,7 @@ function Invoke-ADCUnsetLsnpool {
             if ($PSBoundParameters.ContainsKey('portrealloctimeout')) { $Payload.Add('portrealloctimeout', $portrealloctimeout) }
             if ($PSBoundParameters.ContainsKey('maxportrealloctmq')) { $Payload.Add('maxportrealloctmq', $maxportrealloctmq) }
             if ($PSCmdlet.ShouldProcess("$poolname", "Unset Lsn configuration Object")) {
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -Type lsnpool -Action unset -Payload $Payload -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -Type lsnpool -NitroPath nitro/v1/config -Action unset -Payload $Payload -GetWarning
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $response
@@ -7438,7 +7438,7 @@ function Invoke-ADCGetLsnpool {
         Invoke-ADCGetLsnpool -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetLsnpool
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/lsn/lsnpool/
         Requires  : PowerShell v5.1 and up
@@ -7480,21 +7480,21 @@ function Invoke-ADCGetLsnpool {
             if ( $PsCmdlet.ParameterSetName -eq 'Getall' ) {
                 $Query = @{ }
                 Write-Verbose "Retrieving all lsnpool objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type lsnpool -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type lsnpool -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
                 if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for lsnpool objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type lsnpool -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type lsnpool -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving lsnpool objects by arguments"
                 $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type lsnpool -Arguments $Arguments -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type lsnpool -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving lsnpool configuration for property 'poolname'"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type lsnpool -Resource $poolname -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type lsnpool -NitroPath nitro/v1/config -Resource $poolname -Summary:$ViewSummary -Filter $Filter -GetWarning
             } else {
                 Write-Verbose "Retrieving lsnpool configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type lsnpool -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type lsnpool -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -7534,7 +7534,7 @@ function Invoke-ADCGetLsnpoolbinding {
         Invoke-ADCGetLsnpoolbinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetLsnpoolbinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/lsn/lsnpool_binding/
         Requires  : PowerShell v5.1 and up
@@ -7570,21 +7570,21 @@ function Invoke-ADCGetLsnpoolbinding {
                     bulkbindings = 'yes'
                 }
                 Write-Verbose "Retrieving all lsnpool_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type lsnpool_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type lsnpool_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
                 if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for lsnpool_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type lsnpool_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type lsnpool_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving lsnpool_binding objects by arguments"
                 $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type lsnpool_binding -Arguments $Arguments -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type lsnpool_binding -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving lsnpool_binding configuration for property 'poolname'"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type lsnpool_binding -Resource $poolname -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type lsnpool_binding -NitroPath nitro/v1/config -Resource $poolname -Summary:$ViewSummary -Filter $Filter -GetWarning
             } else {
                 Write-Verbose "Retrieving lsnpool_binding configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type lsnpool_binding -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type lsnpool_binding -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -7618,7 +7618,7 @@ function Invoke-ADCAddLsnpoollsnipbinding {
         Invoke-ADCAddLsnpoollsnipbinding -poolname <string>
     .NOTES
         File Name : Invoke-ADCAddLsnpoollsnipbinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/lsn/lsnpool_lsnip_binding/
         Requires  : PowerShell v5.1 and up
@@ -7661,7 +7661,7 @@ function Invoke-ADCAddLsnpoollsnipbinding {
             if ($PSBoundParameters.ContainsKey('lsnip')) { $Payload.Add('lsnip', $lsnip) }
  
             if ($PSCmdlet.ShouldProcess("lsnpool_lsnip_binding", "Add Lsn configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -Type lsnpool_lsnip_binding -Payload $Payload -GetWarning
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -NitroPath nitro/v1/config -Type lsnpool_lsnip_binding -Payload $Payload -GetWarning
                 #HTTP Status Code on Success: 201 Created
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 if ($PSBoundParameters.ContainsKey('PassThru')) {
@@ -7698,7 +7698,7 @@ function Invoke-ADCDeleteLsnpoollsnipbinding {
         Invoke-ADCDeleteLsnpoollsnipbinding -poolname <string>
     .NOTES
         File Name : Invoke-ADCDeleteLsnpoollsnipbinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/lsn/lsnpool_lsnip_binding/
         Requires  : PowerShell v5.1 and up
@@ -7731,7 +7731,7 @@ function Invoke-ADCDeleteLsnpoollsnipbinding {
             if ($PSBoundParameters.ContainsKey('ownernode')) { $Arguments.Add('ownernode', $ownernode) }
             if ($PSBoundParameters.ContainsKey('lsnip')) { $Arguments.Add('lsnip', $lsnip) }
             if ($PSCmdlet.ShouldProcess("$poolname", "Delete Lsn configuration Object")) {
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type lsnpool_lsnip_binding -Resource $poolname -Arguments $Arguments
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type lsnpool_lsnip_binding -NitroPath nitro/v1/config -Resource $poolname -Arguments $Arguments
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $response
@@ -7775,7 +7775,7 @@ function Invoke-ADCGetLsnpoollsnipbinding {
         Invoke-ADCGetLsnpoollsnipbinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetLsnpoollsnipbinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/lsn/lsnpool_lsnip_binding/
         Requires  : PowerShell v5.1 and up
@@ -7814,21 +7814,21 @@ function Invoke-ADCGetLsnpoollsnipbinding {
                     bulkbindings = 'yes'
                 }
                 Write-Verbose "Retrieving all lsnpool_lsnip_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type lsnpool_lsnip_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type lsnpool_lsnip_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
                 if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for lsnpool_lsnip_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type lsnpool_lsnip_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type lsnpool_lsnip_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving lsnpool_lsnip_binding objects by arguments"
                 $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type lsnpool_lsnip_binding -Arguments $Arguments -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type lsnpool_lsnip_binding -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving lsnpool_lsnip_binding configuration for property 'poolname'"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type lsnpool_lsnip_binding -Resource $poolname -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type lsnpool_lsnip_binding -NitroPath nitro/v1/config -Resource $poolname -Summary:$ViewSummary -Filter $Filter -GetWarning
             } else {
                 Write-Verbose "Retrieving lsnpool_lsnip_binding configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type lsnpool_lsnip_binding -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type lsnpool_lsnip_binding -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -7866,7 +7866,7 @@ function Invoke-ADCAddLsnrtspalgprofile {
         Invoke-ADCAddLsnrtspalgprofile -rtspalgprofilename <string> -rtspportrange <string>
     .NOTES
         File Name : Invoke-ADCAddLsnrtspalgprofile
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/lsn/lsnrtspalgprofile/
         Requires  : PowerShell v5.1 and up
@@ -7910,7 +7910,7 @@ function Invoke-ADCAddLsnrtspalgprofile {
             if ($PSBoundParameters.ContainsKey('rtsptransportprotocol')) { $Payload.Add('rtsptransportprotocol', $rtsptransportprotocol) }
  
             if ($PSCmdlet.ShouldProcess("lsnrtspalgprofile", "Add Lsn configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -Type lsnrtspalgprofile -Payload $Payload -GetWarning
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -NitroPath nitro/v1/config -Type lsnrtspalgprofile -Payload $Payload -GetWarning
                 #HTTP Status Code on Success: 201 Created
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 if ($PSBoundParameters.ContainsKey('PassThru')) {
@@ -7955,7 +7955,7 @@ function Invoke-ADCUpdateLsnrtspalgprofile {
         Invoke-ADCUpdateLsnrtspalgprofile -rtspalgprofilename <string>
     .NOTES
         File Name : Invoke-ADCUpdateLsnrtspalgprofile
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/lsn/lsnrtspalgprofile/
         Requires  : PowerShell v5.1 and up
@@ -7998,7 +7998,7 @@ function Invoke-ADCUpdateLsnrtspalgprofile {
             if ($PSBoundParameters.ContainsKey('rtsptransportprotocol')) { $Payload.Add('rtsptransportprotocol', $rtsptransportprotocol) }
  
             if ($PSCmdlet.ShouldProcess("lsnrtspalgprofile", "Update Lsn configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -Type lsnrtspalgprofile -Payload $Payload -GetWarning
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -NitroPath nitro/v1/config -Type lsnrtspalgprofile -Payload $Payload -GetWarning
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 if ($PSBoundParameters.ContainsKey('PassThru')) {
@@ -8037,7 +8037,7 @@ function Invoke-ADCUnsetLsnrtspalgprofile {
         Invoke-ADCUnsetLsnrtspalgprofile -rtspalgprofilename <string>
     .NOTES
         File Name : Invoke-ADCUnsetLsnrtspalgprofile
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/lsn/lsnrtspalgprofile
         Requires  : PowerShell v5.1 and up
@@ -8075,7 +8075,7 @@ function Invoke-ADCUnsetLsnrtspalgprofile {
             if ($PSBoundParameters.ContainsKey('rtspportrange')) { $Payload.Add('rtspportrange', $rtspportrange) }
             if ($PSBoundParameters.ContainsKey('rtsptransportprotocol')) { $Payload.Add('rtsptransportprotocol', $rtsptransportprotocol) }
             if ($PSCmdlet.ShouldProcess("$rtspalgprofilename", "Unset Lsn configuration Object")) {
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -Type lsnrtspalgprofile -Action unset -Payload $Payload -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -Type lsnrtspalgprofile -NitroPath nitro/v1/config -Action unset -Payload $Payload -GetWarning
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $response
@@ -8104,7 +8104,7 @@ function Invoke-ADCDeleteLsnrtspalgprofile {
         Invoke-ADCDeleteLsnrtspalgprofile -rtspalgprofilename <string>
     .NOTES
         File Name : Invoke-ADCDeleteLsnrtspalgprofile
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/lsn/lsnrtspalgprofile/
         Requires  : PowerShell v5.1 and up
@@ -8132,7 +8132,7 @@ function Invoke-ADCDeleteLsnrtspalgprofile {
             }
 
             if ($PSCmdlet.ShouldProcess("$rtspalgprofilename", "Delete Lsn configuration Object")) {
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type lsnrtspalgprofile -Resource $rtspalgprofilename -Arguments $Arguments
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type lsnrtspalgprofile -NitroPath nitro/v1/config -Resource $rtspalgprofilename -Arguments $Arguments
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $response
@@ -8176,7 +8176,7 @@ function Invoke-ADCGetLsnrtspalgprofile {
         Invoke-ADCGetLsnrtspalgprofile -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetLsnrtspalgprofile
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/lsn/lsnrtspalgprofile/
         Requires  : PowerShell v5.1 and up
@@ -8217,21 +8217,21 @@ function Invoke-ADCGetLsnrtspalgprofile {
             if ( $PsCmdlet.ParameterSetName -eq 'Getall' ) {
                 $Query = @{ }
                 Write-Verbose "Retrieving all lsnrtspalgprofile objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type lsnrtspalgprofile -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type lsnrtspalgprofile -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
                 if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for lsnrtspalgprofile objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type lsnrtspalgprofile -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type lsnrtspalgprofile -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving lsnrtspalgprofile objects by arguments"
                 $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type lsnrtspalgprofile -Arguments $Arguments -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type lsnrtspalgprofile -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving lsnrtspalgprofile configuration for property 'rtspalgprofilename'"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type lsnrtspalgprofile -Resource $rtspalgprofilename -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type lsnrtspalgprofile -NitroPath nitro/v1/config -Resource $rtspalgprofilename -Summary:$ViewSummary -Filter $Filter -GetWarning
             } else {
                 Write-Verbose "Retrieving lsnrtspalgprofile configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type lsnrtspalgprofile -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type lsnrtspalgprofile -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -8256,7 +8256,7 @@ function Invoke-ADCFlushLsnrtspalgsession {
         Invoke-ADCFlushLsnrtspalgsession -sessionid <string>
     .NOTES
         File Name : Invoke-ADCFlushLsnrtspalgsession
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/lsn/lsnrtspalgsession/
         Requires  : PowerShell v5.1 and up
@@ -8286,7 +8286,7 @@ function Invoke-ADCFlushLsnrtspalgsession {
             }
 
             if ($PSCmdlet.ShouldProcess($Name, "Flush Lsn configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -Type lsnrtspalgsession -Action flush -Payload $Payload -GetWarning
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -NitroPath nitro/v1/config -Type lsnrtspalgsession -Action flush -Payload $Payload -GetWarning
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $result
@@ -8330,7 +8330,7 @@ function Invoke-ADCGetLsnrtspalgsession {
         Invoke-ADCGetLsnrtspalgsession -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetLsnrtspalgsession
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/lsn/lsnrtspalgsession/
         Requires  : PowerShell v5.1 and up
@@ -8370,21 +8370,21 @@ function Invoke-ADCGetLsnrtspalgsession {
             if ( $PsCmdlet.ParameterSetName -eq 'Getall' ) {
                 $Query = @{ }
                 Write-Verbose "Retrieving all lsnrtspalgsession objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type lsnrtspalgsession -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type lsnrtspalgsession -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
                 if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for lsnrtspalgsession objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type lsnrtspalgsession -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type lsnrtspalgsession -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving lsnrtspalgsession objects by arguments"
                 $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type lsnrtspalgsession -Arguments $Arguments -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type lsnrtspalgsession -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving lsnrtspalgsession configuration for property 'sessionid'"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type lsnrtspalgsession -Resource $sessionid -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type lsnrtspalgsession -NitroPath nitro/v1/config -Resource $sessionid -Summary:$ViewSummary -Filter $Filter -GetWarning
             } else {
                 Write-Verbose "Retrieving lsnrtspalgsession configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type lsnrtspalgsession -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type lsnrtspalgsession -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -8424,7 +8424,7 @@ function Invoke-ADCGetLsnrtspalgsessionbinding {
         Invoke-ADCGetLsnrtspalgsessionbinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetLsnrtspalgsessionbinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/lsn/lsnrtspalgsession_binding/
         Requires  : PowerShell v5.1 and up
@@ -8458,21 +8458,21 @@ function Invoke-ADCGetLsnrtspalgsessionbinding {
                     bulkbindings = 'yes'
                 }
                 Write-Verbose "Retrieving all lsnrtspalgsession_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type lsnrtspalgsession_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type lsnrtspalgsession_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
                 if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for lsnrtspalgsession_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type lsnrtspalgsession_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type lsnrtspalgsession_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving lsnrtspalgsession_binding objects by arguments"
                 $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type lsnrtspalgsession_binding -Arguments $Arguments -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type lsnrtspalgsession_binding -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving lsnrtspalgsession_binding configuration for property 'sessionid'"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type lsnrtspalgsession_binding -Resource $sessionid -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type lsnrtspalgsession_binding -NitroPath nitro/v1/config -Resource $sessionid -Summary:$ViewSummary -Filter $Filter -GetWarning
             } else {
                 Write-Verbose "Retrieving lsnrtspalgsession_binding configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type lsnrtspalgsession_binding -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type lsnrtspalgsession_binding -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -8514,7 +8514,7 @@ function Invoke-ADCGetLsnrtspalgsessiondatachannelbinding {
         Invoke-ADCGetLsnrtspalgsessiondatachannelbinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetLsnrtspalgsessiondatachannelbinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/lsn/lsnrtspalgsession_datachannel_binding/
         Requires  : PowerShell v5.1 and up
@@ -8551,21 +8551,21 @@ function Invoke-ADCGetLsnrtspalgsessiondatachannelbinding {
                     bulkbindings = 'yes'
                 }
                 Write-Verbose "Retrieving all lsnrtspalgsession_datachannel_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type lsnrtspalgsession_datachannel_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type lsnrtspalgsession_datachannel_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
                 if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for lsnrtspalgsession_datachannel_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type lsnrtspalgsession_datachannel_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type lsnrtspalgsession_datachannel_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving lsnrtspalgsession_datachannel_binding objects by arguments"
                 $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type lsnrtspalgsession_datachannel_binding -Arguments $Arguments -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type lsnrtspalgsession_datachannel_binding -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving lsnrtspalgsession_datachannel_binding configuration for property 'sessionid'"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type lsnrtspalgsession_datachannel_binding -Resource $sessionid -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type lsnrtspalgsession_datachannel_binding -NitroPath nitro/v1/config -Resource $sessionid -Summary:$ViewSummary -Filter $Filter -GetWarning
             } else {
                 Write-Verbose "Retrieving lsnrtspalgsession_datachannel_binding configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type lsnrtspalgsession_datachannel_binding -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type lsnrtspalgsession_datachannel_binding -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -8607,7 +8607,7 @@ function Invoke-ADCFlushLsnsession {
         Invoke-ADCFlushLsnsession 
     .NOTES
         File Name : Invoke-ADCFlushLsnsession
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/lsn/lsnsession/
         Requires  : PowerShell v5.1 and up
@@ -8663,7 +8663,7 @@ function Invoke-ADCFlushLsnsession {
             if ($PSBoundParameters.ContainsKey('natport2')) { $Payload.Add('natport2', $natport2) }
             if ($PSBoundParameters.ContainsKey('nodeid')) { $Payload.Add('nodeid', $nodeid) }
             if ($PSCmdlet.ShouldProcess($Name, "Flush Lsn configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -Type lsnsession -Action flush -Payload $Payload -GetWarning
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -NitroPath nitro/v1/config -Type lsnsession -Action flush -Payload $Payload -GetWarning
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $result
@@ -8722,7 +8722,7 @@ function Invoke-ADCGetLsnsession {
         Invoke-ADCGetLsnsession -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetLsnsession
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/lsn/lsnsession/
         Requires  : PowerShell v5.1 and up
@@ -8785,11 +8785,11 @@ function Invoke-ADCGetLsnsession {
             if ( $PsCmdlet.ParameterSetName -eq 'Getall' ) {
                 $Query = @{ }
                 Write-Verbose "Retrieving all lsnsession objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type lsnsession -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type lsnsession -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
                 if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for lsnsession objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type lsnsession -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type lsnsession -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving lsnsession objects by arguments"
                 $Arguments = @{ } 
@@ -8801,13 +8801,13 @@ function Invoke-ADCGetLsnsession {
                 if ($PSBoundParameters.ContainsKey('td')) { $Arguments.Add('td', $td) } 
                 if ($PSBoundParameters.ContainsKey('natip')) { $Arguments.Add('natip', $natip) } 
                 if ($PSBoundParameters.ContainsKey('nodeid')) { $Arguments.Add('nodeid', $nodeid) }
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type lsnsession -Arguments $Arguments -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type lsnsession -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving lsnsession configuration for property ''"
 
             } else {
                 Write-Verbose "Retrieving lsnsession configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type lsnsession -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type lsnsession -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -8832,7 +8832,7 @@ function Invoke-ADCFlushLsnsipalgcall {
         Invoke-ADCFlushLsnsipalgcall -callid <string>
     .NOTES
         File Name : Invoke-ADCFlushLsnsipalgcall
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/lsn/lsnsipalgcall/
         Requires  : PowerShell v5.1 and up
@@ -8862,7 +8862,7 @@ function Invoke-ADCFlushLsnsipalgcall {
             }
 
             if ($PSCmdlet.ShouldProcess($Name, "Flush Lsn configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -Type lsnsipalgcall -Action flush -Payload $Payload -GetWarning
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -NitroPath nitro/v1/config -Type lsnsipalgcall -Action flush -Payload $Payload -GetWarning
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $result
@@ -8906,7 +8906,7 @@ function Invoke-ADCGetLsnsipalgcall {
         Invoke-ADCGetLsnsipalgcall -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetLsnsipalgcall
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/lsn/lsnsipalgcall/
         Requires  : PowerShell v5.1 and up
@@ -8946,21 +8946,21 @@ function Invoke-ADCGetLsnsipalgcall {
             if ( $PsCmdlet.ParameterSetName -eq 'Getall' ) {
                 $Query = @{ }
                 Write-Verbose "Retrieving all lsnsipalgcall objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type lsnsipalgcall -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type lsnsipalgcall -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
                 if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for lsnsipalgcall objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type lsnsipalgcall -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type lsnsipalgcall -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving lsnsipalgcall objects by arguments"
                 $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type lsnsipalgcall -Arguments $Arguments -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type lsnsipalgcall -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving lsnsipalgcall configuration for property 'callid'"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type lsnsipalgcall -Resource $callid -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type lsnsipalgcall -NitroPath nitro/v1/config -Resource $callid -Summary:$ViewSummary -Filter $Filter -GetWarning
             } else {
                 Write-Verbose "Retrieving lsnsipalgcall configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type lsnsipalgcall -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type lsnsipalgcall -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -9000,7 +9000,7 @@ function Invoke-ADCGetLsnsipalgcallbinding {
         Invoke-ADCGetLsnsipalgcallbinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetLsnsipalgcallbinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/lsn/lsnsipalgcall_binding/
         Requires  : PowerShell v5.1 and up
@@ -9034,21 +9034,21 @@ function Invoke-ADCGetLsnsipalgcallbinding {
                     bulkbindings = 'yes'
                 }
                 Write-Verbose "Retrieving all lsnsipalgcall_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type lsnsipalgcall_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type lsnsipalgcall_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
                 if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for lsnsipalgcall_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type lsnsipalgcall_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type lsnsipalgcall_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving lsnsipalgcall_binding objects by arguments"
                 $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type lsnsipalgcall_binding -Arguments $Arguments -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type lsnsipalgcall_binding -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving lsnsipalgcall_binding configuration for property 'callid'"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type lsnsipalgcall_binding -Resource $callid -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type lsnsipalgcall_binding -NitroPath nitro/v1/config -Resource $callid -Summary:$ViewSummary -Filter $Filter -GetWarning
             } else {
                 Write-Verbose "Retrieving lsnsipalgcall_binding configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type lsnsipalgcall_binding -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type lsnsipalgcall_binding -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -9090,7 +9090,7 @@ function Invoke-ADCGetLsnsipalgcallcontrolchannelbinding {
         Invoke-ADCGetLsnsipalgcallcontrolchannelbinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetLsnsipalgcallcontrolchannelbinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/lsn/lsnsipalgcall_controlchannel_binding/
         Requires  : PowerShell v5.1 and up
@@ -9127,21 +9127,21 @@ function Invoke-ADCGetLsnsipalgcallcontrolchannelbinding {
                     bulkbindings = 'yes'
                 }
                 Write-Verbose "Retrieving all lsnsipalgcall_controlchannel_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type lsnsipalgcall_controlchannel_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type lsnsipalgcall_controlchannel_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
                 if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for lsnsipalgcall_controlchannel_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type lsnsipalgcall_controlchannel_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type lsnsipalgcall_controlchannel_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving lsnsipalgcall_controlchannel_binding objects by arguments"
                 $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type lsnsipalgcall_controlchannel_binding -Arguments $Arguments -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type lsnsipalgcall_controlchannel_binding -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving lsnsipalgcall_controlchannel_binding configuration for property 'callid'"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type lsnsipalgcall_controlchannel_binding -Resource $callid -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type lsnsipalgcall_controlchannel_binding -NitroPath nitro/v1/config -Resource $callid -Summary:$ViewSummary -Filter $Filter -GetWarning
             } else {
                 Write-Verbose "Retrieving lsnsipalgcall_controlchannel_binding configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type lsnsipalgcall_controlchannel_binding -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type lsnsipalgcall_controlchannel_binding -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -9183,7 +9183,7 @@ function Invoke-ADCGetLsnsipalgcalldatachannelbinding {
         Invoke-ADCGetLsnsipalgcalldatachannelbinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetLsnsipalgcalldatachannelbinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/lsn/lsnsipalgcall_datachannel_binding/
         Requires  : PowerShell v5.1 and up
@@ -9220,21 +9220,21 @@ function Invoke-ADCGetLsnsipalgcalldatachannelbinding {
                     bulkbindings = 'yes'
                 }
                 Write-Verbose "Retrieving all lsnsipalgcall_datachannel_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type lsnsipalgcall_datachannel_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type lsnsipalgcall_datachannel_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
                 if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for lsnsipalgcall_datachannel_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type lsnsipalgcall_datachannel_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type lsnsipalgcall_datachannel_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving lsnsipalgcall_datachannel_binding objects by arguments"
                 $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type lsnsipalgcall_datachannel_binding -Arguments $Arguments -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type lsnsipalgcall_datachannel_binding -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving lsnsipalgcall_datachannel_binding configuration for property 'callid'"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type lsnsipalgcall_datachannel_binding -Resource $callid -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type lsnsipalgcall_datachannel_binding -NitroPath nitro/v1/config -Resource $callid -Summary:$ViewSummary -Filter $Filter -GetWarning
             } else {
                 Write-Verbose "Retrieving lsnsipalgcall_datachannel_binding configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type lsnsipalgcall_datachannel_binding -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type lsnsipalgcall_datachannel_binding -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -9303,7 +9303,7 @@ function Invoke-ADCAddLsnsipalgprofile {
         Invoke-ADCAddLsnsipalgprofile -sipalgprofilename <string> -siptransportprotocol <string>
     .NOTES
         File Name : Invoke-ADCAddLsnsipalgprofile
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/lsn/lsnsipalgprofile/
         Requires  : PowerShell v5.1 and up
@@ -9380,7 +9380,7 @@ function Invoke-ADCAddLsnsipalgprofile {
             if ($PSBoundParameters.ContainsKey('rport')) { $Payload.Add('rport', $rport) }
  
             if ($PSCmdlet.ShouldProcess("lsnsipalgprofile", "Add Lsn configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -Type lsnsipalgprofile -Payload $Payload -GetWarning
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -NitroPath nitro/v1/config -Type lsnsipalgprofile -Payload $Payload -GetWarning
                 #HTTP Status Code on Success: 201 Created
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 if ($PSBoundParameters.ContainsKey('PassThru')) {
@@ -9456,7 +9456,7 @@ function Invoke-ADCUpdateLsnsipalgprofile {
         Invoke-ADCUpdateLsnsipalgprofile -sipalgprofilename <string>
     .NOTES
         File Name : Invoke-ADCUpdateLsnsipalgprofile
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/lsn/lsnsipalgprofile/
         Requires  : PowerShell v5.1 and up
@@ -9532,7 +9532,7 @@ function Invoke-ADCUpdateLsnsipalgprofile {
             if ($PSBoundParameters.ContainsKey('rport')) { $Payload.Add('rport', $rport) }
  
             if ($PSCmdlet.ShouldProcess("lsnsipalgprofile", "Update Lsn configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -Type lsnsipalgprofile -Payload $Payload -GetWarning
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -NitroPath nitro/v1/config -Type lsnsipalgprofile -Payload $Payload -GetWarning
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 if ($PSBoundParameters.ContainsKey('PassThru')) {
@@ -9595,7 +9595,7 @@ function Invoke-ADCUnsetLsnsipalgprofile {
         Invoke-ADCUnsetLsnsipalgprofile -sipalgprofilename <string>
     .NOTES
         File Name : Invoke-ADCUnsetLsnsipalgprofile
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/lsn/lsnsipalgprofile
         Requires  : PowerShell v5.1 and up
@@ -9660,7 +9660,7 @@ function Invoke-ADCUnsetLsnsipalgprofile {
             if ($PSBoundParameters.ContainsKey('openroutepinhole')) { $Payload.Add('openroutepinhole', $openroutepinhole) }
             if ($PSBoundParameters.ContainsKey('rport')) { $Payload.Add('rport', $rport) }
             if ($PSCmdlet.ShouldProcess("$sipalgprofilename", "Unset Lsn configuration Object")) {
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -Type lsnsipalgprofile -Action unset -Payload $Payload -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -Type lsnsipalgprofile -NitroPath nitro/v1/config -Action unset -Payload $Payload -GetWarning
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $response
@@ -9689,7 +9689,7 @@ function Invoke-ADCDeleteLsnsipalgprofile {
         Invoke-ADCDeleteLsnsipalgprofile -sipalgprofilename <string>
     .NOTES
         File Name : Invoke-ADCDeleteLsnsipalgprofile
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/lsn/lsnsipalgprofile/
         Requires  : PowerShell v5.1 and up
@@ -9717,7 +9717,7 @@ function Invoke-ADCDeleteLsnsipalgprofile {
             }
 
             if ($PSCmdlet.ShouldProcess("$sipalgprofilename", "Delete Lsn configuration Object")) {
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type lsnsipalgprofile -Resource $sipalgprofilename -Arguments $Arguments
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type lsnsipalgprofile -NitroPath nitro/v1/config -Resource $sipalgprofilename -Arguments $Arguments
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $response
@@ -9761,7 +9761,7 @@ function Invoke-ADCGetLsnsipalgprofile {
         Invoke-ADCGetLsnsipalgprofile -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetLsnsipalgprofile
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/lsn/lsnsipalgprofile/
         Requires  : PowerShell v5.1 and up
@@ -9802,21 +9802,21 @@ function Invoke-ADCGetLsnsipalgprofile {
             if ( $PsCmdlet.ParameterSetName -eq 'Getall' ) {
                 $Query = @{ }
                 Write-Verbose "Retrieving all lsnsipalgprofile objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type lsnsipalgprofile -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type lsnsipalgprofile -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
                 if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for lsnsipalgprofile objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type lsnsipalgprofile -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type lsnsipalgprofile -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving lsnsipalgprofile objects by arguments"
                 $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type lsnsipalgprofile -Arguments $Arguments -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type lsnsipalgprofile -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving lsnsipalgprofile configuration for property 'sipalgprofilename'"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type lsnsipalgprofile -Resource $sipalgprofilename -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type lsnsipalgprofile -NitroPath nitro/v1/config -Resource $sipalgprofilename -Summary:$ViewSummary -Filter $Filter -GetWarning
             } else {
                 Write-Verbose "Retrieving lsnsipalgprofile configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type lsnsipalgprofile -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type lsnsipalgprofile -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -9879,7 +9879,7 @@ function Invoke-ADCAddLsnstatic {
         Invoke-ADCAddLsnstatic -name <string> -transportprotocol <string> -subscrip <string> -subscrport <int>
     .NOTES
         File Name : Invoke-ADCAddLsnstatic
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/lsn/lsnstatic/
         Requires  : PowerShell v5.1 and up
@@ -9949,7 +9949,7 @@ function Invoke-ADCAddLsnstatic {
             if ($PSBoundParameters.ContainsKey('dsttd')) { $Payload.Add('dsttd', $dsttd) }
  
             if ($PSCmdlet.ShouldProcess("lsnstatic", "Add Lsn configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -Type lsnstatic -Payload $Payload -GetWarning
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -NitroPath nitro/v1/config -Type lsnstatic -Payload $Payload -GetWarning
                 #HTTP Status Code on Success: 201 Created
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 if ($PSBoundParameters.ContainsKey('PassThru')) {
@@ -9981,7 +9981,7 @@ function Invoke-ADCDeleteLsnstatic {
         Invoke-ADCDeleteLsnstatic -name <string>
     .NOTES
         File Name : Invoke-ADCDeleteLsnstatic
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/lsn/lsnstatic/
         Requires  : PowerShell v5.1 and up
@@ -10009,7 +10009,7 @@ function Invoke-ADCDeleteLsnstatic {
             }
 
             if ($PSCmdlet.ShouldProcess("$name", "Delete Lsn configuration Object")) {
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type lsnstatic -Resource $name -Arguments $Arguments
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type lsnstatic -NitroPath nitro/v1/config -Resource $name -Arguments $Arguments
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $response
@@ -10053,7 +10053,7 @@ function Invoke-ADCGetLsnstatic {
         Invoke-ADCGetLsnstatic -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetLsnstatic
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/lsn/lsnstatic/
         Requires  : PowerShell v5.1 and up
@@ -10095,21 +10095,21 @@ function Invoke-ADCGetLsnstatic {
             if ( $PsCmdlet.ParameterSetName -eq 'Getall' ) {
                 $Query = @{ }
                 Write-Verbose "Retrieving all lsnstatic objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type lsnstatic -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type lsnstatic -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
                 if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for lsnstatic objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type lsnstatic -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type lsnstatic -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving lsnstatic objects by arguments"
                 $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type lsnstatic -Arguments $Arguments -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type lsnstatic -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving lsnstatic configuration for property 'name'"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type lsnstatic -Resource $name -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type lsnstatic -NitroPath nitro/v1/config -Resource $name -Summary:$ViewSummary -Filter $Filter -GetWarning
             } else {
                 Write-Verbose "Retrieving lsnstatic configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type lsnstatic -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type lsnstatic -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -10192,7 +10192,7 @@ function Invoke-ADCAddLsntransportprofile {
         Invoke-ADCAddLsntransportprofile -transportprofilename <string> -transportprotocol <string>
     .NOTES
         File Name : Invoke-ADCAddLsntransportprofile
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/lsn/lsntransportprofile/
         Requires  : PowerShell v5.1 and up
@@ -10269,7 +10269,7 @@ function Invoke-ADCAddLsntransportprofile {
             if ($PSBoundParameters.ContainsKey('syncheck')) { $Payload.Add('syncheck', $syncheck) }
  
             if ($PSCmdlet.ShouldProcess("lsntransportprofile", "Add Lsn configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -Type lsntransportprofile -Payload $Payload -GetWarning
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -NitroPath nitro/v1/config -Type lsntransportprofile -Payload $Payload -GetWarning
                 #HTTP Status Code on Success: 201 Created
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 if ($PSBoundParameters.ContainsKey('PassThru')) {
@@ -10301,7 +10301,7 @@ function Invoke-ADCDeleteLsntransportprofile {
         Invoke-ADCDeleteLsntransportprofile -transportprofilename <string>
     .NOTES
         File Name : Invoke-ADCDeleteLsntransportprofile
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/lsn/lsntransportprofile/
         Requires  : PowerShell v5.1 and up
@@ -10329,7 +10329,7 @@ function Invoke-ADCDeleteLsntransportprofile {
             }
 
             if ($PSCmdlet.ShouldProcess("$transportprofilename", "Delete Lsn configuration Object")) {
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type lsntransportprofile -Resource $transportprofilename -Arguments $Arguments
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type lsntransportprofile -NitroPath nitro/v1/config -Resource $transportprofilename -Arguments $Arguments
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $response
@@ -10411,7 +10411,7 @@ function Invoke-ADCUpdateLsntransportprofile {
         Invoke-ADCUpdateLsntransportprofile -transportprofilename <string>
     .NOTES
         File Name : Invoke-ADCUpdateLsntransportprofile
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/lsn/lsntransportprofile/
         Requires  : PowerShell v5.1 and up
@@ -10483,7 +10483,7 @@ function Invoke-ADCUpdateLsntransportprofile {
             if ($PSBoundParameters.ContainsKey('syncheck')) { $Payload.Add('syncheck', $syncheck) }
  
             if ($PSCmdlet.ShouldProcess("lsntransportprofile", "Update Lsn configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -Type lsntransportprofile -Payload $Payload -GetWarning
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -NitroPath nitro/v1/config -Type lsntransportprofile -Payload $Payload -GetWarning
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 if ($PSBoundParameters.ContainsKey('PassThru')) {
@@ -10549,7 +10549,7 @@ function Invoke-ADCUnsetLsntransportprofile {
         Invoke-ADCUnsetLsntransportprofile -transportprofilename <string>
     .NOTES
         File Name : Invoke-ADCUnsetLsntransportprofile
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/lsn/lsntransportprofile
         Requires  : PowerShell v5.1 and up
@@ -10609,7 +10609,7 @@ function Invoke-ADCUnsetLsntransportprofile {
             if ($PSBoundParameters.ContainsKey('portpreserverange')) { $Payload.Add('portpreserverange', $portpreserverange) }
             if ($PSBoundParameters.ContainsKey('syncheck')) { $Payload.Add('syncheck', $syncheck) }
             if ($PSCmdlet.ShouldProcess("$transportprofilename", "Unset Lsn configuration Object")) {
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -Type lsntransportprofile -Action unset -Payload $Payload -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -Type lsntransportprofile -NitroPath nitro/v1/config -Action unset -Payload $Payload -GetWarning
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $response
@@ -10653,7 +10653,7 @@ function Invoke-ADCGetLsntransportprofile {
         Invoke-ADCGetLsntransportprofile -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetLsntransportprofile
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/lsn/lsntransportprofile/
         Requires  : PowerShell v5.1 and up
@@ -10695,21 +10695,21 @@ function Invoke-ADCGetLsntransportprofile {
             if ( $PsCmdlet.ParameterSetName -eq 'Getall' ) {
                 $Query = @{ }
                 Write-Verbose "Retrieving all lsntransportprofile objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type lsntransportprofile -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type lsntransportprofile -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
                 if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for lsntransportprofile objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type lsntransportprofile -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type lsntransportprofile -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving lsntransportprofile objects by arguments"
                 $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type lsntransportprofile -Arguments $Arguments -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type lsntransportprofile -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving lsntransportprofile configuration for property 'transportprofilename'"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type lsntransportprofile -Resource $transportprofilename -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type lsntransportprofile -NitroPath nitro/v1/config -Resource $transportprofilename -Summary:$ViewSummary -Filter $Filter -GetWarning
             } else {
                 Write-Verbose "Retrieving lsntransportprofile configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type lsntransportprofile -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type lsntransportprofile -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"

@@ -20,7 +20,7 @@ function Invoke-ADCAddUserprotocol {
         Invoke-ADCAddUserprotocol -name <string> -transport <string> -extension <string>
     .NOTES
         File Name : Invoke-ADCAddUserprotocol
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/user/userprotocol/
         Requires  : PowerShell v5.1 and up
@@ -66,7 +66,7 @@ function Invoke-ADCAddUserprotocol {
             if ($PSBoundParameters.ContainsKey('comment')) { $Payload.Add('comment', $comment) }
  
             if ($PSCmdlet.ShouldProcess("userprotocol", "Add User configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -Type userprotocol -Payload $Payload -GetWarning
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -NitroPath nitro/v1/config -Type userprotocol -Payload $Payload -GetWarning
                 #HTTP Status Code on Success: 201 Created
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 if ($PSBoundParameters.ContainsKey('PassThru')) {
@@ -99,7 +99,7 @@ function Invoke-ADCDeleteUserprotocol {
         Invoke-ADCDeleteUserprotocol -name <string>
     .NOTES
         File Name : Invoke-ADCDeleteUserprotocol
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/user/userprotocol/
         Requires  : PowerShell v5.1 and up
@@ -127,7 +127,7 @@ function Invoke-ADCDeleteUserprotocol {
             }
 
             if ($PSCmdlet.ShouldProcess("$name", "Delete User configuration Object")) {
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type userprotocol -Resource $name -Arguments $Arguments
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type userprotocol -NitroPath nitro/v1/config -Resource $name -Arguments $Arguments
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $response
@@ -159,7 +159,7 @@ function Invoke-ADCUpdateUserprotocol {
         Invoke-ADCUpdateUserprotocol -name <string>
     .NOTES
         File Name : Invoke-ADCUpdateUserprotocol
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/user/userprotocol/
         Requires  : PowerShell v5.1 and up
@@ -196,7 +196,7 @@ function Invoke-ADCUpdateUserprotocol {
             if ($PSBoundParameters.ContainsKey('comment')) { $Payload.Add('comment', $comment) }
  
             if ($PSCmdlet.ShouldProcess("userprotocol", "Update User configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -Type userprotocol -Payload $Payload -GetWarning
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -NitroPath nitro/v1/config -Type userprotocol -Payload $Payload -GetWarning
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 if ($PSBoundParameters.ContainsKey('PassThru')) {
@@ -230,7 +230,7 @@ function Invoke-ADCUnsetUserprotocol {
         Invoke-ADCUnsetUserprotocol -name <string>
     .NOTES
         File Name : Invoke-ADCUnsetUserprotocol
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/user/userprotocol
         Requires  : PowerShell v5.1 and up
@@ -263,7 +263,7 @@ function Invoke-ADCUnsetUserprotocol {
             }
             if ($PSBoundParameters.ContainsKey('comment')) { $Payload.Add('comment', $comment) }
             if ($PSCmdlet.ShouldProcess("$name", "Unset User configuration Object")) {
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -Type userprotocol -Action unset -Payload $Payload -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -Type userprotocol -NitroPath nitro/v1/config -Action unset -Payload $Payload -GetWarning
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $response
@@ -307,7 +307,7 @@ function Invoke-ADCGetUserprotocol {
         Invoke-ADCGetUserprotocol -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetUserprotocol
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/user/userprotocol/
         Requires  : PowerShell v5.1 and up
@@ -349,21 +349,21 @@ function Invoke-ADCGetUserprotocol {
             if ( $PsCmdlet.ParameterSetName -eq 'Getall' ) {
                 $Query = @{ }
                 Write-Verbose "Retrieving all userprotocol objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type userprotocol -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type userprotocol -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
                 if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for userprotocol objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type userprotocol -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type userprotocol -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving userprotocol objects by arguments"
                 $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type userprotocol -Arguments $Arguments -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type userprotocol -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving userprotocol configuration for property 'name'"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type userprotocol -Resource $name -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type userprotocol -NitroPath nitro/v1/config -Resource $name -Summary:$ViewSummary -Filter $Filter -GetWarning
             } else {
                 Write-Verbose "Retrieving userprotocol configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type userprotocol -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type userprotocol -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -410,7 +410,7 @@ function Invoke-ADCAddUservserver {
         Invoke-ADCAddUservserver -name <string> -userprotocol <string> -ipaddress <string> -port <int> -defaultlb <string>
     .NOTES
         File Name : Invoke-ADCAddUservserver
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/user/uservserver/
         Requires  : PowerShell v5.1 and up
@@ -471,7 +471,7 @@ function Invoke-ADCAddUservserver {
             if ($PSBoundParameters.ContainsKey('state')) { $Payload.Add('state', $state) }
  
             if ($PSCmdlet.ShouldProcess("uservserver", "Add User configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -Type uservserver -Payload $Payload -GetWarning
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -NitroPath nitro/v1/config -Type uservserver -Payload $Payload -GetWarning
                 #HTTP Status Code on Success: 201 Created
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 if ($PSBoundParameters.ContainsKey('PassThru')) {
@@ -505,7 +505,7 @@ function Invoke-ADCDeleteUservserver {
         Invoke-ADCDeleteUservserver -name <string>
     .NOTES
         File Name : Invoke-ADCDeleteUservserver
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/user/uservserver/
         Requires  : PowerShell v5.1 and up
@@ -533,7 +533,7 @@ function Invoke-ADCDeleteUservserver {
             }
 
             if ($PSCmdlet.ShouldProcess("$name", "Delete User configuration Object")) {
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type uservserver -Resource $name -Arguments $Arguments
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type uservserver -NitroPath nitro/v1/config -Resource $name -Arguments $Arguments
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $response
@@ -572,7 +572,7 @@ function Invoke-ADCUpdateUservserver {
         Invoke-ADCUpdateUservserver -name <string>
     .NOTES
         File Name : Invoke-ADCUpdateUservserver
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/user/uservserver/
         Requires  : PowerShell v5.1 and up
@@ -618,7 +618,7 @@ function Invoke-ADCUpdateUservserver {
             if ($PSBoundParameters.ContainsKey('comment')) { $Payload.Add('comment', $comment) }
  
             if ($PSCmdlet.ShouldProcess("uservserver", "Update User configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -Type uservserver -Payload $Payload -GetWarning
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -NitroPath nitro/v1/config -Type uservserver -Payload $Payload -GetWarning
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 if ($PSBoundParameters.ContainsKey('PassThru')) {
@@ -655,7 +655,7 @@ function Invoke-ADCUnsetUservserver {
         Invoke-ADCUnsetUservserver -name <string>
     .NOTES
         File Name : Invoke-ADCUnsetUservserver
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/user/uservserver
         Requires  : PowerShell v5.1 and up
@@ -691,7 +691,7 @@ function Invoke-ADCUnsetUservserver {
             if ($PSBoundParameters.ContainsKey('Params')) { $Payload.Add('Params', $Params) }
             if ($PSBoundParameters.ContainsKey('comment')) { $Payload.Add('comment', $comment) }
             if ($PSCmdlet.ShouldProcess("$name", "Unset User configuration Object")) {
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -Type uservserver -Action unset -Payload $Payload -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -Type uservserver -NitroPath nitro/v1/config -Action unset -Payload $Payload -GetWarning
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $response
@@ -719,7 +719,7 @@ function Invoke-ADCEnableUservserver {
         Invoke-ADCEnableUservserver -name <string>
     .NOTES
         File Name : Invoke-ADCEnableUservserver
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/user/uservserver/
         Requires  : PowerShell v5.1 and up
@@ -751,7 +751,7 @@ function Invoke-ADCEnableUservserver {
             }
 
             if ($PSCmdlet.ShouldProcess($Name, "Enable User configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -Type uservserver -Action enable -Payload $Payload -GetWarning
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -NitroPath nitro/v1/config -Type uservserver -Action enable -Payload $Payload -GetWarning
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $result
@@ -779,7 +779,7 @@ function Invoke-ADCDisableUservserver {
         Invoke-ADCDisableUservserver -name <string>
     .NOTES
         File Name : Invoke-ADCDisableUservserver
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/user/uservserver/
         Requires  : PowerShell v5.1 and up
@@ -811,7 +811,7 @@ function Invoke-ADCDisableUservserver {
             }
 
             if ($PSCmdlet.ShouldProcess($Name, "Disable User configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -Type uservserver -Action disable -Payload $Payload -GetWarning
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -NitroPath nitro/v1/config -Type uservserver -Action disable -Payload $Payload -GetWarning
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $result
@@ -856,7 +856,7 @@ function Invoke-ADCGetUservserver {
         Invoke-ADCGetUservserver -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetUservserver
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/user/uservserver/
         Requires  : PowerShell v5.1 and up
@@ -898,21 +898,21 @@ function Invoke-ADCGetUservserver {
             if ( $PsCmdlet.ParameterSetName -eq 'Getall' ) {
                 $Query = @{ }
                 Write-Verbose "Retrieving all uservserver objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type uservserver -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type uservserver -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
                 if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for uservserver objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type uservserver -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type uservserver -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving uservserver objects by arguments"
                 $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type uservserver -Arguments $Arguments -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type uservserver -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving uservserver configuration for property 'name'"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type uservserver -Resource $name -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type uservserver -NitroPath nitro/v1/config -Resource $name -Summary:$ViewSummary -Filter $Filter -GetWarning
             } else {
                 Write-Verbose "Retrieving uservserver configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type uservserver -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type uservserver -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"

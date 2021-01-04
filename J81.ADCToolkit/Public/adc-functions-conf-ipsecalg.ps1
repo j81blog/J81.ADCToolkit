@@ -33,7 +33,7 @@ function Invoke-ADCAddIpsecalgprofile {
         Invoke-ADCAddIpsecalgprofile -name <string>
     .NOTES
         File Name : Invoke-ADCAddIpsecalgprofile
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ipsecalg/ipsecalgprofile/
         Requires  : PowerShell v5.1 and up
@@ -82,7 +82,7 @@ function Invoke-ADCAddIpsecalgprofile {
             if ($PSBoundParameters.ContainsKey('connfailover')) { $Payload.Add('connfailover', $connfailover) }
  
             if ($PSCmdlet.ShouldProcess("ipsecalgprofile", "Add Ipsecalg configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -Type ipsecalgprofile -Payload $Payload -GetWarning
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -NitroPath nitro/v1/config -Type ipsecalgprofile -Payload $Payload -GetWarning
                 #HTTP Status Code on Success: 201 Created
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 if ($PSBoundParameters.ContainsKey('PassThru')) {
@@ -137,7 +137,7 @@ function Invoke-ADCUpdateIpsecalgprofile {
         Invoke-ADCUpdateIpsecalgprofile -name <string>
     .NOTES
         File Name : Invoke-ADCUpdateIpsecalgprofile
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ipsecalg/ipsecalgprofile/
         Requires  : PowerShell v5.1 and up
@@ -186,7 +186,7 @@ function Invoke-ADCUpdateIpsecalgprofile {
             if ($PSBoundParameters.ContainsKey('connfailover')) { $Payload.Add('connfailover', $connfailover) }
  
             if ($PSCmdlet.ShouldProcess("ipsecalgprofile", "Update Ipsecalg configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -Type ipsecalgprofile -Payload $Payload -GetWarning
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -NitroPath nitro/v1/config -Type ipsecalgprofile -Payload $Payload -GetWarning
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 if ($PSBoundParameters.ContainsKey('PassThru')) {
@@ -227,7 +227,7 @@ function Invoke-ADCUnsetIpsecalgprofile {
         Invoke-ADCUnsetIpsecalgprofile -name <string>
     .NOTES
         File Name : Invoke-ADCUnsetIpsecalgprofile
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ipsecalg/ipsecalgprofile
         Requires  : PowerShell v5.1 and up
@@ -268,7 +268,7 @@ function Invoke-ADCUnsetIpsecalgprofile {
             if ($PSBoundParameters.ContainsKey('espgatetimeout')) { $Payload.Add('espgatetimeout', $espgatetimeout) }
             if ($PSBoundParameters.ContainsKey('connfailover')) { $Payload.Add('connfailover', $connfailover) }
             if ($PSCmdlet.ShouldProcess("$name", "Unset Ipsecalg configuration Object")) {
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -Type ipsecalgprofile -Action unset -Payload $Payload -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -Type ipsecalgprofile -NitroPath nitro/v1/config -Action unset -Payload $Payload -GetWarning
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $response
@@ -297,7 +297,7 @@ function Invoke-ADCDeleteIpsecalgprofile {
         Invoke-ADCDeleteIpsecalgprofile -name <string>
     .NOTES
         File Name : Invoke-ADCDeleteIpsecalgprofile
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ipsecalg/ipsecalgprofile/
         Requires  : PowerShell v5.1 and up
@@ -325,7 +325,7 @@ function Invoke-ADCDeleteIpsecalgprofile {
             }
 
             if ($PSCmdlet.ShouldProcess("$name", "Delete Ipsecalg configuration Object")) {
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type ipsecalgprofile -Resource $name -Arguments $Arguments
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type ipsecalgprofile -NitroPath nitro/v1/config -Resource $name -Arguments $Arguments
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $response
@@ -369,7 +369,7 @@ function Invoke-ADCGetIpsecalgprofile {
         Invoke-ADCGetIpsecalgprofile -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetIpsecalgprofile
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ipsecalg/ipsecalgprofile/
         Requires  : PowerShell v5.1 and up
@@ -410,21 +410,21 @@ function Invoke-ADCGetIpsecalgprofile {
             if ( $PsCmdlet.ParameterSetName -eq 'Getall' ) {
                 $Query = @{ }
                 Write-Verbose "Retrieving all ipsecalgprofile objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type ipsecalgprofile -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type ipsecalgprofile -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
                 if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for ipsecalgprofile objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type ipsecalgprofile -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type ipsecalgprofile -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving ipsecalgprofile objects by arguments"
                 $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type ipsecalgprofile -Arguments $Arguments -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type ipsecalgprofile -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving ipsecalgprofile configuration for property 'name'"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type ipsecalgprofile -Resource $name -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type ipsecalgprofile -NitroPath nitro/v1/config -Resource $name -Summary:$ViewSummary -Filter $Filter -GetWarning
             } else {
                 Write-Verbose "Retrieving ipsecalgprofile configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type ipsecalgprofile -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type ipsecalgprofile -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -453,7 +453,7 @@ function Invoke-ADCFlushIpsecalgsession {
         Invoke-ADCFlushIpsecalgsession 
     .NOTES
         File Name : Invoke-ADCFlushIpsecalgsession
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ipsecalg/ipsecalgsession/
         Requires  : PowerShell v5.1 and up
@@ -491,7 +491,7 @@ function Invoke-ADCFlushIpsecalgsession {
             if ($PSBoundParameters.ContainsKey('natip')) { $Payload.Add('natip', $natip) }
             if ($PSBoundParameters.ContainsKey('destip')) { $Payload.Add('destip', $destip) }
             if ($PSCmdlet.ShouldProcess($Name, "Flush Ipsecalg configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -Type ipsecalgsession -Action flush -Payload $Payload -GetWarning
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -NitroPath nitro/v1/config -Type ipsecalgsession -Action flush -Payload $Payload -GetWarning
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $result
@@ -539,7 +539,7 @@ function Invoke-ADCGetIpsecalgsession {
         Invoke-ADCGetIpsecalgsession -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetIpsecalgsession
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ipsecalg/ipsecalgsession/
         Requires  : PowerShell v5.1 and up
@@ -587,24 +587,24 @@ function Invoke-ADCGetIpsecalgsession {
             if ( $PsCmdlet.ParameterSetName -eq 'Getall' ) {
                 $Query = @{ }
                 Write-Verbose "Retrieving all ipsecalgsession objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type ipsecalgsession -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type ipsecalgsession -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
                 if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for ipsecalgsession objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type ipsecalgsession -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type ipsecalgsession -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving ipsecalgsession objects by arguments"
                 $Arguments = @{ } 
                 if ($PSBoundParameters.ContainsKey('sourceip_alg')) { $Arguments.Add('sourceip_alg', $sourceip_alg) } 
                 if ($PSBoundParameters.ContainsKey('natip_alg')) { $Arguments.Add('natip_alg', $natip_alg) } 
                 if ($PSBoundParameters.ContainsKey('destip_alg')) { $Arguments.Add('destip_alg', $destip_alg) }
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type ipsecalgsession -Arguments $Arguments -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type ipsecalgsession -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving ipsecalgsession configuration for property ''"
 
             } else {
                 Write-Verbose "Retrieving ipsecalgsession configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type ipsecalgsession -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type ipsecalgsession -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"

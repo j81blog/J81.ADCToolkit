@@ -15,7 +15,7 @@ function Invoke-ADCUpdateAaacertparams {
         Invoke-ADCUpdateAaacertparams 
     .NOTES
         File Name : Invoke-ADCUpdateAaacertparams
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/aaa/aaacertparams/
         Requires  : PowerShell v5.1 and up
@@ -51,7 +51,7 @@ function Invoke-ADCUpdateAaacertparams {
             if ($PSBoundParameters.ContainsKey('defaultauthenticationgroup')) { $Payload.Add('defaultauthenticationgroup', $defaultauthenticationgroup) }
  
             if ($PSCmdlet.ShouldProcess("aaacertparams", "Update AAA configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -Type aaacertparams -Payload $Payload -GetWarning
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -NitroPath nitro/v1/config -Type aaacertparams -Payload $Payload -GetWarning
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
             Write-Output $result
@@ -83,7 +83,7 @@ function Invoke-ADCUnsetAaacertparams {
         Invoke-ADCUnsetAaacertparams 
     .NOTES
         File Name : Invoke-ADCUnsetAaacertparams
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/aaa/aaacertparams
         Requires  : PowerShell v5.1 and up
@@ -117,7 +117,7 @@ function Invoke-ADCUnsetAaacertparams {
             if ($PSBoundParameters.ContainsKey('groupnamefield')) { $Payload.Add('groupnamefield', $groupnamefield) }
             if ($PSBoundParameters.ContainsKey('defaultauthenticationgroup')) { $Payload.Add('defaultauthenticationgroup', $defaultauthenticationgroup) }
             if ($PSCmdlet.ShouldProcess("aaacertparams", "Unset AAA configuration Object")) {
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -Type aaacertparams -Action unset -Payload $Payload -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -Type aaacertparams -NitroPath nitro/v1/config -Action unset -Payload $Payload -GetWarning
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $response
@@ -157,7 +157,7 @@ function Invoke-ADCGetAaacertparams {
         Invoke-ADCGetAaacertparams -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetAaacertparams
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/aaa/aaacertparams/
         Requires  : PowerShell v5.1 and up
@@ -186,21 +186,21 @@ function Invoke-ADCGetAaacertparams {
             if ( $PsCmdlet.ParameterSetName -eq 'Getall' ) {
                 $Query = @{ }
                 Write-Verbose "Retrieving all aaacertparams objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type aaacertparams -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type aaacertparams -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
                 if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for aaacertparams objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type aaacertparams -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type aaacertparams -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving aaacertparams objects by arguments"
                 $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type aaacertparams -Arguments $Arguments -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type aaacertparams -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving aaacertparams configuration for property ''"
 
             } else {
                 Write-Verbose "Retrieving aaacertparams configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type aaacertparams -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type aaacertparams -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -230,7 +230,7 @@ function Invoke-ADCAddAaaglobalaaapreauthenticationpolicybinding {
         Invoke-ADCAddAaaglobalaaapreauthenticationpolicybinding 
     .NOTES
         File Name : Invoke-ADCAddAaaglobalaaapreauthenticationpolicybinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/aaa/aaaglobal_aaapreauthenticationpolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -266,7 +266,7 @@ function Invoke-ADCAddAaaglobalaaapreauthenticationpolicybinding {
             if ($PSBoundParameters.ContainsKey('priority')) { $Payload.Add('priority', $priority) }
  
             if ($PSCmdlet.ShouldProcess("aaaglobal_aaapreauthenticationpolicy_binding", "Add AAA configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -Type aaaglobal_aaapreauthenticationpolicy_binding -Payload $Payload -GetWarning
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -NitroPath nitro/v1/config -Type aaaglobal_aaapreauthenticationpolicy_binding -Payload $Payload -GetWarning
                 #HTTP Status Code on Success: 201 Created
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 if ($PSBoundParameters.ContainsKey('PassThru')) {
@@ -299,7 +299,7 @@ function Invoke-ADCDeleteAaaglobalaaapreauthenticationpolicybinding {
         Invoke-ADCDeleteAaaglobalaaapreauthenticationpolicybinding 
     .NOTES
         File Name : Invoke-ADCDeleteAaaglobalaaapreauthenticationpolicybinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/aaa/aaaglobal_aaapreauthenticationpolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -326,7 +326,7 @@ function Invoke-ADCDeleteAaaglobalaaapreauthenticationpolicybinding {
             }
             if ($PSBoundParameters.ContainsKey('policy')) { $Arguments.Add('policy', $policy) }
             if ($PSCmdlet.ShouldProcess("aaaglobal_aaapreauthenticationpolicy_binding", "Delete AAA configuration Object")) {
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type aaaglobal_aaapreauthenticationpolicy_binding -Resource $ -Arguments $Arguments
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type aaaglobal_aaapreauthenticationpolicy_binding -NitroPath nitro/v1/config -Resource $ -Arguments $Arguments
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $response
@@ -368,7 +368,7 @@ function Invoke-ADCGetAaaglobalaaapreauthenticationpolicybinding {
         Invoke-ADCGetAaaglobalaaapreauthenticationpolicybinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetAaaglobalaaapreauthenticationpolicybinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/aaa/aaaglobal_aaapreauthenticationpolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -402,21 +402,21 @@ function Invoke-ADCGetAaaglobalaaapreauthenticationpolicybinding {
                     bulkbindings = 'yes'
                 }
                 Write-Verbose "Retrieving all aaaglobal_aaapreauthenticationpolicy_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type aaaglobal_aaapreauthenticationpolicy_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type aaaglobal_aaapreauthenticationpolicy_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
                 if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for aaaglobal_aaapreauthenticationpolicy_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type aaaglobal_aaapreauthenticationpolicy_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type aaaglobal_aaapreauthenticationpolicy_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving aaaglobal_aaapreauthenticationpolicy_binding objects by arguments"
                 $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type aaaglobal_aaapreauthenticationpolicy_binding -Arguments $Arguments -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type aaaglobal_aaapreauthenticationpolicy_binding -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving aaaglobal_aaapreauthenticationpolicy_binding configuration for property ''"
 
             } else {
                 Write-Verbose "Retrieving aaaglobal_aaapreauthenticationpolicy_binding configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type aaaglobal_aaapreauthenticationpolicy_binding -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type aaaglobal_aaapreauthenticationpolicy_binding -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -445,7 +445,7 @@ function Invoke-ADCAddAaaglobalauthenticationnegotiateactionbinding {
         Invoke-ADCAddAaaglobalauthenticationnegotiateactionbinding 
     .NOTES
         File Name : Invoke-ADCAddAaaglobalauthenticationnegotiateactionbinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/aaa/aaaglobal_authenticationnegotiateaction_binding/
         Requires  : PowerShell v5.1 and up
@@ -478,7 +478,7 @@ function Invoke-ADCAddAaaglobalauthenticationnegotiateactionbinding {
             if ($PSBoundParameters.ContainsKey('windowsprofile')) { $Payload.Add('windowsprofile', $windowsprofile) }
  
             if ($PSCmdlet.ShouldProcess("aaaglobal_authenticationnegotiateaction_binding", "Add AAA configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -Type aaaglobal_authenticationnegotiateaction_binding -Payload $Payload -GetWarning
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -NitroPath nitro/v1/config -Type aaaglobal_authenticationnegotiateaction_binding -Payload $Payload -GetWarning
                 #HTTP Status Code on Success: 201 Created
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 if ($PSBoundParameters.ContainsKey('PassThru')) {
@@ -512,7 +512,7 @@ function Invoke-ADCDeleteAaaglobalauthenticationnegotiateactionbinding {
         Invoke-ADCDeleteAaaglobalauthenticationnegotiateactionbinding 
     .NOTES
         File Name : Invoke-ADCDeleteAaaglobalauthenticationnegotiateactionbinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/aaa/aaaglobal_authenticationnegotiateaction_binding/
         Requires  : PowerShell v5.1 and up
@@ -539,7 +539,7 @@ function Invoke-ADCDeleteAaaglobalauthenticationnegotiateactionbinding {
             }
             if ($PSBoundParameters.ContainsKey('windowsprofile')) { $Arguments.Add('windowsprofile', $windowsprofile) }
             if ($PSCmdlet.ShouldProcess("aaaglobal_authenticationnegotiateaction_binding", "Delete AAA configuration Object")) {
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type aaaglobal_authenticationnegotiateaction_binding -Resource $ -Arguments $Arguments
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type aaaglobal_authenticationnegotiateaction_binding -NitroPath nitro/v1/config -Resource $ -Arguments $Arguments
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $response
@@ -581,7 +581,7 @@ function Invoke-ADCGetAaaglobalauthenticationnegotiateactionbinding {
         Invoke-ADCGetAaaglobalauthenticationnegotiateactionbinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetAaaglobalauthenticationnegotiateactionbinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/aaa/aaaglobal_authenticationnegotiateaction_binding/
         Requires  : PowerShell v5.1 and up
@@ -615,21 +615,21 @@ function Invoke-ADCGetAaaglobalauthenticationnegotiateactionbinding {
                     bulkbindings = 'yes'
                 }
                 Write-Verbose "Retrieving all aaaglobal_authenticationnegotiateaction_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type aaaglobal_authenticationnegotiateaction_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type aaaglobal_authenticationnegotiateaction_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
                 if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for aaaglobal_authenticationnegotiateaction_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type aaaglobal_authenticationnegotiateaction_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type aaaglobal_authenticationnegotiateaction_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving aaaglobal_authenticationnegotiateaction_binding objects by arguments"
                 $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type aaaglobal_authenticationnegotiateaction_binding -Arguments $Arguments -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type aaaglobal_authenticationnegotiateaction_binding -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving aaaglobal_authenticationnegotiateaction_binding configuration for property ''"
 
             } else {
                 Write-Verbose "Retrieving aaaglobal_authenticationnegotiateaction_binding configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type aaaglobal_authenticationnegotiateaction_binding -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type aaaglobal_authenticationnegotiateaction_binding -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -667,7 +667,7 @@ function Invoke-ADCGetAaaglobalbinding {
         Invoke-ADCGetAaaglobalbinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetAaaglobalbinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/aaa/aaaglobal_binding/
         Requires  : PowerShell v5.1 and up
@@ -698,21 +698,21 @@ function Invoke-ADCGetAaaglobalbinding {
                     bulkbindings = 'yes'
                 }
                 Write-Verbose "Retrieving all aaaglobal_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type aaaglobal_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type aaaglobal_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
                 if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for aaaglobal_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type aaaglobal_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type aaaglobal_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving aaaglobal_binding objects by arguments"
                 $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type aaaglobal_binding -Arguments $Arguments -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type aaaglobal_binding -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving aaaglobal_binding configuration for property ''"
 
             } else {
                 Write-Verbose "Retrieving aaaglobal_binding configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type aaaglobal_binding -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type aaaglobal_binding -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -744,7 +744,7 @@ function Invoke-ADCAddAaagroup {
         Invoke-ADCAddAaagroup -groupname <string>
     .NOTES
         File Name : Invoke-ADCAddAaagroup
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/aaa/aaagroup/
         Requires  : PowerShell v5.1 and up
@@ -781,7 +781,7 @@ function Invoke-ADCAddAaagroup {
             if ($PSBoundParameters.ContainsKey('weight')) { $Payload.Add('weight', $weight) }
  
             if ($PSCmdlet.ShouldProcess("aaagroup", "Add AAA configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -Type aaagroup -Payload $Payload -GetWarning
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -NitroPath nitro/v1/config -Type aaagroup -Payload $Payload -GetWarning
                 #HTTP Status Code on Success: 201 Created
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 if ($PSBoundParameters.ContainsKey('PassThru')) {
@@ -813,7 +813,7 @@ function Invoke-ADCDeleteAaagroup {
         Invoke-ADCDeleteAaagroup -groupname <string>
     .NOTES
         File Name : Invoke-ADCDeleteAaagroup
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/aaa/aaagroup/
         Requires  : PowerShell v5.1 and up
@@ -841,7 +841,7 @@ function Invoke-ADCDeleteAaagroup {
             }
 
             if ($PSCmdlet.ShouldProcess("$groupname", "Delete AAA configuration Object")) {
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type aaagroup -Resource $groupname -Arguments $Arguments
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type aaagroup -NitroPath nitro/v1/config -Resource $groupname -Arguments $Arguments
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $response
@@ -885,7 +885,7 @@ function Invoke-ADCGetAaagroup {
         Invoke-ADCGetAaagroup -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetAaagroup
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/aaa/aaagroup/
         Requires  : PowerShell v5.1 and up
@@ -926,21 +926,21 @@ function Invoke-ADCGetAaagroup {
             if ( $PsCmdlet.ParameterSetName -eq 'Getall' ) {
                 $Query = @{ }
                 Write-Verbose "Retrieving all aaagroup objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type aaagroup -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type aaagroup -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
                 if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for aaagroup objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type aaagroup -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type aaagroup -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving aaagroup objects by arguments"
                 $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type aaagroup -Arguments $Arguments -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type aaagroup -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving aaagroup configuration for property 'groupname'"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type aaagroup -Resource $groupname -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type aaagroup -NitroPath nitro/v1/config -Resource $groupname -Summary:$ViewSummary -Filter $Filter -GetWarning
             } else {
                 Write-Verbose "Retrieving aaagroup configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type aaagroup -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type aaagroup -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -972,7 +972,7 @@ function Invoke-ADCAddAaagroupaaauserbinding {
         Invoke-ADCAddAaagroupaaauserbinding -groupname <string>
     .NOTES
         File Name : Invoke-ADCAddAaagroupaaauserbinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/aaa/aaagroup_aaauser_binding/
         Requires  : PowerShell v5.1 and up
@@ -1011,7 +1011,7 @@ function Invoke-ADCAddAaagroupaaauserbinding {
             if ($PSBoundParameters.ContainsKey('gotopriorityexpression')) { $Payload.Add('gotopriorityexpression', $gotopriorityexpression) }
  
             if ($PSCmdlet.ShouldProcess("aaagroup_aaauser_binding", "Add AAA configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -Type aaagroup_aaauser_binding -Payload $Payload -GetWarning
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -NitroPath nitro/v1/config -Type aaagroup_aaauser_binding -Payload $Payload -GetWarning
                 #HTTP Status Code on Success: 201 Created
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 if ($PSBoundParameters.ContainsKey('PassThru')) {
@@ -1045,7 +1045,7 @@ function Invoke-ADCDeleteAaagroupaaauserbinding {
         Invoke-ADCDeleteAaagroupaaauserbinding -groupname <string>
     .NOTES
         File Name : Invoke-ADCDeleteAaagroupaaauserbinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/aaa/aaagroup_aaauser_binding/
         Requires  : PowerShell v5.1 and up
@@ -1075,7 +1075,7 @@ function Invoke-ADCDeleteAaagroupaaauserbinding {
             }
             if ($PSBoundParameters.ContainsKey('username')) { $Arguments.Add('username', $username) }
             if ($PSCmdlet.ShouldProcess("$groupname", "Delete AAA configuration Object")) {
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type aaagroup_aaauser_binding -Resource $groupname -Arguments $Arguments
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type aaagroup_aaauser_binding -NitroPath nitro/v1/config -Resource $groupname -Arguments $Arguments
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $response
@@ -1119,7 +1119,7 @@ function Invoke-ADCGetAaagroupaaauserbinding {
         Invoke-ADCGetAaagroupaaauserbinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetAaagroupaaauserbinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/aaa/aaagroup_aaauser_binding/
         Requires  : PowerShell v5.1 and up
@@ -1157,21 +1157,21 @@ function Invoke-ADCGetAaagroupaaauserbinding {
                     bulkbindings = 'yes'
                 }
                 Write-Verbose "Retrieving all aaagroup_aaauser_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type aaagroup_aaauser_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type aaagroup_aaauser_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
                 if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for aaagroup_aaauser_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type aaagroup_aaauser_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type aaagroup_aaauser_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving aaagroup_aaauser_binding objects by arguments"
                 $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type aaagroup_aaauser_binding -Arguments $Arguments -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type aaagroup_aaauser_binding -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving aaagroup_aaauser_binding configuration for property 'groupname'"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type aaagroup_aaauser_binding -Resource $groupname -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type aaagroup_aaauser_binding -NitroPath nitro/v1/config -Resource $groupname -Summary:$ViewSummary -Filter $Filter -GetWarning
             } else {
                 Write-Verbose "Retrieving aaagroup_aaauser_binding configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type aaagroup_aaauser_binding -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type aaagroup_aaauser_binding -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -1211,7 +1211,7 @@ function Invoke-ADCAddAaagroupauditnslogpolicybinding {
         Invoke-ADCAddAaagroupauditnslogpolicybinding -groupname <string>
     .NOTES
         File Name : Invoke-ADCAddAaagroupauditnslogpolicybinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/aaa/aaagroup_auditnslogpolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -1258,7 +1258,7 @@ function Invoke-ADCAddAaagroupauditnslogpolicybinding {
             if ($PSBoundParameters.ContainsKey('gotopriorityexpression')) { $Payload.Add('gotopriorityexpression', $gotopriorityexpression) }
  
             if ($PSCmdlet.ShouldProcess("aaagroup_auditnslogpolicy_binding", "Add AAA configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -Type aaagroup_auditnslogpolicy_binding -Payload $Payload -GetWarning
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -NitroPath nitro/v1/config -Type aaagroup_auditnslogpolicy_binding -Payload $Payload -GetWarning
                 #HTTP Status Code on Success: 201 Created
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 if ($PSBoundParameters.ContainsKey('PassThru')) {
@@ -1295,7 +1295,7 @@ function Invoke-ADCDeleteAaagroupauditnslogpolicybinding {
         Invoke-ADCDeleteAaagroupauditnslogpolicybinding -groupname <string>
     .NOTES
         File Name : Invoke-ADCDeleteAaagroupauditnslogpolicybinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/aaa/aaagroup_auditnslogpolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -1328,7 +1328,7 @@ function Invoke-ADCDeleteAaagroupauditnslogpolicybinding {
             if ($PSBoundParameters.ContainsKey('policy')) { $Arguments.Add('policy', $policy) }
             if ($PSBoundParameters.ContainsKey('type')) { $Arguments.Add('type', $type) }
             if ($PSCmdlet.ShouldProcess("$groupname", "Delete AAA configuration Object")) {
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type aaagroup_auditnslogpolicy_binding -Resource $groupname -Arguments $Arguments
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type aaagroup_auditnslogpolicy_binding -NitroPath nitro/v1/config -Resource $groupname -Arguments $Arguments
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $response
@@ -1372,7 +1372,7 @@ function Invoke-ADCGetAaagroupauditnslogpolicybinding {
         Invoke-ADCGetAaagroupauditnslogpolicybinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetAaagroupauditnslogpolicybinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/aaa/aaagroup_auditnslogpolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -1410,21 +1410,21 @@ function Invoke-ADCGetAaagroupauditnslogpolicybinding {
                     bulkbindings = 'yes'
                 }
                 Write-Verbose "Retrieving all aaagroup_auditnslogpolicy_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type aaagroup_auditnslogpolicy_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type aaagroup_auditnslogpolicy_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
                 if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for aaagroup_auditnslogpolicy_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type aaagroup_auditnslogpolicy_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type aaagroup_auditnslogpolicy_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving aaagroup_auditnslogpolicy_binding objects by arguments"
                 $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type aaagroup_auditnslogpolicy_binding -Arguments $Arguments -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type aaagroup_auditnslogpolicy_binding -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving aaagroup_auditnslogpolicy_binding configuration for property 'groupname'"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type aaagroup_auditnslogpolicy_binding -Resource $groupname -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type aaagroup_auditnslogpolicy_binding -NitroPath nitro/v1/config -Resource $groupname -Summary:$ViewSummary -Filter $Filter -GetWarning
             } else {
                 Write-Verbose "Retrieving aaagroup_auditnslogpolicy_binding configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type aaagroup_auditnslogpolicy_binding -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type aaagroup_auditnslogpolicy_binding -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -1464,7 +1464,7 @@ function Invoke-ADCAddAaagroupauditsyslogpolicybinding {
         Invoke-ADCAddAaagroupauditsyslogpolicybinding -groupname <string>
     .NOTES
         File Name : Invoke-ADCAddAaagroupauditsyslogpolicybinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/aaa/aaagroup_auditsyslogpolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -1511,7 +1511,7 @@ function Invoke-ADCAddAaagroupauditsyslogpolicybinding {
             if ($PSBoundParameters.ContainsKey('gotopriorityexpression')) { $Payload.Add('gotopriorityexpression', $gotopriorityexpression) }
  
             if ($PSCmdlet.ShouldProcess("aaagroup_auditsyslogpolicy_binding", "Add AAA configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -Type aaagroup_auditsyslogpolicy_binding -Payload $Payload -GetWarning
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -NitroPath nitro/v1/config -Type aaagroup_auditsyslogpolicy_binding -Payload $Payload -GetWarning
                 #HTTP Status Code on Success: 201 Created
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 if ($PSBoundParameters.ContainsKey('PassThru')) {
@@ -1548,7 +1548,7 @@ function Invoke-ADCDeleteAaagroupauditsyslogpolicybinding {
         Invoke-ADCDeleteAaagroupauditsyslogpolicybinding -groupname <string>
     .NOTES
         File Name : Invoke-ADCDeleteAaagroupauditsyslogpolicybinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/aaa/aaagroup_auditsyslogpolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -1581,7 +1581,7 @@ function Invoke-ADCDeleteAaagroupauditsyslogpolicybinding {
             if ($PSBoundParameters.ContainsKey('policy')) { $Arguments.Add('policy', $policy) }
             if ($PSBoundParameters.ContainsKey('type')) { $Arguments.Add('type', $type) }
             if ($PSCmdlet.ShouldProcess("$groupname", "Delete AAA configuration Object")) {
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type aaagroup_auditsyslogpolicy_binding -Resource $groupname -Arguments $Arguments
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type aaagroup_auditsyslogpolicy_binding -NitroPath nitro/v1/config -Resource $groupname -Arguments $Arguments
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $response
@@ -1625,7 +1625,7 @@ function Invoke-ADCGetAaagroupauditsyslogpolicybinding {
         Invoke-ADCGetAaagroupauditsyslogpolicybinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetAaagroupauditsyslogpolicybinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/aaa/aaagroup_auditsyslogpolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -1663,21 +1663,21 @@ function Invoke-ADCGetAaagroupauditsyslogpolicybinding {
                     bulkbindings = 'yes'
                 }
                 Write-Verbose "Retrieving all aaagroup_auditsyslogpolicy_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type aaagroup_auditsyslogpolicy_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type aaagroup_auditsyslogpolicy_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
                 if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for aaagroup_auditsyslogpolicy_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type aaagroup_auditsyslogpolicy_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type aaagroup_auditsyslogpolicy_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving aaagroup_auditsyslogpolicy_binding objects by arguments"
                 $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type aaagroup_auditsyslogpolicy_binding -Arguments $Arguments -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type aaagroup_auditsyslogpolicy_binding -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving aaagroup_auditsyslogpolicy_binding configuration for property 'groupname'"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type aaagroup_auditsyslogpolicy_binding -Resource $groupname -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type aaagroup_auditsyslogpolicy_binding -NitroPath nitro/v1/config -Resource $groupname -Summary:$ViewSummary -Filter $Filter -GetWarning
             } else {
                 Write-Verbose "Retrieving aaagroup_auditsyslogpolicy_binding configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type aaagroup_auditsyslogpolicy_binding -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type aaagroup_auditsyslogpolicy_binding -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -1717,7 +1717,7 @@ function Invoke-ADCAddAaagroupauthorizationpolicybinding {
         Invoke-ADCAddAaagroupauthorizationpolicybinding -groupname <string>
     .NOTES
         File Name : Invoke-ADCAddAaagroupauthorizationpolicybinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/aaa/aaagroup_authorizationpolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -1764,7 +1764,7 @@ function Invoke-ADCAddAaagroupauthorizationpolicybinding {
             if ($PSBoundParameters.ContainsKey('gotopriorityexpression')) { $Payload.Add('gotopriorityexpression', $gotopriorityexpression) }
  
             if ($PSCmdlet.ShouldProcess("aaagroup_authorizationpolicy_binding", "Add AAA configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -Type aaagroup_authorizationpolicy_binding -Payload $Payload -GetWarning
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -NitroPath nitro/v1/config -Type aaagroup_authorizationpolicy_binding -Payload $Payload -GetWarning
                 #HTTP Status Code on Success: 201 Created
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 if ($PSBoundParameters.ContainsKey('PassThru')) {
@@ -1801,7 +1801,7 @@ function Invoke-ADCDeleteAaagroupauthorizationpolicybinding {
         Invoke-ADCDeleteAaagroupauthorizationpolicybinding -groupname <string>
     .NOTES
         File Name : Invoke-ADCDeleteAaagroupauthorizationpolicybinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/aaa/aaagroup_authorizationpolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -1834,7 +1834,7 @@ function Invoke-ADCDeleteAaagroupauthorizationpolicybinding {
             if ($PSBoundParameters.ContainsKey('policy')) { $Arguments.Add('policy', $policy) }
             if ($PSBoundParameters.ContainsKey('type')) { $Arguments.Add('type', $type) }
             if ($PSCmdlet.ShouldProcess("$groupname", "Delete AAA configuration Object")) {
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type aaagroup_authorizationpolicy_binding -Resource $groupname -Arguments $Arguments
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type aaagroup_authorizationpolicy_binding -NitroPath nitro/v1/config -Resource $groupname -Arguments $Arguments
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $response
@@ -1878,7 +1878,7 @@ function Invoke-ADCGetAaagroupauthorizationpolicybinding {
         Invoke-ADCGetAaagroupauthorizationpolicybinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetAaagroupauthorizationpolicybinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/aaa/aaagroup_authorizationpolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -1916,21 +1916,21 @@ function Invoke-ADCGetAaagroupauthorizationpolicybinding {
                     bulkbindings = 'yes'
                 }
                 Write-Verbose "Retrieving all aaagroup_authorizationpolicy_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type aaagroup_authorizationpolicy_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type aaagroup_authorizationpolicy_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
                 if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for aaagroup_authorizationpolicy_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type aaagroup_authorizationpolicy_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type aaagroup_authorizationpolicy_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving aaagroup_authorizationpolicy_binding objects by arguments"
                 $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type aaagroup_authorizationpolicy_binding -Arguments $Arguments -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type aaagroup_authorizationpolicy_binding -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving aaagroup_authorizationpolicy_binding configuration for property 'groupname'"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type aaagroup_authorizationpolicy_binding -Resource $groupname -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type aaagroup_authorizationpolicy_binding -NitroPath nitro/v1/config -Resource $groupname -Summary:$ViewSummary -Filter $Filter -GetWarning
             } else {
                 Write-Verbose "Retrieving aaagroup_authorizationpolicy_binding configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type aaagroup_authorizationpolicy_binding -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type aaagroup_authorizationpolicy_binding -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -1970,7 +1970,7 @@ function Invoke-ADCGetAaagroupbinding {
         Invoke-ADCGetAaagroupbinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetAaagroupbinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/aaa/aaagroup_binding/
         Requires  : PowerShell v5.1 and up
@@ -2005,21 +2005,21 @@ function Invoke-ADCGetAaagroupbinding {
                     bulkbindings = 'yes'
                 }
                 Write-Verbose "Retrieving all aaagroup_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type aaagroup_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type aaagroup_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
                 if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for aaagroup_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type aaagroup_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type aaagroup_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving aaagroup_binding objects by arguments"
                 $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type aaagroup_binding -Arguments $Arguments -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type aaagroup_binding -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving aaagroup_binding configuration for property 'groupname'"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type aaagroup_binding -Resource $groupname -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type aaagroup_binding -NitroPath nitro/v1/config -Resource $groupname -Summary:$ViewSummary -Filter $Filter -GetWarning
             } else {
                 Write-Verbose "Retrieving aaagroup_binding configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type aaagroup_binding -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type aaagroup_binding -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -2053,7 +2053,7 @@ function Invoke-ADCAddAaagroupintranetip6binding {
         Invoke-ADCAddAaagroupintranetip6binding -groupname <string>
     .NOTES
         File Name : Invoke-ADCAddAaagroupintranetip6binding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/aaa/aaagroup_intranetip6_binding/
         Requires  : PowerShell v5.1 and up
@@ -2095,7 +2095,7 @@ function Invoke-ADCAddAaagroupintranetip6binding {
             if ($PSBoundParameters.ContainsKey('numaddr')) { $Payload.Add('numaddr', $numaddr) }
  
             if ($PSCmdlet.ShouldProcess("aaagroup_intranetip6_binding", "Add AAA configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -Type aaagroup_intranetip6_binding -Payload $Payload -GetWarning
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -NitroPath nitro/v1/config -Type aaagroup_intranetip6_binding -Payload $Payload -GetWarning
                 #HTTP Status Code on Success: 201 Created
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 if ($PSBoundParameters.ContainsKey('PassThru')) {
@@ -2130,7 +2130,7 @@ function Invoke-ADCDeleteAaagroupintranetip6binding {
         Invoke-ADCDeleteAaagroupintranetip6binding -groupname <string>
     .NOTES
         File Name : Invoke-ADCDeleteAaagroupintranetip6binding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/aaa/aaagroup_intranetip6_binding/
         Requires  : PowerShell v5.1 and up
@@ -2163,7 +2163,7 @@ function Invoke-ADCDeleteAaagroupintranetip6binding {
             if ($PSBoundParameters.ContainsKey('intranetip6')) { $Arguments.Add('intranetip6', $intranetip6) }
             if ($PSBoundParameters.ContainsKey('numaddr')) { $Arguments.Add('numaddr', $numaddr) }
             if ($PSCmdlet.ShouldProcess("$groupname", "Delete AAA configuration Object")) {
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type aaagroup_intranetip6_binding -Resource $groupname -Arguments $Arguments
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type aaagroup_intranetip6_binding -NitroPath nitro/v1/config -Resource $groupname -Arguments $Arguments
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $response
@@ -2207,7 +2207,7 @@ function Invoke-ADCGetAaagroupintranetip6binding {
         Invoke-ADCGetAaagroupintranetip6binding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetAaagroupintranetip6binding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/aaa/aaagroup_intranetip6_binding/
         Requires  : PowerShell v5.1 and up
@@ -2245,21 +2245,21 @@ function Invoke-ADCGetAaagroupintranetip6binding {
                     bulkbindings = 'yes'
                 }
                 Write-Verbose "Retrieving all aaagroup_intranetip6_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type aaagroup_intranetip6_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type aaagroup_intranetip6_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
                 if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for aaagroup_intranetip6_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type aaagroup_intranetip6_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type aaagroup_intranetip6_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving aaagroup_intranetip6_binding objects by arguments"
                 $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type aaagroup_intranetip6_binding -Arguments $Arguments -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type aaagroup_intranetip6_binding -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving aaagroup_intranetip6_binding configuration for property 'groupname'"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type aaagroup_intranetip6_binding -Resource $groupname -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type aaagroup_intranetip6_binding -NitroPath nitro/v1/config -Resource $groupname -Summary:$ViewSummary -Filter $Filter -GetWarning
             } else {
                 Write-Verbose "Retrieving aaagroup_intranetip6_binding configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type aaagroup_intranetip6_binding -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type aaagroup_intranetip6_binding -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -2293,7 +2293,7 @@ function Invoke-ADCAddAaagroupintranetipbinding {
         Invoke-ADCAddAaagroupintranetipbinding -groupname <string>
     .NOTES
         File Name : Invoke-ADCAddAaagroupintranetipbinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/aaa/aaagroup_intranetip_binding/
         Requires  : PowerShell v5.1 and up
@@ -2335,7 +2335,7 @@ function Invoke-ADCAddAaagroupintranetipbinding {
             if ($PSBoundParameters.ContainsKey('gotopriorityexpression')) { $Payload.Add('gotopriorityexpression', $gotopriorityexpression) }
  
             if ($PSCmdlet.ShouldProcess("aaagroup_intranetip_binding", "Add AAA configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -Type aaagroup_intranetip_binding -Payload $Payload -GetWarning
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -NitroPath nitro/v1/config -Type aaagroup_intranetip_binding -Payload $Payload -GetWarning
                 #HTTP Status Code on Success: 201 Created
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 if ($PSBoundParameters.ContainsKey('PassThru')) {
@@ -2370,7 +2370,7 @@ function Invoke-ADCDeleteAaagroupintranetipbinding {
         Invoke-ADCDeleteAaagroupintranetipbinding -groupname <string>
     .NOTES
         File Name : Invoke-ADCDeleteAaagroupintranetipbinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/aaa/aaagroup_intranetip_binding/
         Requires  : PowerShell v5.1 and up
@@ -2403,7 +2403,7 @@ function Invoke-ADCDeleteAaagroupintranetipbinding {
             if ($PSBoundParameters.ContainsKey('intranetip')) { $Arguments.Add('intranetip', $intranetip) }
             if ($PSBoundParameters.ContainsKey('netmask')) { $Arguments.Add('netmask', $netmask) }
             if ($PSCmdlet.ShouldProcess("$groupname", "Delete AAA configuration Object")) {
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type aaagroup_intranetip_binding -Resource $groupname -Arguments $Arguments
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type aaagroup_intranetip_binding -NitroPath nitro/v1/config -Resource $groupname -Arguments $Arguments
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $response
@@ -2447,7 +2447,7 @@ function Invoke-ADCGetAaagroupintranetipbinding {
         Invoke-ADCGetAaagroupintranetipbinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetAaagroupintranetipbinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/aaa/aaagroup_intranetip_binding/
         Requires  : PowerShell v5.1 and up
@@ -2485,21 +2485,21 @@ function Invoke-ADCGetAaagroupintranetipbinding {
                     bulkbindings = 'yes'
                 }
                 Write-Verbose "Retrieving all aaagroup_intranetip_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type aaagroup_intranetip_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type aaagroup_intranetip_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
                 if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for aaagroup_intranetip_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type aaagroup_intranetip_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type aaagroup_intranetip_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving aaagroup_intranetip_binding objects by arguments"
                 $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type aaagroup_intranetip_binding -Arguments $Arguments -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type aaagroup_intranetip_binding -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving aaagroup_intranetip_binding configuration for property 'groupname'"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type aaagroup_intranetip_binding -Resource $groupname -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type aaagroup_intranetip_binding -NitroPath nitro/v1/config -Resource $groupname -Summary:$ViewSummary -Filter $Filter -GetWarning
             } else {
                 Write-Verbose "Retrieving aaagroup_intranetip_binding configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type aaagroup_intranetip_binding -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type aaagroup_intranetip_binding -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -2539,7 +2539,7 @@ function Invoke-ADCAddAaagrouptmsessionpolicybinding {
         Invoke-ADCAddAaagrouptmsessionpolicybinding -groupname <string>
     .NOTES
         File Name : Invoke-ADCAddAaagrouptmsessionpolicybinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/aaa/aaagroup_tmsessionpolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -2586,7 +2586,7 @@ function Invoke-ADCAddAaagrouptmsessionpolicybinding {
             if ($PSBoundParameters.ContainsKey('gotopriorityexpression')) { $Payload.Add('gotopriorityexpression', $gotopriorityexpression) }
  
             if ($PSCmdlet.ShouldProcess("aaagroup_tmsessionpolicy_binding", "Add AAA configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -Type aaagroup_tmsessionpolicy_binding -Payload $Payload -GetWarning
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -NitroPath nitro/v1/config -Type aaagroup_tmsessionpolicy_binding -Payload $Payload -GetWarning
                 #HTTP Status Code on Success: 201 Created
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 if ($PSBoundParameters.ContainsKey('PassThru')) {
@@ -2623,7 +2623,7 @@ function Invoke-ADCDeleteAaagrouptmsessionpolicybinding {
         Invoke-ADCDeleteAaagrouptmsessionpolicybinding -groupname <string>
     .NOTES
         File Name : Invoke-ADCDeleteAaagrouptmsessionpolicybinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/aaa/aaagroup_tmsessionpolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -2656,7 +2656,7 @@ function Invoke-ADCDeleteAaagrouptmsessionpolicybinding {
             if ($PSBoundParameters.ContainsKey('policy')) { $Arguments.Add('policy', $policy) }
             if ($PSBoundParameters.ContainsKey('type')) { $Arguments.Add('type', $type) }
             if ($PSCmdlet.ShouldProcess("$groupname", "Delete AAA configuration Object")) {
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type aaagroup_tmsessionpolicy_binding -Resource $groupname -Arguments $Arguments
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type aaagroup_tmsessionpolicy_binding -NitroPath nitro/v1/config -Resource $groupname -Arguments $Arguments
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $response
@@ -2700,7 +2700,7 @@ function Invoke-ADCGetAaagrouptmsessionpolicybinding {
         Invoke-ADCGetAaagrouptmsessionpolicybinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetAaagrouptmsessionpolicybinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/aaa/aaagroup_tmsessionpolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -2738,21 +2738,21 @@ function Invoke-ADCGetAaagrouptmsessionpolicybinding {
                     bulkbindings = 'yes'
                 }
                 Write-Verbose "Retrieving all aaagroup_tmsessionpolicy_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type aaagroup_tmsessionpolicy_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type aaagroup_tmsessionpolicy_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
                 if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for aaagroup_tmsessionpolicy_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type aaagroup_tmsessionpolicy_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type aaagroup_tmsessionpolicy_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving aaagroup_tmsessionpolicy_binding objects by arguments"
                 $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type aaagroup_tmsessionpolicy_binding -Arguments $Arguments -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type aaagroup_tmsessionpolicy_binding -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving aaagroup_tmsessionpolicy_binding configuration for property 'groupname'"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type aaagroup_tmsessionpolicy_binding -Resource $groupname -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type aaagroup_tmsessionpolicy_binding -NitroPath nitro/v1/config -Resource $groupname -Summary:$ViewSummary -Filter $Filter -GetWarning
             } else {
                 Write-Verbose "Retrieving aaagroup_tmsessionpolicy_binding configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type aaagroup_tmsessionpolicy_binding -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type aaagroup_tmsessionpolicy_binding -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -2784,7 +2784,7 @@ function Invoke-ADCAddAaagroupvpnintranetapplicationbinding {
         Invoke-ADCAddAaagroupvpnintranetapplicationbinding -groupname <string>
     .NOTES
         File Name : Invoke-ADCAddAaagroupvpnintranetapplicationbinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/aaa/aaagroup_vpnintranetapplication_binding/
         Requires  : PowerShell v5.1 and up
@@ -2823,7 +2823,7 @@ function Invoke-ADCAddAaagroupvpnintranetapplicationbinding {
             if ($PSBoundParameters.ContainsKey('gotopriorityexpression')) { $Payload.Add('gotopriorityexpression', $gotopriorityexpression) }
  
             if ($PSCmdlet.ShouldProcess("aaagroup_vpnintranetapplication_binding", "Add AAA configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -Type aaagroup_vpnintranetapplication_binding -Payload $Payload -GetWarning
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -NitroPath nitro/v1/config -Type aaagroup_vpnintranetapplication_binding -Payload $Payload -GetWarning
                 #HTTP Status Code on Success: 201 Created
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 if ($PSBoundParameters.ContainsKey('PassThru')) {
@@ -2857,7 +2857,7 @@ function Invoke-ADCDeleteAaagroupvpnintranetapplicationbinding {
         Invoke-ADCDeleteAaagroupvpnintranetapplicationbinding -groupname <string>
     .NOTES
         File Name : Invoke-ADCDeleteAaagroupvpnintranetapplicationbinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/aaa/aaagroup_vpnintranetapplication_binding/
         Requires  : PowerShell v5.1 and up
@@ -2887,7 +2887,7 @@ function Invoke-ADCDeleteAaagroupvpnintranetapplicationbinding {
             }
             if ($PSBoundParameters.ContainsKey('intranetapplication')) { $Arguments.Add('intranetapplication', $intranetapplication) }
             if ($PSCmdlet.ShouldProcess("$groupname", "Delete AAA configuration Object")) {
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type aaagroup_vpnintranetapplication_binding -Resource $groupname -Arguments $Arguments
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type aaagroup_vpnintranetapplication_binding -NitroPath nitro/v1/config -Resource $groupname -Arguments $Arguments
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $response
@@ -2931,7 +2931,7 @@ function Invoke-ADCGetAaagroupvpnintranetapplicationbinding {
         Invoke-ADCGetAaagroupvpnintranetapplicationbinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetAaagroupvpnintranetapplicationbinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/aaa/aaagroup_vpnintranetapplication_binding/
         Requires  : PowerShell v5.1 and up
@@ -2969,21 +2969,21 @@ function Invoke-ADCGetAaagroupvpnintranetapplicationbinding {
                     bulkbindings = 'yes'
                 }
                 Write-Verbose "Retrieving all aaagroup_vpnintranetapplication_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type aaagroup_vpnintranetapplication_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type aaagroup_vpnintranetapplication_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
                 if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for aaagroup_vpnintranetapplication_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type aaagroup_vpnintranetapplication_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type aaagroup_vpnintranetapplication_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving aaagroup_vpnintranetapplication_binding objects by arguments"
                 $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type aaagroup_vpnintranetapplication_binding -Arguments $Arguments -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type aaagroup_vpnintranetapplication_binding -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving aaagroup_vpnintranetapplication_binding configuration for property 'groupname'"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type aaagroup_vpnintranetapplication_binding -Resource $groupname -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type aaagroup_vpnintranetapplication_binding -NitroPath nitro/v1/config -Resource $groupname -Summary:$ViewSummary -Filter $Filter -GetWarning
             } else {
                 Write-Verbose "Retrieving aaagroup_vpnintranetapplication_binding configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type aaagroup_vpnintranetapplication_binding -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type aaagroup_vpnintranetapplication_binding -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -3023,7 +3023,7 @@ function Invoke-ADCAddAaagroupvpnsessionpolicybinding {
         Invoke-ADCAddAaagroupvpnsessionpolicybinding -groupname <string>
     .NOTES
         File Name : Invoke-ADCAddAaagroupvpnsessionpolicybinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/aaa/aaagroup_vpnsessionpolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -3070,7 +3070,7 @@ function Invoke-ADCAddAaagroupvpnsessionpolicybinding {
             if ($PSBoundParameters.ContainsKey('gotopriorityexpression')) { $Payload.Add('gotopriorityexpression', $gotopriorityexpression) }
  
             if ($PSCmdlet.ShouldProcess("aaagroup_vpnsessionpolicy_binding", "Add AAA configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -Type aaagroup_vpnsessionpolicy_binding -Payload $Payload -GetWarning
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -NitroPath nitro/v1/config -Type aaagroup_vpnsessionpolicy_binding -Payload $Payload -GetWarning
                 #HTTP Status Code on Success: 201 Created
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 if ($PSBoundParameters.ContainsKey('PassThru')) {
@@ -3107,7 +3107,7 @@ function Invoke-ADCDeleteAaagroupvpnsessionpolicybinding {
         Invoke-ADCDeleteAaagroupvpnsessionpolicybinding -groupname <string>
     .NOTES
         File Name : Invoke-ADCDeleteAaagroupvpnsessionpolicybinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/aaa/aaagroup_vpnsessionpolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -3140,7 +3140,7 @@ function Invoke-ADCDeleteAaagroupvpnsessionpolicybinding {
             if ($PSBoundParameters.ContainsKey('policy')) { $Arguments.Add('policy', $policy) }
             if ($PSBoundParameters.ContainsKey('type')) { $Arguments.Add('type', $type) }
             if ($PSCmdlet.ShouldProcess("$groupname", "Delete AAA configuration Object")) {
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type aaagroup_vpnsessionpolicy_binding -Resource $groupname -Arguments $Arguments
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type aaagroup_vpnsessionpolicy_binding -NitroPath nitro/v1/config -Resource $groupname -Arguments $Arguments
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $response
@@ -3184,7 +3184,7 @@ function Invoke-ADCGetAaagroupvpnsessionpolicybinding {
         Invoke-ADCGetAaagroupvpnsessionpolicybinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetAaagroupvpnsessionpolicybinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/aaa/aaagroup_vpnsessionpolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -3222,21 +3222,21 @@ function Invoke-ADCGetAaagroupvpnsessionpolicybinding {
                     bulkbindings = 'yes'
                 }
                 Write-Verbose "Retrieving all aaagroup_vpnsessionpolicy_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type aaagroup_vpnsessionpolicy_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type aaagroup_vpnsessionpolicy_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
                 if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for aaagroup_vpnsessionpolicy_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type aaagroup_vpnsessionpolicy_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type aaagroup_vpnsessionpolicy_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving aaagroup_vpnsessionpolicy_binding objects by arguments"
                 $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type aaagroup_vpnsessionpolicy_binding -Arguments $Arguments -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type aaagroup_vpnsessionpolicy_binding -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving aaagroup_vpnsessionpolicy_binding configuration for property 'groupname'"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type aaagroup_vpnsessionpolicy_binding -Resource $groupname -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type aaagroup_vpnsessionpolicy_binding -NitroPath nitro/v1/config -Resource $groupname -Summary:$ViewSummary -Filter $Filter -GetWarning
             } else {
                 Write-Verbose "Retrieving aaagroup_vpnsessionpolicy_binding configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type aaagroup_vpnsessionpolicy_binding -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type aaagroup_vpnsessionpolicy_binding -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -3276,7 +3276,7 @@ function Invoke-ADCAddAaagroupvpntrafficpolicybinding {
         Invoke-ADCAddAaagroupvpntrafficpolicybinding -groupname <string>
     .NOTES
         File Name : Invoke-ADCAddAaagroupvpntrafficpolicybinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/aaa/aaagroup_vpntrafficpolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -3323,7 +3323,7 @@ function Invoke-ADCAddAaagroupvpntrafficpolicybinding {
             if ($PSBoundParameters.ContainsKey('gotopriorityexpression')) { $Payload.Add('gotopriorityexpression', $gotopriorityexpression) }
  
             if ($PSCmdlet.ShouldProcess("aaagroup_vpntrafficpolicy_binding", "Add AAA configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -Type aaagroup_vpntrafficpolicy_binding -Payload $Payload -GetWarning
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -NitroPath nitro/v1/config -Type aaagroup_vpntrafficpolicy_binding -Payload $Payload -GetWarning
                 #HTTP Status Code on Success: 201 Created
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 if ($PSBoundParameters.ContainsKey('PassThru')) {
@@ -3360,7 +3360,7 @@ function Invoke-ADCDeleteAaagroupvpntrafficpolicybinding {
         Invoke-ADCDeleteAaagroupvpntrafficpolicybinding -groupname <string>
     .NOTES
         File Name : Invoke-ADCDeleteAaagroupvpntrafficpolicybinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/aaa/aaagroup_vpntrafficpolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -3393,7 +3393,7 @@ function Invoke-ADCDeleteAaagroupvpntrafficpolicybinding {
             if ($PSBoundParameters.ContainsKey('policy')) { $Arguments.Add('policy', $policy) }
             if ($PSBoundParameters.ContainsKey('type')) { $Arguments.Add('type', $type) }
             if ($PSCmdlet.ShouldProcess("$groupname", "Delete AAA configuration Object")) {
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type aaagroup_vpntrafficpolicy_binding -Resource $groupname -Arguments $Arguments
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type aaagroup_vpntrafficpolicy_binding -NitroPath nitro/v1/config -Resource $groupname -Arguments $Arguments
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $response
@@ -3437,7 +3437,7 @@ function Invoke-ADCGetAaagroupvpntrafficpolicybinding {
         Invoke-ADCGetAaagroupvpntrafficpolicybinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetAaagroupvpntrafficpolicybinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/aaa/aaagroup_vpntrafficpolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -3475,21 +3475,21 @@ function Invoke-ADCGetAaagroupvpntrafficpolicybinding {
                     bulkbindings = 'yes'
                 }
                 Write-Verbose "Retrieving all aaagroup_vpntrafficpolicy_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type aaagroup_vpntrafficpolicy_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type aaagroup_vpntrafficpolicy_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
                 if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for aaagroup_vpntrafficpolicy_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type aaagroup_vpntrafficpolicy_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type aaagroup_vpntrafficpolicy_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving aaagroup_vpntrafficpolicy_binding objects by arguments"
                 $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type aaagroup_vpntrafficpolicy_binding -Arguments $Arguments -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type aaagroup_vpntrafficpolicy_binding -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving aaagroup_vpntrafficpolicy_binding configuration for property 'groupname'"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type aaagroup_vpntrafficpolicy_binding -Resource $groupname -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type aaagroup_vpntrafficpolicy_binding -NitroPath nitro/v1/config -Resource $groupname -Summary:$ViewSummary -Filter $Filter -GetWarning
             } else {
                 Write-Verbose "Retrieving aaagroup_vpntrafficpolicy_binding configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type aaagroup_vpntrafficpolicy_binding -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type aaagroup_vpntrafficpolicy_binding -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -3529,7 +3529,7 @@ function Invoke-ADCAddAaagroupvpnurlpolicybinding {
         Invoke-ADCAddAaagroupvpnurlpolicybinding -groupname <string>
     .NOTES
         File Name : Invoke-ADCAddAaagroupvpnurlpolicybinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/aaa/aaagroup_vpnurlpolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -3576,7 +3576,7 @@ function Invoke-ADCAddAaagroupvpnurlpolicybinding {
             if ($PSBoundParameters.ContainsKey('gotopriorityexpression')) { $Payload.Add('gotopriorityexpression', $gotopriorityexpression) }
  
             if ($PSCmdlet.ShouldProcess("aaagroup_vpnurlpolicy_binding", "Add AAA configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -Type aaagroup_vpnurlpolicy_binding -Payload $Payload -GetWarning
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -NitroPath nitro/v1/config -Type aaagroup_vpnurlpolicy_binding -Payload $Payload -GetWarning
                 #HTTP Status Code on Success: 201 Created
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 if ($PSBoundParameters.ContainsKey('PassThru')) {
@@ -3613,7 +3613,7 @@ function Invoke-ADCDeleteAaagroupvpnurlpolicybinding {
         Invoke-ADCDeleteAaagroupvpnurlpolicybinding -groupname <string>
     .NOTES
         File Name : Invoke-ADCDeleteAaagroupvpnurlpolicybinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/aaa/aaagroup_vpnurlpolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -3646,7 +3646,7 @@ function Invoke-ADCDeleteAaagroupvpnurlpolicybinding {
             if ($PSBoundParameters.ContainsKey('policy')) { $Arguments.Add('policy', $policy) }
             if ($PSBoundParameters.ContainsKey('type')) { $Arguments.Add('type', $type) }
             if ($PSCmdlet.ShouldProcess("$groupname", "Delete AAA configuration Object")) {
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type aaagroup_vpnurlpolicy_binding -Resource $groupname -Arguments $Arguments
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type aaagroup_vpnurlpolicy_binding -NitroPath nitro/v1/config -Resource $groupname -Arguments $Arguments
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $response
@@ -3690,7 +3690,7 @@ function Invoke-ADCGetAaagroupvpnurlpolicybinding {
         Invoke-ADCGetAaagroupvpnurlpolicybinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetAaagroupvpnurlpolicybinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/aaa/aaagroup_vpnurlpolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -3728,21 +3728,21 @@ function Invoke-ADCGetAaagroupvpnurlpolicybinding {
                     bulkbindings = 'yes'
                 }
                 Write-Verbose "Retrieving all aaagroup_vpnurlpolicy_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type aaagroup_vpnurlpolicy_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type aaagroup_vpnurlpolicy_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
                 if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for aaagroup_vpnurlpolicy_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type aaagroup_vpnurlpolicy_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type aaagroup_vpnurlpolicy_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving aaagroup_vpnurlpolicy_binding objects by arguments"
                 $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type aaagroup_vpnurlpolicy_binding -Arguments $Arguments -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type aaagroup_vpnurlpolicy_binding -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving aaagroup_vpnurlpolicy_binding configuration for property 'groupname'"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type aaagroup_vpnurlpolicy_binding -Resource $groupname -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type aaagroup_vpnurlpolicy_binding -NitroPath nitro/v1/config -Resource $groupname -Summary:$ViewSummary -Filter $Filter -GetWarning
             } else {
                 Write-Verbose "Retrieving aaagroup_vpnurlpolicy_binding configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type aaagroup_vpnurlpolicy_binding -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type aaagroup_vpnurlpolicy_binding -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -3774,7 +3774,7 @@ function Invoke-ADCAddAaagroupvpnurlbinding {
         Invoke-ADCAddAaagroupvpnurlbinding -groupname <string>
     .NOTES
         File Name : Invoke-ADCAddAaagroupvpnurlbinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/aaa/aaagroup_vpnurl_binding/
         Requires  : PowerShell v5.1 and up
@@ -3813,7 +3813,7 @@ function Invoke-ADCAddAaagroupvpnurlbinding {
             if ($PSBoundParameters.ContainsKey('gotopriorityexpression')) { $Payload.Add('gotopriorityexpression', $gotopriorityexpression) }
  
             if ($PSCmdlet.ShouldProcess("aaagroup_vpnurl_binding", "Add AAA configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -Type aaagroup_vpnurl_binding -Payload $Payload -GetWarning
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -NitroPath nitro/v1/config -Type aaagroup_vpnurl_binding -Payload $Payload -GetWarning
                 #HTTP Status Code on Success: 201 Created
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 if ($PSBoundParameters.ContainsKey('PassThru')) {
@@ -3847,7 +3847,7 @@ function Invoke-ADCDeleteAaagroupvpnurlbinding {
         Invoke-ADCDeleteAaagroupvpnurlbinding -groupname <string>
     .NOTES
         File Name : Invoke-ADCDeleteAaagroupvpnurlbinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/aaa/aaagroup_vpnurl_binding/
         Requires  : PowerShell v5.1 and up
@@ -3877,7 +3877,7 @@ function Invoke-ADCDeleteAaagroupvpnurlbinding {
             }
             if ($PSBoundParameters.ContainsKey('urlname')) { $Arguments.Add('urlname', $urlname) }
             if ($PSCmdlet.ShouldProcess("$groupname", "Delete AAA configuration Object")) {
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type aaagroup_vpnurl_binding -Resource $groupname -Arguments $Arguments
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type aaagroup_vpnurl_binding -NitroPath nitro/v1/config -Resource $groupname -Arguments $Arguments
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $response
@@ -3921,7 +3921,7 @@ function Invoke-ADCGetAaagroupvpnurlbinding {
         Invoke-ADCGetAaagroupvpnurlbinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetAaagroupvpnurlbinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/aaa/aaagroup_vpnurl_binding/
         Requires  : PowerShell v5.1 and up
@@ -3959,21 +3959,21 @@ function Invoke-ADCGetAaagroupvpnurlbinding {
                     bulkbindings = 'yes'
                 }
                 Write-Verbose "Retrieving all aaagroup_vpnurl_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type aaagroup_vpnurl_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type aaagroup_vpnurl_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
                 if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for aaagroup_vpnurl_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type aaagroup_vpnurl_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type aaagroup_vpnurl_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving aaagroup_vpnurl_binding objects by arguments"
                 $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type aaagroup_vpnurl_binding -Arguments $Arguments -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type aaagroup_vpnurl_binding -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving aaagroup_vpnurl_binding configuration for property 'groupname'"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type aaagroup_vpnurl_binding -Resource $groupname -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type aaagroup_vpnurl_binding -NitroPath nitro/v1/config -Resource $groupname -Summary:$ViewSummary -Filter $Filter -GetWarning
             } else {
                 Write-Verbose "Retrieving aaagroup_vpnurl_binding configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type aaagroup_vpnurl_binding -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type aaagroup_vpnurl_binding -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -4019,7 +4019,7 @@ function Invoke-ADCAddAaakcdaccount {
         Invoke-ADCAddAaakcdaccount -kcdaccount <string>
     .NOTES
         File Name : Invoke-ADCAddAaakcdaccount
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/aaa/aaakcdaccount/
         Requires  : PowerShell v5.1 and up
@@ -4079,7 +4079,7 @@ function Invoke-ADCAddAaakcdaccount {
             if ($PSBoundParameters.ContainsKey('servicespn')) { $Payload.Add('servicespn', $servicespn) }
  
             if ($PSCmdlet.ShouldProcess("aaakcdaccount", "Add AAA configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -Type aaakcdaccount -Payload $Payload -GetWarning
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -NitroPath nitro/v1/config -Type aaakcdaccount -Payload $Payload -GetWarning
                 #HTTP Status Code on Success: 201 Created
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 if ($PSBoundParameters.ContainsKey('PassThru')) {
@@ -4112,7 +4112,7 @@ function Invoke-ADCDeleteAaakcdaccount {
         Invoke-ADCDeleteAaakcdaccount -kcdaccount <string>
     .NOTES
         File Name : Invoke-ADCDeleteAaakcdaccount
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/aaa/aaakcdaccount/
         Requires  : PowerShell v5.1 and up
@@ -4140,7 +4140,7 @@ function Invoke-ADCDeleteAaakcdaccount {
             }
 
             if ($PSCmdlet.ShouldProcess("$kcdaccount", "Delete AAA configuration Object")) {
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type aaakcdaccount -Resource $kcdaccount -Arguments $Arguments
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type aaakcdaccount -NitroPath nitro/v1/config -Resource $kcdaccount -Arguments $Arguments
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $response
@@ -4188,7 +4188,7 @@ function Invoke-ADCUpdateAaakcdaccount {
         Invoke-ADCUpdateAaakcdaccount -kcdaccount <string>
     .NOTES
         File Name : Invoke-ADCUpdateAaakcdaccount
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/aaa/aaakcdaccount/
         Requires  : PowerShell v5.1 and up
@@ -4248,7 +4248,7 @@ function Invoke-ADCUpdateAaakcdaccount {
             if ($PSBoundParameters.ContainsKey('servicespn')) { $Payload.Add('servicespn', $servicespn) }
  
             if ($PSCmdlet.ShouldProcess("aaakcdaccount", "Update AAA configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -Type aaakcdaccount -Payload $Payload -GetWarning
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -NitroPath nitro/v1/config -Type aaakcdaccount -Payload $Payload -GetWarning
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 if ($PSBoundParameters.ContainsKey('PassThru')) {
@@ -4292,7 +4292,7 @@ function Invoke-ADCUnsetAaakcdaccount {
         Invoke-ADCUnsetAaakcdaccount -kcdaccount <string>
     .NOTES
         File Name : Invoke-ADCUnsetAaakcdaccount
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/aaa/aaakcdaccount
         Requires  : PowerShell v5.1 and up
@@ -4339,7 +4339,7 @@ function Invoke-ADCUnsetAaakcdaccount {
             if ($PSBoundParameters.ContainsKey('enterpriserealm')) { $Payload.Add('enterpriserealm', $enterpriserealm) }
             if ($PSBoundParameters.ContainsKey('servicespn')) { $Payload.Add('servicespn', $servicespn) }
             if ($PSCmdlet.ShouldProcess("$kcdaccount", "Unset AAA configuration Object")) {
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -Type aaakcdaccount -Action unset -Payload $Payload -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -Type aaakcdaccount -NitroPath nitro/v1/config -Action unset -Payload $Payload -GetWarning
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $response
@@ -4374,7 +4374,7 @@ function Invoke-ADCCheckAaakcdaccount {
         Invoke-ADCCheckAaakcdaccount -realmstr <string> -delegateduser <string> -kcdpassword <string> -servicespn <string>
     .NOTES
         File Name : Invoke-ADCCheckAaakcdaccount
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/aaa/aaakcdaccount/
         Requires  : PowerShell v5.1 and up
@@ -4418,7 +4418,7 @@ function Invoke-ADCCheckAaakcdaccount {
             }
             if ($PSBoundParameters.ContainsKey('userrealm')) { $Payload.Add('userrealm', $userrealm) }
             if ($PSCmdlet.ShouldProcess($Name, "Check AAA configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -Type aaakcdaccount -Action check -Payload $Payload -GetWarning
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -NitroPath nitro/v1/config -Type aaakcdaccount -Action check -Payload $Payload -GetWarning
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $result
@@ -4462,7 +4462,7 @@ function Invoke-ADCGetAaakcdaccount {
         Invoke-ADCGetAaakcdaccount -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetAaakcdaccount
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/aaa/aaakcdaccount/
         Requires  : PowerShell v5.1 and up
@@ -4503,21 +4503,21 @@ function Invoke-ADCGetAaakcdaccount {
             if ( $PsCmdlet.ParameterSetName -eq 'Getall' ) {
                 $Query = @{ }
                 Write-Verbose "Retrieving all aaakcdaccount objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type aaakcdaccount -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type aaakcdaccount -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
                 if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for aaakcdaccount objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type aaakcdaccount -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type aaakcdaccount -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving aaakcdaccount objects by arguments"
                 $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type aaakcdaccount -Arguments $Arguments -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type aaakcdaccount -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving aaakcdaccount configuration for property 'kcdaccount'"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type aaakcdaccount -Resource $kcdaccount -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type aaakcdaccount -NitroPath nitro/v1/config -Resource $kcdaccount -Summary:$ViewSummary -Filter $Filter -GetWarning
             } else {
                 Write-Verbose "Retrieving aaakcdaccount configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type aaakcdaccount -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type aaakcdaccount -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -4606,7 +4606,7 @@ function Invoke-ADCUpdateAaaldapparams {
         Invoke-ADCUpdateAaaldapparams 
     .NOTES
         File Name : Invoke-ADCUpdateAaaldapparams
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/aaa/aaaldapparams/
         Requires  : PowerShell v5.1 and up
@@ -4702,7 +4702,7 @@ function Invoke-ADCUpdateAaaldapparams {
             if ($PSBoundParameters.ContainsKey('defaultauthenticationgroup')) { $Payload.Add('defaultauthenticationgroup', $defaultauthenticationgroup) }
  
             if ($PSCmdlet.ShouldProcess("aaaldapparams", "Update AAA configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -Type aaaldapparams -Payload $Payload -GetWarning
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -NitroPath nitro/v1/config -Type aaaldapparams -Payload $Payload -GetWarning
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
             Write-Output $result
@@ -4781,7 +4781,7 @@ function Invoke-ADCUnsetAaaldapparams {
         Invoke-ADCUnsetAaaldapparams 
     .NOTES
         File Name : Invoke-ADCUnsetAaaldapparams
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/aaa/aaaldapparams
         Requires  : PowerShell v5.1 and up
@@ -4869,7 +4869,7 @@ function Invoke-ADCUnsetAaaldapparams {
             if ($PSBoundParameters.ContainsKey('groupsearchfilter')) { $Payload.Add('groupsearchfilter', $groupsearchfilter) }
             if ($PSBoundParameters.ContainsKey('defaultauthenticationgroup')) { $Payload.Add('defaultauthenticationgroup', $defaultauthenticationgroup) }
             if ($PSCmdlet.ShouldProcess("aaaldapparams", "Unset AAA configuration Object")) {
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -Type aaaldapparams -Action unset -Payload $Payload -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -Type aaaldapparams -NitroPath nitro/v1/config -Action unset -Payload $Payload -GetWarning
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $response
@@ -4909,7 +4909,7 @@ function Invoke-ADCGetAaaldapparams {
         Invoke-ADCGetAaaldapparams -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetAaaldapparams
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/aaa/aaaldapparams/
         Requires  : PowerShell v5.1 and up
@@ -4938,21 +4938,21 @@ function Invoke-ADCGetAaaldapparams {
             if ( $PsCmdlet.ParameterSetName -eq 'Getall' ) {
                 $Query = @{ }
                 Write-Verbose "Retrieving all aaaldapparams objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type aaaldapparams -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type aaaldapparams -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
                 if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for aaaldapparams objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type aaaldapparams -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type aaaldapparams -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving aaaldapparams objects by arguments"
                 $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type aaaldapparams -Arguments $Arguments -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type aaaldapparams -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving aaaldapparams configuration for property ''"
 
             } else {
                 Write-Verbose "Retrieving aaaldapparams configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type aaaldapparams -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type aaaldapparams -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -4984,7 +4984,7 @@ function Invoke-ADCUpdateAaaotpparameter {
         Invoke-ADCUpdateAaaotpparameter 
     .NOTES
         File Name : Invoke-ADCUpdateAaaotpparameter
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/aaa/aaaotpparameter/
         Requires  : PowerShell v5.1 and up
@@ -5019,7 +5019,7 @@ function Invoke-ADCUpdateAaaotpparameter {
             if ($PSBoundParameters.ContainsKey('maxotpdevices')) { $Payload.Add('maxotpdevices', $maxotpdevices) }
  
             if ($PSCmdlet.ShouldProcess("aaaotpparameter", "Update AAA configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -Type aaaotpparameter -Payload $Payload -GetWarning
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -NitroPath nitro/v1/config -Type aaaotpparameter -Payload $Payload -GetWarning
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
             Write-Output $result
@@ -5050,7 +5050,7 @@ function Invoke-ADCUnsetAaaotpparameter {
         Invoke-ADCUnsetAaaotpparameter 
     .NOTES
         File Name : Invoke-ADCUnsetAaaotpparameter
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/aaa/aaaotpparameter
         Requires  : PowerShell v5.1 and up
@@ -5081,7 +5081,7 @@ function Invoke-ADCUnsetAaaotpparameter {
             if ($PSBoundParameters.ContainsKey('encryption')) { $Payload.Add('encryption', $encryption) }
             if ($PSBoundParameters.ContainsKey('maxotpdevices')) { $Payload.Add('maxotpdevices', $maxotpdevices) }
             if ($PSCmdlet.ShouldProcess("aaaotpparameter", "Unset AAA configuration Object")) {
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -Type aaaotpparameter -Action unset -Payload $Payload -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -Type aaaotpparameter -NitroPath nitro/v1/config -Action unset -Payload $Payload -GetWarning
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $response
@@ -5121,7 +5121,7 @@ function Invoke-ADCGetAaaotpparameter {
         Invoke-ADCGetAaaotpparameter -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetAaaotpparameter
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/aaa/aaaotpparameter/
         Requires  : PowerShell v5.1 and up
@@ -5150,21 +5150,21 @@ function Invoke-ADCGetAaaotpparameter {
             if ( $PsCmdlet.ParameterSetName -eq 'Getall' ) {
                 $Query = @{ }
                 Write-Verbose "Retrieving all aaaotpparameter objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type aaaotpparameter -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type aaaotpparameter -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
                 if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for aaaotpparameter objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type aaaotpparameter -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type aaaotpparameter -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving aaaotpparameter objects by arguments"
                 $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type aaaotpparameter -Arguments $Arguments -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type aaaotpparameter -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving aaaotpparameter configuration for property ''"
 
             } else {
                 Write-Verbose "Retrieving aaaotpparameter configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type aaaotpparameter -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type aaaotpparameter -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -5273,7 +5273,7 @@ function Invoke-ADCUpdateAaaparameter {
         Invoke-ADCUpdateAaaparameter 
     .NOTES
         File Name : Invoke-ADCUpdateAaaparameter
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/aaa/aaaparameter/
         Requires  : PowerShell v5.1 and up
@@ -5373,7 +5373,7 @@ function Invoke-ADCUpdateAaaparameter {
             if ($PSBoundParameters.ContainsKey('tokenintrospectioninterval')) { $Payload.Add('tokenintrospectioninterval', $tokenintrospectioninterval) }
  
             if ($PSCmdlet.ShouldProcess("aaaparameter", "Update AAA configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -Type aaaparameter -Payload $Payload -GetWarning
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -NitroPath nitro/v1/config -Type aaaparameter -Payload $Payload -GetWarning
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
             Write-Output $result
@@ -5467,7 +5467,7 @@ function Invoke-ADCUnsetAaaparameter {
         Invoke-ADCUnsetAaaparameter 
     .NOTES
         File Name : Invoke-ADCUnsetAaaparameter
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/aaa/aaaparameter
         Requires  : PowerShell v5.1 and up
@@ -5549,7 +5549,7 @@ function Invoke-ADCUnsetAaaparameter {
             if ($PSBoundParameters.ContainsKey('apitokencache')) { $Payload.Add('apitokencache', $apitokencache) }
             if ($PSBoundParameters.ContainsKey('tokenintrospectioninterval')) { $Payload.Add('tokenintrospectioninterval', $tokenintrospectioninterval) }
             if ($PSCmdlet.ShouldProcess("aaaparameter", "Unset AAA configuration Object")) {
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -Type aaaparameter -Action unset -Payload $Payload -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -Type aaaparameter -NitroPath nitro/v1/config -Action unset -Payload $Payload -GetWarning
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $response
@@ -5589,7 +5589,7 @@ function Invoke-ADCGetAaaparameter {
         Invoke-ADCGetAaaparameter -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetAaaparameter
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/aaa/aaaparameter/
         Requires  : PowerShell v5.1 and up
@@ -5618,21 +5618,21 @@ function Invoke-ADCGetAaaparameter {
             if ( $PsCmdlet.ParameterSetName -eq 'Getall' ) {
                 $Query = @{ }
                 Write-Verbose "Retrieving all aaaparameter objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type aaaparameter -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type aaaparameter -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
                 if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for aaaparameter objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type aaaparameter -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type aaaparameter -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving aaaparameter objects by arguments"
                 $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type aaaparameter -Arguments $Arguments -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type aaaparameter -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving aaaparameter configuration for property ''"
 
             } else {
                 Write-Verbose "Retrieving aaaparameter configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type aaaparameter -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type aaaparameter -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -5669,7 +5669,7 @@ function Invoke-ADCAddAaapreauthenticationaction {
         Invoke-ADCAddAaapreauthenticationaction -name <string>
     .NOTES
         File Name : Invoke-ADCAddAaapreauthenticationaction
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/aaa/aaapreauthenticationaction/
         Requires  : PowerShell v5.1 and up
@@ -5715,7 +5715,7 @@ function Invoke-ADCAddAaapreauthenticationaction {
             if ($PSBoundParameters.ContainsKey('defaultepagroup')) { $Payload.Add('defaultepagroup', $defaultepagroup) }
  
             if ($PSCmdlet.ShouldProcess("aaapreauthenticationaction", "Add AAA configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -Type aaapreauthenticationaction -Payload $Payload -GetWarning
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -NitroPath nitro/v1/config -Type aaapreauthenticationaction -Payload $Payload -GetWarning
                 #HTTP Status Code on Success: 201 Created
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 if ($PSBoundParameters.ContainsKey('PassThru')) {
@@ -5747,7 +5747,7 @@ function Invoke-ADCDeleteAaapreauthenticationaction {
         Invoke-ADCDeleteAaapreauthenticationaction -name <string>
     .NOTES
         File Name : Invoke-ADCDeleteAaapreauthenticationaction
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/aaa/aaapreauthenticationaction/
         Requires  : PowerShell v5.1 and up
@@ -5775,7 +5775,7 @@ function Invoke-ADCDeleteAaapreauthenticationaction {
             }
 
             if ($PSCmdlet.ShouldProcess("$name", "Delete AAA configuration Object")) {
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type aaapreauthenticationaction -Resource $name -Arguments $Arguments
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type aaapreauthenticationaction -NitroPath nitro/v1/config -Resource $name -Arguments $Arguments
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $response
@@ -5814,7 +5814,7 @@ function Invoke-ADCUpdateAaapreauthenticationaction {
         Invoke-ADCUpdateAaapreauthenticationaction -name <string>
     .NOTES
         File Name : Invoke-ADCUpdateAaapreauthenticationaction
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/aaa/aaapreauthenticationaction/
         Requires  : PowerShell v5.1 and up
@@ -5860,7 +5860,7 @@ function Invoke-ADCUpdateAaapreauthenticationaction {
             if ($PSBoundParameters.ContainsKey('defaultepagroup')) { $Payload.Add('defaultepagroup', $defaultepagroup) }
  
             if ($PSCmdlet.ShouldProcess("aaapreauthenticationaction", "Update AAA configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -Type aaapreauthenticationaction -Payload $Payload -GetWarning
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -NitroPath nitro/v1/config -Type aaapreauthenticationaction -Payload $Payload -GetWarning
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 if ($PSBoundParameters.ContainsKey('PassThru')) {
@@ -5898,7 +5898,7 @@ function Invoke-ADCUnsetAaapreauthenticationaction {
         Invoke-ADCUnsetAaapreauthenticationaction -name <string>
     .NOTES
         File Name : Invoke-ADCUnsetAaapreauthenticationaction
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/aaa/aaapreauthenticationaction
         Requires  : PowerShell v5.1 and up
@@ -5936,7 +5936,7 @@ function Invoke-ADCUnsetAaapreauthenticationaction {
             if ($PSBoundParameters.ContainsKey('deletefiles')) { $Payload.Add('deletefiles', $deletefiles) }
             if ($PSBoundParameters.ContainsKey('defaultepagroup')) { $Payload.Add('defaultepagroup', $defaultepagroup) }
             if ($PSCmdlet.ShouldProcess("$name", "Unset AAA configuration Object")) {
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -Type aaapreauthenticationaction -Action unset -Payload $Payload -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -Type aaapreauthenticationaction -NitroPath nitro/v1/config -Action unset -Payload $Payload -GetWarning
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $response
@@ -5980,7 +5980,7 @@ function Invoke-ADCGetAaapreauthenticationaction {
         Invoke-ADCGetAaapreauthenticationaction -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetAaapreauthenticationaction
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/aaa/aaapreauthenticationaction/
         Requires  : PowerShell v5.1 and up
@@ -6021,21 +6021,21 @@ function Invoke-ADCGetAaapreauthenticationaction {
             if ( $PsCmdlet.ParameterSetName -eq 'Getall' ) {
                 $Query = @{ }
                 Write-Verbose "Retrieving all aaapreauthenticationaction objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type aaapreauthenticationaction -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type aaapreauthenticationaction -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
                 if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for aaapreauthenticationaction objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type aaapreauthenticationaction -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type aaapreauthenticationaction -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving aaapreauthenticationaction objects by arguments"
                 $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type aaapreauthenticationaction -Arguments $Arguments -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type aaapreauthenticationaction -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving aaapreauthenticationaction configuration for property 'name'"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type aaapreauthenticationaction -Resource $name -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type aaapreauthenticationaction -NitroPath nitro/v1/config -Resource $name -Summary:$ViewSummary -Filter $Filter -GetWarning
             } else {
                 Write-Verbose "Retrieving aaapreauthenticationaction configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type aaapreauthenticationaction -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type aaapreauthenticationaction -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -6067,7 +6067,7 @@ function Invoke-ADCUpdateAaapreauthenticationparameter {
         Invoke-ADCUpdateAaapreauthenticationparameter 
     .NOTES
         File Name : Invoke-ADCUpdateAaapreauthenticationparameter
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/aaa/aaapreauthenticationparameter/
         Requires  : PowerShell v5.1 and up
@@ -6107,7 +6107,7 @@ function Invoke-ADCUpdateAaapreauthenticationparameter {
             if ($PSBoundParameters.ContainsKey('deletefiles')) { $Payload.Add('deletefiles', $deletefiles) }
  
             if ($PSCmdlet.ShouldProcess("aaapreauthenticationparameter", "Update AAA configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -Type aaapreauthenticationparameter -Payload $Payload -GetWarning
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -NitroPath nitro/v1/config -Type aaapreauthenticationparameter -Payload $Payload -GetWarning
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
             Write-Output $result
@@ -6142,7 +6142,7 @@ function Invoke-ADCUnsetAaapreauthenticationparameter {
         Invoke-ADCUnsetAaapreauthenticationparameter 
     .NOTES
         File Name : Invoke-ADCUnsetAaapreauthenticationparameter
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/aaa/aaapreauthenticationparameter
         Requires  : PowerShell v5.1 and up
@@ -6179,7 +6179,7 @@ function Invoke-ADCUnsetAaapreauthenticationparameter {
             if ($PSBoundParameters.ContainsKey('killprocess')) { $Payload.Add('killprocess', $killprocess) }
             if ($PSBoundParameters.ContainsKey('deletefiles')) { $Payload.Add('deletefiles', $deletefiles) }
             if ($PSCmdlet.ShouldProcess("aaapreauthenticationparameter", "Unset AAA configuration Object")) {
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -Type aaapreauthenticationparameter -Action unset -Payload $Payload -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -Type aaapreauthenticationparameter -NitroPath nitro/v1/config -Action unset -Payload $Payload -GetWarning
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $response
@@ -6219,7 +6219,7 @@ function Invoke-ADCGetAaapreauthenticationparameter {
         Invoke-ADCGetAaapreauthenticationparameter -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetAaapreauthenticationparameter
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/aaa/aaapreauthenticationparameter/
         Requires  : PowerShell v5.1 and up
@@ -6248,21 +6248,21 @@ function Invoke-ADCGetAaapreauthenticationparameter {
             if ( $PsCmdlet.ParameterSetName -eq 'Getall' ) {
                 $Query = @{ }
                 Write-Verbose "Retrieving all aaapreauthenticationparameter objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type aaapreauthenticationparameter -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type aaapreauthenticationparameter -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
                 if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for aaapreauthenticationparameter objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type aaapreauthenticationparameter -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type aaapreauthenticationparameter -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving aaapreauthenticationparameter objects by arguments"
                 $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type aaapreauthenticationparameter -Arguments $Arguments -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type aaapreauthenticationparameter -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving aaapreauthenticationparameter configuration for property ''"
 
             } else {
                 Write-Verbose "Retrieving aaapreauthenticationparameter configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type aaapreauthenticationparameter -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type aaapreauthenticationparameter -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -6294,7 +6294,7 @@ function Invoke-ADCAddAaapreauthenticationpolicy {
         Invoke-ADCAddAaapreauthenticationpolicy -name <string> -rule <string>
     .NOTES
         File Name : Invoke-ADCAddAaapreauthenticationpolicy
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/aaa/aaapreauthenticationpolicy/
         Requires  : PowerShell v5.1 and up
@@ -6335,7 +6335,7 @@ function Invoke-ADCAddAaapreauthenticationpolicy {
             if ($PSBoundParameters.ContainsKey('reqaction')) { $Payload.Add('reqaction', $reqaction) }
  
             if ($PSCmdlet.ShouldProcess("aaapreauthenticationpolicy", "Add AAA configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -Type aaapreauthenticationpolicy -Payload $Payload -GetWarning
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -NitroPath nitro/v1/config -Type aaapreauthenticationpolicy -Payload $Payload -GetWarning
                 #HTTP Status Code on Success: 201 Created
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 if ($PSBoundParameters.ContainsKey('PassThru')) {
@@ -6367,7 +6367,7 @@ function Invoke-ADCDeleteAaapreauthenticationpolicy {
         Invoke-ADCDeleteAaapreauthenticationpolicy -name <string>
     .NOTES
         File Name : Invoke-ADCDeleteAaapreauthenticationpolicy
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/aaa/aaapreauthenticationpolicy/
         Requires  : PowerShell v5.1 and up
@@ -6395,7 +6395,7 @@ function Invoke-ADCDeleteAaapreauthenticationpolicy {
             }
 
             if ($PSCmdlet.ShouldProcess("$name", "Delete AAA configuration Object")) {
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type aaapreauthenticationpolicy -Resource $name -Arguments $Arguments
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type aaapreauthenticationpolicy -NitroPath nitro/v1/config -Resource $name -Arguments $Arguments
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $response
@@ -6429,7 +6429,7 @@ function Invoke-ADCUpdateAaapreauthenticationpolicy {
         Invoke-ADCUpdateAaapreauthenticationpolicy -name <string>
     .NOTES
         File Name : Invoke-ADCUpdateAaapreauthenticationpolicy
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/aaa/aaapreauthenticationpolicy/
         Requires  : PowerShell v5.1 and up
@@ -6469,7 +6469,7 @@ function Invoke-ADCUpdateAaapreauthenticationpolicy {
             if ($PSBoundParameters.ContainsKey('reqaction')) { $Payload.Add('reqaction', $reqaction) }
  
             if ($PSCmdlet.ShouldProcess("aaapreauthenticationpolicy", "Update AAA configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -Type aaapreauthenticationpolicy -Payload $Payload -GetWarning
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -NitroPath nitro/v1/config -Type aaapreauthenticationpolicy -Payload $Payload -GetWarning
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 if ($PSBoundParameters.ContainsKey('PassThru')) {
@@ -6518,7 +6518,7 @@ function Invoke-ADCGetAaapreauthenticationpolicy {
         Invoke-ADCGetAaapreauthenticationpolicy -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetAaapreauthenticationpolicy
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/aaa/aaapreauthenticationpolicy/
         Requires  : PowerShell v5.1 and up
@@ -6559,21 +6559,21 @@ function Invoke-ADCGetAaapreauthenticationpolicy {
             if ( $PsCmdlet.ParameterSetName -eq 'Getall' ) {
                 $Query = @{ }
                 Write-Verbose "Retrieving all aaapreauthenticationpolicy objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type aaapreauthenticationpolicy -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type aaapreauthenticationpolicy -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
                 if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for aaapreauthenticationpolicy objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type aaapreauthenticationpolicy -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type aaapreauthenticationpolicy -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving aaapreauthenticationpolicy objects by arguments"
                 $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type aaapreauthenticationpolicy -Arguments $Arguments -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type aaapreauthenticationpolicy -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving aaapreauthenticationpolicy configuration for property 'name'"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type aaapreauthenticationpolicy -Resource $name -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type aaapreauthenticationpolicy -NitroPath nitro/v1/config -Resource $name -Summary:$ViewSummary -Filter $Filter -GetWarning
             } else {
                 Write-Verbose "Retrieving aaapreauthenticationpolicy configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type aaapreauthenticationpolicy -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type aaapreauthenticationpolicy -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -6615,7 +6615,7 @@ function Invoke-ADCGetAaapreauthenticationpolicyaaaglobalbinding {
         Invoke-ADCGetAaapreauthenticationpolicyaaaglobalbinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetAaapreauthenticationpolicyaaaglobalbinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/aaa/aaapreauthenticationpolicy_aaaglobal_binding/
         Requires  : PowerShell v5.1 and up
@@ -6653,21 +6653,21 @@ function Invoke-ADCGetAaapreauthenticationpolicyaaaglobalbinding {
                     bulkbindings = 'yes'
                 }
                 Write-Verbose "Retrieving all aaapreauthenticationpolicy_aaaglobal_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type aaapreauthenticationpolicy_aaaglobal_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type aaapreauthenticationpolicy_aaaglobal_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
                 if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for aaapreauthenticationpolicy_aaaglobal_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type aaapreauthenticationpolicy_aaaglobal_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type aaapreauthenticationpolicy_aaaglobal_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving aaapreauthenticationpolicy_aaaglobal_binding objects by arguments"
                 $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type aaapreauthenticationpolicy_aaaglobal_binding -Arguments $Arguments -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type aaapreauthenticationpolicy_aaaglobal_binding -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving aaapreauthenticationpolicy_aaaglobal_binding configuration for property 'name'"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type aaapreauthenticationpolicy_aaaglobal_binding -Resource $name -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type aaapreauthenticationpolicy_aaaglobal_binding -NitroPath nitro/v1/config -Resource $name -Summary:$ViewSummary -Filter $Filter -GetWarning
             } else {
                 Write-Verbose "Retrieving aaapreauthenticationpolicy_aaaglobal_binding configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type aaapreauthenticationpolicy_aaaglobal_binding -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type aaapreauthenticationpolicy_aaaglobal_binding -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -6707,7 +6707,7 @@ function Invoke-ADCGetAaapreauthenticationpolicybinding {
         Invoke-ADCGetAaapreauthenticationpolicybinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetAaapreauthenticationpolicybinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/aaa/aaapreauthenticationpolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -6742,21 +6742,21 @@ function Invoke-ADCGetAaapreauthenticationpolicybinding {
                     bulkbindings = 'yes'
                 }
                 Write-Verbose "Retrieving all aaapreauthenticationpolicy_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type aaapreauthenticationpolicy_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type aaapreauthenticationpolicy_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
                 if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for aaapreauthenticationpolicy_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type aaapreauthenticationpolicy_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type aaapreauthenticationpolicy_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving aaapreauthenticationpolicy_binding objects by arguments"
                 $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type aaapreauthenticationpolicy_binding -Arguments $Arguments -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type aaapreauthenticationpolicy_binding -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving aaapreauthenticationpolicy_binding configuration for property 'name'"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type aaapreauthenticationpolicy_binding -Resource $name -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type aaapreauthenticationpolicy_binding -NitroPath nitro/v1/config -Resource $name -Summary:$ViewSummary -Filter $Filter -GetWarning
             } else {
                 Write-Verbose "Retrieving aaapreauthenticationpolicy_binding configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type aaapreauthenticationpolicy_binding -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type aaapreauthenticationpolicy_binding -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -6798,7 +6798,7 @@ function Invoke-ADCGetAaapreauthenticationpolicyvpnvserverbinding {
         Invoke-ADCGetAaapreauthenticationpolicyvpnvserverbinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetAaapreauthenticationpolicyvpnvserverbinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/aaa/aaapreauthenticationpolicy_vpnvserver_binding/
         Requires  : PowerShell v5.1 and up
@@ -6836,21 +6836,21 @@ function Invoke-ADCGetAaapreauthenticationpolicyvpnvserverbinding {
                     bulkbindings = 'yes'
                 }
                 Write-Verbose "Retrieving all aaapreauthenticationpolicy_vpnvserver_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type aaapreauthenticationpolicy_vpnvserver_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type aaapreauthenticationpolicy_vpnvserver_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
                 if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for aaapreauthenticationpolicy_vpnvserver_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type aaapreauthenticationpolicy_vpnvserver_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type aaapreauthenticationpolicy_vpnvserver_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving aaapreauthenticationpolicy_vpnvserver_binding objects by arguments"
                 $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type aaapreauthenticationpolicy_vpnvserver_binding -Arguments $Arguments -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type aaapreauthenticationpolicy_vpnvserver_binding -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving aaapreauthenticationpolicy_vpnvserver_binding configuration for property 'name'"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type aaapreauthenticationpolicy_vpnvserver_binding -Resource $name -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type aaapreauthenticationpolicy_vpnvserver_binding -NitroPath nitro/v1/config -Resource $name -Summary:$ViewSummary -Filter $Filter -GetWarning
             } else {
                 Write-Verbose "Retrieving aaapreauthenticationpolicy_vpnvserver_binding configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type aaapreauthenticationpolicy_vpnvserver_binding -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type aaapreauthenticationpolicy_vpnvserver_binding -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -6942,7 +6942,7 @@ function Invoke-ADCUpdateAaaradiusparams {
         Invoke-ADCUpdateAaaradiusparams -radkey <string>
     .NOTES
         File Name : Invoke-ADCUpdateAaaradiusparams
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/aaa/aaaradiusparams/
         Requires  : PowerShell v5.1 and up
@@ -7041,7 +7041,7 @@ function Invoke-ADCUpdateAaaradiusparams {
             if ($PSBoundParameters.ContainsKey('tunnelendpointclientip')) { $Payload.Add('tunnelendpointclientip', $tunnelendpointclientip) }
  
             if ($PSCmdlet.ShouldProcess("aaaradiusparams", "Update AAA configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -Type aaaradiusparams -Payload $Payload -GetWarning
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -NitroPath nitro/v1/config -Type aaaradiusparams -Payload $Payload -GetWarning
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
             Write-Output $result
@@ -7114,7 +7114,7 @@ function Invoke-ADCUnsetAaaradiusparams {
         Invoke-ADCUnsetAaaradiusparams 
     .NOTES
         File Name : Invoke-ADCUnsetAaaradiusparams
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/aaa/aaaradiusparams
         Requires  : PowerShell v5.1 and up
@@ -7199,7 +7199,7 @@ function Invoke-ADCUnsetAaaradiusparams {
             if ($PSBoundParameters.ContainsKey('authentication')) { $Payload.Add('authentication', $authentication) }
             if ($PSBoundParameters.ContainsKey('tunnelendpointclientip')) { $Payload.Add('tunnelendpointclientip', $tunnelendpointclientip) }
             if ($PSCmdlet.ShouldProcess("aaaradiusparams", "Unset AAA configuration Object")) {
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -Type aaaradiusparams -Action unset -Payload $Payload -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -Type aaaradiusparams -NitroPath nitro/v1/config -Action unset -Payload $Payload -GetWarning
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $response
@@ -7239,7 +7239,7 @@ function Invoke-ADCGetAaaradiusparams {
         Invoke-ADCGetAaaradiusparams -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetAaaradiusparams
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/aaa/aaaradiusparams/
         Requires  : PowerShell v5.1 and up
@@ -7268,21 +7268,21 @@ function Invoke-ADCGetAaaradiusparams {
             if ( $PsCmdlet.ParameterSetName -eq 'Getall' ) {
                 $Query = @{ }
                 Write-Verbose "Retrieving all aaaradiusparams objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type aaaradiusparams -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type aaaradiusparams -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
                 if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for aaaradiusparams objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type aaaradiusparams -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type aaaradiusparams -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving aaaradiusparams objects by arguments"
                 $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type aaaradiusparams -Arguments $Arguments -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type aaaradiusparams -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving aaaradiusparams configuration for property ''"
 
             } else {
                 Write-Verbose "Retrieving aaaradiusparams configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type aaaradiusparams -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type aaaradiusparams -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -7317,7 +7317,7 @@ function Invoke-ADCKillAaasession {
         Invoke-ADCKillAaasession 
     .NOTES
         File Name : Invoke-ADCKillAaasession
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/aaa/aaasession/
         Requires  : PowerShell v5.1 and up
@@ -7366,7 +7366,7 @@ function Invoke-ADCKillAaasession {
             if ($PSBoundParameters.ContainsKey('sessionkey')) { $Payload.Add('sessionkey', $sessionkey) }
             if ($PSBoundParameters.ContainsKey('all')) { $Payload.Add('all', $all) }
             if ($PSCmdlet.ShouldProcess($Name, "Kill AAA configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -Type aaasession -Action kill -Payload $Payload -GetWarning
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -NitroPath nitro/v1/config -Type aaasession -Action kill -Payload $Payload -GetWarning
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $result
@@ -7420,7 +7420,7 @@ function Invoke-ADCGetAaasession {
         Invoke-ADCGetAaasession -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetAaasession
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/aaa/aaasession/
         Requires  : PowerShell v5.1 and up
@@ -7480,11 +7480,11 @@ function Invoke-ADCGetAaasession {
             if ( $PsCmdlet.ParameterSetName -eq 'Getall' ) {
                 $Query = @{ }
                 Write-Verbose "Retrieving all aaasession objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type aaasession -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type aaasession -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
                 if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for aaasession objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type aaasession -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type aaasession -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving aaasession objects by arguments"
                 $Arguments = @{ } 
@@ -7494,13 +7494,13 @@ function Invoke-ADCGetAaasession {
                 if ($PSBoundParameters.ContainsKey('netmask')) { $Arguments.Add('netmask', $netmask) } 
                 if ($PSBoundParameters.ContainsKey('sessionkey')) { $Arguments.Add('sessionkey', $sessionkey) } 
                 if ($PSBoundParameters.ContainsKey('nodeid')) { $Arguments.Add('nodeid', $nodeid) }
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type aaasession -Arguments $Arguments -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type aaasession -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving aaasession configuration for property ''"
 
             } else {
                 Write-Verbose "Retrieving aaasession configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type aaasession -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type aaasession -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -7537,7 +7537,7 @@ function Invoke-ADCAddAaassoprofile {
         Invoke-ADCAddAaassoprofile -name <string> -username <string> -password <string>
     .NOTES
         File Name : Invoke-ADCAddAaassoprofile
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/aaa/aaassoprofile/
         Requires  : PowerShell v5.1 and up
@@ -7583,7 +7583,7 @@ function Invoke-ADCAddAaassoprofile {
 
  
             if ($PSCmdlet.ShouldProcess("aaassoprofile", "Add AAA configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -Type aaassoprofile -Payload $Payload -GetWarning
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -NitroPath nitro/v1/config -Type aaassoprofile -Payload $Payload -GetWarning
                 #HTTP Status Code on Success: 201 Created
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 if ($PSBoundParameters.ContainsKey('PassThru')) {
@@ -7618,7 +7618,7 @@ function Invoke-ADCDeleteAaassoprofile {
         Invoke-ADCDeleteAaassoprofile -name <string>
     .NOTES
         File Name : Invoke-ADCDeleteAaassoprofile
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/aaa/aaassoprofile/
         Requires  : PowerShell v5.1 and up
@@ -7646,7 +7646,7 @@ function Invoke-ADCDeleteAaassoprofile {
             }
 
             if ($PSCmdlet.ShouldProcess("$name", "Delete AAA configuration Object")) {
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type aaassoprofile -Resource $name -Arguments $Arguments
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type aaassoprofile -NitroPath nitro/v1/config -Resource $name -Arguments $Arguments
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $response
@@ -7685,7 +7685,7 @@ function Invoke-ADCUpdateAaassoprofile {
         Invoke-ADCUpdateAaassoprofile -name <string>
     .NOTES
         File Name : Invoke-ADCUpdateAaassoprofile
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/aaa/aaassoprofile/
         Requires  : PowerShell v5.1 and up
@@ -7728,7 +7728,7 @@ function Invoke-ADCUpdateAaassoprofile {
             if ($PSBoundParameters.ContainsKey('password')) { $Payload.Add('password', $password) }
  
             if ($PSCmdlet.ShouldProcess("aaassoprofile", "Update AAA configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -Type aaassoprofile -Payload $Payload -GetWarning
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -NitroPath nitro/v1/config -Type aaassoprofile -Payload $Payload -GetWarning
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 if ($PSBoundParameters.ContainsKey('PassThru')) {
@@ -7779,7 +7779,7 @@ function Invoke-ADCGetAaassoprofile {
         Invoke-ADCGetAaassoprofile -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetAaassoprofile
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/aaa/aaassoprofile/
         Requires  : PowerShell v5.1 and up
@@ -7821,21 +7821,21 @@ function Invoke-ADCGetAaassoprofile {
             if ( $PsCmdlet.ParameterSetName -eq 'Getall' ) {
                 $Query = @{ }
                 Write-Verbose "Retrieving all aaassoprofile objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type aaassoprofile -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type aaassoprofile -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
                 if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for aaassoprofile objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type aaassoprofile -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type aaassoprofile -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving aaassoprofile objects by arguments"
                 $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type aaassoprofile -Arguments $Arguments -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type aaassoprofile -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving aaassoprofile configuration for property 'name'"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type aaassoprofile -Resource $name -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type aaassoprofile -NitroPath nitro/v1/config -Resource $name -Summary:$ViewSummary -Filter $Filter -GetWarning
             } else {
                 Write-Verbose "Retrieving aaassoprofile configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type aaassoprofile -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type aaassoprofile -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -7886,7 +7886,7 @@ function Invoke-ADCUpdateAaatacacsparams {
         Invoke-ADCUpdateAaatacacsparams 
     .NOTES
         File Name : Invoke-ADCUpdateAaatacacsparams
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/aaa/aaatacacsparams/
         Requires  : PowerShell v5.1 and up
@@ -7945,7 +7945,7 @@ function Invoke-ADCUpdateAaatacacsparams {
             if ($PSBoundParameters.ContainsKey('defaultauthenticationgroup')) { $Payload.Add('defaultauthenticationgroup', $defaultauthenticationgroup) }
  
             if ($PSCmdlet.ShouldProcess("aaatacacsparams", "Update AAA configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -Type aaatacacsparams -Payload $Payload -GetWarning
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -NitroPath nitro/v1/config -Type aaatacacsparams -Payload $Payload -GetWarning
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
             Write-Output $result
@@ -7992,7 +7992,7 @@ function Invoke-ADCUnsetAaatacacsparams {
         Invoke-ADCUnsetAaatacacsparams 
     .NOTES
         File Name : Invoke-ADCUnsetAaatacacsparams
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/aaa/aaatacacsparams
         Requires  : PowerShell v5.1 and up
@@ -8044,7 +8044,7 @@ function Invoke-ADCUnsetAaatacacsparams {
             if ($PSBoundParameters.ContainsKey('groupattrname')) { $Payload.Add('groupattrname', $groupattrname) }
             if ($PSBoundParameters.ContainsKey('defaultauthenticationgroup')) { $Payload.Add('defaultauthenticationgroup', $defaultauthenticationgroup) }
             if ($PSCmdlet.ShouldProcess("aaatacacsparams", "Unset AAA configuration Object")) {
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -Type aaatacacsparams -Action unset -Payload $Payload -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -Type aaatacacsparams -NitroPath nitro/v1/config -Action unset -Payload $Payload -GetWarning
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $response
@@ -8084,7 +8084,7 @@ function Invoke-ADCGetAaatacacsparams {
         Invoke-ADCGetAaatacacsparams -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetAaatacacsparams
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/aaa/aaatacacsparams/
         Requires  : PowerShell v5.1 and up
@@ -8113,21 +8113,21 @@ function Invoke-ADCGetAaatacacsparams {
             if ( $PsCmdlet.ParameterSetName -eq 'Getall' ) {
                 $Query = @{ }
                 Write-Verbose "Retrieving all aaatacacsparams objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type aaatacacsparams -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type aaatacacsparams -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
                 if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for aaatacacsparams objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type aaatacacsparams -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type aaatacacsparams -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving aaatacacsparams objects by arguments"
                 $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type aaatacacsparams -Arguments $Arguments -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type aaatacacsparams -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving aaatacacsparams configuration for property ''"
 
             } else {
                 Write-Verbose "Retrieving aaatacacsparams configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type aaatacacsparams -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type aaatacacsparams -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -8158,7 +8158,7 @@ function Invoke-ADCAddAaauser {
         Invoke-ADCAddAaauser -username <string>
     .NOTES
         File Name : Invoke-ADCAddAaauser
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/aaa/aaauser/
         Requires  : PowerShell v5.1 and up
@@ -8195,7 +8195,7 @@ function Invoke-ADCAddAaauser {
             if ($PSBoundParameters.ContainsKey('password')) { $Payload.Add('password', $password) }
  
             if ($PSCmdlet.ShouldProcess("aaauser", "Add AAA configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -Type aaauser -Payload $Payload -GetWarning
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -NitroPath nitro/v1/config -Type aaauser -Payload $Payload -GetWarning
                 #HTTP Status Code on Success: 201 Created
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 if ($PSBoundParameters.ContainsKey('PassThru')) {
@@ -8227,7 +8227,7 @@ function Invoke-ADCDeleteAaauser {
         Invoke-ADCDeleteAaauser -username <string>
     .NOTES
         File Name : Invoke-ADCDeleteAaauser
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/aaa/aaauser/
         Requires  : PowerShell v5.1 and up
@@ -8255,7 +8255,7 @@ function Invoke-ADCDeleteAaauser {
             }
 
             if ($PSCmdlet.ShouldProcess("$username", "Delete AAA configuration Object")) {
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type aaauser -Resource $username -Arguments $Arguments
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type aaauser -NitroPath nitro/v1/config -Resource $username -Arguments $Arguments
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $response
@@ -8288,7 +8288,7 @@ function Invoke-ADCUpdateAaauser {
         Invoke-ADCUpdateAaauser -username <string> -password <string>
     .NOTES
         File Name : Invoke-ADCUpdateAaauser
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/aaa/aaauser/
         Requires  : PowerShell v5.1 and up
@@ -8327,7 +8327,7 @@ function Invoke-ADCUpdateAaauser {
 
  
             if ($PSCmdlet.ShouldProcess("aaauser", "Update AAA configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -Type aaauser -Payload $Payload -GetWarning
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -NitroPath nitro/v1/config -Type aaauser -Payload $Payload -GetWarning
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 if ($PSBoundParameters.ContainsKey('PassThru')) {
@@ -8359,7 +8359,7 @@ function Invoke-ADCUnlockAaauser {
         Invoke-ADCUnlockAaauser -username <string>
     .NOTES
         File Name : Invoke-ADCUnlockAaauser
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/aaa/aaauser/
         Requires  : PowerShell v5.1 and up
@@ -8390,7 +8390,7 @@ function Invoke-ADCUnlockAaauser {
             }
 
             if ($PSCmdlet.ShouldProcess($Name, "Unlock AAA configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -Type aaauser -Action unlock -Payload $Payload -GetWarning
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -NitroPath nitro/v1/config -Type aaauser -Action unlock -Payload $Payload -GetWarning
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $result
@@ -8434,7 +8434,7 @@ function Invoke-ADCGetAaauser {
         Invoke-ADCGetAaauser -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetAaauser
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/aaa/aaauser/
         Requires  : PowerShell v5.1 and up
@@ -8475,21 +8475,21 @@ function Invoke-ADCGetAaauser {
             if ( $PsCmdlet.ParameterSetName -eq 'Getall' ) {
                 $Query = @{ }
                 Write-Verbose "Retrieving all aaauser objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type aaauser -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type aaauser -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
                 if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for aaauser objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type aaauser -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type aaauser -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving aaauser objects by arguments"
                 $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type aaauser -Arguments $Arguments -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type aaauser -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving aaauser configuration for property 'username'"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type aaauser -Resource $username -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type aaauser -NitroPath nitro/v1/config -Resource $username -Summary:$ViewSummary -Filter $Filter -GetWarning
             } else {
                 Write-Verbose "Retrieving aaauser configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type aaauser -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type aaauser -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -8531,7 +8531,7 @@ function Invoke-ADCGetAaauseraaagroupbinding {
         Invoke-ADCGetAaauseraaagroupbinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetAaauseraaagroupbinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/aaa/aaauser_aaagroup_binding/
         Requires  : PowerShell v5.1 and up
@@ -8569,21 +8569,21 @@ function Invoke-ADCGetAaauseraaagroupbinding {
                     bulkbindings = 'yes'
                 }
                 Write-Verbose "Retrieving all aaauser_aaagroup_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type aaauser_aaagroup_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type aaauser_aaagroup_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
                 if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for aaauser_aaagroup_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type aaauser_aaagroup_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type aaauser_aaagroup_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving aaauser_aaagroup_binding objects by arguments"
                 $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type aaauser_aaagroup_binding -Arguments $Arguments -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type aaauser_aaagroup_binding -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving aaauser_aaagroup_binding configuration for property 'username'"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type aaauser_aaagroup_binding -Resource $username -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type aaauser_aaagroup_binding -NitroPath nitro/v1/config -Resource $username -Summary:$ViewSummary -Filter $Filter -GetWarning
             } else {
                 Write-Verbose "Retrieving aaauser_aaagroup_binding configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type aaauser_aaagroup_binding -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type aaauser_aaagroup_binding -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -8623,7 +8623,7 @@ function Invoke-ADCAddAaauserauditnslogpolicybinding {
         Invoke-ADCAddAaauserauditnslogpolicybinding -username <string>
     .NOTES
         File Name : Invoke-ADCAddAaauserauditnslogpolicybinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/aaa/aaauser_auditnslogpolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -8670,7 +8670,7 @@ function Invoke-ADCAddAaauserauditnslogpolicybinding {
             if ($PSBoundParameters.ContainsKey('gotopriorityexpression')) { $Payload.Add('gotopriorityexpression', $gotopriorityexpression) }
  
             if ($PSCmdlet.ShouldProcess("aaauser_auditnslogpolicy_binding", "Add AAA configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -Type aaauser_auditnslogpolicy_binding -Payload $Payload -GetWarning
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -NitroPath nitro/v1/config -Type aaauser_auditnslogpolicy_binding -Payload $Payload -GetWarning
                 #HTTP Status Code on Success: 201 Created
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 if ($PSBoundParameters.ContainsKey('PassThru')) {
@@ -8707,7 +8707,7 @@ function Invoke-ADCDeleteAaauserauditnslogpolicybinding {
         Invoke-ADCDeleteAaauserauditnslogpolicybinding -username <string>
     .NOTES
         File Name : Invoke-ADCDeleteAaauserauditnslogpolicybinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/aaa/aaauser_auditnslogpolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -8740,7 +8740,7 @@ function Invoke-ADCDeleteAaauserauditnslogpolicybinding {
             if ($PSBoundParameters.ContainsKey('policy')) { $Arguments.Add('policy', $policy) }
             if ($PSBoundParameters.ContainsKey('type')) { $Arguments.Add('type', $type) }
             if ($PSCmdlet.ShouldProcess("$username", "Delete AAA configuration Object")) {
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type aaauser_auditnslogpolicy_binding -Resource $username -Arguments $Arguments
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type aaauser_auditnslogpolicy_binding -NitroPath nitro/v1/config -Resource $username -Arguments $Arguments
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $response
@@ -8784,7 +8784,7 @@ function Invoke-ADCGetAaauserauditnslogpolicybinding {
         Invoke-ADCGetAaauserauditnslogpolicybinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetAaauserauditnslogpolicybinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/aaa/aaauser_auditnslogpolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -8822,21 +8822,21 @@ function Invoke-ADCGetAaauserauditnslogpolicybinding {
                     bulkbindings = 'yes'
                 }
                 Write-Verbose "Retrieving all aaauser_auditnslogpolicy_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type aaauser_auditnslogpolicy_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type aaauser_auditnslogpolicy_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
                 if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for aaauser_auditnslogpolicy_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type aaauser_auditnslogpolicy_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type aaauser_auditnslogpolicy_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving aaauser_auditnslogpolicy_binding objects by arguments"
                 $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type aaauser_auditnslogpolicy_binding -Arguments $Arguments -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type aaauser_auditnslogpolicy_binding -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving aaauser_auditnslogpolicy_binding configuration for property 'username'"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type aaauser_auditnslogpolicy_binding -Resource $username -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type aaauser_auditnslogpolicy_binding -NitroPath nitro/v1/config -Resource $username -Summary:$ViewSummary -Filter $Filter -GetWarning
             } else {
                 Write-Verbose "Retrieving aaauser_auditnslogpolicy_binding configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type aaauser_auditnslogpolicy_binding -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type aaauser_auditnslogpolicy_binding -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -8876,7 +8876,7 @@ function Invoke-ADCAddAaauserauditsyslogpolicybinding {
         Invoke-ADCAddAaauserauditsyslogpolicybinding -username <string>
     .NOTES
         File Name : Invoke-ADCAddAaauserauditsyslogpolicybinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/aaa/aaauser_auditsyslogpolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -8923,7 +8923,7 @@ function Invoke-ADCAddAaauserauditsyslogpolicybinding {
             if ($PSBoundParameters.ContainsKey('gotopriorityexpression')) { $Payload.Add('gotopriorityexpression', $gotopriorityexpression) }
  
             if ($PSCmdlet.ShouldProcess("aaauser_auditsyslogpolicy_binding", "Add AAA configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -Type aaauser_auditsyslogpolicy_binding -Payload $Payload -GetWarning
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -NitroPath nitro/v1/config -Type aaauser_auditsyslogpolicy_binding -Payload $Payload -GetWarning
                 #HTTP Status Code on Success: 201 Created
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 if ($PSBoundParameters.ContainsKey('PassThru')) {
@@ -8960,7 +8960,7 @@ function Invoke-ADCDeleteAaauserauditsyslogpolicybinding {
         Invoke-ADCDeleteAaauserauditsyslogpolicybinding -username <string>
     .NOTES
         File Name : Invoke-ADCDeleteAaauserauditsyslogpolicybinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/aaa/aaauser_auditsyslogpolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -8993,7 +8993,7 @@ function Invoke-ADCDeleteAaauserauditsyslogpolicybinding {
             if ($PSBoundParameters.ContainsKey('policy')) { $Arguments.Add('policy', $policy) }
             if ($PSBoundParameters.ContainsKey('type')) { $Arguments.Add('type', $type) }
             if ($PSCmdlet.ShouldProcess("$username", "Delete AAA configuration Object")) {
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type aaauser_auditsyslogpolicy_binding -Resource $username -Arguments $Arguments
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type aaauser_auditsyslogpolicy_binding -NitroPath nitro/v1/config -Resource $username -Arguments $Arguments
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $response
@@ -9037,7 +9037,7 @@ function Invoke-ADCGetAaauserauditsyslogpolicybinding {
         Invoke-ADCGetAaauserauditsyslogpolicybinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetAaauserauditsyslogpolicybinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/aaa/aaauser_auditsyslogpolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -9075,21 +9075,21 @@ function Invoke-ADCGetAaauserauditsyslogpolicybinding {
                     bulkbindings = 'yes'
                 }
                 Write-Verbose "Retrieving all aaauser_auditsyslogpolicy_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type aaauser_auditsyslogpolicy_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type aaauser_auditsyslogpolicy_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
                 if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for aaauser_auditsyslogpolicy_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type aaauser_auditsyslogpolicy_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type aaauser_auditsyslogpolicy_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving aaauser_auditsyslogpolicy_binding objects by arguments"
                 $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type aaauser_auditsyslogpolicy_binding -Arguments $Arguments -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type aaauser_auditsyslogpolicy_binding -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving aaauser_auditsyslogpolicy_binding configuration for property 'username'"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type aaauser_auditsyslogpolicy_binding -Resource $username -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type aaauser_auditsyslogpolicy_binding -NitroPath nitro/v1/config -Resource $username -Summary:$ViewSummary -Filter $Filter -GetWarning
             } else {
                 Write-Verbose "Retrieving aaauser_auditsyslogpolicy_binding configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type aaauser_auditsyslogpolicy_binding -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type aaauser_auditsyslogpolicy_binding -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -9129,7 +9129,7 @@ function Invoke-ADCAddAaauserauthorizationpolicybinding {
         Invoke-ADCAddAaauserauthorizationpolicybinding -username <string>
     .NOTES
         File Name : Invoke-ADCAddAaauserauthorizationpolicybinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/aaa/aaauser_authorizationpolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -9176,7 +9176,7 @@ function Invoke-ADCAddAaauserauthorizationpolicybinding {
             if ($PSBoundParameters.ContainsKey('gotopriorityexpression')) { $Payload.Add('gotopriorityexpression', $gotopriorityexpression) }
  
             if ($PSCmdlet.ShouldProcess("aaauser_authorizationpolicy_binding", "Add AAA configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -Type aaauser_authorizationpolicy_binding -Payload $Payload -GetWarning
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -NitroPath nitro/v1/config -Type aaauser_authorizationpolicy_binding -Payload $Payload -GetWarning
                 #HTTP Status Code on Success: 201 Created
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 if ($PSBoundParameters.ContainsKey('PassThru')) {
@@ -9213,7 +9213,7 @@ function Invoke-ADCDeleteAaauserauthorizationpolicybinding {
         Invoke-ADCDeleteAaauserauthorizationpolicybinding -username <string>
     .NOTES
         File Name : Invoke-ADCDeleteAaauserauthorizationpolicybinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/aaa/aaauser_authorizationpolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -9246,7 +9246,7 @@ function Invoke-ADCDeleteAaauserauthorizationpolicybinding {
             if ($PSBoundParameters.ContainsKey('policy')) { $Arguments.Add('policy', $policy) }
             if ($PSBoundParameters.ContainsKey('type')) { $Arguments.Add('type', $type) }
             if ($PSCmdlet.ShouldProcess("$username", "Delete AAA configuration Object")) {
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type aaauser_authorizationpolicy_binding -Resource $username -Arguments $Arguments
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type aaauser_authorizationpolicy_binding -NitroPath nitro/v1/config -Resource $username -Arguments $Arguments
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $response
@@ -9290,7 +9290,7 @@ function Invoke-ADCGetAaauserauthorizationpolicybinding {
         Invoke-ADCGetAaauserauthorizationpolicybinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetAaauserauthorizationpolicybinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/aaa/aaauser_authorizationpolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -9328,21 +9328,21 @@ function Invoke-ADCGetAaauserauthorizationpolicybinding {
                     bulkbindings = 'yes'
                 }
                 Write-Verbose "Retrieving all aaauser_authorizationpolicy_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type aaauser_authorizationpolicy_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type aaauser_authorizationpolicy_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
                 if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for aaauser_authorizationpolicy_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type aaauser_authorizationpolicy_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type aaauser_authorizationpolicy_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving aaauser_authorizationpolicy_binding objects by arguments"
                 $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type aaauser_authorizationpolicy_binding -Arguments $Arguments -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type aaauser_authorizationpolicy_binding -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving aaauser_authorizationpolicy_binding configuration for property 'username'"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type aaauser_authorizationpolicy_binding -Resource $username -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type aaauser_authorizationpolicy_binding -NitroPath nitro/v1/config -Resource $username -Summary:$ViewSummary -Filter $Filter -GetWarning
             } else {
                 Write-Verbose "Retrieving aaauser_authorizationpolicy_binding configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type aaauser_authorizationpolicy_binding -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type aaauser_authorizationpolicy_binding -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -9382,7 +9382,7 @@ function Invoke-ADCGetAaauserbinding {
         Invoke-ADCGetAaauserbinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetAaauserbinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/aaa/aaauser_binding/
         Requires  : PowerShell v5.1 and up
@@ -9417,21 +9417,21 @@ function Invoke-ADCGetAaauserbinding {
                     bulkbindings = 'yes'
                 }
                 Write-Verbose "Retrieving all aaauser_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type aaauser_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type aaauser_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
                 if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for aaauser_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type aaauser_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type aaauser_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving aaauser_binding objects by arguments"
                 $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type aaauser_binding -Arguments $Arguments -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type aaauser_binding -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving aaauser_binding configuration for property 'username'"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type aaauser_binding -Resource $username -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type aaauser_binding -NitroPath nitro/v1/config -Resource $username -Summary:$ViewSummary -Filter $Filter -GetWarning
             } else {
                 Write-Verbose "Retrieving aaauser_binding configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type aaauser_binding -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type aaauser_binding -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -9465,7 +9465,7 @@ function Invoke-ADCAddAaauserintranetip6binding {
         Invoke-ADCAddAaauserintranetip6binding -username <string>
     .NOTES
         File Name : Invoke-ADCAddAaauserintranetip6binding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/aaa/aaauser_intranetip6_binding/
         Requires  : PowerShell v5.1 and up
@@ -9507,7 +9507,7 @@ function Invoke-ADCAddAaauserintranetip6binding {
             if ($PSBoundParameters.ContainsKey('numaddr')) { $Payload.Add('numaddr', $numaddr) }
  
             if ($PSCmdlet.ShouldProcess("aaauser_intranetip6_binding", "Add AAA configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -Type aaauser_intranetip6_binding -Payload $Payload -GetWarning
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -NitroPath nitro/v1/config -Type aaauser_intranetip6_binding -Payload $Payload -GetWarning
                 #HTTP Status Code on Success: 201 Created
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 if ($PSBoundParameters.ContainsKey('PassThru')) {
@@ -9542,7 +9542,7 @@ function Invoke-ADCDeleteAaauserintranetip6binding {
         Invoke-ADCDeleteAaauserintranetip6binding -username <string>
     .NOTES
         File Name : Invoke-ADCDeleteAaauserintranetip6binding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/aaa/aaauser_intranetip6_binding/
         Requires  : PowerShell v5.1 and up
@@ -9575,7 +9575,7 @@ function Invoke-ADCDeleteAaauserintranetip6binding {
             if ($PSBoundParameters.ContainsKey('intranetip6')) { $Arguments.Add('intranetip6', $intranetip6) }
             if ($PSBoundParameters.ContainsKey('numaddr')) { $Arguments.Add('numaddr', $numaddr) }
             if ($PSCmdlet.ShouldProcess("$username", "Delete AAA configuration Object")) {
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type aaauser_intranetip6_binding -Resource $username -Arguments $Arguments
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type aaauser_intranetip6_binding -NitroPath nitro/v1/config -Resource $username -Arguments $Arguments
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $response
@@ -9619,7 +9619,7 @@ function Invoke-ADCGetAaauserintranetip6binding {
         Invoke-ADCGetAaauserintranetip6binding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetAaauserintranetip6binding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/aaa/aaauser_intranetip6_binding/
         Requires  : PowerShell v5.1 and up
@@ -9657,21 +9657,21 @@ function Invoke-ADCGetAaauserintranetip6binding {
                     bulkbindings = 'yes'
                 }
                 Write-Verbose "Retrieving all aaauser_intranetip6_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type aaauser_intranetip6_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type aaauser_intranetip6_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
                 if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for aaauser_intranetip6_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type aaauser_intranetip6_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type aaauser_intranetip6_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving aaauser_intranetip6_binding objects by arguments"
                 $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type aaauser_intranetip6_binding -Arguments $Arguments -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type aaauser_intranetip6_binding -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving aaauser_intranetip6_binding configuration for property 'username'"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type aaauser_intranetip6_binding -Resource $username -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type aaauser_intranetip6_binding -NitroPath nitro/v1/config -Resource $username -Summary:$ViewSummary -Filter $Filter -GetWarning
             } else {
                 Write-Verbose "Retrieving aaauser_intranetip6_binding configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type aaauser_intranetip6_binding -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type aaauser_intranetip6_binding -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -9705,7 +9705,7 @@ function Invoke-ADCAddAaauserintranetipbinding {
         Invoke-ADCAddAaauserintranetipbinding -username <string>
     .NOTES
         File Name : Invoke-ADCAddAaauserintranetipbinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/aaa/aaauser_intranetip_binding/
         Requires  : PowerShell v5.1 and up
@@ -9747,7 +9747,7 @@ function Invoke-ADCAddAaauserintranetipbinding {
             if ($PSBoundParameters.ContainsKey('gotopriorityexpression')) { $Payload.Add('gotopriorityexpression', $gotopriorityexpression) }
  
             if ($PSCmdlet.ShouldProcess("aaauser_intranetip_binding", "Add AAA configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -Type aaauser_intranetip_binding -Payload $Payload -GetWarning
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -NitroPath nitro/v1/config -Type aaauser_intranetip_binding -Payload $Payload -GetWarning
                 #HTTP Status Code on Success: 201 Created
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 if ($PSBoundParameters.ContainsKey('PassThru')) {
@@ -9782,7 +9782,7 @@ function Invoke-ADCDeleteAaauserintranetipbinding {
         Invoke-ADCDeleteAaauserintranetipbinding -username <string>
     .NOTES
         File Name : Invoke-ADCDeleteAaauserintranetipbinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/aaa/aaauser_intranetip_binding/
         Requires  : PowerShell v5.1 and up
@@ -9815,7 +9815,7 @@ function Invoke-ADCDeleteAaauserintranetipbinding {
             if ($PSBoundParameters.ContainsKey('intranetip')) { $Arguments.Add('intranetip', $intranetip) }
             if ($PSBoundParameters.ContainsKey('netmask')) { $Arguments.Add('netmask', $netmask) }
             if ($PSCmdlet.ShouldProcess("$username", "Delete AAA configuration Object")) {
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type aaauser_intranetip_binding -Resource $username -Arguments $Arguments
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type aaauser_intranetip_binding -NitroPath nitro/v1/config -Resource $username -Arguments $Arguments
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $response
@@ -9859,7 +9859,7 @@ function Invoke-ADCGetAaauserintranetipbinding {
         Invoke-ADCGetAaauserintranetipbinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetAaauserintranetipbinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/aaa/aaauser_intranetip_binding/
         Requires  : PowerShell v5.1 and up
@@ -9897,21 +9897,21 @@ function Invoke-ADCGetAaauserintranetipbinding {
                     bulkbindings = 'yes'
                 }
                 Write-Verbose "Retrieving all aaauser_intranetip_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type aaauser_intranetip_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type aaauser_intranetip_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
                 if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for aaauser_intranetip_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type aaauser_intranetip_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type aaauser_intranetip_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving aaauser_intranetip_binding objects by arguments"
                 $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type aaauser_intranetip_binding -Arguments $Arguments -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type aaauser_intranetip_binding -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving aaauser_intranetip_binding configuration for property 'username'"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type aaauser_intranetip_binding -Resource $username -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type aaauser_intranetip_binding -NitroPath nitro/v1/config -Resource $username -Summary:$ViewSummary -Filter $Filter -GetWarning
             } else {
                 Write-Verbose "Retrieving aaauser_intranetip_binding configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type aaauser_intranetip_binding -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type aaauser_intranetip_binding -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -9951,7 +9951,7 @@ function Invoke-ADCAddAaausertmsessionpolicybinding {
         Invoke-ADCAddAaausertmsessionpolicybinding -username <string>
     .NOTES
         File Name : Invoke-ADCAddAaausertmsessionpolicybinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/aaa/aaauser_tmsessionpolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -9998,7 +9998,7 @@ function Invoke-ADCAddAaausertmsessionpolicybinding {
             if ($PSBoundParameters.ContainsKey('gotopriorityexpression')) { $Payload.Add('gotopriorityexpression', $gotopriorityexpression) }
  
             if ($PSCmdlet.ShouldProcess("aaauser_tmsessionpolicy_binding", "Add AAA configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -Type aaauser_tmsessionpolicy_binding -Payload $Payload -GetWarning
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -NitroPath nitro/v1/config -Type aaauser_tmsessionpolicy_binding -Payload $Payload -GetWarning
                 #HTTP Status Code on Success: 201 Created
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 if ($PSBoundParameters.ContainsKey('PassThru')) {
@@ -10035,7 +10035,7 @@ function Invoke-ADCDeleteAaausertmsessionpolicybinding {
         Invoke-ADCDeleteAaausertmsessionpolicybinding -username <string>
     .NOTES
         File Name : Invoke-ADCDeleteAaausertmsessionpolicybinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/aaa/aaauser_tmsessionpolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -10068,7 +10068,7 @@ function Invoke-ADCDeleteAaausertmsessionpolicybinding {
             if ($PSBoundParameters.ContainsKey('policy')) { $Arguments.Add('policy', $policy) }
             if ($PSBoundParameters.ContainsKey('type')) { $Arguments.Add('type', $type) }
             if ($PSCmdlet.ShouldProcess("$username", "Delete AAA configuration Object")) {
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type aaauser_tmsessionpolicy_binding -Resource $username -Arguments $Arguments
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type aaauser_tmsessionpolicy_binding -NitroPath nitro/v1/config -Resource $username -Arguments $Arguments
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $response
@@ -10112,7 +10112,7 @@ function Invoke-ADCGetAaausertmsessionpolicybinding {
         Invoke-ADCGetAaausertmsessionpolicybinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetAaausertmsessionpolicybinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/aaa/aaauser_tmsessionpolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -10150,21 +10150,21 @@ function Invoke-ADCGetAaausertmsessionpolicybinding {
                     bulkbindings = 'yes'
                 }
                 Write-Verbose "Retrieving all aaauser_tmsessionpolicy_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type aaauser_tmsessionpolicy_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type aaauser_tmsessionpolicy_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
                 if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for aaauser_tmsessionpolicy_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type aaauser_tmsessionpolicy_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type aaauser_tmsessionpolicy_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving aaauser_tmsessionpolicy_binding objects by arguments"
                 $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type aaauser_tmsessionpolicy_binding -Arguments $Arguments -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type aaauser_tmsessionpolicy_binding -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving aaauser_tmsessionpolicy_binding configuration for property 'username'"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type aaauser_tmsessionpolicy_binding -Resource $username -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type aaauser_tmsessionpolicy_binding -NitroPath nitro/v1/config -Resource $username -Summary:$ViewSummary -Filter $Filter -GetWarning
             } else {
                 Write-Verbose "Retrieving aaauser_tmsessionpolicy_binding configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type aaauser_tmsessionpolicy_binding -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type aaauser_tmsessionpolicy_binding -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -10196,7 +10196,7 @@ function Invoke-ADCAddAaauservpnintranetapplicationbinding {
         Invoke-ADCAddAaauservpnintranetapplicationbinding -username <string>
     .NOTES
         File Name : Invoke-ADCAddAaauservpnintranetapplicationbinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/aaa/aaauser_vpnintranetapplication_binding/
         Requires  : PowerShell v5.1 and up
@@ -10235,7 +10235,7 @@ function Invoke-ADCAddAaauservpnintranetapplicationbinding {
             if ($PSBoundParameters.ContainsKey('gotopriorityexpression')) { $Payload.Add('gotopriorityexpression', $gotopriorityexpression) }
  
             if ($PSCmdlet.ShouldProcess("aaauser_vpnintranetapplication_binding", "Add AAA configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -Type aaauser_vpnintranetapplication_binding -Payload $Payload -GetWarning
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -NitroPath nitro/v1/config -Type aaauser_vpnintranetapplication_binding -Payload $Payload -GetWarning
                 #HTTP Status Code on Success: 201 Created
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 if ($PSBoundParameters.ContainsKey('PassThru')) {
@@ -10269,7 +10269,7 @@ function Invoke-ADCDeleteAaauservpnintranetapplicationbinding {
         Invoke-ADCDeleteAaauservpnintranetapplicationbinding -username <string>
     .NOTES
         File Name : Invoke-ADCDeleteAaauservpnintranetapplicationbinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/aaa/aaauser_vpnintranetapplication_binding/
         Requires  : PowerShell v5.1 and up
@@ -10299,7 +10299,7 @@ function Invoke-ADCDeleteAaauservpnintranetapplicationbinding {
             }
             if ($PSBoundParameters.ContainsKey('intranetapplication')) { $Arguments.Add('intranetapplication', $intranetapplication) }
             if ($PSCmdlet.ShouldProcess("$username", "Delete AAA configuration Object")) {
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type aaauser_vpnintranetapplication_binding -Resource $username -Arguments $Arguments
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type aaauser_vpnintranetapplication_binding -NitroPath nitro/v1/config -Resource $username -Arguments $Arguments
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $response
@@ -10343,7 +10343,7 @@ function Invoke-ADCGetAaauservpnintranetapplicationbinding {
         Invoke-ADCGetAaauservpnintranetapplicationbinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetAaauservpnintranetapplicationbinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/aaa/aaauser_vpnintranetapplication_binding/
         Requires  : PowerShell v5.1 and up
@@ -10381,21 +10381,21 @@ function Invoke-ADCGetAaauservpnintranetapplicationbinding {
                     bulkbindings = 'yes'
                 }
                 Write-Verbose "Retrieving all aaauser_vpnintranetapplication_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type aaauser_vpnintranetapplication_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type aaauser_vpnintranetapplication_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
                 if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for aaauser_vpnintranetapplication_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type aaauser_vpnintranetapplication_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type aaauser_vpnintranetapplication_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving aaauser_vpnintranetapplication_binding objects by arguments"
                 $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type aaauser_vpnintranetapplication_binding -Arguments $Arguments -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type aaauser_vpnintranetapplication_binding -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving aaauser_vpnintranetapplication_binding configuration for property 'username'"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type aaauser_vpnintranetapplication_binding -Resource $username -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type aaauser_vpnintranetapplication_binding -NitroPath nitro/v1/config -Resource $username -Summary:$ViewSummary -Filter $Filter -GetWarning
             } else {
                 Write-Verbose "Retrieving aaauser_vpnintranetapplication_binding configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type aaauser_vpnintranetapplication_binding -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type aaauser_vpnintranetapplication_binding -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -10435,7 +10435,7 @@ function Invoke-ADCAddAaauservpnsessionpolicybinding {
         Invoke-ADCAddAaauservpnsessionpolicybinding -username <string>
     .NOTES
         File Name : Invoke-ADCAddAaauservpnsessionpolicybinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/aaa/aaauser_vpnsessionpolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -10482,7 +10482,7 @@ function Invoke-ADCAddAaauservpnsessionpolicybinding {
             if ($PSBoundParameters.ContainsKey('gotopriorityexpression')) { $Payload.Add('gotopriorityexpression', $gotopriorityexpression) }
  
             if ($PSCmdlet.ShouldProcess("aaauser_vpnsessionpolicy_binding", "Add AAA configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -Type aaauser_vpnsessionpolicy_binding -Payload $Payload -GetWarning
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -NitroPath nitro/v1/config -Type aaauser_vpnsessionpolicy_binding -Payload $Payload -GetWarning
                 #HTTP Status Code on Success: 201 Created
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 if ($PSBoundParameters.ContainsKey('PassThru')) {
@@ -10519,7 +10519,7 @@ function Invoke-ADCDeleteAaauservpnsessionpolicybinding {
         Invoke-ADCDeleteAaauservpnsessionpolicybinding -username <string>
     .NOTES
         File Name : Invoke-ADCDeleteAaauservpnsessionpolicybinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/aaa/aaauser_vpnsessionpolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -10552,7 +10552,7 @@ function Invoke-ADCDeleteAaauservpnsessionpolicybinding {
             if ($PSBoundParameters.ContainsKey('policy')) { $Arguments.Add('policy', $policy) }
             if ($PSBoundParameters.ContainsKey('type')) { $Arguments.Add('type', $type) }
             if ($PSCmdlet.ShouldProcess("$username", "Delete AAA configuration Object")) {
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type aaauser_vpnsessionpolicy_binding -Resource $username -Arguments $Arguments
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type aaauser_vpnsessionpolicy_binding -NitroPath nitro/v1/config -Resource $username -Arguments $Arguments
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $response
@@ -10596,7 +10596,7 @@ function Invoke-ADCGetAaauservpnsessionpolicybinding {
         Invoke-ADCGetAaauservpnsessionpolicybinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetAaauservpnsessionpolicybinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/aaa/aaauser_vpnsessionpolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -10634,21 +10634,21 @@ function Invoke-ADCGetAaauservpnsessionpolicybinding {
                     bulkbindings = 'yes'
                 }
                 Write-Verbose "Retrieving all aaauser_vpnsessionpolicy_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type aaauser_vpnsessionpolicy_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type aaauser_vpnsessionpolicy_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
                 if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for aaauser_vpnsessionpolicy_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type aaauser_vpnsessionpolicy_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type aaauser_vpnsessionpolicy_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving aaauser_vpnsessionpolicy_binding objects by arguments"
                 $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type aaauser_vpnsessionpolicy_binding -Arguments $Arguments -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type aaauser_vpnsessionpolicy_binding -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving aaauser_vpnsessionpolicy_binding configuration for property 'username'"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type aaauser_vpnsessionpolicy_binding -Resource $username -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type aaauser_vpnsessionpolicy_binding -NitroPath nitro/v1/config -Resource $username -Summary:$ViewSummary -Filter $Filter -GetWarning
             } else {
                 Write-Verbose "Retrieving aaauser_vpnsessionpolicy_binding configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type aaauser_vpnsessionpolicy_binding -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type aaauser_vpnsessionpolicy_binding -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -10688,7 +10688,7 @@ function Invoke-ADCAddAaauservpntrafficpolicybinding {
         Invoke-ADCAddAaauservpntrafficpolicybinding -username <string>
     .NOTES
         File Name : Invoke-ADCAddAaauservpntrafficpolicybinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/aaa/aaauser_vpntrafficpolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -10735,7 +10735,7 @@ function Invoke-ADCAddAaauservpntrafficpolicybinding {
             if ($PSBoundParameters.ContainsKey('gotopriorityexpression')) { $Payload.Add('gotopriorityexpression', $gotopriorityexpression) }
  
             if ($PSCmdlet.ShouldProcess("aaauser_vpntrafficpolicy_binding", "Add AAA configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -Type aaauser_vpntrafficpolicy_binding -Payload $Payload -GetWarning
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -NitroPath nitro/v1/config -Type aaauser_vpntrafficpolicy_binding -Payload $Payload -GetWarning
                 #HTTP Status Code on Success: 201 Created
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 if ($PSBoundParameters.ContainsKey('PassThru')) {
@@ -10772,7 +10772,7 @@ function Invoke-ADCDeleteAaauservpntrafficpolicybinding {
         Invoke-ADCDeleteAaauservpntrafficpolicybinding -username <string>
     .NOTES
         File Name : Invoke-ADCDeleteAaauservpntrafficpolicybinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/aaa/aaauser_vpntrafficpolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -10805,7 +10805,7 @@ function Invoke-ADCDeleteAaauservpntrafficpolicybinding {
             if ($PSBoundParameters.ContainsKey('policy')) { $Arguments.Add('policy', $policy) }
             if ($PSBoundParameters.ContainsKey('type')) { $Arguments.Add('type', $type) }
             if ($PSCmdlet.ShouldProcess("$username", "Delete AAA configuration Object")) {
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type aaauser_vpntrafficpolicy_binding -Resource $username -Arguments $Arguments
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type aaauser_vpntrafficpolicy_binding -NitroPath nitro/v1/config -Resource $username -Arguments $Arguments
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $response
@@ -10849,7 +10849,7 @@ function Invoke-ADCGetAaauservpntrafficpolicybinding {
         Invoke-ADCGetAaauservpntrafficpolicybinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetAaauservpntrafficpolicybinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/aaa/aaauser_vpntrafficpolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -10887,21 +10887,21 @@ function Invoke-ADCGetAaauservpntrafficpolicybinding {
                     bulkbindings = 'yes'
                 }
                 Write-Verbose "Retrieving all aaauser_vpntrafficpolicy_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type aaauser_vpntrafficpolicy_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type aaauser_vpntrafficpolicy_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
                 if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for aaauser_vpntrafficpolicy_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type aaauser_vpntrafficpolicy_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type aaauser_vpntrafficpolicy_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving aaauser_vpntrafficpolicy_binding objects by arguments"
                 $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type aaauser_vpntrafficpolicy_binding -Arguments $Arguments -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type aaauser_vpntrafficpolicy_binding -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving aaauser_vpntrafficpolicy_binding configuration for property 'username'"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type aaauser_vpntrafficpolicy_binding -Resource $username -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type aaauser_vpntrafficpolicy_binding -NitroPath nitro/v1/config -Resource $username -Summary:$ViewSummary -Filter $Filter -GetWarning
             } else {
                 Write-Verbose "Retrieving aaauser_vpntrafficpolicy_binding configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type aaauser_vpntrafficpolicy_binding -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type aaauser_vpntrafficpolicy_binding -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -10941,7 +10941,7 @@ function Invoke-ADCAddAaauservpnurlpolicybinding {
         Invoke-ADCAddAaauservpnurlpolicybinding -username <string>
     .NOTES
         File Name : Invoke-ADCAddAaauservpnurlpolicybinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/aaa/aaauser_vpnurlpolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -10988,7 +10988,7 @@ function Invoke-ADCAddAaauservpnurlpolicybinding {
             if ($PSBoundParameters.ContainsKey('gotopriorityexpression')) { $Payload.Add('gotopriorityexpression', $gotopriorityexpression) }
  
             if ($PSCmdlet.ShouldProcess("aaauser_vpnurlpolicy_binding", "Add AAA configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -Type aaauser_vpnurlpolicy_binding -Payload $Payload -GetWarning
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -NitroPath nitro/v1/config -Type aaauser_vpnurlpolicy_binding -Payload $Payload -GetWarning
                 #HTTP Status Code on Success: 201 Created
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 if ($PSBoundParameters.ContainsKey('PassThru')) {
@@ -11025,7 +11025,7 @@ function Invoke-ADCDeleteAaauservpnurlpolicybinding {
         Invoke-ADCDeleteAaauservpnurlpolicybinding -username <string>
     .NOTES
         File Name : Invoke-ADCDeleteAaauservpnurlpolicybinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/aaa/aaauser_vpnurlpolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -11058,7 +11058,7 @@ function Invoke-ADCDeleteAaauservpnurlpolicybinding {
             if ($PSBoundParameters.ContainsKey('policy')) { $Arguments.Add('policy', $policy) }
             if ($PSBoundParameters.ContainsKey('type')) { $Arguments.Add('type', $type) }
             if ($PSCmdlet.ShouldProcess("$username", "Delete AAA configuration Object")) {
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type aaauser_vpnurlpolicy_binding -Resource $username -Arguments $Arguments
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type aaauser_vpnurlpolicy_binding -NitroPath nitro/v1/config -Resource $username -Arguments $Arguments
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $response
@@ -11102,7 +11102,7 @@ function Invoke-ADCGetAaauservpnurlpolicybinding {
         Invoke-ADCGetAaauservpnurlpolicybinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetAaauservpnurlpolicybinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/aaa/aaauser_vpnurlpolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -11140,21 +11140,21 @@ function Invoke-ADCGetAaauservpnurlpolicybinding {
                     bulkbindings = 'yes'
                 }
                 Write-Verbose "Retrieving all aaauser_vpnurlpolicy_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type aaauser_vpnurlpolicy_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type aaauser_vpnurlpolicy_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
                 if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for aaauser_vpnurlpolicy_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type aaauser_vpnurlpolicy_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type aaauser_vpnurlpolicy_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving aaauser_vpnurlpolicy_binding objects by arguments"
                 $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type aaauser_vpnurlpolicy_binding -Arguments $Arguments -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type aaauser_vpnurlpolicy_binding -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving aaauser_vpnurlpolicy_binding configuration for property 'username'"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type aaauser_vpnurlpolicy_binding -Resource $username -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type aaauser_vpnurlpolicy_binding -NitroPath nitro/v1/config -Resource $username -Summary:$ViewSummary -Filter $Filter -GetWarning
             } else {
                 Write-Verbose "Retrieving aaauser_vpnurlpolicy_binding configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type aaauser_vpnurlpolicy_binding -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type aaauser_vpnurlpolicy_binding -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -11186,7 +11186,7 @@ function Invoke-ADCAddAaauservpnurlbinding {
         Invoke-ADCAddAaauservpnurlbinding -username <string>
     .NOTES
         File Name : Invoke-ADCAddAaauservpnurlbinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/aaa/aaauser_vpnurl_binding/
         Requires  : PowerShell v5.1 and up
@@ -11225,7 +11225,7 @@ function Invoke-ADCAddAaauservpnurlbinding {
             if ($PSBoundParameters.ContainsKey('gotopriorityexpression')) { $Payload.Add('gotopriorityexpression', $gotopriorityexpression) }
  
             if ($PSCmdlet.ShouldProcess("aaauser_vpnurl_binding", "Add AAA configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -Type aaauser_vpnurl_binding -Payload $Payload -GetWarning
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -NitroPath nitro/v1/config -Type aaauser_vpnurl_binding -Payload $Payload -GetWarning
                 #HTTP Status Code on Success: 201 Created
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 if ($PSBoundParameters.ContainsKey('PassThru')) {
@@ -11259,7 +11259,7 @@ function Invoke-ADCDeleteAaauservpnurlbinding {
         Invoke-ADCDeleteAaauservpnurlbinding -username <string>
     .NOTES
         File Name : Invoke-ADCDeleteAaauservpnurlbinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/aaa/aaauser_vpnurl_binding/
         Requires  : PowerShell v5.1 and up
@@ -11289,7 +11289,7 @@ function Invoke-ADCDeleteAaauservpnurlbinding {
             }
             if ($PSBoundParameters.ContainsKey('urlname')) { $Arguments.Add('urlname', $urlname) }
             if ($PSCmdlet.ShouldProcess("$username", "Delete AAA configuration Object")) {
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type aaauser_vpnurl_binding -Resource $username -Arguments $Arguments
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type aaauser_vpnurl_binding -NitroPath nitro/v1/config -Resource $username -Arguments $Arguments
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $response
@@ -11333,7 +11333,7 @@ function Invoke-ADCGetAaauservpnurlbinding {
         Invoke-ADCGetAaauservpnurlbinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetAaauservpnurlbinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/aaa/aaauser_vpnurl_binding/
         Requires  : PowerShell v5.1 and up
@@ -11371,21 +11371,21 @@ function Invoke-ADCGetAaauservpnurlbinding {
                     bulkbindings = 'yes'
                 }
                 Write-Verbose "Retrieving all aaauser_vpnurl_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type aaauser_vpnurl_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type aaauser_vpnurl_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
                 if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for aaauser_vpnurl_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type aaauser_vpnurl_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type aaauser_vpnurl_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving aaauser_vpnurl_binding objects by arguments"
                 $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type aaauser_vpnurl_binding -Arguments $Arguments -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type aaauser_vpnurl_binding -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving aaauser_vpnurl_binding configuration for property 'username'"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type aaauser_vpnurl_binding -Resource $username -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type aaauser_vpnurl_binding -NitroPath nitro/v1/config -Resource $username -Summary:$ViewSummary -Filter $Filter -GetWarning
             } else {
                 Write-Verbose "Retrieving aaauser_vpnurl_binding configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type aaauser_vpnurl_binding -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type aaauser_vpnurl_binding -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"

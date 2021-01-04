@@ -16,6 +16,13 @@ function Connect-ADCNode {
         Return the ADC session object.
     .EXAMPLE
         Connect-ADCNode -ManagementURL https://citrixacd.domain.local -Credential (Get-Credential)
+    .NOTES
+        File Name : Connect-ADCNode
+        Version   : v2101.0322
+        Author    : John Billekens
+        Requires  : PowerShell v5.1 and up
+                    ADC 11.x and up
+                    Initial source https://github.com/devblackops/NetScaler
     #>
     [cmdletbinding()]
     param(
@@ -38,11 +45,30 @@ function Connect-ADCNode {
     if ($HA) {
         $ADCSession = Connect-ADCHANodes -ManagementURL $ManagementURL -Credential $Credential -PassThru
     } else {
+        $login = @{
+            login = @{
+                username = $Credential.UserName;
+                password = $Credential.GetNetworkCredential().Password
+                timeout  = $Timeout
+            }
+        }
+        $loginJson = ConvertTo-Json -InputObject $login
+        $saveSession = @{ }
+        $params = @{
+            Uri             = "$($ManagementURL.AbsoluteUri)nitro/v1/config/login"
+            Method          = 'POST'
+            Body            = $loginJson
+            SessionVariable = 'saveSession'
+            ContentType     = 'application/json'
+            ErrorVariable   = 'restError'
+            Verbose         = $false
+        }
 
-        if ($ManagementURL.scheme -eq "https") {
-            Write-Verbose "Connecting to $ManagementURL... Connection is SSL, Ignoring SSL checks"
-            if (-Not ("TrustAllCertsPolicy" -as [type])) {
-                Add-Type -TypeDefinition @"
+        if ($ManagementURL.AbsoluteUri -match "^https://.*?$") {
+            if ('PSEdition' -notin $PSVersionTable.Keys -or $PSVersionTable.PSEdition -eq 'Desktop') {
+                Write-Verbose "Connecting to $ManagementURL... Connection is SSL, Ignoring SSL checks"
+                if (-Not ("TrustAllCertsPolicy" -as [type])) {
+                    Add-Type -TypeDefinition @"
 using System.Net;
 using System.Security.Cryptography.X509Certificates;
 public class TrustAllCertsPolicy : ICertificatePolicy {
@@ -53,35 +79,22 @@ public class TrustAllCertsPolicy : ICertificatePolicy {
     }
 }
 "@ 
+                }
+                [System.Net.ServicePointManager]::CertificatePolicy = New-Object TrustAllCertsPolicy
+            } else {
+                $params.Add("SkipCertificateCheck", $true)
             }
-            [System.Net.ServicePointManager]::CertificatePolicy = New-Object TrustAllCertsPolicy
             # Set Tls versions
-            [System.Net.ServicePointManager]::SecurityProtocol = 
-            [System.Net.SecurityProtocolType]::Tls13 -bor `
-                [System.Net.SecurityProtocolType]::Tls12 -bor `
-                [System.Net.SecurityProtocolType]::Tls11
+            $currentMaxTls = [Math]::Max([Net.ServicePointManager]::SecurityProtocol.value__, [Net.SecurityProtocolType]::Tls.value__)
+            $newTlsTypes = [enum]::GetValues('Net.SecurityProtocolType') | Where-Object { $_ -gt $currentMaxTls }
+            $newTlsTypes | ForEach-Object {
+                [Net.ServicePointManager]::SecurityProtocol = [Net.ServicePointManager]::SecurityProtocol -bor $_
+            }
+            
         } else {
             Write-Verbose -Message "Connecting to $ManagementURL..."
         }
         try {
-            $login = @{
-                login = @{
-                    username = $Credential.UserName;
-                    password = $Credential.GetNetworkCredential().Password
-                    timeout  = $Timeout
-                }
-            }
-            $loginJson = ConvertTo-Json -InputObject $login
-            $saveSession = @{ }
-            $params = @{
-                Uri             = "$($ManagementURL.AbsoluteUri)nitro/v1/config/login"
-                Method          = 'POST'
-                Body            = $loginJson
-                SessionVariable = 'saveSession'
-                ContentType     = 'application/json'
-                ErrorVariable   = 'restError'
-                Verbose         = $false
-            }
             $response = Invoke-RestMethod @params
     
             if ($response.severity -eq 'ERROR') {
@@ -108,6 +121,9 @@ public class TrustAllCertsPolicy : ICertificatePolicy {
                 ContentType   = 'application/json'
                 ErrorVariable = 'restError'
                 Verbose       = $false
+            }
+            if ((-Not ('PSEdition' -notin $PSVersionTable.Keys -or $PSVersionTable.PSEdition -eq 'Desktop')) -and ($ManagementURL.AbsoluteUri -match "^https://.*?$")) {
+                $params.Add("SkipCertificateCheck", $true)
             }
             $response = Invoke-RestMethod @params
             Write-Verbose -Message "Response:`n$(ConvertTo-Json -InputObject $response | Out-String)"

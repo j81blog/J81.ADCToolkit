@@ -27,7 +27,7 @@ function Invoke-ADCAddAuthenticationadfsproxyprofile {
         Invoke-ADCAddAuthenticationadfsproxyprofile -name <string> -username <string> -password <string> -serverurl <string> -certkeyname <string>
     .NOTES
         File Name : Invoke-ADCAddAuthenticationadfsproxyprofile
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/authentication/authenticationadfsproxyprofile/
         Requires  : PowerShell v5.1 and up
@@ -82,7 +82,7 @@ function Invoke-ADCAddAuthenticationadfsproxyprofile {
 
  
             if ($PSCmdlet.ShouldProcess("authenticationadfsproxyprofile", "Add Authentication configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -Type authenticationadfsproxyprofile -Payload $Payload -GetWarning
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -NitroPath nitro/v1/config -Type authenticationadfsproxyprofile -Payload $Payload -GetWarning
                 #HTTP Status Code on Success: 201 Created
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 if ($PSBoundParameters.ContainsKey('PassThru')) {
@@ -117,7 +117,7 @@ function Invoke-ADCDeleteAuthenticationadfsproxyprofile {
         Invoke-ADCDeleteAuthenticationadfsproxyprofile -name <string>
     .NOTES
         File Name : Invoke-ADCDeleteAuthenticationadfsproxyprofile
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/authentication/authenticationadfsproxyprofile/
         Requires  : PowerShell v5.1 and up
@@ -145,7 +145,7 @@ function Invoke-ADCDeleteAuthenticationadfsproxyprofile {
             }
 
             if ($PSCmdlet.ShouldProcess("$name", "Delete Authentication configuration Object")) {
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type authenticationadfsproxyprofile -Resource $name -Arguments $Arguments
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type authenticationadfsproxyprofile -NitroPath nitro/v1/config -Resource $name -Arguments $Arguments
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $response
@@ -189,7 +189,7 @@ function Invoke-ADCUpdateAuthenticationadfsproxyprofile {
         Invoke-ADCUpdateAuthenticationadfsproxyprofile -name <string>
     .NOTES
         File Name : Invoke-ADCUpdateAuthenticationadfsproxyprofile
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/authentication/authenticationadfsproxyprofile/
         Requires  : PowerShell v5.1 and up
@@ -239,7 +239,7 @@ function Invoke-ADCUpdateAuthenticationadfsproxyprofile {
             if ($PSBoundParameters.ContainsKey('certkeyname')) { $Payload.Add('certkeyname', $certkeyname) }
  
             if ($PSCmdlet.ShouldProcess("authenticationadfsproxyprofile", "Update Authentication configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -Type authenticationadfsproxyprofile -Payload $Payload -GetWarning
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -NitroPath nitro/v1/config -Type authenticationadfsproxyprofile -Payload $Payload -GetWarning
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 if ($PSBoundParameters.ContainsKey('PassThru')) {
@@ -289,7 +289,7 @@ function Invoke-ADCGetAuthenticationadfsproxyprofile {
         Invoke-ADCGetAuthenticationadfsproxyprofile -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetAuthenticationadfsproxyprofile
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/authentication/authenticationadfsproxyprofile/
         Requires  : PowerShell v5.1 and up
@@ -331,21 +331,21 @@ function Invoke-ADCGetAuthenticationadfsproxyprofile {
             if ( $PsCmdlet.ParameterSetName -eq 'Getall' ) {
                 $Query = @{ }
                 Write-Verbose "Retrieving all authenticationadfsproxyprofile objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationadfsproxyprofile -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationadfsproxyprofile -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
                 if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for authenticationadfsproxyprofile objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationadfsproxyprofile -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationadfsproxyprofile -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving authenticationadfsproxyprofile objects by arguments"
                 $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationadfsproxyprofile -Arguments $Arguments -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationadfsproxyprofile -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving authenticationadfsproxyprofile configuration for property 'name'"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationadfsproxyprofile -Resource $name -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationadfsproxyprofile -NitroPath nitro/v1/config -Resource $name -Summary:$ViewSummary -Filter $Filter -GetWarning
             } else {
                 Write-Verbose "Retrieving authenticationadfsproxyprofile configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationadfsproxyprofile -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationadfsproxyprofile -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -390,7 +390,7 @@ function Invoke-ADCAddAuthenticationauthnprofile {
         Invoke-ADCAddAuthenticationauthnprofile -name <string> -authnvsname <string>
     .NOTES
         File Name : Invoke-ADCAddAuthenticationauthnprofile
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/authentication/authenticationauthnprofile/
         Requires  : PowerShell v5.1 and up
@@ -440,7 +440,7 @@ function Invoke-ADCAddAuthenticationauthnprofile {
             if ($PSBoundParameters.ContainsKey('authenticationlevel')) { $Payload.Add('authenticationlevel', $authenticationlevel) }
  
             if ($PSCmdlet.ShouldProcess("authenticationauthnprofile", "Add Authentication configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -Type authenticationauthnprofile -Payload $Payload -GetWarning
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -NitroPath nitro/v1/config -Type authenticationauthnprofile -Payload $Payload -GetWarning
                 #HTTP Status Code on Success: 201 Created
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 if ($PSBoundParameters.ContainsKey('PassThru')) {
@@ -474,7 +474,7 @@ function Invoke-ADCDeleteAuthenticationauthnprofile {
         Invoke-ADCDeleteAuthenticationauthnprofile -name <string>
     .NOTES
         File Name : Invoke-ADCDeleteAuthenticationauthnprofile
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/authentication/authenticationauthnprofile/
         Requires  : PowerShell v5.1 and up
@@ -502,7 +502,7 @@ function Invoke-ADCDeleteAuthenticationauthnprofile {
             }
 
             if ($PSCmdlet.ShouldProcess("$name", "Delete Authentication configuration Object")) {
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type authenticationauthnprofile -Resource $name -Arguments $Arguments
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type authenticationauthnprofile -NitroPath nitro/v1/config -Resource $name -Arguments $Arguments
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $response
@@ -549,7 +549,7 @@ function Invoke-ADCUpdateAuthenticationauthnprofile {
         Invoke-ADCUpdateAuthenticationauthnprofile -name <string>
     .NOTES
         File Name : Invoke-ADCUpdateAuthenticationauthnprofile
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/authentication/authenticationauthnprofile/
         Requires  : PowerShell v5.1 and up
@@ -598,7 +598,7 @@ function Invoke-ADCUpdateAuthenticationauthnprofile {
             if ($PSBoundParameters.ContainsKey('authenticationlevel')) { $Payload.Add('authenticationlevel', $authenticationlevel) }
  
             if ($PSCmdlet.ShouldProcess("authenticationauthnprofile", "Update Authentication configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -Type authenticationauthnprofile -Payload $Payload -GetWarning
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -NitroPath nitro/v1/config -Type authenticationauthnprofile -Payload $Payload -GetWarning
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 if ($PSBoundParameters.ContainsKey('PassThru')) {
@@ -635,7 +635,7 @@ function Invoke-ADCUnsetAuthenticationauthnprofile {
         Invoke-ADCUnsetAuthenticationauthnprofile -name <string>
     .NOTES
         File Name : Invoke-ADCUnsetAuthenticationauthnprofile
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/authentication/authenticationauthnprofile
         Requires  : PowerShell v5.1 and up
@@ -670,7 +670,7 @@ function Invoke-ADCUnsetAuthenticationauthnprofile {
             if ($PSBoundParameters.ContainsKey('authenticationdomain')) { $Payload.Add('authenticationdomain', $authenticationdomain) }
             if ($PSBoundParameters.ContainsKey('authenticationlevel')) { $Payload.Add('authenticationlevel', $authenticationlevel) }
             if ($PSCmdlet.ShouldProcess("$name", "Unset Authentication configuration Object")) {
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -Type authenticationauthnprofile -Action unset -Payload $Payload -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -Type authenticationauthnprofile -NitroPath nitro/v1/config -Action unset -Payload $Payload -GetWarning
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $response
@@ -715,7 +715,7 @@ function Invoke-ADCGetAuthenticationauthnprofile {
         Invoke-ADCGetAuthenticationauthnprofile -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetAuthenticationauthnprofile
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/authentication/authenticationauthnprofile/
         Requires  : PowerShell v5.1 and up
@@ -756,21 +756,21 @@ function Invoke-ADCGetAuthenticationauthnprofile {
             if ( $PsCmdlet.ParameterSetName -eq 'Getall' ) {
                 $Query = @{ }
                 Write-Verbose "Retrieving all authenticationauthnprofile objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationauthnprofile -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationauthnprofile -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
                 if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for authenticationauthnprofile objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationauthnprofile -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationauthnprofile -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving authenticationauthnprofile objects by arguments"
                 $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationauthnprofile -Arguments $Arguments -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationauthnprofile -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving authenticationauthnprofile configuration for property 'name'"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationauthnprofile -Resource $name -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationauthnprofile -NitroPath nitro/v1/config -Resource $name -Summary:$ViewSummary -Filter $Filter -GetWarning
             } else {
                 Write-Verbose "Retrieving authenticationauthnprofile configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationauthnprofile -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationauthnprofile -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -831,7 +831,7 @@ function Invoke-ADCAddAuthenticationazurekeyvault {
         Invoke-ADCAddAuthenticationazurekeyvault -name <string> -vaultname <string> -clientid <string> -clientsecret <string> -servicekeyname <string>
     .NOTES
         File Name : Invoke-ADCAddAuthenticationazurekeyvault
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/authentication/authenticationazurekeyvault/
         Requires  : PowerShell v5.1 and up
@@ -910,7 +910,7 @@ function Invoke-ADCAddAuthenticationazurekeyvault {
             if ($PSBoundParameters.ContainsKey('authentication')) { $Payload.Add('authentication', $authentication) }
  
             if ($PSCmdlet.ShouldProcess("authenticationazurekeyvault", "Add Authentication configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -Type authenticationazurekeyvault -Payload $Payload -GetWarning
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -NitroPath nitro/v1/config -Type authenticationazurekeyvault -Payload $Payload -GetWarning
                 #HTTP Status Code on Success: 201 Created
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 if ($PSBoundParameters.ContainsKey('PassThru')) {
@@ -942,7 +942,7 @@ function Invoke-ADCDeleteAuthenticationazurekeyvault {
         Invoke-ADCDeleteAuthenticationazurekeyvault -name <string>
     .NOTES
         File Name : Invoke-ADCDeleteAuthenticationazurekeyvault
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/authentication/authenticationazurekeyvault/
         Requires  : PowerShell v5.1 and up
@@ -970,7 +970,7 @@ function Invoke-ADCDeleteAuthenticationazurekeyvault {
             }
 
             if ($PSCmdlet.ShouldProcess("$name", "Delete Authentication configuration Object")) {
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type authenticationazurekeyvault -Resource $name -Arguments $Arguments
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type authenticationazurekeyvault -NitroPath nitro/v1/config -Resource $name -Arguments $Arguments
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $response
@@ -1033,7 +1033,7 @@ function Invoke-ADCUpdateAuthenticationazurekeyvault {
         Invoke-ADCUpdateAuthenticationazurekeyvault -name <string>
     .NOTES
         File Name : Invoke-ADCUpdateAuthenticationazurekeyvault
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/authentication/authenticationazurekeyvault/
         Requires  : PowerShell v5.1 and up
@@ -1108,7 +1108,7 @@ function Invoke-ADCUpdateAuthenticationazurekeyvault {
             if ($PSBoundParameters.ContainsKey('authentication')) { $Payload.Add('authentication', $authentication) }
  
             if ($PSCmdlet.ShouldProcess("authenticationazurekeyvault", "Update Authentication configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -Type authenticationazurekeyvault -Payload $Payload -GetWarning
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -NitroPath nitro/v1/config -Type authenticationazurekeyvault -Payload $Payload -GetWarning
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 if ($PSBoundParameters.ContainsKey('PassThru')) {
@@ -1152,7 +1152,7 @@ function Invoke-ADCUnsetAuthenticationazurekeyvault {
         Invoke-ADCUnsetAuthenticationazurekeyvault -name <string>
     .NOTES
         File Name : Invoke-ADCUnsetAuthenticationazurekeyvault
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/authentication/authenticationazurekeyvault
         Requires  : PowerShell v5.1 and up
@@ -1197,7 +1197,7 @@ function Invoke-ADCUnsetAuthenticationazurekeyvault {
             if ($PSBoundParameters.ContainsKey('refreshinterval')) { $Payload.Add('refreshinterval', $refreshinterval) }
             if ($PSBoundParameters.ContainsKey('authentication')) { $Payload.Add('authentication', $authentication) }
             if ($PSCmdlet.ShouldProcess("$name", "Unset Authentication configuration Object")) {
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -Type authenticationazurekeyvault -Action unset -Payload $Payload -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -Type authenticationazurekeyvault -NitroPath nitro/v1/config -Action unset -Payload $Payload -GetWarning
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $response
@@ -1241,7 +1241,7 @@ function Invoke-ADCGetAuthenticationazurekeyvault {
         Invoke-ADCGetAuthenticationazurekeyvault -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetAuthenticationazurekeyvault
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/authentication/authenticationazurekeyvault/
         Requires  : PowerShell v5.1 and up
@@ -1283,21 +1283,21 @@ function Invoke-ADCGetAuthenticationazurekeyvault {
             if ( $PsCmdlet.ParameterSetName -eq 'Getall' ) {
                 $Query = @{ }
                 Write-Verbose "Retrieving all authenticationazurekeyvault objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationazurekeyvault -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationazurekeyvault -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
                 if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for authenticationazurekeyvault objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationazurekeyvault -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationazurekeyvault -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving authenticationazurekeyvault objects by arguments"
                 $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationazurekeyvault -Arguments $Arguments -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationazurekeyvault -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving authenticationazurekeyvault configuration for property 'name'"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationazurekeyvault -Resource $name -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationazurekeyvault -NitroPath nitro/v1/config -Resource $name -Summary:$ViewSummary -Filter $Filter -GetWarning
             } else {
                 Write-Verbose "Retrieving authenticationazurekeyvault configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationazurekeyvault -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationazurekeyvault -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -1335,7 +1335,7 @@ function Invoke-ADCAddAuthenticationcaptchaaction {
         Invoke-ADCAddAuthenticationcaptchaaction -name <string> -secretkey <string> -sitekey <string>
     .NOTES
         File Name : Invoke-ADCAddAuthenticationcaptchaaction
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/authentication/authenticationcaptchaaction/
         Requires  : PowerShell v5.1 and up
@@ -1383,7 +1383,7 @@ function Invoke-ADCAddAuthenticationcaptchaaction {
             if ($PSBoundParameters.ContainsKey('defaultauthenticationgroup')) { $Payload.Add('defaultauthenticationgroup', $defaultauthenticationgroup) }
  
             if ($PSCmdlet.ShouldProcess("authenticationcaptchaaction", "Add Authentication configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -Type authenticationcaptchaaction -Payload $Payload -GetWarning
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -NitroPath nitro/v1/config -Type authenticationcaptchaaction -Payload $Payload -GetWarning
                 #HTTP Status Code on Success: 201 Created
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 if ($PSBoundParameters.ContainsKey('PassThru')) {
@@ -1418,7 +1418,7 @@ function Invoke-ADCDeleteAuthenticationcaptchaaction {
         Invoke-ADCDeleteAuthenticationcaptchaaction -name <string>
     .NOTES
         File Name : Invoke-ADCDeleteAuthenticationcaptchaaction
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/authentication/authenticationcaptchaaction/
         Requires  : PowerShell v5.1 and up
@@ -1446,7 +1446,7 @@ function Invoke-ADCDeleteAuthenticationcaptchaaction {
             }
 
             if ($PSCmdlet.ShouldProcess("$name", "Delete Authentication configuration Object")) {
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type authenticationcaptchaaction -Resource $name -Arguments $Arguments
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type authenticationcaptchaaction -NitroPath nitro/v1/config -Resource $name -Arguments $Arguments
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $response
@@ -1486,7 +1486,7 @@ function Invoke-ADCUpdateAuthenticationcaptchaaction {
         Invoke-ADCUpdateAuthenticationcaptchaaction -name <string>
     .NOTES
         File Name : Invoke-ADCUpdateAuthenticationcaptchaaction
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/authentication/authenticationcaptchaaction/
         Requires  : PowerShell v5.1 and up
@@ -1532,7 +1532,7 @@ function Invoke-ADCUpdateAuthenticationcaptchaaction {
             if ($PSBoundParameters.ContainsKey('defaultauthenticationgroup')) { $Payload.Add('defaultauthenticationgroup', $defaultauthenticationgroup) }
  
             if ($PSCmdlet.ShouldProcess("authenticationcaptchaaction", "Update Authentication configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -Type authenticationcaptchaaction -Payload $Payload -GetWarning
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -NitroPath nitro/v1/config -Type authenticationcaptchaaction -Payload $Payload -GetWarning
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 if ($PSBoundParameters.ContainsKey('PassThru')) {
@@ -1570,7 +1570,7 @@ function Invoke-ADCUnsetAuthenticationcaptchaaction {
         Invoke-ADCUnsetAuthenticationcaptchaaction -name <string>
     .NOTES
         File Name : Invoke-ADCUnsetAuthenticationcaptchaaction
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/authentication/authenticationcaptchaaction
         Requires  : PowerShell v5.1 and up
@@ -1606,7 +1606,7 @@ function Invoke-ADCUnsetAuthenticationcaptchaaction {
             if ($PSBoundParameters.ContainsKey('serverurl')) { $Payload.Add('serverurl', $serverurl) }
             if ($PSBoundParameters.ContainsKey('defaultauthenticationgroup')) { $Payload.Add('defaultauthenticationgroup', $defaultauthenticationgroup) }
             if ($PSCmdlet.ShouldProcess("$name", "Unset Authentication configuration Object")) {
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -Type authenticationcaptchaaction -Action unset -Payload $Payload -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -Type authenticationcaptchaaction -NitroPath nitro/v1/config -Action unset -Payload $Payload -GetWarning
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $response
@@ -1652,7 +1652,7 @@ function Invoke-ADCGetAuthenticationcaptchaaction {
         Invoke-ADCGetAuthenticationcaptchaaction -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetAuthenticationcaptchaaction
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/authentication/authenticationcaptchaaction/
         Requires  : PowerShell v5.1 and up
@@ -1694,21 +1694,21 @@ function Invoke-ADCGetAuthenticationcaptchaaction {
             if ( $PsCmdlet.ParameterSetName -eq 'Getall' ) {
                 $Query = @{ }
                 Write-Verbose "Retrieving all authenticationcaptchaaction objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationcaptchaaction -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationcaptchaaction -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
                 if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for authenticationcaptchaaction objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationcaptchaaction -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationcaptchaaction -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving authenticationcaptchaaction objects by arguments"
                 $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationcaptchaaction -Arguments $Arguments -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationcaptchaaction -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving authenticationcaptchaaction configuration for property 'name'"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationcaptchaaction -Resource $name -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationcaptchaaction -NitroPath nitro/v1/config -Resource $name -Summary:$ViewSummary -Filter $Filter -GetWarning
             } else {
                 Write-Verbose "Retrieving authenticationcaptchaaction configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationcaptchaaction -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationcaptchaaction -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -1751,7 +1751,7 @@ function Invoke-ADCAddAuthenticationcertaction {
         Invoke-ADCAddAuthenticationcertaction -name <string>
     .NOTES
         File Name : Invoke-ADCAddAuthenticationcertaction
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/authentication/authenticationcertaction/
         Requires  : PowerShell v5.1 and up
@@ -1799,7 +1799,7 @@ function Invoke-ADCAddAuthenticationcertaction {
             if ($PSBoundParameters.ContainsKey('defaultauthenticationgroup')) { $Payload.Add('defaultauthenticationgroup', $defaultauthenticationgroup) }
  
             if ($PSCmdlet.ShouldProcess("authenticationcertaction", "Add Authentication configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -Type authenticationcertaction -Payload $Payload -GetWarning
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -NitroPath nitro/v1/config -Type authenticationcertaction -Payload $Payload -GetWarning
                 #HTTP Status Code on Success: 201 Created
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 if ($PSBoundParameters.ContainsKey('PassThru')) {
@@ -1832,7 +1832,7 @@ function Invoke-ADCDeleteAuthenticationcertaction {
         Invoke-ADCDeleteAuthenticationcertaction -name <string>
     .NOTES
         File Name : Invoke-ADCDeleteAuthenticationcertaction
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/authentication/authenticationcertaction/
         Requires  : PowerShell v5.1 and up
@@ -1860,7 +1860,7 @@ function Invoke-ADCDeleteAuthenticationcertaction {
             }
 
             if ($PSCmdlet.ShouldProcess("$name", "Delete Authentication configuration Object")) {
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type authenticationcertaction -Resource $name -Arguments $Arguments
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type authenticationcertaction -NitroPath nitro/v1/config -Resource $name -Arguments $Arguments
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $response
@@ -1905,7 +1905,7 @@ function Invoke-ADCUpdateAuthenticationcertaction {
         Invoke-ADCUpdateAuthenticationcertaction -name <string>
     .NOTES
         File Name : Invoke-ADCUpdateAuthenticationcertaction
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/authentication/authenticationcertaction/
         Requires  : PowerShell v5.1 and up
@@ -1953,7 +1953,7 @@ function Invoke-ADCUpdateAuthenticationcertaction {
             if ($PSBoundParameters.ContainsKey('defaultauthenticationgroup')) { $Payload.Add('defaultauthenticationgroup', $defaultauthenticationgroup) }
  
             if ($PSCmdlet.ShouldProcess("authenticationcertaction", "Update Authentication configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -Type authenticationcertaction -Payload $Payload -GetWarning
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -NitroPath nitro/v1/config -Type authenticationcertaction -Payload $Payload -GetWarning
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 if ($PSBoundParameters.ContainsKey('PassThru')) {
@@ -1998,7 +1998,7 @@ function Invoke-ADCUnsetAuthenticationcertaction {
         Invoke-ADCUnsetAuthenticationcertaction -name <string>
     .NOTES
         File Name : Invoke-ADCUnsetAuthenticationcertaction
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/authentication/authenticationcertaction
         Requires  : PowerShell v5.1 and up
@@ -2039,7 +2039,7 @@ function Invoke-ADCUnsetAuthenticationcertaction {
             if ($PSBoundParameters.ContainsKey('groupnamefield')) { $Payload.Add('groupnamefield', $groupnamefield) }
             if ($PSBoundParameters.ContainsKey('defaultauthenticationgroup')) { $Payload.Add('defaultauthenticationgroup', $defaultauthenticationgroup) }
             if ($PSCmdlet.ShouldProcess("$name", "Unset Authentication configuration Object")) {
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -Type authenticationcertaction -Action unset -Payload $Payload -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -Type authenticationcertaction -NitroPath nitro/v1/config -Action unset -Payload $Payload -GetWarning
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $response
@@ -2084,7 +2084,7 @@ function Invoke-ADCGetAuthenticationcertaction {
         Invoke-ADCGetAuthenticationcertaction -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetAuthenticationcertaction
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/authentication/authenticationcertaction/
         Requires  : PowerShell v5.1 and up
@@ -2125,21 +2125,21 @@ function Invoke-ADCGetAuthenticationcertaction {
             if ( $PsCmdlet.ParameterSetName -eq 'Getall' ) {
                 $Query = @{ }
                 Write-Verbose "Retrieving all authenticationcertaction objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationcertaction -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationcertaction -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
                 if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for authenticationcertaction objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationcertaction -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationcertaction -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving authenticationcertaction objects by arguments"
                 $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationcertaction -Arguments $Arguments -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationcertaction -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving authenticationcertaction configuration for property 'name'"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationcertaction -Resource $name -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationcertaction -NitroPath nitro/v1/config -Resource $name -Summary:$ViewSummary -Filter $Filter -GetWarning
             } else {
                 Write-Verbose "Retrieving authenticationcertaction configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationcertaction -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationcertaction -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -2173,7 +2173,7 @@ function Invoke-ADCAddAuthenticationcertpolicy {
         Invoke-ADCAddAuthenticationcertpolicy -name <string> -rule <string>
     .NOTES
         File Name : Invoke-ADCAddAuthenticationcertpolicy
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/authentication/authenticationcertpolicy/
         Requires  : PowerShell v5.1 and up
@@ -2215,7 +2215,7 @@ function Invoke-ADCAddAuthenticationcertpolicy {
             if ($PSBoundParameters.ContainsKey('reqaction')) { $Payload.Add('reqaction', $reqaction) }
  
             if ($PSCmdlet.ShouldProcess("authenticationcertpolicy", "Add Authentication configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -Type authenticationcertpolicy -Payload $Payload -GetWarning
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -NitroPath nitro/v1/config -Type authenticationcertpolicy -Payload $Payload -GetWarning
                 #HTTP Status Code on Success: 201 Created
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 if ($PSBoundParameters.ContainsKey('PassThru')) {
@@ -2248,7 +2248,7 @@ function Invoke-ADCDeleteAuthenticationcertpolicy {
         Invoke-ADCDeleteAuthenticationcertpolicy -name <string>
     .NOTES
         File Name : Invoke-ADCDeleteAuthenticationcertpolicy
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/authentication/authenticationcertpolicy/
         Requires  : PowerShell v5.1 and up
@@ -2276,7 +2276,7 @@ function Invoke-ADCDeleteAuthenticationcertpolicy {
             }
 
             if ($PSCmdlet.ShouldProcess("$name", "Delete Authentication configuration Object")) {
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type authenticationcertpolicy -Resource $name -Arguments $Arguments
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type authenticationcertpolicy -NitroPath nitro/v1/config -Resource $name -Arguments $Arguments
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $response
@@ -2312,7 +2312,7 @@ function Invoke-ADCUpdateAuthenticationcertpolicy {
         Invoke-ADCUpdateAuthenticationcertpolicy -name <string>
     .NOTES
         File Name : Invoke-ADCUpdateAuthenticationcertpolicy
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/authentication/authenticationcertpolicy/
         Requires  : PowerShell v5.1 and up
@@ -2353,7 +2353,7 @@ function Invoke-ADCUpdateAuthenticationcertpolicy {
             if ($PSBoundParameters.ContainsKey('reqaction')) { $Payload.Add('reqaction', $reqaction) }
  
             if ($PSCmdlet.ShouldProcess("authenticationcertpolicy", "Update Authentication configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -Type authenticationcertpolicy -Payload $Payload -GetWarning
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -NitroPath nitro/v1/config -Type authenticationcertpolicy -Payload $Payload -GetWarning
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 if ($PSBoundParameters.ContainsKey('PassThru')) {
@@ -2390,7 +2390,7 @@ function Invoke-ADCUnsetAuthenticationcertpolicy {
         Invoke-ADCUnsetAuthenticationcertpolicy -name <string>
     .NOTES
         File Name : Invoke-ADCUnsetAuthenticationcertpolicy
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/authentication/authenticationcertpolicy
         Requires  : PowerShell v5.1 and up
@@ -2425,7 +2425,7 @@ function Invoke-ADCUnsetAuthenticationcertpolicy {
             if ($PSBoundParameters.ContainsKey('rule')) { $Payload.Add('rule', $rule) }
             if ($PSBoundParameters.ContainsKey('reqaction')) { $Payload.Add('reqaction', $reqaction) }
             if ($PSCmdlet.ShouldProcess("$name", "Unset Authentication configuration Object")) {
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -Type authenticationcertpolicy -Action unset -Payload $Payload -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -Type authenticationcertpolicy -NitroPath nitro/v1/config -Action unset -Payload $Payload -GetWarning
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $response
@@ -2470,7 +2470,7 @@ function Invoke-ADCGetAuthenticationcertpolicy {
         Invoke-ADCGetAuthenticationcertpolicy -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetAuthenticationcertpolicy
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/authentication/authenticationcertpolicy/
         Requires  : PowerShell v5.1 and up
@@ -2511,21 +2511,21 @@ function Invoke-ADCGetAuthenticationcertpolicy {
             if ( $PsCmdlet.ParameterSetName -eq 'Getall' ) {
                 $Query = @{ }
                 Write-Verbose "Retrieving all authenticationcertpolicy objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationcertpolicy -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationcertpolicy -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
                 if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for authenticationcertpolicy objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationcertpolicy -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationcertpolicy -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving authenticationcertpolicy objects by arguments"
                 $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationcertpolicy -Arguments $Arguments -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationcertpolicy -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving authenticationcertpolicy configuration for property 'name'"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationcertpolicy -Resource $name -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationcertpolicy -NitroPath nitro/v1/config -Resource $name -Summary:$ViewSummary -Filter $Filter -GetWarning
             } else {
                 Write-Verbose "Retrieving authenticationcertpolicy configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationcertpolicy -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationcertpolicy -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -2567,7 +2567,7 @@ function Invoke-ADCGetAuthenticationcertpolicyauthenticationvserverbinding {
         Invoke-ADCGetAuthenticationcertpolicyauthenticationvserverbinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetAuthenticationcertpolicyauthenticationvserverbinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/authentication/authenticationcertpolicy_authenticationvserver_binding/
         Requires  : PowerShell v5.1 and up
@@ -2605,21 +2605,21 @@ function Invoke-ADCGetAuthenticationcertpolicyauthenticationvserverbinding {
                     bulkbindings = 'yes'
                 }
                 Write-Verbose "Retrieving all authenticationcertpolicy_authenticationvserver_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationcertpolicy_authenticationvserver_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationcertpolicy_authenticationvserver_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
                 if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for authenticationcertpolicy_authenticationvserver_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationcertpolicy_authenticationvserver_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationcertpolicy_authenticationvserver_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving authenticationcertpolicy_authenticationvserver_binding objects by arguments"
                 $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationcertpolicy_authenticationvserver_binding -Arguments $Arguments -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationcertpolicy_authenticationvserver_binding -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving authenticationcertpolicy_authenticationvserver_binding configuration for property 'name'"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationcertpolicy_authenticationvserver_binding -Resource $name -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationcertpolicy_authenticationvserver_binding -NitroPath nitro/v1/config -Resource $name -Summary:$ViewSummary -Filter $Filter -GetWarning
             } else {
                 Write-Verbose "Retrieving authenticationcertpolicy_authenticationvserver_binding configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationcertpolicy_authenticationvserver_binding -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationcertpolicy_authenticationvserver_binding -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -2659,7 +2659,7 @@ function Invoke-ADCGetAuthenticationcertpolicybinding {
         Invoke-ADCGetAuthenticationcertpolicybinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetAuthenticationcertpolicybinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/authentication/authenticationcertpolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -2694,21 +2694,21 @@ function Invoke-ADCGetAuthenticationcertpolicybinding {
                     bulkbindings = 'yes'
                 }
                 Write-Verbose "Retrieving all authenticationcertpolicy_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationcertpolicy_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationcertpolicy_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
                 if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for authenticationcertpolicy_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationcertpolicy_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationcertpolicy_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving authenticationcertpolicy_binding objects by arguments"
                 $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationcertpolicy_binding -Arguments $Arguments -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationcertpolicy_binding -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving authenticationcertpolicy_binding configuration for property 'name'"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationcertpolicy_binding -Resource $name -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationcertpolicy_binding -NitroPath nitro/v1/config -Resource $name -Summary:$ViewSummary -Filter $Filter -GetWarning
             } else {
                 Write-Verbose "Retrieving authenticationcertpolicy_binding configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationcertpolicy_binding -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationcertpolicy_binding -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -2750,7 +2750,7 @@ function Invoke-ADCGetAuthenticationcertpolicyvpnglobalbinding {
         Invoke-ADCGetAuthenticationcertpolicyvpnglobalbinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetAuthenticationcertpolicyvpnglobalbinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/authentication/authenticationcertpolicy_vpnglobal_binding/
         Requires  : PowerShell v5.1 and up
@@ -2788,21 +2788,21 @@ function Invoke-ADCGetAuthenticationcertpolicyvpnglobalbinding {
                     bulkbindings = 'yes'
                 }
                 Write-Verbose "Retrieving all authenticationcertpolicy_vpnglobal_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationcertpolicy_vpnglobal_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationcertpolicy_vpnglobal_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
                 if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for authenticationcertpolicy_vpnglobal_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationcertpolicy_vpnglobal_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationcertpolicy_vpnglobal_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving authenticationcertpolicy_vpnglobal_binding objects by arguments"
                 $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationcertpolicy_vpnglobal_binding -Arguments $Arguments -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationcertpolicy_vpnglobal_binding -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving authenticationcertpolicy_vpnglobal_binding configuration for property 'name'"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationcertpolicy_vpnglobal_binding -Resource $name -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationcertpolicy_vpnglobal_binding -NitroPath nitro/v1/config -Resource $name -Summary:$ViewSummary -Filter $Filter -GetWarning
             } else {
                 Write-Verbose "Retrieving authenticationcertpolicy_vpnglobal_binding configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationcertpolicy_vpnglobal_binding -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationcertpolicy_vpnglobal_binding -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -2844,7 +2844,7 @@ function Invoke-ADCGetAuthenticationcertpolicyvpnvserverbinding {
         Invoke-ADCGetAuthenticationcertpolicyvpnvserverbinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetAuthenticationcertpolicyvpnvserverbinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/authentication/authenticationcertpolicy_vpnvserver_binding/
         Requires  : PowerShell v5.1 and up
@@ -2882,21 +2882,21 @@ function Invoke-ADCGetAuthenticationcertpolicyvpnvserverbinding {
                     bulkbindings = 'yes'
                 }
                 Write-Verbose "Retrieving all authenticationcertpolicy_vpnvserver_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationcertpolicy_vpnvserver_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationcertpolicy_vpnvserver_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
                 if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for authenticationcertpolicy_vpnvserver_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationcertpolicy_vpnvserver_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationcertpolicy_vpnvserver_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving authenticationcertpolicy_vpnvserver_binding objects by arguments"
                 $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationcertpolicy_vpnvserver_binding -Arguments $Arguments -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationcertpolicy_vpnvserver_binding -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving authenticationcertpolicy_vpnvserver_binding configuration for property 'name'"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationcertpolicy_vpnvserver_binding -Resource $name -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationcertpolicy_vpnvserver_binding -NitroPath nitro/v1/config -Resource $name -Summary:$ViewSummary -Filter $Filter -GetWarning
             } else {
                 Write-Verbose "Retrieving authenticationcertpolicy_vpnvserver_binding configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationcertpolicy_vpnvserver_binding -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationcertpolicy_vpnvserver_binding -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -2934,7 +2934,7 @@ function Invoke-ADCAddAuthenticationcitrixauthaction {
         Invoke-ADCAddAuthenticationcitrixauthaction -name <string>
     .NOTES
         File Name : Invoke-ADCAddAuthenticationcitrixauthaction
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/authentication/authenticationcitrixauthaction/
         Requires  : PowerShell v5.1 and up
@@ -2976,7 +2976,7 @@ function Invoke-ADCAddAuthenticationcitrixauthaction {
             if ($PSBoundParameters.ContainsKey('authentication')) { $Payload.Add('authentication', $authentication) }
  
             if ($PSCmdlet.ShouldProcess("authenticationcitrixauthaction", "Add Authentication configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -Type authenticationcitrixauthaction -Payload $Payload -GetWarning
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -NitroPath nitro/v1/config -Type authenticationcitrixauthaction -Payload $Payload -GetWarning
                 #HTTP Status Code on Success: 201 Created
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 if ($PSBoundParameters.ContainsKey('PassThru')) {
@@ -3011,7 +3011,7 @@ function Invoke-ADCDeleteAuthenticationcitrixauthaction {
         Invoke-ADCDeleteAuthenticationcitrixauthaction -name <string>
     .NOTES
         File Name : Invoke-ADCDeleteAuthenticationcitrixauthaction
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/authentication/authenticationcitrixauthaction/
         Requires  : PowerShell v5.1 and up
@@ -3039,7 +3039,7 @@ function Invoke-ADCDeleteAuthenticationcitrixauthaction {
             }
 
             if ($PSCmdlet.ShouldProcess("$name", "Delete Authentication configuration Object")) {
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type authenticationcitrixauthaction -Resource $name -Arguments $Arguments
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type authenticationcitrixauthaction -NitroPath nitro/v1/config -Resource $name -Arguments $Arguments
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $response
@@ -3079,7 +3079,7 @@ function Invoke-ADCUpdateAuthenticationcitrixauthaction {
         Invoke-ADCUpdateAuthenticationcitrixauthaction -name <string>
     .NOTES
         File Name : Invoke-ADCUpdateAuthenticationcitrixauthaction
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/authentication/authenticationcitrixauthaction/
         Requires  : PowerShell v5.1 and up
@@ -3121,7 +3121,7 @@ function Invoke-ADCUpdateAuthenticationcitrixauthaction {
             if ($PSBoundParameters.ContainsKey('authentication')) { $Payload.Add('authentication', $authentication) }
  
             if ($PSCmdlet.ShouldProcess("authenticationcitrixauthaction", "Update Authentication configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -Type authenticationcitrixauthaction -Payload $Payload -GetWarning
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -NitroPath nitro/v1/config -Type authenticationcitrixauthaction -Payload $Payload -GetWarning
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 if ($PSBoundParameters.ContainsKey('PassThru')) {
@@ -3161,7 +3161,7 @@ function Invoke-ADCUnsetAuthenticationcitrixauthaction {
         Invoke-ADCUnsetAuthenticationcitrixauthaction -name <string>
     .NOTES
         File Name : Invoke-ADCUnsetAuthenticationcitrixauthaction
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/authentication/authenticationcitrixauthaction
         Requires  : PowerShell v5.1 and up
@@ -3197,7 +3197,7 @@ function Invoke-ADCUnsetAuthenticationcitrixauthaction {
             if ($PSBoundParameters.ContainsKey('authenticationtype')) { $Payload.Add('authenticationtype', $authenticationtype) }
             if ($PSBoundParameters.ContainsKey('authentication')) { $Payload.Add('authentication', $authentication) }
             if ($PSCmdlet.ShouldProcess("$name", "Unset Authentication configuration Object")) {
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -Type authenticationcitrixauthaction -Action unset -Payload $Payload -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -Type authenticationcitrixauthaction -NitroPath nitro/v1/config -Action unset -Payload $Payload -GetWarning
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $response
@@ -3243,7 +3243,7 @@ function Invoke-ADCGetAuthenticationcitrixauthaction {
         Invoke-ADCGetAuthenticationcitrixauthaction -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetAuthenticationcitrixauthaction
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/authentication/authenticationcitrixauthaction/
         Requires  : PowerShell v5.1 and up
@@ -3285,21 +3285,21 @@ function Invoke-ADCGetAuthenticationcitrixauthaction {
             if ( $PsCmdlet.ParameterSetName -eq 'Getall' ) {
                 $Query = @{ }
                 Write-Verbose "Retrieving all authenticationcitrixauthaction objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationcitrixauthaction -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationcitrixauthaction -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
                 if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for authenticationcitrixauthaction objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationcitrixauthaction -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationcitrixauthaction -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving authenticationcitrixauthaction objects by arguments"
                 $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationcitrixauthaction -Arguments $Arguments -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationcitrixauthaction -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving authenticationcitrixauthaction configuration for property 'name'"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationcitrixauthaction -Resource $name -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationcitrixauthaction -NitroPath nitro/v1/config -Resource $name -Summary:$ViewSummary -Filter $Filter -GetWarning
             } else {
                 Write-Verbose "Retrieving authenticationcitrixauthaction configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationcitrixauthaction -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationcitrixauthaction -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -3338,7 +3338,7 @@ function Invoke-ADCAddAuthenticationdfaaction {
         Invoke-ADCAddAuthenticationdfaaction -name <string> -clientid <string> -serverurl <string> -passphrase <string>
     .NOTES
         File Name : Invoke-ADCAddAuthenticationdfaaction
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/authentication/authenticationdfaaction/
         Requires  : PowerShell v5.1 and up
@@ -3387,7 +3387,7 @@ function Invoke-ADCAddAuthenticationdfaaction {
             if ($PSBoundParameters.ContainsKey('defaultauthenticationgroup')) { $Payload.Add('defaultauthenticationgroup', $defaultauthenticationgroup) }
  
             if ($PSCmdlet.ShouldProcess("authenticationdfaaction", "Add Authentication configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -Type authenticationdfaaction -Payload $Payload -GetWarning
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -NitroPath nitro/v1/config -Type authenticationdfaaction -Payload $Payload -GetWarning
                 #HTTP Status Code on Success: 201 Created
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 if ($PSBoundParameters.ContainsKey('PassThru')) {
@@ -3421,7 +3421,7 @@ function Invoke-ADCDeleteAuthenticationdfaaction {
         Invoke-ADCDeleteAuthenticationdfaaction -name <string>
     .NOTES
         File Name : Invoke-ADCDeleteAuthenticationdfaaction
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/authentication/authenticationdfaaction/
         Requires  : PowerShell v5.1 and up
@@ -3449,7 +3449,7 @@ function Invoke-ADCDeleteAuthenticationdfaaction {
             }
 
             if ($PSCmdlet.ShouldProcess("$name", "Delete Authentication configuration Object")) {
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type authenticationdfaaction -Resource $name -Arguments $Arguments
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type authenticationdfaaction -NitroPath nitro/v1/config -Resource $name -Arguments $Arguments
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $response
@@ -3490,7 +3490,7 @@ function Invoke-ADCUpdateAuthenticationdfaaction {
         Invoke-ADCUpdateAuthenticationdfaaction -name <string>
     .NOTES
         File Name : Invoke-ADCUpdateAuthenticationdfaaction
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/authentication/authenticationdfaaction/
         Requires  : PowerShell v5.1 and up
@@ -3536,7 +3536,7 @@ function Invoke-ADCUpdateAuthenticationdfaaction {
             if ($PSBoundParameters.ContainsKey('defaultauthenticationgroup')) { $Payload.Add('defaultauthenticationgroup', $defaultauthenticationgroup) }
  
             if ($PSCmdlet.ShouldProcess("authenticationdfaaction", "Update Authentication configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -Type authenticationdfaaction -Payload $Payload -GetWarning
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -NitroPath nitro/v1/config -Type authenticationdfaaction -Payload $Payload -GetWarning
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 if ($PSBoundParameters.ContainsKey('PassThru')) {
@@ -3575,7 +3575,7 @@ function Invoke-ADCUnsetAuthenticationdfaaction {
         Invoke-ADCUnsetAuthenticationdfaaction -name <string>
     .NOTES
         File Name : Invoke-ADCUnsetAuthenticationdfaaction
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/authentication/authenticationdfaaction
         Requires  : PowerShell v5.1 and up
@@ -3613,7 +3613,7 @@ function Invoke-ADCUnsetAuthenticationdfaaction {
             if ($PSBoundParameters.ContainsKey('serverurl')) { $Payload.Add('serverurl', $serverurl) }
             if ($PSBoundParameters.ContainsKey('defaultauthenticationgroup')) { $Payload.Add('defaultauthenticationgroup', $defaultauthenticationgroup) }
             if ($PSCmdlet.ShouldProcess("$name", "Unset Authentication configuration Object")) {
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -Type authenticationdfaaction -Action unset -Payload $Payload -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -Type authenticationdfaaction -NitroPath nitro/v1/config -Action unset -Payload $Payload -GetWarning
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $response
@@ -3658,7 +3658,7 @@ function Invoke-ADCGetAuthenticationdfaaction {
         Invoke-ADCGetAuthenticationdfaaction -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetAuthenticationdfaaction
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/authentication/authenticationdfaaction/
         Requires  : PowerShell v5.1 and up
@@ -3699,21 +3699,21 @@ function Invoke-ADCGetAuthenticationdfaaction {
             if ( $PsCmdlet.ParameterSetName -eq 'Getall' ) {
                 $Query = @{ }
                 Write-Verbose "Retrieving all authenticationdfaaction objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationdfaaction -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationdfaaction -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
                 if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for authenticationdfaaction objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationdfaaction -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationdfaaction -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving authenticationdfaaction objects by arguments"
                 $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationdfaaction -Arguments $Arguments -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationdfaaction -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving authenticationdfaaction configuration for property 'name'"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationdfaaction -Resource $name -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationdfaaction -NitroPath nitro/v1/config -Resource $name -Summary:$ViewSummary -Filter $Filter -GetWarning
             } else {
                 Write-Verbose "Retrieving authenticationdfaaction configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationdfaaction -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationdfaaction -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -3747,7 +3747,7 @@ function Invoke-ADCAddAuthenticationdfapolicy {
         Invoke-ADCAddAuthenticationdfapolicy -name <string> -rule <string> -action <string>
     .NOTES
         File Name : Invoke-ADCAddAuthenticationdfapolicy
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/authentication/authenticationdfapolicy/
         Requires  : PowerShell v5.1 and up
@@ -3791,7 +3791,7 @@ function Invoke-ADCAddAuthenticationdfapolicy {
 
  
             if ($PSCmdlet.ShouldProcess("authenticationdfapolicy", "Add Authentication configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -Type authenticationdfapolicy -Payload $Payload -GetWarning
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -NitroPath nitro/v1/config -Type authenticationdfapolicy -Payload $Payload -GetWarning
                 #HTTP Status Code on Success: 201 Created
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 if ($PSBoundParameters.ContainsKey('PassThru')) {
@@ -3824,7 +3824,7 @@ function Invoke-ADCDeleteAuthenticationdfapolicy {
         Invoke-ADCDeleteAuthenticationdfapolicy -name <string>
     .NOTES
         File Name : Invoke-ADCDeleteAuthenticationdfapolicy
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/authentication/authenticationdfapolicy/
         Requires  : PowerShell v5.1 and up
@@ -3852,7 +3852,7 @@ function Invoke-ADCDeleteAuthenticationdfapolicy {
             }
 
             if ($PSCmdlet.ShouldProcess("$name", "Delete Authentication configuration Object")) {
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type authenticationdfapolicy -Resource $name -Arguments $Arguments
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type authenticationdfapolicy -NitroPath nitro/v1/config -Resource $name -Arguments $Arguments
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $response
@@ -3888,7 +3888,7 @@ function Invoke-ADCUpdateAuthenticationdfapolicy {
         Invoke-ADCUpdateAuthenticationdfapolicy -name <string>
     .NOTES
         File Name : Invoke-ADCUpdateAuthenticationdfapolicy
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/authentication/authenticationdfapolicy/
         Requires  : PowerShell v5.1 and up
@@ -3929,7 +3929,7 @@ function Invoke-ADCUpdateAuthenticationdfapolicy {
             if ($PSBoundParameters.ContainsKey('action')) { $Payload.Add('action', $action) }
  
             if ($PSCmdlet.ShouldProcess("authenticationdfapolicy", "Update Authentication configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -Type authenticationdfapolicy -Payload $Payload -GetWarning
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -NitroPath nitro/v1/config -Type authenticationdfapolicy -Payload $Payload -GetWarning
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 if ($PSBoundParameters.ContainsKey('PassThru')) {
@@ -3979,7 +3979,7 @@ function Invoke-ADCGetAuthenticationdfapolicy {
         Invoke-ADCGetAuthenticationdfapolicy -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetAuthenticationdfapolicy
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/authentication/authenticationdfapolicy/
         Requires  : PowerShell v5.1 and up
@@ -4020,21 +4020,21 @@ function Invoke-ADCGetAuthenticationdfapolicy {
             if ( $PsCmdlet.ParameterSetName -eq 'Getall' ) {
                 $Query = @{ }
                 Write-Verbose "Retrieving all authenticationdfapolicy objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationdfapolicy -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationdfapolicy -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
                 if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for authenticationdfapolicy objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationdfapolicy -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationdfapolicy -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving authenticationdfapolicy objects by arguments"
                 $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationdfapolicy -Arguments $Arguments -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationdfapolicy -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving authenticationdfapolicy configuration for property 'name'"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationdfapolicy -Resource $name -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationdfapolicy -NitroPath nitro/v1/config -Resource $name -Summary:$ViewSummary -Filter $Filter -GetWarning
             } else {
                 Write-Verbose "Retrieving authenticationdfapolicy configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationdfapolicy -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationdfapolicy -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -4074,7 +4074,7 @@ function Invoke-ADCGetAuthenticationdfapolicybinding {
         Invoke-ADCGetAuthenticationdfapolicybinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetAuthenticationdfapolicybinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/authentication/authenticationdfapolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -4109,21 +4109,21 @@ function Invoke-ADCGetAuthenticationdfapolicybinding {
                     bulkbindings = 'yes'
                 }
                 Write-Verbose "Retrieving all authenticationdfapolicy_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationdfapolicy_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationdfapolicy_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
                 if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for authenticationdfapolicy_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationdfapolicy_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationdfapolicy_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving authenticationdfapolicy_binding objects by arguments"
                 $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationdfapolicy_binding -Arguments $Arguments -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationdfapolicy_binding -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving authenticationdfapolicy_binding configuration for property 'name'"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationdfapolicy_binding -Resource $name -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationdfapolicy_binding -NitroPath nitro/v1/config -Resource $name -Summary:$ViewSummary -Filter $Filter -GetWarning
             } else {
                 Write-Verbose "Retrieving authenticationdfapolicy_binding configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationdfapolicy_binding -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationdfapolicy_binding -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -4165,7 +4165,7 @@ function Invoke-ADCGetAuthenticationdfapolicyvpnvserverbinding {
         Invoke-ADCGetAuthenticationdfapolicyvpnvserverbinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetAuthenticationdfapolicyvpnvserverbinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/authentication/authenticationdfapolicy_vpnvserver_binding/
         Requires  : PowerShell v5.1 and up
@@ -4203,21 +4203,21 @@ function Invoke-ADCGetAuthenticationdfapolicyvpnvserverbinding {
                     bulkbindings = 'yes'
                 }
                 Write-Verbose "Retrieving all authenticationdfapolicy_vpnvserver_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationdfapolicy_vpnvserver_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationdfapolicy_vpnvserver_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
                 if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for authenticationdfapolicy_vpnvserver_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationdfapolicy_vpnvserver_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationdfapolicy_vpnvserver_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving authenticationdfapolicy_vpnvserver_binding objects by arguments"
                 $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationdfapolicy_vpnvserver_binding -Arguments $Arguments -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationdfapolicy_vpnvserver_binding -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving authenticationdfapolicy_vpnvserver_binding configuration for property 'name'"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationdfapolicy_vpnvserver_binding -Resource $name -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationdfapolicy_vpnvserver_binding -NitroPath nitro/v1/config -Resource $name -Summary:$ViewSummary -Filter $Filter -GetWarning
             } else {
                 Write-Verbose "Retrieving authenticationdfapolicy_vpnvserver_binding configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationdfapolicy_vpnvserver_binding -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationdfapolicy_vpnvserver_binding -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -4266,7 +4266,7 @@ function Invoke-ADCAddAuthenticationemailaction {
         Invoke-ADCAddAuthenticationemailaction -name <string> -username <string> -password <string> -serverurl <string>
     .NOTES
         File Name : Invoke-ADCAddAuthenticationemailaction
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/authentication/authenticationemailaction/
         Requires  : PowerShell v5.1 and up
@@ -4331,7 +4331,7 @@ function Invoke-ADCAddAuthenticationemailaction {
             if ($PSBoundParameters.ContainsKey('emailaddress')) { $Payload.Add('emailaddress', $emailaddress) }
  
             if ($PSCmdlet.ShouldProcess("authenticationemailaction", "Add Authentication configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -Type authenticationemailaction -Payload $Payload -GetWarning
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -NitroPath nitro/v1/config -Type authenticationemailaction -Payload $Payload -GetWarning
                 #HTTP Status Code on Success: 201 Created
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 if ($PSBoundParameters.ContainsKey('PassThru')) {
@@ -4363,7 +4363,7 @@ function Invoke-ADCDeleteAuthenticationemailaction {
         Invoke-ADCDeleteAuthenticationemailaction -name <string>
     .NOTES
         File Name : Invoke-ADCDeleteAuthenticationemailaction
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/authentication/authenticationemailaction/
         Requires  : PowerShell v5.1 and up
@@ -4391,7 +4391,7 @@ function Invoke-ADCDeleteAuthenticationemailaction {
             }
 
             if ($PSCmdlet.ShouldProcess("$name", "Delete Authentication configuration Object")) {
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type authenticationemailaction -Resource $name -Arguments $Arguments
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type authenticationemailaction -NitroPath nitro/v1/config -Resource $name -Arguments $Arguments
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $response
@@ -4442,7 +4442,7 @@ function Invoke-ADCUpdateAuthenticationemailaction {
         Invoke-ADCUpdateAuthenticationemailaction -name <string>
     .NOTES
         File Name : Invoke-ADCUpdateAuthenticationemailaction
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/authentication/authenticationemailaction/
         Requires  : PowerShell v5.1 and up
@@ -4504,7 +4504,7 @@ function Invoke-ADCUpdateAuthenticationemailaction {
             if ($PSBoundParameters.ContainsKey('emailaddress')) { $Payload.Add('emailaddress', $emailaddress) }
  
             if ($PSCmdlet.ShouldProcess("authenticationemailaction", "Update Authentication configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -Type authenticationemailaction -Payload $Payload -GetWarning
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -NitroPath nitro/v1/config -Type authenticationemailaction -Payload $Payload -GetWarning
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 if ($PSBoundParameters.ContainsKey('PassThru')) {
@@ -4547,7 +4547,7 @@ function Invoke-ADCUnsetAuthenticationemailaction {
         Invoke-ADCUnsetAuthenticationemailaction -name <string>
     .NOTES
         File Name : Invoke-ADCUnsetAuthenticationemailaction
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/authentication/authenticationemailaction
         Requires  : PowerShell v5.1 and up
@@ -4592,7 +4592,7 @@ function Invoke-ADCUnsetAuthenticationemailaction {
             if ($PSBoundParameters.ContainsKey('type')) { $Payload.Add('type', $type) }
             if ($PSBoundParameters.ContainsKey('emailaddress')) { $Payload.Add('emailaddress', $emailaddress) }
             if ($PSCmdlet.ShouldProcess("$name", "Unset Authentication configuration Object")) {
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -Type authenticationemailaction -Action unset -Payload $Payload -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -Type authenticationemailaction -NitroPath nitro/v1/config -Action unset -Payload $Payload -GetWarning
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $response
@@ -4636,7 +4636,7 @@ function Invoke-ADCGetAuthenticationemailaction {
         Invoke-ADCGetAuthenticationemailaction -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetAuthenticationemailaction
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/authentication/authenticationemailaction/
         Requires  : PowerShell v5.1 and up
@@ -4678,21 +4678,21 @@ function Invoke-ADCGetAuthenticationemailaction {
             if ( $PsCmdlet.ParameterSetName -eq 'Getall' ) {
                 $Query = @{ }
                 Write-Verbose "Retrieving all authenticationemailaction objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationemailaction -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationemailaction -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
                 if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for authenticationemailaction objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationemailaction -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationemailaction -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving authenticationemailaction objects by arguments"
                 $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationemailaction -Arguments $Arguments -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationemailaction -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving authenticationemailaction configuration for property 'name'"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationemailaction -Resource $name -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationemailaction -NitroPath nitro/v1/config -Resource $name -Summary:$ViewSummary -Filter $Filter -GetWarning
             } else {
                 Write-Verbose "Retrieving authenticationemailaction configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationemailaction -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationemailaction -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -4736,7 +4736,7 @@ function Invoke-ADCAddAuthenticationepaaction {
         Invoke-ADCAddAuthenticationepaaction -name <string> -csecexpr <string>
     .NOTES
         File Name : Invoke-ADCAddAuthenticationepaaction
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/authentication/authenticationepaaction/
         Requires  : PowerShell v5.1 and up
@@ -4785,7 +4785,7 @@ function Invoke-ADCAddAuthenticationepaaction {
             if ($PSBoundParameters.ContainsKey('quarantinegroup')) { $Payload.Add('quarantinegroup', $quarantinegroup) }
  
             if ($PSCmdlet.ShouldProcess("authenticationepaaction", "Add Authentication configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -Type authenticationepaaction -Payload $Payload -GetWarning
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -NitroPath nitro/v1/config -Type authenticationepaaction -Payload $Payload -GetWarning
                 #HTTP Status Code on Success: 201 Created
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 if ($PSBoundParameters.ContainsKey('PassThru')) {
@@ -4821,7 +4821,7 @@ function Invoke-ADCDeleteAuthenticationepaaction {
         Invoke-ADCDeleteAuthenticationepaaction -name <string>
     .NOTES
         File Name : Invoke-ADCDeleteAuthenticationepaaction
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/authentication/authenticationepaaction/
         Requires  : PowerShell v5.1 and up
@@ -4849,7 +4849,7 @@ function Invoke-ADCDeleteAuthenticationepaaction {
             }
 
             if ($PSCmdlet.ShouldProcess("$name", "Delete Authentication configuration Object")) {
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type authenticationepaaction -Resource $name -Arguments $Arguments
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type authenticationepaaction -NitroPath nitro/v1/config -Resource $name -Arguments $Arguments
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $response
@@ -4895,7 +4895,7 @@ function Invoke-ADCUpdateAuthenticationepaaction {
         Invoke-ADCUpdateAuthenticationepaaction -name <string>
     .NOTES
         File Name : Invoke-ADCUpdateAuthenticationepaaction
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/authentication/authenticationepaaction/
         Requires  : PowerShell v5.1 and up
@@ -4943,7 +4943,7 @@ function Invoke-ADCUpdateAuthenticationepaaction {
             if ($PSBoundParameters.ContainsKey('quarantinegroup')) { $Payload.Add('quarantinegroup', $quarantinegroup) }
  
             if ($PSCmdlet.ShouldProcess("authenticationepaaction", "Update Authentication configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -Type authenticationepaaction -Payload $Payload -GetWarning
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -NitroPath nitro/v1/config -Type authenticationepaaction -Payload $Payload -GetWarning
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 if ($PSBoundParameters.ContainsKey('PassThru')) {
@@ -4988,7 +4988,7 @@ function Invoke-ADCUnsetAuthenticationepaaction {
         Invoke-ADCUnsetAuthenticationepaaction -name <string>
     .NOTES
         File Name : Invoke-ADCUnsetAuthenticationepaaction
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/authentication/authenticationepaaction
         Requires  : PowerShell v5.1 and up
@@ -5029,7 +5029,7 @@ function Invoke-ADCUnsetAuthenticationepaaction {
             if ($PSBoundParameters.ContainsKey('defaultepagroup')) { $Payload.Add('defaultepagroup', $defaultepagroup) }
             if ($PSBoundParameters.ContainsKey('quarantinegroup')) { $Payload.Add('quarantinegroup', $quarantinegroup) }
             if ($PSCmdlet.ShouldProcess("$name", "Unset Authentication configuration Object")) {
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -Type authenticationepaaction -Action unset -Payload $Payload -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -Type authenticationepaaction -NitroPath nitro/v1/config -Action unset -Payload $Payload -GetWarning
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $response
@@ -5077,7 +5077,7 @@ function Invoke-ADCGetAuthenticationepaaction {
         Invoke-ADCGetAuthenticationepaaction -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetAuthenticationepaaction
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/authentication/authenticationepaaction/
         Requires  : PowerShell v5.1 and up
@@ -5118,21 +5118,21 @@ function Invoke-ADCGetAuthenticationepaaction {
             if ( $PsCmdlet.ParameterSetName -eq 'Getall' ) {
                 $Query = @{ }
                 Write-Verbose "Retrieving all authenticationepaaction objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationepaaction -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationepaaction -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
                 if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for authenticationepaaction objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationepaaction -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationepaaction -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving authenticationepaaction objects by arguments"
                 $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationepaaction -Arguments $Arguments -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationepaaction -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving authenticationepaaction configuration for property 'name'"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationepaaction -Resource $name -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationepaaction -NitroPath nitro/v1/config -Resource $name -Summary:$ViewSummary -Filter $Filter -GetWarning
             } else {
                 Write-Verbose "Retrieving authenticationepaaction configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationepaaction -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationepaaction -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -5320,7 +5320,7 @@ function Invoke-ADCAddAuthenticationldapaction {
         Invoke-ADCAddAuthenticationldapaction -name <string>
     .NOTES
         File Name : Invoke-ADCAddAuthenticationldapaction
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/authentication/authenticationldapaction/
         Requires  : PowerShell v5.1 and up
@@ -5529,7 +5529,7 @@ function Invoke-ADCAddAuthenticationldapaction {
             if ($PSBoundParameters.ContainsKey('alternateemailattr')) { $Payload.Add('alternateemailattr', $alternateemailattr) }
  
             if ($PSCmdlet.ShouldProcess("authenticationldapaction", "Add Authentication configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -Type authenticationldapaction -Payload $Payload -GetWarning
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -NitroPath nitro/v1/config -Type authenticationldapaction -Payload $Payload -GetWarning
                 #HTTP Status Code on Success: 201 Created
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 if ($PSBoundParameters.ContainsKey('PassThru')) {
@@ -5562,7 +5562,7 @@ function Invoke-ADCDeleteAuthenticationldapaction {
         Invoke-ADCDeleteAuthenticationldapaction -name <string>
     .NOTES
         File Name : Invoke-ADCDeleteAuthenticationldapaction
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/authentication/authenticationldapaction/
         Requires  : PowerShell v5.1 and up
@@ -5590,7 +5590,7 @@ function Invoke-ADCDeleteAuthenticationldapaction {
             }
 
             if ($PSCmdlet.ShouldProcess("$name", "Delete Authentication configuration Object")) {
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type authenticationldapaction -Resource $name -Arguments $Arguments
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type authenticationldapaction -NitroPath nitro/v1/config -Resource $name -Arguments $Arguments
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $response
@@ -5780,7 +5780,7 @@ function Invoke-ADCUpdateAuthenticationldapaction {
         Invoke-ADCUpdateAuthenticationldapaction -name <string>
     .NOTES
         File Name : Invoke-ADCUpdateAuthenticationldapaction
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/authentication/authenticationldapaction/
         Requires  : PowerShell v5.1 and up
@@ -5989,7 +5989,7 @@ function Invoke-ADCUpdateAuthenticationldapaction {
             if ($PSBoundParameters.ContainsKey('alternateemailattr')) { $Payload.Add('alternateemailattr', $alternateemailattr) }
  
             if ($PSCmdlet.ShouldProcess("authenticationldapaction", "Update Authentication configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -Type authenticationldapaction -Payload $Payload -GetWarning
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -NitroPath nitro/v1/config -Type authenticationldapaction -Payload $Payload -GetWarning
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 if ($PSBoundParameters.ContainsKey('PassThru')) {
@@ -6147,7 +6147,7 @@ function Invoke-ADCUnsetAuthenticationldapaction {
         Invoke-ADCUnsetAuthenticationldapaction -name <string>
     .NOTES
         File Name : Invoke-ADCUnsetAuthenticationldapaction
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/authentication/authenticationldapaction
         Requires  : PowerShell v5.1 and up
@@ -6326,7 +6326,7 @@ function Invoke-ADCUnsetAuthenticationldapaction {
             if ($PSBoundParameters.ContainsKey('kbattribute')) { $Payload.Add('kbattribute', $kbattribute) }
             if ($PSBoundParameters.ContainsKey('alternateemailattr')) { $Payload.Add('alternateemailattr', $alternateemailattr) }
             if ($PSCmdlet.ShouldProcess("$name", "Unset Authentication configuration Object")) {
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -Type authenticationldapaction -Action unset -Payload $Payload -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -Type authenticationldapaction -NitroPath nitro/v1/config -Action unset -Payload $Payload -GetWarning
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $response
@@ -6371,7 +6371,7 @@ function Invoke-ADCGetAuthenticationldapaction {
         Invoke-ADCGetAuthenticationldapaction -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetAuthenticationldapaction
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/authentication/authenticationldapaction/
         Requires  : PowerShell v5.1 and up
@@ -6412,21 +6412,21 @@ function Invoke-ADCGetAuthenticationldapaction {
             if ( $PsCmdlet.ParameterSetName -eq 'Getall' ) {
                 $Query = @{ }
                 Write-Verbose "Retrieving all authenticationldapaction objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationldapaction -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationldapaction -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
                 if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for authenticationldapaction objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationldapaction -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationldapaction -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving authenticationldapaction objects by arguments"
                 $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationldapaction -Arguments $Arguments -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationldapaction -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving authenticationldapaction configuration for property 'name'"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationldapaction -Resource $name -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationldapaction -NitroPath nitro/v1/config -Resource $name -Summary:$ViewSummary -Filter $Filter -GetWarning
             } else {
                 Write-Verbose "Retrieving authenticationldapaction configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationldapaction -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationldapaction -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -6460,7 +6460,7 @@ function Invoke-ADCAddAuthenticationldappolicy {
         Invoke-ADCAddAuthenticationldappolicy -name <string> -rule <string>
     .NOTES
         File Name : Invoke-ADCAddAuthenticationldappolicy
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/authentication/authenticationldappolicy/
         Requires  : PowerShell v5.1 and up
@@ -6502,7 +6502,7 @@ function Invoke-ADCAddAuthenticationldappolicy {
             if ($PSBoundParameters.ContainsKey('reqaction')) { $Payload.Add('reqaction', $reqaction) }
  
             if ($PSCmdlet.ShouldProcess("authenticationldappolicy", "Add Authentication configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -Type authenticationldappolicy -Payload $Payload -GetWarning
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -NitroPath nitro/v1/config -Type authenticationldappolicy -Payload $Payload -GetWarning
                 #HTTP Status Code on Success: 201 Created
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 if ($PSBoundParameters.ContainsKey('PassThru')) {
@@ -6535,7 +6535,7 @@ function Invoke-ADCDeleteAuthenticationldappolicy {
         Invoke-ADCDeleteAuthenticationldappolicy -name <string>
     .NOTES
         File Name : Invoke-ADCDeleteAuthenticationldappolicy
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/authentication/authenticationldappolicy/
         Requires  : PowerShell v5.1 and up
@@ -6563,7 +6563,7 @@ function Invoke-ADCDeleteAuthenticationldappolicy {
             }
 
             if ($PSCmdlet.ShouldProcess("$name", "Delete Authentication configuration Object")) {
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type authenticationldappolicy -Resource $name -Arguments $Arguments
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type authenticationldappolicy -NitroPath nitro/v1/config -Resource $name -Arguments $Arguments
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $response
@@ -6599,7 +6599,7 @@ function Invoke-ADCUpdateAuthenticationldappolicy {
         Invoke-ADCUpdateAuthenticationldappolicy -name <string>
     .NOTES
         File Name : Invoke-ADCUpdateAuthenticationldappolicy
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/authentication/authenticationldappolicy/
         Requires  : PowerShell v5.1 and up
@@ -6640,7 +6640,7 @@ function Invoke-ADCUpdateAuthenticationldappolicy {
             if ($PSBoundParameters.ContainsKey('reqaction')) { $Payload.Add('reqaction', $reqaction) }
  
             if ($PSCmdlet.ShouldProcess("authenticationldappolicy", "Update Authentication configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -Type authenticationldappolicy -Payload $Payload -GetWarning
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -NitroPath nitro/v1/config -Type authenticationldappolicy -Payload $Payload -GetWarning
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 if ($PSBoundParameters.ContainsKey('PassThru')) {
@@ -6677,7 +6677,7 @@ function Invoke-ADCUnsetAuthenticationldappolicy {
         Invoke-ADCUnsetAuthenticationldappolicy -name <string>
     .NOTES
         File Name : Invoke-ADCUnsetAuthenticationldappolicy
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/authentication/authenticationldappolicy
         Requires  : PowerShell v5.1 and up
@@ -6712,7 +6712,7 @@ function Invoke-ADCUnsetAuthenticationldappolicy {
             if ($PSBoundParameters.ContainsKey('rule')) { $Payload.Add('rule', $rule) }
             if ($PSBoundParameters.ContainsKey('reqaction')) { $Payload.Add('reqaction', $reqaction) }
             if ($PSCmdlet.ShouldProcess("$name", "Unset Authentication configuration Object")) {
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -Type authenticationldappolicy -Action unset -Payload $Payload -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -Type authenticationldappolicy -NitroPath nitro/v1/config -Action unset -Payload $Payload -GetWarning
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $response
@@ -6757,7 +6757,7 @@ function Invoke-ADCGetAuthenticationldappolicy {
         Invoke-ADCGetAuthenticationldappolicy -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetAuthenticationldappolicy
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/authentication/authenticationldappolicy/
         Requires  : PowerShell v5.1 and up
@@ -6798,21 +6798,21 @@ function Invoke-ADCGetAuthenticationldappolicy {
             if ( $PsCmdlet.ParameterSetName -eq 'Getall' ) {
                 $Query = @{ }
                 Write-Verbose "Retrieving all authenticationldappolicy objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationldappolicy -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationldappolicy -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
                 if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for authenticationldappolicy objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationldappolicy -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationldappolicy -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving authenticationldappolicy objects by arguments"
                 $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationldappolicy -Arguments $Arguments -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationldappolicy -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving authenticationldappolicy configuration for property 'name'"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationldappolicy -Resource $name -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationldappolicy -NitroPath nitro/v1/config -Resource $name -Summary:$ViewSummary -Filter $Filter -GetWarning
             } else {
                 Write-Verbose "Retrieving authenticationldappolicy configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationldappolicy -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationldappolicy -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -6854,7 +6854,7 @@ function Invoke-ADCGetAuthenticationldappolicyauthenticationvserverbinding {
         Invoke-ADCGetAuthenticationldappolicyauthenticationvserverbinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetAuthenticationldappolicyauthenticationvserverbinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/authentication/authenticationldappolicy_authenticationvserver_binding/
         Requires  : PowerShell v5.1 and up
@@ -6892,21 +6892,21 @@ function Invoke-ADCGetAuthenticationldappolicyauthenticationvserverbinding {
                     bulkbindings = 'yes'
                 }
                 Write-Verbose "Retrieving all authenticationldappolicy_authenticationvserver_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationldappolicy_authenticationvserver_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationldappolicy_authenticationvserver_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
                 if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for authenticationldappolicy_authenticationvserver_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationldappolicy_authenticationvserver_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationldappolicy_authenticationvserver_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving authenticationldappolicy_authenticationvserver_binding objects by arguments"
                 $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationldappolicy_authenticationvserver_binding -Arguments $Arguments -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationldappolicy_authenticationvserver_binding -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving authenticationldappolicy_authenticationvserver_binding configuration for property 'name'"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationldappolicy_authenticationvserver_binding -Resource $name -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationldappolicy_authenticationvserver_binding -NitroPath nitro/v1/config -Resource $name -Summary:$ViewSummary -Filter $Filter -GetWarning
             } else {
                 Write-Verbose "Retrieving authenticationldappolicy_authenticationvserver_binding configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationldappolicy_authenticationvserver_binding -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationldappolicy_authenticationvserver_binding -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -6946,7 +6946,7 @@ function Invoke-ADCGetAuthenticationldappolicybinding {
         Invoke-ADCGetAuthenticationldappolicybinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetAuthenticationldappolicybinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/authentication/authenticationldappolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -6981,21 +6981,21 @@ function Invoke-ADCGetAuthenticationldappolicybinding {
                     bulkbindings = 'yes'
                 }
                 Write-Verbose "Retrieving all authenticationldappolicy_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationldappolicy_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationldappolicy_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
                 if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for authenticationldappolicy_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationldappolicy_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationldappolicy_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving authenticationldappolicy_binding objects by arguments"
                 $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationldappolicy_binding -Arguments $Arguments -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationldappolicy_binding -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving authenticationldappolicy_binding configuration for property 'name'"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationldappolicy_binding -Resource $name -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationldappolicy_binding -NitroPath nitro/v1/config -Resource $name -Summary:$ViewSummary -Filter $Filter -GetWarning
             } else {
                 Write-Verbose "Retrieving authenticationldappolicy_binding configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationldappolicy_binding -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationldappolicy_binding -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -7037,7 +7037,7 @@ function Invoke-ADCGetAuthenticationldappolicysystemglobalbinding {
         Invoke-ADCGetAuthenticationldappolicysystemglobalbinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetAuthenticationldappolicysystemglobalbinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/authentication/authenticationldappolicy_systemglobal_binding/
         Requires  : PowerShell v5.1 and up
@@ -7075,21 +7075,21 @@ function Invoke-ADCGetAuthenticationldappolicysystemglobalbinding {
                     bulkbindings = 'yes'
                 }
                 Write-Verbose "Retrieving all authenticationldappolicy_systemglobal_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationldappolicy_systemglobal_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationldappolicy_systemglobal_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
                 if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for authenticationldappolicy_systemglobal_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationldappolicy_systemglobal_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationldappolicy_systemglobal_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving authenticationldappolicy_systemglobal_binding objects by arguments"
                 $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationldappolicy_systemglobal_binding -Arguments $Arguments -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationldappolicy_systemglobal_binding -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving authenticationldappolicy_systemglobal_binding configuration for property 'name'"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationldappolicy_systemglobal_binding -Resource $name -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationldappolicy_systemglobal_binding -NitroPath nitro/v1/config -Resource $name -Summary:$ViewSummary -Filter $Filter -GetWarning
             } else {
                 Write-Verbose "Retrieving authenticationldappolicy_systemglobal_binding configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationldappolicy_systemglobal_binding -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationldappolicy_systemglobal_binding -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -7131,7 +7131,7 @@ function Invoke-ADCGetAuthenticationldappolicyvpnglobalbinding {
         Invoke-ADCGetAuthenticationldappolicyvpnglobalbinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetAuthenticationldappolicyvpnglobalbinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/authentication/authenticationldappolicy_vpnglobal_binding/
         Requires  : PowerShell v5.1 and up
@@ -7169,21 +7169,21 @@ function Invoke-ADCGetAuthenticationldappolicyvpnglobalbinding {
                     bulkbindings = 'yes'
                 }
                 Write-Verbose "Retrieving all authenticationldappolicy_vpnglobal_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationldappolicy_vpnglobal_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationldappolicy_vpnglobal_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
                 if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for authenticationldappolicy_vpnglobal_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationldappolicy_vpnglobal_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationldappolicy_vpnglobal_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving authenticationldappolicy_vpnglobal_binding objects by arguments"
                 $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationldappolicy_vpnglobal_binding -Arguments $Arguments -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationldappolicy_vpnglobal_binding -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving authenticationldappolicy_vpnglobal_binding configuration for property 'name'"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationldappolicy_vpnglobal_binding -Resource $name -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationldappolicy_vpnglobal_binding -NitroPath nitro/v1/config -Resource $name -Summary:$ViewSummary -Filter $Filter -GetWarning
             } else {
                 Write-Verbose "Retrieving authenticationldappolicy_vpnglobal_binding configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationldappolicy_vpnglobal_binding -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationldappolicy_vpnglobal_binding -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -7225,7 +7225,7 @@ function Invoke-ADCGetAuthenticationldappolicyvpnvserverbinding {
         Invoke-ADCGetAuthenticationldappolicyvpnvserverbinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetAuthenticationldappolicyvpnvserverbinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/authentication/authenticationldappolicy_vpnvserver_binding/
         Requires  : PowerShell v5.1 and up
@@ -7263,21 +7263,21 @@ function Invoke-ADCGetAuthenticationldappolicyvpnvserverbinding {
                     bulkbindings = 'yes'
                 }
                 Write-Verbose "Retrieving all authenticationldappolicy_vpnvserver_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationldappolicy_vpnvserver_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationldappolicy_vpnvserver_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
                 if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for authenticationldappolicy_vpnvserver_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationldappolicy_vpnvserver_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationldappolicy_vpnvserver_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving authenticationldappolicy_vpnvserver_binding objects by arguments"
                 $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationldappolicy_vpnvserver_binding -Arguments $Arguments -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationldappolicy_vpnvserver_binding -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving authenticationldappolicy_vpnvserver_binding configuration for property 'name'"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationldappolicy_vpnvserver_binding -Resource $name -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationldappolicy_vpnvserver_binding -NitroPath nitro/v1/config -Resource $name -Summary:$ViewSummary -Filter $Filter -GetWarning
             } else {
                 Write-Verbose "Retrieving authenticationldappolicy_vpnvserver_binding configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationldappolicy_vpnvserver_binding -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationldappolicy_vpnvserver_binding -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -7307,7 +7307,7 @@ function Invoke-ADCAddAuthenticationlocalpolicy {
         Invoke-ADCAddAuthenticationlocalpolicy -name <string> -rule <string>
     .NOTES
         File Name : Invoke-ADCAddAuthenticationlocalpolicy
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/authentication/authenticationlocalpolicy/
         Requires  : PowerShell v5.1 and up
@@ -7344,7 +7344,7 @@ function Invoke-ADCAddAuthenticationlocalpolicy {
 
  
             if ($PSCmdlet.ShouldProcess("authenticationlocalpolicy", "Add Authentication configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -Type authenticationlocalpolicy -Payload $Payload -GetWarning
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -NitroPath nitro/v1/config -Type authenticationlocalpolicy -Payload $Payload -GetWarning
                 #HTTP Status Code on Success: 201 Created
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 if ($PSBoundParameters.ContainsKey('PassThru')) {
@@ -7377,7 +7377,7 @@ function Invoke-ADCDeleteAuthenticationlocalpolicy {
         Invoke-ADCDeleteAuthenticationlocalpolicy -name <string>
     .NOTES
         File Name : Invoke-ADCDeleteAuthenticationlocalpolicy
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/authentication/authenticationlocalpolicy/
         Requires  : PowerShell v5.1 and up
@@ -7405,7 +7405,7 @@ function Invoke-ADCDeleteAuthenticationlocalpolicy {
             }
 
             if ($PSCmdlet.ShouldProcess("$name", "Delete Authentication configuration Object")) {
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type authenticationlocalpolicy -Resource $name -Arguments $Arguments
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type authenticationlocalpolicy -NitroPath nitro/v1/config -Resource $name -Arguments $Arguments
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $response
@@ -7437,7 +7437,7 @@ function Invoke-ADCUpdateAuthenticationlocalpolicy {
         Invoke-ADCUpdateAuthenticationlocalpolicy -name <string>
     .NOTES
         File Name : Invoke-ADCUpdateAuthenticationlocalpolicy
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/authentication/authenticationlocalpolicy/
         Requires  : PowerShell v5.1 and up
@@ -7472,7 +7472,7 @@ function Invoke-ADCUpdateAuthenticationlocalpolicy {
             if ($PSBoundParameters.ContainsKey('rule')) { $Payload.Add('rule', $rule) }
  
             if ($PSCmdlet.ShouldProcess("authenticationlocalpolicy", "Update Authentication configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -Type authenticationlocalpolicy -Payload $Payload -GetWarning
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -NitroPath nitro/v1/config -Type authenticationlocalpolicy -Payload $Payload -GetWarning
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 if ($PSBoundParameters.ContainsKey('PassThru')) {
@@ -7522,7 +7522,7 @@ function Invoke-ADCGetAuthenticationlocalpolicy {
         Invoke-ADCGetAuthenticationlocalpolicy -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetAuthenticationlocalpolicy
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/authentication/authenticationlocalpolicy/
         Requires  : PowerShell v5.1 and up
@@ -7562,21 +7562,21 @@ function Invoke-ADCGetAuthenticationlocalpolicy {
             if ( $PsCmdlet.ParameterSetName -eq 'Getall' ) {
                 $Query = @{ }
                 Write-Verbose "Retrieving all authenticationlocalpolicy objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationlocalpolicy -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationlocalpolicy -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
                 if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for authenticationlocalpolicy objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationlocalpolicy -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationlocalpolicy -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving authenticationlocalpolicy objects by arguments"
                 $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationlocalpolicy -Arguments $Arguments -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationlocalpolicy -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving authenticationlocalpolicy configuration for property 'name'"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationlocalpolicy -Resource $name -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationlocalpolicy -NitroPath nitro/v1/config -Resource $name -Summary:$ViewSummary -Filter $Filter -GetWarning
             } else {
                 Write-Verbose "Retrieving authenticationlocalpolicy configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationlocalpolicy -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationlocalpolicy -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -7618,7 +7618,7 @@ function Invoke-ADCGetAuthenticationlocalpolicyauthenticationvserverbinding {
         Invoke-ADCGetAuthenticationlocalpolicyauthenticationvserverbinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetAuthenticationlocalpolicyauthenticationvserverbinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/authentication/authenticationlocalpolicy_authenticationvserver_binding/
         Requires  : PowerShell v5.1 and up
@@ -7655,21 +7655,21 @@ function Invoke-ADCGetAuthenticationlocalpolicyauthenticationvserverbinding {
                     bulkbindings = 'yes'
                 }
                 Write-Verbose "Retrieving all authenticationlocalpolicy_authenticationvserver_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationlocalpolicy_authenticationvserver_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationlocalpolicy_authenticationvserver_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
                 if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for authenticationlocalpolicy_authenticationvserver_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationlocalpolicy_authenticationvserver_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationlocalpolicy_authenticationvserver_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving authenticationlocalpolicy_authenticationvserver_binding objects by arguments"
                 $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationlocalpolicy_authenticationvserver_binding -Arguments $Arguments -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationlocalpolicy_authenticationvserver_binding -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving authenticationlocalpolicy_authenticationvserver_binding configuration for property 'name'"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationlocalpolicy_authenticationvserver_binding -Resource $name -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationlocalpolicy_authenticationvserver_binding -NitroPath nitro/v1/config -Resource $name -Summary:$ViewSummary -Filter $Filter -GetWarning
             } else {
                 Write-Verbose "Retrieving authenticationlocalpolicy_authenticationvserver_binding configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationlocalpolicy_authenticationvserver_binding -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationlocalpolicy_authenticationvserver_binding -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -7709,7 +7709,7 @@ function Invoke-ADCGetAuthenticationlocalpolicybinding {
         Invoke-ADCGetAuthenticationlocalpolicybinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetAuthenticationlocalpolicybinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/authentication/authenticationlocalpolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -7743,21 +7743,21 @@ function Invoke-ADCGetAuthenticationlocalpolicybinding {
                     bulkbindings = 'yes'
                 }
                 Write-Verbose "Retrieving all authenticationlocalpolicy_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationlocalpolicy_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationlocalpolicy_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
                 if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for authenticationlocalpolicy_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationlocalpolicy_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationlocalpolicy_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving authenticationlocalpolicy_binding objects by arguments"
                 $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationlocalpolicy_binding -Arguments $Arguments -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationlocalpolicy_binding -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving authenticationlocalpolicy_binding configuration for property 'name'"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationlocalpolicy_binding -Resource $name -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationlocalpolicy_binding -NitroPath nitro/v1/config -Resource $name -Summary:$ViewSummary -Filter $Filter -GetWarning
             } else {
                 Write-Verbose "Retrieving authenticationlocalpolicy_binding configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationlocalpolicy_binding -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationlocalpolicy_binding -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -7799,7 +7799,7 @@ function Invoke-ADCGetAuthenticationlocalpolicysystemglobalbinding {
         Invoke-ADCGetAuthenticationlocalpolicysystemglobalbinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetAuthenticationlocalpolicysystemglobalbinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/authentication/authenticationlocalpolicy_systemglobal_binding/
         Requires  : PowerShell v5.1 and up
@@ -7836,21 +7836,21 @@ function Invoke-ADCGetAuthenticationlocalpolicysystemglobalbinding {
                     bulkbindings = 'yes'
                 }
                 Write-Verbose "Retrieving all authenticationlocalpolicy_systemglobal_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationlocalpolicy_systemglobal_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationlocalpolicy_systemglobal_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
                 if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for authenticationlocalpolicy_systemglobal_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationlocalpolicy_systemglobal_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationlocalpolicy_systemglobal_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving authenticationlocalpolicy_systemglobal_binding objects by arguments"
                 $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationlocalpolicy_systemglobal_binding -Arguments $Arguments -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationlocalpolicy_systemglobal_binding -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving authenticationlocalpolicy_systemglobal_binding configuration for property 'name'"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationlocalpolicy_systemglobal_binding -Resource $name -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationlocalpolicy_systemglobal_binding -NitroPath nitro/v1/config -Resource $name -Summary:$ViewSummary -Filter $Filter -GetWarning
             } else {
                 Write-Verbose "Retrieving authenticationlocalpolicy_systemglobal_binding configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationlocalpolicy_systemglobal_binding -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationlocalpolicy_systemglobal_binding -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -7892,7 +7892,7 @@ function Invoke-ADCGetAuthenticationlocalpolicyvpnglobalbinding {
         Invoke-ADCGetAuthenticationlocalpolicyvpnglobalbinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetAuthenticationlocalpolicyvpnglobalbinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/authentication/authenticationlocalpolicy_vpnglobal_binding/
         Requires  : PowerShell v5.1 and up
@@ -7929,21 +7929,21 @@ function Invoke-ADCGetAuthenticationlocalpolicyvpnglobalbinding {
                     bulkbindings = 'yes'
                 }
                 Write-Verbose "Retrieving all authenticationlocalpolicy_vpnglobal_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationlocalpolicy_vpnglobal_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationlocalpolicy_vpnglobal_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
                 if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for authenticationlocalpolicy_vpnglobal_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationlocalpolicy_vpnglobal_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationlocalpolicy_vpnglobal_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving authenticationlocalpolicy_vpnglobal_binding objects by arguments"
                 $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationlocalpolicy_vpnglobal_binding -Arguments $Arguments -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationlocalpolicy_vpnglobal_binding -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving authenticationlocalpolicy_vpnglobal_binding configuration for property 'name'"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationlocalpolicy_vpnglobal_binding -Resource $name -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationlocalpolicy_vpnglobal_binding -NitroPath nitro/v1/config -Resource $name -Summary:$ViewSummary -Filter $Filter -GetWarning
             } else {
                 Write-Verbose "Retrieving authenticationlocalpolicy_vpnglobal_binding configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationlocalpolicy_vpnglobal_binding -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationlocalpolicy_vpnglobal_binding -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -7985,7 +7985,7 @@ function Invoke-ADCGetAuthenticationlocalpolicyvpnvserverbinding {
         Invoke-ADCGetAuthenticationlocalpolicyvpnvserverbinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetAuthenticationlocalpolicyvpnvserverbinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/authentication/authenticationlocalpolicy_vpnvserver_binding/
         Requires  : PowerShell v5.1 and up
@@ -8022,21 +8022,21 @@ function Invoke-ADCGetAuthenticationlocalpolicyvpnvserverbinding {
                     bulkbindings = 'yes'
                 }
                 Write-Verbose "Retrieving all authenticationlocalpolicy_vpnvserver_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationlocalpolicy_vpnvserver_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationlocalpolicy_vpnvserver_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
                 if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for authenticationlocalpolicy_vpnvserver_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationlocalpolicy_vpnvserver_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationlocalpolicy_vpnvserver_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving authenticationlocalpolicy_vpnvserver_binding objects by arguments"
                 $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationlocalpolicy_vpnvserver_binding -Arguments $Arguments -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationlocalpolicy_vpnvserver_binding -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving authenticationlocalpolicy_vpnvserver_binding configuration for property 'name'"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationlocalpolicy_vpnvserver_binding -Resource $name -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationlocalpolicy_vpnvserver_binding -NitroPath nitro/v1/config -Resource $name -Summary:$ViewSummary -Filter $Filter -GetWarning
             } else {
                 Write-Verbose "Retrieving authenticationlocalpolicy_vpnvserver_binding configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationlocalpolicy_vpnvserver_binding -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationlocalpolicy_vpnvserver_binding -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -8088,7 +8088,7 @@ function Invoke-ADCAddAuthenticationloginschema {
         Invoke-ADCAddAuthenticationloginschema -name <string> -authenticationschema <string>
     .NOTES
         File Name : Invoke-ADCAddAuthenticationloginschema
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/authentication/authenticationloginschema/
         Requires  : PowerShell v5.1 and up
@@ -8151,7 +8151,7 @@ function Invoke-ADCAddAuthenticationloginschema {
             if ($PSBoundParameters.ContainsKey('ssocredentials')) { $Payload.Add('ssocredentials', $ssocredentials) }
  
             if ($PSCmdlet.ShouldProcess("authenticationloginschema", "Add Authentication configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -Type authenticationloginschema -Payload $Payload -GetWarning
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -NitroPath nitro/v1/config -Type authenticationloginschema -Payload $Payload -GetWarning
                 #HTTP Status Code on Success: 201 Created
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 if ($PSBoundParameters.ContainsKey('PassThru')) {
@@ -8183,7 +8183,7 @@ function Invoke-ADCDeleteAuthenticationloginschema {
         Invoke-ADCDeleteAuthenticationloginschema -name <string>
     .NOTES
         File Name : Invoke-ADCDeleteAuthenticationloginschema
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/authentication/authenticationloginschema/
         Requires  : PowerShell v5.1 and up
@@ -8211,7 +8211,7 @@ function Invoke-ADCDeleteAuthenticationloginschema {
             }
 
             if ($PSCmdlet.ShouldProcess("$name", "Delete Authentication configuration Object")) {
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type authenticationloginschema -Resource $name -Arguments $Arguments
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type authenticationloginschema -NitroPath nitro/v1/config -Resource $name -Arguments $Arguments
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $response
@@ -8265,7 +8265,7 @@ function Invoke-ADCUpdateAuthenticationloginschema {
         Invoke-ADCUpdateAuthenticationloginschema -name <string>
     .NOTES
         File Name : Invoke-ADCUpdateAuthenticationloginschema
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/authentication/authenticationloginschema/
         Requires  : PowerShell v5.1 and up
@@ -8327,7 +8327,7 @@ function Invoke-ADCUpdateAuthenticationloginschema {
             if ($PSBoundParameters.ContainsKey('ssocredentials')) { $Payload.Add('ssocredentials', $ssocredentials) }
  
             if ($PSCmdlet.ShouldProcess("authenticationloginschema", "Update Authentication configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -Type authenticationloginschema -Payload $Payload -GetWarning
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -NitroPath nitro/v1/config -Type authenticationloginschema -Payload $Payload -GetWarning
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 if ($PSBoundParameters.ContainsKey('PassThru')) {
@@ -8372,7 +8372,7 @@ function Invoke-ADCUnsetAuthenticationloginschema {
         Invoke-ADCUnsetAuthenticationloginschema -name <string>
     .NOTES
         File Name : Invoke-ADCUnsetAuthenticationloginschema
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/authentication/authenticationloginschema
         Requires  : PowerShell v5.1 and up
@@ -8420,7 +8420,7 @@ function Invoke-ADCUnsetAuthenticationloginschema {
             if ($PSBoundParameters.ContainsKey('authenticationstrength')) { $Payload.Add('authenticationstrength', $authenticationstrength) }
             if ($PSBoundParameters.ContainsKey('ssocredentials')) { $Payload.Add('ssocredentials', $ssocredentials) }
             if ($PSCmdlet.ShouldProcess("$name", "Unset Authentication configuration Object")) {
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -Type authenticationloginschema -Action unset -Payload $Payload -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -Type authenticationloginschema -NitroPath nitro/v1/config -Action unset -Payload $Payload -GetWarning
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $response
@@ -8464,7 +8464,7 @@ function Invoke-ADCGetAuthenticationloginschema {
         Invoke-ADCGetAuthenticationloginschema -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetAuthenticationloginschema
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/authentication/authenticationloginschema/
         Requires  : PowerShell v5.1 and up
@@ -8506,21 +8506,21 @@ function Invoke-ADCGetAuthenticationloginschema {
             if ( $PsCmdlet.ParameterSetName -eq 'Getall' ) {
                 $Query = @{ }
                 Write-Verbose "Retrieving all authenticationloginschema objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationloginschema -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationloginschema -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
                 if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for authenticationloginschema objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationloginschema -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationloginschema -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving authenticationloginschema objects by arguments"
                 $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationloginschema -Arguments $Arguments -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationloginschema -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving authenticationloginschema configuration for property 'name'"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationloginschema -Resource $name -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationloginschema -NitroPath nitro/v1/config -Resource $name -Summary:$ViewSummary -Filter $Filter -GetWarning
             } else {
                 Write-Verbose "Retrieving authenticationloginschema configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationloginschema -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationloginschema -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -8566,7 +8566,7 @@ function Invoke-ADCAddAuthenticationloginschemapolicy {
         Invoke-ADCAddAuthenticationloginschemapolicy -name <string> -rule <string> -action <string>
     .NOTES
         File Name : Invoke-ADCAddAuthenticationloginschemapolicy
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/authentication/authenticationloginschemapolicy/
         Requires  : PowerShell v5.1 and up
@@ -8619,7 +8619,7 @@ function Invoke-ADCAddAuthenticationloginschemapolicy {
             if ($PSBoundParameters.ContainsKey('logaction')) { $Payload.Add('logaction', $logaction) }
  
             if ($PSCmdlet.ShouldProcess("authenticationloginschemapolicy", "Add Authentication configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -Type authenticationloginschemapolicy -Payload $Payload -GetWarning
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -NitroPath nitro/v1/config -Type authenticationloginschemapolicy -Payload $Payload -GetWarning
                 #HTTP Status Code on Success: 201 Created
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 if ($PSBoundParameters.ContainsKey('PassThru')) {
@@ -8651,7 +8651,7 @@ function Invoke-ADCDeleteAuthenticationloginschemapolicy {
         Invoke-ADCDeleteAuthenticationloginschemapolicy -name <string>
     .NOTES
         File Name : Invoke-ADCDeleteAuthenticationloginschemapolicy
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/authentication/authenticationloginschemapolicy/
         Requires  : PowerShell v5.1 and up
@@ -8679,7 +8679,7 @@ function Invoke-ADCDeleteAuthenticationloginschemapolicy {
             }
 
             if ($PSCmdlet.ShouldProcess("$name", "Delete Authentication configuration Object")) {
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type authenticationloginschemapolicy -Resource $name -Arguments $Arguments
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type authenticationloginschemapolicy -NitroPath nitro/v1/config -Resource $name -Arguments $Arguments
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $response
@@ -8727,7 +8727,7 @@ function Invoke-ADCUpdateAuthenticationloginschemapolicy {
         Invoke-ADCUpdateAuthenticationloginschemapolicy -name <string>
     .NOTES
         File Name : Invoke-ADCUpdateAuthenticationloginschemapolicy
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/authentication/authenticationloginschemapolicy/
         Requires  : PowerShell v5.1 and up
@@ -8778,7 +8778,7 @@ function Invoke-ADCUpdateAuthenticationloginschemapolicy {
             if ($PSBoundParameters.ContainsKey('logaction')) { $Payload.Add('logaction', $logaction) }
  
             if ($PSCmdlet.ShouldProcess("authenticationloginschemapolicy", "Update Authentication configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -Type authenticationloginschemapolicy -Payload $Payload -GetWarning
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -NitroPath nitro/v1/config -Type authenticationloginschemapolicy -Payload $Payload -GetWarning
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 if ($PSBoundParameters.ContainsKey('PassThru')) {
@@ -8816,7 +8816,7 @@ function Invoke-ADCUnsetAuthenticationloginschemapolicy {
         Invoke-ADCUnsetAuthenticationloginschemapolicy -name <string>
     .NOTES
         File Name : Invoke-ADCUnsetAuthenticationloginschemapolicy
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/authentication/authenticationloginschemapolicy
         Requires  : PowerShell v5.1 and up
@@ -8855,7 +8855,7 @@ function Invoke-ADCUnsetAuthenticationloginschemapolicy {
             if ($PSBoundParameters.ContainsKey('comment')) { $Payload.Add('comment', $comment) }
             if ($PSBoundParameters.ContainsKey('logaction')) { $Payload.Add('logaction', $logaction) }
             if ($PSCmdlet.ShouldProcess("$name", "Unset Authentication configuration Object")) {
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -Type authenticationloginschemapolicy -Action unset -Payload $Payload -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -Type authenticationloginschemapolicy -NitroPath nitro/v1/config -Action unset -Payload $Payload -GetWarning
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $response
@@ -8887,7 +8887,7 @@ function Invoke-ADCRenameAuthenticationloginschemapolicy {
         Invoke-ADCRenameAuthenticationloginschemapolicy -name <string> -newname <string>
     .NOTES
         File Name : Invoke-ADCRenameAuthenticationloginschemapolicy
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/authentication/authenticationloginschemapolicy/
         Requires  : PowerShell v5.1 and up
@@ -8927,7 +8927,7 @@ function Invoke-ADCRenameAuthenticationloginschemapolicy {
 
  
             if ($PSCmdlet.ShouldProcess("authenticationloginschemapolicy", "Rename Authentication configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -Type authenticationloginschemapolicy -Action rename -Payload $Payload -GetWarning
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -NitroPath nitro/v1/config -Type authenticationloginschemapolicy -Action rename -Payload $Payload -GetWarning
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 if ($PSBoundParameters.ContainsKey('PassThru')) {
@@ -8976,7 +8976,7 @@ function Invoke-ADCGetAuthenticationloginschemapolicy {
         Invoke-ADCGetAuthenticationloginschemapolicy -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetAuthenticationloginschemapolicy
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/authentication/authenticationloginschemapolicy/
         Requires  : PowerShell v5.1 and up
@@ -9018,21 +9018,21 @@ function Invoke-ADCGetAuthenticationloginschemapolicy {
             if ( $PsCmdlet.ParameterSetName -eq 'Getall' ) {
                 $Query = @{ }
                 Write-Verbose "Retrieving all authenticationloginschemapolicy objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationloginschemapolicy -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationloginschemapolicy -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
                 if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for authenticationloginschemapolicy objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationloginschemapolicy -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationloginschemapolicy -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving authenticationloginschemapolicy objects by arguments"
                 $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationloginschemapolicy -Arguments $Arguments -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationloginschemapolicy -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving authenticationloginschemapolicy configuration for property 'name'"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationloginschemapolicy -Resource $name -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationloginschemapolicy -NitroPath nitro/v1/config -Resource $name -Summary:$ViewSummary -Filter $Filter -GetWarning
             } else {
                 Write-Verbose "Retrieving authenticationloginschemapolicy configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationloginschemapolicy -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationloginschemapolicy -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -9074,7 +9074,7 @@ function Invoke-ADCGetAuthenticationloginschemapolicyauthenticationvserverbindin
         Invoke-ADCGetAuthenticationloginschemapolicyauthenticationvserverbinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetAuthenticationloginschemapolicyauthenticationvserverbinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/authentication/authenticationloginschemapolicy_authenticationvserver_binding/
         Requires  : PowerShell v5.1 and up
@@ -9112,21 +9112,21 @@ function Invoke-ADCGetAuthenticationloginschemapolicyauthenticationvserverbindin
                     bulkbindings = 'yes'
                 }
                 Write-Verbose "Retrieving all authenticationloginschemapolicy_authenticationvserver_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationloginschemapolicy_authenticationvserver_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationloginschemapolicy_authenticationvserver_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
                 if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for authenticationloginschemapolicy_authenticationvserver_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationloginschemapolicy_authenticationvserver_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationloginschemapolicy_authenticationvserver_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving authenticationloginschemapolicy_authenticationvserver_binding objects by arguments"
                 $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationloginschemapolicy_authenticationvserver_binding -Arguments $Arguments -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationloginschemapolicy_authenticationvserver_binding -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving authenticationloginschemapolicy_authenticationvserver_binding configuration for property 'name'"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationloginschemapolicy_authenticationvserver_binding -Resource $name -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationloginschemapolicy_authenticationvserver_binding -NitroPath nitro/v1/config -Resource $name -Summary:$ViewSummary -Filter $Filter -GetWarning
             } else {
                 Write-Verbose "Retrieving authenticationloginschemapolicy_authenticationvserver_binding configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationloginschemapolicy_authenticationvserver_binding -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationloginschemapolicy_authenticationvserver_binding -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -9166,7 +9166,7 @@ function Invoke-ADCGetAuthenticationloginschemapolicybinding {
         Invoke-ADCGetAuthenticationloginschemapolicybinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetAuthenticationloginschemapolicybinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/authentication/authenticationloginschemapolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -9201,21 +9201,21 @@ function Invoke-ADCGetAuthenticationloginschemapolicybinding {
                     bulkbindings = 'yes'
                 }
                 Write-Verbose "Retrieving all authenticationloginschemapolicy_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationloginschemapolicy_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationloginschemapolicy_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
                 if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for authenticationloginschemapolicy_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationloginschemapolicy_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationloginschemapolicy_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving authenticationloginschemapolicy_binding objects by arguments"
                 $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationloginschemapolicy_binding -Arguments $Arguments -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationloginschemapolicy_binding -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving authenticationloginschemapolicy_binding configuration for property 'name'"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationloginschemapolicy_binding -Resource $name -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationloginschemapolicy_binding -NitroPath nitro/v1/config -Resource $name -Summary:$ViewSummary -Filter $Filter -GetWarning
             } else {
                 Write-Verbose "Retrieving authenticationloginschemapolicy_binding configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationloginschemapolicy_binding -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationloginschemapolicy_binding -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -9257,7 +9257,7 @@ function Invoke-ADCGetAuthenticationloginschemapolicyvpnvserverbinding {
         Invoke-ADCGetAuthenticationloginschemapolicyvpnvserverbinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetAuthenticationloginschemapolicyvpnvserverbinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/authentication/authenticationloginschemapolicy_vpnvserver_binding/
         Requires  : PowerShell v5.1 and up
@@ -9295,21 +9295,21 @@ function Invoke-ADCGetAuthenticationloginschemapolicyvpnvserverbinding {
                     bulkbindings = 'yes'
                 }
                 Write-Verbose "Retrieving all authenticationloginschemapolicy_vpnvserver_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationloginschemapolicy_vpnvserver_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationloginschemapolicy_vpnvserver_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
                 if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for authenticationloginschemapolicy_vpnvserver_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationloginschemapolicy_vpnvserver_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationloginschemapolicy_vpnvserver_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving authenticationloginschemapolicy_vpnvserver_binding objects by arguments"
                 $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationloginschemapolicy_vpnvserver_binding -Arguments $Arguments -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationloginschemapolicy_vpnvserver_binding -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving authenticationloginschemapolicy_vpnvserver_binding configuration for property 'name'"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationloginschemapolicy_vpnvserver_binding -Resource $name -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationloginschemapolicy_vpnvserver_binding -NitroPath nitro/v1/config -Resource $name -Summary:$ViewSummary -Filter $Filter -GetWarning
             } else {
                 Write-Verbose "Retrieving authenticationloginschemapolicy_vpnvserver_binding configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationloginschemapolicy_vpnvserver_binding -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationloginschemapolicy_vpnvserver_binding -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -9357,7 +9357,7 @@ function Invoke-ADCAddAuthenticationnegotiateaction {
         Invoke-ADCAddAuthenticationnegotiateaction -name <string>
     .NOTES
         File Name : Invoke-ADCAddAuthenticationnegotiateaction
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/authentication/authenticationnegotiateaction/
         Requires  : PowerShell v5.1 and up
@@ -9417,7 +9417,7 @@ function Invoke-ADCAddAuthenticationnegotiateaction {
             if ($PSBoundParameters.ContainsKey('ntlmpath')) { $Payload.Add('ntlmpath', $ntlmpath) }
  
             if ($PSCmdlet.ShouldProcess("authenticationnegotiateaction", "Add Authentication configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -Type authenticationnegotiateaction -Payload $Payload -GetWarning
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -NitroPath nitro/v1/config -Type authenticationnegotiateaction -Payload $Payload -GetWarning
                 #HTTP Status Code on Success: 201 Created
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 if ($PSBoundParameters.ContainsKey('PassThru')) {
@@ -9450,7 +9450,7 @@ function Invoke-ADCDeleteAuthenticationnegotiateaction {
         Invoke-ADCDeleteAuthenticationnegotiateaction -name <string>
     .NOTES
         File Name : Invoke-ADCDeleteAuthenticationnegotiateaction
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/authentication/authenticationnegotiateaction/
         Requires  : PowerShell v5.1 and up
@@ -9478,7 +9478,7 @@ function Invoke-ADCDeleteAuthenticationnegotiateaction {
             }
 
             if ($PSCmdlet.ShouldProcess("$name", "Delete Authentication configuration Object")) {
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type authenticationnegotiateaction -Resource $name -Arguments $Arguments
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type authenticationnegotiateaction -NitroPath nitro/v1/config -Resource $name -Arguments $Arguments
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $response
@@ -9528,7 +9528,7 @@ function Invoke-ADCUpdateAuthenticationnegotiateaction {
         Invoke-ADCUpdateAuthenticationnegotiateaction -name <string>
     .NOTES
         File Name : Invoke-ADCUpdateAuthenticationnegotiateaction
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/authentication/authenticationnegotiateaction/
         Requires  : PowerShell v5.1 and up
@@ -9588,7 +9588,7 @@ function Invoke-ADCUpdateAuthenticationnegotiateaction {
             if ($PSBoundParameters.ContainsKey('ntlmpath')) { $Payload.Add('ntlmpath', $ntlmpath) }
  
             if ($PSCmdlet.ShouldProcess("authenticationnegotiateaction", "Update Authentication configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -Type authenticationnegotiateaction -Payload $Payload -GetWarning
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -NitroPath nitro/v1/config -Type authenticationnegotiateaction -Payload $Payload -GetWarning
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 if ($PSBoundParameters.ContainsKey('PassThru')) {
@@ -9633,7 +9633,7 @@ function Invoke-ADCUnsetAuthenticationnegotiateaction {
         Invoke-ADCUnsetAuthenticationnegotiateaction -name <string>
     .NOTES
         File Name : Invoke-ADCUnsetAuthenticationnegotiateaction
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/authentication/authenticationnegotiateaction
         Requires  : PowerShell v5.1 and up
@@ -9680,7 +9680,7 @@ function Invoke-ADCUnsetAuthenticationnegotiateaction {
             if ($PSBoundParameters.ContainsKey('defaultauthenticationgroup')) { $Payload.Add('defaultauthenticationgroup', $defaultauthenticationgroup) }
             if ($PSBoundParameters.ContainsKey('ntlmpath')) { $Payload.Add('ntlmpath', $ntlmpath) }
             if ($PSCmdlet.ShouldProcess("$name", "Unset Authentication configuration Object")) {
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -Type authenticationnegotiateaction -Action unset -Payload $Payload -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -Type authenticationnegotiateaction -NitroPath nitro/v1/config -Action unset -Payload $Payload -GetWarning
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $response
@@ -9725,7 +9725,7 @@ function Invoke-ADCGetAuthenticationnegotiateaction {
         Invoke-ADCGetAuthenticationnegotiateaction -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetAuthenticationnegotiateaction
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/authentication/authenticationnegotiateaction/
         Requires  : PowerShell v5.1 and up
@@ -9766,21 +9766,21 @@ function Invoke-ADCGetAuthenticationnegotiateaction {
             if ( $PsCmdlet.ParameterSetName -eq 'Getall' ) {
                 $Query = @{ }
                 Write-Verbose "Retrieving all authenticationnegotiateaction objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationnegotiateaction -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationnegotiateaction -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
                 if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for authenticationnegotiateaction objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationnegotiateaction -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationnegotiateaction -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving authenticationnegotiateaction objects by arguments"
                 $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationnegotiateaction -Arguments $Arguments -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationnegotiateaction -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving authenticationnegotiateaction configuration for property 'name'"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationnegotiateaction -Resource $name -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationnegotiateaction -NitroPath nitro/v1/config -Resource $name -Summary:$ViewSummary -Filter $Filter -GetWarning
             } else {
                 Write-Verbose "Retrieving authenticationnegotiateaction configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationnegotiateaction -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationnegotiateaction -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -9814,7 +9814,7 @@ function Invoke-ADCAddAuthenticationnegotiatepolicy {
         Invoke-ADCAddAuthenticationnegotiatepolicy -name <string> -rule <string> -reqaction <string>
     .NOTES
         File Name : Invoke-ADCAddAuthenticationnegotiatepolicy
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/authentication/authenticationnegotiatepolicy/
         Requires  : PowerShell v5.1 and up
@@ -9858,7 +9858,7 @@ function Invoke-ADCAddAuthenticationnegotiatepolicy {
 
  
             if ($PSCmdlet.ShouldProcess("authenticationnegotiatepolicy", "Add Authentication configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -Type authenticationnegotiatepolicy -Payload $Payload -GetWarning
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -NitroPath nitro/v1/config -Type authenticationnegotiatepolicy -Payload $Payload -GetWarning
                 #HTTP Status Code on Success: 201 Created
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 if ($PSBoundParameters.ContainsKey('PassThru')) {
@@ -9891,7 +9891,7 @@ function Invoke-ADCDeleteAuthenticationnegotiatepolicy {
         Invoke-ADCDeleteAuthenticationnegotiatepolicy -name <string>
     .NOTES
         File Name : Invoke-ADCDeleteAuthenticationnegotiatepolicy
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/authentication/authenticationnegotiatepolicy/
         Requires  : PowerShell v5.1 and up
@@ -9919,7 +9919,7 @@ function Invoke-ADCDeleteAuthenticationnegotiatepolicy {
             }
 
             if ($PSCmdlet.ShouldProcess("$name", "Delete Authentication configuration Object")) {
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type authenticationnegotiatepolicy -Resource $name -Arguments $Arguments
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type authenticationnegotiatepolicy -NitroPath nitro/v1/config -Resource $name -Arguments $Arguments
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $response
@@ -9955,7 +9955,7 @@ function Invoke-ADCUpdateAuthenticationnegotiatepolicy {
         Invoke-ADCUpdateAuthenticationnegotiatepolicy -name <string>
     .NOTES
         File Name : Invoke-ADCUpdateAuthenticationnegotiatepolicy
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/authentication/authenticationnegotiatepolicy/
         Requires  : PowerShell v5.1 and up
@@ -9996,7 +9996,7 @@ function Invoke-ADCUpdateAuthenticationnegotiatepolicy {
             if ($PSBoundParameters.ContainsKey('reqaction')) { $Payload.Add('reqaction', $reqaction) }
  
             if ($PSCmdlet.ShouldProcess("authenticationnegotiatepolicy", "Update Authentication configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -Type authenticationnegotiatepolicy -Payload $Payload -GetWarning
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -NitroPath nitro/v1/config -Type authenticationnegotiatepolicy -Payload $Payload -GetWarning
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 if ($PSBoundParameters.ContainsKey('PassThru')) {
@@ -10046,7 +10046,7 @@ function Invoke-ADCGetAuthenticationnegotiatepolicy {
         Invoke-ADCGetAuthenticationnegotiatepolicy -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetAuthenticationnegotiatepolicy
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/authentication/authenticationnegotiatepolicy/
         Requires  : PowerShell v5.1 and up
@@ -10087,21 +10087,21 @@ function Invoke-ADCGetAuthenticationnegotiatepolicy {
             if ( $PsCmdlet.ParameterSetName -eq 'Getall' ) {
                 $Query = @{ }
                 Write-Verbose "Retrieving all authenticationnegotiatepolicy objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationnegotiatepolicy -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationnegotiatepolicy -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
                 if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for authenticationnegotiatepolicy objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationnegotiatepolicy -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationnegotiatepolicy -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving authenticationnegotiatepolicy objects by arguments"
                 $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationnegotiatepolicy -Arguments $Arguments -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationnegotiatepolicy -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving authenticationnegotiatepolicy configuration for property 'name'"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationnegotiatepolicy -Resource $name -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationnegotiatepolicy -NitroPath nitro/v1/config -Resource $name -Summary:$ViewSummary -Filter $Filter -GetWarning
             } else {
                 Write-Verbose "Retrieving authenticationnegotiatepolicy configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationnegotiatepolicy -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationnegotiatepolicy -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -10143,7 +10143,7 @@ function Invoke-ADCGetAuthenticationnegotiatepolicyauthenticationvserverbinding 
         Invoke-ADCGetAuthenticationnegotiatepolicyauthenticationvserverbinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetAuthenticationnegotiatepolicyauthenticationvserverbinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/authentication/authenticationnegotiatepolicy_authenticationvserver_binding/
         Requires  : PowerShell v5.1 and up
@@ -10181,21 +10181,21 @@ function Invoke-ADCGetAuthenticationnegotiatepolicyauthenticationvserverbinding 
                     bulkbindings = 'yes'
                 }
                 Write-Verbose "Retrieving all authenticationnegotiatepolicy_authenticationvserver_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationnegotiatepolicy_authenticationvserver_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationnegotiatepolicy_authenticationvserver_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
                 if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for authenticationnegotiatepolicy_authenticationvserver_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationnegotiatepolicy_authenticationvserver_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationnegotiatepolicy_authenticationvserver_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving authenticationnegotiatepolicy_authenticationvserver_binding objects by arguments"
                 $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationnegotiatepolicy_authenticationvserver_binding -Arguments $Arguments -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationnegotiatepolicy_authenticationvserver_binding -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving authenticationnegotiatepolicy_authenticationvserver_binding configuration for property 'name'"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationnegotiatepolicy_authenticationvserver_binding -Resource $name -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationnegotiatepolicy_authenticationvserver_binding -NitroPath nitro/v1/config -Resource $name -Summary:$ViewSummary -Filter $Filter -GetWarning
             } else {
                 Write-Verbose "Retrieving authenticationnegotiatepolicy_authenticationvserver_binding configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationnegotiatepolicy_authenticationvserver_binding -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationnegotiatepolicy_authenticationvserver_binding -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -10235,7 +10235,7 @@ function Invoke-ADCGetAuthenticationnegotiatepolicybinding {
         Invoke-ADCGetAuthenticationnegotiatepolicybinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetAuthenticationnegotiatepolicybinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/authentication/authenticationnegotiatepolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -10270,21 +10270,21 @@ function Invoke-ADCGetAuthenticationnegotiatepolicybinding {
                     bulkbindings = 'yes'
                 }
                 Write-Verbose "Retrieving all authenticationnegotiatepolicy_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationnegotiatepolicy_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationnegotiatepolicy_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
                 if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for authenticationnegotiatepolicy_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationnegotiatepolicy_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationnegotiatepolicy_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving authenticationnegotiatepolicy_binding objects by arguments"
                 $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationnegotiatepolicy_binding -Arguments $Arguments -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationnegotiatepolicy_binding -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving authenticationnegotiatepolicy_binding configuration for property 'name'"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationnegotiatepolicy_binding -Resource $name -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationnegotiatepolicy_binding -NitroPath nitro/v1/config -Resource $name -Summary:$ViewSummary -Filter $Filter -GetWarning
             } else {
                 Write-Verbose "Retrieving authenticationnegotiatepolicy_binding configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationnegotiatepolicy_binding -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationnegotiatepolicy_binding -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -10326,7 +10326,7 @@ function Invoke-ADCGetAuthenticationnegotiatepolicyvpnglobalbinding {
         Invoke-ADCGetAuthenticationnegotiatepolicyvpnglobalbinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetAuthenticationnegotiatepolicyvpnglobalbinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/authentication/authenticationnegotiatepolicy_vpnglobal_binding/
         Requires  : PowerShell v5.1 and up
@@ -10364,21 +10364,21 @@ function Invoke-ADCGetAuthenticationnegotiatepolicyvpnglobalbinding {
                     bulkbindings = 'yes'
                 }
                 Write-Verbose "Retrieving all authenticationnegotiatepolicy_vpnglobal_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationnegotiatepolicy_vpnglobal_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationnegotiatepolicy_vpnglobal_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
                 if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for authenticationnegotiatepolicy_vpnglobal_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationnegotiatepolicy_vpnglobal_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationnegotiatepolicy_vpnglobal_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving authenticationnegotiatepolicy_vpnglobal_binding objects by arguments"
                 $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationnegotiatepolicy_vpnglobal_binding -Arguments $Arguments -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationnegotiatepolicy_vpnglobal_binding -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving authenticationnegotiatepolicy_vpnglobal_binding configuration for property 'name'"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationnegotiatepolicy_vpnglobal_binding -Resource $name -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationnegotiatepolicy_vpnglobal_binding -NitroPath nitro/v1/config -Resource $name -Summary:$ViewSummary -Filter $Filter -GetWarning
             } else {
                 Write-Verbose "Retrieving authenticationnegotiatepolicy_vpnglobal_binding configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationnegotiatepolicy_vpnglobal_binding -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationnegotiatepolicy_vpnglobal_binding -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -10420,7 +10420,7 @@ function Invoke-ADCGetAuthenticationnegotiatepolicyvpnvserverbinding {
         Invoke-ADCGetAuthenticationnegotiatepolicyvpnvserverbinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetAuthenticationnegotiatepolicyvpnvserverbinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/authentication/authenticationnegotiatepolicy_vpnvserver_binding/
         Requires  : PowerShell v5.1 and up
@@ -10458,21 +10458,21 @@ function Invoke-ADCGetAuthenticationnegotiatepolicyvpnvserverbinding {
                     bulkbindings = 'yes'
                 }
                 Write-Verbose "Retrieving all authenticationnegotiatepolicy_vpnvserver_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationnegotiatepolicy_vpnvserver_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationnegotiatepolicy_vpnvserver_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
                 if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for authenticationnegotiatepolicy_vpnvserver_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationnegotiatepolicy_vpnvserver_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationnegotiatepolicy_vpnvserver_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving authenticationnegotiatepolicy_vpnvserver_binding objects by arguments"
                 $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationnegotiatepolicy_vpnvserver_binding -Arguments $Arguments -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationnegotiatepolicy_vpnvserver_binding -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving authenticationnegotiatepolicy_vpnvserver_binding configuration for property 'name'"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationnegotiatepolicy_vpnvserver_binding -Resource $name -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationnegotiatepolicy_vpnvserver_binding -NitroPath nitro/v1/config -Resource $name -Summary:$ViewSummary -Filter $Filter -GetWarning
             } else {
                 Write-Verbose "Retrieving authenticationnegotiatepolicy_vpnvserver_binding configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationnegotiatepolicy_vpnvserver_binding -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationnegotiatepolicy_vpnvserver_binding -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -10501,7 +10501,7 @@ function Invoke-ADCAddAuthenticationnoauthaction {
         Invoke-ADCAddAuthenticationnoauthaction -name <string>
     .NOTES
         File Name : Invoke-ADCAddAuthenticationnoauthaction
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/authentication/authenticationnoauthaction/
         Requires  : PowerShell v5.1 and up
@@ -10538,7 +10538,7 @@ function Invoke-ADCAddAuthenticationnoauthaction {
             if ($PSBoundParameters.ContainsKey('defaultauthenticationgroup')) { $Payload.Add('defaultauthenticationgroup', $defaultauthenticationgroup) }
  
             if ($PSCmdlet.ShouldProcess("authenticationnoauthaction", "Add Authentication configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -Type authenticationnoauthaction -Payload $Payload -GetWarning
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -NitroPath nitro/v1/config -Type authenticationnoauthaction -Payload $Payload -GetWarning
                 #HTTP Status Code on Success: 201 Created
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 if ($PSBoundParameters.ContainsKey('PassThru')) {
@@ -10570,7 +10570,7 @@ function Invoke-ADCDeleteAuthenticationnoauthaction {
         Invoke-ADCDeleteAuthenticationnoauthaction -name <string>
     .NOTES
         File Name : Invoke-ADCDeleteAuthenticationnoauthaction
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/authentication/authenticationnoauthaction/
         Requires  : PowerShell v5.1 and up
@@ -10598,7 +10598,7 @@ function Invoke-ADCDeleteAuthenticationnoauthaction {
             }
 
             if ($PSCmdlet.ShouldProcess("$name", "Delete Authentication configuration Object")) {
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type authenticationnoauthaction -Resource $name -Arguments $Arguments
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type authenticationnoauthaction -NitroPath nitro/v1/config -Resource $name -Arguments $Arguments
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $response
@@ -10629,7 +10629,7 @@ function Invoke-ADCUpdateAuthenticationnoauthaction {
         Invoke-ADCUpdateAuthenticationnoauthaction -name <string>
     .NOTES
         File Name : Invoke-ADCUpdateAuthenticationnoauthaction
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/authentication/authenticationnoauthaction/
         Requires  : PowerShell v5.1 and up
@@ -10666,7 +10666,7 @@ function Invoke-ADCUpdateAuthenticationnoauthaction {
             if ($PSBoundParameters.ContainsKey('defaultauthenticationgroup')) { $Payload.Add('defaultauthenticationgroup', $defaultauthenticationgroup) }
  
             if ($PSCmdlet.ShouldProcess("authenticationnoauthaction", "Update Authentication configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -Type authenticationnoauthaction -Payload $Payload -GetWarning
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -NitroPath nitro/v1/config -Type authenticationnoauthaction -Payload $Payload -GetWarning
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 if ($PSBoundParameters.ContainsKey('PassThru')) {
@@ -10700,7 +10700,7 @@ function Invoke-ADCUnsetAuthenticationnoauthaction {
         Invoke-ADCUnsetAuthenticationnoauthaction -name <string>
     .NOTES
         File Name : Invoke-ADCUnsetAuthenticationnoauthaction
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/authentication/authenticationnoauthaction
         Requires  : PowerShell v5.1 and up
@@ -10733,7 +10733,7 @@ function Invoke-ADCUnsetAuthenticationnoauthaction {
             }
             if ($PSBoundParameters.ContainsKey('defaultauthenticationgroup')) { $Payload.Add('defaultauthenticationgroup', $defaultauthenticationgroup) }
             if ($PSCmdlet.ShouldProcess("$name", "Unset Authentication configuration Object")) {
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -Type authenticationnoauthaction -Action unset -Payload $Payload -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -Type authenticationnoauthaction -NitroPath nitro/v1/config -Action unset -Payload $Payload -GetWarning
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $response
@@ -10777,7 +10777,7 @@ function Invoke-ADCGetAuthenticationnoauthaction {
         Invoke-ADCGetAuthenticationnoauthaction -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetAuthenticationnoauthaction
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/authentication/authenticationnoauthaction/
         Requires  : PowerShell v5.1 and up
@@ -10819,21 +10819,21 @@ function Invoke-ADCGetAuthenticationnoauthaction {
             if ( $PsCmdlet.ParameterSetName -eq 'Getall' ) {
                 $Query = @{ }
                 Write-Verbose "Retrieving all authenticationnoauthaction objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationnoauthaction -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationnoauthaction -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
                 if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for authenticationnoauthaction objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationnoauthaction -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationnoauthaction -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving authenticationnoauthaction objects by arguments"
                 $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationnoauthaction -Arguments $Arguments -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationnoauthaction -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving authenticationnoauthaction configuration for property 'name'"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationnoauthaction -Resource $name -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationnoauthaction -NitroPath nitro/v1/config -Resource $name -Summary:$ViewSummary -Filter $Filter -GetWarning
             } else {
                 Write-Verbose "Retrieving authenticationnoauthaction configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationnoauthaction -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationnoauthaction -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -10963,7 +10963,7 @@ function Invoke-ADCAddAuthenticationoauthaction {
         Invoke-ADCAddAuthenticationoauthaction -name <string>
     .NOTES
         File Name : Invoke-ADCAddAuthenticationoauthaction
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/authentication/authenticationoauthaction/
         Requires  : PowerShell v5.1 and up
@@ -11128,7 +11128,7 @@ function Invoke-ADCAddAuthenticationoauthaction {
             if ($PSBoundParameters.ContainsKey('metadataurl')) { $Payload.Add('metadataurl', $metadataurl) }
  
             if ($PSCmdlet.ShouldProcess("authenticationoauthaction", "Add Authentication configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -Type authenticationoauthaction -Payload $Payload -GetWarning
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -NitroPath nitro/v1/config -Type authenticationoauthaction -Payload $Payload -GetWarning
                 #HTTP Status Code on Success: 201 Created
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 if ($PSBoundParameters.ContainsKey('PassThru')) {
@@ -11161,7 +11161,7 @@ function Invoke-ADCDeleteAuthenticationoauthaction {
         Invoke-ADCDeleteAuthenticationoauthaction -name <string>
     .NOTES
         File Name : Invoke-ADCDeleteAuthenticationoauthaction
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/authentication/authenticationoauthaction/
         Requires  : PowerShell v5.1 and up
@@ -11189,7 +11189,7 @@ function Invoke-ADCDeleteAuthenticationoauthaction {
             }
 
             if ($PSCmdlet.ShouldProcess("$name", "Delete Authentication configuration Object")) {
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type authenticationoauthaction -Resource $name -Arguments $Arguments
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type authenticationoauthaction -NitroPath nitro/v1/config -Resource $name -Arguments $Arguments
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $response
@@ -11321,7 +11321,7 @@ function Invoke-ADCUpdateAuthenticationoauthaction {
         Invoke-ADCUpdateAuthenticationoauthaction -name <string>
     .NOTES
         File Name : Invoke-ADCUpdateAuthenticationoauthaction
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/authentication/authenticationoauthaction/
         Requires  : PowerShell v5.1 and up
@@ -11486,7 +11486,7 @@ function Invoke-ADCUpdateAuthenticationoauthaction {
             if ($PSBoundParameters.ContainsKey('metadataurl')) { $Payload.Add('metadataurl', $metadataurl) }
  
             if ($PSCmdlet.ShouldProcess("authenticationoauthaction", "Update Authentication configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -Type authenticationoauthaction -Payload $Payload -GetWarning
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -NitroPath nitro/v1/config -Type authenticationoauthaction -Payload $Payload -GetWarning
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 if ($PSBoundParameters.ContainsKey('PassThru')) {
@@ -11597,7 +11597,7 @@ function Invoke-ADCUnsetAuthenticationoauthaction {
         Invoke-ADCUnsetAuthenticationoauthaction -name <string>
     .NOTES
         File Name : Invoke-ADCUnsetAuthenticationoauthaction
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/authentication/authenticationoauthaction
         Requires  : PowerShell v5.1 and up
@@ -11731,7 +11731,7 @@ function Invoke-ADCUnsetAuthenticationoauthaction {
             if ($PSBoundParameters.ContainsKey('tokenendpointauthmethod')) { $Payload.Add('tokenendpointauthmethod', $tokenendpointauthmethod) }
             if ($PSBoundParameters.ContainsKey('metadataurl')) { $Payload.Add('metadataurl', $metadataurl) }
             if ($PSCmdlet.ShouldProcess("$name", "Unset Authentication configuration Object")) {
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -Type authenticationoauthaction -Action unset -Payload $Payload -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -Type authenticationoauthaction -NitroPath nitro/v1/config -Action unset -Payload $Payload -GetWarning
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $response
@@ -11776,7 +11776,7 @@ function Invoke-ADCGetAuthenticationoauthaction {
         Invoke-ADCGetAuthenticationoauthaction -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetAuthenticationoauthaction
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/authentication/authenticationoauthaction/
         Requires  : PowerShell v5.1 and up
@@ -11817,21 +11817,21 @@ function Invoke-ADCGetAuthenticationoauthaction {
             if ( $PsCmdlet.ParameterSetName -eq 'Getall' ) {
                 $Query = @{ }
                 Write-Verbose "Retrieving all authenticationoauthaction objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationoauthaction -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationoauthaction -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
                 if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for authenticationoauthaction objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationoauthaction -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationoauthaction -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving authenticationoauthaction objects by arguments"
                 $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationoauthaction -Arguments $Arguments -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationoauthaction -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving authenticationoauthaction configuration for property 'name'"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationoauthaction -Resource $name -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationoauthaction -NitroPath nitro/v1/config -Resource $name -Summary:$ViewSummary -Filter $Filter -GetWarning
             } else {
                 Write-Verbose "Retrieving authenticationoauthaction configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationoauthaction -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationoauthaction -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -11870,7 +11870,7 @@ function Invoke-ADCAddAuthenticationoauthidppolicy {
         Invoke-ADCAddAuthenticationoauthidppolicy -name <string> -rule <string> -action <string>
     .NOTES
         File Name : Invoke-ADCAddAuthenticationoauthidppolicy
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/authentication/authenticationoauthidppolicy/
         Requires  : PowerShell v5.1 and up
@@ -11923,7 +11923,7 @@ function Invoke-ADCAddAuthenticationoauthidppolicy {
             if ($PSBoundParameters.ContainsKey('logaction')) { $Payload.Add('logaction', $logaction) }
  
             if ($PSCmdlet.ShouldProcess("authenticationoauthidppolicy", "Add Authentication configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -Type authenticationoauthidppolicy -Payload $Payload -GetWarning
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -NitroPath nitro/v1/config -Type authenticationoauthidppolicy -Payload $Payload -GetWarning
                 #HTTP Status Code on Success: 201 Created
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 if ($PSBoundParameters.ContainsKey('PassThru')) {
@@ -11955,7 +11955,7 @@ function Invoke-ADCDeleteAuthenticationoauthidppolicy {
         Invoke-ADCDeleteAuthenticationoauthidppolicy -name <string>
     .NOTES
         File Name : Invoke-ADCDeleteAuthenticationoauthidppolicy
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/authentication/authenticationoauthidppolicy/
         Requires  : PowerShell v5.1 and up
@@ -11983,7 +11983,7 @@ function Invoke-ADCDeleteAuthenticationoauthidppolicy {
             }
 
             if ($PSCmdlet.ShouldProcess("$name", "Delete Authentication configuration Object")) {
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type authenticationoauthidppolicy -Resource $name -Arguments $Arguments
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type authenticationoauthidppolicy -NitroPath nitro/v1/config -Resource $name -Arguments $Arguments
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $response
@@ -12024,7 +12024,7 @@ function Invoke-ADCUpdateAuthenticationoauthidppolicy {
         Invoke-ADCUpdateAuthenticationoauthidppolicy -name <string>
     .NOTES
         File Name : Invoke-ADCUpdateAuthenticationoauthidppolicy
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/authentication/authenticationoauthidppolicy/
         Requires  : PowerShell v5.1 and up
@@ -12075,7 +12075,7 @@ function Invoke-ADCUpdateAuthenticationoauthidppolicy {
             if ($PSBoundParameters.ContainsKey('logaction')) { $Payload.Add('logaction', $logaction) }
  
             if ($PSCmdlet.ShouldProcess("authenticationoauthidppolicy", "Update Authentication configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -Type authenticationoauthidppolicy -Payload $Payload -GetWarning
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -NitroPath nitro/v1/config -Type authenticationoauthidppolicy -Payload $Payload -GetWarning
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 if ($PSBoundParameters.ContainsKey('PassThru')) {
@@ -12113,7 +12113,7 @@ function Invoke-ADCUnsetAuthenticationoauthidppolicy {
         Invoke-ADCUnsetAuthenticationoauthidppolicy -name <string>
     .NOTES
         File Name : Invoke-ADCUnsetAuthenticationoauthidppolicy
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/authentication/authenticationoauthidppolicy
         Requires  : PowerShell v5.1 and up
@@ -12152,7 +12152,7 @@ function Invoke-ADCUnsetAuthenticationoauthidppolicy {
             if ($PSBoundParameters.ContainsKey('comment')) { $Payload.Add('comment', $comment) }
             if ($PSBoundParameters.ContainsKey('logaction')) { $Payload.Add('logaction', $logaction) }
             if ($PSCmdlet.ShouldProcess("$name", "Unset Authentication configuration Object")) {
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -Type authenticationoauthidppolicy -Action unset -Payload $Payload -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -Type authenticationoauthidppolicy -NitroPath nitro/v1/config -Action unset -Payload $Payload -GetWarning
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $response
@@ -12184,7 +12184,7 @@ function Invoke-ADCRenameAuthenticationoauthidppolicy {
         Invoke-ADCRenameAuthenticationoauthidppolicy -name <string> -newname <string>
     .NOTES
         File Name : Invoke-ADCRenameAuthenticationoauthidppolicy
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/authentication/authenticationoauthidppolicy/
         Requires  : PowerShell v5.1 and up
@@ -12224,7 +12224,7 @@ function Invoke-ADCRenameAuthenticationoauthidppolicy {
 
  
             if ($PSCmdlet.ShouldProcess("authenticationoauthidppolicy", "Rename Authentication configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -Type authenticationoauthidppolicy -Action rename -Payload $Payload -GetWarning
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -NitroPath nitro/v1/config -Type authenticationoauthidppolicy -Action rename -Payload $Payload -GetWarning
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 if ($PSBoundParameters.ContainsKey('PassThru')) {
@@ -12273,7 +12273,7 @@ function Invoke-ADCGetAuthenticationoauthidppolicy {
         Invoke-ADCGetAuthenticationoauthidppolicy -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetAuthenticationoauthidppolicy
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/authentication/authenticationoauthidppolicy/
         Requires  : PowerShell v5.1 and up
@@ -12315,21 +12315,21 @@ function Invoke-ADCGetAuthenticationoauthidppolicy {
             if ( $PsCmdlet.ParameterSetName -eq 'Getall' ) {
                 $Query = @{ }
                 Write-Verbose "Retrieving all authenticationoauthidppolicy objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationoauthidppolicy -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationoauthidppolicy -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
                 if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for authenticationoauthidppolicy objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationoauthidppolicy -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationoauthidppolicy -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving authenticationoauthidppolicy objects by arguments"
                 $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationoauthidppolicy -Arguments $Arguments -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationoauthidppolicy -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving authenticationoauthidppolicy configuration for property 'name'"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationoauthidppolicy -Resource $name -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationoauthidppolicy -NitroPath nitro/v1/config -Resource $name -Summary:$ViewSummary -Filter $Filter -GetWarning
             } else {
                 Write-Verbose "Retrieving authenticationoauthidppolicy configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationoauthidppolicy -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationoauthidppolicy -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -12371,7 +12371,7 @@ function Invoke-ADCGetAuthenticationoauthidppolicyauthenticationvserverbinding {
         Invoke-ADCGetAuthenticationoauthidppolicyauthenticationvserverbinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetAuthenticationoauthidppolicyauthenticationvserverbinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/authentication/authenticationoauthidppolicy_authenticationvserver_binding/
         Requires  : PowerShell v5.1 and up
@@ -12409,21 +12409,21 @@ function Invoke-ADCGetAuthenticationoauthidppolicyauthenticationvserverbinding {
                     bulkbindings = 'yes'
                 }
                 Write-Verbose "Retrieving all authenticationoauthidppolicy_authenticationvserver_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationoauthidppolicy_authenticationvserver_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationoauthidppolicy_authenticationvserver_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
                 if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for authenticationoauthidppolicy_authenticationvserver_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationoauthidppolicy_authenticationvserver_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationoauthidppolicy_authenticationvserver_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving authenticationoauthidppolicy_authenticationvserver_binding objects by arguments"
                 $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationoauthidppolicy_authenticationvserver_binding -Arguments $Arguments -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationoauthidppolicy_authenticationvserver_binding -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving authenticationoauthidppolicy_authenticationvserver_binding configuration for property 'name'"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationoauthidppolicy_authenticationvserver_binding -Resource $name -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationoauthidppolicy_authenticationvserver_binding -NitroPath nitro/v1/config -Resource $name -Summary:$ViewSummary -Filter $Filter -GetWarning
             } else {
                 Write-Verbose "Retrieving authenticationoauthidppolicy_authenticationvserver_binding configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationoauthidppolicy_authenticationvserver_binding -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationoauthidppolicy_authenticationvserver_binding -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -12463,7 +12463,7 @@ function Invoke-ADCGetAuthenticationoauthidppolicybinding {
         Invoke-ADCGetAuthenticationoauthidppolicybinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetAuthenticationoauthidppolicybinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/authentication/authenticationoauthidppolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -12498,21 +12498,21 @@ function Invoke-ADCGetAuthenticationoauthidppolicybinding {
                     bulkbindings = 'yes'
                 }
                 Write-Verbose "Retrieving all authenticationoauthidppolicy_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationoauthidppolicy_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationoauthidppolicy_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
                 if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for authenticationoauthidppolicy_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationoauthidppolicy_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationoauthidppolicy_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving authenticationoauthidppolicy_binding objects by arguments"
                 $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationoauthidppolicy_binding -Arguments $Arguments -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationoauthidppolicy_binding -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving authenticationoauthidppolicy_binding configuration for property 'name'"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationoauthidppolicy_binding -Resource $name -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationoauthidppolicy_binding -NitroPath nitro/v1/config -Resource $name -Summary:$ViewSummary -Filter $Filter -GetWarning
             } else {
                 Write-Verbose "Retrieving authenticationoauthidppolicy_binding configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationoauthidppolicy_binding -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationoauthidppolicy_binding -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -12554,7 +12554,7 @@ function Invoke-ADCGetAuthenticationoauthidppolicyvpnvserverbinding {
         Invoke-ADCGetAuthenticationoauthidppolicyvpnvserverbinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetAuthenticationoauthidppolicyvpnvserverbinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/authentication/authenticationoauthidppolicy_vpnvserver_binding/
         Requires  : PowerShell v5.1 and up
@@ -12592,21 +12592,21 @@ function Invoke-ADCGetAuthenticationoauthidppolicyvpnvserverbinding {
                     bulkbindings = 'yes'
                 }
                 Write-Verbose "Retrieving all authenticationoauthidppolicy_vpnvserver_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationoauthidppolicy_vpnvserver_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationoauthidppolicy_vpnvserver_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
                 if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for authenticationoauthidppolicy_vpnvserver_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationoauthidppolicy_vpnvserver_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationoauthidppolicy_vpnvserver_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving authenticationoauthidppolicy_vpnvserver_binding objects by arguments"
                 $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationoauthidppolicy_vpnvserver_binding -Arguments $Arguments -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationoauthidppolicy_vpnvserver_binding -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving authenticationoauthidppolicy_vpnvserver_binding configuration for property 'name'"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationoauthidppolicy_vpnvserver_binding -Resource $name -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationoauthidppolicy_vpnvserver_binding -NitroPath nitro/v1/config -Resource $name -Summary:$ViewSummary -Filter $Filter -GetWarning
             } else {
                 Write-Verbose "Retrieving authenticationoauthidppolicy_vpnvserver_binding configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationoauthidppolicy_vpnvserver_binding -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationoauthidppolicy_vpnvserver_binding -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -12679,7 +12679,7 @@ function Invoke-ADCAddAuthenticationoauthidpprofile {
         Invoke-ADCAddAuthenticationoauthidpprofile -name <string>
     .NOTES
         File Name : Invoke-ADCAddAuthenticationoauthidpprofile
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/authentication/authenticationoauthidpprofile/
         Requires  : PowerShell v5.1 and up
@@ -12767,7 +12767,7 @@ function Invoke-ADCAddAuthenticationoauthidpprofile {
             if ($PSBoundParameters.ContainsKey('sendpassword')) { $Payload.Add('sendpassword', $sendpassword) }
  
             if ($PSCmdlet.ShouldProcess("authenticationoauthidpprofile", "Add Authentication configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -Type authenticationoauthidpprofile -Payload $Payload -GetWarning
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -NitroPath nitro/v1/config -Type authenticationoauthidpprofile -Payload $Payload -GetWarning
                 #HTTP Status Code on Success: 201 Created
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 if ($PSBoundParameters.ContainsKey('PassThru')) {
@@ -12799,7 +12799,7 @@ function Invoke-ADCDeleteAuthenticationoauthidpprofile {
         Invoke-ADCDeleteAuthenticationoauthidpprofile -name <string>
     .NOTES
         File Name : Invoke-ADCDeleteAuthenticationoauthidpprofile
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/authentication/authenticationoauthidpprofile/
         Requires  : PowerShell v5.1 and up
@@ -12827,7 +12827,7 @@ function Invoke-ADCDeleteAuthenticationoauthidpprofile {
             }
 
             if ($PSCmdlet.ShouldProcess("$name", "Delete Authentication configuration Object")) {
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type authenticationoauthidpprofile -Resource $name -Arguments $Arguments
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type authenticationoauthidpprofile -NitroPath nitro/v1/config -Resource $name -Arguments $Arguments
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $response
@@ -12902,7 +12902,7 @@ function Invoke-ADCUpdateAuthenticationoauthidpprofile {
         Invoke-ADCUpdateAuthenticationoauthidpprofile -name <string>
     .NOTES
         File Name : Invoke-ADCUpdateAuthenticationoauthidpprofile
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/authentication/authenticationoauthidpprofile/
         Requires  : PowerShell v5.1 and up
@@ -12990,7 +12990,7 @@ function Invoke-ADCUpdateAuthenticationoauthidpprofile {
             if ($PSBoundParameters.ContainsKey('sendpassword')) { $Payload.Add('sendpassword', $sendpassword) }
  
             if ($PSCmdlet.ShouldProcess("authenticationoauthidpprofile", "Update Authentication configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -Type authenticationoauthidpprofile -Payload $Payload -GetWarning
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -NitroPath nitro/v1/config -Type authenticationoauthidpprofile -Payload $Payload -GetWarning
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 if ($PSBoundParameters.ContainsKey('PassThru')) {
@@ -13051,7 +13051,7 @@ function Invoke-ADCUnsetAuthenticationoauthidpprofile {
         Invoke-ADCUnsetAuthenticationoauthidpprofile -name <string>
     .NOTES
         File Name : Invoke-ADCUnsetAuthenticationoauthidpprofile
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/authentication/authenticationoauthidpprofile
         Requires  : PowerShell v5.1 and up
@@ -13117,7 +13117,7 @@ function Invoke-ADCUnsetAuthenticationoauthidpprofile {
             if ($PSBoundParameters.ContainsKey('attributes')) { $Payload.Add('attributes', $attributes) }
             if ($PSBoundParameters.ContainsKey('sendpassword')) { $Payload.Add('sendpassword', $sendpassword) }
             if ($PSCmdlet.ShouldProcess("$name", "Unset Authentication configuration Object")) {
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -Type authenticationoauthidpprofile -Action unset -Payload $Payload -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -Type authenticationoauthidpprofile -NitroPath nitro/v1/config -Action unset -Payload $Payload -GetWarning
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $response
@@ -13161,7 +13161,7 @@ function Invoke-ADCGetAuthenticationoauthidpprofile {
         Invoke-ADCGetAuthenticationoauthidpprofile -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetAuthenticationoauthidpprofile
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/authentication/authenticationoauthidpprofile/
         Requires  : PowerShell v5.1 and up
@@ -13203,21 +13203,21 @@ function Invoke-ADCGetAuthenticationoauthidpprofile {
             if ( $PsCmdlet.ParameterSetName -eq 'Getall' ) {
                 $Query = @{ }
                 Write-Verbose "Retrieving all authenticationoauthidpprofile objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationoauthidpprofile -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationoauthidpprofile -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
                 if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for authenticationoauthidpprofile objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationoauthidpprofile -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationoauthidpprofile -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving authenticationoauthidpprofile objects by arguments"
                 $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationoauthidpprofile -Arguments $Arguments -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationoauthidpprofile -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving authenticationoauthidpprofile configuration for property 'name'"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationoauthidpprofile -Resource $name -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationoauthidpprofile -NitroPath nitro/v1/config -Resource $name -Summary:$ViewSummary -Filter $Filter -GetWarning
             } else {
                 Write-Verbose "Retrieving authenticationoauthidpprofile configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationoauthidpprofile -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationoauthidpprofile -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -13255,7 +13255,7 @@ function Invoke-ADCAddAuthenticationpolicy {
         Invoke-ADCAddAuthenticationpolicy -name <string> -rule <string> -action <string>
     .NOTES
         File Name : Invoke-ADCAddAuthenticationpolicy
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/authentication/authenticationpolicy/
         Requires  : PowerShell v5.1 and up
@@ -13305,7 +13305,7 @@ function Invoke-ADCAddAuthenticationpolicy {
             if ($PSBoundParameters.ContainsKey('logaction')) { $Payload.Add('logaction', $logaction) }
  
             if ($PSCmdlet.ShouldProcess("authenticationpolicy", "Add Authentication configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -Type authenticationpolicy -Payload $Payload -GetWarning
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -NitroPath nitro/v1/config -Type authenticationpolicy -Payload $Payload -GetWarning
                 #HTTP Status Code on Success: 201 Created
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 if ($PSBoundParameters.ContainsKey('PassThru')) {
@@ -13338,7 +13338,7 @@ function Invoke-ADCDeleteAuthenticationpolicy {
         Invoke-ADCDeleteAuthenticationpolicy -name <string>
     .NOTES
         File Name : Invoke-ADCDeleteAuthenticationpolicy
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/authentication/authenticationpolicy/
         Requires  : PowerShell v5.1 and up
@@ -13366,7 +13366,7 @@ function Invoke-ADCDeleteAuthenticationpolicy {
             }
 
             if ($PSCmdlet.ShouldProcess("$name", "Delete Authentication configuration Object")) {
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type authenticationpolicy -Resource $name -Arguments $Arguments
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type authenticationpolicy -NitroPath nitro/v1/config -Resource $name -Arguments $Arguments
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $response
@@ -13406,7 +13406,7 @@ function Invoke-ADCUpdateAuthenticationpolicy {
         Invoke-ADCUpdateAuthenticationpolicy -name <string>
     .NOTES
         File Name : Invoke-ADCUpdateAuthenticationpolicy
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/authentication/authenticationpolicy/
         Requires  : PowerShell v5.1 and up
@@ -13454,7 +13454,7 @@ function Invoke-ADCUpdateAuthenticationpolicy {
             if ($PSBoundParameters.ContainsKey('logaction')) { $Payload.Add('logaction', $logaction) }
  
             if ($PSCmdlet.ShouldProcess("authenticationpolicy", "Update Authentication configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -Type authenticationpolicy -Payload $Payload -GetWarning
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -NitroPath nitro/v1/config -Type authenticationpolicy -Payload $Payload -GetWarning
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 if ($PSBoundParameters.ContainsKey('PassThru')) {
@@ -13493,7 +13493,7 @@ function Invoke-ADCUnsetAuthenticationpolicy {
         Invoke-ADCUnsetAuthenticationpolicy -name <string>
     .NOTES
         File Name : Invoke-ADCUnsetAuthenticationpolicy
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/authentication/authenticationpolicy
         Requires  : PowerShell v5.1 and up
@@ -13531,7 +13531,7 @@ function Invoke-ADCUnsetAuthenticationpolicy {
             if ($PSBoundParameters.ContainsKey('comment')) { $Payload.Add('comment', $comment) }
             if ($PSBoundParameters.ContainsKey('logaction')) { $Payload.Add('logaction', $logaction) }
             if ($PSCmdlet.ShouldProcess("$name", "Unset Authentication configuration Object")) {
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -Type authenticationpolicy -Action unset -Payload $Payload -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -Type authenticationpolicy -NitroPath nitro/v1/config -Action unset -Payload $Payload -GetWarning
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $response
@@ -13563,7 +13563,7 @@ function Invoke-ADCRenameAuthenticationpolicy {
         Invoke-ADCRenameAuthenticationpolicy -name <string> -newname <string>
     .NOTES
         File Name : Invoke-ADCRenameAuthenticationpolicy
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/authentication/authenticationpolicy/
         Requires  : PowerShell v5.1 and up
@@ -13602,7 +13602,7 @@ function Invoke-ADCRenameAuthenticationpolicy {
 
  
             if ($PSCmdlet.ShouldProcess("authenticationpolicy", "Rename Authentication configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -Type authenticationpolicy -Action rename -Payload $Payload -GetWarning
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -NitroPath nitro/v1/config -Type authenticationpolicy -Action rename -Payload $Payload -GetWarning
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 if ($PSBoundParameters.ContainsKey('PassThru')) {
@@ -13652,7 +13652,7 @@ function Invoke-ADCGetAuthenticationpolicy {
         Invoke-ADCGetAuthenticationpolicy -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetAuthenticationpolicy
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/authentication/authenticationpolicy/
         Requires  : PowerShell v5.1 and up
@@ -13693,21 +13693,21 @@ function Invoke-ADCGetAuthenticationpolicy {
             if ( $PsCmdlet.ParameterSetName -eq 'Getall' ) {
                 $Query = @{ }
                 Write-Verbose "Retrieving all authenticationpolicy objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationpolicy -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationpolicy -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
                 if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for authenticationpolicy objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationpolicy -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationpolicy -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving authenticationpolicy objects by arguments"
                 $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationpolicy -Arguments $Arguments -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationpolicy -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving authenticationpolicy configuration for property 'name'"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationpolicy -Resource $name -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationpolicy -NitroPath nitro/v1/config -Resource $name -Summary:$ViewSummary -Filter $Filter -GetWarning
             } else {
                 Write-Verbose "Retrieving authenticationpolicy configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationpolicy -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationpolicy -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -13743,7 +13743,7 @@ function Invoke-ADCAddAuthenticationpolicylabel {
         Invoke-ADCAddAuthenticationpolicylabel -labelname <string>
     .NOTES
         File Name : Invoke-ADCAddAuthenticationpolicylabel
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/authentication/authenticationpolicylabel/
         Requires  : PowerShell v5.1 and up
@@ -13785,7 +13785,7 @@ function Invoke-ADCAddAuthenticationpolicylabel {
             if ($PSBoundParameters.ContainsKey('loginschema')) { $Payload.Add('loginschema', $loginschema) }
  
             if ($PSCmdlet.ShouldProcess("authenticationpolicylabel", "Add Authentication configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -Type authenticationpolicylabel -Payload $Payload -GetWarning
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -NitroPath nitro/v1/config -Type authenticationpolicylabel -Payload $Payload -GetWarning
                 #HTTP Status Code on Success: 201 Created
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 if ($PSBoundParameters.ContainsKey('PassThru')) {
@@ -13818,7 +13818,7 @@ function Invoke-ADCDeleteAuthenticationpolicylabel {
         Invoke-ADCDeleteAuthenticationpolicylabel -labelname <string>
     .NOTES
         File Name : Invoke-ADCDeleteAuthenticationpolicylabel
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/authentication/authenticationpolicylabel/
         Requires  : PowerShell v5.1 and up
@@ -13846,7 +13846,7 @@ function Invoke-ADCDeleteAuthenticationpolicylabel {
             }
 
             if ($PSCmdlet.ShouldProcess("$labelname", "Delete Authentication configuration Object")) {
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type authenticationpolicylabel -Resource $labelname -Arguments $Arguments
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type authenticationpolicylabel -NitroPath nitro/v1/config -Resource $labelname -Arguments $Arguments
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $response
@@ -13879,7 +13879,7 @@ function Invoke-ADCRenameAuthenticationpolicylabel {
         Invoke-ADCRenameAuthenticationpolicylabel -labelname <string> -newname <string>
     .NOTES
         File Name : Invoke-ADCRenameAuthenticationpolicylabel
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/authentication/authenticationpolicylabel/
         Requires  : PowerShell v5.1 and up
@@ -13917,7 +13917,7 @@ function Invoke-ADCRenameAuthenticationpolicylabel {
 
  
             if ($PSCmdlet.ShouldProcess("authenticationpolicylabel", "Rename Authentication configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -Type authenticationpolicylabel -Action rename -Payload $Payload -GetWarning
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -NitroPath nitro/v1/config -Type authenticationpolicylabel -Action rename -Payload $Payload -GetWarning
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 if ($PSBoundParameters.ContainsKey('PassThru')) {
@@ -13967,7 +13967,7 @@ function Invoke-ADCGetAuthenticationpolicylabel {
         Invoke-ADCGetAuthenticationpolicylabel -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetAuthenticationpolicylabel
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/authentication/authenticationpolicylabel/
         Requires  : PowerShell v5.1 and up
@@ -14007,21 +14007,21 @@ function Invoke-ADCGetAuthenticationpolicylabel {
             if ( $PsCmdlet.ParameterSetName -eq 'Getall' ) {
                 $Query = @{ }
                 Write-Verbose "Retrieving all authenticationpolicylabel objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationpolicylabel -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationpolicylabel -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
                 if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for authenticationpolicylabel objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationpolicylabel -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationpolicylabel -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving authenticationpolicylabel objects by arguments"
                 $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationpolicylabel -Arguments $Arguments -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationpolicylabel -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving authenticationpolicylabel configuration for property 'labelname'"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationpolicylabel -Resource $labelname -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationpolicylabel -NitroPath nitro/v1/config -Resource $labelname -Summary:$ViewSummary -Filter $Filter -GetWarning
             } else {
                 Write-Verbose "Retrieving authenticationpolicylabel configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationpolicylabel -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationpolicylabel -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -14056,7 +14056,7 @@ function Invoke-ADCAddAuthenticationpolicylabelauthenticationpolicybinding {
         Invoke-ADCAddAuthenticationpolicylabelauthenticationpolicybinding -labelname <string> -policyname <string> -priority <double>
     .NOTES
         File Name : Invoke-ADCAddAuthenticationpolicylabelauthenticationpolicybinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/authentication/authenticationpolicylabel_authenticationpolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -14102,7 +14102,7 @@ function Invoke-ADCAddAuthenticationpolicylabelauthenticationpolicybinding {
             if ($PSBoundParameters.ContainsKey('nextfactor')) { $Payload.Add('nextfactor', $nextfactor) }
  
             if ($PSCmdlet.ShouldProcess("authenticationpolicylabel_authenticationpolicy_binding", "Add Authentication configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -Type authenticationpolicylabel_authenticationpolicy_binding -Payload $Payload -GetWarning
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -NitroPath nitro/v1/config -Type authenticationpolicylabel_authenticationpolicy_binding -Payload $Payload -GetWarning
                 #HTTP Status Code on Success: 201 Created
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 if ($PSBoundParameters.ContainsKey('PassThru')) {
@@ -14136,7 +14136,7 @@ function Invoke-ADCDeleteAuthenticationpolicylabelauthenticationpolicybinding {
         Invoke-ADCDeleteAuthenticationpolicylabelauthenticationpolicybinding -labelname <string>
     .NOTES
         File Name : Invoke-ADCDeleteAuthenticationpolicylabelauthenticationpolicybinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/authentication/authenticationpolicylabel_authenticationpolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -14169,7 +14169,7 @@ function Invoke-ADCDeleteAuthenticationpolicylabelauthenticationpolicybinding {
             if ($PSBoundParameters.ContainsKey('policyname')) { $Arguments.Add('policyname', $policyname) }
             if ($PSBoundParameters.ContainsKey('priority')) { $Arguments.Add('priority', $priority) }
             if ($PSCmdlet.ShouldProcess("$labelname", "Delete Authentication configuration Object")) {
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type authenticationpolicylabel_authenticationpolicy_binding -Resource $labelname -Arguments $Arguments
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type authenticationpolicylabel_authenticationpolicy_binding -NitroPath nitro/v1/config -Resource $labelname -Arguments $Arguments
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $response
@@ -14213,7 +14213,7 @@ function Invoke-ADCGetAuthenticationpolicylabelauthenticationpolicybinding {
         Invoke-ADCGetAuthenticationpolicylabelauthenticationpolicybinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetAuthenticationpolicylabelauthenticationpolicybinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/authentication/authenticationpolicylabel_authenticationpolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -14250,21 +14250,21 @@ function Invoke-ADCGetAuthenticationpolicylabelauthenticationpolicybinding {
                     bulkbindings = 'yes'
                 }
                 Write-Verbose "Retrieving all authenticationpolicylabel_authenticationpolicy_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationpolicylabel_authenticationpolicy_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationpolicylabel_authenticationpolicy_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
                 if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for authenticationpolicylabel_authenticationpolicy_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationpolicylabel_authenticationpolicy_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationpolicylabel_authenticationpolicy_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving authenticationpolicylabel_authenticationpolicy_binding objects by arguments"
                 $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationpolicylabel_authenticationpolicy_binding -Arguments $Arguments -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationpolicylabel_authenticationpolicy_binding -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving authenticationpolicylabel_authenticationpolicy_binding configuration for property 'labelname'"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationpolicylabel_authenticationpolicy_binding -Resource $labelname -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationpolicylabel_authenticationpolicy_binding -NitroPath nitro/v1/config -Resource $labelname -Summary:$ViewSummary -Filter $Filter -GetWarning
             } else {
                 Write-Verbose "Retrieving authenticationpolicylabel_authenticationpolicy_binding configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationpolicylabel_authenticationpolicy_binding -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationpolicylabel_authenticationpolicy_binding -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -14304,7 +14304,7 @@ function Invoke-ADCGetAuthenticationpolicylabelbinding {
         Invoke-ADCGetAuthenticationpolicylabelbinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetAuthenticationpolicylabelbinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/authentication/authenticationpolicylabel_binding/
         Requires  : PowerShell v5.1 and up
@@ -14338,21 +14338,21 @@ function Invoke-ADCGetAuthenticationpolicylabelbinding {
                     bulkbindings = 'yes'
                 }
                 Write-Verbose "Retrieving all authenticationpolicylabel_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationpolicylabel_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationpolicylabel_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
                 if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for authenticationpolicylabel_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationpolicylabel_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationpolicylabel_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving authenticationpolicylabel_binding objects by arguments"
                 $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationpolicylabel_binding -Arguments $Arguments -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationpolicylabel_binding -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving authenticationpolicylabel_binding configuration for property 'labelname'"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationpolicylabel_binding -Resource $labelname -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationpolicylabel_binding -NitroPath nitro/v1/config -Resource $labelname -Summary:$ViewSummary -Filter $Filter -GetWarning
             } else {
                 Write-Verbose "Retrieving authenticationpolicylabel_binding configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationpolicylabel_binding -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationpolicylabel_binding -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -14394,7 +14394,7 @@ function Invoke-ADCGetAuthenticationpolicyauthenticationpolicylabelbinding {
         Invoke-ADCGetAuthenticationpolicyauthenticationpolicylabelbinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetAuthenticationpolicyauthenticationpolicylabelbinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/authentication/authenticationpolicy_authenticationpolicylabel_binding/
         Requires  : PowerShell v5.1 and up
@@ -14432,21 +14432,21 @@ function Invoke-ADCGetAuthenticationpolicyauthenticationpolicylabelbinding {
                     bulkbindings = 'yes'
                 }
                 Write-Verbose "Retrieving all authenticationpolicy_authenticationpolicylabel_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationpolicy_authenticationpolicylabel_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationpolicy_authenticationpolicylabel_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
                 if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for authenticationpolicy_authenticationpolicylabel_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationpolicy_authenticationpolicylabel_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationpolicy_authenticationpolicylabel_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving authenticationpolicy_authenticationpolicylabel_binding objects by arguments"
                 $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationpolicy_authenticationpolicylabel_binding -Arguments $Arguments -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationpolicy_authenticationpolicylabel_binding -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving authenticationpolicy_authenticationpolicylabel_binding configuration for property 'name'"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationpolicy_authenticationpolicylabel_binding -Resource $name -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationpolicy_authenticationpolicylabel_binding -NitroPath nitro/v1/config -Resource $name -Summary:$ViewSummary -Filter $Filter -GetWarning
             } else {
                 Write-Verbose "Retrieving authenticationpolicy_authenticationpolicylabel_binding configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationpolicy_authenticationpolicylabel_binding -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationpolicy_authenticationpolicylabel_binding -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -14488,7 +14488,7 @@ function Invoke-ADCGetAuthenticationpolicyauthenticationvserverbinding {
         Invoke-ADCGetAuthenticationpolicyauthenticationvserverbinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetAuthenticationpolicyauthenticationvserverbinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/authentication/authenticationpolicy_authenticationvserver_binding/
         Requires  : PowerShell v5.1 and up
@@ -14526,21 +14526,21 @@ function Invoke-ADCGetAuthenticationpolicyauthenticationvserverbinding {
                     bulkbindings = 'yes'
                 }
                 Write-Verbose "Retrieving all authenticationpolicy_authenticationvserver_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationpolicy_authenticationvserver_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationpolicy_authenticationvserver_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
                 if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for authenticationpolicy_authenticationvserver_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationpolicy_authenticationvserver_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationpolicy_authenticationvserver_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving authenticationpolicy_authenticationvserver_binding objects by arguments"
                 $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationpolicy_authenticationvserver_binding -Arguments $Arguments -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationpolicy_authenticationvserver_binding -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving authenticationpolicy_authenticationvserver_binding configuration for property 'name'"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationpolicy_authenticationvserver_binding -Resource $name -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationpolicy_authenticationvserver_binding -NitroPath nitro/v1/config -Resource $name -Summary:$ViewSummary -Filter $Filter -GetWarning
             } else {
                 Write-Verbose "Retrieving authenticationpolicy_authenticationvserver_binding configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationpolicy_authenticationvserver_binding -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationpolicy_authenticationvserver_binding -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -14580,7 +14580,7 @@ function Invoke-ADCGetAuthenticationpolicybinding {
         Invoke-ADCGetAuthenticationpolicybinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetAuthenticationpolicybinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/authentication/authenticationpolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -14615,21 +14615,21 @@ function Invoke-ADCGetAuthenticationpolicybinding {
                     bulkbindings = 'yes'
                 }
                 Write-Verbose "Retrieving all authenticationpolicy_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationpolicy_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationpolicy_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
                 if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for authenticationpolicy_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationpolicy_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationpolicy_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving authenticationpolicy_binding objects by arguments"
                 $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationpolicy_binding -Arguments $Arguments -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationpolicy_binding -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving authenticationpolicy_binding configuration for property 'name'"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationpolicy_binding -Resource $name -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationpolicy_binding -NitroPath nitro/v1/config -Resource $name -Summary:$ViewSummary -Filter $Filter -GetWarning
             } else {
                 Write-Verbose "Retrieving authenticationpolicy_binding configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationpolicy_binding -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationpolicy_binding -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -14671,7 +14671,7 @@ function Invoke-ADCGetAuthenticationpolicysystemglobalbinding {
         Invoke-ADCGetAuthenticationpolicysystemglobalbinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetAuthenticationpolicysystemglobalbinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/authentication/authenticationpolicy_systemglobal_binding/
         Requires  : PowerShell v5.1 and up
@@ -14709,21 +14709,21 @@ function Invoke-ADCGetAuthenticationpolicysystemglobalbinding {
                     bulkbindings = 'yes'
                 }
                 Write-Verbose "Retrieving all authenticationpolicy_systemglobal_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationpolicy_systemglobal_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationpolicy_systemglobal_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
                 if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for authenticationpolicy_systemglobal_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationpolicy_systemglobal_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationpolicy_systemglobal_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving authenticationpolicy_systemglobal_binding objects by arguments"
                 $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationpolicy_systemglobal_binding -Arguments $Arguments -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationpolicy_systemglobal_binding -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving authenticationpolicy_systemglobal_binding configuration for property 'name'"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationpolicy_systemglobal_binding -Resource $name -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationpolicy_systemglobal_binding -NitroPath nitro/v1/config -Resource $name -Summary:$ViewSummary -Filter $Filter -GetWarning
             } else {
                 Write-Verbose "Retrieving authenticationpolicy_systemglobal_binding configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationpolicy_systemglobal_binding -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationpolicy_systemglobal_binding -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -14765,7 +14765,7 @@ function Invoke-ADCAddAuthenticationpushservice {
         Invoke-ADCAddAuthenticationpushservice -name <string>
     .NOTES
         File Name : Invoke-ADCAddAuthenticationpushservice
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/authentication/authenticationpushservice/
         Requires  : PowerShell v5.1 and up
@@ -14814,7 +14814,7 @@ function Invoke-ADCAddAuthenticationpushservice {
             if ($PSBoundParameters.ContainsKey('refreshinterval')) { $Payload.Add('refreshinterval', $refreshinterval) }
  
             if ($PSCmdlet.ShouldProcess("authenticationpushservice", "Add Authentication configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -Type authenticationpushservice -Payload $Payload -GetWarning
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -NitroPath nitro/v1/config -Type authenticationpushservice -Payload $Payload -GetWarning
                 #HTTP Status Code on Success: 201 Created
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 if ($PSBoundParameters.ContainsKey('PassThru')) {
@@ -14849,7 +14849,7 @@ function Invoke-ADCDeleteAuthenticationpushservice {
         Invoke-ADCDeleteAuthenticationpushservice -name <string>
     .NOTES
         File Name : Invoke-ADCDeleteAuthenticationpushservice
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/authentication/authenticationpushservice/
         Requires  : PowerShell v5.1 and up
@@ -14877,7 +14877,7 @@ function Invoke-ADCDeleteAuthenticationpushservice {
             }
 
             if ($PSCmdlet.ShouldProcess("$name", "Delete Authentication configuration Object")) {
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type authenticationpushservice -Resource $name -Arguments $Arguments
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type authenticationpushservice -NitroPath nitro/v1/config -Resource $name -Arguments $Arguments
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $response
@@ -14921,7 +14921,7 @@ function Invoke-ADCUpdateAuthenticationpushservice {
         Invoke-ADCUpdateAuthenticationpushservice -name <string>
     .NOTES
         File Name : Invoke-ADCUpdateAuthenticationpushservice
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/authentication/authenticationpushservice/
         Requires  : PowerShell v5.1 and up
@@ -14970,7 +14970,7 @@ function Invoke-ADCUpdateAuthenticationpushservice {
             if ($PSBoundParameters.ContainsKey('refreshinterval')) { $Payload.Add('refreshinterval', $refreshinterval) }
  
             if ($PSCmdlet.ShouldProcess("authenticationpushservice", "Update Authentication configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -Type authenticationpushservice -Payload $Payload -GetWarning
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -NitroPath nitro/v1/config -Type authenticationpushservice -Payload $Payload -GetWarning
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 if ($PSBoundParameters.ContainsKey('PassThru')) {
@@ -15005,7 +15005,7 @@ function Invoke-ADCUnsetAuthenticationpushservice {
         Invoke-ADCUnsetAuthenticationpushservice -name <string>
     .NOTES
         File Name : Invoke-ADCUnsetAuthenticationpushservice
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/authentication/authenticationpushservice
         Requires  : PowerShell v5.1 and up
@@ -15038,7 +15038,7 @@ function Invoke-ADCUnsetAuthenticationpushservice {
             }
             if ($PSBoundParameters.ContainsKey('refreshinterval')) { $Payload.Add('refreshinterval', $refreshinterval) }
             if ($PSCmdlet.ShouldProcess("$name", "Unset Authentication configuration Object")) {
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -Type authenticationpushservice -Action unset -Payload $Payload -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -Type authenticationpushservice -NitroPath nitro/v1/config -Action unset -Payload $Payload -GetWarning
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $response
@@ -15083,7 +15083,7 @@ function Invoke-ADCGetAuthenticationpushservice {
         Invoke-ADCGetAuthenticationpushservice -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetAuthenticationpushservice
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/authentication/authenticationpushservice/
         Requires  : PowerShell v5.1 and up
@@ -15125,21 +15125,21 @@ function Invoke-ADCGetAuthenticationpushservice {
             if ( $PsCmdlet.ParameterSetName -eq 'Getall' ) {
                 $Query = @{ }
                 Write-Verbose "Retrieving all authenticationpushservice objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationpushservice -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationpushservice -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
                 if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for authenticationpushservice objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationpushservice -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationpushservice -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving authenticationpushservice objects by arguments"
                 $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationpushservice -Arguments $Arguments -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationpushservice -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving authenticationpushservice configuration for property 'name'"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationpushservice -Resource $name -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationpushservice -NitroPath nitro/v1/config -Resource $name -Summary:$ViewSummary -Filter $Filter -GetWarning
             } else {
                 Write-Verbose "Retrieving authenticationpushservice configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationpushservice -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationpushservice -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -15241,7 +15241,7 @@ function Invoke-ADCAddAuthenticationradiusaction {
         Invoke-ADCAddAuthenticationradiusaction -name <string> -radkey <string>
     .NOTES
         File Name : Invoke-ADCAddAuthenticationradiusaction
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/authentication/authenticationradiusaction/
         Requires  : PowerShell v5.1 and up
@@ -15351,7 +15351,7 @@ function Invoke-ADCAddAuthenticationradiusaction {
             if ($PSBoundParameters.ContainsKey('tunnelendpointclientip')) { $Payload.Add('tunnelendpointclientip', $tunnelendpointclientip) }
  
             if ($PSCmdlet.ShouldProcess("authenticationradiusaction", "Add Authentication configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -Type authenticationradiusaction -Payload $Payload -GetWarning
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -NitroPath nitro/v1/config -Type authenticationradiusaction -Payload $Payload -GetWarning
                 #HTTP Status Code on Success: 201 Created
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 if ($PSBoundParameters.ContainsKey('PassThru')) {
@@ -15385,7 +15385,7 @@ function Invoke-ADCDeleteAuthenticationradiusaction {
         Invoke-ADCDeleteAuthenticationradiusaction -name <string>
     .NOTES
         File Name : Invoke-ADCDeleteAuthenticationradiusaction
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/authentication/authenticationradiusaction/
         Requires  : PowerShell v5.1 and up
@@ -15413,7 +15413,7 @@ function Invoke-ADCDeleteAuthenticationradiusaction {
             }
 
             if ($PSCmdlet.ShouldProcess("$name", "Delete Authentication configuration Object")) {
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type authenticationradiusaction -Resource $name -Arguments $Arguments
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type authenticationradiusaction -NitroPath nitro/v1/config -Resource $name -Arguments $Arguments
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $response
@@ -15517,7 +15517,7 @@ function Invoke-ADCUpdateAuthenticationradiusaction {
         Invoke-ADCUpdateAuthenticationradiusaction -name <string>
     .NOTES
         File Name : Invoke-ADCUpdateAuthenticationradiusaction
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/authentication/authenticationradiusaction/
         Requires  : PowerShell v5.1 and up
@@ -15626,7 +15626,7 @@ function Invoke-ADCUpdateAuthenticationradiusaction {
             if ($PSBoundParameters.ContainsKey('tunnelendpointclientip')) { $Payload.Add('tunnelendpointclientip', $tunnelendpointclientip) }
  
             if ($PSCmdlet.ShouldProcess("authenticationradiusaction", "Update Authentication configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -Type authenticationradiusaction -Payload $Payload -GetWarning
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -NitroPath nitro/v1/config -Type authenticationradiusaction -Payload $Payload -GetWarning
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 if ($PSBoundParameters.ContainsKey('PassThru')) {
@@ -15707,7 +15707,7 @@ function Invoke-ADCUnsetAuthenticationradiusaction {
         Invoke-ADCUnsetAuthenticationradiusaction -name <string>
     .NOTES
         File Name : Invoke-ADCUnsetAuthenticationradiusaction
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/authentication/authenticationradiusaction
         Requires  : PowerShell v5.1 and up
@@ -15793,7 +15793,7 @@ function Invoke-ADCUnsetAuthenticationradiusaction {
             if ($PSBoundParameters.ContainsKey('authentication')) { $Payload.Add('authentication', $authentication) }
             if ($PSBoundParameters.ContainsKey('tunnelendpointclientip')) { $Payload.Add('tunnelendpointclientip', $tunnelendpointclientip) }
             if ($PSCmdlet.ShouldProcess("$name", "Unset Authentication configuration Object")) {
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -Type authenticationradiusaction -Action unset -Payload $Payload -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -Type authenticationradiusaction -NitroPath nitro/v1/config -Action unset -Payload $Payload -GetWarning
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $response
@@ -15838,7 +15838,7 @@ function Invoke-ADCGetAuthenticationradiusaction {
         Invoke-ADCGetAuthenticationradiusaction -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetAuthenticationradiusaction
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/authentication/authenticationradiusaction/
         Requires  : PowerShell v5.1 and up
@@ -15879,21 +15879,21 @@ function Invoke-ADCGetAuthenticationradiusaction {
             if ( $PsCmdlet.ParameterSetName -eq 'Getall' ) {
                 $Query = @{ }
                 Write-Verbose "Retrieving all authenticationradiusaction objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationradiusaction -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationradiusaction -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
                 if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for authenticationradiusaction objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationradiusaction -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationradiusaction -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving authenticationradiusaction objects by arguments"
                 $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationradiusaction -Arguments $Arguments -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationradiusaction -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving authenticationradiusaction configuration for property 'name'"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationradiusaction -Resource $name -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationradiusaction -NitroPath nitro/v1/config -Resource $name -Summary:$ViewSummary -Filter $Filter -GetWarning
             } else {
                 Write-Verbose "Retrieving authenticationradiusaction configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationradiusaction -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationradiusaction -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -15926,7 +15926,7 @@ function Invoke-ADCAddAuthenticationradiuspolicy {
         Invoke-ADCAddAuthenticationradiuspolicy -name <string> -rule <string>
     .NOTES
         File Name : Invoke-ADCAddAuthenticationradiuspolicy
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/authentication/authenticationradiuspolicy/
         Requires  : PowerShell v5.1 and up
@@ -15967,7 +15967,7 @@ function Invoke-ADCAddAuthenticationradiuspolicy {
             if ($PSBoundParameters.ContainsKey('reqaction')) { $Payload.Add('reqaction', $reqaction) }
  
             if ($PSCmdlet.ShouldProcess("authenticationradiuspolicy", "Add Authentication configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -Type authenticationradiuspolicy -Payload $Payload -GetWarning
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -NitroPath nitro/v1/config -Type authenticationradiuspolicy -Payload $Payload -GetWarning
                 #HTTP Status Code on Success: 201 Created
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 if ($PSBoundParameters.ContainsKey('PassThru')) {
@@ -16000,7 +16000,7 @@ function Invoke-ADCDeleteAuthenticationradiuspolicy {
         Invoke-ADCDeleteAuthenticationradiuspolicy -name <string>
     .NOTES
         File Name : Invoke-ADCDeleteAuthenticationradiuspolicy
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/authentication/authenticationradiuspolicy/
         Requires  : PowerShell v5.1 and up
@@ -16028,7 +16028,7 @@ function Invoke-ADCDeleteAuthenticationradiuspolicy {
             }
 
             if ($PSCmdlet.ShouldProcess("$name", "Delete Authentication configuration Object")) {
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type authenticationradiuspolicy -Resource $name -Arguments $Arguments
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type authenticationradiuspolicy -NitroPath nitro/v1/config -Resource $name -Arguments $Arguments
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $response
@@ -16063,7 +16063,7 @@ function Invoke-ADCUpdateAuthenticationradiuspolicy {
         Invoke-ADCUpdateAuthenticationradiuspolicy -name <string>
     .NOTES
         File Name : Invoke-ADCUpdateAuthenticationradiuspolicy
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/authentication/authenticationradiuspolicy/
         Requires  : PowerShell v5.1 and up
@@ -16103,7 +16103,7 @@ function Invoke-ADCUpdateAuthenticationradiuspolicy {
             if ($PSBoundParameters.ContainsKey('reqaction')) { $Payload.Add('reqaction', $reqaction) }
  
             if ($PSCmdlet.ShouldProcess("authenticationradiuspolicy", "Update Authentication configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -Type authenticationradiuspolicy -Payload $Payload -GetWarning
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -NitroPath nitro/v1/config -Type authenticationradiuspolicy -Payload $Payload -GetWarning
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 if ($PSBoundParameters.ContainsKey('PassThru')) {
@@ -16140,7 +16140,7 @@ function Invoke-ADCUnsetAuthenticationradiuspolicy {
         Invoke-ADCUnsetAuthenticationradiuspolicy -name <string>
     .NOTES
         File Name : Invoke-ADCUnsetAuthenticationradiuspolicy
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/authentication/authenticationradiuspolicy
         Requires  : PowerShell v5.1 and up
@@ -16175,7 +16175,7 @@ function Invoke-ADCUnsetAuthenticationradiuspolicy {
             if ($PSBoundParameters.ContainsKey('rule')) { $Payload.Add('rule', $rule) }
             if ($PSBoundParameters.ContainsKey('reqaction')) { $Payload.Add('reqaction', $reqaction) }
             if ($PSCmdlet.ShouldProcess("$name", "Unset Authentication configuration Object")) {
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -Type authenticationradiuspolicy -Action unset -Payload $Payload -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -Type authenticationradiuspolicy -NitroPath nitro/v1/config -Action unset -Payload $Payload -GetWarning
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $response
@@ -16220,7 +16220,7 @@ function Invoke-ADCGetAuthenticationradiuspolicy {
         Invoke-ADCGetAuthenticationradiuspolicy -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetAuthenticationradiuspolicy
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/authentication/authenticationradiuspolicy/
         Requires  : PowerShell v5.1 and up
@@ -16261,21 +16261,21 @@ function Invoke-ADCGetAuthenticationradiuspolicy {
             if ( $PsCmdlet.ParameterSetName -eq 'Getall' ) {
                 $Query = @{ }
                 Write-Verbose "Retrieving all authenticationradiuspolicy objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationradiuspolicy -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationradiuspolicy -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
                 if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for authenticationradiuspolicy objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationradiuspolicy -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationradiuspolicy -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving authenticationradiuspolicy objects by arguments"
                 $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationradiuspolicy -Arguments $Arguments -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationradiuspolicy -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving authenticationradiuspolicy configuration for property 'name'"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationradiuspolicy -Resource $name -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationradiuspolicy -NitroPath nitro/v1/config -Resource $name -Summary:$ViewSummary -Filter $Filter -GetWarning
             } else {
                 Write-Verbose "Retrieving authenticationradiuspolicy configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationradiuspolicy -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationradiuspolicy -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -16317,7 +16317,7 @@ function Invoke-ADCGetAuthenticationradiuspolicyauthenticationvserverbinding {
         Invoke-ADCGetAuthenticationradiuspolicyauthenticationvserverbinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetAuthenticationradiuspolicyauthenticationvserverbinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/authentication/authenticationradiuspolicy_authenticationvserver_binding/
         Requires  : PowerShell v5.1 and up
@@ -16355,21 +16355,21 @@ function Invoke-ADCGetAuthenticationradiuspolicyauthenticationvserverbinding {
                     bulkbindings = 'yes'
                 }
                 Write-Verbose "Retrieving all authenticationradiuspolicy_authenticationvserver_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationradiuspolicy_authenticationvserver_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationradiuspolicy_authenticationvserver_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
                 if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for authenticationradiuspolicy_authenticationvserver_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationradiuspolicy_authenticationvserver_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationradiuspolicy_authenticationvserver_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving authenticationradiuspolicy_authenticationvserver_binding objects by arguments"
                 $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationradiuspolicy_authenticationvserver_binding -Arguments $Arguments -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationradiuspolicy_authenticationvserver_binding -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving authenticationradiuspolicy_authenticationvserver_binding configuration for property 'name'"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationradiuspolicy_authenticationvserver_binding -Resource $name -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationradiuspolicy_authenticationvserver_binding -NitroPath nitro/v1/config -Resource $name -Summary:$ViewSummary -Filter $Filter -GetWarning
             } else {
                 Write-Verbose "Retrieving authenticationradiuspolicy_authenticationvserver_binding configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationradiuspolicy_authenticationvserver_binding -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationradiuspolicy_authenticationvserver_binding -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -16409,7 +16409,7 @@ function Invoke-ADCGetAuthenticationradiuspolicybinding {
         Invoke-ADCGetAuthenticationradiuspolicybinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetAuthenticationradiuspolicybinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/authentication/authenticationradiuspolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -16444,21 +16444,21 @@ function Invoke-ADCGetAuthenticationradiuspolicybinding {
                     bulkbindings = 'yes'
                 }
                 Write-Verbose "Retrieving all authenticationradiuspolicy_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationradiuspolicy_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationradiuspolicy_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
                 if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for authenticationradiuspolicy_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationradiuspolicy_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationradiuspolicy_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving authenticationradiuspolicy_binding objects by arguments"
                 $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationradiuspolicy_binding -Arguments $Arguments -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationradiuspolicy_binding -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving authenticationradiuspolicy_binding configuration for property 'name'"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationradiuspolicy_binding -Resource $name -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationradiuspolicy_binding -NitroPath nitro/v1/config -Resource $name -Summary:$ViewSummary -Filter $Filter -GetWarning
             } else {
                 Write-Verbose "Retrieving authenticationradiuspolicy_binding configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationradiuspolicy_binding -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationradiuspolicy_binding -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -16500,7 +16500,7 @@ function Invoke-ADCGetAuthenticationradiuspolicysystemglobalbinding {
         Invoke-ADCGetAuthenticationradiuspolicysystemglobalbinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetAuthenticationradiuspolicysystemglobalbinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/authentication/authenticationradiuspolicy_systemglobal_binding/
         Requires  : PowerShell v5.1 and up
@@ -16538,21 +16538,21 @@ function Invoke-ADCGetAuthenticationradiuspolicysystemglobalbinding {
                     bulkbindings = 'yes'
                 }
                 Write-Verbose "Retrieving all authenticationradiuspolicy_systemglobal_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationradiuspolicy_systemglobal_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationradiuspolicy_systemglobal_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
                 if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for authenticationradiuspolicy_systemglobal_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationradiuspolicy_systemglobal_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationradiuspolicy_systemglobal_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving authenticationradiuspolicy_systemglobal_binding objects by arguments"
                 $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationradiuspolicy_systemglobal_binding -Arguments $Arguments -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationradiuspolicy_systemglobal_binding -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving authenticationradiuspolicy_systemglobal_binding configuration for property 'name'"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationradiuspolicy_systemglobal_binding -Resource $name -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationradiuspolicy_systemglobal_binding -NitroPath nitro/v1/config -Resource $name -Summary:$ViewSummary -Filter $Filter -GetWarning
             } else {
                 Write-Verbose "Retrieving authenticationradiuspolicy_systemglobal_binding configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationradiuspolicy_systemglobal_binding -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationradiuspolicy_systemglobal_binding -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -16594,7 +16594,7 @@ function Invoke-ADCGetAuthenticationradiuspolicyvpnglobalbinding {
         Invoke-ADCGetAuthenticationradiuspolicyvpnglobalbinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetAuthenticationradiuspolicyvpnglobalbinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/authentication/authenticationradiuspolicy_vpnglobal_binding/
         Requires  : PowerShell v5.1 and up
@@ -16632,21 +16632,21 @@ function Invoke-ADCGetAuthenticationradiuspolicyvpnglobalbinding {
                     bulkbindings = 'yes'
                 }
                 Write-Verbose "Retrieving all authenticationradiuspolicy_vpnglobal_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationradiuspolicy_vpnglobal_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationradiuspolicy_vpnglobal_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
                 if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for authenticationradiuspolicy_vpnglobal_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationradiuspolicy_vpnglobal_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationradiuspolicy_vpnglobal_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving authenticationradiuspolicy_vpnglobal_binding objects by arguments"
                 $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationradiuspolicy_vpnglobal_binding -Arguments $Arguments -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationradiuspolicy_vpnglobal_binding -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving authenticationradiuspolicy_vpnglobal_binding configuration for property 'name'"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationradiuspolicy_vpnglobal_binding -Resource $name -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationradiuspolicy_vpnglobal_binding -NitroPath nitro/v1/config -Resource $name -Summary:$ViewSummary -Filter $Filter -GetWarning
             } else {
                 Write-Verbose "Retrieving authenticationradiuspolicy_vpnglobal_binding configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationradiuspolicy_vpnglobal_binding -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationradiuspolicy_vpnglobal_binding -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -16688,7 +16688,7 @@ function Invoke-ADCGetAuthenticationradiuspolicyvpnvserverbinding {
         Invoke-ADCGetAuthenticationradiuspolicyvpnvserverbinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetAuthenticationradiuspolicyvpnvserverbinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/authentication/authenticationradiuspolicy_vpnvserver_binding/
         Requires  : PowerShell v5.1 and up
@@ -16726,21 +16726,21 @@ function Invoke-ADCGetAuthenticationradiuspolicyvpnvserverbinding {
                     bulkbindings = 'yes'
                 }
                 Write-Verbose "Retrieving all authenticationradiuspolicy_vpnvserver_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationradiuspolicy_vpnvserver_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationradiuspolicy_vpnvserver_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
                 if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for authenticationradiuspolicy_vpnvserver_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationradiuspolicy_vpnvserver_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationradiuspolicy_vpnvserver_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving authenticationradiuspolicy_vpnvserver_binding objects by arguments"
                 $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationradiuspolicy_vpnvserver_binding -Arguments $Arguments -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationradiuspolicy_vpnvserver_binding -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving authenticationradiuspolicy_vpnvserver_binding configuration for property 'name'"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationradiuspolicy_vpnvserver_binding -Resource $name -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationradiuspolicy_vpnvserver_binding -NitroPath nitro/v1/config -Resource $name -Summary:$ViewSummary -Filter $Filter -GetWarning
             } else {
                 Write-Verbose "Retrieving authenticationradiuspolicy_vpnvserver_binding configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationradiuspolicy_vpnvserver_binding -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationradiuspolicy_vpnvserver_binding -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -16927,7 +16927,7 @@ function Invoke-ADCAddAuthenticationsamlaction {
         Invoke-ADCAddAuthenticationsamlaction -name <string>
     .NOTES
         File Name : Invoke-ADCAddAuthenticationsamlaction
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/authentication/authenticationsamlaction/
         Requires  : PowerShell v5.1 and up
@@ -17114,7 +17114,7 @@ function Invoke-ADCAddAuthenticationsamlaction {
             if ($PSBoundParameters.ContainsKey('storesamlresponse')) { $Payload.Add('storesamlresponse', $storesamlresponse) }
  
             if ($PSCmdlet.ShouldProcess("authenticationsamlaction", "Add Authentication configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -Type authenticationsamlaction -Payload $Payload -GetWarning
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -NitroPath nitro/v1/config -Type authenticationsamlaction -Payload $Payload -GetWarning
                 #HTTP Status Code on Success: 201 Created
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 if ($PSBoundParameters.ContainsKey('PassThru')) {
@@ -17147,7 +17147,7 @@ function Invoke-ADCDeleteAuthenticationsamlaction {
         Invoke-ADCDeleteAuthenticationsamlaction -name <string>
     .NOTES
         File Name : Invoke-ADCDeleteAuthenticationsamlaction
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/authentication/authenticationsamlaction/
         Requires  : PowerShell v5.1 and up
@@ -17175,7 +17175,7 @@ function Invoke-ADCDeleteAuthenticationsamlaction {
             }
 
             if ($PSCmdlet.ShouldProcess("$name", "Delete Authentication configuration Object")) {
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type authenticationsamlaction -Resource $name -Arguments $Arguments
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type authenticationsamlaction -NitroPath nitro/v1/config -Resource $name -Arguments $Arguments
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $response
@@ -17364,7 +17364,7 @@ function Invoke-ADCUpdateAuthenticationsamlaction {
         Invoke-ADCUpdateAuthenticationsamlaction -name <string>
     .NOTES
         File Name : Invoke-ADCUpdateAuthenticationsamlaction
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/authentication/authenticationsamlaction/
         Requires  : PowerShell v5.1 and up
@@ -17551,7 +17551,7 @@ function Invoke-ADCUpdateAuthenticationsamlaction {
             if ($PSBoundParameters.ContainsKey('storesamlresponse')) { $Payload.Add('storesamlresponse', $storesamlresponse) }
  
             if ($PSCmdlet.ShouldProcess("authenticationsamlaction", "Update Authentication configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -Type authenticationsamlaction -Payload $Payload -GetWarning
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -NitroPath nitro/v1/config -Type authenticationsamlaction -Payload $Payload -GetWarning
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 if ($PSBoundParameters.ContainsKey('PassThru')) {
@@ -17716,7 +17716,7 @@ function Invoke-ADCUnsetAuthenticationsamlaction {
         Invoke-ADCUnsetAuthenticationsamlaction -name <string>
     .NOTES
         File Name : Invoke-ADCUnsetAuthenticationsamlaction
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/authentication/authenticationsamlaction
         Requires  : PowerShell v5.1 and up
@@ -17877,7 +17877,7 @@ function Invoke-ADCUnsetAuthenticationsamlaction {
             if ($PSBoundParameters.ContainsKey('metadatarefreshinterval')) { $Payload.Add('metadatarefreshinterval', $metadatarefreshinterval) }
             if ($PSBoundParameters.ContainsKey('storesamlresponse')) { $Payload.Add('storesamlresponse', $storesamlresponse) }
             if ($PSCmdlet.ShouldProcess("$name", "Unset Authentication configuration Object")) {
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -Type authenticationsamlaction -Action unset -Payload $Payload -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -Type authenticationsamlaction -NitroPath nitro/v1/config -Action unset -Payload $Payload -GetWarning
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $response
@@ -17922,7 +17922,7 @@ function Invoke-ADCGetAuthenticationsamlaction {
         Invoke-ADCGetAuthenticationsamlaction -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetAuthenticationsamlaction
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/authentication/authenticationsamlaction/
         Requires  : PowerShell v5.1 and up
@@ -17963,21 +17963,21 @@ function Invoke-ADCGetAuthenticationsamlaction {
             if ( $PsCmdlet.ParameterSetName -eq 'Getall' ) {
                 $Query = @{ }
                 Write-Verbose "Retrieving all authenticationsamlaction objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationsamlaction -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationsamlaction -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
                 if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for authenticationsamlaction objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationsamlaction -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationsamlaction -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving authenticationsamlaction objects by arguments"
                 $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationsamlaction -Arguments $Arguments -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationsamlaction -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving authenticationsamlaction configuration for property 'name'"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationsamlaction -Resource $name -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationsamlaction -NitroPath nitro/v1/config -Resource $name -Summary:$ViewSummary -Filter $Filter -GetWarning
             } else {
                 Write-Verbose "Retrieving authenticationsamlaction configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationsamlaction -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationsamlaction -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -18020,7 +18020,7 @@ function Invoke-ADCAddAuthenticationsamlidppolicy {
         Invoke-ADCAddAuthenticationsamlidppolicy -name <string> -rule <string> -action <string>
     .NOTES
         File Name : Invoke-ADCAddAuthenticationsamlidppolicy
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/authentication/authenticationsamlidppolicy/
         Requires  : PowerShell v5.1 and up
@@ -18073,7 +18073,7 @@ function Invoke-ADCAddAuthenticationsamlidppolicy {
             if ($PSBoundParameters.ContainsKey('logaction')) { $Payload.Add('logaction', $logaction) }
  
             if ($PSCmdlet.ShouldProcess("authenticationsamlidppolicy", "Add Authentication configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -Type authenticationsamlidppolicy -Payload $Payload -GetWarning
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -NitroPath nitro/v1/config -Type authenticationsamlidppolicy -Payload $Payload -GetWarning
                 #HTTP Status Code on Success: 201 Created
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 if ($PSBoundParameters.ContainsKey('PassThru')) {
@@ -18105,7 +18105,7 @@ function Invoke-ADCDeleteAuthenticationsamlidppolicy {
         Invoke-ADCDeleteAuthenticationsamlidppolicy -name <string>
     .NOTES
         File Name : Invoke-ADCDeleteAuthenticationsamlidppolicy
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/authentication/authenticationsamlidppolicy/
         Requires  : PowerShell v5.1 and up
@@ -18133,7 +18133,7 @@ function Invoke-ADCDeleteAuthenticationsamlidppolicy {
             }
 
             if ($PSCmdlet.ShouldProcess("$name", "Delete Authentication configuration Object")) {
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type authenticationsamlidppolicy -Resource $name -Arguments $Arguments
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type authenticationsamlidppolicy -NitroPath nitro/v1/config -Resource $name -Arguments $Arguments
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $response
@@ -18178,7 +18178,7 @@ function Invoke-ADCUpdateAuthenticationsamlidppolicy {
         Invoke-ADCUpdateAuthenticationsamlidppolicy -name <string>
     .NOTES
         File Name : Invoke-ADCUpdateAuthenticationsamlidppolicy
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/authentication/authenticationsamlidppolicy/
         Requires  : PowerShell v5.1 and up
@@ -18229,7 +18229,7 @@ function Invoke-ADCUpdateAuthenticationsamlidppolicy {
             if ($PSBoundParameters.ContainsKey('logaction')) { $Payload.Add('logaction', $logaction) }
  
             if ($PSCmdlet.ShouldProcess("authenticationsamlidppolicy", "Update Authentication configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -Type authenticationsamlidppolicy -Payload $Payload -GetWarning
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -NitroPath nitro/v1/config -Type authenticationsamlidppolicy -Payload $Payload -GetWarning
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 if ($PSBoundParameters.ContainsKey('PassThru')) {
@@ -18267,7 +18267,7 @@ function Invoke-ADCUnsetAuthenticationsamlidppolicy {
         Invoke-ADCUnsetAuthenticationsamlidppolicy -name <string>
     .NOTES
         File Name : Invoke-ADCUnsetAuthenticationsamlidppolicy
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/authentication/authenticationsamlidppolicy
         Requires  : PowerShell v5.1 and up
@@ -18306,7 +18306,7 @@ function Invoke-ADCUnsetAuthenticationsamlidppolicy {
             if ($PSBoundParameters.ContainsKey('comment')) { $Payload.Add('comment', $comment) }
             if ($PSBoundParameters.ContainsKey('logaction')) { $Payload.Add('logaction', $logaction) }
             if ($PSCmdlet.ShouldProcess("$name", "Unset Authentication configuration Object")) {
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -Type authenticationsamlidppolicy -Action unset -Payload $Payload -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -Type authenticationsamlidppolicy -NitroPath nitro/v1/config -Action unset -Payload $Payload -GetWarning
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $response
@@ -18338,7 +18338,7 @@ function Invoke-ADCRenameAuthenticationsamlidppolicy {
         Invoke-ADCRenameAuthenticationsamlidppolicy -name <string> -newname <string>
     .NOTES
         File Name : Invoke-ADCRenameAuthenticationsamlidppolicy
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/authentication/authenticationsamlidppolicy/
         Requires  : PowerShell v5.1 and up
@@ -18378,7 +18378,7 @@ function Invoke-ADCRenameAuthenticationsamlidppolicy {
 
  
             if ($PSCmdlet.ShouldProcess("authenticationsamlidppolicy", "Rename Authentication configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -Type authenticationsamlidppolicy -Action rename -Payload $Payload -GetWarning
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -NitroPath nitro/v1/config -Type authenticationsamlidppolicy -Action rename -Payload $Payload -GetWarning
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 if ($PSBoundParameters.ContainsKey('PassThru')) {
@@ -18427,7 +18427,7 @@ function Invoke-ADCGetAuthenticationsamlidppolicy {
         Invoke-ADCGetAuthenticationsamlidppolicy -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetAuthenticationsamlidppolicy
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/authentication/authenticationsamlidppolicy/
         Requires  : PowerShell v5.1 and up
@@ -18469,21 +18469,21 @@ function Invoke-ADCGetAuthenticationsamlidppolicy {
             if ( $PsCmdlet.ParameterSetName -eq 'Getall' ) {
                 $Query = @{ }
                 Write-Verbose "Retrieving all authenticationsamlidppolicy objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationsamlidppolicy -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationsamlidppolicy -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
                 if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for authenticationsamlidppolicy objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationsamlidppolicy -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationsamlidppolicy -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving authenticationsamlidppolicy objects by arguments"
                 $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationsamlidppolicy -Arguments $Arguments -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationsamlidppolicy -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving authenticationsamlidppolicy configuration for property 'name'"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationsamlidppolicy -Resource $name -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationsamlidppolicy -NitroPath nitro/v1/config -Resource $name -Summary:$ViewSummary -Filter $Filter -GetWarning
             } else {
                 Write-Verbose "Retrieving authenticationsamlidppolicy configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationsamlidppolicy -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationsamlidppolicy -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -18525,7 +18525,7 @@ function Invoke-ADCGetAuthenticationsamlidppolicyauthenticationvserverbinding {
         Invoke-ADCGetAuthenticationsamlidppolicyauthenticationvserverbinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetAuthenticationsamlidppolicyauthenticationvserverbinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/authentication/authenticationsamlidppolicy_authenticationvserver_binding/
         Requires  : PowerShell v5.1 and up
@@ -18563,21 +18563,21 @@ function Invoke-ADCGetAuthenticationsamlidppolicyauthenticationvserverbinding {
                     bulkbindings = 'yes'
                 }
                 Write-Verbose "Retrieving all authenticationsamlidppolicy_authenticationvserver_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationsamlidppolicy_authenticationvserver_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationsamlidppolicy_authenticationvserver_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
                 if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for authenticationsamlidppolicy_authenticationvserver_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationsamlidppolicy_authenticationvserver_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationsamlidppolicy_authenticationvserver_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving authenticationsamlidppolicy_authenticationvserver_binding objects by arguments"
                 $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationsamlidppolicy_authenticationvserver_binding -Arguments $Arguments -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationsamlidppolicy_authenticationvserver_binding -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving authenticationsamlidppolicy_authenticationvserver_binding configuration for property 'name'"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationsamlidppolicy_authenticationvserver_binding -Resource $name -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationsamlidppolicy_authenticationvserver_binding -NitroPath nitro/v1/config -Resource $name -Summary:$ViewSummary -Filter $Filter -GetWarning
             } else {
                 Write-Verbose "Retrieving authenticationsamlidppolicy_authenticationvserver_binding configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationsamlidppolicy_authenticationvserver_binding -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationsamlidppolicy_authenticationvserver_binding -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -18617,7 +18617,7 @@ function Invoke-ADCGetAuthenticationsamlidppolicybinding {
         Invoke-ADCGetAuthenticationsamlidppolicybinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetAuthenticationsamlidppolicybinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/authentication/authenticationsamlidppolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -18652,21 +18652,21 @@ function Invoke-ADCGetAuthenticationsamlidppolicybinding {
                     bulkbindings = 'yes'
                 }
                 Write-Verbose "Retrieving all authenticationsamlidppolicy_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationsamlidppolicy_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationsamlidppolicy_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
                 if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for authenticationsamlidppolicy_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationsamlidppolicy_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationsamlidppolicy_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving authenticationsamlidppolicy_binding objects by arguments"
                 $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationsamlidppolicy_binding -Arguments $Arguments -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationsamlidppolicy_binding -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving authenticationsamlidppolicy_binding configuration for property 'name'"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationsamlidppolicy_binding -Resource $name -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationsamlidppolicy_binding -NitroPath nitro/v1/config -Resource $name -Summary:$ViewSummary -Filter $Filter -GetWarning
             } else {
                 Write-Verbose "Retrieving authenticationsamlidppolicy_binding configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationsamlidppolicy_binding -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationsamlidppolicy_binding -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -18708,7 +18708,7 @@ function Invoke-ADCGetAuthenticationsamlidppolicyvpnvserverbinding {
         Invoke-ADCGetAuthenticationsamlidppolicyvpnvserverbinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetAuthenticationsamlidppolicyvpnvserverbinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/authentication/authenticationsamlidppolicy_vpnvserver_binding/
         Requires  : PowerShell v5.1 and up
@@ -18746,21 +18746,21 @@ function Invoke-ADCGetAuthenticationsamlidppolicyvpnvserverbinding {
                     bulkbindings = 'yes'
                 }
                 Write-Verbose "Retrieving all authenticationsamlidppolicy_vpnvserver_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationsamlidppolicy_vpnvserver_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationsamlidppolicy_vpnvserver_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
                 if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for authenticationsamlidppolicy_vpnvserver_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationsamlidppolicy_vpnvserver_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationsamlidppolicy_vpnvserver_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving authenticationsamlidppolicy_vpnvserver_binding objects by arguments"
                 $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationsamlidppolicy_vpnvserver_binding -Arguments $Arguments -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationsamlidppolicy_vpnvserver_binding -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving authenticationsamlidppolicy_vpnvserver_binding configuration for property 'name'"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationsamlidppolicy_vpnvserver_binding -Resource $name -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationsamlidppolicy_vpnvserver_binding -NitroPath nitro/v1/config -Resource $name -Summary:$ViewSummary -Filter $Filter -GetWarning
             } else {
                 Write-Verbose "Retrieving authenticationsamlidppolicy_vpnvserver_binding configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationsamlidppolicy_vpnvserver_binding -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationsamlidppolicy_vpnvserver_binding -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -19033,7 +19033,7 @@ function Invoke-ADCAddAuthenticationsamlidpprofile {
         Invoke-ADCAddAuthenticationsamlidpprofile -name <string>
     .NOTES
         File Name : Invoke-ADCAddAuthenticationsamlidpprofile
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/authentication/authenticationsamlidpprofile/
         Requires  : PowerShell v5.1 and up
@@ -19373,7 +19373,7 @@ function Invoke-ADCAddAuthenticationsamlidpprofile {
             if ($PSBoundParameters.ContainsKey('samlspcertversion')) { $Payload.Add('samlspcertversion', $samlspcertversion) }
  
             if ($PSCmdlet.ShouldProcess("authenticationsamlidpprofile", "Add Authentication configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -Type authenticationsamlidpprofile -Payload $Payload -GetWarning
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -NitroPath nitro/v1/config -Type authenticationsamlidpprofile -Payload $Payload -GetWarning
                 #HTTP Status Code on Success: 201 Created
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 if ($PSBoundParameters.ContainsKey('PassThru')) {
@@ -19405,7 +19405,7 @@ function Invoke-ADCDeleteAuthenticationsamlidpprofile {
         Invoke-ADCDeleteAuthenticationsamlidpprofile -name <string>
     .NOTES
         File Name : Invoke-ADCDeleteAuthenticationsamlidpprofile
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/authentication/authenticationsamlidpprofile/
         Requires  : PowerShell v5.1 and up
@@ -19433,7 +19433,7 @@ function Invoke-ADCDeleteAuthenticationsamlidpprofile {
             }
 
             if ($PSCmdlet.ShouldProcess("$name", "Delete Authentication configuration Object")) {
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type authenticationsamlidpprofile -Resource $name -Arguments $Arguments
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type authenticationsamlidpprofile -NitroPath nitro/v1/config -Resource $name -Arguments $Arguments
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $response
@@ -19708,7 +19708,7 @@ function Invoke-ADCUpdateAuthenticationsamlidpprofile {
         Invoke-ADCUpdateAuthenticationsamlidpprofile -name <string>
     .NOTES
         File Name : Invoke-ADCUpdateAuthenticationsamlidpprofile
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/authentication/authenticationsamlidpprofile/
         Requires  : PowerShell v5.1 and up
@@ -20048,7 +20048,7 @@ function Invoke-ADCUpdateAuthenticationsamlidpprofile {
             if ($PSBoundParameters.ContainsKey('samlspcertversion')) { $Payload.Add('samlspcertversion', $samlspcertversion) }
  
             if ($PSCmdlet.ShouldProcess("authenticationsamlidpprofile", "Update Authentication configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -Type authenticationsamlidpprofile -Payload $Payload -GetWarning
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -NitroPath nitro/v1/config -Type authenticationsamlidpprofile -Payload $Payload -GetWarning
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 if ($PSBoundParameters.ContainsKey('PassThru')) {
@@ -20255,7 +20255,7 @@ function Invoke-ADCUnsetAuthenticationsamlidpprofile {
         Invoke-ADCUnsetAuthenticationsamlidpprofile -name <string>
     .NOTES
         File Name : Invoke-ADCUnsetAuthenticationsamlidpprofile
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/authentication/authenticationsamlidpprofile
         Requires  : PowerShell v5.1 and up
@@ -20507,7 +20507,7 @@ function Invoke-ADCUnsetAuthenticationsamlidpprofile {
             if ($PSBoundParameters.ContainsKey('samlsigningcertversion')) { $Payload.Add('samlsigningcertversion', $samlsigningcertversion) }
             if ($PSBoundParameters.ContainsKey('samlspcertversion')) { $Payload.Add('samlspcertversion', $samlspcertversion) }
             if ($PSCmdlet.ShouldProcess("$name", "Unset Authentication configuration Object")) {
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -Type authenticationsamlidpprofile -Action unset -Payload $Payload -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -Type authenticationsamlidpprofile -NitroPath nitro/v1/config -Action unset -Payload $Payload -GetWarning
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $response
@@ -20551,7 +20551,7 @@ function Invoke-ADCGetAuthenticationsamlidpprofile {
         Invoke-ADCGetAuthenticationsamlidpprofile -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetAuthenticationsamlidpprofile
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/authentication/authenticationsamlidpprofile/
         Requires  : PowerShell v5.1 and up
@@ -20593,21 +20593,21 @@ function Invoke-ADCGetAuthenticationsamlidpprofile {
             if ( $PsCmdlet.ParameterSetName -eq 'Getall' ) {
                 $Query = @{ }
                 Write-Verbose "Retrieving all authenticationsamlidpprofile objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationsamlidpprofile -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationsamlidpprofile -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
                 if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for authenticationsamlidpprofile objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationsamlidpprofile -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationsamlidpprofile -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving authenticationsamlidpprofile objects by arguments"
                 $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationsamlidpprofile -Arguments $Arguments -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationsamlidpprofile -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving authenticationsamlidpprofile configuration for property 'name'"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationsamlidpprofile -Resource $name -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationsamlidpprofile -NitroPath nitro/v1/config -Resource $name -Summary:$ViewSummary -Filter $Filter -GetWarning
             } else {
                 Write-Verbose "Retrieving authenticationsamlidpprofile configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationsamlidpprofile -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationsamlidpprofile -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -20641,7 +20641,7 @@ function Invoke-ADCAddAuthenticationsamlpolicy {
         Invoke-ADCAddAuthenticationsamlpolicy -name <string> -rule <string> -reqaction <string>
     .NOTES
         File Name : Invoke-ADCAddAuthenticationsamlpolicy
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/authentication/authenticationsamlpolicy/
         Requires  : PowerShell v5.1 and up
@@ -20685,7 +20685,7 @@ function Invoke-ADCAddAuthenticationsamlpolicy {
 
  
             if ($PSCmdlet.ShouldProcess("authenticationsamlpolicy", "Add Authentication configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -Type authenticationsamlpolicy -Payload $Payload -GetWarning
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -NitroPath nitro/v1/config -Type authenticationsamlpolicy -Payload $Payload -GetWarning
                 #HTTP Status Code on Success: 201 Created
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 if ($PSBoundParameters.ContainsKey('PassThru')) {
@@ -20718,7 +20718,7 @@ function Invoke-ADCDeleteAuthenticationsamlpolicy {
         Invoke-ADCDeleteAuthenticationsamlpolicy -name <string>
     .NOTES
         File Name : Invoke-ADCDeleteAuthenticationsamlpolicy
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/authentication/authenticationsamlpolicy/
         Requires  : PowerShell v5.1 and up
@@ -20746,7 +20746,7 @@ function Invoke-ADCDeleteAuthenticationsamlpolicy {
             }
 
             if ($PSCmdlet.ShouldProcess("$name", "Delete Authentication configuration Object")) {
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type authenticationsamlpolicy -Resource $name -Arguments $Arguments
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type authenticationsamlpolicy -NitroPath nitro/v1/config -Resource $name -Arguments $Arguments
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $response
@@ -20782,7 +20782,7 @@ function Invoke-ADCUpdateAuthenticationsamlpolicy {
         Invoke-ADCUpdateAuthenticationsamlpolicy -name <string>
     .NOTES
         File Name : Invoke-ADCUpdateAuthenticationsamlpolicy
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/authentication/authenticationsamlpolicy/
         Requires  : PowerShell v5.1 and up
@@ -20823,7 +20823,7 @@ function Invoke-ADCUpdateAuthenticationsamlpolicy {
             if ($PSBoundParameters.ContainsKey('reqaction')) { $Payload.Add('reqaction', $reqaction) }
  
             if ($PSCmdlet.ShouldProcess("authenticationsamlpolicy", "Update Authentication configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -Type authenticationsamlpolicy -Payload $Payload -GetWarning
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -NitroPath nitro/v1/config -Type authenticationsamlpolicy -Payload $Payload -GetWarning
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 if ($PSBoundParameters.ContainsKey('PassThru')) {
@@ -20860,7 +20860,7 @@ function Invoke-ADCUnsetAuthenticationsamlpolicy {
         Invoke-ADCUnsetAuthenticationsamlpolicy -name <string>
     .NOTES
         File Name : Invoke-ADCUnsetAuthenticationsamlpolicy
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/authentication/authenticationsamlpolicy
         Requires  : PowerShell v5.1 and up
@@ -20895,7 +20895,7 @@ function Invoke-ADCUnsetAuthenticationsamlpolicy {
             if ($PSBoundParameters.ContainsKey('rule')) { $Payload.Add('rule', $rule) }
             if ($PSBoundParameters.ContainsKey('reqaction')) { $Payload.Add('reqaction', $reqaction) }
             if ($PSCmdlet.ShouldProcess("$name", "Unset Authentication configuration Object")) {
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -Type authenticationsamlpolicy -Action unset -Payload $Payload -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -Type authenticationsamlpolicy -NitroPath nitro/v1/config -Action unset -Payload $Payload -GetWarning
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $response
@@ -20940,7 +20940,7 @@ function Invoke-ADCGetAuthenticationsamlpolicy {
         Invoke-ADCGetAuthenticationsamlpolicy -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetAuthenticationsamlpolicy
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/authentication/authenticationsamlpolicy/
         Requires  : PowerShell v5.1 and up
@@ -20981,21 +20981,21 @@ function Invoke-ADCGetAuthenticationsamlpolicy {
             if ( $PsCmdlet.ParameterSetName -eq 'Getall' ) {
                 $Query = @{ }
                 Write-Verbose "Retrieving all authenticationsamlpolicy objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationsamlpolicy -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationsamlpolicy -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
                 if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for authenticationsamlpolicy objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationsamlpolicy -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationsamlpolicy -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving authenticationsamlpolicy objects by arguments"
                 $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationsamlpolicy -Arguments $Arguments -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationsamlpolicy -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving authenticationsamlpolicy configuration for property 'name'"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationsamlpolicy -Resource $name -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationsamlpolicy -NitroPath nitro/v1/config -Resource $name -Summary:$ViewSummary -Filter $Filter -GetWarning
             } else {
                 Write-Verbose "Retrieving authenticationsamlpolicy configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationsamlpolicy -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationsamlpolicy -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -21037,7 +21037,7 @@ function Invoke-ADCGetAuthenticationsamlpolicyauthenticationvserverbinding {
         Invoke-ADCGetAuthenticationsamlpolicyauthenticationvserverbinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetAuthenticationsamlpolicyauthenticationvserverbinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/authentication/authenticationsamlpolicy_authenticationvserver_binding/
         Requires  : PowerShell v5.1 and up
@@ -21075,21 +21075,21 @@ function Invoke-ADCGetAuthenticationsamlpolicyauthenticationvserverbinding {
                     bulkbindings = 'yes'
                 }
                 Write-Verbose "Retrieving all authenticationsamlpolicy_authenticationvserver_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationsamlpolicy_authenticationvserver_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationsamlpolicy_authenticationvserver_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
                 if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for authenticationsamlpolicy_authenticationvserver_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationsamlpolicy_authenticationvserver_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationsamlpolicy_authenticationvserver_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving authenticationsamlpolicy_authenticationvserver_binding objects by arguments"
                 $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationsamlpolicy_authenticationvserver_binding -Arguments $Arguments -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationsamlpolicy_authenticationvserver_binding -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving authenticationsamlpolicy_authenticationvserver_binding configuration for property 'name'"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationsamlpolicy_authenticationvserver_binding -Resource $name -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationsamlpolicy_authenticationvserver_binding -NitroPath nitro/v1/config -Resource $name -Summary:$ViewSummary -Filter $Filter -GetWarning
             } else {
                 Write-Verbose "Retrieving authenticationsamlpolicy_authenticationvserver_binding configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationsamlpolicy_authenticationvserver_binding -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationsamlpolicy_authenticationvserver_binding -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -21129,7 +21129,7 @@ function Invoke-ADCGetAuthenticationsamlpolicybinding {
         Invoke-ADCGetAuthenticationsamlpolicybinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetAuthenticationsamlpolicybinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/authentication/authenticationsamlpolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -21164,21 +21164,21 @@ function Invoke-ADCGetAuthenticationsamlpolicybinding {
                     bulkbindings = 'yes'
                 }
                 Write-Verbose "Retrieving all authenticationsamlpolicy_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationsamlpolicy_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationsamlpolicy_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
                 if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for authenticationsamlpolicy_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationsamlpolicy_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationsamlpolicy_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving authenticationsamlpolicy_binding objects by arguments"
                 $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationsamlpolicy_binding -Arguments $Arguments -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationsamlpolicy_binding -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving authenticationsamlpolicy_binding configuration for property 'name'"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationsamlpolicy_binding -Resource $name -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationsamlpolicy_binding -NitroPath nitro/v1/config -Resource $name -Summary:$ViewSummary -Filter $Filter -GetWarning
             } else {
                 Write-Verbose "Retrieving authenticationsamlpolicy_binding configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationsamlpolicy_binding -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationsamlpolicy_binding -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -21220,7 +21220,7 @@ function Invoke-ADCGetAuthenticationsamlpolicyvpnglobalbinding {
         Invoke-ADCGetAuthenticationsamlpolicyvpnglobalbinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetAuthenticationsamlpolicyvpnglobalbinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/authentication/authenticationsamlpolicy_vpnglobal_binding/
         Requires  : PowerShell v5.1 and up
@@ -21258,21 +21258,21 @@ function Invoke-ADCGetAuthenticationsamlpolicyvpnglobalbinding {
                     bulkbindings = 'yes'
                 }
                 Write-Verbose "Retrieving all authenticationsamlpolicy_vpnglobal_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationsamlpolicy_vpnglobal_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationsamlpolicy_vpnglobal_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
                 if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for authenticationsamlpolicy_vpnglobal_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationsamlpolicy_vpnglobal_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationsamlpolicy_vpnglobal_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving authenticationsamlpolicy_vpnglobal_binding objects by arguments"
                 $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationsamlpolicy_vpnglobal_binding -Arguments $Arguments -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationsamlpolicy_vpnglobal_binding -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving authenticationsamlpolicy_vpnglobal_binding configuration for property 'name'"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationsamlpolicy_vpnglobal_binding -Resource $name -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationsamlpolicy_vpnglobal_binding -NitroPath nitro/v1/config -Resource $name -Summary:$ViewSummary -Filter $Filter -GetWarning
             } else {
                 Write-Verbose "Retrieving authenticationsamlpolicy_vpnglobal_binding configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationsamlpolicy_vpnglobal_binding -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationsamlpolicy_vpnglobal_binding -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -21314,7 +21314,7 @@ function Invoke-ADCGetAuthenticationsamlpolicyvpnvserverbinding {
         Invoke-ADCGetAuthenticationsamlpolicyvpnvserverbinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetAuthenticationsamlpolicyvpnvserverbinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/authentication/authenticationsamlpolicy_vpnvserver_binding/
         Requires  : PowerShell v5.1 and up
@@ -21352,21 +21352,21 @@ function Invoke-ADCGetAuthenticationsamlpolicyvpnvserverbinding {
                     bulkbindings = 'yes'
                 }
                 Write-Verbose "Retrieving all authenticationsamlpolicy_vpnvserver_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationsamlpolicy_vpnvserver_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationsamlpolicy_vpnvserver_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
                 if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for authenticationsamlpolicy_vpnvserver_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationsamlpolicy_vpnvserver_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationsamlpolicy_vpnvserver_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving authenticationsamlpolicy_vpnvserver_binding objects by arguments"
                 $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationsamlpolicy_vpnvserver_binding -Arguments $Arguments -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationsamlpolicy_vpnvserver_binding -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving authenticationsamlpolicy_vpnvserver_binding configuration for property 'name'"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationsamlpolicy_vpnvserver_binding -Resource $name -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationsamlpolicy_vpnvserver_binding -NitroPath nitro/v1/config -Resource $name -Summary:$ViewSummary -Filter $Filter -GetWarning
             } else {
                 Write-Verbose "Retrieving authenticationsamlpolicy_vpnvserver_binding configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationsamlpolicy_vpnvserver_binding -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationsamlpolicy_vpnvserver_binding -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -21400,7 +21400,7 @@ function Invoke-ADCAddAuthenticationstorefrontauthaction {
         Invoke-ADCAddAuthenticationstorefrontauthaction -name <string> -serverurl <string>
     .NOTES
         File Name : Invoke-ADCAddAuthenticationstorefrontauthaction
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/authentication/authenticationstorefrontauthaction/
         Requires  : PowerShell v5.1 and up
@@ -21443,7 +21443,7 @@ function Invoke-ADCAddAuthenticationstorefrontauthaction {
             if ($PSBoundParameters.ContainsKey('defaultauthenticationgroup')) { $Payload.Add('defaultauthenticationgroup', $defaultauthenticationgroup) }
  
             if ($PSCmdlet.ShouldProcess("authenticationstorefrontauthaction", "Add Authentication configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -Type authenticationstorefrontauthaction -Payload $Payload -GetWarning
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -NitroPath nitro/v1/config -Type authenticationstorefrontauthaction -Payload $Payload -GetWarning
                 #HTTP Status Code on Success: 201 Created
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 if ($PSBoundParameters.ContainsKey('PassThru')) {
@@ -21476,7 +21476,7 @@ function Invoke-ADCDeleteAuthenticationstorefrontauthaction {
         Invoke-ADCDeleteAuthenticationstorefrontauthaction -name <string>
     .NOTES
         File Name : Invoke-ADCDeleteAuthenticationstorefrontauthaction
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/authentication/authenticationstorefrontauthaction/
         Requires  : PowerShell v5.1 and up
@@ -21504,7 +21504,7 @@ function Invoke-ADCDeleteAuthenticationstorefrontauthaction {
             }
 
             if ($PSCmdlet.ShouldProcess("$name", "Delete Authentication configuration Object")) {
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type authenticationstorefrontauthaction -Resource $name -Arguments $Arguments
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type authenticationstorefrontauthaction -NitroPath nitro/v1/config -Resource $name -Arguments $Arguments
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $response
@@ -21540,7 +21540,7 @@ function Invoke-ADCUpdateAuthenticationstorefrontauthaction {
         Invoke-ADCUpdateAuthenticationstorefrontauthaction -name <string>
     .NOTES
         File Name : Invoke-ADCUpdateAuthenticationstorefrontauthaction
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/authentication/authenticationstorefrontauthaction/
         Requires  : PowerShell v5.1 and up
@@ -21582,7 +21582,7 @@ function Invoke-ADCUpdateAuthenticationstorefrontauthaction {
             if ($PSBoundParameters.ContainsKey('defaultauthenticationgroup')) { $Payload.Add('defaultauthenticationgroup', $defaultauthenticationgroup) }
  
             if ($PSCmdlet.ShouldProcess("authenticationstorefrontauthaction", "Update Authentication configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -Type authenticationstorefrontauthaction -Payload $Payload -GetWarning
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -NitroPath nitro/v1/config -Type authenticationstorefrontauthaction -Payload $Payload -GetWarning
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 if ($PSBoundParameters.ContainsKey('PassThru')) {
@@ -21619,7 +21619,7 @@ function Invoke-ADCUnsetAuthenticationstorefrontauthaction {
         Invoke-ADCUnsetAuthenticationstorefrontauthaction -name <string>
     .NOTES
         File Name : Invoke-ADCUnsetAuthenticationstorefrontauthaction
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/authentication/authenticationstorefrontauthaction
         Requires  : PowerShell v5.1 and up
@@ -21654,7 +21654,7 @@ function Invoke-ADCUnsetAuthenticationstorefrontauthaction {
             if ($PSBoundParameters.ContainsKey('domain')) { $Payload.Add('domain', $domain) }
             if ($PSBoundParameters.ContainsKey('defaultauthenticationgroup')) { $Payload.Add('defaultauthenticationgroup', $defaultauthenticationgroup) }
             if ($PSCmdlet.ShouldProcess("$name", "Unset Authentication configuration Object")) {
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -Type authenticationstorefrontauthaction -Action unset -Payload $Payload -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -Type authenticationstorefrontauthaction -NitroPath nitro/v1/config -Action unset -Payload $Payload -GetWarning
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $response
@@ -21699,7 +21699,7 @@ function Invoke-ADCGetAuthenticationstorefrontauthaction {
         Invoke-ADCGetAuthenticationstorefrontauthaction -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetAuthenticationstorefrontauthaction
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/authentication/authenticationstorefrontauthaction/
         Requires  : PowerShell v5.1 and up
@@ -21740,21 +21740,21 @@ function Invoke-ADCGetAuthenticationstorefrontauthaction {
             if ( $PsCmdlet.ParameterSetName -eq 'Getall' ) {
                 $Query = @{ }
                 Write-Verbose "Retrieving all authenticationstorefrontauthaction objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationstorefrontauthaction -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationstorefrontauthaction -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
                 if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for authenticationstorefrontauthaction objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationstorefrontauthaction -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationstorefrontauthaction -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving authenticationstorefrontauthaction objects by arguments"
                 $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationstorefrontauthaction -Arguments $Arguments -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationstorefrontauthaction -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving authenticationstorefrontauthaction configuration for property 'name'"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationstorefrontauthaction -Resource $name -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationstorefrontauthaction -NitroPath nitro/v1/config -Resource $name -Summary:$ViewSummary -Filter $Filter -GetWarning
             } else {
                 Write-Verbose "Retrieving authenticationstorefrontauthaction configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationstorefrontauthaction -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationstorefrontauthaction -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -21848,7 +21848,7 @@ function Invoke-ADCAddAuthenticationtacacsaction {
         Invoke-ADCAddAuthenticationtacacsaction -name <string>
     .NOTES
         File Name : Invoke-ADCAddAuthenticationtacacsaction
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/authentication/authenticationtacacsaction/
         Requires  : PowerShell v5.1 and up
@@ -21964,7 +21964,7 @@ function Invoke-ADCAddAuthenticationtacacsaction {
             if ($PSBoundParameters.ContainsKey('attributes')) { $Payload.Add('attributes', $attributes) }
  
             if ($PSCmdlet.ShouldProcess("authenticationtacacsaction", "Add Authentication configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -Type authenticationtacacsaction -Payload $Payload -GetWarning
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -NitroPath nitro/v1/config -Type authenticationtacacsaction -Payload $Payload -GetWarning
                 #HTTP Status Code on Success: 201 Created
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 if ($PSBoundParameters.ContainsKey('PassThru')) {
@@ -21997,7 +21997,7 @@ function Invoke-ADCDeleteAuthenticationtacacsaction {
         Invoke-ADCDeleteAuthenticationtacacsaction -name <string>
     .NOTES
         File Name : Invoke-ADCDeleteAuthenticationtacacsaction
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/authentication/authenticationtacacsaction/
         Requires  : PowerShell v5.1 and up
@@ -22025,7 +22025,7 @@ function Invoke-ADCDeleteAuthenticationtacacsaction {
             }
 
             if ($PSCmdlet.ShouldProcess("$name", "Delete Authentication configuration Object")) {
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type authenticationtacacsaction -Resource $name -Arguments $Arguments
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type authenticationtacacsaction -NitroPath nitro/v1/config -Resource $name -Arguments $Arguments
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $response
@@ -22121,7 +22121,7 @@ function Invoke-ADCUpdateAuthenticationtacacsaction {
         Invoke-ADCUpdateAuthenticationtacacsaction -name <string>
     .NOTES
         File Name : Invoke-ADCUpdateAuthenticationtacacsaction
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/authentication/authenticationtacacsaction/
         Requires  : PowerShell v5.1 and up
@@ -22237,7 +22237,7 @@ function Invoke-ADCUpdateAuthenticationtacacsaction {
             if ($PSBoundParameters.ContainsKey('attributes')) { $Payload.Add('attributes', $attributes) }
  
             if ($PSCmdlet.ShouldProcess("authenticationtacacsaction", "Update Authentication configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -Type authenticationtacacsaction -Payload $Payload -GetWarning
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -NitroPath nitro/v1/config -Type authenticationtacacsaction -Payload $Payload -GetWarning
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 if ($PSBoundParameters.ContainsKey('PassThru')) {
@@ -22330,7 +22330,7 @@ function Invoke-ADCUnsetAuthenticationtacacsaction {
         Invoke-ADCUnsetAuthenticationtacacsaction -name <string>
     .NOTES
         File Name : Invoke-ADCUnsetAuthenticationtacacsaction
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/authentication/authenticationtacacsaction
         Requires  : PowerShell v5.1 and up
@@ -22437,7 +22437,7 @@ function Invoke-ADCUnsetAuthenticationtacacsaction {
             if ($PSBoundParameters.ContainsKey('attribute16')) { $Payload.Add('attribute16', $attribute16) }
             if ($PSBoundParameters.ContainsKey('attributes')) { $Payload.Add('attributes', $attributes) }
             if ($PSCmdlet.ShouldProcess("$name", "Unset Authentication configuration Object")) {
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -Type authenticationtacacsaction -Action unset -Payload $Payload -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -Type authenticationtacacsaction -NitroPath nitro/v1/config -Action unset -Payload $Payload -GetWarning
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $response
@@ -22482,7 +22482,7 @@ function Invoke-ADCGetAuthenticationtacacsaction {
         Invoke-ADCGetAuthenticationtacacsaction -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetAuthenticationtacacsaction
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/authentication/authenticationtacacsaction/
         Requires  : PowerShell v5.1 and up
@@ -22523,21 +22523,21 @@ function Invoke-ADCGetAuthenticationtacacsaction {
             if ( $PsCmdlet.ParameterSetName -eq 'Getall' ) {
                 $Query = @{ }
                 Write-Verbose "Retrieving all authenticationtacacsaction objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationtacacsaction -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationtacacsaction -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
                 if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for authenticationtacacsaction objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationtacacsaction -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationtacacsaction -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving authenticationtacacsaction objects by arguments"
                 $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationtacacsaction -Arguments $Arguments -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationtacacsaction -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving authenticationtacacsaction configuration for property 'name'"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationtacacsaction -Resource $name -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationtacacsaction -NitroPath nitro/v1/config -Resource $name -Summary:$ViewSummary -Filter $Filter -GetWarning
             } else {
                 Write-Verbose "Retrieving authenticationtacacsaction configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationtacacsaction -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationtacacsaction -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -22571,7 +22571,7 @@ function Invoke-ADCAddAuthenticationtacacspolicy {
         Invoke-ADCAddAuthenticationtacacspolicy -name <string> -rule <string>
     .NOTES
         File Name : Invoke-ADCAddAuthenticationtacacspolicy
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/authentication/authenticationtacacspolicy/
         Requires  : PowerShell v5.1 and up
@@ -22613,7 +22613,7 @@ function Invoke-ADCAddAuthenticationtacacspolicy {
             if ($PSBoundParameters.ContainsKey('reqaction')) { $Payload.Add('reqaction', $reqaction) }
  
             if ($PSCmdlet.ShouldProcess("authenticationtacacspolicy", "Add Authentication configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -Type authenticationtacacspolicy -Payload $Payload -GetWarning
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -NitroPath nitro/v1/config -Type authenticationtacacspolicy -Payload $Payload -GetWarning
                 #HTTP Status Code on Success: 201 Created
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 if ($PSBoundParameters.ContainsKey('PassThru')) {
@@ -22646,7 +22646,7 @@ function Invoke-ADCDeleteAuthenticationtacacspolicy {
         Invoke-ADCDeleteAuthenticationtacacspolicy -name <string>
     .NOTES
         File Name : Invoke-ADCDeleteAuthenticationtacacspolicy
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/authentication/authenticationtacacspolicy/
         Requires  : PowerShell v5.1 and up
@@ -22674,7 +22674,7 @@ function Invoke-ADCDeleteAuthenticationtacacspolicy {
             }
 
             if ($PSCmdlet.ShouldProcess("$name", "Delete Authentication configuration Object")) {
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type authenticationtacacspolicy -Resource $name -Arguments $Arguments
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type authenticationtacacspolicy -NitroPath nitro/v1/config -Resource $name -Arguments $Arguments
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $response
@@ -22710,7 +22710,7 @@ function Invoke-ADCUpdateAuthenticationtacacspolicy {
         Invoke-ADCUpdateAuthenticationtacacspolicy -name <string>
     .NOTES
         File Name : Invoke-ADCUpdateAuthenticationtacacspolicy
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/authentication/authenticationtacacspolicy/
         Requires  : PowerShell v5.1 and up
@@ -22751,7 +22751,7 @@ function Invoke-ADCUpdateAuthenticationtacacspolicy {
             if ($PSBoundParameters.ContainsKey('reqaction')) { $Payload.Add('reqaction', $reqaction) }
  
             if ($PSCmdlet.ShouldProcess("authenticationtacacspolicy", "Update Authentication configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -Type authenticationtacacspolicy -Payload $Payload -GetWarning
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -NitroPath nitro/v1/config -Type authenticationtacacspolicy -Payload $Payload -GetWarning
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 if ($PSBoundParameters.ContainsKey('PassThru')) {
@@ -22788,7 +22788,7 @@ function Invoke-ADCUnsetAuthenticationtacacspolicy {
         Invoke-ADCUnsetAuthenticationtacacspolicy -name <string>
     .NOTES
         File Name : Invoke-ADCUnsetAuthenticationtacacspolicy
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/authentication/authenticationtacacspolicy
         Requires  : PowerShell v5.1 and up
@@ -22823,7 +22823,7 @@ function Invoke-ADCUnsetAuthenticationtacacspolicy {
             if ($PSBoundParameters.ContainsKey('rule')) { $Payload.Add('rule', $rule) }
             if ($PSBoundParameters.ContainsKey('reqaction')) { $Payload.Add('reqaction', $reqaction) }
             if ($PSCmdlet.ShouldProcess("$name", "Unset Authentication configuration Object")) {
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -Type authenticationtacacspolicy -Action unset -Payload $Payload -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -Type authenticationtacacspolicy -NitroPath nitro/v1/config -Action unset -Payload $Payload -GetWarning
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $response
@@ -22868,7 +22868,7 @@ function Invoke-ADCGetAuthenticationtacacspolicy {
         Invoke-ADCGetAuthenticationtacacspolicy -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetAuthenticationtacacspolicy
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/authentication/authenticationtacacspolicy/
         Requires  : PowerShell v5.1 and up
@@ -22909,21 +22909,21 @@ function Invoke-ADCGetAuthenticationtacacspolicy {
             if ( $PsCmdlet.ParameterSetName -eq 'Getall' ) {
                 $Query = @{ }
                 Write-Verbose "Retrieving all authenticationtacacspolicy objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationtacacspolicy -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationtacacspolicy -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
                 if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for authenticationtacacspolicy objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationtacacspolicy -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationtacacspolicy -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving authenticationtacacspolicy objects by arguments"
                 $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationtacacspolicy -Arguments $Arguments -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationtacacspolicy -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving authenticationtacacspolicy configuration for property 'name'"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationtacacspolicy -Resource $name -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationtacacspolicy -NitroPath nitro/v1/config -Resource $name -Summary:$ViewSummary -Filter $Filter -GetWarning
             } else {
                 Write-Verbose "Retrieving authenticationtacacspolicy configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationtacacspolicy -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationtacacspolicy -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -22965,7 +22965,7 @@ function Invoke-ADCGetAuthenticationtacacspolicyauthenticationvserverbinding {
         Invoke-ADCGetAuthenticationtacacspolicyauthenticationvserverbinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetAuthenticationtacacspolicyauthenticationvserverbinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/authentication/authenticationtacacspolicy_authenticationvserver_binding/
         Requires  : PowerShell v5.1 and up
@@ -23003,21 +23003,21 @@ function Invoke-ADCGetAuthenticationtacacspolicyauthenticationvserverbinding {
                     bulkbindings = 'yes'
                 }
                 Write-Verbose "Retrieving all authenticationtacacspolicy_authenticationvserver_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationtacacspolicy_authenticationvserver_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationtacacspolicy_authenticationvserver_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
                 if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for authenticationtacacspolicy_authenticationvserver_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationtacacspolicy_authenticationvserver_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationtacacspolicy_authenticationvserver_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving authenticationtacacspolicy_authenticationvserver_binding objects by arguments"
                 $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationtacacspolicy_authenticationvserver_binding -Arguments $Arguments -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationtacacspolicy_authenticationvserver_binding -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving authenticationtacacspolicy_authenticationvserver_binding configuration for property 'name'"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationtacacspolicy_authenticationvserver_binding -Resource $name -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationtacacspolicy_authenticationvserver_binding -NitroPath nitro/v1/config -Resource $name -Summary:$ViewSummary -Filter $Filter -GetWarning
             } else {
                 Write-Verbose "Retrieving authenticationtacacspolicy_authenticationvserver_binding configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationtacacspolicy_authenticationvserver_binding -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationtacacspolicy_authenticationvserver_binding -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -23057,7 +23057,7 @@ function Invoke-ADCGetAuthenticationtacacspolicybinding {
         Invoke-ADCGetAuthenticationtacacspolicybinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetAuthenticationtacacspolicybinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/authentication/authenticationtacacspolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -23092,21 +23092,21 @@ function Invoke-ADCGetAuthenticationtacacspolicybinding {
                     bulkbindings = 'yes'
                 }
                 Write-Verbose "Retrieving all authenticationtacacspolicy_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationtacacspolicy_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationtacacspolicy_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
                 if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for authenticationtacacspolicy_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationtacacspolicy_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationtacacspolicy_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving authenticationtacacspolicy_binding objects by arguments"
                 $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationtacacspolicy_binding -Arguments $Arguments -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationtacacspolicy_binding -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving authenticationtacacspolicy_binding configuration for property 'name'"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationtacacspolicy_binding -Resource $name -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationtacacspolicy_binding -NitroPath nitro/v1/config -Resource $name -Summary:$ViewSummary -Filter $Filter -GetWarning
             } else {
                 Write-Verbose "Retrieving authenticationtacacspolicy_binding configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationtacacspolicy_binding -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationtacacspolicy_binding -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -23148,7 +23148,7 @@ function Invoke-ADCGetAuthenticationtacacspolicysystemglobalbinding {
         Invoke-ADCGetAuthenticationtacacspolicysystemglobalbinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetAuthenticationtacacspolicysystemglobalbinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/authentication/authenticationtacacspolicy_systemglobal_binding/
         Requires  : PowerShell v5.1 and up
@@ -23186,21 +23186,21 @@ function Invoke-ADCGetAuthenticationtacacspolicysystemglobalbinding {
                     bulkbindings = 'yes'
                 }
                 Write-Verbose "Retrieving all authenticationtacacspolicy_systemglobal_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationtacacspolicy_systemglobal_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationtacacspolicy_systemglobal_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
                 if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for authenticationtacacspolicy_systemglobal_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationtacacspolicy_systemglobal_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationtacacspolicy_systemglobal_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving authenticationtacacspolicy_systemglobal_binding objects by arguments"
                 $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationtacacspolicy_systemglobal_binding -Arguments $Arguments -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationtacacspolicy_systemglobal_binding -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving authenticationtacacspolicy_systemglobal_binding configuration for property 'name'"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationtacacspolicy_systemglobal_binding -Resource $name -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationtacacspolicy_systemglobal_binding -NitroPath nitro/v1/config -Resource $name -Summary:$ViewSummary -Filter $Filter -GetWarning
             } else {
                 Write-Verbose "Retrieving authenticationtacacspolicy_systemglobal_binding configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationtacacspolicy_systemglobal_binding -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationtacacspolicy_systemglobal_binding -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -23242,7 +23242,7 @@ function Invoke-ADCGetAuthenticationtacacspolicyvpnglobalbinding {
         Invoke-ADCGetAuthenticationtacacspolicyvpnglobalbinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetAuthenticationtacacspolicyvpnglobalbinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/authentication/authenticationtacacspolicy_vpnglobal_binding/
         Requires  : PowerShell v5.1 and up
@@ -23280,21 +23280,21 @@ function Invoke-ADCGetAuthenticationtacacspolicyvpnglobalbinding {
                     bulkbindings = 'yes'
                 }
                 Write-Verbose "Retrieving all authenticationtacacspolicy_vpnglobal_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationtacacspolicy_vpnglobal_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationtacacspolicy_vpnglobal_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
                 if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for authenticationtacacspolicy_vpnglobal_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationtacacspolicy_vpnglobal_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationtacacspolicy_vpnglobal_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving authenticationtacacspolicy_vpnglobal_binding objects by arguments"
                 $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationtacacspolicy_vpnglobal_binding -Arguments $Arguments -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationtacacspolicy_vpnglobal_binding -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving authenticationtacacspolicy_vpnglobal_binding configuration for property 'name'"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationtacacspolicy_vpnglobal_binding -Resource $name -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationtacacspolicy_vpnglobal_binding -NitroPath nitro/v1/config -Resource $name -Summary:$ViewSummary -Filter $Filter -GetWarning
             } else {
                 Write-Verbose "Retrieving authenticationtacacspolicy_vpnglobal_binding configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationtacacspolicy_vpnglobal_binding -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationtacacspolicy_vpnglobal_binding -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -23336,7 +23336,7 @@ function Invoke-ADCGetAuthenticationtacacspolicyvpnvserverbinding {
         Invoke-ADCGetAuthenticationtacacspolicyvpnvserverbinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetAuthenticationtacacspolicyvpnvserverbinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/authentication/authenticationtacacspolicy_vpnvserver_binding/
         Requires  : PowerShell v5.1 and up
@@ -23374,21 +23374,21 @@ function Invoke-ADCGetAuthenticationtacacspolicyvpnvserverbinding {
                     bulkbindings = 'yes'
                 }
                 Write-Verbose "Retrieving all authenticationtacacspolicy_vpnvserver_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationtacacspolicy_vpnvserver_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationtacacspolicy_vpnvserver_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
                 if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for authenticationtacacspolicy_vpnvserver_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationtacacspolicy_vpnvserver_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationtacacspolicy_vpnvserver_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving authenticationtacacspolicy_vpnvserver_binding objects by arguments"
                 $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationtacacspolicy_vpnvserver_binding -Arguments $Arguments -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationtacacspolicy_vpnvserver_binding -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving authenticationtacacspolicy_vpnvserver_binding configuration for property 'name'"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationtacacspolicy_vpnvserver_binding -Resource $name -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationtacacspolicy_vpnvserver_binding -NitroPath nitro/v1/config -Resource $name -Summary:$ViewSummary -Filter $Filter -GetWarning
             } else {
                 Write-Verbose "Retrieving authenticationtacacspolicy_vpnvserver_binding configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationtacacspolicy_vpnvserver_binding -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationtacacspolicy_vpnvserver_binding -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -23468,7 +23468,7 @@ function Invoke-ADCAddAuthenticationvserver {
         Invoke-ADCAddAuthenticationvserver -name <string> -servicetype <string>
     .NOTES
         File Name : Invoke-ADCAddAuthenticationvserver
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/authentication/authenticationvserver/
         Requires  : PowerShell v5.1 and up
@@ -23555,7 +23555,7 @@ function Invoke-ADCAddAuthenticationvserver {
             if ($PSBoundParameters.ContainsKey('samesite')) { $Payload.Add('samesite', $samesite) }
  
             if ($PSCmdlet.ShouldProcess("authenticationvserver", "Add Authentication configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -Type authenticationvserver -Payload $Payload -GetWarning
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -NitroPath nitro/v1/config -Type authenticationvserver -Payload $Payload -GetWarning
                 #HTTP Status Code on Success: 201 Created
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 if ($PSBoundParameters.ContainsKey('PassThru')) {
@@ -23588,7 +23588,7 @@ function Invoke-ADCDeleteAuthenticationvserver {
         Invoke-ADCDeleteAuthenticationvserver -name <string>
     .NOTES
         File Name : Invoke-ADCDeleteAuthenticationvserver
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/authentication/authenticationvserver/
         Requires  : PowerShell v5.1 and up
@@ -23616,7 +23616,7 @@ function Invoke-ADCDeleteAuthenticationvserver {
             }
 
             if ($PSCmdlet.ShouldProcess("$name", "Delete Authentication configuration Object")) {
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type authenticationvserver -Resource $name -Arguments $Arguments
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type authenticationvserver -NitroPath nitro/v1/config -Resource $name -Arguments $Arguments
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $response
@@ -23677,7 +23677,7 @@ function Invoke-ADCUpdateAuthenticationvserver {
         Invoke-ADCUpdateAuthenticationvserver -name <string>
     .NOTES
         File Name : Invoke-ADCUpdateAuthenticationvserver
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/authentication/authenticationvserver/
         Requires  : PowerShell v5.1 and up
@@ -23744,7 +23744,7 @@ function Invoke-ADCUpdateAuthenticationvserver {
             if ($PSBoundParameters.ContainsKey('samesite')) { $Payload.Add('samesite', $samesite) }
  
             if ($PSCmdlet.ShouldProcess("authenticationvserver", "Update Authentication configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -Type authenticationvserver -Payload $Payload -GetWarning
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -NitroPath nitro/v1/config -Type authenticationvserver -Payload $Payload -GetWarning
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 if ($PSBoundParameters.ContainsKey('PassThru')) {
@@ -23796,7 +23796,7 @@ function Invoke-ADCUnsetAuthenticationvserver {
         Invoke-ADCUnsetAuthenticationvserver -name <string>
     .NOTES
         File Name : Invoke-ADCUnsetAuthenticationvserver
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/authentication/authenticationvserver
         Requires  : PowerShell v5.1 and up
@@ -23849,7 +23849,7 @@ function Invoke-ADCUnsetAuthenticationvserver {
             if ($PSBoundParameters.ContainsKey('certkeynames')) { $Payload.Add('certkeynames', $certkeynames) }
             if ($PSBoundParameters.ContainsKey('samesite')) { $Payload.Add('samesite', $samesite) }
             if ($PSCmdlet.ShouldProcess("$name", "Unset Authentication configuration Object")) {
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -Type authenticationvserver -Action unset -Payload $Payload -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -Type authenticationvserver -NitroPath nitro/v1/config -Action unset -Payload $Payload -GetWarning
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $response
@@ -23877,7 +23877,7 @@ function Invoke-ADCEnableAuthenticationvserver {
         Invoke-ADCEnableAuthenticationvserver -name <string>
     .NOTES
         File Name : Invoke-ADCEnableAuthenticationvserver
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/authentication/authenticationvserver/
         Requires  : PowerShell v5.1 and up
@@ -23908,7 +23908,7 @@ function Invoke-ADCEnableAuthenticationvserver {
             }
 
             if ($PSCmdlet.ShouldProcess($Name, "Enable Authentication configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -Type authenticationvserver -Action enable -Payload $Payload -GetWarning
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -NitroPath nitro/v1/config -Type authenticationvserver -Action enable -Payload $Payload -GetWarning
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $result
@@ -23936,7 +23936,7 @@ function Invoke-ADCDisableAuthenticationvserver {
         Invoke-ADCDisableAuthenticationvserver -name <string>
     .NOTES
         File Name : Invoke-ADCDisableAuthenticationvserver
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/authentication/authenticationvserver/
         Requires  : PowerShell v5.1 and up
@@ -23967,7 +23967,7 @@ function Invoke-ADCDisableAuthenticationvserver {
             }
 
             if ($PSCmdlet.ShouldProcess($Name, "Disable Authentication configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -Type authenticationvserver -Action disable -Payload $Payload -GetWarning
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -NitroPath nitro/v1/config -Type authenticationvserver -Action disable -Payload $Payload -GetWarning
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $result
@@ -24000,7 +24000,7 @@ function Invoke-ADCRenameAuthenticationvserver {
         Invoke-ADCRenameAuthenticationvserver -name <string> -newname <string>
     .NOTES
         File Name : Invoke-ADCRenameAuthenticationvserver
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/authentication/authenticationvserver/
         Requires  : PowerShell v5.1 and up
@@ -24039,7 +24039,7 @@ function Invoke-ADCRenameAuthenticationvserver {
 
  
             if ($PSCmdlet.ShouldProcess("authenticationvserver", "Rename Authentication configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -Type authenticationvserver -Action rename -Payload $Payload -GetWarning
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -NitroPath nitro/v1/config -Type authenticationvserver -Action rename -Payload $Payload -GetWarning
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 if ($PSBoundParameters.ContainsKey('PassThru')) {
@@ -24089,7 +24089,7 @@ function Invoke-ADCGetAuthenticationvserver {
         Invoke-ADCGetAuthenticationvserver -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetAuthenticationvserver
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/authentication/authenticationvserver/
         Requires  : PowerShell v5.1 and up
@@ -24130,21 +24130,21 @@ function Invoke-ADCGetAuthenticationvserver {
             if ( $PsCmdlet.ParameterSetName -eq 'Getall' ) {
                 $Query = @{ }
                 Write-Verbose "Retrieving all authenticationvserver objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationvserver -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationvserver -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
                 if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for authenticationvserver objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationvserver -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationvserver -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving authenticationvserver objects by arguments"
                 $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationvserver -Arguments $Arguments -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationvserver -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving authenticationvserver configuration for property 'name'"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationvserver -Resource $name -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationvserver -NitroPath nitro/v1/config -Resource $name -Summary:$ViewSummary -Filter $Filter -GetWarning
             } else {
                 Write-Verbose "Retrieving authenticationvserver configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationvserver -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationvserver -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -24187,7 +24187,7 @@ function Invoke-ADCAddAuthenticationvserverauditnslogpolicybinding {
         Invoke-ADCAddAuthenticationvserverauditnslogpolicybinding -name <string>
     .NOTES
         File Name : Invoke-ADCAddAuthenticationvserverauditnslogpolicybinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/authentication/authenticationvserver_auditnslogpolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -24242,7 +24242,7 @@ function Invoke-ADCAddAuthenticationvserverauditnslogpolicybinding {
             if ($PSBoundParameters.ContainsKey('bindpoint')) { $Payload.Add('bindpoint', $bindpoint) }
  
             if ($PSCmdlet.ShouldProcess("authenticationvserver_auditnslogpolicy_binding", "Add Authentication configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -Type authenticationvserver_auditnslogpolicy_binding -Payload $Payload -GetWarning
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -NitroPath nitro/v1/config -Type authenticationvserver_auditnslogpolicy_binding -Payload $Payload -GetWarning
                 #HTTP Status Code on Success: 201 Created
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 if ($PSBoundParameters.ContainsKey('PassThru')) {
@@ -24280,7 +24280,7 @@ function Invoke-ADCDeleteAuthenticationvserverauditnslogpolicybinding {
         Invoke-ADCDeleteAuthenticationvserverauditnslogpolicybinding -name <string>
     .NOTES
         File Name : Invoke-ADCDeleteAuthenticationvserverauditnslogpolicybinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/authentication/authenticationvserver_auditnslogpolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -24319,7 +24319,7 @@ function Invoke-ADCDeleteAuthenticationvserverauditnslogpolicybinding {
             if ($PSBoundParameters.ContainsKey('groupextraction')) { $Arguments.Add('groupextraction', $groupextraction) }
             if ($PSBoundParameters.ContainsKey('bindpoint')) { $Arguments.Add('bindpoint', $bindpoint) }
             if ($PSCmdlet.ShouldProcess("$name", "Delete Authentication configuration Object")) {
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type authenticationvserver_auditnslogpolicy_binding -Resource $name -Arguments $Arguments
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type authenticationvserver_auditnslogpolicy_binding -NitroPath nitro/v1/config -Resource $name -Arguments $Arguments
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $response
@@ -24363,7 +24363,7 @@ function Invoke-ADCGetAuthenticationvserverauditnslogpolicybinding {
         Invoke-ADCGetAuthenticationvserverauditnslogpolicybinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetAuthenticationvserverauditnslogpolicybinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/authentication/authenticationvserver_auditnslogpolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -24401,21 +24401,21 @@ function Invoke-ADCGetAuthenticationvserverauditnslogpolicybinding {
                     bulkbindings = 'yes'
                 }
                 Write-Verbose "Retrieving all authenticationvserver_auditnslogpolicy_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationvserver_auditnslogpolicy_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationvserver_auditnslogpolicy_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
                 if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for authenticationvserver_auditnslogpolicy_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationvserver_auditnslogpolicy_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationvserver_auditnslogpolicy_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving authenticationvserver_auditnslogpolicy_binding objects by arguments"
                 $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationvserver_auditnslogpolicy_binding -Arguments $Arguments -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationvserver_auditnslogpolicy_binding -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving authenticationvserver_auditnslogpolicy_binding configuration for property 'name'"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationvserver_auditnslogpolicy_binding -Resource $name -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationvserver_auditnslogpolicy_binding -NitroPath nitro/v1/config -Resource $name -Summary:$ViewSummary -Filter $Filter -GetWarning
             } else {
                 Write-Verbose "Retrieving authenticationvserver_auditnslogpolicy_binding configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationvserver_auditnslogpolicy_binding -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationvserver_auditnslogpolicy_binding -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -24458,7 +24458,7 @@ function Invoke-ADCAddAuthenticationvserverauditsyslogpolicybinding {
         Invoke-ADCAddAuthenticationvserverauditsyslogpolicybinding -name <string>
     .NOTES
         File Name : Invoke-ADCAddAuthenticationvserverauditsyslogpolicybinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/authentication/authenticationvserver_auditsyslogpolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -24513,7 +24513,7 @@ function Invoke-ADCAddAuthenticationvserverauditsyslogpolicybinding {
             if ($PSBoundParameters.ContainsKey('bindpoint')) { $Payload.Add('bindpoint', $bindpoint) }
  
             if ($PSCmdlet.ShouldProcess("authenticationvserver_auditsyslogpolicy_binding", "Add Authentication configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -Type authenticationvserver_auditsyslogpolicy_binding -Payload $Payload -GetWarning
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -NitroPath nitro/v1/config -Type authenticationvserver_auditsyslogpolicy_binding -Payload $Payload -GetWarning
                 #HTTP Status Code on Success: 201 Created
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 if ($PSBoundParameters.ContainsKey('PassThru')) {
@@ -24551,7 +24551,7 @@ function Invoke-ADCDeleteAuthenticationvserverauditsyslogpolicybinding {
         Invoke-ADCDeleteAuthenticationvserverauditsyslogpolicybinding -name <string>
     .NOTES
         File Name : Invoke-ADCDeleteAuthenticationvserverauditsyslogpolicybinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/authentication/authenticationvserver_auditsyslogpolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -24590,7 +24590,7 @@ function Invoke-ADCDeleteAuthenticationvserverauditsyslogpolicybinding {
             if ($PSBoundParameters.ContainsKey('groupextraction')) { $Arguments.Add('groupextraction', $groupextraction) }
             if ($PSBoundParameters.ContainsKey('bindpoint')) { $Arguments.Add('bindpoint', $bindpoint) }
             if ($PSCmdlet.ShouldProcess("$name", "Delete Authentication configuration Object")) {
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type authenticationvserver_auditsyslogpolicy_binding -Resource $name -Arguments $Arguments
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type authenticationvserver_auditsyslogpolicy_binding -NitroPath nitro/v1/config -Resource $name -Arguments $Arguments
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $response
@@ -24634,7 +24634,7 @@ function Invoke-ADCGetAuthenticationvserverauditsyslogpolicybinding {
         Invoke-ADCGetAuthenticationvserverauditsyslogpolicybinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetAuthenticationvserverauditsyslogpolicybinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/authentication/authenticationvserver_auditsyslogpolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -24672,21 +24672,21 @@ function Invoke-ADCGetAuthenticationvserverauditsyslogpolicybinding {
                     bulkbindings = 'yes'
                 }
                 Write-Verbose "Retrieving all authenticationvserver_auditsyslogpolicy_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationvserver_auditsyslogpolicy_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationvserver_auditsyslogpolicy_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
                 if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for authenticationvserver_auditsyslogpolicy_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationvserver_auditsyslogpolicy_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationvserver_auditsyslogpolicy_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving authenticationvserver_auditsyslogpolicy_binding objects by arguments"
                 $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationvserver_auditsyslogpolicy_binding -Arguments $Arguments -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationvserver_auditsyslogpolicy_binding -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving authenticationvserver_auditsyslogpolicy_binding configuration for property 'name'"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationvserver_auditsyslogpolicy_binding -Resource $name -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationvserver_auditsyslogpolicy_binding -NitroPath nitro/v1/config -Resource $name -Summary:$ViewSummary -Filter $Filter -GetWarning
             } else {
                 Write-Verbose "Retrieving authenticationvserver_auditsyslogpolicy_binding configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationvserver_auditsyslogpolicy_binding -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationvserver_auditsyslogpolicy_binding -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -24729,7 +24729,7 @@ function Invoke-ADCAddAuthenticationvserverauthenticationcertpolicybinding {
         Invoke-ADCAddAuthenticationvserverauthenticationcertpolicybinding -name <string>
     .NOTES
         File Name : Invoke-ADCAddAuthenticationvserverauthenticationcertpolicybinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/authentication/authenticationvserver_authenticationcertpolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -24784,7 +24784,7 @@ function Invoke-ADCAddAuthenticationvserverauthenticationcertpolicybinding {
             if ($PSBoundParameters.ContainsKey('bindpoint')) { $Payload.Add('bindpoint', $bindpoint) }
  
             if ($PSCmdlet.ShouldProcess("authenticationvserver_authenticationcertpolicy_binding", "Add Authentication configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -Type authenticationvserver_authenticationcertpolicy_binding -Payload $Payload -GetWarning
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -NitroPath nitro/v1/config -Type authenticationvserver_authenticationcertpolicy_binding -Payload $Payload -GetWarning
                 #HTTP Status Code on Success: 201 Created
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 if ($PSBoundParameters.ContainsKey('PassThru')) {
@@ -24822,7 +24822,7 @@ function Invoke-ADCDeleteAuthenticationvserverauthenticationcertpolicybinding {
         Invoke-ADCDeleteAuthenticationvserverauthenticationcertpolicybinding -name <string>
     .NOTES
         File Name : Invoke-ADCDeleteAuthenticationvserverauthenticationcertpolicybinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/authentication/authenticationvserver_authenticationcertpolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -24861,7 +24861,7 @@ function Invoke-ADCDeleteAuthenticationvserverauthenticationcertpolicybinding {
             if ($PSBoundParameters.ContainsKey('groupextraction')) { $Arguments.Add('groupextraction', $groupextraction) }
             if ($PSBoundParameters.ContainsKey('bindpoint')) { $Arguments.Add('bindpoint', $bindpoint) }
             if ($PSCmdlet.ShouldProcess("$name", "Delete Authentication configuration Object")) {
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type authenticationvserver_authenticationcertpolicy_binding -Resource $name -Arguments $Arguments
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type authenticationvserver_authenticationcertpolicy_binding -NitroPath nitro/v1/config -Resource $name -Arguments $Arguments
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $response
@@ -24905,7 +24905,7 @@ function Invoke-ADCGetAuthenticationvserverauthenticationcertpolicybinding {
         Invoke-ADCGetAuthenticationvserverauthenticationcertpolicybinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetAuthenticationvserverauthenticationcertpolicybinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/authentication/authenticationvserver_authenticationcertpolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -24943,21 +24943,21 @@ function Invoke-ADCGetAuthenticationvserverauthenticationcertpolicybinding {
                     bulkbindings = 'yes'
                 }
                 Write-Verbose "Retrieving all authenticationvserver_authenticationcertpolicy_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationvserver_authenticationcertpolicy_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationvserver_authenticationcertpolicy_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
                 if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for authenticationvserver_authenticationcertpolicy_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationvserver_authenticationcertpolicy_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationvserver_authenticationcertpolicy_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving authenticationvserver_authenticationcertpolicy_binding objects by arguments"
                 $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationvserver_authenticationcertpolicy_binding -Arguments $Arguments -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationvserver_authenticationcertpolicy_binding -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving authenticationvserver_authenticationcertpolicy_binding configuration for property 'name'"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationvserver_authenticationcertpolicy_binding -Resource $name -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationvserver_authenticationcertpolicy_binding -NitroPath nitro/v1/config -Resource $name -Summary:$ViewSummary -Filter $Filter -GetWarning
             } else {
                 Write-Verbose "Retrieving authenticationvserver_authenticationcertpolicy_binding configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationvserver_authenticationcertpolicy_binding -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationvserver_authenticationcertpolicy_binding -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -25000,7 +25000,7 @@ function Invoke-ADCAddAuthenticationvserverauthenticationldappolicybinding {
         Invoke-ADCAddAuthenticationvserverauthenticationldappolicybinding -name <string>
     .NOTES
         File Name : Invoke-ADCAddAuthenticationvserverauthenticationldappolicybinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/authentication/authenticationvserver_authenticationldappolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -25055,7 +25055,7 @@ function Invoke-ADCAddAuthenticationvserverauthenticationldappolicybinding {
             if ($PSBoundParameters.ContainsKey('bindpoint')) { $Payload.Add('bindpoint', $bindpoint) }
  
             if ($PSCmdlet.ShouldProcess("authenticationvserver_authenticationldappolicy_binding", "Add Authentication configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -Type authenticationvserver_authenticationldappolicy_binding -Payload $Payload -GetWarning
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -NitroPath nitro/v1/config -Type authenticationvserver_authenticationldappolicy_binding -Payload $Payload -GetWarning
                 #HTTP Status Code on Success: 201 Created
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 if ($PSBoundParameters.ContainsKey('PassThru')) {
@@ -25093,7 +25093,7 @@ function Invoke-ADCDeleteAuthenticationvserverauthenticationldappolicybinding {
         Invoke-ADCDeleteAuthenticationvserverauthenticationldappolicybinding -name <string>
     .NOTES
         File Name : Invoke-ADCDeleteAuthenticationvserverauthenticationldappolicybinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/authentication/authenticationvserver_authenticationldappolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -25132,7 +25132,7 @@ function Invoke-ADCDeleteAuthenticationvserverauthenticationldappolicybinding {
             if ($PSBoundParameters.ContainsKey('groupextraction')) { $Arguments.Add('groupextraction', $groupextraction) }
             if ($PSBoundParameters.ContainsKey('bindpoint')) { $Arguments.Add('bindpoint', $bindpoint) }
             if ($PSCmdlet.ShouldProcess("$name", "Delete Authentication configuration Object")) {
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type authenticationvserver_authenticationldappolicy_binding -Resource $name -Arguments $Arguments
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type authenticationvserver_authenticationldappolicy_binding -NitroPath nitro/v1/config -Resource $name -Arguments $Arguments
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $response
@@ -25176,7 +25176,7 @@ function Invoke-ADCGetAuthenticationvserverauthenticationldappolicybinding {
         Invoke-ADCGetAuthenticationvserverauthenticationldappolicybinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetAuthenticationvserverauthenticationldappolicybinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/authentication/authenticationvserver_authenticationldappolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -25214,21 +25214,21 @@ function Invoke-ADCGetAuthenticationvserverauthenticationldappolicybinding {
                     bulkbindings = 'yes'
                 }
                 Write-Verbose "Retrieving all authenticationvserver_authenticationldappolicy_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationvserver_authenticationldappolicy_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationvserver_authenticationldappolicy_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
                 if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for authenticationvserver_authenticationldappolicy_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationvserver_authenticationldappolicy_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationvserver_authenticationldappolicy_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving authenticationvserver_authenticationldappolicy_binding objects by arguments"
                 $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationvserver_authenticationldappolicy_binding -Arguments $Arguments -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationvserver_authenticationldappolicy_binding -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving authenticationvserver_authenticationldappolicy_binding configuration for property 'name'"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationvserver_authenticationldappolicy_binding -Resource $name -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationvserver_authenticationldappolicy_binding -NitroPath nitro/v1/config -Resource $name -Summary:$ViewSummary -Filter $Filter -GetWarning
             } else {
                 Write-Verbose "Retrieving authenticationvserver_authenticationldappolicy_binding configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationvserver_authenticationldappolicy_binding -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationvserver_authenticationldappolicy_binding -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -25271,7 +25271,7 @@ function Invoke-ADCAddAuthenticationvserverauthenticationlocalpolicybinding {
         Invoke-ADCAddAuthenticationvserverauthenticationlocalpolicybinding -name <string>
     .NOTES
         File Name : Invoke-ADCAddAuthenticationvserverauthenticationlocalpolicybinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/authentication/authenticationvserver_authenticationlocalpolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -25326,7 +25326,7 @@ function Invoke-ADCAddAuthenticationvserverauthenticationlocalpolicybinding {
             if ($PSBoundParameters.ContainsKey('bindpoint')) { $Payload.Add('bindpoint', $bindpoint) }
  
             if ($PSCmdlet.ShouldProcess("authenticationvserver_authenticationlocalpolicy_binding", "Add Authentication configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -Type authenticationvserver_authenticationlocalpolicy_binding -Payload $Payload -GetWarning
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -NitroPath nitro/v1/config -Type authenticationvserver_authenticationlocalpolicy_binding -Payload $Payload -GetWarning
                 #HTTP Status Code on Success: 201 Created
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 if ($PSBoundParameters.ContainsKey('PassThru')) {
@@ -25364,7 +25364,7 @@ function Invoke-ADCDeleteAuthenticationvserverauthenticationlocalpolicybinding {
         Invoke-ADCDeleteAuthenticationvserverauthenticationlocalpolicybinding -name <string>
     .NOTES
         File Name : Invoke-ADCDeleteAuthenticationvserverauthenticationlocalpolicybinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/authentication/authenticationvserver_authenticationlocalpolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -25403,7 +25403,7 @@ function Invoke-ADCDeleteAuthenticationvserverauthenticationlocalpolicybinding {
             if ($PSBoundParameters.ContainsKey('groupextraction')) { $Arguments.Add('groupextraction', $groupextraction) }
             if ($PSBoundParameters.ContainsKey('bindpoint')) { $Arguments.Add('bindpoint', $bindpoint) }
             if ($PSCmdlet.ShouldProcess("$name", "Delete Authentication configuration Object")) {
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type authenticationvserver_authenticationlocalpolicy_binding -Resource $name -Arguments $Arguments
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type authenticationvserver_authenticationlocalpolicy_binding -NitroPath nitro/v1/config -Resource $name -Arguments $Arguments
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $response
@@ -25447,7 +25447,7 @@ function Invoke-ADCGetAuthenticationvserverauthenticationlocalpolicybinding {
         Invoke-ADCGetAuthenticationvserverauthenticationlocalpolicybinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetAuthenticationvserverauthenticationlocalpolicybinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/authentication/authenticationvserver_authenticationlocalpolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -25485,21 +25485,21 @@ function Invoke-ADCGetAuthenticationvserverauthenticationlocalpolicybinding {
                     bulkbindings = 'yes'
                 }
                 Write-Verbose "Retrieving all authenticationvserver_authenticationlocalpolicy_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationvserver_authenticationlocalpolicy_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationvserver_authenticationlocalpolicy_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
                 if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for authenticationvserver_authenticationlocalpolicy_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationvserver_authenticationlocalpolicy_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationvserver_authenticationlocalpolicy_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving authenticationvserver_authenticationlocalpolicy_binding objects by arguments"
                 $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationvserver_authenticationlocalpolicy_binding -Arguments $Arguments -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationvserver_authenticationlocalpolicy_binding -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving authenticationvserver_authenticationlocalpolicy_binding configuration for property 'name'"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationvserver_authenticationlocalpolicy_binding -Resource $name -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationvserver_authenticationlocalpolicy_binding -NitroPath nitro/v1/config -Resource $name -Summary:$ViewSummary -Filter $Filter -GetWarning
             } else {
                 Write-Verbose "Retrieving authenticationvserver_authenticationlocalpolicy_binding configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationvserver_authenticationlocalpolicy_binding -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationvserver_authenticationlocalpolicy_binding -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -25542,7 +25542,7 @@ function Invoke-ADCAddAuthenticationvserverauthenticationloginschemapolicybindin
         Invoke-ADCAddAuthenticationvserverauthenticationloginschemapolicybinding -name <string>
     .NOTES
         File Name : Invoke-ADCAddAuthenticationvserverauthenticationloginschemapolicybinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/authentication/authenticationvserver_authenticationloginschemapolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -25597,7 +25597,7 @@ function Invoke-ADCAddAuthenticationvserverauthenticationloginschemapolicybindin
             if ($PSBoundParameters.ContainsKey('bindpoint')) { $Payload.Add('bindpoint', $bindpoint) }
  
             if ($PSCmdlet.ShouldProcess("authenticationvserver_authenticationloginschemapolicy_binding", "Add Authentication configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -Type authenticationvserver_authenticationloginschemapolicy_binding -Payload $Payload -GetWarning
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -NitroPath nitro/v1/config -Type authenticationvserver_authenticationloginschemapolicy_binding -Payload $Payload -GetWarning
                 #HTTP Status Code on Success: 201 Created
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 if ($PSBoundParameters.ContainsKey('PassThru')) {
@@ -25635,7 +25635,7 @@ function Invoke-ADCDeleteAuthenticationvserverauthenticationloginschemapolicybin
         Invoke-ADCDeleteAuthenticationvserverauthenticationloginschemapolicybinding -name <string>
     .NOTES
         File Name : Invoke-ADCDeleteAuthenticationvserverauthenticationloginschemapolicybinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/authentication/authenticationvserver_authenticationloginschemapolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -25674,7 +25674,7 @@ function Invoke-ADCDeleteAuthenticationvserverauthenticationloginschemapolicybin
             if ($PSBoundParameters.ContainsKey('groupextraction')) { $Arguments.Add('groupextraction', $groupextraction) }
             if ($PSBoundParameters.ContainsKey('bindpoint')) { $Arguments.Add('bindpoint', $bindpoint) }
             if ($PSCmdlet.ShouldProcess("$name", "Delete Authentication configuration Object")) {
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type authenticationvserver_authenticationloginschemapolicy_binding -Resource $name -Arguments $Arguments
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type authenticationvserver_authenticationloginschemapolicy_binding -NitroPath nitro/v1/config -Resource $name -Arguments $Arguments
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $response
@@ -25718,7 +25718,7 @@ function Invoke-ADCGetAuthenticationvserverauthenticationloginschemapolicybindin
         Invoke-ADCGetAuthenticationvserverauthenticationloginschemapolicybinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetAuthenticationvserverauthenticationloginschemapolicybinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/authentication/authenticationvserver_authenticationloginschemapolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -25756,21 +25756,21 @@ function Invoke-ADCGetAuthenticationvserverauthenticationloginschemapolicybindin
                     bulkbindings = 'yes'
                 }
                 Write-Verbose "Retrieving all authenticationvserver_authenticationloginschemapolicy_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationvserver_authenticationloginschemapolicy_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationvserver_authenticationloginschemapolicy_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
                 if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for authenticationvserver_authenticationloginschemapolicy_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationvserver_authenticationloginschemapolicy_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationvserver_authenticationloginschemapolicy_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving authenticationvserver_authenticationloginschemapolicy_binding objects by arguments"
                 $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationvserver_authenticationloginschemapolicy_binding -Arguments $Arguments -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationvserver_authenticationloginschemapolicy_binding -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving authenticationvserver_authenticationloginschemapolicy_binding configuration for property 'name'"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationvserver_authenticationloginschemapolicy_binding -Resource $name -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationvserver_authenticationloginschemapolicy_binding -NitroPath nitro/v1/config -Resource $name -Summary:$ViewSummary -Filter $Filter -GetWarning
             } else {
                 Write-Verbose "Retrieving authenticationvserver_authenticationloginschemapolicy_binding configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationvserver_authenticationloginschemapolicy_binding -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationvserver_authenticationloginschemapolicy_binding -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -25813,7 +25813,7 @@ function Invoke-ADCAddAuthenticationvserverauthenticationnegotiatepolicybinding 
         Invoke-ADCAddAuthenticationvserverauthenticationnegotiatepolicybinding -name <string>
     .NOTES
         File Name : Invoke-ADCAddAuthenticationvserverauthenticationnegotiatepolicybinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/authentication/authenticationvserver_authenticationnegotiatepolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -25868,7 +25868,7 @@ function Invoke-ADCAddAuthenticationvserverauthenticationnegotiatepolicybinding 
             if ($PSBoundParameters.ContainsKey('bindpoint')) { $Payload.Add('bindpoint', $bindpoint) }
  
             if ($PSCmdlet.ShouldProcess("authenticationvserver_authenticationnegotiatepolicy_binding", "Add Authentication configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -Type authenticationvserver_authenticationnegotiatepolicy_binding -Payload $Payload -GetWarning
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -NitroPath nitro/v1/config -Type authenticationvserver_authenticationnegotiatepolicy_binding -Payload $Payload -GetWarning
                 #HTTP Status Code on Success: 201 Created
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 if ($PSBoundParameters.ContainsKey('PassThru')) {
@@ -25906,7 +25906,7 @@ function Invoke-ADCDeleteAuthenticationvserverauthenticationnegotiatepolicybindi
         Invoke-ADCDeleteAuthenticationvserverauthenticationnegotiatepolicybinding -name <string>
     .NOTES
         File Name : Invoke-ADCDeleteAuthenticationvserverauthenticationnegotiatepolicybinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/authentication/authenticationvserver_authenticationnegotiatepolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -25945,7 +25945,7 @@ function Invoke-ADCDeleteAuthenticationvserverauthenticationnegotiatepolicybindi
             if ($PSBoundParameters.ContainsKey('groupextraction')) { $Arguments.Add('groupextraction', $groupextraction) }
             if ($PSBoundParameters.ContainsKey('bindpoint')) { $Arguments.Add('bindpoint', $bindpoint) }
             if ($PSCmdlet.ShouldProcess("$name", "Delete Authentication configuration Object")) {
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type authenticationvserver_authenticationnegotiatepolicy_binding -Resource $name -Arguments $Arguments
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type authenticationvserver_authenticationnegotiatepolicy_binding -NitroPath nitro/v1/config -Resource $name -Arguments $Arguments
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $response
@@ -25989,7 +25989,7 @@ function Invoke-ADCGetAuthenticationvserverauthenticationnegotiatepolicybinding 
         Invoke-ADCGetAuthenticationvserverauthenticationnegotiatepolicybinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetAuthenticationvserverauthenticationnegotiatepolicybinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/authentication/authenticationvserver_authenticationnegotiatepolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -26027,21 +26027,21 @@ function Invoke-ADCGetAuthenticationvserverauthenticationnegotiatepolicybinding 
                     bulkbindings = 'yes'
                 }
                 Write-Verbose "Retrieving all authenticationvserver_authenticationnegotiatepolicy_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationvserver_authenticationnegotiatepolicy_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationvserver_authenticationnegotiatepolicy_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
                 if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for authenticationvserver_authenticationnegotiatepolicy_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationvserver_authenticationnegotiatepolicy_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationvserver_authenticationnegotiatepolicy_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving authenticationvserver_authenticationnegotiatepolicy_binding objects by arguments"
                 $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationvserver_authenticationnegotiatepolicy_binding -Arguments $Arguments -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationvserver_authenticationnegotiatepolicy_binding -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving authenticationvserver_authenticationnegotiatepolicy_binding configuration for property 'name'"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationvserver_authenticationnegotiatepolicy_binding -Resource $name -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationvserver_authenticationnegotiatepolicy_binding -NitroPath nitro/v1/config -Resource $name -Summary:$ViewSummary -Filter $Filter -GetWarning
             } else {
                 Write-Verbose "Retrieving authenticationvserver_authenticationnegotiatepolicy_binding configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationvserver_authenticationnegotiatepolicy_binding -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationvserver_authenticationnegotiatepolicy_binding -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -26084,7 +26084,7 @@ function Invoke-ADCAddAuthenticationvserverauthenticationoauthidppolicybinding {
         Invoke-ADCAddAuthenticationvserverauthenticationoauthidppolicybinding -name <string>
     .NOTES
         File Name : Invoke-ADCAddAuthenticationvserverauthenticationoauthidppolicybinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/authentication/authenticationvserver_authenticationoauthidppolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -26139,7 +26139,7 @@ function Invoke-ADCAddAuthenticationvserverauthenticationoauthidppolicybinding {
             if ($PSBoundParameters.ContainsKey('bindpoint')) { $Payload.Add('bindpoint', $bindpoint) }
  
             if ($PSCmdlet.ShouldProcess("authenticationvserver_authenticationoauthidppolicy_binding", "Add Authentication configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -Type authenticationvserver_authenticationoauthidppolicy_binding -Payload $Payload -GetWarning
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -NitroPath nitro/v1/config -Type authenticationvserver_authenticationoauthidppolicy_binding -Payload $Payload -GetWarning
                 #HTTP Status Code on Success: 201 Created
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 if ($PSBoundParameters.ContainsKey('PassThru')) {
@@ -26177,7 +26177,7 @@ function Invoke-ADCDeleteAuthenticationvserverauthenticationoauthidppolicybindin
         Invoke-ADCDeleteAuthenticationvserverauthenticationoauthidppolicybinding -name <string>
     .NOTES
         File Name : Invoke-ADCDeleteAuthenticationvserverauthenticationoauthidppolicybinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/authentication/authenticationvserver_authenticationoauthidppolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -26216,7 +26216,7 @@ function Invoke-ADCDeleteAuthenticationvserverauthenticationoauthidppolicybindin
             if ($PSBoundParameters.ContainsKey('groupextraction')) { $Arguments.Add('groupextraction', $groupextraction) }
             if ($PSBoundParameters.ContainsKey('bindpoint')) { $Arguments.Add('bindpoint', $bindpoint) }
             if ($PSCmdlet.ShouldProcess("$name", "Delete Authentication configuration Object")) {
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type authenticationvserver_authenticationoauthidppolicy_binding -Resource $name -Arguments $Arguments
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type authenticationvserver_authenticationoauthidppolicy_binding -NitroPath nitro/v1/config -Resource $name -Arguments $Arguments
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $response
@@ -26260,7 +26260,7 @@ function Invoke-ADCGetAuthenticationvserverauthenticationoauthidppolicybinding {
         Invoke-ADCGetAuthenticationvserverauthenticationoauthidppolicybinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetAuthenticationvserverauthenticationoauthidppolicybinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/authentication/authenticationvserver_authenticationoauthidppolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -26298,21 +26298,21 @@ function Invoke-ADCGetAuthenticationvserverauthenticationoauthidppolicybinding {
                     bulkbindings = 'yes'
                 }
                 Write-Verbose "Retrieving all authenticationvserver_authenticationoauthidppolicy_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationvserver_authenticationoauthidppolicy_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationvserver_authenticationoauthidppolicy_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
                 if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for authenticationvserver_authenticationoauthidppolicy_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationvserver_authenticationoauthidppolicy_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationvserver_authenticationoauthidppolicy_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving authenticationvserver_authenticationoauthidppolicy_binding objects by arguments"
                 $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationvserver_authenticationoauthidppolicy_binding -Arguments $Arguments -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationvserver_authenticationoauthidppolicy_binding -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving authenticationvserver_authenticationoauthidppolicy_binding configuration for property 'name'"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationvserver_authenticationoauthidppolicy_binding -Resource $name -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationvserver_authenticationoauthidppolicy_binding -NitroPath nitro/v1/config -Resource $name -Summary:$ViewSummary -Filter $Filter -GetWarning
             } else {
                 Write-Verbose "Retrieving authenticationvserver_authenticationoauthidppolicy_binding configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationvserver_authenticationoauthidppolicy_binding -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationvserver_authenticationoauthidppolicy_binding -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -26355,7 +26355,7 @@ function Invoke-ADCAddAuthenticationvserverauthenticationpolicybinding {
         Invoke-ADCAddAuthenticationvserverauthenticationpolicybinding -name <string>
     .NOTES
         File Name : Invoke-ADCAddAuthenticationvserverauthenticationpolicybinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/authentication/authenticationvserver_authenticationpolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -26410,7 +26410,7 @@ function Invoke-ADCAddAuthenticationvserverauthenticationpolicybinding {
             if ($PSBoundParameters.ContainsKey('bindpoint')) { $Payload.Add('bindpoint', $bindpoint) }
  
             if ($PSCmdlet.ShouldProcess("authenticationvserver_authenticationpolicy_binding", "Add Authentication configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -Type authenticationvserver_authenticationpolicy_binding -Payload $Payload -GetWarning
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -NitroPath nitro/v1/config -Type authenticationvserver_authenticationpolicy_binding -Payload $Payload -GetWarning
                 #HTTP Status Code on Success: 201 Created
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 if ($PSBoundParameters.ContainsKey('PassThru')) {
@@ -26448,7 +26448,7 @@ function Invoke-ADCDeleteAuthenticationvserverauthenticationpolicybinding {
         Invoke-ADCDeleteAuthenticationvserverauthenticationpolicybinding -name <string>
     .NOTES
         File Name : Invoke-ADCDeleteAuthenticationvserverauthenticationpolicybinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/authentication/authenticationvserver_authenticationpolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -26487,7 +26487,7 @@ function Invoke-ADCDeleteAuthenticationvserverauthenticationpolicybinding {
             if ($PSBoundParameters.ContainsKey('groupextraction')) { $Arguments.Add('groupextraction', $groupextraction) }
             if ($PSBoundParameters.ContainsKey('bindpoint')) { $Arguments.Add('bindpoint', $bindpoint) }
             if ($PSCmdlet.ShouldProcess("$name", "Delete Authentication configuration Object")) {
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type authenticationvserver_authenticationpolicy_binding -Resource $name -Arguments $Arguments
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type authenticationvserver_authenticationpolicy_binding -NitroPath nitro/v1/config -Resource $name -Arguments $Arguments
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $response
@@ -26531,7 +26531,7 @@ function Invoke-ADCGetAuthenticationvserverauthenticationpolicybinding {
         Invoke-ADCGetAuthenticationvserverauthenticationpolicybinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetAuthenticationvserverauthenticationpolicybinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/authentication/authenticationvserver_authenticationpolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -26569,21 +26569,21 @@ function Invoke-ADCGetAuthenticationvserverauthenticationpolicybinding {
                     bulkbindings = 'yes'
                 }
                 Write-Verbose "Retrieving all authenticationvserver_authenticationpolicy_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationvserver_authenticationpolicy_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationvserver_authenticationpolicy_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
                 if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for authenticationvserver_authenticationpolicy_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationvserver_authenticationpolicy_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationvserver_authenticationpolicy_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving authenticationvserver_authenticationpolicy_binding objects by arguments"
                 $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationvserver_authenticationpolicy_binding -Arguments $Arguments -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationvserver_authenticationpolicy_binding -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving authenticationvserver_authenticationpolicy_binding configuration for property 'name'"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationvserver_authenticationpolicy_binding -Resource $name -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationvserver_authenticationpolicy_binding -NitroPath nitro/v1/config -Resource $name -Summary:$ViewSummary -Filter $Filter -GetWarning
             } else {
                 Write-Verbose "Retrieving authenticationvserver_authenticationpolicy_binding configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationvserver_authenticationpolicy_binding -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationvserver_authenticationpolicy_binding -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -26626,7 +26626,7 @@ function Invoke-ADCAddAuthenticationvserverauthenticationradiuspolicybinding {
         Invoke-ADCAddAuthenticationvserverauthenticationradiuspolicybinding -name <string>
     .NOTES
         File Name : Invoke-ADCAddAuthenticationvserverauthenticationradiuspolicybinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/authentication/authenticationvserver_authenticationradiuspolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -26681,7 +26681,7 @@ function Invoke-ADCAddAuthenticationvserverauthenticationradiuspolicybinding {
             if ($PSBoundParameters.ContainsKey('bindpoint')) { $Payload.Add('bindpoint', $bindpoint) }
  
             if ($PSCmdlet.ShouldProcess("authenticationvserver_authenticationradiuspolicy_binding", "Add Authentication configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -Type authenticationvserver_authenticationradiuspolicy_binding -Payload $Payload -GetWarning
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -NitroPath nitro/v1/config -Type authenticationvserver_authenticationradiuspolicy_binding -Payload $Payload -GetWarning
                 #HTTP Status Code on Success: 201 Created
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 if ($PSBoundParameters.ContainsKey('PassThru')) {
@@ -26719,7 +26719,7 @@ function Invoke-ADCDeleteAuthenticationvserverauthenticationradiuspolicybinding 
         Invoke-ADCDeleteAuthenticationvserverauthenticationradiuspolicybinding -name <string>
     .NOTES
         File Name : Invoke-ADCDeleteAuthenticationvserverauthenticationradiuspolicybinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/authentication/authenticationvserver_authenticationradiuspolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -26758,7 +26758,7 @@ function Invoke-ADCDeleteAuthenticationvserverauthenticationradiuspolicybinding 
             if ($PSBoundParameters.ContainsKey('groupextraction')) { $Arguments.Add('groupextraction', $groupextraction) }
             if ($PSBoundParameters.ContainsKey('bindpoint')) { $Arguments.Add('bindpoint', $bindpoint) }
             if ($PSCmdlet.ShouldProcess("$name", "Delete Authentication configuration Object")) {
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type authenticationvserver_authenticationradiuspolicy_binding -Resource $name -Arguments $Arguments
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type authenticationvserver_authenticationradiuspolicy_binding -NitroPath nitro/v1/config -Resource $name -Arguments $Arguments
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $response
@@ -26802,7 +26802,7 @@ function Invoke-ADCGetAuthenticationvserverauthenticationradiuspolicybinding {
         Invoke-ADCGetAuthenticationvserverauthenticationradiuspolicybinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetAuthenticationvserverauthenticationradiuspolicybinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/authentication/authenticationvserver_authenticationradiuspolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -26840,21 +26840,21 @@ function Invoke-ADCGetAuthenticationvserverauthenticationradiuspolicybinding {
                     bulkbindings = 'yes'
                 }
                 Write-Verbose "Retrieving all authenticationvserver_authenticationradiuspolicy_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationvserver_authenticationradiuspolicy_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationvserver_authenticationradiuspolicy_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
                 if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for authenticationvserver_authenticationradiuspolicy_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationvserver_authenticationradiuspolicy_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationvserver_authenticationradiuspolicy_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving authenticationvserver_authenticationradiuspolicy_binding objects by arguments"
                 $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationvserver_authenticationradiuspolicy_binding -Arguments $Arguments -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationvserver_authenticationradiuspolicy_binding -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving authenticationvserver_authenticationradiuspolicy_binding configuration for property 'name'"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationvserver_authenticationradiuspolicy_binding -Resource $name -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationvserver_authenticationradiuspolicy_binding -NitroPath nitro/v1/config -Resource $name -Summary:$ViewSummary -Filter $Filter -GetWarning
             } else {
                 Write-Verbose "Retrieving authenticationvserver_authenticationradiuspolicy_binding configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationvserver_authenticationradiuspolicy_binding -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationvserver_authenticationradiuspolicy_binding -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -26897,7 +26897,7 @@ function Invoke-ADCAddAuthenticationvserverauthenticationsamlidppolicybinding {
         Invoke-ADCAddAuthenticationvserverauthenticationsamlidppolicybinding -name <string>
     .NOTES
         File Name : Invoke-ADCAddAuthenticationvserverauthenticationsamlidppolicybinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/authentication/authenticationvserver_authenticationsamlidppolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -26952,7 +26952,7 @@ function Invoke-ADCAddAuthenticationvserverauthenticationsamlidppolicybinding {
             if ($PSBoundParameters.ContainsKey('bindpoint')) { $Payload.Add('bindpoint', $bindpoint) }
  
             if ($PSCmdlet.ShouldProcess("authenticationvserver_authenticationsamlidppolicy_binding", "Add Authentication configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -Type authenticationvserver_authenticationsamlidppolicy_binding -Payload $Payload -GetWarning
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -NitroPath nitro/v1/config -Type authenticationvserver_authenticationsamlidppolicy_binding -Payload $Payload -GetWarning
                 #HTTP Status Code on Success: 201 Created
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 if ($PSBoundParameters.ContainsKey('PassThru')) {
@@ -26990,7 +26990,7 @@ function Invoke-ADCDeleteAuthenticationvserverauthenticationsamlidppolicybinding
         Invoke-ADCDeleteAuthenticationvserverauthenticationsamlidppolicybinding -name <string>
     .NOTES
         File Name : Invoke-ADCDeleteAuthenticationvserverauthenticationsamlidppolicybinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/authentication/authenticationvserver_authenticationsamlidppolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -27029,7 +27029,7 @@ function Invoke-ADCDeleteAuthenticationvserverauthenticationsamlidppolicybinding
             if ($PSBoundParameters.ContainsKey('groupextraction')) { $Arguments.Add('groupextraction', $groupextraction) }
             if ($PSBoundParameters.ContainsKey('bindpoint')) { $Arguments.Add('bindpoint', $bindpoint) }
             if ($PSCmdlet.ShouldProcess("$name", "Delete Authentication configuration Object")) {
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type authenticationvserver_authenticationsamlidppolicy_binding -Resource $name -Arguments $Arguments
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type authenticationvserver_authenticationsamlidppolicy_binding -NitroPath nitro/v1/config -Resource $name -Arguments $Arguments
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $response
@@ -27073,7 +27073,7 @@ function Invoke-ADCGetAuthenticationvserverauthenticationsamlidppolicybinding {
         Invoke-ADCGetAuthenticationvserverauthenticationsamlidppolicybinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetAuthenticationvserverauthenticationsamlidppolicybinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/authentication/authenticationvserver_authenticationsamlidppolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -27111,21 +27111,21 @@ function Invoke-ADCGetAuthenticationvserverauthenticationsamlidppolicybinding {
                     bulkbindings = 'yes'
                 }
                 Write-Verbose "Retrieving all authenticationvserver_authenticationsamlidppolicy_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationvserver_authenticationsamlidppolicy_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationvserver_authenticationsamlidppolicy_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
                 if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for authenticationvserver_authenticationsamlidppolicy_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationvserver_authenticationsamlidppolicy_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationvserver_authenticationsamlidppolicy_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving authenticationvserver_authenticationsamlidppolicy_binding objects by arguments"
                 $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationvserver_authenticationsamlidppolicy_binding -Arguments $Arguments -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationvserver_authenticationsamlidppolicy_binding -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving authenticationvserver_authenticationsamlidppolicy_binding configuration for property 'name'"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationvserver_authenticationsamlidppolicy_binding -Resource $name -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationvserver_authenticationsamlidppolicy_binding -NitroPath nitro/v1/config -Resource $name -Summary:$ViewSummary -Filter $Filter -GetWarning
             } else {
                 Write-Verbose "Retrieving authenticationvserver_authenticationsamlidppolicy_binding configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationvserver_authenticationsamlidppolicy_binding -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationvserver_authenticationsamlidppolicy_binding -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -27168,7 +27168,7 @@ function Invoke-ADCAddAuthenticationvserverauthenticationsamlpolicybinding {
         Invoke-ADCAddAuthenticationvserverauthenticationsamlpolicybinding -name <string>
     .NOTES
         File Name : Invoke-ADCAddAuthenticationvserverauthenticationsamlpolicybinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/authentication/authenticationvserver_authenticationsamlpolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -27223,7 +27223,7 @@ function Invoke-ADCAddAuthenticationvserverauthenticationsamlpolicybinding {
             if ($PSBoundParameters.ContainsKey('bindpoint')) { $Payload.Add('bindpoint', $bindpoint) }
  
             if ($PSCmdlet.ShouldProcess("authenticationvserver_authenticationsamlpolicy_binding", "Add Authentication configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -Type authenticationvserver_authenticationsamlpolicy_binding -Payload $Payload -GetWarning
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -NitroPath nitro/v1/config -Type authenticationvserver_authenticationsamlpolicy_binding -Payload $Payload -GetWarning
                 #HTTP Status Code on Success: 201 Created
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 if ($PSBoundParameters.ContainsKey('PassThru')) {
@@ -27261,7 +27261,7 @@ function Invoke-ADCDeleteAuthenticationvserverauthenticationsamlpolicybinding {
         Invoke-ADCDeleteAuthenticationvserverauthenticationsamlpolicybinding -name <string>
     .NOTES
         File Name : Invoke-ADCDeleteAuthenticationvserverauthenticationsamlpolicybinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/authentication/authenticationvserver_authenticationsamlpolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -27300,7 +27300,7 @@ function Invoke-ADCDeleteAuthenticationvserverauthenticationsamlpolicybinding {
             if ($PSBoundParameters.ContainsKey('groupextraction')) { $Arguments.Add('groupextraction', $groupextraction) }
             if ($PSBoundParameters.ContainsKey('bindpoint')) { $Arguments.Add('bindpoint', $bindpoint) }
             if ($PSCmdlet.ShouldProcess("$name", "Delete Authentication configuration Object")) {
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type authenticationvserver_authenticationsamlpolicy_binding -Resource $name -Arguments $Arguments
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type authenticationvserver_authenticationsamlpolicy_binding -NitroPath nitro/v1/config -Resource $name -Arguments $Arguments
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $response
@@ -27344,7 +27344,7 @@ function Invoke-ADCGetAuthenticationvserverauthenticationsamlpolicybinding {
         Invoke-ADCGetAuthenticationvserverauthenticationsamlpolicybinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetAuthenticationvserverauthenticationsamlpolicybinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/authentication/authenticationvserver_authenticationsamlpolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -27382,21 +27382,21 @@ function Invoke-ADCGetAuthenticationvserverauthenticationsamlpolicybinding {
                     bulkbindings = 'yes'
                 }
                 Write-Verbose "Retrieving all authenticationvserver_authenticationsamlpolicy_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationvserver_authenticationsamlpolicy_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationvserver_authenticationsamlpolicy_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
                 if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for authenticationvserver_authenticationsamlpolicy_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationvserver_authenticationsamlpolicy_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationvserver_authenticationsamlpolicy_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving authenticationvserver_authenticationsamlpolicy_binding objects by arguments"
                 $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationvserver_authenticationsamlpolicy_binding -Arguments $Arguments -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationvserver_authenticationsamlpolicy_binding -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving authenticationvserver_authenticationsamlpolicy_binding configuration for property 'name'"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationvserver_authenticationsamlpolicy_binding -Resource $name -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationvserver_authenticationsamlpolicy_binding -NitroPath nitro/v1/config -Resource $name -Summary:$ViewSummary -Filter $Filter -GetWarning
             } else {
                 Write-Verbose "Retrieving authenticationvserver_authenticationsamlpolicy_binding configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationvserver_authenticationsamlpolicy_binding -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationvserver_authenticationsamlpolicy_binding -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -27439,7 +27439,7 @@ function Invoke-ADCAddAuthenticationvserverauthenticationtacacspolicybinding {
         Invoke-ADCAddAuthenticationvserverauthenticationtacacspolicybinding -name <string>
     .NOTES
         File Name : Invoke-ADCAddAuthenticationvserverauthenticationtacacspolicybinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/authentication/authenticationvserver_authenticationtacacspolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -27494,7 +27494,7 @@ function Invoke-ADCAddAuthenticationvserverauthenticationtacacspolicybinding {
             if ($PSBoundParameters.ContainsKey('bindpoint')) { $Payload.Add('bindpoint', $bindpoint) }
  
             if ($PSCmdlet.ShouldProcess("authenticationvserver_authenticationtacacspolicy_binding", "Add Authentication configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -Type authenticationvserver_authenticationtacacspolicy_binding -Payload $Payload -GetWarning
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -NitroPath nitro/v1/config -Type authenticationvserver_authenticationtacacspolicy_binding -Payload $Payload -GetWarning
                 #HTTP Status Code on Success: 201 Created
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 if ($PSBoundParameters.ContainsKey('PassThru')) {
@@ -27532,7 +27532,7 @@ function Invoke-ADCDeleteAuthenticationvserverauthenticationtacacspolicybinding 
         Invoke-ADCDeleteAuthenticationvserverauthenticationtacacspolicybinding -name <string>
     .NOTES
         File Name : Invoke-ADCDeleteAuthenticationvserverauthenticationtacacspolicybinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/authentication/authenticationvserver_authenticationtacacspolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -27571,7 +27571,7 @@ function Invoke-ADCDeleteAuthenticationvserverauthenticationtacacspolicybinding 
             if ($PSBoundParameters.ContainsKey('groupextraction')) { $Arguments.Add('groupextraction', $groupextraction) }
             if ($PSBoundParameters.ContainsKey('bindpoint')) { $Arguments.Add('bindpoint', $bindpoint) }
             if ($PSCmdlet.ShouldProcess("$name", "Delete Authentication configuration Object")) {
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type authenticationvserver_authenticationtacacspolicy_binding -Resource $name -Arguments $Arguments
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type authenticationvserver_authenticationtacacspolicy_binding -NitroPath nitro/v1/config -Resource $name -Arguments $Arguments
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $response
@@ -27615,7 +27615,7 @@ function Invoke-ADCGetAuthenticationvserverauthenticationtacacspolicybinding {
         Invoke-ADCGetAuthenticationvserverauthenticationtacacspolicybinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetAuthenticationvserverauthenticationtacacspolicybinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/authentication/authenticationvserver_authenticationtacacspolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -27653,21 +27653,21 @@ function Invoke-ADCGetAuthenticationvserverauthenticationtacacspolicybinding {
                     bulkbindings = 'yes'
                 }
                 Write-Verbose "Retrieving all authenticationvserver_authenticationtacacspolicy_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationvserver_authenticationtacacspolicy_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationvserver_authenticationtacacspolicy_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
                 if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for authenticationvserver_authenticationtacacspolicy_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationvserver_authenticationtacacspolicy_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationvserver_authenticationtacacspolicy_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving authenticationvserver_authenticationtacacspolicy_binding objects by arguments"
                 $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationvserver_authenticationtacacspolicy_binding -Arguments $Arguments -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationvserver_authenticationtacacspolicy_binding -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving authenticationvserver_authenticationtacacspolicy_binding configuration for property 'name'"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationvserver_authenticationtacacspolicy_binding -Resource $name -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationvserver_authenticationtacacspolicy_binding -NitroPath nitro/v1/config -Resource $name -Summary:$ViewSummary -Filter $Filter -GetWarning
             } else {
                 Write-Verbose "Retrieving authenticationvserver_authenticationtacacspolicy_binding configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationvserver_authenticationtacacspolicy_binding -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationvserver_authenticationtacacspolicy_binding -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -27710,7 +27710,7 @@ function Invoke-ADCAddAuthenticationvserverauthenticationwebauthpolicybinding {
         Invoke-ADCAddAuthenticationvserverauthenticationwebauthpolicybinding -name <string>
     .NOTES
         File Name : Invoke-ADCAddAuthenticationvserverauthenticationwebauthpolicybinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/authentication/authenticationvserver_authenticationwebauthpolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -27765,7 +27765,7 @@ function Invoke-ADCAddAuthenticationvserverauthenticationwebauthpolicybinding {
             if ($PSBoundParameters.ContainsKey('bindpoint')) { $Payload.Add('bindpoint', $bindpoint) }
  
             if ($PSCmdlet.ShouldProcess("authenticationvserver_authenticationwebauthpolicy_binding", "Add Authentication configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -Type authenticationvserver_authenticationwebauthpolicy_binding -Payload $Payload -GetWarning
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -NitroPath nitro/v1/config -Type authenticationvserver_authenticationwebauthpolicy_binding -Payload $Payload -GetWarning
                 #HTTP Status Code on Success: 201 Created
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 if ($PSBoundParameters.ContainsKey('PassThru')) {
@@ -27803,7 +27803,7 @@ function Invoke-ADCDeleteAuthenticationvserverauthenticationwebauthpolicybinding
         Invoke-ADCDeleteAuthenticationvserverauthenticationwebauthpolicybinding -name <string>
     .NOTES
         File Name : Invoke-ADCDeleteAuthenticationvserverauthenticationwebauthpolicybinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/authentication/authenticationvserver_authenticationwebauthpolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -27842,7 +27842,7 @@ function Invoke-ADCDeleteAuthenticationvserverauthenticationwebauthpolicybinding
             if ($PSBoundParameters.ContainsKey('groupextraction')) { $Arguments.Add('groupextraction', $groupextraction) }
             if ($PSBoundParameters.ContainsKey('bindpoint')) { $Arguments.Add('bindpoint', $bindpoint) }
             if ($PSCmdlet.ShouldProcess("$name", "Delete Authentication configuration Object")) {
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type authenticationvserver_authenticationwebauthpolicy_binding -Resource $name -Arguments $Arguments
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type authenticationvserver_authenticationwebauthpolicy_binding -NitroPath nitro/v1/config -Resource $name -Arguments $Arguments
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $response
@@ -27886,7 +27886,7 @@ function Invoke-ADCGetAuthenticationvserverauthenticationwebauthpolicybinding {
         Invoke-ADCGetAuthenticationvserverauthenticationwebauthpolicybinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetAuthenticationvserverauthenticationwebauthpolicybinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/authentication/authenticationvserver_authenticationwebauthpolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -27924,21 +27924,21 @@ function Invoke-ADCGetAuthenticationvserverauthenticationwebauthpolicybinding {
                     bulkbindings = 'yes'
                 }
                 Write-Verbose "Retrieving all authenticationvserver_authenticationwebauthpolicy_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationvserver_authenticationwebauthpolicy_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationvserver_authenticationwebauthpolicy_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
                 if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for authenticationvserver_authenticationwebauthpolicy_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationvserver_authenticationwebauthpolicy_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationvserver_authenticationwebauthpolicy_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving authenticationvserver_authenticationwebauthpolicy_binding objects by arguments"
                 $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationvserver_authenticationwebauthpolicy_binding -Arguments $Arguments -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationvserver_authenticationwebauthpolicy_binding -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving authenticationvserver_authenticationwebauthpolicy_binding configuration for property 'name'"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationvserver_authenticationwebauthpolicy_binding -Resource $name -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationvserver_authenticationwebauthpolicy_binding -NitroPath nitro/v1/config -Resource $name -Summary:$ViewSummary -Filter $Filter -GetWarning
             } else {
                 Write-Verbose "Retrieving authenticationvserver_authenticationwebauthpolicy_binding configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationvserver_authenticationwebauthpolicy_binding -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationvserver_authenticationwebauthpolicy_binding -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -27978,7 +27978,7 @@ function Invoke-ADCGetAuthenticationvserverbinding {
         Invoke-ADCGetAuthenticationvserverbinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetAuthenticationvserverbinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/authentication/authenticationvserver_binding/
         Requires  : PowerShell v5.1 and up
@@ -28013,21 +28013,21 @@ function Invoke-ADCGetAuthenticationvserverbinding {
                     bulkbindings = 'yes'
                 }
                 Write-Verbose "Retrieving all authenticationvserver_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationvserver_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationvserver_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
                 if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for authenticationvserver_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationvserver_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationvserver_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving authenticationvserver_binding objects by arguments"
                 $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationvserver_binding -Arguments $Arguments -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationvserver_binding -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving authenticationvserver_binding configuration for property 'name'"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationvserver_binding -Resource $name -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationvserver_binding -NitroPath nitro/v1/config -Resource $name -Summary:$ViewSummary -Filter $Filter -GetWarning
             } else {
                 Write-Verbose "Retrieving authenticationvserver_binding configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationvserver_binding -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationvserver_binding -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -28070,7 +28070,7 @@ function Invoke-ADCAddAuthenticationvservercachepolicybinding {
         Invoke-ADCAddAuthenticationvservercachepolicybinding -name <string>
     .NOTES
         File Name : Invoke-ADCAddAuthenticationvservercachepolicybinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/authentication/authenticationvserver_cachepolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -28125,7 +28125,7 @@ function Invoke-ADCAddAuthenticationvservercachepolicybinding {
             if ($PSBoundParameters.ContainsKey('bindpoint')) { $Payload.Add('bindpoint', $bindpoint) }
  
             if ($PSCmdlet.ShouldProcess("authenticationvserver_cachepolicy_binding", "Add Authentication configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -Type authenticationvserver_cachepolicy_binding -Payload $Payload -GetWarning
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -NitroPath nitro/v1/config -Type authenticationvserver_cachepolicy_binding -Payload $Payload -GetWarning
                 #HTTP Status Code on Success: 201 Created
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 if ($PSBoundParameters.ContainsKey('PassThru')) {
@@ -28163,7 +28163,7 @@ function Invoke-ADCDeleteAuthenticationvservercachepolicybinding {
         Invoke-ADCDeleteAuthenticationvservercachepolicybinding -name <string>
     .NOTES
         File Name : Invoke-ADCDeleteAuthenticationvservercachepolicybinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/authentication/authenticationvserver_cachepolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -28202,7 +28202,7 @@ function Invoke-ADCDeleteAuthenticationvservercachepolicybinding {
             if ($PSBoundParameters.ContainsKey('groupextraction')) { $Arguments.Add('groupextraction', $groupextraction) }
             if ($PSBoundParameters.ContainsKey('bindpoint')) { $Arguments.Add('bindpoint', $bindpoint) }
             if ($PSCmdlet.ShouldProcess("$name", "Delete Authentication configuration Object")) {
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type authenticationvserver_cachepolicy_binding -Resource $name -Arguments $Arguments
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type authenticationvserver_cachepolicy_binding -NitroPath nitro/v1/config -Resource $name -Arguments $Arguments
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $response
@@ -28246,7 +28246,7 @@ function Invoke-ADCGetAuthenticationvservercachepolicybinding {
         Invoke-ADCGetAuthenticationvservercachepolicybinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetAuthenticationvservercachepolicybinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/authentication/authenticationvserver_cachepolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -28284,21 +28284,21 @@ function Invoke-ADCGetAuthenticationvservercachepolicybinding {
                     bulkbindings = 'yes'
                 }
                 Write-Verbose "Retrieving all authenticationvserver_cachepolicy_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationvserver_cachepolicy_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationvserver_cachepolicy_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
                 if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for authenticationvserver_cachepolicy_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationvserver_cachepolicy_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationvserver_cachepolicy_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving authenticationvserver_cachepolicy_binding objects by arguments"
                 $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationvserver_cachepolicy_binding -Arguments $Arguments -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationvserver_cachepolicy_binding -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving authenticationvserver_cachepolicy_binding configuration for property 'name'"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationvserver_cachepolicy_binding -Resource $name -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationvserver_cachepolicy_binding -NitroPath nitro/v1/config -Resource $name -Summary:$ViewSummary -Filter $Filter -GetWarning
             } else {
                 Write-Verbose "Retrieving authenticationvserver_cachepolicy_binding configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationvserver_cachepolicy_binding -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationvserver_cachepolicy_binding -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -28341,7 +28341,7 @@ function Invoke-ADCAddAuthenticationvservercspolicybinding {
         Invoke-ADCAddAuthenticationvservercspolicybinding -name <string>
     .NOTES
         File Name : Invoke-ADCAddAuthenticationvservercspolicybinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/authentication/authenticationvserver_cspolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -28396,7 +28396,7 @@ function Invoke-ADCAddAuthenticationvservercspolicybinding {
             if ($PSBoundParameters.ContainsKey('bindpoint')) { $Payload.Add('bindpoint', $bindpoint) }
  
             if ($PSCmdlet.ShouldProcess("authenticationvserver_cspolicy_binding", "Add Authentication configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -Type authenticationvserver_cspolicy_binding -Payload $Payload -GetWarning
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -NitroPath nitro/v1/config -Type authenticationvserver_cspolicy_binding -Payload $Payload -GetWarning
                 #HTTP Status Code on Success: 201 Created
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 if ($PSBoundParameters.ContainsKey('PassThru')) {
@@ -28434,7 +28434,7 @@ function Invoke-ADCDeleteAuthenticationvservercspolicybinding {
         Invoke-ADCDeleteAuthenticationvservercspolicybinding -name <string>
     .NOTES
         File Name : Invoke-ADCDeleteAuthenticationvservercspolicybinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/authentication/authenticationvserver_cspolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -28473,7 +28473,7 @@ function Invoke-ADCDeleteAuthenticationvservercspolicybinding {
             if ($PSBoundParameters.ContainsKey('groupextraction')) { $Arguments.Add('groupextraction', $groupextraction) }
             if ($PSBoundParameters.ContainsKey('bindpoint')) { $Arguments.Add('bindpoint', $bindpoint) }
             if ($PSCmdlet.ShouldProcess("$name", "Delete Authentication configuration Object")) {
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type authenticationvserver_cspolicy_binding -Resource $name -Arguments $Arguments
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type authenticationvserver_cspolicy_binding -NitroPath nitro/v1/config -Resource $name -Arguments $Arguments
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $response
@@ -28517,7 +28517,7 @@ function Invoke-ADCGetAuthenticationvservercspolicybinding {
         Invoke-ADCGetAuthenticationvservercspolicybinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetAuthenticationvservercspolicybinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/authentication/authenticationvserver_cspolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -28555,21 +28555,21 @@ function Invoke-ADCGetAuthenticationvservercspolicybinding {
                     bulkbindings = 'yes'
                 }
                 Write-Verbose "Retrieving all authenticationvserver_cspolicy_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationvserver_cspolicy_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationvserver_cspolicy_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
                 if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for authenticationvserver_cspolicy_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationvserver_cspolicy_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationvserver_cspolicy_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving authenticationvserver_cspolicy_binding objects by arguments"
                 $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationvserver_cspolicy_binding -Arguments $Arguments -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationvserver_cspolicy_binding -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving authenticationvserver_cspolicy_binding configuration for property 'name'"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationvserver_cspolicy_binding -Resource $name -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationvserver_cspolicy_binding -NitroPath nitro/v1/config -Resource $name -Summary:$ViewSummary -Filter $Filter -GetWarning
             } else {
                 Write-Verbose "Retrieving authenticationvserver_cspolicy_binding configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationvserver_cspolicy_binding -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationvserver_cspolicy_binding -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -28612,7 +28612,7 @@ function Invoke-ADCAddAuthenticationvserverresponderpolicybinding {
         Invoke-ADCAddAuthenticationvserverresponderpolicybinding -name <string>
     .NOTES
         File Name : Invoke-ADCAddAuthenticationvserverresponderpolicybinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/authentication/authenticationvserver_responderpolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -28667,7 +28667,7 @@ function Invoke-ADCAddAuthenticationvserverresponderpolicybinding {
             if ($PSBoundParameters.ContainsKey('bindpoint')) { $Payload.Add('bindpoint', $bindpoint) }
  
             if ($PSCmdlet.ShouldProcess("authenticationvserver_responderpolicy_binding", "Add Authentication configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -Type authenticationvserver_responderpolicy_binding -Payload $Payload -GetWarning
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -NitroPath nitro/v1/config -Type authenticationvserver_responderpolicy_binding -Payload $Payload -GetWarning
                 #HTTP Status Code on Success: 201 Created
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 if ($PSBoundParameters.ContainsKey('PassThru')) {
@@ -28705,7 +28705,7 @@ function Invoke-ADCDeleteAuthenticationvserverresponderpolicybinding {
         Invoke-ADCDeleteAuthenticationvserverresponderpolicybinding -name <string>
     .NOTES
         File Name : Invoke-ADCDeleteAuthenticationvserverresponderpolicybinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/authentication/authenticationvserver_responderpolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -28744,7 +28744,7 @@ function Invoke-ADCDeleteAuthenticationvserverresponderpolicybinding {
             if ($PSBoundParameters.ContainsKey('groupextraction')) { $Arguments.Add('groupextraction', $groupextraction) }
             if ($PSBoundParameters.ContainsKey('bindpoint')) { $Arguments.Add('bindpoint', $bindpoint) }
             if ($PSCmdlet.ShouldProcess("$name", "Delete Authentication configuration Object")) {
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type authenticationvserver_responderpolicy_binding -Resource $name -Arguments $Arguments
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type authenticationvserver_responderpolicy_binding -NitroPath nitro/v1/config -Resource $name -Arguments $Arguments
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $response
@@ -28788,7 +28788,7 @@ function Invoke-ADCGetAuthenticationvserverresponderpolicybinding {
         Invoke-ADCGetAuthenticationvserverresponderpolicybinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetAuthenticationvserverresponderpolicybinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/authentication/authenticationvserver_responderpolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -28826,21 +28826,21 @@ function Invoke-ADCGetAuthenticationvserverresponderpolicybinding {
                     bulkbindings = 'yes'
                 }
                 Write-Verbose "Retrieving all authenticationvserver_responderpolicy_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationvserver_responderpolicy_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationvserver_responderpolicy_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
                 if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for authenticationvserver_responderpolicy_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationvserver_responderpolicy_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationvserver_responderpolicy_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving authenticationvserver_responderpolicy_binding objects by arguments"
                 $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationvserver_responderpolicy_binding -Arguments $Arguments -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationvserver_responderpolicy_binding -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving authenticationvserver_responderpolicy_binding configuration for property 'name'"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationvserver_responderpolicy_binding -Resource $name -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationvserver_responderpolicy_binding -NitroPath nitro/v1/config -Resource $name -Summary:$ViewSummary -Filter $Filter -GetWarning
             } else {
                 Write-Verbose "Retrieving authenticationvserver_responderpolicy_binding configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationvserver_responderpolicy_binding -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationvserver_responderpolicy_binding -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -28883,7 +28883,7 @@ function Invoke-ADCAddAuthenticationvservertmsessionpolicybinding {
         Invoke-ADCAddAuthenticationvservertmsessionpolicybinding -name <string>
     .NOTES
         File Name : Invoke-ADCAddAuthenticationvservertmsessionpolicybinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/authentication/authenticationvserver_tmsessionpolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -28938,7 +28938,7 @@ function Invoke-ADCAddAuthenticationvservertmsessionpolicybinding {
             if ($PSBoundParameters.ContainsKey('bindpoint')) { $Payload.Add('bindpoint', $bindpoint) }
  
             if ($PSCmdlet.ShouldProcess("authenticationvserver_tmsessionpolicy_binding", "Add Authentication configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -Type authenticationvserver_tmsessionpolicy_binding -Payload $Payload -GetWarning
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -NitroPath nitro/v1/config -Type authenticationvserver_tmsessionpolicy_binding -Payload $Payload -GetWarning
                 #HTTP Status Code on Success: 201 Created
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 if ($PSBoundParameters.ContainsKey('PassThru')) {
@@ -28976,7 +28976,7 @@ function Invoke-ADCDeleteAuthenticationvservertmsessionpolicybinding {
         Invoke-ADCDeleteAuthenticationvservertmsessionpolicybinding -name <string>
     .NOTES
         File Name : Invoke-ADCDeleteAuthenticationvservertmsessionpolicybinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/authentication/authenticationvserver_tmsessionpolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -29015,7 +29015,7 @@ function Invoke-ADCDeleteAuthenticationvservertmsessionpolicybinding {
             if ($PSBoundParameters.ContainsKey('groupextraction')) { $Arguments.Add('groupextraction', $groupextraction) }
             if ($PSBoundParameters.ContainsKey('bindpoint')) { $Arguments.Add('bindpoint', $bindpoint) }
             if ($PSCmdlet.ShouldProcess("$name", "Delete Authentication configuration Object")) {
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type authenticationvserver_tmsessionpolicy_binding -Resource $name -Arguments $Arguments
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type authenticationvserver_tmsessionpolicy_binding -NitroPath nitro/v1/config -Resource $name -Arguments $Arguments
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $response
@@ -29059,7 +29059,7 @@ function Invoke-ADCGetAuthenticationvservertmsessionpolicybinding {
         Invoke-ADCGetAuthenticationvservertmsessionpolicybinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetAuthenticationvservertmsessionpolicybinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/authentication/authenticationvserver_tmsessionpolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -29097,21 +29097,21 @@ function Invoke-ADCGetAuthenticationvservertmsessionpolicybinding {
                     bulkbindings = 'yes'
                 }
                 Write-Verbose "Retrieving all authenticationvserver_tmsessionpolicy_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationvserver_tmsessionpolicy_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationvserver_tmsessionpolicy_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
                 if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for authenticationvserver_tmsessionpolicy_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationvserver_tmsessionpolicy_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationvserver_tmsessionpolicy_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving authenticationvserver_tmsessionpolicy_binding objects by arguments"
                 $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationvserver_tmsessionpolicy_binding -Arguments $Arguments -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationvserver_tmsessionpolicy_binding -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving authenticationvserver_tmsessionpolicy_binding configuration for property 'name'"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationvserver_tmsessionpolicy_binding -Resource $name -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationvserver_tmsessionpolicy_binding -NitroPath nitro/v1/config -Resource $name -Summary:$ViewSummary -Filter $Filter -GetWarning
             } else {
                 Write-Verbose "Retrieving authenticationvserver_tmsessionpolicy_binding configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationvserver_tmsessionpolicy_binding -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationvserver_tmsessionpolicy_binding -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -29141,7 +29141,7 @@ function Invoke-ADCAddAuthenticationvservervpnportalthemebinding {
         Invoke-ADCAddAuthenticationvservervpnportalthemebinding -name <string>
     .NOTES
         File Name : Invoke-ADCAddAuthenticationvservervpnportalthemebinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/authentication/authenticationvserver_vpnportaltheme_binding/
         Requires  : PowerShell v5.1 and up
@@ -29177,7 +29177,7 @@ function Invoke-ADCAddAuthenticationvservervpnportalthemebinding {
             if ($PSBoundParameters.ContainsKey('portaltheme')) { $Payload.Add('portaltheme', $portaltheme) }
  
             if ($PSCmdlet.ShouldProcess("authenticationvserver_vpnportaltheme_binding", "Add Authentication configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -Type authenticationvserver_vpnportaltheme_binding -Payload $Payload -GetWarning
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -NitroPath nitro/v1/config -Type authenticationvserver_vpnportaltheme_binding -Payload $Payload -GetWarning
                 #HTTP Status Code on Success: 201 Created
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 if ($PSBoundParameters.ContainsKey('PassThru')) {
@@ -29211,7 +29211,7 @@ function Invoke-ADCDeleteAuthenticationvservervpnportalthemebinding {
         Invoke-ADCDeleteAuthenticationvservervpnportalthemebinding -name <string>
     .NOTES
         File Name : Invoke-ADCDeleteAuthenticationvservervpnportalthemebinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/authentication/authenticationvserver_vpnportaltheme_binding/
         Requires  : PowerShell v5.1 and up
@@ -29241,7 +29241,7 @@ function Invoke-ADCDeleteAuthenticationvservervpnportalthemebinding {
             }
             if ($PSBoundParameters.ContainsKey('portaltheme')) { $Arguments.Add('portaltheme', $portaltheme) }
             if ($PSCmdlet.ShouldProcess("$name", "Delete Authentication configuration Object")) {
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type authenticationvserver_vpnportaltheme_binding -Resource $name -Arguments $Arguments
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type authenticationvserver_vpnportaltheme_binding -NitroPath nitro/v1/config -Resource $name -Arguments $Arguments
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $response
@@ -29285,7 +29285,7 @@ function Invoke-ADCGetAuthenticationvservervpnportalthemebinding {
         Invoke-ADCGetAuthenticationvservervpnportalthemebinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetAuthenticationvservervpnportalthemebinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/authentication/authenticationvserver_vpnportaltheme_binding/
         Requires  : PowerShell v5.1 and up
@@ -29323,21 +29323,21 @@ function Invoke-ADCGetAuthenticationvservervpnportalthemebinding {
                     bulkbindings = 'yes'
                 }
                 Write-Verbose "Retrieving all authenticationvserver_vpnportaltheme_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationvserver_vpnportaltheme_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationvserver_vpnportaltheme_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
                 if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for authenticationvserver_vpnportaltheme_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationvserver_vpnportaltheme_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationvserver_vpnportaltheme_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving authenticationvserver_vpnportaltheme_binding objects by arguments"
                 $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationvserver_vpnportaltheme_binding -Arguments $Arguments -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationvserver_vpnportaltheme_binding -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving authenticationvserver_vpnportaltheme_binding configuration for property 'name'"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationvserver_vpnportaltheme_binding -Resource $name -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationvserver_vpnportaltheme_binding -NitroPath nitro/v1/config -Resource $name -Summary:$ViewSummary -Filter $Filter -GetWarning
             } else {
                 Write-Verbose "Retrieving authenticationvserver_vpnportaltheme_binding configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationvserver_vpnportaltheme_binding -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationvserver_vpnportaltheme_binding -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -29431,7 +29431,7 @@ function Invoke-ADCAddAuthenticationwebauthaction {
         Invoke-ADCAddAuthenticationwebauthaction -name <string> -serverip <string> -serverport <int> -scheme <string> -successrule <string>
     .NOTES
         File Name : Invoke-ADCAddAuthenticationwebauthaction
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/authentication/authenticationwebauthaction/
         Requires  : PowerShell v5.1 and up
@@ -29537,7 +29537,7 @@ function Invoke-ADCAddAuthenticationwebauthaction {
             if ($PSBoundParameters.ContainsKey('attribute16')) { $Payload.Add('attribute16', $attribute16) }
  
             if ($PSCmdlet.ShouldProcess("authenticationwebauthaction", "Add Authentication configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -Type authenticationwebauthaction -Payload $Payload -GetWarning
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -NitroPath nitro/v1/config -Type authenticationwebauthaction -Payload $Payload -GetWarning
                 #HTTP Status Code on Success: 201 Created
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 if ($PSBoundParameters.ContainsKey('PassThru')) {
@@ -29570,7 +29570,7 @@ function Invoke-ADCDeleteAuthenticationwebauthaction {
         Invoke-ADCDeleteAuthenticationwebauthaction -name <string>
     .NOTES
         File Name : Invoke-ADCDeleteAuthenticationwebauthaction
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/authentication/authenticationwebauthaction/
         Requires  : PowerShell v5.1 and up
@@ -29598,7 +29598,7 @@ function Invoke-ADCDeleteAuthenticationwebauthaction {
             }
 
             if ($PSCmdlet.ShouldProcess("$name", "Delete Authentication configuration Object")) {
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type authenticationwebauthaction -Resource $name -Arguments $Arguments
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type authenticationwebauthaction -NitroPath nitro/v1/config -Resource $name -Arguments $Arguments
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $response
@@ -29694,7 +29694,7 @@ function Invoke-ADCUpdateAuthenticationwebauthaction {
         Invoke-ADCUpdateAuthenticationwebauthaction -name <string>
     .NOTES
         File Name : Invoke-ADCUpdateAuthenticationwebauthaction
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/authentication/authenticationwebauthaction/
         Requires  : PowerShell v5.1 and up
@@ -29796,7 +29796,7 @@ function Invoke-ADCUpdateAuthenticationwebauthaction {
             if ($PSBoundParameters.ContainsKey('attribute16')) { $Payload.Add('attribute16', $attribute16) }
  
             if ($PSCmdlet.ShouldProcess("authenticationwebauthaction", "Update Authentication configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -Type authenticationwebauthaction -Payload $Payload -GetWarning
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -NitroPath nitro/v1/config -Type authenticationwebauthaction -Payload $Payload -GetWarning
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 if ($PSBoundParameters.ContainsKey('PassThru')) {
@@ -29871,7 +29871,7 @@ function Invoke-ADCUnsetAuthenticationwebauthaction {
         Invoke-ADCUnsetAuthenticationwebauthaction -name <string>
     .NOTES
         File Name : Invoke-ADCUnsetAuthenticationwebauthaction
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/authentication/authenticationwebauthaction
         Requires  : PowerShell v5.1 and up
@@ -29960,7 +29960,7 @@ function Invoke-ADCUnsetAuthenticationwebauthaction {
             if ($PSBoundParameters.ContainsKey('attribute15')) { $Payload.Add('attribute15', $attribute15) }
             if ($PSBoundParameters.ContainsKey('attribute16')) { $Payload.Add('attribute16', $attribute16) }
             if ($PSCmdlet.ShouldProcess("$name", "Unset Authentication configuration Object")) {
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -Type authenticationwebauthaction -Action unset -Payload $Payload -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -Type authenticationwebauthaction -NitroPath nitro/v1/config -Action unset -Payload $Payload -GetWarning
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $response
@@ -30005,7 +30005,7 @@ function Invoke-ADCGetAuthenticationwebauthaction {
         Invoke-ADCGetAuthenticationwebauthaction -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetAuthenticationwebauthaction
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/authentication/authenticationwebauthaction/
         Requires  : PowerShell v5.1 and up
@@ -30046,21 +30046,21 @@ function Invoke-ADCGetAuthenticationwebauthaction {
             if ( $PsCmdlet.ParameterSetName -eq 'Getall' ) {
                 $Query = @{ }
                 Write-Verbose "Retrieving all authenticationwebauthaction objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationwebauthaction -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationwebauthaction -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
                 if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for authenticationwebauthaction objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationwebauthaction -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationwebauthaction -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving authenticationwebauthaction objects by arguments"
                 $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationwebauthaction -Arguments $Arguments -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationwebauthaction -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving authenticationwebauthaction configuration for property 'name'"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationwebauthaction -Resource $name -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationwebauthaction -NitroPath nitro/v1/config -Resource $name -Summary:$ViewSummary -Filter $Filter -GetWarning
             } else {
                 Write-Verbose "Retrieving authenticationwebauthaction configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationwebauthaction -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationwebauthaction -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -30094,7 +30094,7 @@ function Invoke-ADCAddAuthenticationwebauthpolicy {
         Invoke-ADCAddAuthenticationwebauthpolicy -name <string> -rule <string> -action <string>
     .NOTES
         File Name : Invoke-ADCAddAuthenticationwebauthpolicy
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/authentication/authenticationwebauthpolicy/
         Requires  : PowerShell v5.1 and up
@@ -30138,7 +30138,7 @@ function Invoke-ADCAddAuthenticationwebauthpolicy {
 
  
             if ($PSCmdlet.ShouldProcess("authenticationwebauthpolicy", "Add Authentication configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -Type authenticationwebauthpolicy -Payload $Payload -GetWarning
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -NitroPath nitro/v1/config -Type authenticationwebauthpolicy -Payload $Payload -GetWarning
                 #HTTP Status Code on Success: 201 Created
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 if ($PSBoundParameters.ContainsKey('PassThru')) {
@@ -30171,7 +30171,7 @@ function Invoke-ADCDeleteAuthenticationwebauthpolicy {
         Invoke-ADCDeleteAuthenticationwebauthpolicy -name <string>
     .NOTES
         File Name : Invoke-ADCDeleteAuthenticationwebauthpolicy
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/authentication/authenticationwebauthpolicy/
         Requires  : PowerShell v5.1 and up
@@ -30199,7 +30199,7 @@ function Invoke-ADCDeleteAuthenticationwebauthpolicy {
             }
 
             if ($PSCmdlet.ShouldProcess("$name", "Delete Authentication configuration Object")) {
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type authenticationwebauthpolicy -Resource $name -Arguments $Arguments
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type authenticationwebauthpolicy -NitroPath nitro/v1/config -Resource $name -Arguments $Arguments
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $response
@@ -30235,7 +30235,7 @@ function Invoke-ADCUpdateAuthenticationwebauthpolicy {
         Invoke-ADCUpdateAuthenticationwebauthpolicy -name <string>
     .NOTES
         File Name : Invoke-ADCUpdateAuthenticationwebauthpolicy
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/authentication/authenticationwebauthpolicy/
         Requires  : PowerShell v5.1 and up
@@ -30276,7 +30276,7 @@ function Invoke-ADCUpdateAuthenticationwebauthpolicy {
             if ($PSBoundParameters.ContainsKey('action')) { $Payload.Add('action', $action) }
  
             if ($PSCmdlet.ShouldProcess("authenticationwebauthpolicy", "Update Authentication configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -Type authenticationwebauthpolicy -Payload $Payload -GetWarning
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -NitroPath nitro/v1/config -Type authenticationwebauthpolicy -Payload $Payload -GetWarning
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 if ($PSBoundParameters.ContainsKey('PassThru')) {
@@ -30326,7 +30326,7 @@ function Invoke-ADCGetAuthenticationwebauthpolicy {
         Invoke-ADCGetAuthenticationwebauthpolicy -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetAuthenticationwebauthpolicy
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/authentication/authenticationwebauthpolicy/
         Requires  : PowerShell v5.1 and up
@@ -30367,21 +30367,21 @@ function Invoke-ADCGetAuthenticationwebauthpolicy {
             if ( $PsCmdlet.ParameterSetName -eq 'Getall' ) {
                 $Query = @{ }
                 Write-Verbose "Retrieving all authenticationwebauthpolicy objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationwebauthpolicy -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationwebauthpolicy -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
                 if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for authenticationwebauthpolicy objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationwebauthpolicy -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationwebauthpolicy -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving authenticationwebauthpolicy objects by arguments"
                 $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationwebauthpolicy -Arguments $Arguments -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationwebauthpolicy -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving authenticationwebauthpolicy configuration for property 'name'"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationwebauthpolicy -Resource $name -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationwebauthpolicy -NitroPath nitro/v1/config -Resource $name -Summary:$ViewSummary -Filter $Filter -GetWarning
             } else {
                 Write-Verbose "Retrieving authenticationwebauthpolicy configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationwebauthpolicy -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationwebauthpolicy -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -30423,7 +30423,7 @@ function Invoke-ADCGetAuthenticationwebauthpolicyauthenticationvserverbinding {
         Invoke-ADCGetAuthenticationwebauthpolicyauthenticationvserverbinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetAuthenticationwebauthpolicyauthenticationvserverbinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/authentication/authenticationwebauthpolicy_authenticationvserver_binding/
         Requires  : PowerShell v5.1 and up
@@ -30461,21 +30461,21 @@ function Invoke-ADCGetAuthenticationwebauthpolicyauthenticationvserverbinding {
                     bulkbindings = 'yes'
                 }
                 Write-Verbose "Retrieving all authenticationwebauthpolicy_authenticationvserver_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationwebauthpolicy_authenticationvserver_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationwebauthpolicy_authenticationvserver_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
                 if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for authenticationwebauthpolicy_authenticationvserver_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationwebauthpolicy_authenticationvserver_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationwebauthpolicy_authenticationvserver_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving authenticationwebauthpolicy_authenticationvserver_binding objects by arguments"
                 $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationwebauthpolicy_authenticationvserver_binding -Arguments $Arguments -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationwebauthpolicy_authenticationvserver_binding -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving authenticationwebauthpolicy_authenticationvserver_binding configuration for property 'name'"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationwebauthpolicy_authenticationvserver_binding -Resource $name -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationwebauthpolicy_authenticationvserver_binding -NitroPath nitro/v1/config -Resource $name -Summary:$ViewSummary -Filter $Filter -GetWarning
             } else {
                 Write-Verbose "Retrieving authenticationwebauthpolicy_authenticationvserver_binding configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationwebauthpolicy_authenticationvserver_binding -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationwebauthpolicy_authenticationvserver_binding -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -30515,7 +30515,7 @@ function Invoke-ADCGetAuthenticationwebauthpolicybinding {
         Invoke-ADCGetAuthenticationwebauthpolicybinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetAuthenticationwebauthpolicybinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/authentication/authenticationwebauthpolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -30550,21 +30550,21 @@ function Invoke-ADCGetAuthenticationwebauthpolicybinding {
                     bulkbindings = 'yes'
                 }
                 Write-Verbose "Retrieving all authenticationwebauthpolicy_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationwebauthpolicy_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationwebauthpolicy_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
                 if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for authenticationwebauthpolicy_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationwebauthpolicy_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationwebauthpolicy_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving authenticationwebauthpolicy_binding objects by arguments"
                 $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationwebauthpolicy_binding -Arguments $Arguments -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationwebauthpolicy_binding -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving authenticationwebauthpolicy_binding configuration for property 'name'"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationwebauthpolicy_binding -Resource $name -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationwebauthpolicy_binding -NitroPath nitro/v1/config -Resource $name -Summary:$ViewSummary -Filter $Filter -GetWarning
             } else {
                 Write-Verbose "Retrieving authenticationwebauthpolicy_binding configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationwebauthpolicy_binding -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationwebauthpolicy_binding -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -30606,7 +30606,7 @@ function Invoke-ADCGetAuthenticationwebauthpolicysystemglobalbinding {
         Invoke-ADCGetAuthenticationwebauthpolicysystemglobalbinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetAuthenticationwebauthpolicysystemglobalbinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/authentication/authenticationwebauthpolicy_systemglobal_binding/
         Requires  : PowerShell v5.1 and up
@@ -30644,21 +30644,21 @@ function Invoke-ADCGetAuthenticationwebauthpolicysystemglobalbinding {
                     bulkbindings = 'yes'
                 }
                 Write-Verbose "Retrieving all authenticationwebauthpolicy_systemglobal_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationwebauthpolicy_systemglobal_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationwebauthpolicy_systemglobal_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
                 if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for authenticationwebauthpolicy_systemglobal_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationwebauthpolicy_systemglobal_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationwebauthpolicy_systemglobal_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving authenticationwebauthpolicy_systemglobal_binding objects by arguments"
                 $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationwebauthpolicy_systemglobal_binding -Arguments $Arguments -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationwebauthpolicy_systemglobal_binding -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving authenticationwebauthpolicy_systemglobal_binding configuration for property 'name'"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationwebauthpolicy_systemglobal_binding -Resource $name -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationwebauthpolicy_systemglobal_binding -NitroPath nitro/v1/config -Resource $name -Summary:$ViewSummary -Filter $Filter -GetWarning
             } else {
                 Write-Verbose "Retrieving authenticationwebauthpolicy_systemglobal_binding configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationwebauthpolicy_systemglobal_binding -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationwebauthpolicy_systemglobal_binding -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -30700,7 +30700,7 @@ function Invoke-ADCGetAuthenticationwebauthpolicyvpnglobalbinding {
         Invoke-ADCGetAuthenticationwebauthpolicyvpnglobalbinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetAuthenticationwebauthpolicyvpnglobalbinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/authentication/authenticationwebauthpolicy_vpnglobal_binding/
         Requires  : PowerShell v5.1 and up
@@ -30738,21 +30738,21 @@ function Invoke-ADCGetAuthenticationwebauthpolicyvpnglobalbinding {
                     bulkbindings = 'yes'
                 }
                 Write-Verbose "Retrieving all authenticationwebauthpolicy_vpnglobal_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationwebauthpolicy_vpnglobal_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationwebauthpolicy_vpnglobal_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
                 if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for authenticationwebauthpolicy_vpnglobal_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationwebauthpolicy_vpnglobal_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationwebauthpolicy_vpnglobal_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving authenticationwebauthpolicy_vpnglobal_binding objects by arguments"
                 $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationwebauthpolicy_vpnglobal_binding -Arguments $Arguments -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationwebauthpolicy_vpnglobal_binding -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving authenticationwebauthpolicy_vpnglobal_binding configuration for property 'name'"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationwebauthpolicy_vpnglobal_binding -Resource $name -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationwebauthpolicy_vpnglobal_binding -NitroPath nitro/v1/config -Resource $name -Summary:$ViewSummary -Filter $Filter -GetWarning
             } else {
                 Write-Verbose "Retrieving authenticationwebauthpolicy_vpnglobal_binding configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationwebauthpolicy_vpnglobal_binding -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationwebauthpolicy_vpnglobal_binding -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -30794,7 +30794,7 @@ function Invoke-ADCGetAuthenticationwebauthpolicyvpnvserverbinding {
         Invoke-ADCGetAuthenticationwebauthpolicyvpnvserverbinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetAuthenticationwebauthpolicyvpnvserverbinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/authentication/authenticationwebauthpolicy_vpnvserver_binding/
         Requires  : PowerShell v5.1 and up
@@ -30832,21 +30832,21 @@ function Invoke-ADCGetAuthenticationwebauthpolicyvpnvserverbinding {
                     bulkbindings = 'yes'
                 }
                 Write-Verbose "Retrieving all authenticationwebauthpolicy_vpnvserver_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationwebauthpolicy_vpnvserver_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationwebauthpolicy_vpnvserver_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
                 if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for authenticationwebauthpolicy_vpnvserver_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationwebauthpolicy_vpnvserver_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationwebauthpolicy_vpnvserver_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving authenticationwebauthpolicy_vpnvserver_binding objects by arguments"
                 $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationwebauthpolicy_vpnvserver_binding -Arguments $Arguments -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationwebauthpolicy_vpnvserver_binding -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving authenticationwebauthpolicy_vpnvserver_binding configuration for property 'name'"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationwebauthpolicy_vpnvserver_binding -Resource $name -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationwebauthpolicy_vpnvserver_binding -NitroPath nitro/v1/config -Resource $name -Summary:$ViewSummary -Filter $Filter -GetWarning
             } else {
                 Write-Verbose "Retrieving authenticationwebauthpolicy_vpnvserver_binding configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationwebauthpolicy_vpnvserver_binding -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationwebauthpolicy_vpnvserver_binding -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"

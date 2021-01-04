@@ -25,7 +25,7 @@ function Invoke-ADCAddVpnalwaysonprofile {
         Invoke-ADCAddVpnalwaysonprofile -name <string>
     .NOTES
         File Name : Invoke-ADCAddVpnalwaysonprofile
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/vpn/vpnalwaysonprofile/
         Requires  : PowerShell v5.1 and up
@@ -70,7 +70,7 @@ function Invoke-ADCAddVpnalwaysonprofile {
             if ($PSBoundParameters.ContainsKey('locationbasedvpn')) { $Payload.Add('locationbasedvpn', $locationbasedvpn) }
  
             if ($PSCmdlet.ShouldProcess("vpnalwaysonprofile", "Add SSL VPN configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -Type vpnalwaysonprofile -Payload $Payload -GetWarning
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -NitroPath nitro/v1/config -Type vpnalwaysonprofile -Payload $Payload -GetWarning
                 #HTTP Status Code on Success: 201 Created
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 if ($PSBoundParameters.ContainsKey('PassThru')) {
@@ -103,7 +103,7 @@ function Invoke-ADCDeleteVpnalwaysonprofile {
         Invoke-ADCDeleteVpnalwaysonprofile -name <string>
     .NOTES
         File Name : Invoke-ADCDeleteVpnalwaysonprofile
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/vpn/vpnalwaysonprofile/
         Requires  : PowerShell v5.1 and up
@@ -131,7 +131,7 @@ function Invoke-ADCDeleteVpnalwaysonprofile {
             }
 
             if ($PSCmdlet.ShouldProcess("$name", "Delete SSL VPN configuration Object")) {
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type vpnalwaysonprofile -Resource $name -Arguments $Arguments
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type vpnalwaysonprofile -NitroPath nitro/v1/config -Resource $name -Arguments $Arguments
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $response
@@ -173,7 +173,7 @@ function Invoke-ADCUpdateVpnalwaysonprofile {
         Invoke-ADCUpdateVpnalwaysonprofile -name <string>
     .NOTES
         File Name : Invoke-ADCUpdateVpnalwaysonprofile
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/vpn/vpnalwaysonprofile/
         Requires  : PowerShell v5.1 and up
@@ -218,7 +218,7 @@ function Invoke-ADCUpdateVpnalwaysonprofile {
             if ($PSBoundParameters.ContainsKey('locationbasedvpn')) { $Payload.Add('locationbasedvpn', $locationbasedvpn) }
  
             if ($PSCmdlet.ShouldProcess("vpnalwaysonprofile", "Update SSL VPN configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -Type vpnalwaysonprofile -Payload $Payload -GetWarning
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -NitroPath nitro/v1/config -Type vpnalwaysonprofile -Payload $Payload -GetWarning
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 if ($PSBoundParameters.ContainsKey('PassThru')) {
@@ -259,7 +259,7 @@ function Invoke-ADCUnsetVpnalwaysonprofile {
         Invoke-ADCUnsetVpnalwaysonprofile -name <string>
     .NOTES
         File Name : Invoke-ADCUnsetVpnalwaysonprofile
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/vpn/vpnalwaysonprofile
         Requires  : PowerShell v5.1 and up
@@ -297,7 +297,7 @@ function Invoke-ADCUnsetVpnalwaysonprofile {
             if ($PSBoundParameters.ContainsKey('clientcontrol')) { $Payload.Add('clientcontrol', $clientcontrol) }
             if ($PSBoundParameters.ContainsKey('locationbasedvpn')) { $Payload.Add('locationbasedvpn', $locationbasedvpn) }
             if ($PSCmdlet.ShouldProcess("$name", "Unset SSL VPN configuration Object")) {
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -Type vpnalwaysonprofile -Action unset -Payload $Payload -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -Type vpnalwaysonprofile -NitroPath nitro/v1/config -Action unset -Payload $Payload -GetWarning
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $response
@@ -341,7 +341,7 @@ function Invoke-ADCGetVpnalwaysonprofile {
         Invoke-ADCGetVpnalwaysonprofile -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetVpnalwaysonprofile
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/vpn/vpnalwaysonprofile/
         Requires  : PowerShell v5.1 and up
@@ -382,21 +382,21 @@ function Invoke-ADCGetVpnalwaysonprofile {
             if ( $PsCmdlet.ParameterSetName -eq 'Getall' ) {
                 $Query = @{ }
                 Write-Verbose "Retrieving all vpnalwaysonprofile objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnalwaysonprofile -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnalwaysonprofile -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
                 if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for vpnalwaysonprofile objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnalwaysonprofile -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnalwaysonprofile -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving vpnalwaysonprofile objects by arguments"
                 $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnalwaysonprofile -Arguments $Arguments -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnalwaysonprofile -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving vpnalwaysonprofile configuration for property 'name'"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnalwaysonprofile -Resource $name -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnalwaysonprofile -NitroPath nitro/v1/config -Resource $name -Summary:$ViewSummary -Filter $Filter -GetWarning
             } else {
                 Write-Verbose "Retrieving vpnalwaysonprofile configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnalwaysonprofile -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnalwaysonprofile -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -432,7 +432,7 @@ function Invoke-ADCAddVpnclientlessaccesspolicy {
         Invoke-ADCAddVpnclientlessaccesspolicy -name <string> -rule <string> -profilename <string>
     .NOTES
         File Name : Invoke-ADCAddVpnclientlessaccesspolicy
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/vpn/vpnclientlessaccesspolicy/
         Requires  : PowerShell v5.1 and up
@@ -474,7 +474,7 @@ function Invoke-ADCAddVpnclientlessaccesspolicy {
 
  
             if ($PSCmdlet.ShouldProcess("vpnclientlessaccesspolicy", "Add SSL VPN configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -Type vpnclientlessaccesspolicy -Payload $Payload -GetWarning
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -NitroPath nitro/v1/config -Type vpnclientlessaccesspolicy -Payload $Payload -GetWarning
                 #HTTP Status Code on Success: 201 Created
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 if ($PSBoundParameters.ContainsKey('PassThru')) {
@@ -507,7 +507,7 @@ function Invoke-ADCDeleteVpnclientlessaccesspolicy {
         Invoke-ADCDeleteVpnclientlessaccesspolicy -name <string>
     .NOTES
         File Name : Invoke-ADCDeleteVpnclientlessaccesspolicy
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/vpn/vpnclientlessaccesspolicy/
         Requires  : PowerShell v5.1 and up
@@ -535,7 +535,7 @@ function Invoke-ADCDeleteVpnclientlessaccesspolicy {
             }
 
             if ($PSCmdlet.ShouldProcess("$name", "Delete SSL VPN configuration Object")) {
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type vpnclientlessaccesspolicy -Resource $name -Arguments $Arguments
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type vpnclientlessaccesspolicy -NitroPath nitro/v1/config -Resource $name -Arguments $Arguments
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $response
@@ -573,7 +573,7 @@ function Invoke-ADCUpdateVpnclientlessaccesspolicy {
         Invoke-ADCUpdateVpnclientlessaccesspolicy -name <string>
     .NOTES
         File Name : Invoke-ADCUpdateVpnclientlessaccesspolicy
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/vpn/vpnclientlessaccesspolicy/
         Requires  : PowerShell v5.1 and up
@@ -612,7 +612,7 @@ function Invoke-ADCUpdateVpnclientlessaccesspolicy {
             if ($PSBoundParameters.ContainsKey('profilename')) { $Payload.Add('profilename', $profilename) }
  
             if ($PSCmdlet.ShouldProcess("vpnclientlessaccesspolicy", "Update SSL VPN configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -Type vpnclientlessaccesspolicy -Payload $Payload -GetWarning
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -NitroPath nitro/v1/config -Type vpnclientlessaccesspolicy -Payload $Payload -GetWarning
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 if ($PSBoundParameters.ContainsKey('PassThru')) {
@@ -661,7 +661,7 @@ function Invoke-ADCGetVpnclientlessaccesspolicy {
         Invoke-ADCGetVpnclientlessaccesspolicy -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetVpnclientlessaccesspolicy
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/vpn/vpnclientlessaccesspolicy/
         Requires  : PowerShell v5.1 and up
@@ -702,21 +702,21 @@ function Invoke-ADCGetVpnclientlessaccesspolicy {
             if ( $PsCmdlet.ParameterSetName -eq 'Getall' ) {
                 $Query = @{ }
                 Write-Verbose "Retrieving all vpnclientlessaccesspolicy objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnclientlessaccesspolicy -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnclientlessaccesspolicy -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
                 if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for vpnclientlessaccesspolicy objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnclientlessaccesspolicy -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnclientlessaccesspolicy -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving vpnclientlessaccesspolicy objects by arguments"
                 $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnclientlessaccesspolicy -Arguments $Arguments -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnclientlessaccesspolicy -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving vpnclientlessaccesspolicy configuration for property 'name'"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnclientlessaccesspolicy -Resource $name -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnclientlessaccesspolicy -NitroPath nitro/v1/config -Resource $name -Summary:$ViewSummary -Filter $Filter -GetWarning
             } else {
                 Write-Verbose "Retrieving vpnclientlessaccesspolicy configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnclientlessaccesspolicy -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnclientlessaccesspolicy -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -756,7 +756,7 @@ function Invoke-ADCGetVpnclientlessaccesspolicybinding {
         Invoke-ADCGetVpnclientlessaccesspolicybinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetVpnclientlessaccesspolicybinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/vpn/vpnclientlessaccesspolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -791,21 +791,21 @@ function Invoke-ADCGetVpnclientlessaccesspolicybinding {
                     bulkbindings = 'yes'
                 }
                 Write-Verbose "Retrieving all vpnclientlessaccesspolicy_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnclientlessaccesspolicy_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnclientlessaccesspolicy_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
                 if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for vpnclientlessaccesspolicy_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnclientlessaccesspolicy_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnclientlessaccesspolicy_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving vpnclientlessaccesspolicy_binding objects by arguments"
                 $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnclientlessaccesspolicy_binding -Arguments $Arguments -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnclientlessaccesspolicy_binding -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving vpnclientlessaccesspolicy_binding configuration for property 'name'"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnclientlessaccesspolicy_binding -Resource $name -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnclientlessaccesspolicy_binding -NitroPath nitro/v1/config -Resource $name -Summary:$ViewSummary -Filter $Filter -GetWarning
             } else {
                 Write-Verbose "Retrieving vpnclientlessaccesspolicy_binding configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnclientlessaccesspolicy_binding -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnclientlessaccesspolicy_binding -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -847,7 +847,7 @@ function Invoke-ADCGetVpnclientlessaccesspolicyvpnglobalbinding {
         Invoke-ADCGetVpnclientlessaccesspolicyvpnglobalbinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetVpnclientlessaccesspolicyvpnglobalbinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/vpn/vpnclientlessaccesspolicy_vpnglobal_binding/
         Requires  : PowerShell v5.1 and up
@@ -885,21 +885,21 @@ function Invoke-ADCGetVpnclientlessaccesspolicyvpnglobalbinding {
                     bulkbindings = 'yes'
                 }
                 Write-Verbose "Retrieving all vpnclientlessaccesspolicy_vpnglobal_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnclientlessaccesspolicy_vpnglobal_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnclientlessaccesspolicy_vpnglobal_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
                 if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for vpnclientlessaccesspolicy_vpnglobal_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnclientlessaccesspolicy_vpnglobal_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnclientlessaccesspolicy_vpnglobal_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving vpnclientlessaccesspolicy_vpnglobal_binding objects by arguments"
                 $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnclientlessaccesspolicy_vpnglobal_binding -Arguments $Arguments -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnclientlessaccesspolicy_vpnglobal_binding -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving vpnclientlessaccesspolicy_vpnglobal_binding configuration for property 'name'"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnclientlessaccesspolicy_vpnglobal_binding -Resource $name -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnclientlessaccesspolicy_vpnglobal_binding -NitroPath nitro/v1/config -Resource $name -Summary:$ViewSummary -Filter $Filter -GetWarning
             } else {
                 Write-Verbose "Retrieving vpnclientlessaccesspolicy_vpnglobal_binding configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnclientlessaccesspolicy_vpnglobal_binding -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnclientlessaccesspolicy_vpnglobal_binding -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -941,7 +941,7 @@ function Invoke-ADCGetVpnclientlessaccesspolicyvpnvserverbinding {
         Invoke-ADCGetVpnclientlessaccesspolicyvpnvserverbinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetVpnclientlessaccesspolicyvpnvserverbinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/vpn/vpnclientlessaccesspolicy_vpnvserver_binding/
         Requires  : PowerShell v5.1 and up
@@ -979,21 +979,21 @@ function Invoke-ADCGetVpnclientlessaccesspolicyvpnvserverbinding {
                     bulkbindings = 'yes'
                 }
                 Write-Verbose "Retrieving all vpnclientlessaccesspolicy_vpnvserver_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnclientlessaccesspolicy_vpnvserver_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnclientlessaccesspolicy_vpnvserver_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
                 if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for vpnclientlessaccesspolicy_vpnvserver_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnclientlessaccesspolicy_vpnvserver_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnclientlessaccesspolicy_vpnvserver_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving vpnclientlessaccesspolicy_vpnvserver_binding objects by arguments"
                 $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnclientlessaccesspolicy_vpnvserver_binding -Arguments $Arguments -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnclientlessaccesspolicy_vpnvserver_binding -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving vpnclientlessaccesspolicy_vpnvserver_binding configuration for property 'name'"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnclientlessaccesspolicy_vpnvserver_binding -Resource $name -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnclientlessaccesspolicy_vpnvserver_binding -NitroPath nitro/v1/config -Resource $name -Summary:$ViewSummary -Filter $Filter -GetWarning
             } else {
                 Write-Verbose "Retrieving vpnclientlessaccesspolicy_vpnvserver_binding configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnclientlessaccesspolicy_vpnvserver_binding -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnclientlessaccesspolicy_vpnvserver_binding -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -1020,7 +1020,7 @@ function Invoke-ADCAddVpnclientlessaccessprofile {
         Invoke-ADCAddVpnclientlessaccessprofile -profilename <string>
     .NOTES
         File Name : Invoke-ADCAddVpnclientlessaccessprofile
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/vpn/vpnclientlessaccessprofile/
         Requires  : PowerShell v5.1 and up
@@ -1055,7 +1055,7 @@ function Invoke-ADCAddVpnclientlessaccessprofile {
 
  
             if ($PSCmdlet.ShouldProcess("vpnclientlessaccessprofile", "Add SSL VPN configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -Type vpnclientlessaccessprofile -Payload $Payload -GetWarning
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -NitroPath nitro/v1/config -Type vpnclientlessaccessprofile -Payload $Payload -GetWarning
                 #HTTP Status Code on Success: 201 Created
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 if ($PSBoundParameters.ContainsKey('PassThru')) {
@@ -1087,7 +1087,7 @@ function Invoke-ADCDeleteVpnclientlessaccessprofile {
         Invoke-ADCDeleteVpnclientlessaccessprofile -profilename <string>
     .NOTES
         File Name : Invoke-ADCDeleteVpnclientlessaccessprofile
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/vpn/vpnclientlessaccessprofile/
         Requires  : PowerShell v5.1 and up
@@ -1115,7 +1115,7 @@ function Invoke-ADCDeleteVpnclientlessaccessprofile {
             }
 
             if ($PSCmdlet.ShouldProcess("$profilename", "Delete SSL VPN configuration Object")) {
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type vpnclientlessaccessprofile -Resource $profilename -Arguments $Arguments
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type vpnclientlessaccessprofile -NitroPath nitro/v1/config -Resource $profilename -Arguments $Arguments
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $response
@@ -1178,7 +1178,7 @@ function Invoke-ADCUpdateVpnclientlessaccessprofile {
         Invoke-ADCUpdateVpnclientlessaccessprofile -profilename <string>
     .NOTES
         File Name : Invoke-ADCUpdateVpnclientlessaccessprofile
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/vpn/vpnclientlessaccessprofile/
         Requires  : PowerShell v5.1 and up
@@ -1256,7 +1256,7 @@ function Invoke-ADCUpdateVpnclientlessaccessprofile {
             if ($PSBoundParameters.ContainsKey('requirepersistentcookie')) { $Payload.Add('requirepersistentcookie', $requirepersistentcookie) }
  
             if ($PSCmdlet.ShouldProcess("vpnclientlessaccessprofile", "Update SSL VPN configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -Type vpnclientlessaccessprofile -Payload $Payload -GetWarning
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -NitroPath nitro/v1/config -Type vpnclientlessaccessprofile -Payload $Payload -GetWarning
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 if ($PSBoundParameters.ContainsKey('PassThru')) {
@@ -1311,7 +1311,7 @@ function Invoke-ADCUnsetVpnclientlessaccessprofile {
         Invoke-ADCUnsetVpnclientlessaccessprofile -profilename <string>
     .NOTES
         File Name : Invoke-ADCUnsetVpnclientlessaccessprofile
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/vpn/vpnclientlessaccessprofile
         Requires  : PowerShell v5.1 and up
@@ -1374,7 +1374,7 @@ function Invoke-ADCUnsetVpnclientlessaccessprofile {
             if ($PSBoundParameters.ContainsKey('clientconsumedcookies')) { $Payload.Add('clientconsumedcookies', $clientconsumedcookies) }
             if ($PSBoundParameters.ContainsKey('requirepersistentcookie')) { $Payload.Add('requirepersistentcookie', $requirepersistentcookie) }
             if ($PSCmdlet.ShouldProcess("$profilename", "Unset SSL VPN configuration Object")) {
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -Type vpnclientlessaccessprofile -Action unset -Payload $Payload -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -Type vpnclientlessaccessprofile -NitroPath nitro/v1/config -Action unset -Payload $Payload -GetWarning
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $response
@@ -1418,7 +1418,7 @@ function Invoke-ADCGetVpnclientlessaccessprofile {
         Invoke-ADCGetVpnclientlessaccessprofile -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetVpnclientlessaccessprofile
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/vpn/vpnclientlessaccessprofile/
         Requires  : PowerShell v5.1 and up
@@ -1460,21 +1460,21 @@ function Invoke-ADCGetVpnclientlessaccessprofile {
             if ( $PsCmdlet.ParameterSetName -eq 'Getall' ) {
                 $Query = @{ }
                 Write-Verbose "Retrieving all vpnclientlessaccessprofile objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnclientlessaccessprofile -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnclientlessaccessprofile -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
                 if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for vpnclientlessaccessprofile objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnclientlessaccessprofile -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnclientlessaccessprofile -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving vpnclientlessaccessprofile objects by arguments"
                 $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnclientlessaccessprofile -Arguments $Arguments -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnclientlessaccessprofile -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving vpnclientlessaccessprofile configuration for property 'profilename'"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnclientlessaccessprofile -Resource $profilename -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnclientlessaccessprofile -NitroPath nitro/v1/config -Resource $profilename -Summary:$ViewSummary -Filter $Filter -GetWarning
             } else {
                 Write-Verbose "Retrieving vpnclientlessaccessprofile configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnclientlessaccessprofile -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnclientlessaccessprofile -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -1508,7 +1508,7 @@ function Invoke-ADCAddVpnepaprofile {
         Invoke-ADCAddVpnepaprofile -name <string>
     .NOTES
         File Name : Invoke-ADCAddVpnepaprofile
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/vpn/vpnepaprofile/
         Requires  : PowerShell v5.1 and up
@@ -1549,7 +1549,7 @@ function Invoke-ADCAddVpnepaprofile {
             if ($PSBoundParameters.ContainsKey('data')) { $Payload.Add('data', $data) }
  
             if ($PSCmdlet.ShouldProcess("vpnepaprofile", "Add SSL VPN configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -Type vpnepaprofile -Payload $Payload -GetWarning
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -NitroPath nitro/v1/config -Type vpnepaprofile -Payload $Payload -GetWarning
                 #HTTP Status Code on Success: 201 Created
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 if ($PSBoundParameters.ContainsKey('PassThru')) {
@@ -1582,7 +1582,7 @@ function Invoke-ADCDeleteVpnepaprofile {
         Invoke-ADCDeleteVpnepaprofile -name <string>
     .NOTES
         File Name : Invoke-ADCDeleteVpnepaprofile
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/vpn/vpnepaprofile/
         Requires  : PowerShell v5.1 and up
@@ -1610,7 +1610,7 @@ function Invoke-ADCDeleteVpnepaprofile {
             }
 
             if ($PSCmdlet.ShouldProcess("$name", "Delete SSL VPN configuration Object")) {
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type vpnepaprofile -Resource $name -Arguments $Arguments
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type vpnepaprofile -NitroPath nitro/v1/config -Resource $name -Arguments $Arguments
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $response
@@ -1654,7 +1654,7 @@ function Invoke-ADCGetVpnepaprofile {
         Invoke-ADCGetVpnepaprofile -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetVpnepaprofile
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/vpn/vpnepaprofile/
         Requires  : PowerShell v5.1 and up
@@ -1695,21 +1695,21 @@ function Invoke-ADCGetVpnepaprofile {
             if ( $PsCmdlet.ParameterSetName -eq 'Getall' ) {
                 $Query = @{ }
                 Write-Verbose "Retrieving all vpnepaprofile objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnepaprofile -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnepaprofile -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
                 if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for vpnepaprofile objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnepaprofile -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnepaprofile -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving vpnepaprofile objects by arguments"
                 $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnepaprofile -Arguments $Arguments -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnepaprofile -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving vpnepaprofile configuration for property 'name'"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnepaprofile -Resource $name -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnepaprofile -NitroPath nitro/v1/config -Resource $name -Summary:$ViewSummary -Filter $Filter -GetWarning
             } else {
                 Write-Verbose "Retrieving vpnepaprofile configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnepaprofile -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnepaprofile -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -1737,7 +1737,7 @@ function Invoke-ADCAddVpneula {
         Invoke-ADCAddVpneula -name <string>
     .NOTES
         File Name : Invoke-ADCAddVpneula
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/vpn/vpneula/
         Requires  : PowerShell v5.1 and up
@@ -1771,7 +1771,7 @@ function Invoke-ADCAddVpneula {
 
  
             if ($PSCmdlet.ShouldProcess("vpneula", "Add SSL VPN configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -Type vpneula -Payload $Payload -GetWarning
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -NitroPath nitro/v1/config -Type vpneula -Payload $Payload -GetWarning
                 #HTTP Status Code on Success: 201 Created
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 if ($PSBoundParameters.ContainsKey('PassThru')) {
@@ -1804,7 +1804,7 @@ function Invoke-ADCDeleteVpneula {
         Invoke-ADCDeleteVpneula -name <string>
     .NOTES
         File Name : Invoke-ADCDeleteVpneula
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/vpn/vpneula/
         Requires  : PowerShell v5.1 and up
@@ -1832,7 +1832,7 @@ function Invoke-ADCDeleteVpneula {
             }
 
             if ($PSCmdlet.ShouldProcess("$name", "Delete SSL VPN configuration Object")) {
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type vpneula -Resource $name -Arguments $Arguments
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type vpneula -NitroPath nitro/v1/config -Resource $name -Arguments $Arguments
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $response
@@ -1876,7 +1876,7 @@ function Invoke-ADCGetVpneula {
         Invoke-ADCGetVpneula -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetVpneula
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/vpn/vpneula/
         Requires  : PowerShell v5.1 and up
@@ -1917,21 +1917,21 @@ function Invoke-ADCGetVpneula {
             if ( $PsCmdlet.ParameterSetName -eq 'Getall' ) {
                 $Query = @{ }
                 Write-Verbose "Retrieving all vpneula objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpneula -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpneula -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
                 if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for vpneula objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpneula -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpneula -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving vpneula objects by arguments"
                 $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpneula -Arguments $Arguments -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpneula -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving vpneula configuration for property 'name'"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpneula -Resource $name -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpneula -NitroPath nitro/v1/config -Resource $name -Summary:$ViewSummary -Filter $Filter -GetWarning
             } else {
                 Write-Verbose "Retrieving vpneula configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpneula -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpneula -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -1985,7 +1985,7 @@ function Invoke-ADCAddVpnformssoaction {
         Invoke-ADCAddVpnformssoaction -name <string> -actionurl <string> -userfield <string> -passwdfield <string> -ssosuccessrule <string>
     .NOTES
         File Name : Invoke-ADCAddVpnformssoaction
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/vpn/vpnformssoaction/
         Requires  : PowerShell v5.1 and up
@@ -2051,7 +2051,7 @@ function Invoke-ADCAddVpnformssoaction {
             if ($PSBoundParameters.ContainsKey('submitmethod')) { $Payload.Add('submitmethod', $submitmethod) }
  
             if ($PSCmdlet.ShouldProcess("vpnformssoaction", "Add SSL VPN configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -Type vpnformssoaction -Payload $Payload -GetWarning
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -NitroPath nitro/v1/config -Type vpnformssoaction -Payload $Payload -GetWarning
                 #HTTP Status Code on Success: 201 Created
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 if ($PSBoundParameters.ContainsKey('PassThru')) {
@@ -2084,7 +2084,7 @@ function Invoke-ADCDeleteVpnformssoaction {
         Invoke-ADCDeleteVpnformssoaction -name <string>
     .NOTES
         File Name : Invoke-ADCDeleteVpnformssoaction
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/vpn/vpnformssoaction/
         Requires  : PowerShell v5.1 and up
@@ -2112,7 +2112,7 @@ function Invoke-ADCDeleteVpnformssoaction {
             }
 
             if ($PSCmdlet.ShouldProcess("$name", "Delete SSL VPN configuration Object")) {
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type vpnformssoaction -Resource $name -Arguments $Arguments
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type vpnformssoaction -NitroPath nitro/v1/config -Resource $name -Arguments $Arguments
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $response
@@ -2168,7 +2168,7 @@ function Invoke-ADCUpdateVpnformssoaction {
         Invoke-ADCUpdateVpnformssoaction -name <string>
     .NOTES
         File Name : Invoke-ADCUpdateVpnformssoaction
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/vpn/vpnformssoaction/
         Requires  : PowerShell v5.1 and up
@@ -2230,7 +2230,7 @@ function Invoke-ADCUpdateVpnformssoaction {
             if ($PSBoundParameters.ContainsKey('submitmethod')) { $Payload.Add('submitmethod', $submitmethod) }
  
             if ($PSCmdlet.ShouldProcess("vpnformssoaction", "Update SSL VPN configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -Type vpnformssoaction -Payload $Payload -GetWarning
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -NitroPath nitro/v1/config -Type vpnformssoaction -Payload $Payload -GetWarning
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 if ($PSBoundParameters.ContainsKey('PassThru')) {
@@ -2274,7 +2274,7 @@ function Invoke-ADCUnsetVpnformssoaction {
         Invoke-ADCUnsetVpnformssoaction -name <string>
     .NOTES
         File Name : Invoke-ADCUnsetVpnformssoaction
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/vpn/vpnformssoaction
         Requires  : PowerShell v5.1 and up
@@ -2315,7 +2315,7 @@ function Invoke-ADCUnsetVpnformssoaction {
             if ($PSBoundParameters.ContainsKey('nvtype')) { $Payload.Add('nvtype', $nvtype) }
             if ($PSBoundParameters.ContainsKey('submitmethod')) { $Payload.Add('submitmethod', $submitmethod) }
             if ($PSCmdlet.ShouldProcess("$name", "Unset SSL VPN configuration Object")) {
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -Type vpnformssoaction -Action unset -Payload $Payload -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -Type vpnformssoaction -NitroPath nitro/v1/config -Action unset -Payload $Payload -GetWarning
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $response
@@ -2359,7 +2359,7 @@ function Invoke-ADCGetVpnformssoaction {
         Invoke-ADCGetVpnformssoaction -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetVpnformssoaction
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/vpn/vpnformssoaction/
         Requires  : PowerShell v5.1 and up
@@ -2400,21 +2400,21 @@ function Invoke-ADCGetVpnformssoaction {
             if ( $PsCmdlet.ParameterSetName -eq 'Getall' ) {
                 $Query = @{ }
                 Write-Verbose "Retrieving all vpnformssoaction objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnformssoaction -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnformssoaction -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
                 if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for vpnformssoaction objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnformssoaction -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnformssoaction -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving vpnformssoaction objects by arguments"
                 $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnformssoaction -Arguments $Arguments -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnformssoaction -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving vpnformssoaction configuration for property 'name'"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnformssoaction -Resource $name -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnformssoaction -NitroPath nitro/v1/config -Resource $name -Summary:$ViewSummary -Filter $Filter -GetWarning
             } else {
                 Write-Verbose "Retrieving vpnformssoaction configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnformssoaction -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnformssoaction -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -2443,7 +2443,7 @@ function Invoke-ADCAddVpnglobalappcontrollerbinding {
         Invoke-ADCAddVpnglobalappcontrollerbinding 
     .NOTES
         File Name : Invoke-ADCAddVpnglobalappcontrollerbinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/vpn/vpnglobal_appcontroller_binding/
         Requires  : PowerShell v5.1 and up
@@ -2478,7 +2478,7 @@ function Invoke-ADCAddVpnglobalappcontrollerbinding {
             if ($PSBoundParameters.ContainsKey('gotopriorityexpression')) { $Payload.Add('gotopriorityexpression', $gotopriorityexpression) }
  
             if ($PSCmdlet.ShouldProcess("vpnglobal_appcontroller_binding", "Add SSL VPN configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -Type vpnglobal_appcontroller_binding -Payload $Payload -GetWarning
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -NitroPath nitro/v1/config -Type vpnglobal_appcontroller_binding -Payload $Payload -GetWarning
                 #HTTP Status Code on Success: 201 Created
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 if ($PSBoundParameters.ContainsKey('PassThru')) {
@@ -2510,7 +2510,7 @@ function Invoke-ADCDeleteVpnglobalappcontrollerbinding {
         Invoke-ADCDeleteVpnglobalappcontrollerbinding 
     .NOTES
         File Name : Invoke-ADCDeleteVpnglobalappcontrollerbinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/vpn/vpnglobal_appcontroller_binding/
         Requires  : PowerShell v5.1 and up
@@ -2537,7 +2537,7 @@ function Invoke-ADCDeleteVpnglobalappcontrollerbinding {
             }
             if ($PSBoundParameters.ContainsKey('appcontroller')) { $Arguments.Add('appcontroller', $appcontroller) }
             if ($PSCmdlet.ShouldProcess("vpnglobal_appcontroller_binding", "Delete SSL VPN configuration Object")) {
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type vpnglobal_appcontroller_binding -Resource $ -Arguments $Arguments
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type vpnglobal_appcontroller_binding -NitroPath nitro/v1/config -Resource $ -Arguments $Arguments
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $response
@@ -2579,7 +2579,7 @@ function Invoke-ADCGetVpnglobalappcontrollerbinding {
         Invoke-ADCGetVpnglobalappcontrollerbinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetVpnglobalappcontrollerbinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/vpn/vpnglobal_appcontroller_binding/
         Requires  : PowerShell v5.1 and up
@@ -2613,21 +2613,21 @@ function Invoke-ADCGetVpnglobalappcontrollerbinding {
                     bulkbindings = 'yes'
                 }
                 Write-Verbose "Retrieving all vpnglobal_appcontroller_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnglobal_appcontroller_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnglobal_appcontroller_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
                 if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for vpnglobal_appcontroller_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnglobal_appcontroller_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnglobal_appcontroller_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving vpnglobal_appcontroller_binding objects by arguments"
                 $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnglobal_appcontroller_binding -Arguments $Arguments -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnglobal_appcontroller_binding -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving vpnglobal_appcontroller_binding configuration for property ''"
 
             } else {
                 Write-Verbose "Retrieving vpnglobal_appcontroller_binding configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnglobal_appcontroller_binding -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnglobal_appcontroller_binding -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -2664,7 +2664,7 @@ function Invoke-ADCAddVpnglobalauditnslogpolicybinding {
         Invoke-ADCAddVpnglobalauditnslogpolicybinding 
     .NOTES
         File Name : Invoke-ADCAddVpnglobalauditnslogpolicybinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/vpn/vpnglobal_auditnslogpolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -2709,7 +2709,7 @@ function Invoke-ADCAddVpnglobalauditnslogpolicybinding {
             if ($PSBoundParameters.ContainsKey('gotopriorityexpression')) { $Payload.Add('gotopriorityexpression', $gotopriorityexpression) }
  
             if ($PSCmdlet.ShouldProcess("vpnglobal_auditnslogpolicy_binding", "Add SSL VPN configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -Type vpnglobal_auditnslogpolicy_binding -Payload $Payload -GetWarning
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -NitroPath nitro/v1/config -Type vpnglobal_auditnslogpolicy_binding -Payload $Payload -GetWarning
                 #HTTP Status Code on Success: 201 Created
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 if ($PSBoundParameters.ContainsKey('PassThru')) {
@@ -2743,7 +2743,7 @@ function Invoke-ADCDeleteVpnglobalauditnslogpolicybinding {
         Invoke-ADCDeleteVpnglobalauditnslogpolicybinding 
     .NOTES
         File Name : Invoke-ADCDeleteVpnglobalauditnslogpolicybinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/vpn/vpnglobal_auditnslogpolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -2776,7 +2776,7 @@ function Invoke-ADCDeleteVpnglobalauditnslogpolicybinding {
             if ($PSBoundParameters.ContainsKey('secondary')) { $Arguments.Add('secondary', $secondary) }
             if ($PSBoundParameters.ContainsKey('groupextraction')) { $Arguments.Add('groupextraction', $groupextraction) }
             if ($PSCmdlet.ShouldProcess("vpnglobal_auditnslogpolicy_binding", "Delete SSL VPN configuration Object")) {
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type vpnglobal_auditnslogpolicy_binding -Resource $ -Arguments $Arguments
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type vpnglobal_auditnslogpolicy_binding -NitroPath nitro/v1/config -Resource $ -Arguments $Arguments
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $response
@@ -2818,7 +2818,7 @@ function Invoke-ADCGetVpnglobalauditnslogpolicybinding {
         Invoke-ADCGetVpnglobalauditnslogpolicybinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetVpnglobalauditnslogpolicybinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/vpn/vpnglobal_auditnslogpolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -2852,21 +2852,21 @@ function Invoke-ADCGetVpnglobalauditnslogpolicybinding {
                     bulkbindings = 'yes'
                 }
                 Write-Verbose "Retrieving all vpnglobal_auditnslogpolicy_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnglobal_auditnslogpolicy_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnglobal_auditnslogpolicy_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
                 if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for vpnglobal_auditnslogpolicy_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnglobal_auditnslogpolicy_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnglobal_auditnslogpolicy_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving vpnglobal_auditnslogpolicy_binding objects by arguments"
                 $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnglobal_auditnslogpolicy_binding -Arguments $Arguments -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnglobal_auditnslogpolicy_binding -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving vpnglobal_auditnslogpolicy_binding configuration for property ''"
 
             } else {
                 Write-Verbose "Retrieving vpnglobal_auditnslogpolicy_binding configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnglobal_auditnslogpolicy_binding -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnglobal_auditnslogpolicy_binding -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -2903,7 +2903,7 @@ function Invoke-ADCAddVpnglobalauditsyslogpolicybinding {
         Invoke-ADCAddVpnglobalauditsyslogpolicybinding 
     .NOTES
         File Name : Invoke-ADCAddVpnglobalauditsyslogpolicybinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/vpn/vpnglobal_auditsyslogpolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -2948,7 +2948,7 @@ function Invoke-ADCAddVpnglobalauditsyslogpolicybinding {
             if ($PSBoundParameters.ContainsKey('gotopriorityexpression')) { $Payload.Add('gotopriorityexpression', $gotopriorityexpression) }
  
             if ($PSCmdlet.ShouldProcess("vpnglobal_auditsyslogpolicy_binding", "Add SSL VPN configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -Type vpnglobal_auditsyslogpolicy_binding -Payload $Payload -GetWarning
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -NitroPath nitro/v1/config -Type vpnglobal_auditsyslogpolicy_binding -Payload $Payload -GetWarning
                 #HTTP Status Code on Success: 201 Created
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 if ($PSBoundParameters.ContainsKey('PassThru')) {
@@ -2982,7 +2982,7 @@ function Invoke-ADCDeleteVpnglobalauditsyslogpolicybinding {
         Invoke-ADCDeleteVpnglobalauditsyslogpolicybinding 
     .NOTES
         File Name : Invoke-ADCDeleteVpnglobalauditsyslogpolicybinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/vpn/vpnglobal_auditsyslogpolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -3015,7 +3015,7 @@ function Invoke-ADCDeleteVpnglobalauditsyslogpolicybinding {
             if ($PSBoundParameters.ContainsKey('secondary')) { $Arguments.Add('secondary', $secondary) }
             if ($PSBoundParameters.ContainsKey('groupextraction')) { $Arguments.Add('groupextraction', $groupextraction) }
             if ($PSCmdlet.ShouldProcess("vpnglobal_auditsyslogpolicy_binding", "Delete SSL VPN configuration Object")) {
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type vpnglobal_auditsyslogpolicy_binding -Resource $ -Arguments $Arguments
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type vpnglobal_auditsyslogpolicy_binding -NitroPath nitro/v1/config -Resource $ -Arguments $Arguments
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $response
@@ -3057,7 +3057,7 @@ function Invoke-ADCGetVpnglobalauditsyslogpolicybinding {
         Invoke-ADCGetVpnglobalauditsyslogpolicybinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetVpnglobalauditsyslogpolicybinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/vpn/vpnglobal_auditsyslogpolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -3091,21 +3091,21 @@ function Invoke-ADCGetVpnglobalauditsyslogpolicybinding {
                     bulkbindings = 'yes'
                 }
                 Write-Verbose "Retrieving all vpnglobal_auditsyslogpolicy_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnglobal_auditsyslogpolicy_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnglobal_auditsyslogpolicy_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
                 if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for vpnglobal_auditsyslogpolicy_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnglobal_auditsyslogpolicy_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnglobal_auditsyslogpolicy_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving vpnglobal_auditsyslogpolicy_binding objects by arguments"
                 $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnglobal_auditsyslogpolicy_binding -Arguments $Arguments -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnglobal_auditsyslogpolicy_binding -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving vpnglobal_auditsyslogpolicy_binding configuration for property ''"
 
             } else {
                 Write-Verbose "Retrieving vpnglobal_auditsyslogpolicy_binding configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnglobal_auditsyslogpolicy_binding -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnglobal_auditsyslogpolicy_binding -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -3142,7 +3142,7 @@ function Invoke-ADCAddVpnglobalauthenticationcertpolicybinding {
         Invoke-ADCAddVpnglobalauthenticationcertpolicybinding 
     .NOTES
         File Name : Invoke-ADCAddVpnglobalauthenticationcertpolicybinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/vpn/vpnglobal_authenticationcertpolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -3187,7 +3187,7 @@ function Invoke-ADCAddVpnglobalauthenticationcertpolicybinding {
             if ($PSBoundParameters.ContainsKey('gotopriorityexpression')) { $Payload.Add('gotopriorityexpression', $gotopriorityexpression) }
  
             if ($PSCmdlet.ShouldProcess("vpnglobal_authenticationcertpolicy_binding", "Add SSL VPN configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -Type vpnglobal_authenticationcertpolicy_binding -Payload $Payload -GetWarning
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -NitroPath nitro/v1/config -Type vpnglobal_authenticationcertpolicy_binding -Payload $Payload -GetWarning
                 #HTTP Status Code on Success: 201 Created
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 if ($PSBoundParameters.ContainsKey('PassThru')) {
@@ -3221,7 +3221,7 @@ function Invoke-ADCDeleteVpnglobalauthenticationcertpolicybinding {
         Invoke-ADCDeleteVpnglobalauthenticationcertpolicybinding 
     .NOTES
         File Name : Invoke-ADCDeleteVpnglobalauthenticationcertpolicybinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/vpn/vpnglobal_authenticationcertpolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -3254,7 +3254,7 @@ function Invoke-ADCDeleteVpnglobalauthenticationcertpolicybinding {
             if ($PSBoundParameters.ContainsKey('secondary')) { $Arguments.Add('secondary', $secondary) }
             if ($PSBoundParameters.ContainsKey('groupextraction')) { $Arguments.Add('groupextraction', $groupextraction) }
             if ($PSCmdlet.ShouldProcess("vpnglobal_authenticationcertpolicy_binding", "Delete SSL VPN configuration Object")) {
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type vpnglobal_authenticationcertpolicy_binding -Resource $ -Arguments $Arguments
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type vpnglobal_authenticationcertpolicy_binding -NitroPath nitro/v1/config -Resource $ -Arguments $Arguments
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $response
@@ -3296,7 +3296,7 @@ function Invoke-ADCGetVpnglobalauthenticationcertpolicybinding {
         Invoke-ADCGetVpnglobalauthenticationcertpolicybinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetVpnglobalauthenticationcertpolicybinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/vpn/vpnglobal_authenticationcertpolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -3330,21 +3330,21 @@ function Invoke-ADCGetVpnglobalauthenticationcertpolicybinding {
                     bulkbindings = 'yes'
                 }
                 Write-Verbose "Retrieving all vpnglobal_authenticationcertpolicy_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnglobal_authenticationcertpolicy_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnglobal_authenticationcertpolicy_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
                 if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for vpnglobal_authenticationcertpolicy_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnglobal_authenticationcertpolicy_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnglobal_authenticationcertpolicy_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving vpnglobal_authenticationcertpolicy_binding objects by arguments"
                 $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnglobal_authenticationcertpolicy_binding -Arguments $Arguments -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnglobal_authenticationcertpolicy_binding -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving vpnglobal_authenticationcertpolicy_binding configuration for property ''"
 
             } else {
                 Write-Verbose "Retrieving vpnglobal_authenticationcertpolicy_binding configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnglobal_authenticationcertpolicy_binding -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnglobal_authenticationcertpolicy_binding -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -3381,7 +3381,7 @@ function Invoke-ADCAddVpnglobalauthenticationldappolicybinding {
         Invoke-ADCAddVpnglobalauthenticationldappolicybinding 
     .NOTES
         File Name : Invoke-ADCAddVpnglobalauthenticationldappolicybinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/vpn/vpnglobal_authenticationldappolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -3426,7 +3426,7 @@ function Invoke-ADCAddVpnglobalauthenticationldappolicybinding {
             if ($PSBoundParameters.ContainsKey('gotopriorityexpression')) { $Payload.Add('gotopriorityexpression', $gotopriorityexpression) }
  
             if ($PSCmdlet.ShouldProcess("vpnglobal_authenticationldappolicy_binding", "Add SSL VPN configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -Type vpnglobal_authenticationldappolicy_binding -Payload $Payload -GetWarning
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -NitroPath nitro/v1/config -Type vpnglobal_authenticationldappolicy_binding -Payload $Payload -GetWarning
                 #HTTP Status Code on Success: 201 Created
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 if ($PSBoundParameters.ContainsKey('PassThru')) {
@@ -3460,7 +3460,7 @@ function Invoke-ADCDeleteVpnglobalauthenticationldappolicybinding {
         Invoke-ADCDeleteVpnglobalauthenticationldappolicybinding 
     .NOTES
         File Name : Invoke-ADCDeleteVpnglobalauthenticationldappolicybinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/vpn/vpnglobal_authenticationldappolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -3493,7 +3493,7 @@ function Invoke-ADCDeleteVpnglobalauthenticationldappolicybinding {
             if ($PSBoundParameters.ContainsKey('secondary')) { $Arguments.Add('secondary', $secondary) }
             if ($PSBoundParameters.ContainsKey('groupextraction')) { $Arguments.Add('groupextraction', $groupextraction) }
             if ($PSCmdlet.ShouldProcess("vpnglobal_authenticationldappolicy_binding", "Delete SSL VPN configuration Object")) {
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type vpnglobal_authenticationldappolicy_binding -Resource $ -Arguments $Arguments
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type vpnglobal_authenticationldappolicy_binding -NitroPath nitro/v1/config -Resource $ -Arguments $Arguments
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $response
@@ -3535,7 +3535,7 @@ function Invoke-ADCGetVpnglobalauthenticationldappolicybinding {
         Invoke-ADCGetVpnglobalauthenticationldappolicybinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetVpnglobalauthenticationldappolicybinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/vpn/vpnglobal_authenticationldappolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -3569,21 +3569,21 @@ function Invoke-ADCGetVpnglobalauthenticationldappolicybinding {
                     bulkbindings = 'yes'
                 }
                 Write-Verbose "Retrieving all vpnglobal_authenticationldappolicy_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnglobal_authenticationldappolicy_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnglobal_authenticationldappolicy_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
                 if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for vpnglobal_authenticationldappolicy_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnglobal_authenticationldappolicy_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnglobal_authenticationldappolicy_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving vpnglobal_authenticationldappolicy_binding objects by arguments"
                 $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnglobal_authenticationldappolicy_binding -Arguments $Arguments -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnglobal_authenticationldappolicy_binding -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving vpnglobal_authenticationldappolicy_binding configuration for property ''"
 
             } else {
                 Write-Verbose "Retrieving vpnglobal_authenticationldappolicy_binding configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnglobal_authenticationldappolicy_binding -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnglobal_authenticationldappolicy_binding -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -3620,7 +3620,7 @@ function Invoke-ADCAddVpnglobalauthenticationlocalpolicybinding {
         Invoke-ADCAddVpnglobalauthenticationlocalpolicybinding 
     .NOTES
         File Name : Invoke-ADCAddVpnglobalauthenticationlocalpolicybinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/vpn/vpnglobal_authenticationlocalpolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -3665,7 +3665,7 @@ function Invoke-ADCAddVpnglobalauthenticationlocalpolicybinding {
             if ($PSBoundParameters.ContainsKey('gotopriorityexpression')) { $Payload.Add('gotopriorityexpression', $gotopriorityexpression) }
  
             if ($PSCmdlet.ShouldProcess("vpnglobal_authenticationlocalpolicy_binding", "Add SSL VPN configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -Type vpnglobal_authenticationlocalpolicy_binding -Payload $Payload -GetWarning
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -NitroPath nitro/v1/config -Type vpnglobal_authenticationlocalpolicy_binding -Payload $Payload -GetWarning
                 #HTTP Status Code on Success: 201 Created
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 if ($PSBoundParameters.ContainsKey('PassThru')) {
@@ -3699,7 +3699,7 @@ function Invoke-ADCDeleteVpnglobalauthenticationlocalpolicybinding {
         Invoke-ADCDeleteVpnglobalauthenticationlocalpolicybinding 
     .NOTES
         File Name : Invoke-ADCDeleteVpnglobalauthenticationlocalpolicybinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/vpn/vpnglobal_authenticationlocalpolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -3732,7 +3732,7 @@ function Invoke-ADCDeleteVpnglobalauthenticationlocalpolicybinding {
             if ($PSBoundParameters.ContainsKey('secondary')) { $Arguments.Add('secondary', $secondary) }
             if ($PSBoundParameters.ContainsKey('groupextraction')) { $Arguments.Add('groupextraction', $groupextraction) }
             if ($PSCmdlet.ShouldProcess("vpnglobal_authenticationlocalpolicy_binding", "Delete SSL VPN configuration Object")) {
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type vpnglobal_authenticationlocalpolicy_binding -Resource $ -Arguments $Arguments
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type vpnglobal_authenticationlocalpolicy_binding -NitroPath nitro/v1/config -Resource $ -Arguments $Arguments
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $response
@@ -3774,7 +3774,7 @@ function Invoke-ADCGetVpnglobalauthenticationlocalpolicybinding {
         Invoke-ADCGetVpnglobalauthenticationlocalpolicybinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetVpnglobalauthenticationlocalpolicybinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/vpn/vpnglobal_authenticationlocalpolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -3808,21 +3808,21 @@ function Invoke-ADCGetVpnglobalauthenticationlocalpolicybinding {
                     bulkbindings = 'yes'
                 }
                 Write-Verbose "Retrieving all vpnglobal_authenticationlocalpolicy_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnglobal_authenticationlocalpolicy_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnglobal_authenticationlocalpolicy_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
                 if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for vpnglobal_authenticationlocalpolicy_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnglobal_authenticationlocalpolicy_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnglobal_authenticationlocalpolicy_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving vpnglobal_authenticationlocalpolicy_binding objects by arguments"
                 $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnglobal_authenticationlocalpolicy_binding -Arguments $Arguments -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnglobal_authenticationlocalpolicy_binding -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving vpnglobal_authenticationlocalpolicy_binding configuration for property ''"
 
             } else {
                 Write-Verbose "Retrieving vpnglobal_authenticationlocalpolicy_binding configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnglobal_authenticationlocalpolicy_binding -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnglobal_authenticationlocalpolicy_binding -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -3859,7 +3859,7 @@ function Invoke-ADCAddVpnglobalauthenticationnegotiatepolicybinding {
         Invoke-ADCAddVpnglobalauthenticationnegotiatepolicybinding 
     .NOTES
         File Name : Invoke-ADCAddVpnglobalauthenticationnegotiatepolicybinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/vpn/vpnglobal_authenticationnegotiatepolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -3904,7 +3904,7 @@ function Invoke-ADCAddVpnglobalauthenticationnegotiatepolicybinding {
             if ($PSBoundParameters.ContainsKey('gotopriorityexpression')) { $Payload.Add('gotopriorityexpression', $gotopriorityexpression) }
  
             if ($PSCmdlet.ShouldProcess("vpnglobal_authenticationnegotiatepolicy_binding", "Add SSL VPN configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -Type vpnglobal_authenticationnegotiatepolicy_binding -Payload $Payload -GetWarning
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -NitroPath nitro/v1/config -Type vpnglobal_authenticationnegotiatepolicy_binding -Payload $Payload -GetWarning
                 #HTTP Status Code on Success: 201 Created
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 if ($PSBoundParameters.ContainsKey('PassThru')) {
@@ -3938,7 +3938,7 @@ function Invoke-ADCDeleteVpnglobalauthenticationnegotiatepolicybinding {
         Invoke-ADCDeleteVpnglobalauthenticationnegotiatepolicybinding 
     .NOTES
         File Name : Invoke-ADCDeleteVpnglobalauthenticationnegotiatepolicybinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/vpn/vpnglobal_authenticationnegotiatepolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -3971,7 +3971,7 @@ function Invoke-ADCDeleteVpnglobalauthenticationnegotiatepolicybinding {
             if ($PSBoundParameters.ContainsKey('secondary')) { $Arguments.Add('secondary', $secondary) }
             if ($PSBoundParameters.ContainsKey('groupextraction')) { $Arguments.Add('groupextraction', $groupextraction) }
             if ($PSCmdlet.ShouldProcess("vpnglobal_authenticationnegotiatepolicy_binding", "Delete SSL VPN configuration Object")) {
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type vpnglobal_authenticationnegotiatepolicy_binding -Resource $ -Arguments $Arguments
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type vpnglobal_authenticationnegotiatepolicy_binding -NitroPath nitro/v1/config -Resource $ -Arguments $Arguments
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $response
@@ -4013,7 +4013,7 @@ function Invoke-ADCGetVpnglobalauthenticationnegotiatepolicybinding {
         Invoke-ADCGetVpnglobalauthenticationnegotiatepolicybinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetVpnglobalauthenticationnegotiatepolicybinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/vpn/vpnglobal_authenticationnegotiatepolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -4047,21 +4047,21 @@ function Invoke-ADCGetVpnglobalauthenticationnegotiatepolicybinding {
                     bulkbindings = 'yes'
                 }
                 Write-Verbose "Retrieving all vpnglobal_authenticationnegotiatepolicy_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnglobal_authenticationnegotiatepolicy_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnglobal_authenticationnegotiatepolicy_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
                 if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for vpnglobal_authenticationnegotiatepolicy_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnglobal_authenticationnegotiatepolicy_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnglobal_authenticationnegotiatepolicy_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving vpnglobal_authenticationnegotiatepolicy_binding objects by arguments"
                 $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnglobal_authenticationnegotiatepolicy_binding -Arguments $Arguments -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnglobal_authenticationnegotiatepolicy_binding -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving vpnglobal_authenticationnegotiatepolicy_binding configuration for property ''"
 
             } else {
                 Write-Verbose "Retrieving vpnglobal_authenticationnegotiatepolicy_binding configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnglobal_authenticationnegotiatepolicy_binding -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnglobal_authenticationnegotiatepolicy_binding -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -4098,7 +4098,7 @@ function Invoke-ADCAddVpnglobalauthenticationpolicybinding {
         Invoke-ADCAddVpnglobalauthenticationpolicybinding 
     .NOTES
         File Name : Invoke-ADCAddVpnglobalauthenticationpolicybinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/vpn/vpnglobal_authenticationpolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -4143,7 +4143,7 @@ function Invoke-ADCAddVpnglobalauthenticationpolicybinding {
             if ($PSBoundParameters.ContainsKey('gotopriorityexpression')) { $Payload.Add('gotopriorityexpression', $gotopriorityexpression) }
  
             if ($PSCmdlet.ShouldProcess("vpnglobal_authenticationpolicy_binding", "Add SSL VPN configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -Type vpnglobal_authenticationpolicy_binding -Payload $Payload -GetWarning
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -NitroPath nitro/v1/config -Type vpnglobal_authenticationpolicy_binding -Payload $Payload -GetWarning
                 #HTTP Status Code on Success: 201 Created
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 if ($PSBoundParameters.ContainsKey('PassThru')) {
@@ -4177,7 +4177,7 @@ function Invoke-ADCDeleteVpnglobalauthenticationpolicybinding {
         Invoke-ADCDeleteVpnglobalauthenticationpolicybinding 
     .NOTES
         File Name : Invoke-ADCDeleteVpnglobalauthenticationpolicybinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/vpn/vpnglobal_authenticationpolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -4210,7 +4210,7 @@ function Invoke-ADCDeleteVpnglobalauthenticationpolicybinding {
             if ($PSBoundParameters.ContainsKey('secondary')) { $Arguments.Add('secondary', $secondary) }
             if ($PSBoundParameters.ContainsKey('groupextraction')) { $Arguments.Add('groupextraction', $groupextraction) }
             if ($PSCmdlet.ShouldProcess("vpnglobal_authenticationpolicy_binding", "Delete SSL VPN configuration Object")) {
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type vpnglobal_authenticationpolicy_binding -Resource $ -Arguments $Arguments
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type vpnglobal_authenticationpolicy_binding -NitroPath nitro/v1/config -Resource $ -Arguments $Arguments
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $response
@@ -4252,7 +4252,7 @@ function Invoke-ADCGetVpnglobalauthenticationpolicybinding {
         Invoke-ADCGetVpnglobalauthenticationpolicybinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetVpnglobalauthenticationpolicybinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/vpn/vpnglobal_authenticationpolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -4286,21 +4286,21 @@ function Invoke-ADCGetVpnglobalauthenticationpolicybinding {
                     bulkbindings = 'yes'
                 }
                 Write-Verbose "Retrieving all vpnglobal_authenticationpolicy_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnglobal_authenticationpolicy_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnglobal_authenticationpolicy_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
                 if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for vpnglobal_authenticationpolicy_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnglobal_authenticationpolicy_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnglobal_authenticationpolicy_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving vpnglobal_authenticationpolicy_binding objects by arguments"
                 $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnglobal_authenticationpolicy_binding -Arguments $Arguments -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnglobal_authenticationpolicy_binding -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving vpnglobal_authenticationpolicy_binding configuration for property ''"
 
             } else {
                 Write-Verbose "Retrieving vpnglobal_authenticationpolicy_binding configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnglobal_authenticationpolicy_binding -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnglobal_authenticationpolicy_binding -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -4337,7 +4337,7 @@ function Invoke-ADCAddVpnglobalauthenticationradiuspolicybinding {
         Invoke-ADCAddVpnglobalauthenticationradiuspolicybinding 
     .NOTES
         File Name : Invoke-ADCAddVpnglobalauthenticationradiuspolicybinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/vpn/vpnglobal_authenticationradiuspolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -4382,7 +4382,7 @@ function Invoke-ADCAddVpnglobalauthenticationradiuspolicybinding {
             if ($PSBoundParameters.ContainsKey('gotopriorityexpression')) { $Payload.Add('gotopriorityexpression', $gotopriorityexpression) }
  
             if ($PSCmdlet.ShouldProcess("vpnglobal_authenticationradiuspolicy_binding", "Add SSL VPN configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -Type vpnglobal_authenticationradiuspolicy_binding -Payload $Payload -GetWarning
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -NitroPath nitro/v1/config -Type vpnglobal_authenticationradiuspolicy_binding -Payload $Payload -GetWarning
                 #HTTP Status Code on Success: 201 Created
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 if ($PSBoundParameters.ContainsKey('PassThru')) {
@@ -4416,7 +4416,7 @@ function Invoke-ADCDeleteVpnglobalauthenticationradiuspolicybinding {
         Invoke-ADCDeleteVpnglobalauthenticationradiuspolicybinding 
     .NOTES
         File Name : Invoke-ADCDeleteVpnglobalauthenticationradiuspolicybinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/vpn/vpnglobal_authenticationradiuspolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -4449,7 +4449,7 @@ function Invoke-ADCDeleteVpnglobalauthenticationradiuspolicybinding {
             if ($PSBoundParameters.ContainsKey('secondary')) { $Arguments.Add('secondary', $secondary) }
             if ($PSBoundParameters.ContainsKey('groupextraction')) { $Arguments.Add('groupextraction', $groupextraction) }
             if ($PSCmdlet.ShouldProcess("vpnglobal_authenticationradiuspolicy_binding", "Delete SSL VPN configuration Object")) {
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type vpnglobal_authenticationradiuspolicy_binding -Resource $ -Arguments $Arguments
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type vpnglobal_authenticationradiuspolicy_binding -NitroPath nitro/v1/config -Resource $ -Arguments $Arguments
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $response
@@ -4491,7 +4491,7 @@ function Invoke-ADCGetVpnglobalauthenticationradiuspolicybinding {
         Invoke-ADCGetVpnglobalauthenticationradiuspolicybinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetVpnglobalauthenticationradiuspolicybinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/vpn/vpnglobal_authenticationradiuspolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -4525,21 +4525,21 @@ function Invoke-ADCGetVpnglobalauthenticationradiuspolicybinding {
                     bulkbindings = 'yes'
                 }
                 Write-Verbose "Retrieving all vpnglobal_authenticationradiuspolicy_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnglobal_authenticationradiuspolicy_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnglobal_authenticationradiuspolicy_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
                 if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for vpnglobal_authenticationradiuspolicy_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnglobal_authenticationradiuspolicy_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnglobal_authenticationradiuspolicy_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving vpnglobal_authenticationradiuspolicy_binding objects by arguments"
                 $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnglobal_authenticationradiuspolicy_binding -Arguments $Arguments -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnglobal_authenticationradiuspolicy_binding -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving vpnglobal_authenticationradiuspolicy_binding configuration for property ''"
 
             } else {
                 Write-Verbose "Retrieving vpnglobal_authenticationradiuspolicy_binding configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnglobal_authenticationradiuspolicy_binding -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnglobal_authenticationradiuspolicy_binding -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -4576,7 +4576,7 @@ function Invoke-ADCAddVpnglobalauthenticationsamlpolicybinding {
         Invoke-ADCAddVpnglobalauthenticationsamlpolicybinding 
     .NOTES
         File Name : Invoke-ADCAddVpnglobalauthenticationsamlpolicybinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/vpn/vpnglobal_authenticationsamlpolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -4621,7 +4621,7 @@ function Invoke-ADCAddVpnglobalauthenticationsamlpolicybinding {
             if ($PSBoundParameters.ContainsKey('gotopriorityexpression')) { $Payload.Add('gotopriorityexpression', $gotopriorityexpression) }
  
             if ($PSCmdlet.ShouldProcess("vpnglobal_authenticationsamlpolicy_binding", "Add SSL VPN configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -Type vpnglobal_authenticationsamlpolicy_binding -Payload $Payload -GetWarning
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -NitroPath nitro/v1/config -Type vpnglobal_authenticationsamlpolicy_binding -Payload $Payload -GetWarning
                 #HTTP Status Code on Success: 201 Created
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 if ($PSBoundParameters.ContainsKey('PassThru')) {
@@ -4655,7 +4655,7 @@ function Invoke-ADCDeleteVpnglobalauthenticationsamlpolicybinding {
         Invoke-ADCDeleteVpnglobalauthenticationsamlpolicybinding 
     .NOTES
         File Name : Invoke-ADCDeleteVpnglobalauthenticationsamlpolicybinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/vpn/vpnglobal_authenticationsamlpolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -4688,7 +4688,7 @@ function Invoke-ADCDeleteVpnglobalauthenticationsamlpolicybinding {
             if ($PSBoundParameters.ContainsKey('secondary')) { $Arguments.Add('secondary', $secondary) }
             if ($PSBoundParameters.ContainsKey('groupextraction')) { $Arguments.Add('groupextraction', $groupextraction) }
             if ($PSCmdlet.ShouldProcess("vpnglobal_authenticationsamlpolicy_binding", "Delete SSL VPN configuration Object")) {
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type vpnglobal_authenticationsamlpolicy_binding -Resource $ -Arguments $Arguments
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type vpnglobal_authenticationsamlpolicy_binding -NitroPath nitro/v1/config -Resource $ -Arguments $Arguments
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $response
@@ -4730,7 +4730,7 @@ function Invoke-ADCGetVpnglobalauthenticationsamlpolicybinding {
         Invoke-ADCGetVpnglobalauthenticationsamlpolicybinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetVpnglobalauthenticationsamlpolicybinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/vpn/vpnglobal_authenticationsamlpolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -4764,21 +4764,21 @@ function Invoke-ADCGetVpnglobalauthenticationsamlpolicybinding {
                     bulkbindings = 'yes'
                 }
                 Write-Verbose "Retrieving all vpnglobal_authenticationsamlpolicy_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnglobal_authenticationsamlpolicy_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnglobal_authenticationsamlpolicy_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
                 if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for vpnglobal_authenticationsamlpolicy_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnglobal_authenticationsamlpolicy_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnglobal_authenticationsamlpolicy_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving vpnglobal_authenticationsamlpolicy_binding objects by arguments"
                 $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnglobal_authenticationsamlpolicy_binding -Arguments $Arguments -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnglobal_authenticationsamlpolicy_binding -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving vpnglobal_authenticationsamlpolicy_binding configuration for property ''"
 
             } else {
                 Write-Verbose "Retrieving vpnglobal_authenticationsamlpolicy_binding configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnglobal_authenticationsamlpolicy_binding -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnglobal_authenticationsamlpolicy_binding -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -4815,7 +4815,7 @@ function Invoke-ADCAddVpnglobalauthenticationtacacspolicybinding {
         Invoke-ADCAddVpnglobalauthenticationtacacspolicybinding 
     .NOTES
         File Name : Invoke-ADCAddVpnglobalauthenticationtacacspolicybinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/vpn/vpnglobal_authenticationtacacspolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -4860,7 +4860,7 @@ function Invoke-ADCAddVpnglobalauthenticationtacacspolicybinding {
             if ($PSBoundParameters.ContainsKey('gotopriorityexpression')) { $Payload.Add('gotopriorityexpression', $gotopriorityexpression) }
  
             if ($PSCmdlet.ShouldProcess("vpnglobal_authenticationtacacspolicy_binding", "Add SSL VPN configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -Type vpnglobal_authenticationtacacspolicy_binding -Payload $Payload -GetWarning
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -NitroPath nitro/v1/config -Type vpnglobal_authenticationtacacspolicy_binding -Payload $Payload -GetWarning
                 #HTTP Status Code on Success: 201 Created
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 if ($PSBoundParameters.ContainsKey('PassThru')) {
@@ -4894,7 +4894,7 @@ function Invoke-ADCDeleteVpnglobalauthenticationtacacspolicybinding {
         Invoke-ADCDeleteVpnglobalauthenticationtacacspolicybinding 
     .NOTES
         File Name : Invoke-ADCDeleteVpnglobalauthenticationtacacspolicybinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/vpn/vpnglobal_authenticationtacacspolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -4927,7 +4927,7 @@ function Invoke-ADCDeleteVpnglobalauthenticationtacacspolicybinding {
             if ($PSBoundParameters.ContainsKey('secondary')) { $Arguments.Add('secondary', $secondary) }
             if ($PSBoundParameters.ContainsKey('groupextraction')) { $Arguments.Add('groupextraction', $groupextraction) }
             if ($PSCmdlet.ShouldProcess("vpnglobal_authenticationtacacspolicy_binding", "Delete SSL VPN configuration Object")) {
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type vpnglobal_authenticationtacacspolicy_binding -Resource $ -Arguments $Arguments
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type vpnglobal_authenticationtacacspolicy_binding -NitroPath nitro/v1/config -Resource $ -Arguments $Arguments
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $response
@@ -4969,7 +4969,7 @@ function Invoke-ADCGetVpnglobalauthenticationtacacspolicybinding {
         Invoke-ADCGetVpnglobalauthenticationtacacspolicybinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetVpnglobalauthenticationtacacspolicybinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/vpn/vpnglobal_authenticationtacacspolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -5003,21 +5003,21 @@ function Invoke-ADCGetVpnglobalauthenticationtacacspolicybinding {
                     bulkbindings = 'yes'
                 }
                 Write-Verbose "Retrieving all vpnglobal_authenticationtacacspolicy_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnglobal_authenticationtacacspolicy_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnglobal_authenticationtacacspolicy_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
                 if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for vpnglobal_authenticationtacacspolicy_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnglobal_authenticationtacacspolicy_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnglobal_authenticationtacacspolicy_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving vpnglobal_authenticationtacacspolicy_binding objects by arguments"
                 $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnglobal_authenticationtacacspolicy_binding -Arguments $Arguments -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnglobal_authenticationtacacspolicy_binding -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving vpnglobal_authenticationtacacspolicy_binding configuration for property ''"
 
             } else {
                 Write-Verbose "Retrieving vpnglobal_authenticationtacacspolicy_binding configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnglobal_authenticationtacacspolicy_binding -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnglobal_authenticationtacacspolicy_binding -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -5055,7 +5055,7 @@ function Invoke-ADCGetVpnglobalbinding {
         Invoke-ADCGetVpnglobalbinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetVpnglobalbinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/vpn/vpnglobal_binding/
         Requires  : PowerShell v5.1 and up
@@ -5086,21 +5086,21 @@ function Invoke-ADCGetVpnglobalbinding {
                     bulkbindings = 'yes'
                 }
                 Write-Verbose "Retrieving all vpnglobal_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnglobal_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnglobal_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
                 if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for vpnglobal_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnglobal_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnglobal_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving vpnglobal_binding objects by arguments"
                 $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnglobal_binding -Arguments $Arguments -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnglobal_binding -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving vpnglobal_binding configuration for property ''"
 
             } else {
                 Write-Verbose "Retrieving vpnglobal_binding configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnglobal_binding -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnglobal_binding -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -5129,7 +5129,7 @@ function Invoke-ADCAddVpnglobaldomainbinding {
         Invoke-ADCAddVpnglobaldomainbinding 
     .NOTES
         File Name : Invoke-ADCAddVpnglobaldomainbinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/vpn/vpnglobal_domain_binding/
         Requires  : PowerShell v5.1 and up
@@ -5164,7 +5164,7 @@ function Invoke-ADCAddVpnglobaldomainbinding {
             if ($PSBoundParameters.ContainsKey('gotopriorityexpression')) { $Payload.Add('gotopriorityexpression', $gotopriorityexpression) }
  
             if ($PSCmdlet.ShouldProcess("vpnglobal_domain_binding", "Add SSL VPN configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -Type vpnglobal_domain_binding -Payload $Payload -GetWarning
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -NitroPath nitro/v1/config -Type vpnglobal_domain_binding -Payload $Payload -GetWarning
                 #HTTP Status Code on Success: 201 Created
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 if ($PSBoundParameters.ContainsKey('PassThru')) {
@@ -5196,7 +5196,7 @@ function Invoke-ADCDeleteVpnglobaldomainbinding {
         Invoke-ADCDeleteVpnglobaldomainbinding 
     .NOTES
         File Name : Invoke-ADCDeleteVpnglobaldomainbinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/vpn/vpnglobal_domain_binding/
         Requires  : PowerShell v5.1 and up
@@ -5223,7 +5223,7 @@ function Invoke-ADCDeleteVpnglobaldomainbinding {
             }
             if ($PSBoundParameters.ContainsKey('intranetdomain')) { $Arguments.Add('intranetdomain', $intranetdomain) }
             if ($PSCmdlet.ShouldProcess("vpnglobal_domain_binding", "Delete SSL VPN configuration Object")) {
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type vpnglobal_domain_binding -Resource $ -Arguments $Arguments
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type vpnglobal_domain_binding -NitroPath nitro/v1/config -Resource $ -Arguments $Arguments
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $response
@@ -5265,7 +5265,7 @@ function Invoke-ADCGetVpnglobaldomainbinding {
         Invoke-ADCGetVpnglobaldomainbinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetVpnglobaldomainbinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/vpn/vpnglobal_domain_binding/
         Requires  : PowerShell v5.1 and up
@@ -5299,21 +5299,21 @@ function Invoke-ADCGetVpnglobaldomainbinding {
                     bulkbindings = 'yes'
                 }
                 Write-Verbose "Retrieving all vpnglobal_domain_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnglobal_domain_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnglobal_domain_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
                 if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for vpnglobal_domain_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnglobal_domain_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnglobal_domain_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving vpnglobal_domain_binding objects by arguments"
                 $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnglobal_domain_binding -Arguments $Arguments -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnglobal_domain_binding -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving vpnglobal_domain_binding configuration for property ''"
 
             } else {
                 Write-Verbose "Retrieving vpnglobal_domain_binding configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnglobal_domain_binding -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnglobal_domain_binding -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -5344,7 +5344,7 @@ function Invoke-ADCAddVpnglobalintranetip6binding {
         Invoke-ADCAddVpnglobalintranetip6binding 
     .NOTES
         File Name : Invoke-ADCAddVpnglobalintranetip6binding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/vpn/vpnglobal_intranetip6_binding/
         Requires  : PowerShell v5.1 and up
@@ -5382,7 +5382,7 @@ function Invoke-ADCAddVpnglobalintranetip6binding {
             if ($PSBoundParameters.ContainsKey('gotopriorityexpression')) { $Payload.Add('gotopriorityexpression', $gotopriorityexpression) }
  
             if ($PSCmdlet.ShouldProcess("vpnglobal_intranetip6_binding", "Add SSL VPN configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -Type vpnglobal_intranetip6_binding -Payload $Payload -GetWarning
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -NitroPath nitro/v1/config -Type vpnglobal_intranetip6_binding -Payload $Payload -GetWarning
                 #HTTP Status Code on Success: 201 Created
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 if ($PSBoundParameters.ContainsKey('PassThru')) {
@@ -5415,7 +5415,7 @@ function Invoke-ADCDeleteVpnglobalintranetip6binding {
         Invoke-ADCDeleteVpnglobalintranetip6binding 
     .NOTES
         File Name : Invoke-ADCDeleteVpnglobalintranetip6binding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/vpn/vpnglobal_intranetip6_binding/
         Requires  : PowerShell v5.1 and up
@@ -5445,7 +5445,7 @@ function Invoke-ADCDeleteVpnglobalintranetip6binding {
             if ($PSBoundParameters.ContainsKey('intranetip6')) { $Arguments.Add('intranetip6', $intranetip6) }
             if ($PSBoundParameters.ContainsKey('numaddr')) { $Arguments.Add('numaddr', $numaddr) }
             if ($PSCmdlet.ShouldProcess("vpnglobal_intranetip6_binding", "Delete SSL VPN configuration Object")) {
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type vpnglobal_intranetip6_binding -Resource $ -Arguments $Arguments
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type vpnglobal_intranetip6_binding -NitroPath nitro/v1/config -Resource $ -Arguments $Arguments
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $response
@@ -5487,7 +5487,7 @@ function Invoke-ADCGetVpnglobalintranetip6binding {
         Invoke-ADCGetVpnglobalintranetip6binding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetVpnglobalintranetip6binding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/vpn/vpnglobal_intranetip6_binding/
         Requires  : PowerShell v5.1 and up
@@ -5521,21 +5521,21 @@ function Invoke-ADCGetVpnglobalintranetip6binding {
                     bulkbindings = 'yes'
                 }
                 Write-Verbose "Retrieving all vpnglobal_intranetip6_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnglobal_intranetip6_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnglobal_intranetip6_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
                 if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for vpnglobal_intranetip6_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnglobal_intranetip6_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnglobal_intranetip6_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving vpnglobal_intranetip6_binding objects by arguments"
                 $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnglobal_intranetip6_binding -Arguments $Arguments -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnglobal_intranetip6_binding -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving vpnglobal_intranetip6_binding configuration for property ''"
 
             } else {
                 Write-Verbose "Retrieving vpnglobal_intranetip6_binding configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnglobal_intranetip6_binding -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnglobal_intranetip6_binding -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -5566,7 +5566,7 @@ function Invoke-ADCAddVpnglobalintranetipbinding {
         Invoke-ADCAddVpnglobalintranetipbinding 
     .NOTES
         File Name : Invoke-ADCAddVpnglobalintranetipbinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/vpn/vpnglobal_intranetip_binding/
         Requires  : PowerShell v5.1 and up
@@ -5604,7 +5604,7 @@ function Invoke-ADCAddVpnglobalintranetipbinding {
             if ($PSBoundParameters.ContainsKey('gotopriorityexpression')) { $Payload.Add('gotopriorityexpression', $gotopriorityexpression) }
  
             if ($PSCmdlet.ShouldProcess("vpnglobal_intranetip_binding", "Add SSL VPN configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -Type vpnglobal_intranetip_binding -Payload $Payload -GetWarning
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -NitroPath nitro/v1/config -Type vpnglobal_intranetip_binding -Payload $Payload -GetWarning
                 #HTTP Status Code on Success: 201 Created
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 if ($PSBoundParameters.ContainsKey('PassThru')) {
@@ -5637,7 +5637,7 @@ function Invoke-ADCDeleteVpnglobalintranetipbinding {
         Invoke-ADCDeleteVpnglobalintranetipbinding 
     .NOTES
         File Name : Invoke-ADCDeleteVpnglobalintranetipbinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/vpn/vpnglobal_intranetip_binding/
         Requires  : PowerShell v5.1 and up
@@ -5667,7 +5667,7 @@ function Invoke-ADCDeleteVpnglobalintranetipbinding {
             if ($PSBoundParameters.ContainsKey('intranetip')) { $Arguments.Add('intranetip', $intranetip) }
             if ($PSBoundParameters.ContainsKey('netmask')) { $Arguments.Add('netmask', $netmask) }
             if ($PSCmdlet.ShouldProcess("vpnglobal_intranetip_binding", "Delete SSL VPN configuration Object")) {
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type vpnglobal_intranetip_binding -Resource $ -Arguments $Arguments
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type vpnglobal_intranetip_binding -NitroPath nitro/v1/config -Resource $ -Arguments $Arguments
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $response
@@ -5709,7 +5709,7 @@ function Invoke-ADCGetVpnglobalintranetipbinding {
         Invoke-ADCGetVpnglobalintranetipbinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetVpnglobalintranetipbinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/vpn/vpnglobal_intranetip_binding/
         Requires  : PowerShell v5.1 and up
@@ -5743,21 +5743,21 @@ function Invoke-ADCGetVpnglobalintranetipbinding {
                     bulkbindings = 'yes'
                 }
                 Write-Verbose "Retrieving all vpnglobal_intranetip_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnglobal_intranetip_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnglobal_intranetip_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
                 if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for vpnglobal_intranetip_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnglobal_intranetip_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnglobal_intranetip_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving vpnglobal_intranetip_binding objects by arguments"
                 $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnglobal_intranetip_binding -Arguments $Arguments -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnglobal_intranetip_binding -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving vpnglobal_intranetip_binding configuration for property ''"
 
             } else {
                 Write-Verbose "Retrieving vpnglobal_intranetip_binding configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnglobal_intranetip_binding -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnglobal_intranetip_binding -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -5786,7 +5786,7 @@ function Invoke-ADCAddVpnglobalsharefileserverbinding {
         Invoke-ADCAddVpnglobalsharefileserverbinding 
     .NOTES
         File Name : Invoke-ADCAddVpnglobalsharefileserverbinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/vpn/vpnglobal_sharefileserver_binding/
         Requires  : PowerShell v5.1 and up
@@ -5821,7 +5821,7 @@ function Invoke-ADCAddVpnglobalsharefileserverbinding {
             if ($PSBoundParameters.ContainsKey('gotopriorityexpression')) { $Payload.Add('gotopriorityexpression', $gotopriorityexpression) }
  
             if ($PSCmdlet.ShouldProcess("vpnglobal_sharefileserver_binding", "Add SSL VPN configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -Type vpnglobal_sharefileserver_binding -Payload $Payload -GetWarning
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -NitroPath nitro/v1/config -Type vpnglobal_sharefileserver_binding -Payload $Payload -GetWarning
                 #HTTP Status Code on Success: 201 Created
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 if ($PSBoundParameters.ContainsKey('PassThru')) {
@@ -5853,7 +5853,7 @@ function Invoke-ADCDeleteVpnglobalsharefileserverbinding {
         Invoke-ADCDeleteVpnglobalsharefileserverbinding 
     .NOTES
         File Name : Invoke-ADCDeleteVpnglobalsharefileserverbinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/vpn/vpnglobal_sharefileserver_binding/
         Requires  : PowerShell v5.1 and up
@@ -5880,7 +5880,7 @@ function Invoke-ADCDeleteVpnglobalsharefileserverbinding {
             }
             if ($PSBoundParameters.ContainsKey('sharefile')) { $Arguments.Add('sharefile', $sharefile) }
             if ($PSCmdlet.ShouldProcess("vpnglobal_sharefileserver_binding", "Delete SSL VPN configuration Object")) {
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type vpnglobal_sharefileserver_binding -Resource $ -Arguments $Arguments
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type vpnglobal_sharefileserver_binding -NitroPath nitro/v1/config -Resource $ -Arguments $Arguments
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $response
@@ -5922,7 +5922,7 @@ function Invoke-ADCGetVpnglobalsharefileserverbinding {
         Invoke-ADCGetVpnglobalsharefileserverbinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetVpnglobalsharefileserverbinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/vpn/vpnglobal_sharefileserver_binding/
         Requires  : PowerShell v5.1 and up
@@ -5956,21 +5956,21 @@ function Invoke-ADCGetVpnglobalsharefileserverbinding {
                     bulkbindings = 'yes'
                 }
                 Write-Verbose "Retrieving all vpnglobal_sharefileserver_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnglobal_sharefileserver_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnglobal_sharefileserver_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
                 if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for vpnglobal_sharefileserver_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnglobal_sharefileserver_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnglobal_sharefileserver_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving vpnglobal_sharefileserver_binding objects by arguments"
                 $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnglobal_sharefileserver_binding -Arguments $Arguments -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnglobal_sharefileserver_binding -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving vpnglobal_sharefileserver_binding configuration for property ''"
 
             } else {
                 Write-Verbose "Retrieving vpnglobal_sharefileserver_binding configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnglobal_sharefileserver_binding -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnglobal_sharefileserver_binding -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -6009,7 +6009,7 @@ function Invoke-ADCAddVpnglobalsslcertkeybinding {
         Invoke-ADCAddVpnglobalsslcertkeybinding 
     .NOTES
         File Name : Invoke-ADCAddVpnglobalsslcertkeybinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/vpn/vpnglobal_sslcertkey_binding/
         Requires  : PowerShell v5.1 and up
@@ -6058,7 +6058,7 @@ function Invoke-ADCAddVpnglobalsslcertkeybinding {
             if ($PSBoundParameters.ContainsKey('ocspcheck')) { $Payload.Add('ocspcheck', $ocspcheck) }
  
             if ($PSCmdlet.ShouldProcess("vpnglobal_sslcertkey_binding", "Add SSL VPN configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -Type vpnglobal_sslcertkey_binding -Payload $Payload -GetWarning
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -NitroPath nitro/v1/config -Type vpnglobal_sslcertkey_binding -Payload $Payload -GetWarning
                 #HTTP Status Code on Success: 201 Created
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 if ($PSBoundParameters.ContainsKey('PassThru')) {
@@ -6092,7 +6092,7 @@ function Invoke-ADCDeleteVpnglobalsslcertkeybinding {
         Invoke-ADCDeleteVpnglobalsslcertkeybinding 
     .NOTES
         File Name : Invoke-ADCDeleteVpnglobalsslcertkeybinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/vpn/vpnglobal_sslcertkey_binding/
         Requires  : PowerShell v5.1 and up
@@ -6125,7 +6125,7 @@ function Invoke-ADCDeleteVpnglobalsslcertkeybinding {
             if ($PSBoundParameters.ContainsKey('userdataencryptionkey')) { $Arguments.Add('userdataencryptionkey', $userdataencryptionkey) }
             if ($PSBoundParameters.ContainsKey('cacert')) { $Arguments.Add('cacert', $cacert) }
             if ($PSCmdlet.ShouldProcess("vpnglobal_sslcertkey_binding", "Delete SSL VPN configuration Object")) {
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type vpnglobal_sslcertkey_binding -Resource $ -Arguments $Arguments
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type vpnglobal_sslcertkey_binding -NitroPath nitro/v1/config -Resource $ -Arguments $Arguments
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $response
@@ -6167,7 +6167,7 @@ function Invoke-ADCGetVpnglobalsslcertkeybinding {
         Invoke-ADCGetVpnglobalsslcertkeybinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetVpnglobalsslcertkeybinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/vpn/vpnglobal_sslcertkey_binding/
         Requires  : PowerShell v5.1 and up
@@ -6201,21 +6201,21 @@ function Invoke-ADCGetVpnglobalsslcertkeybinding {
                     bulkbindings = 'yes'
                 }
                 Write-Verbose "Retrieving all vpnglobal_sslcertkey_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnglobal_sslcertkey_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnglobal_sslcertkey_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
                 if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for vpnglobal_sslcertkey_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnglobal_sslcertkey_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnglobal_sslcertkey_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving vpnglobal_sslcertkey_binding objects by arguments"
                 $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnglobal_sslcertkey_binding -Arguments $Arguments -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnglobal_sslcertkey_binding -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving vpnglobal_sslcertkey_binding configuration for property ''"
 
             } else {
                 Write-Verbose "Retrieving vpnglobal_sslcertkey_binding configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnglobal_sslcertkey_binding -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnglobal_sslcertkey_binding -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -6247,7 +6247,7 @@ function Invoke-ADCAddVpnglobalstaserverbinding {
         Invoke-ADCAddVpnglobalstaserverbinding 
     .NOTES
         File Name : Invoke-ADCAddVpnglobalstaserverbinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/vpn/vpnglobal_staserver_binding/
         Requires  : PowerShell v5.1 and up
@@ -6286,7 +6286,7 @@ function Invoke-ADCAddVpnglobalstaserverbinding {
             if ($PSBoundParameters.ContainsKey('gotopriorityexpression')) { $Payload.Add('gotopriorityexpression', $gotopriorityexpression) }
  
             if ($PSCmdlet.ShouldProcess("vpnglobal_staserver_binding", "Add SSL VPN configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -Type vpnglobal_staserver_binding -Payload $Payload -GetWarning
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -NitroPath nitro/v1/config -Type vpnglobal_staserver_binding -Payload $Payload -GetWarning
                 #HTTP Status Code on Success: 201 Created
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 if ($PSBoundParameters.ContainsKey('PassThru')) {
@@ -6318,7 +6318,7 @@ function Invoke-ADCDeleteVpnglobalstaserverbinding {
         Invoke-ADCDeleteVpnglobalstaserverbinding 
     .NOTES
         File Name : Invoke-ADCDeleteVpnglobalstaserverbinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/vpn/vpnglobal_staserver_binding/
         Requires  : PowerShell v5.1 and up
@@ -6345,7 +6345,7 @@ function Invoke-ADCDeleteVpnglobalstaserverbinding {
             }
             if ($PSBoundParameters.ContainsKey('staserver')) { $Arguments.Add('staserver', $staserver) }
             if ($PSCmdlet.ShouldProcess("vpnglobal_staserver_binding", "Delete SSL VPN configuration Object")) {
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type vpnglobal_staserver_binding -Resource $ -Arguments $Arguments
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type vpnglobal_staserver_binding -NitroPath nitro/v1/config -Resource $ -Arguments $Arguments
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $response
@@ -6387,7 +6387,7 @@ function Invoke-ADCGetVpnglobalstaserverbinding {
         Invoke-ADCGetVpnglobalstaserverbinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetVpnglobalstaserverbinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/vpn/vpnglobal_staserver_binding/
         Requires  : PowerShell v5.1 and up
@@ -6421,21 +6421,21 @@ function Invoke-ADCGetVpnglobalstaserverbinding {
                     bulkbindings = 'yes'
                 }
                 Write-Verbose "Retrieving all vpnglobal_staserver_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnglobal_staserver_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnglobal_staserver_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
                 if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for vpnglobal_staserver_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnglobal_staserver_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnglobal_staserver_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving vpnglobal_staserver_binding objects by arguments"
                 $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnglobal_staserver_binding -Arguments $Arguments -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnglobal_staserver_binding -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving vpnglobal_staserver_binding configuration for property ''"
 
             } else {
                 Write-Verbose "Retrieving vpnglobal_staserver_binding configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnglobal_staserver_binding -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnglobal_staserver_binding -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -6472,7 +6472,7 @@ function Invoke-ADCAddVpnglobalvpnclientlessaccesspolicybinding {
         Invoke-ADCAddVpnglobalvpnclientlessaccesspolicybinding 
     .NOTES
         File Name : Invoke-ADCAddVpnglobalvpnclientlessaccesspolicybinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/vpn/vpnglobal_vpnclientlessaccesspolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -6517,7 +6517,7 @@ function Invoke-ADCAddVpnglobalvpnclientlessaccesspolicybinding {
             if ($PSBoundParameters.ContainsKey('gotopriorityexpression')) { $Payload.Add('gotopriorityexpression', $gotopriorityexpression) }
  
             if ($PSCmdlet.ShouldProcess("vpnglobal_vpnclientlessaccesspolicy_binding", "Add SSL VPN configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -Type vpnglobal_vpnclientlessaccesspolicy_binding -Payload $Payload -GetWarning
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -NitroPath nitro/v1/config -Type vpnglobal_vpnclientlessaccesspolicy_binding -Payload $Payload -GetWarning
                 #HTTP Status Code on Success: 201 Created
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 if ($PSBoundParameters.ContainsKey('PassThru')) {
@@ -6551,7 +6551,7 @@ function Invoke-ADCDeleteVpnglobalvpnclientlessaccesspolicybinding {
         Invoke-ADCDeleteVpnglobalvpnclientlessaccesspolicybinding 
     .NOTES
         File Name : Invoke-ADCDeleteVpnglobalvpnclientlessaccesspolicybinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/vpn/vpnglobal_vpnclientlessaccesspolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -6584,7 +6584,7 @@ function Invoke-ADCDeleteVpnglobalvpnclientlessaccesspolicybinding {
             if ($PSBoundParameters.ContainsKey('secondary')) { $Arguments.Add('secondary', $secondary) }
             if ($PSBoundParameters.ContainsKey('groupextraction')) { $Arguments.Add('groupextraction', $groupextraction) }
             if ($PSCmdlet.ShouldProcess("vpnglobal_vpnclientlessaccesspolicy_binding", "Delete SSL VPN configuration Object")) {
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type vpnglobal_vpnclientlessaccesspolicy_binding -Resource $ -Arguments $Arguments
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type vpnglobal_vpnclientlessaccesspolicy_binding -NitroPath nitro/v1/config -Resource $ -Arguments $Arguments
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $response
@@ -6626,7 +6626,7 @@ function Invoke-ADCGetVpnglobalvpnclientlessaccesspolicybinding {
         Invoke-ADCGetVpnglobalvpnclientlessaccesspolicybinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetVpnglobalvpnclientlessaccesspolicybinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/vpn/vpnglobal_vpnclientlessaccesspolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -6660,21 +6660,21 @@ function Invoke-ADCGetVpnglobalvpnclientlessaccesspolicybinding {
                     bulkbindings = 'yes'
                 }
                 Write-Verbose "Retrieving all vpnglobal_vpnclientlessaccesspolicy_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnglobal_vpnclientlessaccesspolicy_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnglobal_vpnclientlessaccesspolicy_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
                 if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for vpnglobal_vpnclientlessaccesspolicy_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnglobal_vpnclientlessaccesspolicy_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnglobal_vpnclientlessaccesspolicy_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving vpnglobal_vpnclientlessaccesspolicy_binding objects by arguments"
                 $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnglobal_vpnclientlessaccesspolicy_binding -Arguments $Arguments -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnglobal_vpnclientlessaccesspolicy_binding -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving vpnglobal_vpnclientlessaccesspolicy_binding configuration for property ''"
 
             } else {
                 Write-Verbose "Retrieving vpnglobal_vpnclientlessaccesspolicy_binding configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnglobal_vpnclientlessaccesspolicy_binding -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnglobal_vpnclientlessaccesspolicy_binding -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -6703,7 +6703,7 @@ function Invoke-ADCAddVpnglobalvpneulabinding {
         Invoke-ADCAddVpnglobalvpneulabinding 
     .NOTES
         File Name : Invoke-ADCAddVpnglobalvpneulabinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/vpn/vpnglobal_vpneula_binding/
         Requires  : PowerShell v5.1 and up
@@ -6738,7 +6738,7 @@ function Invoke-ADCAddVpnglobalvpneulabinding {
             if ($PSBoundParameters.ContainsKey('eula')) { $Payload.Add('eula', $eula) }
  
             if ($PSCmdlet.ShouldProcess("vpnglobal_vpneula_binding", "Add SSL VPN configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -Type vpnglobal_vpneula_binding -Payload $Payload -GetWarning
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -NitroPath nitro/v1/config -Type vpnglobal_vpneula_binding -Payload $Payload -GetWarning
                 #HTTP Status Code on Success: 201 Created
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 if ($PSBoundParameters.ContainsKey('PassThru')) {
@@ -6770,7 +6770,7 @@ function Invoke-ADCDeleteVpnglobalvpneulabinding {
         Invoke-ADCDeleteVpnglobalvpneulabinding 
     .NOTES
         File Name : Invoke-ADCDeleteVpnglobalvpneulabinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/vpn/vpnglobal_vpneula_binding/
         Requires  : PowerShell v5.1 and up
@@ -6797,7 +6797,7 @@ function Invoke-ADCDeleteVpnglobalvpneulabinding {
             }
             if ($PSBoundParameters.ContainsKey('eula')) { $Arguments.Add('eula', $eula) }
             if ($PSCmdlet.ShouldProcess("vpnglobal_vpneula_binding", "Delete SSL VPN configuration Object")) {
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type vpnglobal_vpneula_binding -Resource $ -Arguments $Arguments
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type vpnglobal_vpneula_binding -NitroPath nitro/v1/config -Resource $ -Arguments $Arguments
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $response
@@ -6839,7 +6839,7 @@ function Invoke-ADCGetVpnglobalvpneulabinding {
         Invoke-ADCGetVpnglobalvpneulabinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetVpnglobalvpneulabinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/vpn/vpnglobal_vpneula_binding/
         Requires  : PowerShell v5.1 and up
@@ -6873,21 +6873,21 @@ function Invoke-ADCGetVpnglobalvpneulabinding {
                     bulkbindings = 'yes'
                 }
                 Write-Verbose "Retrieving all vpnglobal_vpneula_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnglobal_vpneula_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnglobal_vpneula_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
                 if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for vpnglobal_vpneula_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnglobal_vpneula_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnglobal_vpneula_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving vpnglobal_vpneula_binding objects by arguments"
                 $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnglobal_vpneula_binding -Arguments $Arguments -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnglobal_vpneula_binding -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving vpnglobal_vpneula_binding configuration for property ''"
 
             } else {
                 Write-Verbose "Retrieving vpnglobal_vpneula_binding configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnglobal_vpneula_binding -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnglobal_vpneula_binding -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -6916,7 +6916,7 @@ function Invoke-ADCAddVpnglobalvpnintranetapplicationbinding {
         Invoke-ADCAddVpnglobalvpnintranetapplicationbinding 
     .NOTES
         File Name : Invoke-ADCAddVpnglobalvpnintranetapplicationbinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/vpn/vpnglobal_vpnintranetapplication_binding/
         Requires  : PowerShell v5.1 and up
@@ -6951,7 +6951,7 @@ function Invoke-ADCAddVpnglobalvpnintranetapplicationbinding {
             if ($PSBoundParameters.ContainsKey('gotopriorityexpression')) { $Payload.Add('gotopriorityexpression', $gotopriorityexpression) }
  
             if ($PSCmdlet.ShouldProcess("vpnglobal_vpnintranetapplication_binding", "Add SSL VPN configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -Type vpnglobal_vpnintranetapplication_binding -Payload $Payload -GetWarning
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -NitroPath nitro/v1/config -Type vpnglobal_vpnintranetapplication_binding -Payload $Payload -GetWarning
                 #HTTP Status Code on Success: 201 Created
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 if ($PSBoundParameters.ContainsKey('PassThru')) {
@@ -6983,7 +6983,7 @@ function Invoke-ADCDeleteVpnglobalvpnintranetapplicationbinding {
         Invoke-ADCDeleteVpnglobalvpnintranetapplicationbinding 
     .NOTES
         File Name : Invoke-ADCDeleteVpnglobalvpnintranetapplicationbinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/vpn/vpnglobal_vpnintranetapplication_binding/
         Requires  : PowerShell v5.1 and up
@@ -7010,7 +7010,7 @@ function Invoke-ADCDeleteVpnglobalvpnintranetapplicationbinding {
             }
             if ($PSBoundParameters.ContainsKey('intranetapplication')) { $Arguments.Add('intranetapplication', $intranetapplication) }
             if ($PSCmdlet.ShouldProcess("vpnglobal_vpnintranetapplication_binding", "Delete SSL VPN configuration Object")) {
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type vpnglobal_vpnintranetapplication_binding -Resource $ -Arguments $Arguments
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type vpnglobal_vpnintranetapplication_binding -NitroPath nitro/v1/config -Resource $ -Arguments $Arguments
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $response
@@ -7052,7 +7052,7 @@ function Invoke-ADCGetVpnglobalvpnintranetapplicationbinding {
         Invoke-ADCGetVpnglobalvpnintranetapplicationbinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetVpnglobalvpnintranetapplicationbinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/vpn/vpnglobal_vpnintranetapplication_binding/
         Requires  : PowerShell v5.1 and up
@@ -7086,21 +7086,21 @@ function Invoke-ADCGetVpnglobalvpnintranetapplicationbinding {
                     bulkbindings = 'yes'
                 }
                 Write-Verbose "Retrieving all vpnglobal_vpnintranetapplication_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnglobal_vpnintranetapplication_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnglobal_vpnintranetapplication_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
                 if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for vpnglobal_vpnintranetapplication_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnglobal_vpnintranetapplication_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnglobal_vpnintranetapplication_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving vpnglobal_vpnintranetapplication_binding objects by arguments"
                 $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnglobal_vpnintranetapplication_binding -Arguments $Arguments -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnglobal_vpnintranetapplication_binding -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving vpnglobal_vpnintranetapplication_binding configuration for property ''"
 
             } else {
                 Write-Verbose "Retrieving vpnglobal_vpnintranetapplication_binding configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnglobal_vpnintranetapplication_binding -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnglobal_vpnintranetapplication_binding -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -7129,7 +7129,7 @@ function Invoke-ADCAddVpnglobalvpnnexthopserverbinding {
         Invoke-ADCAddVpnglobalvpnnexthopserverbinding 
     .NOTES
         File Name : Invoke-ADCAddVpnglobalvpnnexthopserverbinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/vpn/vpnglobal_vpnnexthopserver_binding/
         Requires  : PowerShell v5.1 and up
@@ -7164,7 +7164,7 @@ function Invoke-ADCAddVpnglobalvpnnexthopserverbinding {
             if ($PSBoundParameters.ContainsKey('gotopriorityexpression')) { $Payload.Add('gotopriorityexpression', $gotopriorityexpression) }
  
             if ($PSCmdlet.ShouldProcess("vpnglobal_vpnnexthopserver_binding", "Add SSL VPN configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -Type vpnglobal_vpnnexthopserver_binding -Payload $Payload -GetWarning
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -NitroPath nitro/v1/config -Type vpnglobal_vpnnexthopserver_binding -Payload $Payload -GetWarning
                 #HTTP Status Code on Success: 201 Created
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 if ($PSBoundParameters.ContainsKey('PassThru')) {
@@ -7196,7 +7196,7 @@ function Invoke-ADCDeleteVpnglobalvpnnexthopserverbinding {
         Invoke-ADCDeleteVpnglobalvpnnexthopserverbinding 
     .NOTES
         File Name : Invoke-ADCDeleteVpnglobalvpnnexthopserverbinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/vpn/vpnglobal_vpnnexthopserver_binding/
         Requires  : PowerShell v5.1 and up
@@ -7223,7 +7223,7 @@ function Invoke-ADCDeleteVpnglobalvpnnexthopserverbinding {
             }
             if ($PSBoundParameters.ContainsKey('nexthopserver')) { $Arguments.Add('nexthopserver', $nexthopserver) }
             if ($PSCmdlet.ShouldProcess("vpnglobal_vpnnexthopserver_binding", "Delete SSL VPN configuration Object")) {
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type vpnglobal_vpnnexthopserver_binding -Resource $ -Arguments $Arguments
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type vpnglobal_vpnnexthopserver_binding -NitroPath nitro/v1/config -Resource $ -Arguments $Arguments
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $response
@@ -7265,7 +7265,7 @@ function Invoke-ADCGetVpnglobalvpnnexthopserverbinding {
         Invoke-ADCGetVpnglobalvpnnexthopserverbinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetVpnglobalvpnnexthopserverbinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/vpn/vpnglobal_vpnnexthopserver_binding/
         Requires  : PowerShell v5.1 and up
@@ -7299,21 +7299,21 @@ function Invoke-ADCGetVpnglobalvpnnexthopserverbinding {
                     bulkbindings = 'yes'
                 }
                 Write-Verbose "Retrieving all vpnglobal_vpnnexthopserver_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnglobal_vpnnexthopserver_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnglobal_vpnnexthopserver_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
                 if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for vpnglobal_vpnnexthopserver_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnglobal_vpnnexthopserver_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnglobal_vpnnexthopserver_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving vpnglobal_vpnnexthopserver_binding objects by arguments"
                 $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnglobal_vpnnexthopserver_binding -Arguments $Arguments -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnglobal_vpnnexthopserver_binding -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving vpnglobal_vpnnexthopserver_binding configuration for property ''"
 
             } else {
                 Write-Verbose "Retrieving vpnglobal_vpnnexthopserver_binding configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnglobal_vpnnexthopserver_binding -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnglobal_vpnnexthopserver_binding -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -7342,7 +7342,7 @@ function Invoke-ADCAddVpnglobalvpnportalthemebinding {
         Invoke-ADCAddVpnglobalvpnportalthemebinding 
     .NOTES
         File Name : Invoke-ADCAddVpnglobalvpnportalthemebinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/vpn/vpnglobal_vpnportaltheme_binding/
         Requires  : PowerShell v5.1 and up
@@ -7377,7 +7377,7 @@ function Invoke-ADCAddVpnglobalvpnportalthemebinding {
             if ($PSBoundParameters.ContainsKey('portaltheme')) { $Payload.Add('portaltheme', $portaltheme) }
  
             if ($PSCmdlet.ShouldProcess("vpnglobal_vpnportaltheme_binding", "Add SSL VPN configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -Type vpnglobal_vpnportaltheme_binding -Payload $Payload -GetWarning
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -NitroPath nitro/v1/config -Type vpnglobal_vpnportaltheme_binding -Payload $Payload -GetWarning
                 #HTTP Status Code on Success: 201 Created
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 if ($PSBoundParameters.ContainsKey('PassThru')) {
@@ -7409,7 +7409,7 @@ function Invoke-ADCDeleteVpnglobalvpnportalthemebinding {
         Invoke-ADCDeleteVpnglobalvpnportalthemebinding 
     .NOTES
         File Name : Invoke-ADCDeleteVpnglobalvpnportalthemebinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/vpn/vpnglobal_vpnportaltheme_binding/
         Requires  : PowerShell v5.1 and up
@@ -7436,7 +7436,7 @@ function Invoke-ADCDeleteVpnglobalvpnportalthemebinding {
             }
             if ($PSBoundParameters.ContainsKey('portaltheme')) { $Arguments.Add('portaltheme', $portaltheme) }
             if ($PSCmdlet.ShouldProcess("vpnglobal_vpnportaltheme_binding", "Delete SSL VPN configuration Object")) {
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type vpnglobal_vpnportaltheme_binding -Resource $ -Arguments $Arguments
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type vpnglobal_vpnportaltheme_binding -NitroPath nitro/v1/config -Resource $ -Arguments $Arguments
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $response
@@ -7478,7 +7478,7 @@ function Invoke-ADCGetVpnglobalvpnportalthemebinding {
         Invoke-ADCGetVpnglobalvpnportalthemebinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetVpnglobalvpnportalthemebinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/vpn/vpnglobal_vpnportaltheme_binding/
         Requires  : PowerShell v5.1 and up
@@ -7512,21 +7512,21 @@ function Invoke-ADCGetVpnglobalvpnportalthemebinding {
                     bulkbindings = 'yes'
                 }
                 Write-Verbose "Retrieving all vpnglobal_vpnportaltheme_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnglobal_vpnportaltheme_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnglobal_vpnportaltheme_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
                 if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for vpnglobal_vpnportaltheme_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnglobal_vpnportaltheme_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnglobal_vpnportaltheme_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving vpnglobal_vpnportaltheme_binding objects by arguments"
                 $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnglobal_vpnportaltheme_binding -Arguments $Arguments -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnglobal_vpnportaltheme_binding -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving vpnglobal_vpnportaltheme_binding configuration for property ''"
 
             } else {
                 Write-Verbose "Retrieving vpnglobal_vpnportaltheme_binding configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnglobal_vpnportaltheme_binding -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnglobal_vpnportaltheme_binding -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -7563,7 +7563,7 @@ function Invoke-ADCAddVpnglobalvpnsessionpolicybinding {
         Invoke-ADCAddVpnglobalvpnsessionpolicybinding 
     .NOTES
         File Name : Invoke-ADCAddVpnglobalvpnsessionpolicybinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/vpn/vpnglobal_vpnsessionpolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -7608,7 +7608,7 @@ function Invoke-ADCAddVpnglobalvpnsessionpolicybinding {
             if ($PSBoundParameters.ContainsKey('gotopriorityexpression')) { $Payload.Add('gotopriorityexpression', $gotopriorityexpression) }
  
             if ($PSCmdlet.ShouldProcess("vpnglobal_vpnsessionpolicy_binding", "Add SSL VPN configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -Type vpnglobal_vpnsessionpolicy_binding -Payload $Payload -GetWarning
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -NitroPath nitro/v1/config -Type vpnglobal_vpnsessionpolicy_binding -Payload $Payload -GetWarning
                 #HTTP Status Code on Success: 201 Created
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 if ($PSBoundParameters.ContainsKey('PassThru')) {
@@ -7642,7 +7642,7 @@ function Invoke-ADCDeleteVpnglobalvpnsessionpolicybinding {
         Invoke-ADCDeleteVpnglobalvpnsessionpolicybinding 
     .NOTES
         File Name : Invoke-ADCDeleteVpnglobalvpnsessionpolicybinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/vpn/vpnglobal_vpnsessionpolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -7675,7 +7675,7 @@ function Invoke-ADCDeleteVpnglobalvpnsessionpolicybinding {
             if ($PSBoundParameters.ContainsKey('secondary')) { $Arguments.Add('secondary', $secondary) }
             if ($PSBoundParameters.ContainsKey('groupextraction')) { $Arguments.Add('groupextraction', $groupextraction) }
             if ($PSCmdlet.ShouldProcess("vpnglobal_vpnsessionpolicy_binding", "Delete SSL VPN configuration Object")) {
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type vpnglobal_vpnsessionpolicy_binding -Resource $ -Arguments $Arguments
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type vpnglobal_vpnsessionpolicy_binding -NitroPath nitro/v1/config -Resource $ -Arguments $Arguments
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $response
@@ -7717,7 +7717,7 @@ function Invoke-ADCGetVpnglobalvpnsessionpolicybinding {
         Invoke-ADCGetVpnglobalvpnsessionpolicybinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetVpnglobalvpnsessionpolicybinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/vpn/vpnglobal_vpnsessionpolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -7751,21 +7751,21 @@ function Invoke-ADCGetVpnglobalvpnsessionpolicybinding {
                     bulkbindings = 'yes'
                 }
                 Write-Verbose "Retrieving all vpnglobal_vpnsessionpolicy_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnglobal_vpnsessionpolicy_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnglobal_vpnsessionpolicy_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
                 if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for vpnglobal_vpnsessionpolicy_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnglobal_vpnsessionpolicy_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnglobal_vpnsessionpolicy_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving vpnglobal_vpnsessionpolicy_binding objects by arguments"
                 $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnglobal_vpnsessionpolicy_binding -Arguments $Arguments -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnglobal_vpnsessionpolicy_binding -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving vpnglobal_vpnsessionpolicy_binding configuration for property ''"
 
             } else {
                 Write-Verbose "Retrieving vpnglobal_vpnsessionpolicy_binding configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnglobal_vpnsessionpolicy_binding -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnglobal_vpnsessionpolicy_binding -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -7802,7 +7802,7 @@ function Invoke-ADCAddVpnglobalvpntrafficpolicybinding {
         Invoke-ADCAddVpnglobalvpntrafficpolicybinding 
     .NOTES
         File Name : Invoke-ADCAddVpnglobalvpntrafficpolicybinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/vpn/vpnglobal_vpntrafficpolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -7847,7 +7847,7 @@ function Invoke-ADCAddVpnglobalvpntrafficpolicybinding {
             if ($PSBoundParameters.ContainsKey('gotopriorityexpression')) { $Payload.Add('gotopriorityexpression', $gotopriorityexpression) }
  
             if ($PSCmdlet.ShouldProcess("vpnglobal_vpntrafficpolicy_binding", "Add SSL VPN configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -Type vpnglobal_vpntrafficpolicy_binding -Payload $Payload -GetWarning
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -NitroPath nitro/v1/config -Type vpnglobal_vpntrafficpolicy_binding -Payload $Payload -GetWarning
                 #HTTP Status Code on Success: 201 Created
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 if ($PSBoundParameters.ContainsKey('PassThru')) {
@@ -7881,7 +7881,7 @@ function Invoke-ADCDeleteVpnglobalvpntrafficpolicybinding {
         Invoke-ADCDeleteVpnglobalvpntrafficpolicybinding 
     .NOTES
         File Name : Invoke-ADCDeleteVpnglobalvpntrafficpolicybinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/vpn/vpnglobal_vpntrafficpolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -7914,7 +7914,7 @@ function Invoke-ADCDeleteVpnglobalvpntrafficpolicybinding {
             if ($PSBoundParameters.ContainsKey('secondary')) { $Arguments.Add('secondary', $secondary) }
             if ($PSBoundParameters.ContainsKey('groupextraction')) { $Arguments.Add('groupextraction', $groupextraction) }
             if ($PSCmdlet.ShouldProcess("vpnglobal_vpntrafficpolicy_binding", "Delete SSL VPN configuration Object")) {
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type vpnglobal_vpntrafficpolicy_binding -Resource $ -Arguments $Arguments
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type vpnglobal_vpntrafficpolicy_binding -NitroPath nitro/v1/config -Resource $ -Arguments $Arguments
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $response
@@ -7956,7 +7956,7 @@ function Invoke-ADCGetVpnglobalvpntrafficpolicybinding {
         Invoke-ADCGetVpnglobalvpntrafficpolicybinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetVpnglobalvpntrafficpolicybinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/vpn/vpnglobal_vpntrafficpolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -7990,21 +7990,21 @@ function Invoke-ADCGetVpnglobalvpntrafficpolicybinding {
                     bulkbindings = 'yes'
                 }
                 Write-Verbose "Retrieving all vpnglobal_vpntrafficpolicy_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnglobal_vpntrafficpolicy_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnglobal_vpntrafficpolicy_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
                 if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for vpnglobal_vpntrafficpolicy_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnglobal_vpntrafficpolicy_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnglobal_vpntrafficpolicy_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving vpnglobal_vpntrafficpolicy_binding objects by arguments"
                 $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnglobal_vpntrafficpolicy_binding -Arguments $Arguments -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnglobal_vpntrafficpolicy_binding -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving vpnglobal_vpntrafficpolicy_binding configuration for property ''"
 
             } else {
                 Write-Verbose "Retrieving vpnglobal_vpntrafficpolicy_binding configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnglobal_vpntrafficpolicy_binding -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnglobal_vpntrafficpolicy_binding -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -8041,7 +8041,7 @@ function Invoke-ADCAddVpnglobalvpnurlpolicybinding {
         Invoke-ADCAddVpnglobalvpnurlpolicybinding 
     .NOTES
         File Name : Invoke-ADCAddVpnglobalvpnurlpolicybinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/vpn/vpnglobal_vpnurlpolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -8086,7 +8086,7 @@ function Invoke-ADCAddVpnglobalvpnurlpolicybinding {
             if ($PSBoundParameters.ContainsKey('gotopriorityexpression')) { $Payload.Add('gotopriorityexpression', $gotopriorityexpression) }
  
             if ($PSCmdlet.ShouldProcess("vpnglobal_vpnurlpolicy_binding", "Add SSL VPN configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -Type vpnglobal_vpnurlpolicy_binding -Payload $Payload -GetWarning
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -NitroPath nitro/v1/config -Type vpnglobal_vpnurlpolicy_binding -Payload $Payload -GetWarning
                 #HTTP Status Code on Success: 201 Created
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 if ($PSBoundParameters.ContainsKey('PassThru')) {
@@ -8120,7 +8120,7 @@ function Invoke-ADCDeleteVpnglobalvpnurlpolicybinding {
         Invoke-ADCDeleteVpnglobalvpnurlpolicybinding 
     .NOTES
         File Name : Invoke-ADCDeleteVpnglobalvpnurlpolicybinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/vpn/vpnglobal_vpnurlpolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -8153,7 +8153,7 @@ function Invoke-ADCDeleteVpnglobalvpnurlpolicybinding {
             if ($PSBoundParameters.ContainsKey('secondary')) { $Arguments.Add('secondary', $secondary) }
             if ($PSBoundParameters.ContainsKey('groupextraction')) { $Arguments.Add('groupextraction', $groupextraction) }
             if ($PSCmdlet.ShouldProcess("vpnglobal_vpnurlpolicy_binding", "Delete SSL VPN configuration Object")) {
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type vpnglobal_vpnurlpolicy_binding -Resource $ -Arguments $Arguments
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type vpnglobal_vpnurlpolicy_binding -NitroPath nitro/v1/config -Resource $ -Arguments $Arguments
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $response
@@ -8195,7 +8195,7 @@ function Invoke-ADCGetVpnglobalvpnurlpolicybinding {
         Invoke-ADCGetVpnglobalvpnurlpolicybinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetVpnglobalvpnurlpolicybinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/vpn/vpnglobal_vpnurlpolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -8229,21 +8229,21 @@ function Invoke-ADCGetVpnglobalvpnurlpolicybinding {
                     bulkbindings = 'yes'
                 }
                 Write-Verbose "Retrieving all vpnglobal_vpnurlpolicy_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnglobal_vpnurlpolicy_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnglobal_vpnurlpolicy_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
                 if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for vpnglobal_vpnurlpolicy_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnglobal_vpnurlpolicy_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnglobal_vpnurlpolicy_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving vpnglobal_vpnurlpolicy_binding objects by arguments"
                 $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnglobal_vpnurlpolicy_binding -Arguments $Arguments -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnglobal_vpnurlpolicy_binding -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving vpnglobal_vpnurlpolicy_binding configuration for property ''"
 
             } else {
                 Write-Verbose "Retrieving vpnglobal_vpnurlpolicy_binding configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnglobal_vpnurlpolicy_binding -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnglobal_vpnurlpolicy_binding -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -8272,7 +8272,7 @@ function Invoke-ADCAddVpnglobalvpnurlbinding {
         Invoke-ADCAddVpnglobalvpnurlbinding 
     .NOTES
         File Name : Invoke-ADCAddVpnglobalvpnurlbinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/vpn/vpnglobal_vpnurl_binding/
         Requires  : PowerShell v5.1 and up
@@ -8307,7 +8307,7 @@ function Invoke-ADCAddVpnglobalvpnurlbinding {
             if ($PSBoundParameters.ContainsKey('gotopriorityexpression')) { $Payload.Add('gotopriorityexpression', $gotopriorityexpression) }
  
             if ($PSCmdlet.ShouldProcess("vpnglobal_vpnurl_binding", "Add SSL VPN configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -Type vpnglobal_vpnurl_binding -Payload $Payload -GetWarning
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -NitroPath nitro/v1/config -Type vpnglobal_vpnurl_binding -Payload $Payload -GetWarning
                 #HTTP Status Code on Success: 201 Created
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 if ($PSBoundParameters.ContainsKey('PassThru')) {
@@ -8339,7 +8339,7 @@ function Invoke-ADCDeleteVpnglobalvpnurlbinding {
         Invoke-ADCDeleteVpnglobalvpnurlbinding 
     .NOTES
         File Name : Invoke-ADCDeleteVpnglobalvpnurlbinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/vpn/vpnglobal_vpnurl_binding/
         Requires  : PowerShell v5.1 and up
@@ -8366,7 +8366,7 @@ function Invoke-ADCDeleteVpnglobalvpnurlbinding {
             }
             if ($PSBoundParameters.ContainsKey('urlname')) { $Arguments.Add('urlname', $urlname) }
             if ($PSCmdlet.ShouldProcess("vpnglobal_vpnurl_binding", "Delete SSL VPN configuration Object")) {
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type vpnglobal_vpnurl_binding -Resource $ -Arguments $Arguments
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type vpnglobal_vpnurl_binding -NitroPath nitro/v1/config -Resource $ -Arguments $Arguments
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $response
@@ -8408,7 +8408,7 @@ function Invoke-ADCGetVpnglobalvpnurlbinding {
         Invoke-ADCGetVpnglobalvpnurlbinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetVpnglobalvpnurlbinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/vpn/vpnglobal_vpnurl_binding/
         Requires  : PowerShell v5.1 and up
@@ -8442,21 +8442,21 @@ function Invoke-ADCGetVpnglobalvpnurlbinding {
                     bulkbindings = 'yes'
                 }
                 Write-Verbose "Retrieving all vpnglobal_vpnurl_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnglobal_vpnurl_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnglobal_vpnurl_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
                 if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for vpnglobal_vpnurl_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnglobal_vpnurl_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnglobal_vpnurl_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving vpnglobal_vpnurl_binding objects by arguments"
                 $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnglobal_vpnurl_binding -Arguments $Arguments -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnglobal_vpnurl_binding -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving vpnglobal_vpnurl_binding configuration for property ''"
 
             } else {
                 Write-Verbose "Retrieving vpnglobal_vpnurl_binding configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnglobal_vpnurl_binding -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnglobal_vpnurl_binding -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -8486,7 +8486,7 @@ function Invoke-ADCKillVpnicaconnection {
         Invoke-ADCKillVpnicaconnection 
     .NOTES
         File Name : Invoke-ADCKillVpnicaconnection
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/vpn/vpnicaconnection/
         Requires  : PowerShell v5.1 and up
@@ -8523,7 +8523,7 @@ function Invoke-ADCKillVpnicaconnection {
             if ($PSBoundParameters.ContainsKey('transproto')) { $Payload.Add('transproto', $transproto) }
             if ($PSBoundParameters.ContainsKey('all')) { $Payload.Add('all', $all) }
             if ($PSCmdlet.ShouldProcess($Name, "Kill SSL VPN configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -Type vpnicaconnection -Action kill -Payload $Payload -GetWarning
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -NitroPath nitro/v1/config -Type vpnicaconnection -Action kill -Payload $Payload -GetWarning
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $result
@@ -8572,7 +8572,7 @@ function Invoke-ADCGetVpnicaconnection {
         Invoke-ADCGetVpnicaconnection -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetVpnicaconnection
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/vpn/vpnicaconnection/
         Requires  : PowerShell v5.1 and up
@@ -8620,24 +8620,24 @@ function Invoke-ADCGetVpnicaconnection {
             if ( $PsCmdlet.ParameterSetName -eq 'Getall' ) {
                 $Query = @{ }
                 Write-Verbose "Retrieving all vpnicaconnection objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnicaconnection -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnicaconnection -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
                 if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for vpnicaconnection objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnicaconnection -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnicaconnection -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving vpnicaconnection objects by arguments"
                 $Arguments = @{ } 
                 if ($PSBoundParameters.ContainsKey('username')) { $Arguments.Add('username', $username) } 
                 if ($PSBoundParameters.ContainsKey('transproto')) { $Arguments.Add('transproto', $transproto) } 
                 if ($PSBoundParameters.ContainsKey('nodeid')) { $Arguments.Add('nodeid', $nodeid) }
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnicaconnection -Arguments $Arguments -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnicaconnection -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving vpnicaconnection configuration for property ''"
 
             } else {
                 Write-Verbose "Retrieving vpnicaconnection configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnicaconnection -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnicaconnection -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -8681,7 +8681,7 @@ function Invoke-ADCGetVpnicadtlsconnection {
         Invoke-ADCGetVpnicadtlsconnection -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetVpnicadtlsconnection
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/vpn/vpnicadtlsconnection/
         Requires  : PowerShell v5.1 and up
@@ -8725,23 +8725,23 @@ function Invoke-ADCGetVpnicadtlsconnection {
             if ( $PsCmdlet.ParameterSetName -eq 'Getall' ) {
                 $Query = @{ }
                 Write-Verbose "Retrieving all vpnicadtlsconnection objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnicadtlsconnection -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnicadtlsconnection -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
                 if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for vpnicadtlsconnection objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnicadtlsconnection -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnicadtlsconnection -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving vpnicadtlsconnection objects by arguments"
                 $Arguments = @{ } 
                 if ($PSBoundParameters.ContainsKey('username')) { $Arguments.Add('username', $username) } 
                 if ($PSBoundParameters.ContainsKey('nodeid')) { $Arguments.Add('nodeid', $nodeid) }
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnicadtlsconnection -Arguments $Arguments -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnicadtlsconnection -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving vpnicadtlsconnection configuration for property ''"
 
             } else {
                 Write-Verbose "Retrieving vpnicadtlsconnection configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnicadtlsconnection -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnicadtlsconnection -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -8803,7 +8803,7 @@ function Invoke-ADCAddVpnintranetapplication {
         Invoke-ADCAddVpnintranetapplication -intranetapplication <string>
     .NOTES
         File Name : Invoke-ADCAddVpnintranetapplication
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/vpn/vpnintranetapplication/
         Requires  : PowerShell v5.1 and up
@@ -8879,7 +8879,7 @@ function Invoke-ADCAddVpnintranetapplication {
             if ($PSBoundParameters.ContainsKey('srcport')) { $Payload.Add('srcport', $srcport) }
  
             if ($PSCmdlet.ShouldProcess("vpnintranetapplication", "Add SSL VPN configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -Type vpnintranetapplication -Payload $Payload -GetWarning
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -NitroPath nitro/v1/config -Type vpnintranetapplication -Payload $Payload -GetWarning
                 #HTTP Status Code on Success: 201 Created
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 if ($PSBoundParameters.ContainsKey('PassThru')) {
@@ -8913,7 +8913,7 @@ function Invoke-ADCDeleteVpnintranetapplication {
         Invoke-ADCDeleteVpnintranetapplication -intranetapplication <string>
     .NOTES
         File Name : Invoke-ADCDeleteVpnintranetapplication
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/vpn/vpnintranetapplication/
         Requires  : PowerShell v5.1 and up
@@ -8941,7 +8941,7 @@ function Invoke-ADCDeleteVpnintranetapplication {
             }
 
             if ($PSCmdlet.ShouldProcess("$intranetapplication", "Delete SSL VPN configuration Object")) {
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type vpnintranetapplication -Resource $intranetapplication -Arguments $Arguments
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type vpnintranetapplication -NitroPath nitro/v1/config -Resource $intranetapplication -Arguments $Arguments
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $response
@@ -8985,7 +8985,7 @@ function Invoke-ADCGetVpnintranetapplication {
         Invoke-ADCGetVpnintranetapplication -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetVpnintranetapplication
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/vpn/vpnintranetapplication/
         Requires  : PowerShell v5.1 and up
@@ -9026,21 +9026,21 @@ function Invoke-ADCGetVpnintranetapplication {
             if ( $PsCmdlet.ParameterSetName -eq 'Getall' ) {
                 $Query = @{ }
                 Write-Verbose "Retrieving all vpnintranetapplication objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnintranetapplication -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnintranetapplication -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
                 if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for vpnintranetapplication objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnintranetapplication -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnintranetapplication -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving vpnintranetapplication objects by arguments"
                 $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnintranetapplication -Arguments $Arguments -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnintranetapplication -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving vpnintranetapplication configuration for property 'intranetapplication'"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnintranetapplication -Resource $intranetapplication -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnintranetapplication -NitroPath nitro/v1/config -Resource $intranetapplication -Summary:$ViewSummary -Filter $Filter -GetWarning
             } else {
                 Write-Verbose "Retrieving vpnintranetapplication configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnintranetapplication -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnintranetapplication -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -9086,7 +9086,7 @@ function Invoke-ADCAddVpnnexthopserver {
         Invoke-ADCAddVpnnexthopserver -name <string> -nexthopport <int>
     .NOTES
         File Name : Invoke-ADCAddVpnnexthopserver
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/vpn/vpnnexthopserver/
         Requires  : PowerShell v5.1 and up
@@ -9140,7 +9140,7 @@ function Invoke-ADCAddVpnnexthopserver {
             if ($PSBoundParameters.ContainsKey('secure')) { $Payload.Add('secure', $secure) }
  
             if ($PSCmdlet.ShouldProcess("vpnnexthopserver", "Add SSL VPN configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -Type vpnnexthopserver -Payload $Payload -GetWarning
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -NitroPath nitro/v1/config -Type vpnnexthopserver -Payload $Payload -GetWarning
                 #HTTP Status Code on Success: 201 Created
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 if ($PSBoundParameters.ContainsKey('PassThru')) {
@@ -9174,7 +9174,7 @@ function Invoke-ADCDeleteVpnnexthopserver {
         Invoke-ADCDeleteVpnnexthopserver -name <string>
     .NOTES
         File Name : Invoke-ADCDeleteVpnnexthopserver
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/vpn/vpnnexthopserver/
         Requires  : PowerShell v5.1 and up
@@ -9202,7 +9202,7 @@ function Invoke-ADCDeleteVpnnexthopserver {
             }
 
             if ($PSCmdlet.ShouldProcess("$name", "Delete SSL VPN configuration Object")) {
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type vpnnexthopserver -Resource $name -Arguments $Arguments
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type vpnnexthopserver -NitroPath nitro/v1/config -Resource $name -Arguments $Arguments
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $response
@@ -9246,7 +9246,7 @@ function Invoke-ADCGetVpnnexthopserver {
         Invoke-ADCGetVpnnexthopserver -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetVpnnexthopserver
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/vpn/vpnnexthopserver/
         Requires  : PowerShell v5.1 and up
@@ -9287,21 +9287,21 @@ function Invoke-ADCGetVpnnexthopserver {
             if ( $PsCmdlet.ParameterSetName -eq 'Getall' ) {
                 $Query = @{ }
                 Write-Verbose "Retrieving all vpnnexthopserver objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnnexthopserver -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnnexthopserver -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
                 if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for vpnnexthopserver objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnnexthopserver -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnnexthopserver -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving vpnnexthopserver objects by arguments"
                 $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnnexthopserver -Arguments $Arguments -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnnexthopserver -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving vpnnexthopserver configuration for property 'name'"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnnexthopserver -Resource $name -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnnexthopserver -NitroPath nitro/v1/config -Resource $name -Summary:$ViewSummary -Filter $Filter -GetWarning
             } else {
                 Write-Verbose "Retrieving vpnnexthopserver configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnnexthopserver -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnnexthopserver -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -9643,7 +9643,7 @@ function Invoke-ADCUpdateVpnparameter {
         Invoke-ADCUpdateVpnparameter 
     .NOTES
         File Name : Invoke-ADCUpdateVpnparameter
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/vpn/vpnparameter/
         Requires  : PowerShell v5.1 and up
@@ -9992,7 +9992,7 @@ function Invoke-ADCUpdateVpnparameter {
             if ($PSBoundParameters.ContainsKey('samesite')) { $Payload.Add('samesite', $samesite) }
  
             if ($PSCmdlet.ShouldProcess("vpnparameter", "Update SSL VPN configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -Type vpnparameter -Payload $Payload -GetWarning
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -NitroPath nitro/v1/config -Type vpnparameter -Payload $Payload -GetWarning
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
             Write-Output $result
@@ -10252,7 +10252,7 @@ function Invoke-ADCUnsetVpnparameter {
         Invoke-ADCUnsetVpnparameter 
     .NOTES
         File Name : Invoke-ADCUnsetVpnparameter
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/vpn/vpnparameter
         Requires  : PowerShell v5.1 and up
@@ -10523,7 +10523,7 @@ function Invoke-ADCUnsetVpnparameter {
             if ($PSBoundParameters.ContainsKey('netmask')) { $Payload.Add('netmask', $netmask) }
             if ($PSBoundParameters.ContainsKey('samesite')) { $Payload.Add('samesite', $samesite) }
             if ($PSCmdlet.ShouldProcess("vpnparameter", "Unset SSL VPN configuration Object")) {
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -Type vpnparameter -Action unset -Payload $Payload -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -Type vpnparameter -NitroPath nitro/v1/config -Action unset -Payload $Payload -GetWarning
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $response
@@ -10563,7 +10563,7 @@ function Invoke-ADCGetVpnparameter {
         Invoke-ADCGetVpnparameter -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetVpnparameter
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/vpn/vpnparameter/
         Requires  : PowerShell v5.1 and up
@@ -10592,21 +10592,21 @@ function Invoke-ADCGetVpnparameter {
             if ( $PsCmdlet.ParameterSetName -eq 'Getall' ) {
                 $Query = @{ }
                 Write-Verbose "Retrieving all vpnparameter objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnparameter -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnparameter -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
                 if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for vpnparameter objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnparameter -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnparameter -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving vpnparameter objects by arguments"
                 $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnparameter -Arguments $Arguments -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnparameter -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving vpnparameter configuration for property ''"
 
             } else {
                 Write-Verbose "Retrieving vpnparameter configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnparameter -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnparameter -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -10633,7 +10633,7 @@ function Invoke-ADCKillVpnpcoipconnection {
         Invoke-ADCKillVpnpcoipconnection 
     .NOTES
         File Name : Invoke-ADCKillVpnpcoipconnection
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/vpn/vpnpcoipconnection/
         Requires  : PowerShell v5.1 and up
@@ -10666,7 +10666,7 @@ function Invoke-ADCKillVpnpcoipconnection {
             if ($PSBoundParameters.ContainsKey('username')) { $Payload.Add('username', $username) }
             if ($PSBoundParameters.ContainsKey('all')) { $Payload.Add('all', $all) }
             if ($PSCmdlet.ShouldProcess($Name, "Kill SSL VPN configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -Type vpnpcoipconnection -Action kill -Payload $Payload -GetWarning
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -NitroPath nitro/v1/config -Type vpnpcoipconnection -Action kill -Payload $Payload -GetWarning
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $result
@@ -10712,7 +10712,7 @@ function Invoke-ADCGetVpnpcoipconnection {
         Invoke-ADCGetVpnpcoipconnection -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetVpnpcoipconnection
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/vpn/vpnpcoipconnection/
         Requires  : PowerShell v5.1 and up
@@ -10756,23 +10756,23 @@ function Invoke-ADCGetVpnpcoipconnection {
             if ( $PsCmdlet.ParameterSetName -eq 'Getall' ) {
                 $Query = @{ }
                 Write-Verbose "Retrieving all vpnpcoipconnection objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnpcoipconnection -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnpcoipconnection -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
                 if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for vpnpcoipconnection objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnpcoipconnection -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnpcoipconnection -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving vpnpcoipconnection objects by arguments"
                 $Arguments = @{ } 
                 if ($PSBoundParameters.ContainsKey('username')) { $Arguments.Add('username', $username) } 
                 if ($PSBoundParameters.ContainsKey('nodeid')) { $Arguments.Add('nodeid', $nodeid) }
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnpcoipconnection -Arguments $Arguments -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnpcoipconnection -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving vpnpcoipconnection configuration for property ''"
 
             } else {
                 Write-Verbose "Retrieving vpnpcoipconnection configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnpcoipconnection -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnpcoipconnection -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -10811,7 +10811,7 @@ function Invoke-ADCAddVpnpcoipprofile {
         Invoke-ADCAddVpnpcoipprofile -name <string> -conserverurl <string>
     .NOTES
         File Name : Invoke-ADCAddVpnpcoipprofile
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/vpn/vpnpcoipprofile/
         Requires  : PowerShell v5.1 and up
@@ -10856,7 +10856,7 @@ function Invoke-ADCAddVpnpcoipprofile {
             if ($PSBoundParameters.ContainsKey('sessionidletimeout')) { $Payload.Add('sessionidletimeout', $sessionidletimeout) }
  
             if ($PSCmdlet.ShouldProcess("vpnpcoipprofile", "Add SSL VPN configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -Type vpnpcoipprofile -Payload $Payload -GetWarning
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -NitroPath nitro/v1/config -Type vpnpcoipprofile -Payload $Payload -GetWarning
                 #HTTP Status Code on Success: 201 Created
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 if ($PSBoundParameters.ContainsKey('PassThru')) {
@@ -10889,7 +10889,7 @@ function Invoke-ADCDeleteVpnpcoipprofile {
         Invoke-ADCDeleteVpnpcoipprofile -name <string>
     .NOTES
         File Name : Invoke-ADCDeleteVpnpcoipprofile
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/vpn/vpnpcoipprofile/
         Requires  : PowerShell v5.1 and up
@@ -10917,7 +10917,7 @@ function Invoke-ADCDeleteVpnpcoipprofile {
             }
 
             if ($PSCmdlet.ShouldProcess("$name", "Delete SSL VPN configuration Object")) {
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type vpnpcoipprofile -Resource $name -Arguments $Arguments
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type vpnpcoipprofile -NitroPath nitro/v1/config -Resource $name -Arguments $Arguments
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $response
@@ -10958,7 +10958,7 @@ function Invoke-ADCUpdateVpnpcoipprofile {
         Invoke-ADCUpdateVpnpcoipprofile -name <string>
     .NOTES
         File Name : Invoke-ADCUpdateVpnpcoipprofile
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/vpn/vpnpcoipprofile/
         Requires  : PowerShell v5.1 and up
@@ -11002,7 +11002,7 @@ function Invoke-ADCUpdateVpnpcoipprofile {
             if ($PSBoundParameters.ContainsKey('sessionidletimeout')) { $Payload.Add('sessionidletimeout', $sessionidletimeout) }
  
             if ($PSCmdlet.ShouldProcess("vpnpcoipprofile", "Update SSL VPN configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -Type vpnpcoipprofile -Payload $Payload -GetWarning
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -NitroPath nitro/v1/config -Type vpnpcoipprofile -Payload $Payload -GetWarning
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 if ($PSBoundParameters.ContainsKey('PassThru')) {
@@ -11039,7 +11039,7 @@ function Invoke-ADCUnsetVpnpcoipprofile {
         Invoke-ADCUnsetVpnpcoipprofile -name <string>
     .NOTES
         File Name : Invoke-ADCUnsetVpnpcoipprofile
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/vpn/vpnpcoipprofile
         Requires  : PowerShell v5.1 and up
@@ -11074,7 +11074,7 @@ function Invoke-ADCUnsetVpnpcoipprofile {
             if ($PSBoundParameters.ContainsKey('icvverification')) { $Payload.Add('icvverification', $icvverification) }
             if ($PSBoundParameters.ContainsKey('sessionidletimeout')) { $Payload.Add('sessionidletimeout', $sessionidletimeout) }
             if ($PSCmdlet.ShouldProcess("$name", "Unset SSL VPN configuration Object")) {
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -Type vpnpcoipprofile -Action unset -Payload $Payload -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -Type vpnpcoipprofile -NitroPath nitro/v1/config -Action unset -Payload $Payload -GetWarning
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $response
@@ -11118,7 +11118,7 @@ function Invoke-ADCGetVpnpcoipprofile {
         Invoke-ADCGetVpnpcoipprofile -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetVpnpcoipprofile
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/vpn/vpnpcoipprofile/
         Requires  : PowerShell v5.1 and up
@@ -11159,21 +11159,21 @@ function Invoke-ADCGetVpnpcoipprofile {
             if ( $PsCmdlet.ParameterSetName -eq 'Getall' ) {
                 $Query = @{ }
                 Write-Verbose "Retrieving all vpnpcoipprofile objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnpcoipprofile -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnpcoipprofile -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
                 if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for vpnpcoipprofile objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnpcoipprofile -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnpcoipprofile -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving vpnpcoipprofile objects by arguments"
                 $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnpcoipprofile -Arguments $Arguments -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnpcoipprofile -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving vpnpcoipprofile configuration for property 'name'"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnpcoipprofile -Resource $name -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnpcoipprofile -NitroPath nitro/v1/config -Resource $name -Summary:$ViewSummary -Filter $Filter -GetWarning
             } else {
                 Write-Verbose "Retrieving vpnpcoipprofile configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnpcoipprofile -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnpcoipprofile -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -11208,7 +11208,7 @@ function Invoke-ADCAddVpnpcoipvserverprofile {
         Invoke-ADCAddVpnpcoipvserverprofile -name <string> -logindomain <string>
     .NOTES
         File Name : Invoke-ADCAddVpnpcoipvserverprofile
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/vpn/vpnpcoipvserverprofile/
         Requires  : PowerShell v5.1 and up
@@ -11249,7 +11249,7 @@ function Invoke-ADCAddVpnpcoipvserverprofile {
             if ($PSBoundParameters.ContainsKey('udpport')) { $Payload.Add('udpport', $udpport) }
  
             if ($PSCmdlet.ShouldProcess("vpnpcoipvserverprofile", "Add SSL VPN configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -Type vpnpcoipvserverprofile -Payload $Payload -GetWarning
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -NitroPath nitro/v1/config -Type vpnpcoipvserverprofile -Payload $Payload -GetWarning
                 #HTTP Status Code on Success: 201 Created
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 if ($PSBoundParameters.ContainsKey('PassThru')) {
@@ -11282,7 +11282,7 @@ function Invoke-ADCDeleteVpnpcoipvserverprofile {
         Invoke-ADCDeleteVpnpcoipvserverprofile -name <string>
     .NOTES
         File Name : Invoke-ADCDeleteVpnpcoipvserverprofile
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/vpn/vpnpcoipvserverprofile/
         Requires  : PowerShell v5.1 and up
@@ -11310,7 +11310,7 @@ function Invoke-ADCDeleteVpnpcoipvserverprofile {
             }
 
             if ($PSCmdlet.ShouldProcess("$name", "Delete SSL VPN configuration Object")) {
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type vpnpcoipvserverprofile -Resource $name -Arguments $Arguments
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type vpnpcoipvserverprofile -NitroPath nitro/v1/config -Resource $name -Arguments $Arguments
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $response
@@ -11347,7 +11347,7 @@ function Invoke-ADCUpdateVpnpcoipvserverprofile {
         Invoke-ADCUpdateVpnpcoipvserverprofile -name <string>
     .NOTES
         File Name : Invoke-ADCUpdateVpnpcoipvserverprofile
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/vpn/vpnpcoipvserverprofile/
         Requires  : PowerShell v5.1 and up
@@ -11387,7 +11387,7 @@ function Invoke-ADCUpdateVpnpcoipvserverprofile {
             if ($PSBoundParameters.ContainsKey('logindomain')) { $Payload.Add('logindomain', $logindomain) }
  
             if ($PSCmdlet.ShouldProcess("vpnpcoipvserverprofile", "Update SSL VPN configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -Type vpnpcoipvserverprofile -Payload $Payload -GetWarning
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -NitroPath nitro/v1/config -Type vpnpcoipvserverprofile -Payload $Payload -GetWarning
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 if ($PSBoundParameters.ContainsKey('PassThru')) {
@@ -11422,7 +11422,7 @@ function Invoke-ADCUnsetVpnpcoipvserverprofile {
         Invoke-ADCUnsetVpnpcoipvserverprofile -name <string>
     .NOTES
         File Name : Invoke-ADCUnsetVpnpcoipvserverprofile
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/vpn/vpnpcoipvserverprofile
         Requires  : PowerShell v5.1 and up
@@ -11454,7 +11454,7 @@ function Invoke-ADCUnsetVpnpcoipvserverprofile {
             }
             if ($PSBoundParameters.ContainsKey('udpport')) { $Payload.Add('udpport', $udpport) }
             if ($PSCmdlet.ShouldProcess("$name", "Unset SSL VPN configuration Object")) {
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -Type vpnpcoipvserverprofile -Action unset -Payload $Payload -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -Type vpnpcoipvserverprofile -NitroPath nitro/v1/config -Action unset -Payload $Payload -GetWarning
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $response
@@ -11498,7 +11498,7 @@ function Invoke-ADCGetVpnpcoipvserverprofile {
         Invoke-ADCGetVpnpcoipvserverprofile -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetVpnpcoipvserverprofile
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/vpn/vpnpcoipvserverprofile/
         Requires  : PowerShell v5.1 and up
@@ -11539,21 +11539,21 @@ function Invoke-ADCGetVpnpcoipvserverprofile {
             if ( $PsCmdlet.ParameterSetName -eq 'Getall' ) {
                 $Query = @{ }
                 Write-Verbose "Retrieving all vpnpcoipvserverprofile objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnpcoipvserverprofile -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnpcoipvserverprofile -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
                 if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for vpnpcoipvserverprofile objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnpcoipvserverprofile -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnpcoipvserverprofile -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving vpnpcoipvserverprofile objects by arguments"
                 $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnpcoipvserverprofile -Arguments $Arguments -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnpcoipvserverprofile -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving vpnpcoipvserverprofile configuration for property 'name'"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnpcoipvserverprofile -Resource $name -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnpcoipvserverprofile -NitroPath nitro/v1/config -Resource $name -Summary:$ViewSummary -Filter $Filter -GetWarning
             } else {
                 Write-Verbose "Retrieving vpnpcoipvserverprofile configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnpcoipvserverprofile -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnpcoipvserverprofile -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -11585,7 +11585,7 @@ function Invoke-ADCAddVpnportaltheme {
         Invoke-ADCAddVpnportaltheme -name <string> -basetheme <string>
     .NOTES
         File Name : Invoke-ADCAddVpnportaltheme
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/vpn/vpnportaltheme/
         Requires  : PowerShell v5.1 and up
@@ -11625,7 +11625,7 @@ function Invoke-ADCAddVpnportaltheme {
 
  
             if ($PSCmdlet.ShouldProcess("vpnportaltheme", "Add SSL VPN configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -Type vpnportaltheme -Payload $Payload -GetWarning
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -NitroPath nitro/v1/config -Type vpnportaltheme -Payload $Payload -GetWarning
                 #HTTP Status Code on Success: 201 Created
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 if ($PSBoundParameters.ContainsKey('PassThru')) {
@@ -11658,7 +11658,7 @@ function Invoke-ADCDeleteVpnportaltheme {
         Invoke-ADCDeleteVpnportaltheme -name <string>
     .NOTES
         File Name : Invoke-ADCDeleteVpnportaltheme
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/vpn/vpnportaltheme/
         Requires  : PowerShell v5.1 and up
@@ -11686,7 +11686,7 @@ function Invoke-ADCDeleteVpnportaltheme {
             }
 
             if ($PSCmdlet.ShouldProcess("$name", "Delete SSL VPN configuration Object")) {
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type vpnportaltheme -Resource $name -Arguments $Arguments
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type vpnportaltheme -NitroPath nitro/v1/config -Resource $name -Arguments $Arguments
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $response
@@ -11730,7 +11730,7 @@ function Invoke-ADCGetVpnportaltheme {
         Invoke-ADCGetVpnportaltheme -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetVpnportaltheme
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/vpn/vpnportaltheme/
         Requires  : PowerShell v5.1 and up
@@ -11771,21 +11771,21 @@ function Invoke-ADCGetVpnportaltheme {
             if ( $PsCmdlet.ParameterSetName -eq 'Getall' ) {
                 $Query = @{ }
                 Write-Verbose "Retrieving all vpnportaltheme objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnportaltheme -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnportaltheme -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
                 if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for vpnportaltheme objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnportaltheme -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnportaltheme -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving vpnportaltheme objects by arguments"
                 $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnportaltheme -Arguments $Arguments -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnportaltheme -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving vpnportaltheme configuration for property 'name'"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnportaltheme -Resource $name -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnportaltheme -NitroPath nitro/v1/config -Resource $name -Summary:$ViewSummary -Filter $Filter -GetWarning
             } else {
                 Write-Verbose "Retrieving vpnportaltheme configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnportaltheme -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnportaltheme -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -12025,7 +12025,7 @@ function Invoke-ADCAddVpnsamlssoprofile {
         Invoke-ADCAddVpnsamlssoprofile -name <string> -assertionconsumerserviceurl <string>
     .NOTES
         File Name : Invoke-ADCAddVpnsamlssoprofile
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/vpn/vpnsamlssoprofile/
         Requires  : PowerShell v5.1 and up
@@ -12328,7 +12328,7 @@ function Invoke-ADCAddVpnsamlssoprofile {
             if ($PSBoundParameters.ContainsKey('signatureservice')) { $Payload.Add('signatureservice', $signatureservice) }
  
             if ($PSCmdlet.ShouldProcess("vpnsamlssoprofile", "Add SSL VPN configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -Type vpnsamlssoprofile -Payload $Payload -GetWarning
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -NitroPath nitro/v1/config -Type vpnsamlssoprofile -Payload $Payload -GetWarning
                 #HTTP Status Code on Success: 201 Created
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 if ($PSBoundParameters.ContainsKey('PassThru')) {
@@ -12360,7 +12360,7 @@ function Invoke-ADCDeleteVpnsamlssoprofile {
         Invoke-ADCDeleteVpnsamlssoprofile -name <string>
     .NOTES
         File Name : Invoke-ADCDeleteVpnsamlssoprofile
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/vpn/vpnsamlssoprofile/
         Requires  : PowerShell v5.1 and up
@@ -12388,7 +12388,7 @@ function Invoke-ADCDeleteVpnsamlssoprofile {
             }
 
             if ($PSCmdlet.ShouldProcess("$name", "Delete SSL VPN configuration Object")) {
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type vpnsamlssoprofile -Resource $name -Arguments $Arguments
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type vpnsamlssoprofile -NitroPath nitro/v1/config -Resource $name -Arguments $Arguments
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $response
@@ -12630,7 +12630,7 @@ function Invoke-ADCUpdateVpnsamlssoprofile {
         Invoke-ADCUpdateVpnsamlssoprofile -name <string>
     .NOTES
         File Name : Invoke-ADCUpdateVpnsamlssoprofile
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/vpn/vpnsamlssoprofile/
         Requires  : PowerShell v5.1 and up
@@ -12932,7 +12932,7 @@ function Invoke-ADCUpdateVpnsamlssoprofile {
             if ($PSBoundParameters.ContainsKey('signatureservice')) { $Payload.Add('signatureservice', $signatureservice) }
  
             if ($PSCmdlet.ShouldProcess("vpnsamlssoprofile", "Update SSL VPN configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -Type vpnsamlssoprofile -Payload $Payload -GetWarning
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -NitroPath nitro/v1/config -Type vpnsamlssoprofile -Payload $Payload -GetWarning
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 if ($PSBoundParameters.ContainsKey('PassThru')) {
@@ -13113,7 +13113,7 @@ function Invoke-ADCUnsetVpnsamlssoprofile {
         Invoke-ADCUnsetVpnsamlssoprofile -name <string>
     .NOTES
         File Name : Invoke-ADCUnsetVpnsamlssoprofile
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/vpn/vpnsamlssoprofile
         Requires  : PowerShell v5.1 and up
@@ -13332,7 +13332,7 @@ function Invoke-ADCUnsetVpnsamlssoprofile {
             if ($PSBoundParameters.ContainsKey('signassertion')) { $Payload.Add('signassertion', $signassertion) }
             if ($PSBoundParameters.ContainsKey('signatureservice')) { $Payload.Add('signatureservice', $signatureservice) }
             if ($PSCmdlet.ShouldProcess("$name", "Unset SSL VPN configuration Object")) {
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -Type vpnsamlssoprofile -Action unset -Payload $Payload -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -Type vpnsamlssoprofile -NitroPath nitro/v1/config -Action unset -Payload $Payload -GetWarning
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $response
@@ -13376,7 +13376,7 @@ function Invoke-ADCGetVpnsamlssoprofile {
         Invoke-ADCGetVpnsamlssoprofile -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetVpnsamlssoprofile
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/vpn/vpnsamlssoprofile/
         Requires  : PowerShell v5.1 and up
@@ -13418,21 +13418,21 @@ function Invoke-ADCGetVpnsamlssoprofile {
             if ( $PsCmdlet.ParameterSetName -eq 'Getall' ) {
                 $Query = @{ }
                 Write-Verbose "Retrieving all vpnsamlssoprofile objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnsamlssoprofile -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnsamlssoprofile -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
                 if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for vpnsamlssoprofile objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnsamlssoprofile -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnsamlssoprofile -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving vpnsamlssoprofile objects by arguments"
                 $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnsamlssoprofile -Arguments $Arguments -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnsamlssoprofile -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving vpnsamlssoprofile configuration for property 'name'"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnsamlssoprofile -Resource $name -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnsamlssoprofile -NitroPath nitro/v1/config -Resource $name -Summary:$ViewSummary -Filter $Filter -GetWarning
             } else {
                 Write-Verbose "Retrieving vpnsamlssoprofile configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnsamlssoprofile -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnsamlssoprofile -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -13715,7 +13715,7 @@ function Invoke-ADCAddVpnsessionaction {
         Invoke-ADCAddVpnsessionaction -name <string>
     .NOTES
         File Name : Invoke-ADCAddVpnsessionaction
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/vpn/vpnsessionaction/
         Requires  : PowerShell v5.1 and up
@@ -14035,7 +14035,7 @@ function Invoke-ADCAddVpnsessionaction {
             if ($PSBoundParameters.ContainsKey('netmask')) { $Payload.Add('netmask', $netmask) }
  
             if ($PSCmdlet.ShouldProcess("vpnsessionaction", "Add SSL VPN configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -Type vpnsessionaction -Payload $Payload -GetWarning
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -NitroPath nitro/v1/config -Type vpnsessionaction -Payload $Payload -GetWarning
                 #HTTP Status Code on Success: 201 Created
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 if ($PSBoundParameters.ContainsKey('PassThru')) {
@@ -14067,7 +14067,7 @@ function Invoke-ADCDeleteVpnsessionaction {
         Invoke-ADCDeleteVpnsessionaction -name <string>
     .NOTES
         File Name : Invoke-ADCDeleteVpnsessionaction
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/vpn/vpnsessionaction/
         Requires  : PowerShell v5.1 and up
@@ -14095,7 +14095,7 @@ function Invoke-ADCDeleteVpnsessionaction {
             }
 
             if ($PSCmdlet.ShouldProcess("$name", "Delete SSL VPN configuration Object")) {
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type vpnsessionaction -Resource $name -Arguments $Arguments
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type vpnsessionaction -NitroPath nitro/v1/config -Resource $name -Arguments $Arguments
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $response
@@ -14380,7 +14380,7 @@ function Invoke-ADCUpdateVpnsessionaction {
         Invoke-ADCUpdateVpnsessionaction -name <string>
     .NOTES
         File Name : Invoke-ADCUpdateVpnsessionaction
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/vpn/vpnsessionaction/
         Requires  : PowerShell v5.1 and up
@@ -14700,7 +14700,7 @@ function Invoke-ADCUpdateVpnsessionaction {
             if ($PSBoundParameters.ContainsKey('netmask')) { $Payload.Add('netmask', $netmask) }
  
             if ($PSCmdlet.ShouldProcess("vpnsessionaction", "Update SSL VPN configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -Type vpnsessionaction -Payload $Payload -GetWarning
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -NitroPath nitro/v1/config -Type vpnsessionaction -Payload $Payload -GetWarning
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 if ($PSBoundParameters.ContainsKey('PassThru')) {
@@ -14943,7 +14943,7 @@ function Invoke-ADCUnsetVpnsessionaction {
         Invoke-ADCUnsetVpnsessionaction -name <string>
     .NOTES
         File Name : Invoke-ADCUnsetVpnsessionaction
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/vpn/vpnsessionaction
         Requires  : PowerShell v5.1 and up
@@ -15192,7 +15192,7 @@ function Invoke-ADCUnsetVpnsessionaction {
             if ($PSBoundParameters.ContainsKey('fqdnspoofedip')) { $Payload.Add('fqdnspoofedip', $fqdnspoofedip) }
             if ($PSBoundParameters.ContainsKey('netmask')) { $Payload.Add('netmask', $netmask) }
             if ($PSCmdlet.ShouldProcess("$name", "Unset SSL VPN configuration Object")) {
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -Type vpnsessionaction -Action unset -Payload $Payload -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -Type vpnsessionaction -NitroPath nitro/v1/config -Action unset -Payload $Payload -GetWarning
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $response
@@ -15236,7 +15236,7 @@ function Invoke-ADCGetVpnsessionaction {
         Invoke-ADCGetVpnsessionaction -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetVpnsessionaction
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/vpn/vpnsessionaction/
         Requires  : PowerShell v5.1 and up
@@ -15278,21 +15278,21 @@ function Invoke-ADCGetVpnsessionaction {
             if ( $PsCmdlet.ParameterSetName -eq 'Getall' ) {
                 $Query = @{ }
                 Write-Verbose "Retrieving all vpnsessionaction objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnsessionaction -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnsessionaction -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
                 if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for vpnsessionaction objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnsessionaction -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnsessionaction -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving vpnsessionaction objects by arguments"
                 $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnsessionaction -Arguments $Arguments -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnsessionaction -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving vpnsessionaction configuration for property 'name'"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnsessionaction -Resource $name -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnsessionaction -NitroPath nitro/v1/config -Resource $name -Summary:$ViewSummary -Filter $Filter -GetWarning
             } else {
                 Write-Verbose "Retrieving vpnsessionaction configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnsessionaction -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnsessionaction -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -15329,7 +15329,7 @@ function Invoke-ADCAddVpnsessionpolicy {
         Invoke-ADCAddVpnsessionpolicy -name <string> -rule <string> -action <string>
     .NOTES
         File Name : Invoke-ADCAddVpnsessionpolicy
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/vpn/vpnsessionpolicy/
         Requires  : PowerShell v5.1 and up
@@ -15372,7 +15372,7 @@ function Invoke-ADCAddVpnsessionpolicy {
 
  
             if ($PSCmdlet.ShouldProcess("vpnsessionpolicy", "Add SSL VPN configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -Type vpnsessionpolicy -Payload $Payload -GetWarning
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -NitroPath nitro/v1/config -Type vpnsessionpolicy -Payload $Payload -GetWarning
                 #HTTP Status Code on Success: 201 Created
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 if ($PSBoundParameters.ContainsKey('PassThru')) {
@@ -15405,7 +15405,7 @@ function Invoke-ADCDeleteVpnsessionpolicy {
         Invoke-ADCDeleteVpnsessionpolicy -name <string>
     .NOTES
         File Name : Invoke-ADCDeleteVpnsessionpolicy
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/vpn/vpnsessionpolicy/
         Requires  : PowerShell v5.1 and up
@@ -15433,7 +15433,7 @@ function Invoke-ADCDeleteVpnsessionpolicy {
             }
 
             if ($PSCmdlet.ShouldProcess("$name", "Delete SSL VPN configuration Object")) {
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type vpnsessionpolicy -Resource $name -Arguments $Arguments
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type vpnsessionpolicy -NitroPath nitro/v1/config -Resource $name -Arguments $Arguments
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $response
@@ -15472,7 +15472,7 @@ function Invoke-ADCUpdateVpnsessionpolicy {
         Invoke-ADCUpdateVpnsessionpolicy -name <string>
     .NOTES
         File Name : Invoke-ADCUpdateVpnsessionpolicy
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/vpn/vpnsessionpolicy/
         Requires  : PowerShell v5.1 and up
@@ -15512,7 +15512,7 @@ function Invoke-ADCUpdateVpnsessionpolicy {
             if ($PSBoundParameters.ContainsKey('action')) { $Payload.Add('action', $action) }
  
             if ($PSCmdlet.ShouldProcess("vpnsessionpolicy", "Update SSL VPN configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -Type vpnsessionpolicy -Payload $Payload -GetWarning
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -NitroPath nitro/v1/config -Type vpnsessionpolicy -Payload $Payload -GetWarning
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 if ($PSBoundParameters.ContainsKey('PassThru')) {
@@ -15552,7 +15552,7 @@ function Invoke-ADCUnsetVpnsessionpolicy {
         Invoke-ADCUnsetVpnsessionpolicy -name <string>
     .NOTES
         File Name : Invoke-ADCUnsetVpnsessionpolicy
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/vpn/vpnsessionpolicy
         Requires  : PowerShell v5.1 and up
@@ -15587,7 +15587,7 @@ function Invoke-ADCUnsetVpnsessionpolicy {
             if ($PSBoundParameters.ContainsKey('rule')) { $Payload.Add('rule', $rule) }
             if ($PSBoundParameters.ContainsKey('action')) { $Payload.Add('action', $action) }
             if ($PSCmdlet.ShouldProcess("$name", "Unset SSL VPN configuration Object")) {
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -Type vpnsessionpolicy -Action unset -Payload $Payload -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -Type vpnsessionpolicy -NitroPath nitro/v1/config -Action unset -Payload $Payload -GetWarning
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $response
@@ -15631,7 +15631,7 @@ function Invoke-ADCGetVpnsessionpolicy {
         Invoke-ADCGetVpnsessionpolicy -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetVpnsessionpolicy
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/vpn/vpnsessionpolicy/
         Requires  : PowerShell v5.1 and up
@@ -15672,21 +15672,21 @@ function Invoke-ADCGetVpnsessionpolicy {
             if ( $PsCmdlet.ParameterSetName -eq 'Getall' ) {
                 $Query = @{ }
                 Write-Verbose "Retrieving all vpnsessionpolicy objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnsessionpolicy -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnsessionpolicy -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
                 if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for vpnsessionpolicy objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnsessionpolicy -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnsessionpolicy -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving vpnsessionpolicy objects by arguments"
                 $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnsessionpolicy -Arguments $Arguments -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnsessionpolicy -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving vpnsessionpolicy configuration for property 'name'"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnsessionpolicy -Resource $name -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnsessionpolicy -NitroPath nitro/v1/config -Resource $name -Summary:$ViewSummary -Filter $Filter -GetWarning
             } else {
                 Write-Verbose "Retrieving vpnsessionpolicy configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnsessionpolicy -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnsessionpolicy -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -15728,7 +15728,7 @@ function Invoke-ADCGetVpnsessionpolicyaaagroupbinding {
         Invoke-ADCGetVpnsessionpolicyaaagroupbinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetVpnsessionpolicyaaagroupbinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/vpn/vpnsessionpolicy_aaagroup_binding/
         Requires  : PowerShell v5.1 and up
@@ -15766,21 +15766,21 @@ function Invoke-ADCGetVpnsessionpolicyaaagroupbinding {
                     bulkbindings = 'yes'
                 }
                 Write-Verbose "Retrieving all vpnsessionpolicy_aaagroup_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnsessionpolicy_aaagroup_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnsessionpolicy_aaagroup_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
                 if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for vpnsessionpolicy_aaagroup_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnsessionpolicy_aaagroup_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnsessionpolicy_aaagroup_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving vpnsessionpolicy_aaagroup_binding objects by arguments"
                 $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnsessionpolicy_aaagroup_binding -Arguments $Arguments -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnsessionpolicy_aaagroup_binding -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving vpnsessionpolicy_aaagroup_binding configuration for property 'name'"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnsessionpolicy_aaagroup_binding -Resource $name -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnsessionpolicy_aaagroup_binding -NitroPath nitro/v1/config -Resource $name -Summary:$ViewSummary -Filter $Filter -GetWarning
             } else {
                 Write-Verbose "Retrieving vpnsessionpolicy_aaagroup_binding configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnsessionpolicy_aaagroup_binding -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnsessionpolicy_aaagroup_binding -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -15822,7 +15822,7 @@ function Invoke-ADCGetVpnsessionpolicyaaauserbinding {
         Invoke-ADCGetVpnsessionpolicyaaauserbinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetVpnsessionpolicyaaauserbinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/vpn/vpnsessionpolicy_aaauser_binding/
         Requires  : PowerShell v5.1 and up
@@ -15860,21 +15860,21 @@ function Invoke-ADCGetVpnsessionpolicyaaauserbinding {
                     bulkbindings = 'yes'
                 }
                 Write-Verbose "Retrieving all vpnsessionpolicy_aaauser_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnsessionpolicy_aaauser_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnsessionpolicy_aaauser_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
                 if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for vpnsessionpolicy_aaauser_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnsessionpolicy_aaauser_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnsessionpolicy_aaauser_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving vpnsessionpolicy_aaauser_binding objects by arguments"
                 $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnsessionpolicy_aaauser_binding -Arguments $Arguments -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnsessionpolicy_aaauser_binding -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving vpnsessionpolicy_aaauser_binding configuration for property 'name'"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnsessionpolicy_aaauser_binding -Resource $name -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnsessionpolicy_aaauser_binding -NitroPath nitro/v1/config -Resource $name -Summary:$ViewSummary -Filter $Filter -GetWarning
             } else {
                 Write-Verbose "Retrieving vpnsessionpolicy_aaauser_binding configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnsessionpolicy_aaauser_binding -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnsessionpolicy_aaauser_binding -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -15914,7 +15914,7 @@ function Invoke-ADCGetVpnsessionpolicybinding {
         Invoke-ADCGetVpnsessionpolicybinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetVpnsessionpolicybinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/vpn/vpnsessionpolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -15949,21 +15949,21 @@ function Invoke-ADCGetVpnsessionpolicybinding {
                     bulkbindings = 'yes'
                 }
                 Write-Verbose "Retrieving all vpnsessionpolicy_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnsessionpolicy_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnsessionpolicy_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
                 if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for vpnsessionpolicy_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnsessionpolicy_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnsessionpolicy_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving vpnsessionpolicy_binding objects by arguments"
                 $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnsessionpolicy_binding -Arguments $Arguments -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnsessionpolicy_binding -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving vpnsessionpolicy_binding configuration for property 'name'"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnsessionpolicy_binding -Resource $name -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnsessionpolicy_binding -NitroPath nitro/v1/config -Resource $name -Summary:$ViewSummary -Filter $Filter -GetWarning
             } else {
                 Write-Verbose "Retrieving vpnsessionpolicy_binding configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnsessionpolicy_binding -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnsessionpolicy_binding -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -16005,7 +16005,7 @@ function Invoke-ADCGetVpnsessionpolicyvpnglobalbinding {
         Invoke-ADCGetVpnsessionpolicyvpnglobalbinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetVpnsessionpolicyvpnglobalbinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/vpn/vpnsessionpolicy_vpnglobal_binding/
         Requires  : PowerShell v5.1 and up
@@ -16043,21 +16043,21 @@ function Invoke-ADCGetVpnsessionpolicyvpnglobalbinding {
                     bulkbindings = 'yes'
                 }
                 Write-Verbose "Retrieving all vpnsessionpolicy_vpnglobal_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnsessionpolicy_vpnglobal_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnsessionpolicy_vpnglobal_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
                 if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for vpnsessionpolicy_vpnglobal_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnsessionpolicy_vpnglobal_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnsessionpolicy_vpnglobal_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving vpnsessionpolicy_vpnglobal_binding objects by arguments"
                 $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnsessionpolicy_vpnglobal_binding -Arguments $Arguments -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnsessionpolicy_vpnglobal_binding -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving vpnsessionpolicy_vpnglobal_binding configuration for property 'name'"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnsessionpolicy_vpnglobal_binding -Resource $name -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnsessionpolicy_vpnglobal_binding -NitroPath nitro/v1/config -Resource $name -Summary:$ViewSummary -Filter $Filter -GetWarning
             } else {
                 Write-Verbose "Retrieving vpnsessionpolicy_vpnglobal_binding configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnsessionpolicy_vpnglobal_binding -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnsessionpolicy_vpnglobal_binding -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -16099,7 +16099,7 @@ function Invoke-ADCGetVpnsessionpolicyvpnvserverbinding {
         Invoke-ADCGetVpnsessionpolicyvpnvserverbinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetVpnsessionpolicyvpnvserverbinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/vpn/vpnsessionpolicy_vpnvserver_binding/
         Requires  : PowerShell v5.1 and up
@@ -16137,21 +16137,21 @@ function Invoke-ADCGetVpnsessionpolicyvpnvserverbinding {
                     bulkbindings = 'yes'
                 }
                 Write-Verbose "Retrieving all vpnsessionpolicy_vpnvserver_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnsessionpolicy_vpnvserver_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnsessionpolicy_vpnvserver_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
                 if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for vpnsessionpolicy_vpnvserver_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnsessionpolicy_vpnvserver_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnsessionpolicy_vpnvserver_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving vpnsessionpolicy_vpnvserver_binding objects by arguments"
                 $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnsessionpolicy_vpnvserver_binding -Arguments $Arguments -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnsessionpolicy_vpnvserver_binding -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving vpnsessionpolicy_vpnvserver_binding configuration for property 'name'"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnsessionpolicy_vpnvserver_binding -Resource $name -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnsessionpolicy_vpnvserver_binding -NitroPath nitro/v1/config -Resource $name -Summary:$ViewSummary -Filter $Filter -GetWarning
             } else {
                 Write-Verbose "Retrieving vpnsessionpolicy_vpnvserver_binding configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnsessionpolicy_vpnvserver_binding -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnsessionpolicy_vpnvserver_binding -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -16193,7 +16193,7 @@ function Invoke-ADCGetVpnsfconfig {
         Invoke-ADCGetVpnsfconfig -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetVpnsfconfig
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/vpn/vpnsfconfig/
         Requires  : PowerShell v5.1 and up
@@ -16232,22 +16232,22 @@ function Invoke-ADCGetVpnsfconfig {
             if ( $PsCmdlet.ParameterSetName -eq 'Getall' ) {
                 $Query = @{ }
                 Write-Verbose "Retrieving all vpnsfconfig objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnsfconfig -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnsfconfig -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
                 if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for vpnsfconfig objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnsfconfig -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnsfconfig -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving vpnsfconfig objects by arguments"
                 $Arguments = @{ } 
                 if ($PSBoundParameters.ContainsKey('vserver')) { $Arguments.Add('vserver', $vserver) }
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnsfconfig -Arguments $Arguments -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnsfconfig -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving vpnsfconfig configuration for property ''"
 
             } else {
                 Write-Verbose "Retrieving vpnsfconfig configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnsfconfig -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnsfconfig -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -16289,7 +16289,7 @@ function Invoke-ADCGetVpnstoreinfo {
         Invoke-ADCGetVpnstoreinfo -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetVpnstoreinfo
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/vpn/vpnstoreinfo/
         Requires  : PowerShell v5.1 and up
@@ -16325,22 +16325,22 @@ function Invoke-ADCGetVpnstoreinfo {
             if ( $PsCmdlet.ParameterSetName -eq 'Getall' ) {
                 $Query = @{ }
                 Write-Verbose "Retrieving all vpnstoreinfo objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnstoreinfo -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnstoreinfo -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
                 if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for vpnstoreinfo objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnstoreinfo -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnstoreinfo -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving vpnstoreinfo objects by arguments"
                 $Arguments = @{ } 
                 if ($PSBoundParameters.ContainsKey('url')) { $Arguments.Add('url', $url) }
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnstoreinfo -Arguments $Arguments -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnstoreinfo -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving vpnstoreinfo configuration for property ''"
 
             } else {
                 Write-Verbose "Retrieving vpnstoreinfo configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnstoreinfo -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnstoreinfo -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -16406,7 +16406,7 @@ function Invoke-ADCAddVpntrafficaction {
         Invoke-ADCAddVpntrafficaction -name <string> -qual <string>
     .NOTES
         File Name : Invoke-ADCAddVpntrafficaction
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/vpn/vpntrafficaction/
         Requires  : PowerShell v5.1 and up
@@ -16486,7 +16486,7 @@ function Invoke-ADCAddVpntrafficaction {
             if ($PSBoundParameters.ContainsKey('passwdexpression')) { $Payload.Add('passwdexpression', $passwdexpression) }
  
             if ($PSCmdlet.ShouldProcess("vpntrafficaction", "Add SSL VPN configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -Type vpntrafficaction -Payload $Payload -GetWarning
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -NitroPath nitro/v1/config -Type vpntrafficaction -Payload $Payload -GetWarning
                 #HTTP Status Code on Success: 201 Created
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 if ($PSBoundParameters.ContainsKey('PassThru')) {
@@ -16518,7 +16518,7 @@ function Invoke-ADCDeleteVpntrafficaction {
         Invoke-ADCDeleteVpntrafficaction -name <string>
     .NOTES
         File Name : Invoke-ADCDeleteVpntrafficaction
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/vpn/vpntrafficaction/
         Requires  : PowerShell v5.1 and up
@@ -16546,7 +16546,7 @@ function Invoke-ADCDeleteVpntrafficaction {
             }
 
             if ($PSCmdlet.ShouldProcess("$name", "Delete SSL VPN configuration Object")) {
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type vpntrafficaction -Resource $name -Arguments $Arguments
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type vpntrafficaction -NitroPath nitro/v1/config -Resource $name -Arguments $Arguments
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $response
@@ -16611,7 +16611,7 @@ function Invoke-ADCUpdateVpntrafficaction {
         Invoke-ADCUpdateVpntrafficaction -name <string>
     .NOTES
         File Name : Invoke-ADCUpdateVpntrafficaction
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/vpn/vpntrafficaction/
         Requires  : PowerShell v5.1 and up
@@ -16686,7 +16686,7 @@ function Invoke-ADCUpdateVpntrafficaction {
             if ($PSBoundParameters.ContainsKey('passwdexpression')) { $Payload.Add('passwdexpression', $passwdexpression) }
  
             if ($PSCmdlet.ShouldProcess("vpntrafficaction", "Update SSL VPN configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -Type vpntrafficaction -Payload $Payload -GetWarning
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -NitroPath nitro/v1/config -Type vpntrafficaction -Payload $Payload -GetWarning
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 if ($PSBoundParameters.ContainsKey('PassThru')) {
@@ -16729,7 +16729,7 @@ function Invoke-ADCUnsetVpntrafficaction {
         Invoke-ADCUnsetVpntrafficaction -name <string>
     .NOTES
         File Name : Invoke-ADCUnsetVpntrafficaction
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/vpn/vpntrafficaction
         Requires  : PowerShell v5.1 and up
@@ -16774,7 +16774,7 @@ function Invoke-ADCUnsetVpntrafficaction {
             if ($PSBoundParameters.ContainsKey('userexpression')) { $Payload.Add('userexpression', $userexpression) }
             if ($PSBoundParameters.ContainsKey('passwdexpression')) { $Payload.Add('passwdexpression', $passwdexpression) }
             if ($PSCmdlet.ShouldProcess("$name", "Unset SSL VPN configuration Object")) {
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -Type vpntrafficaction -Action unset -Payload $Payload -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -Type vpntrafficaction -NitroPath nitro/v1/config -Action unset -Payload $Payload -GetWarning
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $response
@@ -16818,7 +16818,7 @@ function Invoke-ADCGetVpntrafficaction {
         Invoke-ADCGetVpntrafficaction -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetVpntrafficaction
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/vpn/vpntrafficaction/
         Requires  : PowerShell v5.1 and up
@@ -16860,21 +16860,21 @@ function Invoke-ADCGetVpntrafficaction {
             if ( $PsCmdlet.ParameterSetName -eq 'Getall' ) {
                 $Query = @{ }
                 Write-Verbose "Retrieving all vpntrafficaction objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpntrafficaction -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpntrafficaction -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
                 if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for vpntrafficaction objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpntrafficaction -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpntrafficaction -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving vpntrafficaction objects by arguments"
                 $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpntrafficaction -Arguments $Arguments -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpntrafficaction -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving vpntrafficaction configuration for property 'name'"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpntrafficaction -Resource $name -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpntrafficaction -NitroPath nitro/v1/config -Resource $name -Summary:$ViewSummary -Filter $Filter -GetWarning
             } else {
                 Write-Verbose "Retrieving vpntrafficaction configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpntrafficaction -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpntrafficaction -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -16910,7 +16910,7 @@ function Invoke-ADCAddVpntrafficpolicy {
         Invoke-ADCAddVpntrafficpolicy -name <string> -rule <string> -action <string>
     .NOTES
         File Name : Invoke-ADCAddVpntrafficpolicy
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/vpn/vpntrafficpolicy/
         Requires  : PowerShell v5.1 and up
@@ -16954,7 +16954,7 @@ function Invoke-ADCAddVpntrafficpolicy {
 
  
             if ($PSCmdlet.ShouldProcess("vpntrafficpolicy", "Add SSL VPN configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -Type vpntrafficpolicy -Payload $Payload -GetWarning
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -NitroPath nitro/v1/config -Type vpntrafficpolicy -Payload $Payload -GetWarning
                 #HTTP Status Code on Success: 201 Created
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 if ($PSBoundParameters.ContainsKey('PassThru')) {
@@ -16986,7 +16986,7 @@ function Invoke-ADCDeleteVpntrafficpolicy {
         Invoke-ADCDeleteVpntrafficpolicy -name <string>
     .NOTES
         File Name : Invoke-ADCDeleteVpntrafficpolicy
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/vpn/vpntrafficpolicy/
         Requires  : PowerShell v5.1 and up
@@ -17014,7 +17014,7 @@ function Invoke-ADCDeleteVpntrafficpolicy {
             }
 
             if ($PSCmdlet.ShouldProcess("$name", "Delete SSL VPN configuration Object")) {
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type vpntrafficpolicy -Resource $name -Arguments $Arguments
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type vpntrafficpolicy -NitroPath nitro/v1/config -Resource $name -Arguments $Arguments
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $response
@@ -17052,7 +17052,7 @@ function Invoke-ADCUpdateVpntrafficpolicy {
         Invoke-ADCUpdateVpntrafficpolicy -name <string>
     .NOTES
         File Name : Invoke-ADCUpdateVpntrafficpolicy
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/vpn/vpntrafficpolicy/
         Requires  : PowerShell v5.1 and up
@@ -17093,7 +17093,7 @@ function Invoke-ADCUpdateVpntrafficpolicy {
             if ($PSBoundParameters.ContainsKey('action')) { $Payload.Add('action', $action) }
  
             if ($PSCmdlet.ShouldProcess("vpntrafficpolicy", "Update SSL VPN configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -Type vpntrafficpolicy -Payload $Payload -GetWarning
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -NitroPath nitro/v1/config -Type vpntrafficpolicy -Payload $Payload -GetWarning
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 if ($PSBoundParameters.ContainsKey('PassThru')) {
@@ -17133,7 +17133,7 @@ function Invoke-ADCUnsetVpntrafficpolicy {
         Invoke-ADCUnsetVpntrafficpolicy -name <string>
     .NOTES
         File Name : Invoke-ADCUnsetVpntrafficpolicy
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/vpn/vpntrafficpolicy
         Requires  : PowerShell v5.1 and up
@@ -17169,7 +17169,7 @@ function Invoke-ADCUnsetVpntrafficpolicy {
             if ($PSBoundParameters.ContainsKey('rule')) { $Payload.Add('rule', $rule) }
             if ($PSBoundParameters.ContainsKey('action')) { $Payload.Add('action', $action) }
             if ($PSCmdlet.ShouldProcess("$name", "Unset SSL VPN configuration Object")) {
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -Type vpntrafficpolicy -Action unset -Payload $Payload -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -Type vpntrafficpolicy -NitroPath nitro/v1/config -Action unset -Payload $Payload -GetWarning
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $response
@@ -17213,7 +17213,7 @@ function Invoke-ADCGetVpntrafficpolicy {
         Invoke-ADCGetVpntrafficpolicy -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetVpntrafficpolicy
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/vpn/vpntrafficpolicy/
         Requires  : PowerShell v5.1 and up
@@ -17255,21 +17255,21 @@ function Invoke-ADCGetVpntrafficpolicy {
             if ( $PsCmdlet.ParameterSetName -eq 'Getall' ) {
                 $Query = @{ }
                 Write-Verbose "Retrieving all vpntrafficpolicy objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpntrafficpolicy -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpntrafficpolicy -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
                 if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for vpntrafficpolicy objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpntrafficpolicy -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpntrafficpolicy -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving vpntrafficpolicy objects by arguments"
                 $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpntrafficpolicy -Arguments $Arguments -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpntrafficpolicy -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving vpntrafficpolicy configuration for property 'name'"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpntrafficpolicy -Resource $name -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpntrafficpolicy -NitroPath nitro/v1/config -Resource $name -Summary:$ViewSummary -Filter $Filter -GetWarning
             } else {
                 Write-Verbose "Retrieving vpntrafficpolicy configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpntrafficpolicy -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpntrafficpolicy -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -17311,7 +17311,7 @@ function Invoke-ADCGetVpntrafficpolicyaaagroupbinding {
         Invoke-ADCGetVpntrafficpolicyaaagroupbinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetVpntrafficpolicyaaagroupbinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/vpn/vpntrafficpolicy_aaagroup_binding/
         Requires  : PowerShell v5.1 and up
@@ -17349,21 +17349,21 @@ function Invoke-ADCGetVpntrafficpolicyaaagroupbinding {
                     bulkbindings = 'yes'
                 }
                 Write-Verbose "Retrieving all vpntrafficpolicy_aaagroup_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpntrafficpolicy_aaagroup_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpntrafficpolicy_aaagroup_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
                 if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for vpntrafficpolicy_aaagroup_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpntrafficpolicy_aaagroup_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpntrafficpolicy_aaagroup_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving vpntrafficpolicy_aaagroup_binding objects by arguments"
                 $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpntrafficpolicy_aaagroup_binding -Arguments $Arguments -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpntrafficpolicy_aaagroup_binding -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving vpntrafficpolicy_aaagroup_binding configuration for property 'name'"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpntrafficpolicy_aaagroup_binding -Resource $name -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpntrafficpolicy_aaagroup_binding -NitroPath nitro/v1/config -Resource $name -Summary:$ViewSummary -Filter $Filter -GetWarning
             } else {
                 Write-Verbose "Retrieving vpntrafficpolicy_aaagroup_binding configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpntrafficpolicy_aaagroup_binding -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpntrafficpolicy_aaagroup_binding -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -17405,7 +17405,7 @@ function Invoke-ADCGetVpntrafficpolicyaaauserbinding {
         Invoke-ADCGetVpntrafficpolicyaaauserbinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetVpntrafficpolicyaaauserbinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/vpn/vpntrafficpolicy_aaauser_binding/
         Requires  : PowerShell v5.1 and up
@@ -17443,21 +17443,21 @@ function Invoke-ADCGetVpntrafficpolicyaaauserbinding {
                     bulkbindings = 'yes'
                 }
                 Write-Verbose "Retrieving all vpntrafficpolicy_aaauser_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpntrafficpolicy_aaauser_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpntrafficpolicy_aaauser_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
                 if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for vpntrafficpolicy_aaauser_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpntrafficpolicy_aaauser_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpntrafficpolicy_aaauser_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving vpntrafficpolicy_aaauser_binding objects by arguments"
                 $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpntrafficpolicy_aaauser_binding -Arguments $Arguments -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpntrafficpolicy_aaauser_binding -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving vpntrafficpolicy_aaauser_binding configuration for property 'name'"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpntrafficpolicy_aaauser_binding -Resource $name -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpntrafficpolicy_aaauser_binding -NitroPath nitro/v1/config -Resource $name -Summary:$ViewSummary -Filter $Filter -GetWarning
             } else {
                 Write-Verbose "Retrieving vpntrafficpolicy_aaauser_binding configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpntrafficpolicy_aaauser_binding -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpntrafficpolicy_aaauser_binding -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -17497,7 +17497,7 @@ function Invoke-ADCGetVpntrafficpolicybinding {
         Invoke-ADCGetVpntrafficpolicybinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetVpntrafficpolicybinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/vpn/vpntrafficpolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -17532,21 +17532,21 @@ function Invoke-ADCGetVpntrafficpolicybinding {
                     bulkbindings = 'yes'
                 }
                 Write-Verbose "Retrieving all vpntrafficpolicy_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpntrafficpolicy_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpntrafficpolicy_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
                 if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for vpntrafficpolicy_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpntrafficpolicy_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpntrafficpolicy_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving vpntrafficpolicy_binding objects by arguments"
                 $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpntrafficpolicy_binding -Arguments $Arguments -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpntrafficpolicy_binding -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving vpntrafficpolicy_binding configuration for property 'name'"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpntrafficpolicy_binding -Resource $name -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpntrafficpolicy_binding -NitroPath nitro/v1/config -Resource $name -Summary:$ViewSummary -Filter $Filter -GetWarning
             } else {
                 Write-Verbose "Retrieving vpntrafficpolicy_binding configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpntrafficpolicy_binding -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpntrafficpolicy_binding -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -17588,7 +17588,7 @@ function Invoke-ADCGetVpntrafficpolicyvpnglobalbinding {
         Invoke-ADCGetVpntrafficpolicyvpnglobalbinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetVpntrafficpolicyvpnglobalbinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/vpn/vpntrafficpolicy_vpnglobal_binding/
         Requires  : PowerShell v5.1 and up
@@ -17626,21 +17626,21 @@ function Invoke-ADCGetVpntrafficpolicyvpnglobalbinding {
                     bulkbindings = 'yes'
                 }
                 Write-Verbose "Retrieving all vpntrafficpolicy_vpnglobal_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpntrafficpolicy_vpnglobal_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpntrafficpolicy_vpnglobal_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
                 if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for vpntrafficpolicy_vpnglobal_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpntrafficpolicy_vpnglobal_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpntrafficpolicy_vpnglobal_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving vpntrafficpolicy_vpnglobal_binding objects by arguments"
                 $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpntrafficpolicy_vpnglobal_binding -Arguments $Arguments -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpntrafficpolicy_vpnglobal_binding -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving vpntrafficpolicy_vpnglobal_binding configuration for property 'name'"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpntrafficpolicy_vpnglobal_binding -Resource $name -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpntrafficpolicy_vpnglobal_binding -NitroPath nitro/v1/config -Resource $name -Summary:$ViewSummary -Filter $Filter -GetWarning
             } else {
                 Write-Verbose "Retrieving vpntrafficpolicy_vpnglobal_binding configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpntrafficpolicy_vpnglobal_binding -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpntrafficpolicy_vpnglobal_binding -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -17682,7 +17682,7 @@ function Invoke-ADCGetVpntrafficpolicyvpnvserverbinding {
         Invoke-ADCGetVpntrafficpolicyvpnvserverbinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetVpntrafficpolicyvpnvserverbinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/vpn/vpntrafficpolicy_vpnvserver_binding/
         Requires  : PowerShell v5.1 and up
@@ -17720,21 +17720,21 @@ function Invoke-ADCGetVpntrafficpolicyvpnvserverbinding {
                     bulkbindings = 'yes'
                 }
                 Write-Verbose "Retrieving all vpntrafficpolicy_vpnvserver_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpntrafficpolicy_vpnvserver_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpntrafficpolicy_vpnvserver_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
                 if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for vpntrafficpolicy_vpnvserver_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpntrafficpolicy_vpnvserver_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpntrafficpolicy_vpnvserver_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving vpntrafficpolicy_vpnvserver_binding objects by arguments"
                 $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpntrafficpolicy_vpnvserver_binding -Arguments $Arguments -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpntrafficpolicy_vpnvserver_binding -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving vpntrafficpolicy_vpnvserver_binding configuration for property 'name'"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpntrafficpolicy_vpnvserver_binding -Resource $name -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpntrafficpolicy_vpnvserver_binding -NitroPath nitro/v1/config -Resource $name -Summary:$ViewSummary -Filter $Filter -GetWarning
             } else {
                 Write-Verbose "Retrieving vpntrafficpolicy_vpnvserver_binding configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpntrafficpolicy_vpnvserver_binding -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpntrafficpolicy_vpnvserver_binding -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -17788,7 +17788,7 @@ function Invoke-ADCAddVpnurl {
         Invoke-ADCAddVpnurl -urlname <string> -linkname <string> -actualurl <string>
     .NOTES
         File Name : Invoke-ADCAddVpnurl
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/vpn/vpnurl/
         Requires  : PowerShell v5.1 and up
@@ -17858,7 +17858,7 @@ function Invoke-ADCAddVpnurl {
             if ($PSBoundParameters.ContainsKey('appjson')) { $Payload.Add('appjson', $appjson) }
  
             if ($PSCmdlet.ShouldProcess("vpnurl", "Add SSL VPN configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -Type vpnurl -Payload $Payload -GetWarning
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -NitroPath nitro/v1/config -Type vpnurl -Payload $Payload -GetWarning
                 #HTTP Status Code on Success: 201 Created
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 if ($PSBoundParameters.ContainsKey('PassThru')) {
@@ -17891,7 +17891,7 @@ function Invoke-ADCDeleteVpnurl {
         Invoke-ADCDeleteVpnurl -urlname <string>
     .NOTES
         File Name : Invoke-ADCDeleteVpnurl
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/vpn/vpnurl/
         Requires  : PowerShell v5.1 and up
@@ -17919,7 +17919,7 @@ function Invoke-ADCDeleteVpnurl {
             }
 
             if ($PSCmdlet.ShouldProcess("$urlname", "Delete SSL VPN configuration Object")) {
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type vpnurl -Resource $urlname -Arguments $Arguments
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type vpnurl -NitroPath nitro/v1/config -Resource $urlname -Arguments $Arguments
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $response
@@ -17975,7 +17975,7 @@ function Invoke-ADCUpdateVpnurl {
         Invoke-ADCUpdateVpnurl -urlname <string>
     .NOTES
         File Name : Invoke-ADCUpdateVpnurl
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/vpn/vpnurl/
         Requires  : PowerShell v5.1 and up
@@ -18043,7 +18043,7 @@ function Invoke-ADCUpdateVpnurl {
             if ($PSBoundParameters.ContainsKey('appjson')) { $Payload.Add('appjson', $appjson) }
  
             if ($PSCmdlet.ShouldProcess("vpnurl", "Update SSL VPN configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -Type vpnurl -Payload $Payload -GetWarning
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -NitroPath nitro/v1/config -Type vpnurl -Payload $Payload -GetWarning
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 if ($PSBoundParameters.ContainsKey('PassThru')) {
@@ -18094,7 +18094,7 @@ function Invoke-ADCUnsetVpnurl {
         Invoke-ADCUnsetVpnurl -urlname <string>
     .NOTES
         File Name : Invoke-ADCUnsetVpnurl
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/vpn/vpnurl
         Requires  : PowerShell v5.1 and up
@@ -18147,7 +18147,7 @@ function Invoke-ADCUnsetVpnurl {
             if ($PSBoundParameters.ContainsKey('samlssoprofile')) { $Payload.Add('samlssoprofile', $samlssoprofile) }
             if ($PSBoundParameters.ContainsKey('appjson')) { $Payload.Add('appjson', $appjson) }
             if ($PSCmdlet.ShouldProcess("$urlname", "Unset SSL VPN configuration Object")) {
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -Type vpnurl -Action unset -Payload $Payload -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -Type vpnurl -NitroPath nitro/v1/config -Action unset -Payload $Payload -GetWarning
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $response
@@ -18191,7 +18191,7 @@ function Invoke-ADCGetVpnurl {
         Invoke-ADCGetVpnurl -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetVpnurl
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/vpn/vpnurl/
         Requires  : PowerShell v5.1 and up
@@ -18232,21 +18232,21 @@ function Invoke-ADCGetVpnurl {
             if ( $PsCmdlet.ParameterSetName -eq 'Getall' ) {
                 $Query = @{ }
                 Write-Verbose "Retrieving all vpnurl objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnurl -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnurl -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
                 if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for vpnurl objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnurl -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnurl -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving vpnurl objects by arguments"
                 $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnurl -Arguments $Arguments -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnurl -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving vpnurl configuration for property 'urlname'"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnurl -Resource $urlname -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnurl -NitroPath nitro/v1/config -Resource $urlname -Summary:$ViewSummary -Filter $Filter -GetWarning
             } else {
                 Write-Verbose "Retrieving vpnurl configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnurl -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnurl -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -18298,7 +18298,7 @@ function Invoke-ADCAddVpnurlaction {
         Invoke-ADCAddVpnurlaction -name <string> -linkname <string> -actualurl <string>
     .NOTES
         File Name : Invoke-ADCAddVpnurlaction
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/vpn/vpnurlaction/
         Requires  : PowerShell v5.1 and up
@@ -18365,7 +18365,7 @@ function Invoke-ADCAddVpnurlaction {
             if ($PSBoundParameters.ContainsKey('samlssoprofile')) { $Payload.Add('samlssoprofile', $samlssoprofile) }
  
             if ($PSCmdlet.ShouldProcess("vpnurlaction", "Add SSL VPN configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -Type vpnurlaction -Payload $Payload -GetWarning
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -NitroPath nitro/v1/config -Type vpnurlaction -Payload $Payload -GetWarning
                 #HTTP Status Code on Success: 201 Created
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 if ($PSBoundParameters.ContainsKey('PassThru')) {
@@ -18398,7 +18398,7 @@ function Invoke-ADCDeleteVpnurlaction {
         Invoke-ADCDeleteVpnurlaction -name <string>
     .NOTES
         File Name : Invoke-ADCDeleteVpnurlaction
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/vpn/vpnurlaction/
         Requires  : PowerShell v5.1 and up
@@ -18426,7 +18426,7 @@ function Invoke-ADCDeleteVpnurlaction {
             }
 
             if ($PSCmdlet.ShouldProcess("$name", "Delete SSL VPN configuration Object")) {
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type vpnurlaction -Resource $name -Arguments $Arguments
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type vpnurlaction -NitroPath nitro/v1/config -Resource $name -Arguments $Arguments
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $response
@@ -18480,7 +18480,7 @@ function Invoke-ADCUpdateVpnurlaction {
         Invoke-ADCUpdateVpnurlaction -name <string>
     .NOTES
         File Name : Invoke-ADCUpdateVpnurlaction
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/vpn/vpnurlaction/
         Requires  : PowerShell v5.1 and up
@@ -18545,7 +18545,7 @@ function Invoke-ADCUpdateVpnurlaction {
             if ($PSBoundParameters.ContainsKey('samlssoprofile')) { $Payload.Add('samlssoprofile', $samlssoprofile) }
  
             if ($PSCmdlet.ShouldProcess("vpnurlaction", "Update SSL VPN configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -Type vpnurlaction -Payload $Payload -GetWarning
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -NitroPath nitro/v1/config -Type vpnurlaction -Payload $Payload -GetWarning
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 if ($PSBoundParameters.ContainsKey('PassThru')) {
@@ -18594,7 +18594,7 @@ function Invoke-ADCUnsetVpnurlaction {
         Invoke-ADCUnsetVpnurlaction -name <string>
     .NOTES
         File Name : Invoke-ADCUnsetVpnurlaction
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/vpn/vpnurlaction
         Requires  : PowerShell v5.1 and up
@@ -18644,7 +18644,7 @@ function Invoke-ADCUnsetVpnurlaction {
             if ($PSBoundParameters.ContainsKey('applicationtype')) { $Payload.Add('applicationtype', $applicationtype) }
             if ($PSBoundParameters.ContainsKey('samlssoprofile')) { $Payload.Add('samlssoprofile', $samlssoprofile) }
             if ($PSCmdlet.ShouldProcess("$name", "Unset SSL VPN configuration Object")) {
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -Type vpnurlaction -Action unset -Payload $Payload -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -Type vpnurlaction -NitroPath nitro/v1/config -Action unset -Payload $Payload -GetWarning
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $response
@@ -18680,7 +18680,7 @@ function Invoke-ADCRenameVpnurlaction {
         Invoke-ADCRenameVpnurlaction -name <string> -newname <string>
     .NOTES
         File Name : Invoke-ADCRenameVpnurlaction
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/vpn/vpnurlaction/
         Requires  : PowerShell v5.1 and up
@@ -18719,7 +18719,7 @@ function Invoke-ADCRenameVpnurlaction {
 
  
             if ($PSCmdlet.ShouldProcess("vpnurlaction", "Rename SSL VPN configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -Type vpnurlaction -Action rename -Payload $Payload -GetWarning
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -NitroPath nitro/v1/config -Type vpnurlaction -Action rename -Payload $Payload -GetWarning
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 if ($PSBoundParameters.ContainsKey('PassThru')) {
@@ -18768,7 +18768,7 @@ function Invoke-ADCGetVpnurlaction {
         Invoke-ADCGetVpnurlaction -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetVpnurlaction
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/vpn/vpnurlaction/
         Requires  : PowerShell v5.1 and up
@@ -18809,21 +18809,21 @@ function Invoke-ADCGetVpnurlaction {
             if ( $PsCmdlet.ParameterSetName -eq 'Getall' ) {
                 $Query = @{ }
                 Write-Verbose "Retrieving all vpnurlaction objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnurlaction -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnurlaction -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
                 if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for vpnurlaction objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnurlaction -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnurlaction -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving vpnurlaction objects by arguments"
                 $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnurlaction -Arguments $Arguments -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnurlaction -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving vpnurlaction configuration for property 'name'"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnurlaction -Resource $name -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnurlaction -NitroPath nitro/v1/config -Resource $name -Summary:$ViewSummary -Filter $Filter -GetWarning
             } else {
                 Write-Verbose "Retrieving vpnurlaction configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnurlaction -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnurlaction -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -18864,7 +18864,7 @@ function Invoke-ADCAddVpnurlpolicy {
         Invoke-ADCAddVpnurlpolicy -name <string> -rule <string> -action <string>
     .NOTES
         File Name : Invoke-ADCAddVpnurlpolicy
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/vpn/vpnurlpolicy/
         Requires  : PowerShell v5.1 and up
@@ -18912,7 +18912,7 @@ function Invoke-ADCAddVpnurlpolicy {
             if ($PSBoundParameters.ContainsKey('logaction')) { $Payload.Add('logaction', $logaction) }
  
             if ($PSCmdlet.ShouldProcess("vpnurlpolicy", "Add SSL VPN configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -Type vpnurlpolicy -Payload $Payload -GetWarning
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -NitroPath nitro/v1/config -Type vpnurlpolicy -Payload $Payload -GetWarning
                 #HTTP Status Code on Success: 201 Created
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 if ($PSBoundParameters.ContainsKey('PassThru')) {
@@ -18945,7 +18945,7 @@ function Invoke-ADCDeleteVpnurlpolicy {
         Invoke-ADCDeleteVpnurlpolicy -name <string>
     .NOTES
         File Name : Invoke-ADCDeleteVpnurlpolicy
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/vpn/vpnurlpolicy/
         Requires  : PowerShell v5.1 and up
@@ -18973,7 +18973,7 @@ function Invoke-ADCDeleteVpnurlpolicy {
             }
 
             if ($PSCmdlet.ShouldProcess("$name", "Delete SSL VPN configuration Object")) {
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type vpnurlpolicy -Resource $name -Arguments $Arguments
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type vpnurlpolicy -NitroPath nitro/v1/config -Resource $name -Arguments $Arguments
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $response
@@ -19016,7 +19016,7 @@ function Invoke-ADCUpdateVpnurlpolicy {
         Invoke-ADCUpdateVpnurlpolicy -name <string>
     .NOTES
         File Name : Invoke-ADCUpdateVpnurlpolicy
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/vpn/vpnurlpolicy/
         Requires  : PowerShell v5.1 and up
@@ -19062,7 +19062,7 @@ function Invoke-ADCUpdateVpnurlpolicy {
             if ($PSBoundParameters.ContainsKey('logaction')) { $Payload.Add('logaction', $logaction) }
  
             if ($PSCmdlet.ShouldProcess("vpnurlpolicy", "Update SSL VPN configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -Type vpnurlpolicy -Payload $Payload -GetWarning
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -NitroPath nitro/v1/config -Type vpnurlpolicy -Payload $Payload -GetWarning
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 if ($PSBoundParameters.ContainsKey('PassThru')) {
@@ -19098,7 +19098,7 @@ function Invoke-ADCUnsetVpnurlpolicy {
         Invoke-ADCUnsetVpnurlpolicy -name <string>
     .NOTES
         File Name : Invoke-ADCUnsetVpnurlpolicy
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/vpn/vpnurlpolicy
         Requires  : PowerShell v5.1 and up
@@ -19133,7 +19133,7 @@ function Invoke-ADCUnsetVpnurlpolicy {
             if ($PSBoundParameters.ContainsKey('comment')) { $Payload.Add('comment', $comment) }
             if ($PSBoundParameters.ContainsKey('logaction')) { $Payload.Add('logaction', $logaction) }
             if ($PSCmdlet.ShouldProcess("$name", "Unset SSL VPN configuration Object")) {
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -Type vpnurlpolicy -Action unset -Payload $Payload -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -Type vpnurlpolicy -NitroPath nitro/v1/config -Action unset -Payload $Payload -GetWarning
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $response
@@ -19169,7 +19169,7 @@ function Invoke-ADCRenameVpnurlpolicy {
         Invoke-ADCRenameVpnurlpolicy -name <string> -newname <string>
     .NOTES
         File Name : Invoke-ADCRenameVpnurlpolicy
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/vpn/vpnurlpolicy/
         Requires  : PowerShell v5.1 and up
@@ -19208,7 +19208,7 @@ function Invoke-ADCRenameVpnurlpolicy {
 
  
             if ($PSCmdlet.ShouldProcess("vpnurlpolicy", "Rename SSL VPN configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -Type vpnurlpolicy -Action rename -Payload $Payload -GetWarning
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -NitroPath nitro/v1/config -Type vpnurlpolicy -Action rename -Payload $Payload -GetWarning
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 if ($PSBoundParameters.ContainsKey('PassThru')) {
@@ -19257,7 +19257,7 @@ function Invoke-ADCGetVpnurlpolicy {
         Invoke-ADCGetVpnurlpolicy -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetVpnurlpolicy
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/vpn/vpnurlpolicy/
         Requires  : PowerShell v5.1 and up
@@ -19298,21 +19298,21 @@ function Invoke-ADCGetVpnurlpolicy {
             if ( $PsCmdlet.ParameterSetName -eq 'Getall' ) {
                 $Query = @{ }
                 Write-Verbose "Retrieving all vpnurlpolicy objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnurlpolicy -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnurlpolicy -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
                 if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for vpnurlpolicy objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnurlpolicy -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnurlpolicy -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving vpnurlpolicy objects by arguments"
                 $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnurlpolicy -Arguments $Arguments -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnurlpolicy -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving vpnurlpolicy configuration for property 'name'"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnurlpolicy -Resource $name -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnurlpolicy -NitroPath nitro/v1/config -Resource $name -Summary:$ViewSummary -Filter $Filter -GetWarning
             } else {
                 Write-Verbose "Retrieving vpnurlpolicy configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnurlpolicy -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnurlpolicy -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -19354,7 +19354,7 @@ function Invoke-ADCGetVpnurlpolicyaaagroupbinding {
         Invoke-ADCGetVpnurlpolicyaaagroupbinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetVpnurlpolicyaaagroupbinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/vpn/vpnurlpolicy_aaagroup_binding/
         Requires  : PowerShell v5.1 and up
@@ -19392,21 +19392,21 @@ function Invoke-ADCGetVpnurlpolicyaaagroupbinding {
                     bulkbindings = 'yes'
                 }
                 Write-Verbose "Retrieving all vpnurlpolicy_aaagroup_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnurlpolicy_aaagroup_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnurlpolicy_aaagroup_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
                 if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for vpnurlpolicy_aaagroup_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnurlpolicy_aaagroup_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnurlpolicy_aaagroup_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving vpnurlpolicy_aaagroup_binding objects by arguments"
                 $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnurlpolicy_aaagroup_binding -Arguments $Arguments -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnurlpolicy_aaagroup_binding -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving vpnurlpolicy_aaagroup_binding configuration for property 'name'"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnurlpolicy_aaagroup_binding -Resource $name -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnurlpolicy_aaagroup_binding -NitroPath nitro/v1/config -Resource $name -Summary:$ViewSummary -Filter $Filter -GetWarning
             } else {
                 Write-Verbose "Retrieving vpnurlpolicy_aaagroup_binding configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnurlpolicy_aaagroup_binding -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnurlpolicy_aaagroup_binding -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -19448,7 +19448,7 @@ function Invoke-ADCGetVpnurlpolicyaaauserbinding {
         Invoke-ADCGetVpnurlpolicyaaauserbinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetVpnurlpolicyaaauserbinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/vpn/vpnurlpolicy_aaauser_binding/
         Requires  : PowerShell v5.1 and up
@@ -19486,21 +19486,21 @@ function Invoke-ADCGetVpnurlpolicyaaauserbinding {
                     bulkbindings = 'yes'
                 }
                 Write-Verbose "Retrieving all vpnurlpolicy_aaauser_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnurlpolicy_aaauser_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnurlpolicy_aaauser_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
                 if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for vpnurlpolicy_aaauser_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnurlpolicy_aaauser_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnurlpolicy_aaauser_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving vpnurlpolicy_aaauser_binding objects by arguments"
                 $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnurlpolicy_aaauser_binding -Arguments $Arguments -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnurlpolicy_aaauser_binding -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving vpnurlpolicy_aaauser_binding configuration for property 'name'"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnurlpolicy_aaauser_binding -Resource $name -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnurlpolicy_aaauser_binding -NitroPath nitro/v1/config -Resource $name -Summary:$ViewSummary -Filter $Filter -GetWarning
             } else {
                 Write-Verbose "Retrieving vpnurlpolicy_aaauser_binding configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnurlpolicy_aaauser_binding -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnurlpolicy_aaauser_binding -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -19540,7 +19540,7 @@ function Invoke-ADCGetVpnurlpolicybinding {
         Invoke-ADCGetVpnurlpolicybinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetVpnurlpolicybinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/vpn/vpnurlpolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -19575,21 +19575,21 @@ function Invoke-ADCGetVpnurlpolicybinding {
                     bulkbindings = 'yes'
                 }
                 Write-Verbose "Retrieving all vpnurlpolicy_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnurlpolicy_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnurlpolicy_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
                 if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for vpnurlpolicy_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnurlpolicy_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnurlpolicy_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving vpnurlpolicy_binding objects by arguments"
                 $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnurlpolicy_binding -Arguments $Arguments -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnurlpolicy_binding -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving vpnurlpolicy_binding configuration for property 'name'"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnurlpolicy_binding -Resource $name -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnurlpolicy_binding -NitroPath nitro/v1/config -Resource $name -Summary:$ViewSummary -Filter $Filter -GetWarning
             } else {
                 Write-Verbose "Retrieving vpnurlpolicy_binding configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnurlpolicy_binding -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnurlpolicy_binding -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -19631,7 +19631,7 @@ function Invoke-ADCGetVpnurlpolicyvpnglobalbinding {
         Invoke-ADCGetVpnurlpolicyvpnglobalbinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetVpnurlpolicyvpnglobalbinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/vpn/vpnurlpolicy_vpnglobal_binding/
         Requires  : PowerShell v5.1 and up
@@ -19669,21 +19669,21 @@ function Invoke-ADCGetVpnurlpolicyvpnglobalbinding {
                     bulkbindings = 'yes'
                 }
                 Write-Verbose "Retrieving all vpnurlpolicy_vpnglobal_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnurlpolicy_vpnglobal_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnurlpolicy_vpnglobal_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
                 if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for vpnurlpolicy_vpnglobal_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnurlpolicy_vpnglobal_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnurlpolicy_vpnglobal_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving vpnurlpolicy_vpnglobal_binding objects by arguments"
                 $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnurlpolicy_vpnglobal_binding -Arguments $Arguments -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnurlpolicy_vpnglobal_binding -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving vpnurlpolicy_vpnglobal_binding configuration for property 'name'"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnurlpolicy_vpnglobal_binding -Resource $name -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnurlpolicy_vpnglobal_binding -NitroPath nitro/v1/config -Resource $name -Summary:$ViewSummary -Filter $Filter -GetWarning
             } else {
                 Write-Verbose "Retrieving vpnurlpolicy_vpnglobal_binding configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnurlpolicy_vpnglobal_binding -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnurlpolicy_vpnglobal_binding -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -19725,7 +19725,7 @@ function Invoke-ADCGetVpnurlpolicyvpnvserverbinding {
         Invoke-ADCGetVpnurlpolicyvpnvserverbinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetVpnurlpolicyvpnvserverbinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/vpn/vpnurlpolicy_vpnvserver_binding/
         Requires  : PowerShell v5.1 and up
@@ -19763,21 +19763,21 @@ function Invoke-ADCGetVpnurlpolicyvpnvserverbinding {
                     bulkbindings = 'yes'
                 }
                 Write-Verbose "Retrieving all vpnurlpolicy_vpnvserver_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnurlpolicy_vpnvserver_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnurlpolicy_vpnvserver_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
                 if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for vpnurlpolicy_vpnvserver_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnurlpolicy_vpnvserver_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnurlpolicy_vpnvserver_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving vpnurlpolicy_vpnvserver_binding objects by arguments"
                 $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnurlpolicy_vpnvserver_binding -Arguments $Arguments -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnurlpolicy_vpnvserver_binding -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving vpnurlpolicy_vpnvserver_binding configuration for property 'name'"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnurlpolicy_vpnvserver_binding -Resource $name -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnurlpolicy_vpnvserver_binding -NitroPath nitro/v1/config -Resource $name -Summary:$ViewSummary -Filter $Filter -GetWarning
             } else {
                 Write-Verbose "Retrieving vpnurlpolicy_vpnvserver_binding configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnurlpolicy_vpnvserver_binding -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnurlpolicy_vpnvserver_binding -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -19956,7 +19956,7 @@ function Invoke-ADCAddVpnvserver {
         Invoke-ADCAddVpnvserver -name <string> -servicetype <string>
     .NOTES
         File Name : Invoke-ADCAddVpnvserver
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/vpn/vpnvserver/
         Requires  : PowerShell v5.1 and up
@@ -20147,7 +20147,7 @@ function Invoke-ADCAddVpnvserver {
             if ($PSBoundParameters.ContainsKey('samesite')) { $Payload.Add('samesite', $samesite) }
  
             if ($PSCmdlet.ShouldProcess("vpnvserver", "Add SSL VPN configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -Type vpnvserver -Payload $Payload -GetWarning
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -NitroPath nitro/v1/config -Type vpnvserver -Payload $Payload -GetWarning
                 #HTTP Status Code on Success: 201 Created
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 if ($PSBoundParameters.ContainsKey('PassThru')) {
@@ -20179,7 +20179,7 @@ function Invoke-ADCDeleteVpnvserver {
         Invoke-ADCDeleteVpnvserver -name <string>
     .NOTES
         File Name : Invoke-ADCDeleteVpnvserver
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/vpn/vpnvserver/
         Requires  : PowerShell v5.1 and up
@@ -20207,7 +20207,7 @@ function Invoke-ADCDeleteVpnvserver {
             }
 
             if ($PSCmdlet.ShouldProcess("$name", "Delete SSL VPN configuration Object")) {
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type vpnvserver -Resource $name -Arguments $Arguments
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type vpnvserver -NitroPath nitro/v1/config -Resource $name -Arguments $Arguments
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $response
@@ -20367,7 +20367,7 @@ function Invoke-ADCUpdateVpnvserver {
         Invoke-ADCUpdateVpnvserver -name <string>
     .NOTES
         File Name : Invoke-ADCUpdateVpnvserver
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/vpn/vpnvserver/
         Requires  : PowerShell v5.1 and up
@@ -20538,7 +20538,7 @@ function Invoke-ADCUpdateVpnvserver {
             if ($PSBoundParameters.ContainsKey('samesite')) { $Payload.Add('samesite', $samesite) }
  
             if ($PSCmdlet.ShouldProcess("vpnvserver", "Update SSL VPN configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -Type vpnvserver -Payload $Payload -GetWarning
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -NitroPath nitro/v1/config -Type vpnvserver -Payload $Payload -GetWarning
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 if ($PSBoundParameters.ContainsKey('PassThru')) {
@@ -20661,7 +20661,7 @@ function Invoke-ADCUnsetVpnvserver {
         Invoke-ADCUnsetVpnvserver -name <string>
     .NOTES
         File Name : Invoke-ADCUnsetVpnvserver
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/vpn/vpnvserver
         Requires  : PowerShell v5.1 and up
@@ -20793,7 +20793,7 @@ function Invoke-ADCUnsetVpnvserver {
             if ($PSBoundParameters.ContainsKey('pcoipvserverprofilename')) { $Payload.Add('pcoipvserverprofilename', $pcoipvserverprofilename) }
             if ($PSBoundParameters.ContainsKey('samesite')) { $Payload.Add('samesite', $samesite) }
             if ($PSCmdlet.ShouldProcess("$name", "Unset SSL VPN configuration Object")) {
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -Type vpnvserver -Action unset -Payload $Payload -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -Type vpnvserver -NitroPath nitro/v1/config -Action unset -Payload $Payload -GetWarning
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $response
@@ -20820,7 +20820,7 @@ function Invoke-ADCEnableVpnvserver {
         Invoke-ADCEnableVpnvserver -name <string>
     .NOTES
         File Name : Invoke-ADCEnableVpnvserver
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/vpn/vpnvserver/
         Requires  : PowerShell v5.1 and up
@@ -20852,7 +20852,7 @@ function Invoke-ADCEnableVpnvserver {
             }
 
             if ($PSCmdlet.ShouldProcess($Name, "Enable SSL VPN configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -Type vpnvserver -Action enable -Payload $Payload -GetWarning
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -NitroPath nitro/v1/config -Type vpnvserver -Action enable -Payload $Payload -GetWarning
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $result
@@ -20879,7 +20879,7 @@ function Invoke-ADCDisableVpnvserver {
         Invoke-ADCDisableVpnvserver -name <string>
     .NOTES
         File Name : Invoke-ADCDisableVpnvserver
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/vpn/vpnvserver/
         Requires  : PowerShell v5.1 and up
@@ -20911,7 +20911,7 @@ function Invoke-ADCDisableVpnvserver {
             }
 
             if ($PSCmdlet.ShouldProcess($Name, "Disable SSL VPN configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -Type vpnvserver -Action disable -Payload $Payload -GetWarning
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -NitroPath nitro/v1/config -Type vpnvserver -Action disable -Payload $Payload -GetWarning
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $result
@@ -20942,7 +20942,7 @@ function Invoke-ADCRenameVpnvserver {
         Invoke-ADCRenameVpnvserver -name <string> -newname <string>
     .NOTES
         File Name : Invoke-ADCRenameVpnvserver
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/vpn/vpnvserver/
         Requires  : PowerShell v5.1 and up
@@ -20983,7 +20983,7 @@ function Invoke-ADCRenameVpnvserver {
 
  
             if ($PSCmdlet.ShouldProcess("vpnvserver", "Rename SSL VPN configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -Type vpnvserver -Action rename -Payload $Payload -GetWarning
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -NitroPath nitro/v1/config -Type vpnvserver -Action rename -Payload $Payload -GetWarning
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 if ($PSBoundParameters.ContainsKey('PassThru')) {
@@ -21015,7 +21015,7 @@ function Invoke-ADCCheckVpnvserver {
         Invoke-ADCCheckVpnvserver -name <string>
     .NOTES
         File Name : Invoke-ADCCheckVpnvserver
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/vpn/vpnvserver/
         Requires  : PowerShell v5.1 and up
@@ -21047,7 +21047,7 @@ function Invoke-ADCCheckVpnvserver {
             }
 
             if ($PSCmdlet.ShouldProcess($Name, "Check SSL VPN configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -Type vpnvserver -Action check -Payload $Payload -GetWarning
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -NitroPath nitro/v1/config -Type vpnvserver -Action check -Payload $Payload -GetWarning
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $result
@@ -21091,7 +21091,7 @@ function Invoke-ADCGetVpnvserver {
         Invoke-ADCGetVpnvserver -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetVpnvserver
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/vpn/vpnvserver/
         Requires  : PowerShell v5.1 and up
@@ -21133,21 +21133,21 @@ function Invoke-ADCGetVpnvserver {
             if ( $PsCmdlet.ParameterSetName -eq 'Getall' ) {
                 $Query = @{ }
                 Write-Verbose "Retrieving all vpnvserver objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnvserver -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnvserver -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
                 if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for vpnvserver objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnvserver -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnvserver -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving vpnvserver objects by arguments"
                 $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnvserver -Arguments $Arguments -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnvserver -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving vpnvserver configuration for property 'name'"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnvserver -Resource $name -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnvserver -NitroPath nitro/v1/config -Resource $name -Summary:$ViewSummary -Filter $Filter -GetWarning
             } else {
                 Write-Verbose "Retrieving vpnvserver configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnvserver -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnvserver -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -21190,7 +21190,7 @@ function Invoke-ADCAddVpnvserveraaapreauthenticationpolicybinding {
         Invoke-ADCAddVpnvserveraaapreauthenticationpolicybinding -name <string>
     .NOTES
         File Name : Invoke-ADCAddVpnvserveraaapreauthenticationpolicybinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/vpn/vpnvserver_aaapreauthenticationpolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -21243,7 +21243,7 @@ function Invoke-ADCAddVpnvserveraaapreauthenticationpolicybinding {
             if ($PSBoundParameters.ContainsKey('bindpoint')) { $Payload.Add('bindpoint', $bindpoint) }
  
             if ($PSCmdlet.ShouldProcess("vpnvserver_aaapreauthenticationpolicy_binding", "Add SSL VPN configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -Type vpnvserver_aaapreauthenticationpolicy_binding -Payload $Payload -GetWarning
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -NitroPath nitro/v1/config -Type vpnvserver_aaapreauthenticationpolicy_binding -Payload $Payload -GetWarning
                 #HTTP Status Code on Success: 201 Created
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 if ($PSBoundParameters.ContainsKey('PassThru')) {
@@ -21281,7 +21281,7 @@ function Invoke-ADCDeleteVpnvserveraaapreauthenticationpolicybinding {
         Invoke-ADCDeleteVpnvserveraaapreauthenticationpolicybinding -name <string>
     .NOTES
         File Name : Invoke-ADCDeleteVpnvserveraaapreauthenticationpolicybinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/vpn/vpnvserver_aaapreauthenticationpolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -21320,7 +21320,7 @@ function Invoke-ADCDeleteVpnvserveraaapreauthenticationpolicybinding {
             if ($PSBoundParameters.ContainsKey('groupextraction')) { $Arguments.Add('groupextraction', $groupextraction) }
             if ($PSBoundParameters.ContainsKey('bindpoint')) { $Arguments.Add('bindpoint', $bindpoint) }
             if ($PSCmdlet.ShouldProcess("$name", "Delete SSL VPN configuration Object")) {
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type vpnvserver_aaapreauthenticationpolicy_binding -Resource $name -Arguments $Arguments
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type vpnvserver_aaapreauthenticationpolicy_binding -NitroPath nitro/v1/config -Resource $name -Arguments $Arguments
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $response
@@ -21364,7 +21364,7 @@ function Invoke-ADCGetVpnvserveraaapreauthenticationpolicybinding {
         Invoke-ADCGetVpnvserveraaapreauthenticationpolicybinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetVpnvserveraaapreauthenticationpolicybinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/vpn/vpnvserver_aaapreauthenticationpolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -21402,21 +21402,21 @@ function Invoke-ADCGetVpnvserveraaapreauthenticationpolicybinding {
                     bulkbindings = 'yes'
                 }
                 Write-Verbose "Retrieving all vpnvserver_aaapreauthenticationpolicy_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnvserver_aaapreauthenticationpolicy_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnvserver_aaapreauthenticationpolicy_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
                 if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for vpnvserver_aaapreauthenticationpolicy_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnvserver_aaapreauthenticationpolicy_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnvserver_aaapreauthenticationpolicy_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving vpnvserver_aaapreauthenticationpolicy_binding objects by arguments"
                 $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnvserver_aaapreauthenticationpolicy_binding -Arguments $Arguments -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnvserver_aaapreauthenticationpolicy_binding -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving vpnvserver_aaapreauthenticationpolicy_binding configuration for property 'name'"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnvserver_aaapreauthenticationpolicy_binding -Resource $name -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnvserver_aaapreauthenticationpolicy_binding -NitroPath nitro/v1/config -Resource $name -Summary:$ViewSummary -Filter $Filter -GetWarning
             } else {
                 Write-Verbose "Retrieving vpnvserver_aaapreauthenticationpolicy_binding configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnvserver_aaapreauthenticationpolicy_binding -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnvserver_aaapreauthenticationpolicy_binding -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -21446,7 +21446,7 @@ function Invoke-ADCAddVpnvserveranalyticsprofilebinding {
         Invoke-ADCAddVpnvserveranalyticsprofilebinding -name <string>
     .NOTES
         File Name : Invoke-ADCAddVpnvserveranalyticsprofilebinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/vpn/vpnvserver_analyticsprofile_binding/
         Requires  : PowerShell v5.1 and up
@@ -21482,7 +21482,7 @@ function Invoke-ADCAddVpnvserveranalyticsprofilebinding {
             if ($PSBoundParameters.ContainsKey('analyticsprofile')) { $Payload.Add('analyticsprofile', $analyticsprofile) }
  
             if ($PSCmdlet.ShouldProcess("vpnvserver_analyticsprofile_binding", "Add SSL VPN configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -Type vpnvserver_analyticsprofile_binding -Payload $Payload -GetWarning
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -NitroPath nitro/v1/config -Type vpnvserver_analyticsprofile_binding -Payload $Payload -GetWarning
                 #HTTP Status Code on Success: 201 Created
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 if ($PSBoundParameters.ContainsKey('PassThru')) {
@@ -21516,7 +21516,7 @@ function Invoke-ADCDeleteVpnvserveranalyticsprofilebinding {
         Invoke-ADCDeleteVpnvserveranalyticsprofilebinding -name <string>
     .NOTES
         File Name : Invoke-ADCDeleteVpnvserveranalyticsprofilebinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/vpn/vpnvserver_analyticsprofile_binding/
         Requires  : PowerShell v5.1 and up
@@ -21546,7 +21546,7 @@ function Invoke-ADCDeleteVpnvserveranalyticsprofilebinding {
             }
             if ($PSBoundParameters.ContainsKey('analyticsprofile')) { $Arguments.Add('analyticsprofile', $analyticsprofile) }
             if ($PSCmdlet.ShouldProcess("$name", "Delete SSL VPN configuration Object")) {
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type vpnvserver_analyticsprofile_binding -Resource $name -Arguments $Arguments
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type vpnvserver_analyticsprofile_binding -NitroPath nitro/v1/config -Resource $name -Arguments $Arguments
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $response
@@ -21590,7 +21590,7 @@ function Invoke-ADCGetVpnvserveranalyticsprofilebinding {
         Invoke-ADCGetVpnvserveranalyticsprofilebinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetVpnvserveranalyticsprofilebinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/vpn/vpnvserver_analyticsprofile_binding/
         Requires  : PowerShell v5.1 and up
@@ -21628,21 +21628,21 @@ function Invoke-ADCGetVpnvserveranalyticsprofilebinding {
                     bulkbindings = 'yes'
                 }
                 Write-Verbose "Retrieving all vpnvserver_analyticsprofile_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnvserver_analyticsprofile_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnvserver_analyticsprofile_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
                 if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for vpnvserver_analyticsprofile_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnvserver_analyticsprofile_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnvserver_analyticsprofile_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving vpnvserver_analyticsprofile_binding objects by arguments"
                 $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnvserver_analyticsprofile_binding -Arguments $Arguments -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnvserver_analyticsprofile_binding -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving vpnvserver_analyticsprofile_binding configuration for property 'name'"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnvserver_analyticsprofile_binding -Resource $name -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnvserver_analyticsprofile_binding -NitroPath nitro/v1/config -Resource $name -Summary:$ViewSummary -Filter $Filter -GetWarning
             } else {
                 Write-Verbose "Retrieving vpnvserver_analyticsprofile_binding configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnvserver_analyticsprofile_binding -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnvserver_analyticsprofile_binding -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -21672,7 +21672,7 @@ function Invoke-ADCAddVpnvserverappcontrollerbinding {
         Invoke-ADCAddVpnvserverappcontrollerbinding -name <string>
     .NOTES
         File Name : Invoke-ADCAddVpnvserverappcontrollerbinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/vpn/vpnvserver_appcontroller_binding/
         Requires  : PowerShell v5.1 and up
@@ -21708,7 +21708,7 @@ function Invoke-ADCAddVpnvserverappcontrollerbinding {
             if ($PSBoundParameters.ContainsKey('appcontroller')) { $Payload.Add('appcontroller', $appcontroller) }
  
             if ($PSCmdlet.ShouldProcess("vpnvserver_appcontroller_binding", "Add SSL VPN configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -Type vpnvserver_appcontroller_binding -Payload $Payload -GetWarning
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -NitroPath nitro/v1/config -Type vpnvserver_appcontroller_binding -Payload $Payload -GetWarning
                 #HTTP Status Code on Success: 201 Created
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 if ($PSBoundParameters.ContainsKey('PassThru')) {
@@ -21742,7 +21742,7 @@ function Invoke-ADCDeleteVpnvserverappcontrollerbinding {
         Invoke-ADCDeleteVpnvserverappcontrollerbinding -name <string>
     .NOTES
         File Name : Invoke-ADCDeleteVpnvserverappcontrollerbinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/vpn/vpnvserver_appcontroller_binding/
         Requires  : PowerShell v5.1 and up
@@ -21772,7 +21772,7 @@ function Invoke-ADCDeleteVpnvserverappcontrollerbinding {
             }
             if ($PSBoundParameters.ContainsKey('appcontroller')) { $Arguments.Add('appcontroller', $appcontroller) }
             if ($PSCmdlet.ShouldProcess("$name", "Delete SSL VPN configuration Object")) {
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type vpnvserver_appcontroller_binding -Resource $name -Arguments $Arguments
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type vpnvserver_appcontroller_binding -NitroPath nitro/v1/config -Resource $name -Arguments $Arguments
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $response
@@ -21816,7 +21816,7 @@ function Invoke-ADCGetVpnvserverappcontrollerbinding {
         Invoke-ADCGetVpnvserverappcontrollerbinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetVpnvserverappcontrollerbinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/vpn/vpnvserver_appcontroller_binding/
         Requires  : PowerShell v5.1 and up
@@ -21854,21 +21854,21 @@ function Invoke-ADCGetVpnvserverappcontrollerbinding {
                     bulkbindings = 'yes'
                 }
                 Write-Verbose "Retrieving all vpnvserver_appcontroller_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnvserver_appcontroller_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnvserver_appcontroller_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
                 if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for vpnvserver_appcontroller_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnvserver_appcontroller_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnvserver_appcontroller_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving vpnvserver_appcontroller_binding objects by arguments"
                 $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnvserver_appcontroller_binding -Arguments $Arguments -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnvserver_appcontroller_binding -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving vpnvserver_appcontroller_binding configuration for property 'name'"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnvserver_appcontroller_binding -Resource $name -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnvserver_appcontroller_binding -NitroPath nitro/v1/config -Resource $name -Summary:$ViewSummary -Filter $Filter -GetWarning
             } else {
                 Write-Verbose "Retrieving vpnvserver_appcontroller_binding configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnvserver_appcontroller_binding -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnvserver_appcontroller_binding -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -21911,7 +21911,7 @@ function Invoke-ADCAddVpnvserverappflowpolicybinding {
         Invoke-ADCAddVpnvserverappflowpolicybinding -name <string>
     .NOTES
         File Name : Invoke-ADCAddVpnvserverappflowpolicybinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/vpn/vpnvserver_appflowpolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -21964,7 +21964,7 @@ function Invoke-ADCAddVpnvserverappflowpolicybinding {
             if ($PSBoundParameters.ContainsKey('bindpoint')) { $Payload.Add('bindpoint', $bindpoint) }
  
             if ($PSCmdlet.ShouldProcess("vpnvserver_appflowpolicy_binding", "Add SSL VPN configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -Type vpnvserver_appflowpolicy_binding -Payload $Payload -GetWarning
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -NitroPath nitro/v1/config -Type vpnvserver_appflowpolicy_binding -Payload $Payload -GetWarning
                 #HTTP Status Code on Success: 201 Created
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 if ($PSBoundParameters.ContainsKey('PassThru')) {
@@ -22002,7 +22002,7 @@ function Invoke-ADCDeleteVpnvserverappflowpolicybinding {
         Invoke-ADCDeleteVpnvserverappflowpolicybinding -name <string>
     .NOTES
         File Name : Invoke-ADCDeleteVpnvserverappflowpolicybinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/vpn/vpnvserver_appflowpolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -22041,7 +22041,7 @@ function Invoke-ADCDeleteVpnvserverappflowpolicybinding {
             if ($PSBoundParameters.ContainsKey('groupextraction')) { $Arguments.Add('groupextraction', $groupextraction) }
             if ($PSBoundParameters.ContainsKey('bindpoint')) { $Arguments.Add('bindpoint', $bindpoint) }
             if ($PSCmdlet.ShouldProcess("$name", "Delete SSL VPN configuration Object")) {
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type vpnvserver_appflowpolicy_binding -Resource $name -Arguments $Arguments
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type vpnvserver_appflowpolicy_binding -NitroPath nitro/v1/config -Resource $name -Arguments $Arguments
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $response
@@ -22085,7 +22085,7 @@ function Invoke-ADCGetVpnvserverappflowpolicybinding {
         Invoke-ADCGetVpnvserverappflowpolicybinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetVpnvserverappflowpolicybinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/vpn/vpnvserver_appflowpolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -22123,21 +22123,21 @@ function Invoke-ADCGetVpnvserverappflowpolicybinding {
                     bulkbindings = 'yes'
                 }
                 Write-Verbose "Retrieving all vpnvserver_appflowpolicy_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnvserver_appflowpolicy_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnvserver_appflowpolicy_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
                 if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for vpnvserver_appflowpolicy_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnvserver_appflowpolicy_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnvserver_appflowpolicy_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving vpnvserver_appflowpolicy_binding objects by arguments"
                 $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnvserver_appflowpolicy_binding -Arguments $Arguments -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnvserver_appflowpolicy_binding -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving vpnvserver_appflowpolicy_binding configuration for property 'name'"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnvserver_appflowpolicy_binding -Resource $name -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnvserver_appflowpolicy_binding -NitroPath nitro/v1/config -Resource $name -Summary:$ViewSummary -Filter $Filter -GetWarning
             } else {
                 Write-Verbose "Retrieving vpnvserver_appflowpolicy_binding configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnvserver_appflowpolicy_binding -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnvserver_appflowpolicy_binding -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -22180,7 +22180,7 @@ function Invoke-ADCAddVpnvserverauditnslogpolicybinding {
         Invoke-ADCAddVpnvserverauditnslogpolicybinding -name <string>
     .NOTES
         File Name : Invoke-ADCAddVpnvserverauditnslogpolicybinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/vpn/vpnvserver_auditnslogpolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -22233,7 +22233,7 @@ function Invoke-ADCAddVpnvserverauditnslogpolicybinding {
             if ($PSBoundParameters.ContainsKey('bindpoint')) { $Payload.Add('bindpoint', $bindpoint) }
  
             if ($PSCmdlet.ShouldProcess("vpnvserver_auditnslogpolicy_binding", "Add SSL VPN configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -Type vpnvserver_auditnslogpolicy_binding -Payload $Payload -GetWarning
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -NitroPath nitro/v1/config -Type vpnvserver_auditnslogpolicy_binding -Payload $Payload -GetWarning
                 #HTTP Status Code on Success: 201 Created
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 if ($PSBoundParameters.ContainsKey('PassThru')) {
@@ -22271,7 +22271,7 @@ function Invoke-ADCDeleteVpnvserverauditnslogpolicybinding {
         Invoke-ADCDeleteVpnvserverauditnslogpolicybinding -name <string>
     .NOTES
         File Name : Invoke-ADCDeleteVpnvserverauditnslogpolicybinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/vpn/vpnvserver_auditnslogpolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -22310,7 +22310,7 @@ function Invoke-ADCDeleteVpnvserverauditnslogpolicybinding {
             if ($PSBoundParameters.ContainsKey('groupextraction')) { $Arguments.Add('groupextraction', $groupextraction) }
             if ($PSBoundParameters.ContainsKey('bindpoint')) { $Arguments.Add('bindpoint', $bindpoint) }
             if ($PSCmdlet.ShouldProcess("$name", "Delete SSL VPN configuration Object")) {
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type vpnvserver_auditnslogpolicy_binding -Resource $name -Arguments $Arguments
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type vpnvserver_auditnslogpolicy_binding -NitroPath nitro/v1/config -Resource $name -Arguments $Arguments
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $response
@@ -22354,7 +22354,7 @@ function Invoke-ADCGetVpnvserverauditnslogpolicybinding {
         Invoke-ADCGetVpnvserverauditnslogpolicybinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetVpnvserverauditnslogpolicybinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/vpn/vpnvserver_auditnslogpolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -22392,21 +22392,21 @@ function Invoke-ADCGetVpnvserverauditnslogpolicybinding {
                     bulkbindings = 'yes'
                 }
                 Write-Verbose "Retrieving all vpnvserver_auditnslogpolicy_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnvserver_auditnslogpolicy_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnvserver_auditnslogpolicy_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
                 if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for vpnvserver_auditnslogpolicy_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnvserver_auditnslogpolicy_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnvserver_auditnslogpolicy_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving vpnvserver_auditnslogpolicy_binding objects by arguments"
                 $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnvserver_auditnslogpolicy_binding -Arguments $Arguments -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnvserver_auditnslogpolicy_binding -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving vpnvserver_auditnslogpolicy_binding configuration for property 'name'"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnvserver_auditnslogpolicy_binding -Resource $name -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnvserver_auditnslogpolicy_binding -NitroPath nitro/v1/config -Resource $name -Summary:$ViewSummary -Filter $Filter -GetWarning
             } else {
                 Write-Verbose "Retrieving vpnvserver_auditnslogpolicy_binding configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnvserver_auditnslogpolicy_binding -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnvserver_auditnslogpolicy_binding -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -22449,7 +22449,7 @@ function Invoke-ADCAddVpnvserverauditsyslogpolicybinding {
         Invoke-ADCAddVpnvserverauditsyslogpolicybinding -name <string>
     .NOTES
         File Name : Invoke-ADCAddVpnvserverauditsyslogpolicybinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/vpn/vpnvserver_auditsyslogpolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -22502,7 +22502,7 @@ function Invoke-ADCAddVpnvserverauditsyslogpolicybinding {
             if ($PSBoundParameters.ContainsKey('bindpoint')) { $Payload.Add('bindpoint', $bindpoint) }
  
             if ($PSCmdlet.ShouldProcess("vpnvserver_auditsyslogpolicy_binding", "Add SSL VPN configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -Type vpnvserver_auditsyslogpolicy_binding -Payload $Payload -GetWarning
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -NitroPath nitro/v1/config -Type vpnvserver_auditsyslogpolicy_binding -Payload $Payload -GetWarning
                 #HTTP Status Code on Success: 201 Created
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 if ($PSBoundParameters.ContainsKey('PassThru')) {
@@ -22540,7 +22540,7 @@ function Invoke-ADCDeleteVpnvserverauditsyslogpolicybinding {
         Invoke-ADCDeleteVpnvserverauditsyslogpolicybinding -name <string>
     .NOTES
         File Name : Invoke-ADCDeleteVpnvserverauditsyslogpolicybinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/vpn/vpnvserver_auditsyslogpolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -22579,7 +22579,7 @@ function Invoke-ADCDeleteVpnvserverauditsyslogpolicybinding {
             if ($PSBoundParameters.ContainsKey('groupextraction')) { $Arguments.Add('groupextraction', $groupextraction) }
             if ($PSBoundParameters.ContainsKey('bindpoint')) { $Arguments.Add('bindpoint', $bindpoint) }
             if ($PSCmdlet.ShouldProcess("$name", "Delete SSL VPN configuration Object")) {
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type vpnvserver_auditsyslogpolicy_binding -Resource $name -Arguments $Arguments
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type vpnvserver_auditsyslogpolicy_binding -NitroPath nitro/v1/config -Resource $name -Arguments $Arguments
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $response
@@ -22623,7 +22623,7 @@ function Invoke-ADCGetVpnvserverauditsyslogpolicybinding {
         Invoke-ADCGetVpnvserverauditsyslogpolicybinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetVpnvserverauditsyslogpolicybinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/vpn/vpnvserver_auditsyslogpolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -22661,21 +22661,21 @@ function Invoke-ADCGetVpnvserverauditsyslogpolicybinding {
                     bulkbindings = 'yes'
                 }
                 Write-Verbose "Retrieving all vpnvserver_auditsyslogpolicy_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnvserver_auditsyslogpolicy_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnvserver_auditsyslogpolicy_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
                 if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for vpnvserver_auditsyslogpolicy_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnvserver_auditsyslogpolicy_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnvserver_auditsyslogpolicy_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving vpnvserver_auditsyslogpolicy_binding objects by arguments"
                 $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnvserver_auditsyslogpolicy_binding -Arguments $Arguments -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnvserver_auditsyslogpolicy_binding -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving vpnvserver_auditsyslogpolicy_binding configuration for property 'name'"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnvserver_auditsyslogpolicy_binding -Resource $name -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnvserver_auditsyslogpolicy_binding -NitroPath nitro/v1/config -Resource $name -Summary:$ViewSummary -Filter $Filter -GetWarning
             } else {
                 Write-Verbose "Retrieving vpnvserver_auditsyslogpolicy_binding configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnvserver_auditsyslogpolicy_binding -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnvserver_auditsyslogpolicy_binding -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -22718,7 +22718,7 @@ function Invoke-ADCAddVpnvserverauthenticationcertpolicybinding {
         Invoke-ADCAddVpnvserverauthenticationcertpolicybinding -name <string>
     .NOTES
         File Name : Invoke-ADCAddVpnvserverauthenticationcertpolicybinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/vpn/vpnvserver_authenticationcertpolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -22771,7 +22771,7 @@ function Invoke-ADCAddVpnvserverauthenticationcertpolicybinding {
             if ($PSBoundParameters.ContainsKey('bindpoint')) { $Payload.Add('bindpoint', $bindpoint) }
  
             if ($PSCmdlet.ShouldProcess("vpnvserver_authenticationcertpolicy_binding", "Add SSL VPN configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -Type vpnvserver_authenticationcertpolicy_binding -Payload $Payload -GetWarning
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -NitroPath nitro/v1/config -Type vpnvserver_authenticationcertpolicy_binding -Payload $Payload -GetWarning
                 #HTTP Status Code on Success: 201 Created
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 if ($PSBoundParameters.ContainsKey('PassThru')) {
@@ -22809,7 +22809,7 @@ function Invoke-ADCDeleteVpnvserverauthenticationcertpolicybinding {
         Invoke-ADCDeleteVpnvserverauthenticationcertpolicybinding -name <string>
     .NOTES
         File Name : Invoke-ADCDeleteVpnvserverauthenticationcertpolicybinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/vpn/vpnvserver_authenticationcertpolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -22848,7 +22848,7 @@ function Invoke-ADCDeleteVpnvserverauthenticationcertpolicybinding {
             if ($PSBoundParameters.ContainsKey('groupextraction')) { $Arguments.Add('groupextraction', $groupextraction) }
             if ($PSBoundParameters.ContainsKey('bindpoint')) { $Arguments.Add('bindpoint', $bindpoint) }
             if ($PSCmdlet.ShouldProcess("$name", "Delete SSL VPN configuration Object")) {
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type vpnvserver_authenticationcertpolicy_binding -Resource $name -Arguments $Arguments
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type vpnvserver_authenticationcertpolicy_binding -NitroPath nitro/v1/config -Resource $name -Arguments $Arguments
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $response
@@ -22892,7 +22892,7 @@ function Invoke-ADCGetVpnvserverauthenticationcertpolicybinding {
         Invoke-ADCGetVpnvserverauthenticationcertpolicybinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetVpnvserverauthenticationcertpolicybinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/vpn/vpnvserver_authenticationcertpolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -22930,21 +22930,21 @@ function Invoke-ADCGetVpnvserverauthenticationcertpolicybinding {
                     bulkbindings = 'yes'
                 }
                 Write-Verbose "Retrieving all vpnvserver_authenticationcertpolicy_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnvserver_authenticationcertpolicy_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnvserver_authenticationcertpolicy_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
                 if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for vpnvserver_authenticationcertpolicy_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnvserver_authenticationcertpolicy_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnvserver_authenticationcertpolicy_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving vpnvserver_authenticationcertpolicy_binding objects by arguments"
                 $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnvserver_authenticationcertpolicy_binding -Arguments $Arguments -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnvserver_authenticationcertpolicy_binding -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving vpnvserver_authenticationcertpolicy_binding configuration for property 'name'"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnvserver_authenticationcertpolicy_binding -Resource $name -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnvserver_authenticationcertpolicy_binding -NitroPath nitro/v1/config -Resource $name -Summary:$ViewSummary -Filter $Filter -GetWarning
             } else {
                 Write-Verbose "Retrieving vpnvserver_authenticationcertpolicy_binding configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnvserver_authenticationcertpolicy_binding -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnvserver_authenticationcertpolicy_binding -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -22987,7 +22987,7 @@ function Invoke-ADCAddVpnvserverauthenticationdfapolicybinding {
         Invoke-ADCAddVpnvserverauthenticationdfapolicybinding -name <string>
     .NOTES
         File Name : Invoke-ADCAddVpnvserverauthenticationdfapolicybinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/vpn/vpnvserver_authenticationdfapolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -23040,7 +23040,7 @@ function Invoke-ADCAddVpnvserverauthenticationdfapolicybinding {
             if ($PSBoundParameters.ContainsKey('bindpoint')) { $Payload.Add('bindpoint', $bindpoint) }
  
             if ($PSCmdlet.ShouldProcess("vpnvserver_authenticationdfapolicy_binding", "Add SSL VPN configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -Type vpnvserver_authenticationdfapolicy_binding -Payload $Payload -GetWarning
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -NitroPath nitro/v1/config -Type vpnvserver_authenticationdfapolicy_binding -Payload $Payload -GetWarning
                 #HTTP Status Code on Success: 201 Created
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 if ($PSBoundParameters.ContainsKey('PassThru')) {
@@ -23078,7 +23078,7 @@ function Invoke-ADCDeleteVpnvserverauthenticationdfapolicybinding {
         Invoke-ADCDeleteVpnvserverauthenticationdfapolicybinding -name <string>
     .NOTES
         File Name : Invoke-ADCDeleteVpnvserverauthenticationdfapolicybinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/vpn/vpnvserver_authenticationdfapolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -23117,7 +23117,7 @@ function Invoke-ADCDeleteVpnvserverauthenticationdfapolicybinding {
             if ($PSBoundParameters.ContainsKey('groupextraction')) { $Arguments.Add('groupextraction', $groupextraction) }
             if ($PSBoundParameters.ContainsKey('bindpoint')) { $Arguments.Add('bindpoint', $bindpoint) }
             if ($PSCmdlet.ShouldProcess("$name", "Delete SSL VPN configuration Object")) {
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type vpnvserver_authenticationdfapolicy_binding -Resource $name -Arguments $Arguments
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type vpnvserver_authenticationdfapolicy_binding -NitroPath nitro/v1/config -Resource $name -Arguments $Arguments
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $response
@@ -23161,7 +23161,7 @@ function Invoke-ADCGetVpnvserverauthenticationdfapolicybinding {
         Invoke-ADCGetVpnvserverauthenticationdfapolicybinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetVpnvserverauthenticationdfapolicybinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/vpn/vpnvserver_authenticationdfapolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -23199,21 +23199,21 @@ function Invoke-ADCGetVpnvserverauthenticationdfapolicybinding {
                     bulkbindings = 'yes'
                 }
                 Write-Verbose "Retrieving all vpnvserver_authenticationdfapolicy_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnvserver_authenticationdfapolicy_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnvserver_authenticationdfapolicy_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
                 if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for vpnvserver_authenticationdfapolicy_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnvserver_authenticationdfapolicy_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnvserver_authenticationdfapolicy_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving vpnvserver_authenticationdfapolicy_binding objects by arguments"
                 $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnvserver_authenticationdfapolicy_binding -Arguments $Arguments -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnvserver_authenticationdfapolicy_binding -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving vpnvserver_authenticationdfapolicy_binding configuration for property 'name'"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnvserver_authenticationdfapolicy_binding -Resource $name -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnvserver_authenticationdfapolicy_binding -NitroPath nitro/v1/config -Resource $name -Summary:$ViewSummary -Filter $Filter -GetWarning
             } else {
                 Write-Verbose "Retrieving vpnvserver_authenticationdfapolicy_binding configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnvserver_authenticationdfapolicy_binding -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnvserver_authenticationdfapolicy_binding -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -23256,7 +23256,7 @@ function Invoke-ADCAddVpnvserverauthenticationldappolicybinding {
         Invoke-ADCAddVpnvserverauthenticationldappolicybinding -name <string>
     .NOTES
         File Name : Invoke-ADCAddVpnvserverauthenticationldappolicybinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/vpn/vpnvserver_authenticationldappolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -23309,7 +23309,7 @@ function Invoke-ADCAddVpnvserverauthenticationldappolicybinding {
             if ($PSBoundParameters.ContainsKey('bindpoint')) { $Payload.Add('bindpoint', $bindpoint) }
  
             if ($PSCmdlet.ShouldProcess("vpnvserver_authenticationldappolicy_binding", "Add SSL VPN configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -Type vpnvserver_authenticationldappolicy_binding -Payload $Payload -GetWarning
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -NitroPath nitro/v1/config -Type vpnvserver_authenticationldappolicy_binding -Payload $Payload -GetWarning
                 #HTTP Status Code on Success: 201 Created
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 if ($PSBoundParameters.ContainsKey('PassThru')) {
@@ -23347,7 +23347,7 @@ function Invoke-ADCDeleteVpnvserverauthenticationldappolicybinding {
         Invoke-ADCDeleteVpnvserverauthenticationldappolicybinding -name <string>
     .NOTES
         File Name : Invoke-ADCDeleteVpnvserverauthenticationldappolicybinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/vpn/vpnvserver_authenticationldappolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -23386,7 +23386,7 @@ function Invoke-ADCDeleteVpnvserverauthenticationldappolicybinding {
             if ($PSBoundParameters.ContainsKey('groupextraction')) { $Arguments.Add('groupextraction', $groupextraction) }
             if ($PSBoundParameters.ContainsKey('bindpoint')) { $Arguments.Add('bindpoint', $bindpoint) }
             if ($PSCmdlet.ShouldProcess("$name", "Delete SSL VPN configuration Object")) {
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type vpnvserver_authenticationldappolicy_binding -Resource $name -Arguments $Arguments
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type vpnvserver_authenticationldappolicy_binding -NitroPath nitro/v1/config -Resource $name -Arguments $Arguments
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $response
@@ -23430,7 +23430,7 @@ function Invoke-ADCGetVpnvserverauthenticationldappolicybinding {
         Invoke-ADCGetVpnvserverauthenticationldappolicybinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetVpnvserverauthenticationldappolicybinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/vpn/vpnvserver_authenticationldappolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -23468,21 +23468,21 @@ function Invoke-ADCGetVpnvserverauthenticationldappolicybinding {
                     bulkbindings = 'yes'
                 }
                 Write-Verbose "Retrieving all vpnvserver_authenticationldappolicy_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnvserver_authenticationldappolicy_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnvserver_authenticationldappolicy_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
                 if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for vpnvserver_authenticationldappolicy_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnvserver_authenticationldappolicy_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnvserver_authenticationldappolicy_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving vpnvserver_authenticationldappolicy_binding objects by arguments"
                 $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnvserver_authenticationldappolicy_binding -Arguments $Arguments -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnvserver_authenticationldappolicy_binding -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving vpnvserver_authenticationldappolicy_binding configuration for property 'name'"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnvserver_authenticationldappolicy_binding -Resource $name -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnvserver_authenticationldappolicy_binding -NitroPath nitro/v1/config -Resource $name -Summary:$ViewSummary -Filter $Filter -GetWarning
             } else {
                 Write-Verbose "Retrieving vpnvserver_authenticationldappolicy_binding configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnvserver_authenticationldappolicy_binding -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnvserver_authenticationldappolicy_binding -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -23525,7 +23525,7 @@ function Invoke-ADCAddVpnvserverauthenticationlocalpolicybinding {
         Invoke-ADCAddVpnvserverauthenticationlocalpolicybinding -name <string>
     .NOTES
         File Name : Invoke-ADCAddVpnvserverauthenticationlocalpolicybinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/vpn/vpnvserver_authenticationlocalpolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -23578,7 +23578,7 @@ function Invoke-ADCAddVpnvserverauthenticationlocalpolicybinding {
             if ($PSBoundParameters.ContainsKey('bindpoint')) { $Payload.Add('bindpoint', $bindpoint) }
  
             if ($PSCmdlet.ShouldProcess("vpnvserver_authenticationlocalpolicy_binding", "Add SSL VPN configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -Type vpnvserver_authenticationlocalpolicy_binding -Payload $Payload -GetWarning
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -NitroPath nitro/v1/config -Type vpnvserver_authenticationlocalpolicy_binding -Payload $Payload -GetWarning
                 #HTTP Status Code on Success: 201 Created
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 if ($PSBoundParameters.ContainsKey('PassThru')) {
@@ -23616,7 +23616,7 @@ function Invoke-ADCDeleteVpnvserverauthenticationlocalpolicybinding {
         Invoke-ADCDeleteVpnvserverauthenticationlocalpolicybinding -name <string>
     .NOTES
         File Name : Invoke-ADCDeleteVpnvserverauthenticationlocalpolicybinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/vpn/vpnvserver_authenticationlocalpolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -23655,7 +23655,7 @@ function Invoke-ADCDeleteVpnvserverauthenticationlocalpolicybinding {
             if ($PSBoundParameters.ContainsKey('groupextraction')) { $Arguments.Add('groupextraction', $groupextraction) }
             if ($PSBoundParameters.ContainsKey('bindpoint')) { $Arguments.Add('bindpoint', $bindpoint) }
             if ($PSCmdlet.ShouldProcess("$name", "Delete SSL VPN configuration Object")) {
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type vpnvserver_authenticationlocalpolicy_binding -Resource $name -Arguments $Arguments
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type vpnvserver_authenticationlocalpolicy_binding -NitroPath nitro/v1/config -Resource $name -Arguments $Arguments
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $response
@@ -23699,7 +23699,7 @@ function Invoke-ADCGetVpnvserverauthenticationlocalpolicybinding {
         Invoke-ADCGetVpnvserverauthenticationlocalpolicybinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetVpnvserverauthenticationlocalpolicybinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/vpn/vpnvserver_authenticationlocalpolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -23737,21 +23737,21 @@ function Invoke-ADCGetVpnvserverauthenticationlocalpolicybinding {
                     bulkbindings = 'yes'
                 }
                 Write-Verbose "Retrieving all vpnvserver_authenticationlocalpolicy_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnvserver_authenticationlocalpolicy_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnvserver_authenticationlocalpolicy_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
                 if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for vpnvserver_authenticationlocalpolicy_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnvserver_authenticationlocalpolicy_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnvserver_authenticationlocalpolicy_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving vpnvserver_authenticationlocalpolicy_binding objects by arguments"
                 $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnvserver_authenticationlocalpolicy_binding -Arguments $Arguments -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnvserver_authenticationlocalpolicy_binding -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving vpnvserver_authenticationlocalpolicy_binding configuration for property 'name'"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnvserver_authenticationlocalpolicy_binding -Resource $name -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnvserver_authenticationlocalpolicy_binding -NitroPath nitro/v1/config -Resource $name -Summary:$ViewSummary -Filter $Filter -GetWarning
             } else {
                 Write-Verbose "Retrieving vpnvserver_authenticationlocalpolicy_binding configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnvserver_authenticationlocalpolicy_binding -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnvserver_authenticationlocalpolicy_binding -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -23794,7 +23794,7 @@ function Invoke-ADCAddVpnvserverauthenticationloginschemapolicybinding {
         Invoke-ADCAddVpnvserverauthenticationloginschemapolicybinding -name <string>
     .NOTES
         File Name : Invoke-ADCAddVpnvserverauthenticationloginschemapolicybinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/vpn/vpnvserver_authenticationloginschemapolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -23847,7 +23847,7 @@ function Invoke-ADCAddVpnvserverauthenticationloginschemapolicybinding {
             if ($PSBoundParameters.ContainsKey('bindpoint')) { $Payload.Add('bindpoint', $bindpoint) }
  
             if ($PSCmdlet.ShouldProcess("vpnvserver_authenticationloginschemapolicy_binding", "Add SSL VPN configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -Type vpnvserver_authenticationloginschemapolicy_binding -Payload $Payload -GetWarning
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -NitroPath nitro/v1/config -Type vpnvserver_authenticationloginschemapolicy_binding -Payload $Payload -GetWarning
                 #HTTP Status Code on Success: 201 Created
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 if ($PSBoundParameters.ContainsKey('PassThru')) {
@@ -23885,7 +23885,7 @@ function Invoke-ADCDeleteVpnvserverauthenticationloginschemapolicybinding {
         Invoke-ADCDeleteVpnvserverauthenticationloginschemapolicybinding -name <string>
     .NOTES
         File Name : Invoke-ADCDeleteVpnvserverauthenticationloginschemapolicybinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/vpn/vpnvserver_authenticationloginschemapolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -23924,7 +23924,7 @@ function Invoke-ADCDeleteVpnvserverauthenticationloginschemapolicybinding {
             if ($PSBoundParameters.ContainsKey('groupextraction')) { $Arguments.Add('groupextraction', $groupextraction) }
             if ($PSBoundParameters.ContainsKey('bindpoint')) { $Arguments.Add('bindpoint', $bindpoint) }
             if ($PSCmdlet.ShouldProcess("$name", "Delete SSL VPN configuration Object")) {
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type vpnvserver_authenticationloginschemapolicy_binding -Resource $name -Arguments $Arguments
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type vpnvserver_authenticationloginschemapolicy_binding -NitroPath nitro/v1/config -Resource $name -Arguments $Arguments
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $response
@@ -23968,7 +23968,7 @@ function Invoke-ADCGetVpnvserverauthenticationloginschemapolicybinding {
         Invoke-ADCGetVpnvserverauthenticationloginschemapolicybinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetVpnvserverauthenticationloginschemapolicybinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/vpn/vpnvserver_authenticationloginschemapolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -24006,21 +24006,21 @@ function Invoke-ADCGetVpnvserverauthenticationloginschemapolicybinding {
                     bulkbindings = 'yes'
                 }
                 Write-Verbose "Retrieving all vpnvserver_authenticationloginschemapolicy_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnvserver_authenticationloginschemapolicy_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnvserver_authenticationloginschemapolicy_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
                 if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for vpnvserver_authenticationloginschemapolicy_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnvserver_authenticationloginschemapolicy_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnvserver_authenticationloginschemapolicy_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving vpnvserver_authenticationloginschemapolicy_binding objects by arguments"
                 $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnvserver_authenticationloginschemapolicy_binding -Arguments $Arguments -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnvserver_authenticationloginschemapolicy_binding -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving vpnvserver_authenticationloginschemapolicy_binding configuration for property 'name'"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnvserver_authenticationloginschemapolicy_binding -Resource $name -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnvserver_authenticationloginschemapolicy_binding -NitroPath nitro/v1/config -Resource $name -Summary:$ViewSummary -Filter $Filter -GetWarning
             } else {
                 Write-Verbose "Retrieving vpnvserver_authenticationloginschemapolicy_binding configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnvserver_authenticationloginschemapolicy_binding -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnvserver_authenticationloginschemapolicy_binding -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -24063,7 +24063,7 @@ function Invoke-ADCAddVpnvserverauthenticationnegotiatepolicybinding {
         Invoke-ADCAddVpnvserverauthenticationnegotiatepolicybinding -name <string>
     .NOTES
         File Name : Invoke-ADCAddVpnvserverauthenticationnegotiatepolicybinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/vpn/vpnvserver_authenticationnegotiatepolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -24116,7 +24116,7 @@ function Invoke-ADCAddVpnvserverauthenticationnegotiatepolicybinding {
             if ($PSBoundParameters.ContainsKey('bindpoint')) { $Payload.Add('bindpoint', $bindpoint) }
  
             if ($PSCmdlet.ShouldProcess("vpnvserver_authenticationnegotiatepolicy_binding", "Add SSL VPN configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -Type vpnvserver_authenticationnegotiatepolicy_binding -Payload $Payload -GetWarning
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -NitroPath nitro/v1/config -Type vpnvserver_authenticationnegotiatepolicy_binding -Payload $Payload -GetWarning
                 #HTTP Status Code on Success: 201 Created
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 if ($PSBoundParameters.ContainsKey('PassThru')) {
@@ -24154,7 +24154,7 @@ function Invoke-ADCDeleteVpnvserverauthenticationnegotiatepolicybinding {
         Invoke-ADCDeleteVpnvserverauthenticationnegotiatepolicybinding -name <string>
     .NOTES
         File Name : Invoke-ADCDeleteVpnvserverauthenticationnegotiatepolicybinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/vpn/vpnvserver_authenticationnegotiatepolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -24193,7 +24193,7 @@ function Invoke-ADCDeleteVpnvserverauthenticationnegotiatepolicybinding {
             if ($PSBoundParameters.ContainsKey('groupextraction')) { $Arguments.Add('groupextraction', $groupextraction) }
             if ($PSBoundParameters.ContainsKey('bindpoint')) { $Arguments.Add('bindpoint', $bindpoint) }
             if ($PSCmdlet.ShouldProcess("$name", "Delete SSL VPN configuration Object")) {
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type vpnvserver_authenticationnegotiatepolicy_binding -Resource $name -Arguments $Arguments
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type vpnvserver_authenticationnegotiatepolicy_binding -NitroPath nitro/v1/config -Resource $name -Arguments $Arguments
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $response
@@ -24237,7 +24237,7 @@ function Invoke-ADCGetVpnvserverauthenticationnegotiatepolicybinding {
         Invoke-ADCGetVpnvserverauthenticationnegotiatepolicybinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetVpnvserverauthenticationnegotiatepolicybinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/vpn/vpnvserver_authenticationnegotiatepolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -24275,21 +24275,21 @@ function Invoke-ADCGetVpnvserverauthenticationnegotiatepolicybinding {
                     bulkbindings = 'yes'
                 }
                 Write-Verbose "Retrieving all vpnvserver_authenticationnegotiatepolicy_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnvserver_authenticationnegotiatepolicy_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnvserver_authenticationnegotiatepolicy_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
                 if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for vpnvserver_authenticationnegotiatepolicy_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnvserver_authenticationnegotiatepolicy_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnvserver_authenticationnegotiatepolicy_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving vpnvserver_authenticationnegotiatepolicy_binding objects by arguments"
                 $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnvserver_authenticationnegotiatepolicy_binding -Arguments $Arguments -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnvserver_authenticationnegotiatepolicy_binding -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving vpnvserver_authenticationnegotiatepolicy_binding configuration for property 'name'"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnvserver_authenticationnegotiatepolicy_binding -Resource $name -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnvserver_authenticationnegotiatepolicy_binding -NitroPath nitro/v1/config -Resource $name -Summary:$ViewSummary -Filter $Filter -GetWarning
             } else {
                 Write-Verbose "Retrieving vpnvserver_authenticationnegotiatepolicy_binding configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnvserver_authenticationnegotiatepolicy_binding -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnvserver_authenticationnegotiatepolicy_binding -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -24332,7 +24332,7 @@ function Invoke-ADCAddVpnvserverauthenticationoauthidppolicybinding {
         Invoke-ADCAddVpnvserverauthenticationoauthidppolicybinding -name <string>
     .NOTES
         File Name : Invoke-ADCAddVpnvserverauthenticationoauthidppolicybinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/vpn/vpnvserver_authenticationoauthidppolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -24385,7 +24385,7 @@ function Invoke-ADCAddVpnvserverauthenticationoauthidppolicybinding {
             if ($PSBoundParameters.ContainsKey('bindpoint')) { $Payload.Add('bindpoint', $bindpoint) }
  
             if ($PSCmdlet.ShouldProcess("vpnvserver_authenticationoauthidppolicy_binding", "Add SSL VPN configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -Type vpnvserver_authenticationoauthidppolicy_binding -Payload $Payload -GetWarning
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -NitroPath nitro/v1/config -Type vpnvserver_authenticationoauthidppolicy_binding -Payload $Payload -GetWarning
                 #HTTP Status Code on Success: 201 Created
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 if ($PSBoundParameters.ContainsKey('PassThru')) {
@@ -24423,7 +24423,7 @@ function Invoke-ADCDeleteVpnvserverauthenticationoauthidppolicybinding {
         Invoke-ADCDeleteVpnvserverauthenticationoauthidppolicybinding -name <string>
     .NOTES
         File Name : Invoke-ADCDeleteVpnvserverauthenticationoauthidppolicybinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/vpn/vpnvserver_authenticationoauthidppolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -24462,7 +24462,7 @@ function Invoke-ADCDeleteVpnvserverauthenticationoauthidppolicybinding {
             if ($PSBoundParameters.ContainsKey('groupextraction')) { $Arguments.Add('groupextraction', $groupextraction) }
             if ($PSBoundParameters.ContainsKey('bindpoint')) { $Arguments.Add('bindpoint', $bindpoint) }
             if ($PSCmdlet.ShouldProcess("$name", "Delete SSL VPN configuration Object")) {
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type vpnvserver_authenticationoauthidppolicy_binding -Resource $name -Arguments $Arguments
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type vpnvserver_authenticationoauthidppolicy_binding -NitroPath nitro/v1/config -Resource $name -Arguments $Arguments
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $response
@@ -24506,7 +24506,7 @@ function Invoke-ADCGetVpnvserverauthenticationoauthidppolicybinding {
         Invoke-ADCGetVpnvserverauthenticationoauthidppolicybinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetVpnvserverauthenticationoauthidppolicybinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/vpn/vpnvserver_authenticationoauthidppolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -24544,21 +24544,21 @@ function Invoke-ADCGetVpnvserverauthenticationoauthidppolicybinding {
                     bulkbindings = 'yes'
                 }
                 Write-Verbose "Retrieving all vpnvserver_authenticationoauthidppolicy_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnvserver_authenticationoauthidppolicy_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnvserver_authenticationoauthidppolicy_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
                 if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for vpnvserver_authenticationoauthidppolicy_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnvserver_authenticationoauthidppolicy_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnvserver_authenticationoauthidppolicy_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving vpnvserver_authenticationoauthidppolicy_binding objects by arguments"
                 $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnvserver_authenticationoauthidppolicy_binding -Arguments $Arguments -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnvserver_authenticationoauthidppolicy_binding -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving vpnvserver_authenticationoauthidppolicy_binding configuration for property 'name'"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnvserver_authenticationoauthidppolicy_binding -Resource $name -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnvserver_authenticationoauthidppolicy_binding -NitroPath nitro/v1/config -Resource $name -Summary:$ViewSummary -Filter $Filter -GetWarning
             } else {
                 Write-Verbose "Retrieving vpnvserver_authenticationoauthidppolicy_binding configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnvserver_authenticationoauthidppolicy_binding -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnvserver_authenticationoauthidppolicy_binding -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -24601,7 +24601,7 @@ function Invoke-ADCAddVpnvserverauthenticationpolicybinding {
         Invoke-ADCAddVpnvserverauthenticationpolicybinding -name <string>
     .NOTES
         File Name : Invoke-ADCAddVpnvserverauthenticationpolicybinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/vpn/vpnvserver_authenticationpolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -24654,7 +24654,7 @@ function Invoke-ADCAddVpnvserverauthenticationpolicybinding {
             if ($PSBoundParameters.ContainsKey('bindpoint')) { $Payload.Add('bindpoint', $bindpoint) }
  
             if ($PSCmdlet.ShouldProcess("vpnvserver_authenticationpolicy_binding", "Add SSL VPN configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -Type vpnvserver_authenticationpolicy_binding -Payload $Payload -GetWarning
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -NitroPath nitro/v1/config -Type vpnvserver_authenticationpolicy_binding -Payload $Payload -GetWarning
                 #HTTP Status Code on Success: 201 Created
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 if ($PSBoundParameters.ContainsKey('PassThru')) {
@@ -24692,7 +24692,7 @@ function Invoke-ADCDeleteVpnvserverauthenticationpolicybinding {
         Invoke-ADCDeleteVpnvserverauthenticationpolicybinding -name <string>
     .NOTES
         File Name : Invoke-ADCDeleteVpnvserverauthenticationpolicybinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/vpn/vpnvserver_authenticationpolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -24731,7 +24731,7 @@ function Invoke-ADCDeleteVpnvserverauthenticationpolicybinding {
             if ($PSBoundParameters.ContainsKey('groupextraction')) { $Arguments.Add('groupextraction', $groupextraction) }
             if ($PSBoundParameters.ContainsKey('bindpoint')) { $Arguments.Add('bindpoint', $bindpoint) }
             if ($PSCmdlet.ShouldProcess("$name", "Delete SSL VPN configuration Object")) {
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type vpnvserver_authenticationpolicy_binding -Resource $name -Arguments $Arguments
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type vpnvserver_authenticationpolicy_binding -NitroPath nitro/v1/config -Resource $name -Arguments $Arguments
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $response
@@ -24775,7 +24775,7 @@ function Invoke-ADCGetVpnvserverauthenticationpolicybinding {
         Invoke-ADCGetVpnvserverauthenticationpolicybinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetVpnvserverauthenticationpolicybinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/vpn/vpnvserver_authenticationpolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -24813,21 +24813,21 @@ function Invoke-ADCGetVpnvserverauthenticationpolicybinding {
                     bulkbindings = 'yes'
                 }
                 Write-Verbose "Retrieving all vpnvserver_authenticationpolicy_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnvserver_authenticationpolicy_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnvserver_authenticationpolicy_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
                 if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for vpnvserver_authenticationpolicy_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnvserver_authenticationpolicy_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnvserver_authenticationpolicy_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving vpnvserver_authenticationpolicy_binding objects by arguments"
                 $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnvserver_authenticationpolicy_binding -Arguments $Arguments -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnvserver_authenticationpolicy_binding -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving vpnvserver_authenticationpolicy_binding configuration for property 'name'"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnvserver_authenticationpolicy_binding -Resource $name -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnvserver_authenticationpolicy_binding -NitroPath nitro/v1/config -Resource $name -Summary:$ViewSummary -Filter $Filter -GetWarning
             } else {
                 Write-Verbose "Retrieving vpnvserver_authenticationpolicy_binding configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnvserver_authenticationpolicy_binding -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnvserver_authenticationpolicy_binding -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -24870,7 +24870,7 @@ function Invoke-ADCAddVpnvserverauthenticationradiuspolicybinding {
         Invoke-ADCAddVpnvserverauthenticationradiuspolicybinding -name <string>
     .NOTES
         File Name : Invoke-ADCAddVpnvserverauthenticationradiuspolicybinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/vpn/vpnvserver_authenticationradiuspolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -24923,7 +24923,7 @@ function Invoke-ADCAddVpnvserverauthenticationradiuspolicybinding {
             if ($PSBoundParameters.ContainsKey('bindpoint')) { $Payload.Add('bindpoint', $bindpoint) }
  
             if ($PSCmdlet.ShouldProcess("vpnvserver_authenticationradiuspolicy_binding", "Add SSL VPN configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -Type vpnvserver_authenticationradiuspolicy_binding -Payload $Payload -GetWarning
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -NitroPath nitro/v1/config -Type vpnvserver_authenticationradiuspolicy_binding -Payload $Payload -GetWarning
                 #HTTP Status Code on Success: 201 Created
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 if ($PSBoundParameters.ContainsKey('PassThru')) {
@@ -24961,7 +24961,7 @@ function Invoke-ADCDeleteVpnvserverauthenticationradiuspolicybinding {
         Invoke-ADCDeleteVpnvserverauthenticationradiuspolicybinding -name <string>
     .NOTES
         File Name : Invoke-ADCDeleteVpnvserverauthenticationradiuspolicybinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/vpn/vpnvserver_authenticationradiuspolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -25000,7 +25000,7 @@ function Invoke-ADCDeleteVpnvserverauthenticationradiuspolicybinding {
             if ($PSBoundParameters.ContainsKey('groupextraction')) { $Arguments.Add('groupextraction', $groupextraction) }
             if ($PSBoundParameters.ContainsKey('bindpoint')) { $Arguments.Add('bindpoint', $bindpoint) }
             if ($PSCmdlet.ShouldProcess("$name", "Delete SSL VPN configuration Object")) {
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type vpnvserver_authenticationradiuspolicy_binding -Resource $name -Arguments $Arguments
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type vpnvserver_authenticationradiuspolicy_binding -NitroPath nitro/v1/config -Resource $name -Arguments $Arguments
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $response
@@ -25044,7 +25044,7 @@ function Invoke-ADCGetVpnvserverauthenticationradiuspolicybinding {
         Invoke-ADCGetVpnvserverauthenticationradiuspolicybinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetVpnvserverauthenticationradiuspolicybinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/vpn/vpnvserver_authenticationradiuspolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -25082,21 +25082,21 @@ function Invoke-ADCGetVpnvserverauthenticationradiuspolicybinding {
                     bulkbindings = 'yes'
                 }
                 Write-Verbose "Retrieving all vpnvserver_authenticationradiuspolicy_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnvserver_authenticationradiuspolicy_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnvserver_authenticationradiuspolicy_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
                 if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for vpnvserver_authenticationradiuspolicy_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnvserver_authenticationradiuspolicy_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnvserver_authenticationradiuspolicy_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving vpnvserver_authenticationradiuspolicy_binding objects by arguments"
                 $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnvserver_authenticationradiuspolicy_binding -Arguments $Arguments -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnvserver_authenticationradiuspolicy_binding -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving vpnvserver_authenticationradiuspolicy_binding configuration for property 'name'"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnvserver_authenticationradiuspolicy_binding -Resource $name -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnvserver_authenticationradiuspolicy_binding -NitroPath nitro/v1/config -Resource $name -Summary:$ViewSummary -Filter $Filter -GetWarning
             } else {
                 Write-Verbose "Retrieving vpnvserver_authenticationradiuspolicy_binding configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnvserver_authenticationradiuspolicy_binding -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnvserver_authenticationradiuspolicy_binding -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -25139,7 +25139,7 @@ function Invoke-ADCAddVpnvserverauthenticationsamlidppolicybinding {
         Invoke-ADCAddVpnvserverauthenticationsamlidppolicybinding -name <string>
     .NOTES
         File Name : Invoke-ADCAddVpnvserverauthenticationsamlidppolicybinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/vpn/vpnvserver_authenticationsamlidppolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -25192,7 +25192,7 @@ function Invoke-ADCAddVpnvserverauthenticationsamlidppolicybinding {
             if ($PSBoundParameters.ContainsKey('bindpoint')) { $Payload.Add('bindpoint', $bindpoint) }
  
             if ($PSCmdlet.ShouldProcess("vpnvserver_authenticationsamlidppolicy_binding", "Add SSL VPN configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -Type vpnvserver_authenticationsamlidppolicy_binding -Payload $Payload -GetWarning
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -NitroPath nitro/v1/config -Type vpnvserver_authenticationsamlidppolicy_binding -Payload $Payload -GetWarning
                 #HTTP Status Code on Success: 201 Created
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 if ($PSBoundParameters.ContainsKey('PassThru')) {
@@ -25230,7 +25230,7 @@ function Invoke-ADCDeleteVpnvserverauthenticationsamlidppolicybinding {
         Invoke-ADCDeleteVpnvserverauthenticationsamlidppolicybinding -name <string>
     .NOTES
         File Name : Invoke-ADCDeleteVpnvserverauthenticationsamlidppolicybinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/vpn/vpnvserver_authenticationsamlidppolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -25269,7 +25269,7 @@ function Invoke-ADCDeleteVpnvserverauthenticationsamlidppolicybinding {
             if ($PSBoundParameters.ContainsKey('groupextraction')) { $Arguments.Add('groupextraction', $groupextraction) }
             if ($PSBoundParameters.ContainsKey('bindpoint')) { $Arguments.Add('bindpoint', $bindpoint) }
             if ($PSCmdlet.ShouldProcess("$name", "Delete SSL VPN configuration Object")) {
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type vpnvserver_authenticationsamlidppolicy_binding -Resource $name -Arguments $Arguments
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type vpnvserver_authenticationsamlidppolicy_binding -NitroPath nitro/v1/config -Resource $name -Arguments $Arguments
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $response
@@ -25313,7 +25313,7 @@ function Invoke-ADCGetVpnvserverauthenticationsamlidppolicybinding {
         Invoke-ADCGetVpnvserverauthenticationsamlidppolicybinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetVpnvserverauthenticationsamlidppolicybinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/vpn/vpnvserver_authenticationsamlidppolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -25351,21 +25351,21 @@ function Invoke-ADCGetVpnvserverauthenticationsamlidppolicybinding {
                     bulkbindings = 'yes'
                 }
                 Write-Verbose "Retrieving all vpnvserver_authenticationsamlidppolicy_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnvserver_authenticationsamlidppolicy_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnvserver_authenticationsamlidppolicy_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
                 if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for vpnvserver_authenticationsamlidppolicy_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnvserver_authenticationsamlidppolicy_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnvserver_authenticationsamlidppolicy_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving vpnvserver_authenticationsamlidppolicy_binding objects by arguments"
                 $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnvserver_authenticationsamlidppolicy_binding -Arguments $Arguments -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnvserver_authenticationsamlidppolicy_binding -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving vpnvserver_authenticationsamlidppolicy_binding configuration for property 'name'"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnvserver_authenticationsamlidppolicy_binding -Resource $name -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnvserver_authenticationsamlidppolicy_binding -NitroPath nitro/v1/config -Resource $name -Summary:$ViewSummary -Filter $Filter -GetWarning
             } else {
                 Write-Verbose "Retrieving vpnvserver_authenticationsamlidppolicy_binding configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnvserver_authenticationsamlidppolicy_binding -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnvserver_authenticationsamlidppolicy_binding -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -25408,7 +25408,7 @@ function Invoke-ADCAddVpnvserverauthenticationsamlpolicybinding {
         Invoke-ADCAddVpnvserverauthenticationsamlpolicybinding -name <string>
     .NOTES
         File Name : Invoke-ADCAddVpnvserverauthenticationsamlpolicybinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/vpn/vpnvserver_authenticationsamlpolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -25461,7 +25461,7 @@ function Invoke-ADCAddVpnvserverauthenticationsamlpolicybinding {
             if ($PSBoundParameters.ContainsKey('bindpoint')) { $Payload.Add('bindpoint', $bindpoint) }
  
             if ($PSCmdlet.ShouldProcess("vpnvserver_authenticationsamlpolicy_binding", "Add SSL VPN configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -Type vpnvserver_authenticationsamlpolicy_binding -Payload $Payload -GetWarning
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -NitroPath nitro/v1/config -Type vpnvserver_authenticationsamlpolicy_binding -Payload $Payload -GetWarning
                 #HTTP Status Code on Success: 201 Created
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 if ($PSBoundParameters.ContainsKey('PassThru')) {
@@ -25499,7 +25499,7 @@ function Invoke-ADCDeleteVpnvserverauthenticationsamlpolicybinding {
         Invoke-ADCDeleteVpnvserverauthenticationsamlpolicybinding -name <string>
     .NOTES
         File Name : Invoke-ADCDeleteVpnvserverauthenticationsamlpolicybinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/vpn/vpnvserver_authenticationsamlpolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -25538,7 +25538,7 @@ function Invoke-ADCDeleteVpnvserverauthenticationsamlpolicybinding {
             if ($PSBoundParameters.ContainsKey('groupextraction')) { $Arguments.Add('groupextraction', $groupextraction) }
             if ($PSBoundParameters.ContainsKey('bindpoint')) { $Arguments.Add('bindpoint', $bindpoint) }
             if ($PSCmdlet.ShouldProcess("$name", "Delete SSL VPN configuration Object")) {
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type vpnvserver_authenticationsamlpolicy_binding -Resource $name -Arguments $Arguments
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type vpnvserver_authenticationsamlpolicy_binding -NitroPath nitro/v1/config -Resource $name -Arguments $Arguments
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $response
@@ -25582,7 +25582,7 @@ function Invoke-ADCGetVpnvserverauthenticationsamlpolicybinding {
         Invoke-ADCGetVpnvserverauthenticationsamlpolicybinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetVpnvserverauthenticationsamlpolicybinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/vpn/vpnvserver_authenticationsamlpolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -25620,21 +25620,21 @@ function Invoke-ADCGetVpnvserverauthenticationsamlpolicybinding {
                     bulkbindings = 'yes'
                 }
                 Write-Verbose "Retrieving all vpnvserver_authenticationsamlpolicy_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnvserver_authenticationsamlpolicy_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnvserver_authenticationsamlpolicy_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
                 if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for vpnvserver_authenticationsamlpolicy_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnvserver_authenticationsamlpolicy_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnvserver_authenticationsamlpolicy_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving vpnvserver_authenticationsamlpolicy_binding objects by arguments"
                 $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnvserver_authenticationsamlpolicy_binding -Arguments $Arguments -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnvserver_authenticationsamlpolicy_binding -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving vpnvserver_authenticationsamlpolicy_binding configuration for property 'name'"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnvserver_authenticationsamlpolicy_binding -Resource $name -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnvserver_authenticationsamlpolicy_binding -NitroPath nitro/v1/config -Resource $name -Summary:$ViewSummary -Filter $Filter -GetWarning
             } else {
                 Write-Verbose "Retrieving vpnvserver_authenticationsamlpolicy_binding configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnvserver_authenticationsamlpolicy_binding -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnvserver_authenticationsamlpolicy_binding -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -25677,7 +25677,7 @@ function Invoke-ADCAddVpnvserverauthenticationtacacspolicybinding {
         Invoke-ADCAddVpnvserverauthenticationtacacspolicybinding -name <string>
     .NOTES
         File Name : Invoke-ADCAddVpnvserverauthenticationtacacspolicybinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/vpn/vpnvserver_authenticationtacacspolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -25730,7 +25730,7 @@ function Invoke-ADCAddVpnvserverauthenticationtacacspolicybinding {
             if ($PSBoundParameters.ContainsKey('bindpoint')) { $Payload.Add('bindpoint', $bindpoint) }
  
             if ($PSCmdlet.ShouldProcess("vpnvserver_authenticationtacacspolicy_binding", "Add SSL VPN configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -Type vpnvserver_authenticationtacacspolicy_binding -Payload $Payload -GetWarning
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -NitroPath nitro/v1/config -Type vpnvserver_authenticationtacacspolicy_binding -Payload $Payload -GetWarning
                 #HTTP Status Code on Success: 201 Created
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 if ($PSBoundParameters.ContainsKey('PassThru')) {
@@ -25768,7 +25768,7 @@ function Invoke-ADCDeleteVpnvserverauthenticationtacacspolicybinding {
         Invoke-ADCDeleteVpnvserverauthenticationtacacspolicybinding -name <string>
     .NOTES
         File Name : Invoke-ADCDeleteVpnvserverauthenticationtacacspolicybinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/vpn/vpnvserver_authenticationtacacspolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -25807,7 +25807,7 @@ function Invoke-ADCDeleteVpnvserverauthenticationtacacspolicybinding {
             if ($PSBoundParameters.ContainsKey('groupextraction')) { $Arguments.Add('groupextraction', $groupextraction) }
             if ($PSBoundParameters.ContainsKey('bindpoint')) { $Arguments.Add('bindpoint', $bindpoint) }
             if ($PSCmdlet.ShouldProcess("$name", "Delete SSL VPN configuration Object")) {
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type vpnvserver_authenticationtacacspolicy_binding -Resource $name -Arguments $Arguments
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type vpnvserver_authenticationtacacspolicy_binding -NitroPath nitro/v1/config -Resource $name -Arguments $Arguments
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $response
@@ -25851,7 +25851,7 @@ function Invoke-ADCGetVpnvserverauthenticationtacacspolicybinding {
         Invoke-ADCGetVpnvserverauthenticationtacacspolicybinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetVpnvserverauthenticationtacacspolicybinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/vpn/vpnvserver_authenticationtacacspolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -25889,21 +25889,21 @@ function Invoke-ADCGetVpnvserverauthenticationtacacspolicybinding {
                     bulkbindings = 'yes'
                 }
                 Write-Verbose "Retrieving all vpnvserver_authenticationtacacspolicy_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnvserver_authenticationtacacspolicy_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnvserver_authenticationtacacspolicy_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
                 if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for vpnvserver_authenticationtacacspolicy_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnvserver_authenticationtacacspolicy_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnvserver_authenticationtacacspolicy_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving vpnvserver_authenticationtacacspolicy_binding objects by arguments"
                 $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnvserver_authenticationtacacspolicy_binding -Arguments $Arguments -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnvserver_authenticationtacacspolicy_binding -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving vpnvserver_authenticationtacacspolicy_binding configuration for property 'name'"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnvserver_authenticationtacacspolicy_binding -Resource $name -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnvserver_authenticationtacacspolicy_binding -NitroPath nitro/v1/config -Resource $name -Summary:$ViewSummary -Filter $Filter -GetWarning
             } else {
                 Write-Verbose "Retrieving vpnvserver_authenticationtacacspolicy_binding configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnvserver_authenticationtacacspolicy_binding -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnvserver_authenticationtacacspolicy_binding -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -25946,7 +25946,7 @@ function Invoke-ADCAddVpnvserverauthenticationwebauthpolicybinding {
         Invoke-ADCAddVpnvserverauthenticationwebauthpolicybinding -name <string>
     .NOTES
         File Name : Invoke-ADCAddVpnvserverauthenticationwebauthpolicybinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/vpn/vpnvserver_authenticationwebauthpolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -25999,7 +25999,7 @@ function Invoke-ADCAddVpnvserverauthenticationwebauthpolicybinding {
             if ($PSBoundParameters.ContainsKey('bindpoint')) { $Payload.Add('bindpoint', $bindpoint) }
  
             if ($PSCmdlet.ShouldProcess("vpnvserver_authenticationwebauthpolicy_binding", "Add SSL VPN configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -Type vpnvserver_authenticationwebauthpolicy_binding -Payload $Payload -GetWarning
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -NitroPath nitro/v1/config -Type vpnvserver_authenticationwebauthpolicy_binding -Payload $Payload -GetWarning
                 #HTTP Status Code on Success: 201 Created
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 if ($PSBoundParameters.ContainsKey('PassThru')) {
@@ -26037,7 +26037,7 @@ function Invoke-ADCDeleteVpnvserverauthenticationwebauthpolicybinding {
         Invoke-ADCDeleteVpnvserverauthenticationwebauthpolicybinding -name <string>
     .NOTES
         File Name : Invoke-ADCDeleteVpnvserverauthenticationwebauthpolicybinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/vpn/vpnvserver_authenticationwebauthpolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -26076,7 +26076,7 @@ function Invoke-ADCDeleteVpnvserverauthenticationwebauthpolicybinding {
             if ($PSBoundParameters.ContainsKey('groupextraction')) { $Arguments.Add('groupextraction', $groupextraction) }
             if ($PSBoundParameters.ContainsKey('bindpoint')) { $Arguments.Add('bindpoint', $bindpoint) }
             if ($PSCmdlet.ShouldProcess("$name", "Delete SSL VPN configuration Object")) {
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type vpnvserver_authenticationwebauthpolicy_binding -Resource $name -Arguments $Arguments
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type vpnvserver_authenticationwebauthpolicy_binding -NitroPath nitro/v1/config -Resource $name -Arguments $Arguments
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $response
@@ -26120,7 +26120,7 @@ function Invoke-ADCGetVpnvserverauthenticationwebauthpolicybinding {
         Invoke-ADCGetVpnvserverauthenticationwebauthpolicybinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetVpnvserverauthenticationwebauthpolicybinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/vpn/vpnvserver_authenticationwebauthpolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -26158,21 +26158,21 @@ function Invoke-ADCGetVpnvserverauthenticationwebauthpolicybinding {
                     bulkbindings = 'yes'
                 }
                 Write-Verbose "Retrieving all vpnvserver_authenticationwebauthpolicy_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnvserver_authenticationwebauthpolicy_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnvserver_authenticationwebauthpolicy_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
                 if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for vpnvserver_authenticationwebauthpolicy_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnvserver_authenticationwebauthpolicy_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnvserver_authenticationwebauthpolicy_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving vpnvserver_authenticationwebauthpolicy_binding objects by arguments"
                 $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnvserver_authenticationwebauthpolicy_binding -Arguments $Arguments -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnvserver_authenticationwebauthpolicy_binding -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving vpnvserver_authenticationwebauthpolicy_binding configuration for property 'name'"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnvserver_authenticationwebauthpolicy_binding -Resource $name -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnvserver_authenticationwebauthpolicy_binding -NitroPath nitro/v1/config -Resource $name -Summary:$ViewSummary -Filter $Filter -GetWarning
             } else {
                 Write-Verbose "Retrieving vpnvserver_authenticationwebauthpolicy_binding configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnvserver_authenticationwebauthpolicy_binding -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnvserver_authenticationwebauthpolicy_binding -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -26212,7 +26212,7 @@ function Invoke-ADCGetVpnvserverbinding {
         Invoke-ADCGetVpnvserverbinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetVpnvserverbinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/vpn/vpnvserver_binding/
         Requires  : PowerShell v5.1 and up
@@ -26247,21 +26247,21 @@ function Invoke-ADCGetVpnvserverbinding {
                     bulkbindings = 'yes'
                 }
                 Write-Verbose "Retrieving all vpnvserver_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnvserver_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnvserver_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
                 if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for vpnvserver_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnvserver_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnvserver_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving vpnvserver_binding objects by arguments"
                 $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnvserver_binding -Arguments $Arguments -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnvserver_binding -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving vpnvserver_binding configuration for property 'name'"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnvserver_binding -Resource $name -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnvserver_binding -NitroPath nitro/v1/config -Resource $name -Summary:$ViewSummary -Filter $Filter -GetWarning
             } else {
                 Write-Verbose "Retrieving vpnvserver_binding configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnvserver_binding -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnvserver_binding -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -26304,7 +26304,7 @@ function Invoke-ADCAddVpnvservercachepolicybinding {
         Invoke-ADCAddVpnvservercachepolicybinding -name <string>
     .NOTES
         File Name : Invoke-ADCAddVpnvservercachepolicybinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/vpn/vpnvserver_cachepolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -26357,7 +26357,7 @@ function Invoke-ADCAddVpnvservercachepolicybinding {
             if ($PSBoundParameters.ContainsKey('bindpoint')) { $Payload.Add('bindpoint', $bindpoint) }
  
             if ($PSCmdlet.ShouldProcess("vpnvserver_cachepolicy_binding", "Add SSL VPN configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -Type vpnvserver_cachepolicy_binding -Payload $Payload -GetWarning
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -NitroPath nitro/v1/config -Type vpnvserver_cachepolicy_binding -Payload $Payload -GetWarning
                 #HTTP Status Code on Success: 201 Created
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 if ($PSBoundParameters.ContainsKey('PassThru')) {
@@ -26395,7 +26395,7 @@ function Invoke-ADCDeleteVpnvservercachepolicybinding {
         Invoke-ADCDeleteVpnvservercachepolicybinding -name <string>
     .NOTES
         File Name : Invoke-ADCDeleteVpnvservercachepolicybinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/vpn/vpnvserver_cachepolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -26434,7 +26434,7 @@ function Invoke-ADCDeleteVpnvservercachepolicybinding {
             if ($PSBoundParameters.ContainsKey('groupextraction')) { $Arguments.Add('groupextraction', $groupextraction) }
             if ($PSBoundParameters.ContainsKey('bindpoint')) { $Arguments.Add('bindpoint', $bindpoint) }
             if ($PSCmdlet.ShouldProcess("$name", "Delete SSL VPN configuration Object")) {
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type vpnvserver_cachepolicy_binding -Resource $name -Arguments $Arguments
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type vpnvserver_cachepolicy_binding -NitroPath nitro/v1/config -Resource $name -Arguments $Arguments
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $response
@@ -26478,7 +26478,7 @@ function Invoke-ADCGetVpnvservercachepolicybinding {
         Invoke-ADCGetVpnvservercachepolicybinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetVpnvservercachepolicybinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/vpn/vpnvserver_cachepolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -26516,21 +26516,21 @@ function Invoke-ADCGetVpnvservercachepolicybinding {
                     bulkbindings = 'yes'
                 }
                 Write-Verbose "Retrieving all vpnvserver_cachepolicy_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnvserver_cachepolicy_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnvserver_cachepolicy_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
                 if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for vpnvserver_cachepolicy_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnvserver_cachepolicy_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnvserver_cachepolicy_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving vpnvserver_cachepolicy_binding objects by arguments"
                 $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnvserver_cachepolicy_binding -Arguments $Arguments -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnvserver_cachepolicy_binding -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving vpnvserver_cachepolicy_binding configuration for property 'name'"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnvserver_cachepolicy_binding -Resource $name -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnvserver_cachepolicy_binding -NitroPath nitro/v1/config -Resource $name -Summary:$ViewSummary -Filter $Filter -GetWarning
             } else {
                 Write-Verbose "Retrieving vpnvserver_cachepolicy_binding configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnvserver_cachepolicy_binding -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnvserver_cachepolicy_binding -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -26573,7 +26573,7 @@ function Invoke-ADCAddVpnvservercspolicybinding {
         Invoke-ADCAddVpnvservercspolicybinding -name <string>
     .NOTES
         File Name : Invoke-ADCAddVpnvservercspolicybinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/vpn/vpnvserver_cspolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -26626,7 +26626,7 @@ function Invoke-ADCAddVpnvservercspolicybinding {
             if ($PSBoundParameters.ContainsKey('bindpoint')) { $Payload.Add('bindpoint', $bindpoint) }
  
             if ($PSCmdlet.ShouldProcess("vpnvserver_cspolicy_binding", "Add SSL VPN configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -Type vpnvserver_cspolicy_binding -Payload $Payload -GetWarning
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -NitroPath nitro/v1/config -Type vpnvserver_cspolicy_binding -Payload $Payload -GetWarning
                 #HTTP Status Code on Success: 201 Created
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 if ($PSBoundParameters.ContainsKey('PassThru')) {
@@ -26664,7 +26664,7 @@ function Invoke-ADCDeleteVpnvservercspolicybinding {
         Invoke-ADCDeleteVpnvservercspolicybinding -name <string>
     .NOTES
         File Name : Invoke-ADCDeleteVpnvservercspolicybinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/vpn/vpnvserver_cspolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -26703,7 +26703,7 @@ function Invoke-ADCDeleteVpnvservercspolicybinding {
             if ($PSBoundParameters.ContainsKey('groupextraction')) { $Arguments.Add('groupextraction', $groupextraction) }
             if ($PSBoundParameters.ContainsKey('bindpoint')) { $Arguments.Add('bindpoint', $bindpoint) }
             if ($PSCmdlet.ShouldProcess("$name", "Delete SSL VPN configuration Object")) {
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type vpnvserver_cspolicy_binding -Resource $name -Arguments $Arguments
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type vpnvserver_cspolicy_binding -NitroPath nitro/v1/config -Resource $name -Arguments $Arguments
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $response
@@ -26747,7 +26747,7 @@ function Invoke-ADCGetVpnvservercspolicybinding {
         Invoke-ADCGetVpnvservercspolicybinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetVpnvservercspolicybinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/vpn/vpnvserver_cspolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -26785,21 +26785,21 @@ function Invoke-ADCGetVpnvservercspolicybinding {
                     bulkbindings = 'yes'
                 }
                 Write-Verbose "Retrieving all vpnvserver_cspolicy_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnvserver_cspolicy_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnvserver_cspolicy_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
                 if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for vpnvserver_cspolicy_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnvserver_cspolicy_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnvserver_cspolicy_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving vpnvserver_cspolicy_binding objects by arguments"
                 $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnvserver_cspolicy_binding -Arguments $Arguments -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnvserver_cspolicy_binding -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving vpnvserver_cspolicy_binding configuration for property 'name'"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnvserver_cspolicy_binding -Resource $name -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnvserver_cspolicy_binding -NitroPath nitro/v1/config -Resource $name -Summary:$ViewSummary -Filter $Filter -GetWarning
             } else {
                 Write-Verbose "Retrieving vpnvserver_cspolicy_binding configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnvserver_cspolicy_binding -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnvserver_cspolicy_binding -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -26843,7 +26843,7 @@ function Invoke-ADCAddVpnvserverfeopolicybinding {
         Invoke-ADCAddVpnvserverfeopolicybinding -name <string>
     .NOTES
         File Name : Invoke-ADCAddVpnvserverfeopolicybinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/vpn/vpnvserver_feopolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -26897,7 +26897,7 @@ function Invoke-ADCAddVpnvserverfeopolicybinding {
             if ($PSBoundParameters.ContainsKey('bindpoint')) { $Payload.Add('bindpoint', $bindpoint) }
  
             if ($PSCmdlet.ShouldProcess("vpnvserver_feopolicy_binding", "Add SSL VPN configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -Type vpnvserver_feopolicy_binding -Payload $Payload -GetWarning
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -NitroPath nitro/v1/config -Type vpnvserver_feopolicy_binding -Payload $Payload -GetWarning
                 #HTTP Status Code on Success: 201 Created
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 if ($PSBoundParameters.ContainsKey('PassThru')) {
@@ -26936,7 +26936,7 @@ function Invoke-ADCDeleteVpnvserverfeopolicybinding {
         Invoke-ADCDeleteVpnvserverfeopolicybinding -name <string>
     .NOTES
         File Name : Invoke-ADCDeleteVpnvserverfeopolicybinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/vpn/vpnvserver_feopolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -26975,7 +26975,7 @@ function Invoke-ADCDeleteVpnvserverfeopolicybinding {
             if ($PSBoundParameters.ContainsKey('groupextraction')) { $Arguments.Add('groupextraction', $groupextraction) }
             if ($PSBoundParameters.ContainsKey('bindpoint')) { $Arguments.Add('bindpoint', $bindpoint) }
             if ($PSCmdlet.ShouldProcess("$name", "Delete SSL VPN configuration Object")) {
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type vpnvserver_feopolicy_binding -Resource $name -Arguments $Arguments
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type vpnvserver_feopolicy_binding -NitroPath nitro/v1/config -Resource $name -Arguments $Arguments
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $response
@@ -27019,7 +27019,7 @@ function Invoke-ADCGetVpnvserverfeopolicybinding {
         Invoke-ADCGetVpnvserverfeopolicybinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetVpnvserverfeopolicybinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/vpn/vpnvserver_feopolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -27057,21 +27057,21 @@ function Invoke-ADCGetVpnvserverfeopolicybinding {
                     bulkbindings = 'yes'
                 }
                 Write-Verbose "Retrieving all vpnvserver_feopolicy_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnvserver_feopolicy_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnvserver_feopolicy_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
                 if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for vpnvserver_feopolicy_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnvserver_feopolicy_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnvserver_feopolicy_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving vpnvserver_feopolicy_binding objects by arguments"
                 $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnvserver_feopolicy_binding -Arguments $Arguments -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnvserver_feopolicy_binding -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving vpnvserver_feopolicy_binding configuration for property 'name'"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnvserver_feopolicy_binding -Resource $name -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnvserver_feopolicy_binding -NitroPath nitro/v1/config -Resource $name -Summary:$ViewSummary -Filter $Filter -GetWarning
             } else {
                 Write-Verbose "Retrieving vpnvserver_feopolicy_binding configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnvserver_feopolicy_binding -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnvserver_feopolicy_binding -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -27114,7 +27114,7 @@ function Invoke-ADCAddVpnvservericapolicybinding {
         Invoke-ADCAddVpnvservericapolicybinding -name <string>
     .NOTES
         File Name : Invoke-ADCAddVpnvservericapolicybinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/vpn/vpnvserver_icapolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -27167,7 +27167,7 @@ function Invoke-ADCAddVpnvservericapolicybinding {
             if ($PSBoundParameters.ContainsKey('bindpoint')) { $Payload.Add('bindpoint', $bindpoint) }
  
             if ($PSCmdlet.ShouldProcess("vpnvserver_icapolicy_binding", "Add SSL VPN configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -Type vpnvserver_icapolicy_binding -Payload $Payload -GetWarning
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -NitroPath nitro/v1/config -Type vpnvserver_icapolicy_binding -Payload $Payload -GetWarning
                 #HTTP Status Code on Success: 201 Created
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 if ($PSBoundParameters.ContainsKey('PassThru')) {
@@ -27205,7 +27205,7 @@ function Invoke-ADCDeleteVpnvservericapolicybinding {
         Invoke-ADCDeleteVpnvservericapolicybinding -name <string>
     .NOTES
         File Name : Invoke-ADCDeleteVpnvservericapolicybinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/vpn/vpnvserver_icapolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -27244,7 +27244,7 @@ function Invoke-ADCDeleteVpnvservericapolicybinding {
             if ($PSBoundParameters.ContainsKey('groupextraction')) { $Arguments.Add('groupextraction', $groupextraction) }
             if ($PSBoundParameters.ContainsKey('bindpoint')) { $Arguments.Add('bindpoint', $bindpoint) }
             if ($PSCmdlet.ShouldProcess("$name", "Delete SSL VPN configuration Object")) {
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type vpnvserver_icapolicy_binding -Resource $name -Arguments $Arguments
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type vpnvserver_icapolicy_binding -NitroPath nitro/v1/config -Resource $name -Arguments $Arguments
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $response
@@ -27288,7 +27288,7 @@ function Invoke-ADCGetVpnvservericapolicybinding {
         Invoke-ADCGetVpnvservericapolicybinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetVpnvservericapolicybinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/vpn/vpnvserver_icapolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -27326,21 +27326,21 @@ function Invoke-ADCGetVpnvservericapolicybinding {
                     bulkbindings = 'yes'
                 }
                 Write-Verbose "Retrieving all vpnvserver_icapolicy_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnvserver_icapolicy_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnvserver_icapolicy_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
                 if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for vpnvserver_icapolicy_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnvserver_icapolicy_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnvserver_icapolicy_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving vpnvserver_icapolicy_binding objects by arguments"
                 $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnvserver_icapolicy_binding -Arguments $Arguments -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnvserver_icapolicy_binding -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving vpnvserver_icapolicy_binding configuration for property 'name'"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnvserver_icapolicy_binding -Resource $name -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnvserver_icapolicy_binding -NitroPath nitro/v1/config -Resource $name -Summary:$ViewSummary -Filter $Filter -GetWarning
             } else {
                 Write-Verbose "Retrieving vpnvserver_icapolicy_binding configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnvserver_icapolicy_binding -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnvserver_icapolicy_binding -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -27372,7 +27372,7 @@ function Invoke-ADCAddVpnvserverintranetip6binding {
         Invoke-ADCAddVpnvserverintranetip6binding -name <string>
     .NOTES
         File Name : Invoke-ADCAddVpnvserverintranetip6binding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/vpn/vpnvserver_intranetip6_binding/
         Requires  : PowerShell v5.1 and up
@@ -27411,7 +27411,7 @@ function Invoke-ADCAddVpnvserverintranetip6binding {
             if ($PSBoundParameters.ContainsKey('numaddr')) { $Payload.Add('numaddr', $numaddr) }
  
             if ($PSCmdlet.ShouldProcess("vpnvserver_intranetip6_binding", "Add SSL VPN configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -Type vpnvserver_intranetip6_binding -Payload $Payload -GetWarning
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -NitroPath nitro/v1/config -Type vpnvserver_intranetip6_binding -Payload $Payload -GetWarning
                 #HTTP Status Code on Success: 201 Created
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 if ($PSBoundParameters.ContainsKey('PassThru')) {
@@ -27446,7 +27446,7 @@ function Invoke-ADCDeleteVpnvserverintranetip6binding {
         Invoke-ADCDeleteVpnvserverintranetip6binding -name <string>
     .NOTES
         File Name : Invoke-ADCDeleteVpnvserverintranetip6binding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/vpn/vpnvserver_intranetip6_binding/
         Requires  : PowerShell v5.1 and up
@@ -27479,7 +27479,7 @@ function Invoke-ADCDeleteVpnvserverintranetip6binding {
             if ($PSBoundParameters.ContainsKey('intranetip6')) { $Arguments.Add('intranetip6', $intranetip6) }
             if ($PSBoundParameters.ContainsKey('numaddr')) { $Arguments.Add('numaddr', $numaddr) }
             if ($PSCmdlet.ShouldProcess("$name", "Delete SSL VPN configuration Object")) {
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type vpnvserver_intranetip6_binding -Resource $name -Arguments $Arguments
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type vpnvserver_intranetip6_binding -NitroPath nitro/v1/config -Resource $name -Arguments $Arguments
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $response
@@ -27523,7 +27523,7 @@ function Invoke-ADCGetVpnvserverintranetip6binding {
         Invoke-ADCGetVpnvserverintranetip6binding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetVpnvserverintranetip6binding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/vpn/vpnvserver_intranetip6_binding/
         Requires  : PowerShell v5.1 and up
@@ -27561,21 +27561,21 @@ function Invoke-ADCGetVpnvserverintranetip6binding {
                     bulkbindings = 'yes'
                 }
                 Write-Verbose "Retrieving all vpnvserver_intranetip6_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnvserver_intranetip6_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnvserver_intranetip6_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
                 if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for vpnvserver_intranetip6_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnvserver_intranetip6_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnvserver_intranetip6_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving vpnvserver_intranetip6_binding objects by arguments"
                 $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnvserver_intranetip6_binding -Arguments $Arguments -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnvserver_intranetip6_binding -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving vpnvserver_intranetip6_binding configuration for property 'name'"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnvserver_intranetip6_binding -Resource $name -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnvserver_intranetip6_binding -NitroPath nitro/v1/config -Resource $name -Summary:$ViewSummary -Filter $Filter -GetWarning
             } else {
                 Write-Verbose "Retrieving vpnvserver_intranetip6_binding configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnvserver_intranetip6_binding -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnvserver_intranetip6_binding -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -27607,7 +27607,7 @@ function Invoke-ADCAddVpnvserverintranetipbinding {
         Invoke-ADCAddVpnvserverintranetipbinding -name <string>
     .NOTES
         File Name : Invoke-ADCAddVpnvserverintranetipbinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/vpn/vpnvserver_intranetip_binding/
         Requires  : PowerShell v5.1 and up
@@ -27646,7 +27646,7 @@ function Invoke-ADCAddVpnvserverintranetipbinding {
             if ($PSBoundParameters.ContainsKey('netmask')) { $Payload.Add('netmask', $netmask) }
  
             if ($PSCmdlet.ShouldProcess("vpnvserver_intranetip_binding", "Add SSL VPN configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -Type vpnvserver_intranetip_binding -Payload $Payload -GetWarning
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -NitroPath nitro/v1/config -Type vpnvserver_intranetip_binding -Payload $Payload -GetWarning
                 #HTTP Status Code on Success: 201 Created
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 if ($PSBoundParameters.ContainsKey('PassThru')) {
@@ -27681,7 +27681,7 @@ function Invoke-ADCDeleteVpnvserverintranetipbinding {
         Invoke-ADCDeleteVpnvserverintranetipbinding -name <string>
     .NOTES
         File Name : Invoke-ADCDeleteVpnvserverintranetipbinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/vpn/vpnvserver_intranetip_binding/
         Requires  : PowerShell v5.1 and up
@@ -27714,7 +27714,7 @@ function Invoke-ADCDeleteVpnvserverintranetipbinding {
             if ($PSBoundParameters.ContainsKey('intranetip')) { $Arguments.Add('intranetip', $intranetip) }
             if ($PSBoundParameters.ContainsKey('netmask')) { $Arguments.Add('netmask', $netmask) }
             if ($PSCmdlet.ShouldProcess("$name", "Delete SSL VPN configuration Object")) {
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type vpnvserver_intranetip_binding -Resource $name -Arguments $Arguments
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type vpnvserver_intranetip_binding -NitroPath nitro/v1/config -Resource $name -Arguments $Arguments
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $response
@@ -27758,7 +27758,7 @@ function Invoke-ADCGetVpnvserverintranetipbinding {
         Invoke-ADCGetVpnvserverintranetipbinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetVpnvserverintranetipbinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/vpn/vpnvserver_intranetip_binding/
         Requires  : PowerShell v5.1 and up
@@ -27796,21 +27796,21 @@ function Invoke-ADCGetVpnvserverintranetipbinding {
                     bulkbindings = 'yes'
                 }
                 Write-Verbose "Retrieving all vpnvserver_intranetip_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnvserver_intranetip_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnvserver_intranetip_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
                 if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for vpnvserver_intranetip_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnvserver_intranetip_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnvserver_intranetip_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving vpnvserver_intranetip_binding objects by arguments"
                 $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnvserver_intranetip_binding -Arguments $Arguments -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnvserver_intranetip_binding -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving vpnvserver_intranetip_binding configuration for property 'name'"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnvserver_intranetip_binding -Resource $name -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnvserver_intranetip_binding -NitroPath nitro/v1/config -Resource $name -Summary:$ViewSummary -Filter $Filter -GetWarning
             } else {
                 Write-Verbose "Retrieving vpnvserver_intranetip_binding configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnvserver_intranetip_binding -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnvserver_intranetip_binding -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -27853,7 +27853,7 @@ function Invoke-ADCAddVpnvserverresponderpolicybinding {
         Invoke-ADCAddVpnvserverresponderpolicybinding -name <string>
     .NOTES
         File Name : Invoke-ADCAddVpnvserverresponderpolicybinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/vpn/vpnvserver_responderpolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -27906,7 +27906,7 @@ function Invoke-ADCAddVpnvserverresponderpolicybinding {
             if ($PSBoundParameters.ContainsKey('bindpoint')) { $Payload.Add('bindpoint', $bindpoint) }
  
             if ($PSCmdlet.ShouldProcess("vpnvserver_responderpolicy_binding", "Add SSL VPN configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -Type vpnvserver_responderpolicy_binding -Payload $Payload -GetWarning
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -NitroPath nitro/v1/config -Type vpnvserver_responderpolicy_binding -Payload $Payload -GetWarning
                 #HTTP Status Code on Success: 201 Created
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 if ($PSBoundParameters.ContainsKey('PassThru')) {
@@ -27944,7 +27944,7 @@ function Invoke-ADCDeleteVpnvserverresponderpolicybinding {
         Invoke-ADCDeleteVpnvserverresponderpolicybinding -name <string>
     .NOTES
         File Name : Invoke-ADCDeleteVpnvserverresponderpolicybinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/vpn/vpnvserver_responderpolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -27983,7 +27983,7 @@ function Invoke-ADCDeleteVpnvserverresponderpolicybinding {
             if ($PSBoundParameters.ContainsKey('groupextraction')) { $Arguments.Add('groupextraction', $groupextraction) }
             if ($PSBoundParameters.ContainsKey('bindpoint')) { $Arguments.Add('bindpoint', $bindpoint) }
             if ($PSCmdlet.ShouldProcess("$name", "Delete SSL VPN configuration Object")) {
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type vpnvserver_responderpolicy_binding -Resource $name -Arguments $Arguments
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type vpnvserver_responderpolicy_binding -NitroPath nitro/v1/config -Resource $name -Arguments $Arguments
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $response
@@ -28027,7 +28027,7 @@ function Invoke-ADCGetVpnvserverresponderpolicybinding {
         Invoke-ADCGetVpnvserverresponderpolicybinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetVpnvserverresponderpolicybinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/vpn/vpnvserver_responderpolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -28065,21 +28065,21 @@ function Invoke-ADCGetVpnvserverresponderpolicybinding {
                     bulkbindings = 'yes'
                 }
                 Write-Verbose "Retrieving all vpnvserver_responderpolicy_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnvserver_responderpolicy_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnvserver_responderpolicy_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
                 if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for vpnvserver_responderpolicy_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnvserver_responderpolicy_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnvserver_responderpolicy_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving vpnvserver_responderpolicy_binding objects by arguments"
                 $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnvserver_responderpolicy_binding -Arguments $Arguments -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnvserver_responderpolicy_binding -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving vpnvserver_responderpolicy_binding configuration for property 'name'"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnvserver_responderpolicy_binding -Resource $name -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnvserver_responderpolicy_binding -NitroPath nitro/v1/config -Resource $name -Summary:$ViewSummary -Filter $Filter -GetWarning
             } else {
                 Write-Verbose "Retrieving vpnvserver_responderpolicy_binding configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnvserver_responderpolicy_binding -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnvserver_responderpolicy_binding -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -28122,7 +28122,7 @@ function Invoke-ADCAddVpnvserverrewritepolicybinding {
         Invoke-ADCAddVpnvserverrewritepolicybinding -name <string>
     .NOTES
         File Name : Invoke-ADCAddVpnvserverrewritepolicybinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/vpn/vpnvserver_rewritepolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -28175,7 +28175,7 @@ function Invoke-ADCAddVpnvserverrewritepolicybinding {
             if ($PSBoundParameters.ContainsKey('bindpoint')) { $Payload.Add('bindpoint', $bindpoint) }
  
             if ($PSCmdlet.ShouldProcess("vpnvserver_rewritepolicy_binding", "Add SSL VPN configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -Type vpnvserver_rewritepolicy_binding -Payload $Payload -GetWarning
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -NitroPath nitro/v1/config -Type vpnvserver_rewritepolicy_binding -Payload $Payload -GetWarning
                 #HTTP Status Code on Success: 201 Created
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 if ($PSBoundParameters.ContainsKey('PassThru')) {
@@ -28213,7 +28213,7 @@ function Invoke-ADCDeleteVpnvserverrewritepolicybinding {
         Invoke-ADCDeleteVpnvserverrewritepolicybinding -name <string>
     .NOTES
         File Name : Invoke-ADCDeleteVpnvserverrewritepolicybinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/vpn/vpnvserver_rewritepolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -28252,7 +28252,7 @@ function Invoke-ADCDeleteVpnvserverrewritepolicybinding {
             if ($PSBoundParameters.ContainsKey('groupextraction')) { $Arguments.Add('groupextraction', $groupextraction) }
             if ($PSBoundParameters.ContainsKey('bindpoint')) { $Arguments.Add('bindpoint', $bindpoint) }
             if ($PSCmdlet.ShouldProcess("$name", "Delete SSL VPN configuration Object")) {
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type vpnvserver_rewritepolicy_binding -Resource $name -Arguments $Arguments
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type vpnvserver_rewritepolicy_binding -NitroPath nitro/v1/config -Resource $name -Arguments $Arguments
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $response
@@ -28296,7 +28296,7 @@ function Invoke-ADCGetVpnvserverrewritepolicybinding {
         Invoke-ADCGetVpnvserverrewritepolicybinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetVpnvserverrewritepolicybinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/vpn/vpnvserver_rewritepolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -28334,21 +28334,21 @@ function Invoke-ADCGetVpnvserverrewritepolicybinding {
                     bulkbindings = 'yes'
                 }
                 Write-Verbose "Retrieving all vpnvserver_rewritepolicy_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnvserver_rewritepolicy_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnvserver_rewritepolicy_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
                 if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for vpnvserver_rewritepolicy_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnvserver_rewritepolicy_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnvserver_rewritepolicy_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving vpnvserver_rewritepolicy_binding objects by arguments"
                 $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnvserver_rewritepolicy_binding -Arguments $Arguments -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnvserver_rewritepolicy_binding -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving vpnvserver_rewritepolicy_binding configuration for property 'name'"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnvserver_rewritepolicy_binding -Resource $name -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnvserver_rewritepolicy_binding -NitroPath nitro/v1/config -Resource $name -Summary:$ViewSummary -Filter $Filter -GetWarning
             } else {
                 Write-Verbose "Retrieving vpnvserver_rewritepolicy_binding configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnvserver_rewritepolicy_binding -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnvserver_rewritepolicy_binding -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -28378,7 +28378,7 @@ function Invoke-ADCAddVpnvserversharefileserverbinding {
         Invoke-ADCAddVpnvserversharefileserverbinding -name <string>
     .NOTES
         File Name : Invoke-ADCAddVpnvserversharefileserverbinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/vpn/vpnvserver_sharefileserver_binding/
         Requires  : PowerShell v5.1 and up
@@ -28414,7 +28414,7 @@ function Invoke-ADCAddVpnvserversharefileserverbinding {
             if ($PSBoundParameters.ContainsKey('sharefile')) { $Payload.Add('sharefile', $sharefile) }
  
             if ($PSCmdlet.ShouldProcess("vpnvserver_sharefileserver_binding", "Add SSL VPN configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -Type vpnvserver_sharefileserver_binding -Payload $Payload -GetWarning
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -NitroPath nitro/v1/config -Type vpnvserver_sharefileserver_binding -Payload $Payload -GetWarning
                 #HTTP Status Code on Success: 201 Created
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 if ($PSBoundParameters.ContainsKey('PassThru')) {
@@ -28448,7 +28448,7 @@ function Invoke-ADCDeleteVpnvserversharefileserverbinding {
         Invoke-ADCDeleteVpnvserversharefileserverbinding -name <string>
     .NOTES
         File Name : Invoke-ADCDeleteVpnvserversharefileserverbinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/vpn/vpnvserver_sharefileserver_binding/
         Requires  : PowerShell v5.1 and up
@@ -28478,7 +28478,7 @@ function Invoke-ADCDeleteVpnvserversharefileserverbinding {
             }
             if ($PSBoundParameters.ContainsKey('sharefile')) { $Arguments.Add('sharefile', $sharefile) }
             if ($PSCmdlet.ShouldProcess("$name", "Delete SSL VPN configuration Object")) {
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type vpnvserver_sharefileserver_binding -Resource $name -Arguments $Arguments
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type vpnvserver_sharefileserver_binding -NitroPath nitro/v1/config -Resource $name -Arguments $Arguments
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $response
@@ -28522,7 +28522,7 @@ function Invoke-ADCGetVpnvserversharefileserverbinding {
         Invoke-ADCGetVpnvserversharefileserverbinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetVpnvserversharefileserverbinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/vpn/vpnvserver_sharefileserver_binding/
         Requires  : PowerShell v5.1 and up
@@ -28560,21 +28560,21 @@ function Invoke-ADCGetVpnvserversharefileserverbinding {
                     bulkbindings = 'yes'
                 }
                 Write-Verbose "Retrieving all vpnvserver_sharefileserver_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnvserver_sharefileserver_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnvserver_sharefileserver_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
                 if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for vpnvserver_sharefileserver_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnvserver_sharefileserver_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnvserver_sharefileserver_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving vpnvserver_sharefileserver_binding objects by arguments"
                 $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnvserver_sharefileserver_binding -Arguments $Arguments -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnvserver_sharefileserver_binding -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving vpnvserver_sharefileserver_binding configuration for property 'name'"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnvserver_sharefileserver_binding -Resource $name -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnvserver_sharefileserver_binding -NitroPath nitro/v1/config -Resource $name -Summary:$ViewSummary -Filter $Filter -GetWarning
             } else {
                 Write-Verbose "Retrieving vpnvserver_sharefileserver_binding configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnvserver_sharefileserver_binding -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnvserver_sharefileserver_binding -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -28607,7 +28607,7 @@ function Invoke-ADCAddVpnvserverstaserverbinding {
         Invoke-ADCAddVpnvserverstaserverbinding -name <string>
     .NOTES
         File Name : Invoke-ADCAddVpnvserverstaserverbinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/vpn/vpnvserver_staserver_binding/
         Requires  : PowerShell v5.1 and up
@@ -28647,7 +28647,7 @@ function Invoke-ADCAddVpnvserverstaserverbinding {
             if ($PSBoundParameters.ContainsKey('staaddresstype')) { $Payload.Add('staaddresstype', $staaddresstype) }
  
             if ($PSCmdlet.ShouldProcess("vpnvserver_staserver_binding", "Add SSL VPN configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -Type vpnvserver_staserver_binding -Payload $Payload -GetWarning
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -NitroPath nitro/v1/config -Type vpnvserver_staserver_binding -Payload $Payload -GetWarning
                 #HTTP Status Code on Success: 201 Created
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 if ($PSBoundParameters.ContainsKey('PassThru')) {
@@ -28681,7 +28681,7 @@ function Invoke-ADCDeleteVpnvserverstaserverbinding {
         Invoke-ADCDeleteVpnvserverstaserverbinding -name <string>
     .NOTES
         File Name : Invoke-ADCDeleteVpnvserverstaserverbinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/vpn/vpnvserver_staserver_binding/
         Requires  : PowerShell v5.1 and up
@@ -28711,7 +28711,7 @@ function Invoke-ADCDeleteVpnvserverstaserverbinding {
             }
             if ($PSBoundParameters.ContainsKey('staserver')) { $Arguments.Add('staserver', $staserver) }
             if ($PSCmdlet.ShouldProcess("$name", "Delete SSL VPN configuration Object")) {
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type vpnvserver_staserver_binding -Resource $name -Arguments $Arguments
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type vpnvserver_staserver_binding -NitroPath nitro/v1/config -Resource $name -Arguments $Arguments
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $response
@@ -28755,7 +28755,7 @@ function Invoke-ADCGetVpnvserverstaserverbinding {
         Invoke-ADCGetVpnvserverstaserverbinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetVpnvserverstaserverbinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/vpn/vpnvserver_staserver_binding/
         Requires  : PowerShell v5.1 and up
@@ -28793,21 +28793,21 @@ function Invoke-ADCGetVpnvserverstaserverbinding {
                     bulkbindings = 'yes'
                 }
                 Write-Verbose "Retrieving all vpnvserver_staserver_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnvserver_staserver_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnvserver_staserver_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
                 if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for vpnvserver_staserver_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnvserver_staserver_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnvserver_staserver_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving vpnvserver_staserver_binding objects by arguments"
                 $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnvserver_staserver_binding -Arguments $Arguments -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnvserver_staserver_binding -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving vpnvserver_staserver_binding configuration for property 'name'"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnvserver_staserver_binding -Resource $name -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnvserver_staserver_binding -NitroPath nitro/v1/config -Resource $name -Summary:$ViewSummary -Filter $Filter -GetWarning
             } else {
                 Write-Verbose "Retrieving vpnvserver_staserver_binding configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnvserver_staserver_binding -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnvserver_staserver_binding -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -28850,7 +28850,7 @@ function Invoke-ADCAddVpnvservervpnclientlessaccesspolicybinding {
         Invoke-ADCAddVpnvservervpnclientlessaccesspolicybinding -name <string>
     .NOTES
         File Name : Invoke-ADCAddVpnvservervpnclientlessaccesspolicybinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/vpn/vpnvserver_vpnclientlessaccesspolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -28903,7 +28903,7 @@ function Invoke-ADCAddVpnvservervpnclientlessaccesspolicybinding {
             if ($PSBoundParameters.ContainsKey('bindpoint')) { $Payload.Add('bindpoint', $bindpoint) }
  
             if ($PSCmdlet.ShouldProcess("vpnvserver_vpnclientlessaccesspolicy_binding", "Add SSL VPN configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -Type vpnvserver_vpnclientlessaccesspolicy_binding -Payload $Payload -GetWarning
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -NitroPath nitro/v1/config -Type vpnvserver_vpnclientlessaccesspolicy_binding -Payload $Payload -GetWarning
                 #HTTP Status Code on Success: 201 Created
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 if ($PSBoundParameters.ContainsKey('PassThru')) {
@@ -28941,7 +28941,7 @@ function Invoke-ADCDeleteVpnvservervpnclientlessaccesspolicybinding {
         Invoke-ADCDeleteVpnvservervpnclientlessaccesspolicybinding -name <string>
     .NOTES
         File Name : Invoke-ADCDeleteVpnvservervpnclientlessaccesspolicybinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/vpn/vpnvserver_vpnclientlessaccesspolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -28980,7 +28980,7 @@ function Invoke-ADCDeleteVpnvservervpnclientlessaccesspolicybinding {
             if ($PSBoundParameters.ContainsKey('groupextraction')) { $Arguments.Add('groupextraction', $groupextraction) }
             if ($PSBoundParameters.ContainsKey('bindpoint')) { $Arguments.Add('bindpoint', $bindpoint) }
             if ($PSCmdlet.ShouldProcess("$name", "Delete SSL VPN configuration Object")) {
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type vpnvserver_vpnclientlessaccesspolicy_binding -Resource $name -Arguments $Arguments
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type vpnvserver_vpnclientlessaccesspolicy_binding -NitroPath nitro/v1/config -Resource $name -Arguments $Arguments
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $response
@@ -29024,7 +29024,7 @@ function Invoke-ADCGetVpnvservervpnclientlessaccesspolicybinding {
         Invoke-ADCGetVpnvservervpnclientlessaccesspolicybinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetVpnvservervpnclientlessaccesspolicybinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/vpn/vpnvserver_vpnclientlessaccesspolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -29062,21 +29062,21 @@ function Invoke-ADCGetVpnvservervpnclientlessaccesspolicybinding {
                     bulkbindings = 'yes'
                 }
                 Write-Verbose "Retrieving all vpnvserver_vpnclientlessaccesspolicy_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnvserver_vpnclientlessaccesspolicy_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnvserver_vpnclientlessaccesspolicy_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
                 if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for vpnvserver_vpnclientlessaccesspolicy_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnvserver_vpnclientlessaccesspolicy_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnvserver_vpnclientlessaccesspolicy_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving vpnvserver_vpnclientlessaccesspolicy_binding objects by arguments"
                 $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnvserver_vpnclientlessaccesspolicy_binding -Arguments $Arguments -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnvserver_vpnclientlessaccesspolicy_binding -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving vpnvserver_vpnclientlessaccesspolicy_binding configuration for property 'name'"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnvserver_vpnclientlessaccesspolicy_binding -Resource $name -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnvserver_vpnclientlessaccesspolicy_binding -NitroPath nitro/v1/config -Resource $name -Summary:$ViewSummary -Filter $Filter -GetWarning
             } else {
                 Write-Verbose "Retrieving vpnvserver_vpnclientlessaccesspolicy_binding configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnvserver_vpnclientlessaccesspolicy_binding -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnvserver_vpnclientlessaccesspolicy_binding -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -29108,7 +29108,7 @@ function Invoke-ADCAddVpnvservervpnepaprofilebinding {
         Invoke-ADCAddVpnvservervpnepaprofilebinding -name <string>
     .NOTES
         File Name : Invoke-ADCAddVpnvservervpnepaprofilebinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/vpn/vpnvserver_vpnepaprofile_binding/
         Requires  : PowerShell v5.1 and up
@@ -29147,7 +29147,7 @@ function Invoke-ADCAddVpnvservervpnepaprofilebinding {
             if ($PSBoundParameters.ContainsKey('epaprofileoptional')) { $Payload.Add('epaprofileoptional', $epaprofileoptional) }
  
             if ($PSCmdlet.ShouldProcess("vpnvserver_vpnepaprofile_binding", "Add SSL VPN configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -Type vpnvserver_vpnepaprofile_binding -Payload $Payload -GetWarning
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -NitroPath nitro/v1/config -Type vpnvserver_vpnepaprofile_binding -Payload $Payload -GetWarning
                 #HTTP Status Code on Success: 201 Created
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 if ($PSBoundParameters.ContainsKey('PassThru')) {
@@ -29181,7 +29181,7 @@ function Invoke-ADCDeleteVpnvservervpnepaprofilebinding {
         Invoke-ADCDeleteVpnvservervpnepaprofilebinding -name <string>
     .NOTES
         File Name : Invoke-ADCDeleteVpnvservervpnepaprofilebinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/vpn/vpnvserver_vpnepaprofile_binding/
         Requires  : PowerShell v5.1 and up
@@ -29211,7 +29211,7 @@ function Invoke-ADCDeleteVpnvservervpnepaprofilebinding {
             }
             if ($PSBoundParameters.ContainsKey('epaprofile')) { $Arguments.Add('epaprofile', $epaprofile) }
             if ($PSCmdlet.ShouldProcess("$name", "Delete SSL VPN configuration Object")) {
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type vpnvserver_vpnepaprofile_binding -Resource $name -Arguments $Arguments
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type vpnvserver_vpnepaprofile_binding -NitroPath nitro/v1/config -Resource $name -Arguments $Arguments
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $response
@@ -29255,7 +29255,7 @@ function Invoke-ADCGetVpnvservervpnepaprofilebinding {
         Invoke-ADCGetVpnvservervpnepaprofilebinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetVpnvservervpnepaprofilebinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/vpn/vpnvserver_vpnepaprofile_binding/
         Requires  : PowerShell v5.1 and up
@@ -29293,21 +29293,21 @@ function Invoke-ADCGetVpnvservervpnepaprofilebinding {
                     bulkbindings = 'yes'
                 }
                 Write-Verbose "Retrieving all vpnvserver_vpnepaprofile_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnvserver_vpnepaprofile_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnvserver_vpnepaprofile_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
                 if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for vpnvserver_vpnepaprofile_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnvserver_vpnepaprofile_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnvserver_vpnepaprofile_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving vpnvserver_vpnepaprofile_binding objects by arguments"
                 $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnvserver_vpnepaprofile_binding -Arguments $Arguments -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnvserver_vpnepaprofile_binding -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving vpnvserver_vpnepaprofile_binding configuration for property 'name'"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnvserver_vpnepaprofile_binding -Resource $name -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnvserver_vpnepaprofile_binding -NitroPath nitro/v1/config -Resource $name -Summary:$ViewSummary -Filter $Filter -GetWarning
             } else {
                 Write-Verbose "Retrieving vpnvserver_vpnepaprofile_binding configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnvserver_vpnepaprofile_binding -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnvserver_vpnepaprofile_binding -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -29337,7 +29337,7 @@ function Invoke-ADCAddVpnvservervpneulabinding {
         Invoke-ADCAddVpnvservervpneulabinding -name <string>
     .NOTES
         File Name : Invoke-ADCAddVpnvservervpneulabinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/vpn/vpnvserver_vpneula_binding/
         Requires  : PowerShell v5.1 and up
@@ -29373,7 +29373,7 @@ function Invoke-ADCAddVpnvservervpneulabinding {
             if ($PSBoundParameters.ContainsKey('eula')) { $Payload.Add('eula', $eula) }
  
             if ($PSCmdlet.ShouldProcess("vpnvserver_vpneula_binding", "Add SSL VPN configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -Type vpnvserver_vpneula_binding -Payload $Payload -GetWarning
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -NitroPath nitro/v1/config -Type vpnvserver_vpneula_binding -Payload $Payload -GetWarning
                 #HTTP Status Code on Success: 201 Created
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 if ($PSBoundParameters.ContainsKey('PassThru')) {
@@ -29407,7 +29407,7 @@ function Invoke-ADCDeleteVpnvservervpneulabinding {
         Invoke-ADCDeleteVpnvservervpneulabinding -name <string>
     .NOTES
         File Name : Invoke-ADCDeleteVpnvservervpneulabinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/vpn/vpnvserver_vpneula_binding/
         Requires  : PowerShell v5.1 and up
@@ -29437,7 +29437,7 @@ function Invoke-ADCDeleteVpnvservervpneulabinding {
             }
             if ($PSBoundParameters.ContainsKey('eula')) { $Arguments.Add('eula', $eula) }
             if ($PSCmdlet.ShouldProcess("$name", "Delete SSL VPN configuration Object")) {
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type vpnvserver_vpneula_binding -Resource $name -Arguments $Arguments
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type vpnvserver_vpneula_binding -NitroPath nitro/v1/config -Resource $name -Arguments $Arguments
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $response
@@ -29481,7 +29481,7 @@ function Invoke-ADCGetVpnvservervpneulabinding {
         Invoke-ADCGetVpnvservervpneulabinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetVpnvservervpneulabinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/vpn/vpnvserver_vpneula_binding/
         Requires  : PowerShell v5.1 and up
@@ -29519,21 +29519,21 @@ function Invoke-ADCGetVpnvservervpneulabinding {
                     bulkbindings = 'yes'
                 }
                 Write-Verbose "Retrieving all vpnvserver_vpneula_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnvserver_vpneula_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnvserver_vpneula_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
                 if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for vpnvserver_vpneula_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnvserver_vpneula_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnvserver_vpneula_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving vpnvserver_vpneula_binding objects by arguments"
                 $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnvserver_vpneula_binding -Arguments $Arguments -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnvserver_vpneula_binding -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving vpnvserver_vpneula_binding configuration for property 'name'"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnvserver_vpneula_binding -Resource $name -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnvserver_vpneula_binding -NitroPath nitro/v1/config -Resource $name -Summary:$ViewSummary -Filter $Filter -GetWarning
             } else {
                 Write-Verbose "Retrieving vpnvserver_vpneula_binding configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnvserver_vpneula_binding -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnvserver_vpneula_binding -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -29563,7 +29563,7 @@ function Invoke-ADCAddVpnvservervpnintranetapplicationbinding {
         Invoke-ADCAddVpnvservervpnintranetapplicationbinding -name <string>
     .NOTES
         File Name : Invoke-ADCAddVpnvservervpnintranetapplicationbinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/vpn/vpnvserver_vpnintranetapplication_binding/
         Requires  : PowerShell v5.1 and up
@@ -29599,7 +29599,7 @@ function Invoke-ADCAddVpnvservervpnintranetapplicationbinding {
             if ($PSBoundParameters.ContainsKey('intranetapplication')) { $Payload.Add('intranetapplication', $intranetapplication) }
  
             if ($PSCmdlet.ShouldProcess("vpnvserver_vpnintranetapplication_binding", "Add SSL VPN configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -Type vpnvserver_vpnintranetapplication_binding -Payload $Payload -GetWarning
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -NitroPath nitro/v1/config -Type vpnvserver_vpnintranetapplication_binding -Payload $Payload -GetWarning
                 #HTTP Status Code on Success: 201 Created
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 if ($PSBoundParameters.ContainsKey('PassThru')) {
@@ -29633,7 +29633,7 @@ function Invoke-ADCDeleteVpnvservervpnintranetapplicationbinding {
         Invoke-ADCDeleteVpnvservervpnintranetapplicationbinding -name <string>
     .NOTES
         File Name : Invoke-ADCDeleteVpnvservervpnintranetapplicationbinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/vpn/vpnvserver_vpnintranetapplication_binding/
         Requires  : PowerShell v5.1 and up
@@ -29663,7 +29663,7 @@ function Invoke-ADCDeleteVpnvservervpnintranetapplicationbinding {
             }
             if ($PSBoundParameters.ContainsKey('intranetapplication')) { $Arguments.Add('intranetapplication', $intranetapplication) }
             if ($PSCmdlet.ShouldProcess("$name", "Delete SSL VPN configuration Object")) {
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type vpnvserver_vpnintranetapplication_binding -Resource $name -Arguments $Arguments
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type vpnvserver_vpnintranetapplication_binding -NitroPath nitro/v1/config -Resource $name -Arguments $Arguments
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $response
@@ -29707,7 +29707,7 @@ function Invoke-ADCGetVpnvservervpnintranetapplicationbinding {
         Invoke-ADCGetVpnvservervpnintranetapplicationbinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetVpnvservervpnintranetapplicationbinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/vpn/vpnvserver_vpnintranetapplication_binding/
         Requires  : PowerShell v5.1 and up
@@ -29745,21 +29745,21 @@ function Invoke-ADCGetVpnvservervpnintranetapplicationbinding {
                     bulkbindings = 'yes'
                 }
                 Write-Verbose "Retrieving all vpnvserver_vpnintranetapplication_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnvserver_vpnintranetapplication_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnvserver_vpnintranetapplication_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
                 if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for vpnvserver_vpnintranetapplication_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnvserver_vpnintranetapplication_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnvserver_vpnintranetapplication_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving vpnvserver_vpnintranetapplication_binding objects by arguments"
                 $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnvserver_vpnintranetapplication_binding -Arguments $Arguments -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnvserver_vpnintranetapplication_binding -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving vpnvserver_vpnintranetapplication_binding configuration for property 'name'"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnvserver_vpnintranetapplication_binding -Resource $name -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnvserver_vpnintranetapplication_binding -NitroPath nitro/v1/config -Resource $name -Summary:$ViewSummary -Filter $Filter -GetWarning
             } else {
                 Write-Verbose "Retrieving vpnvserver_vpnintranetapplication_binding configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnvserver_vpnintranetapplication_binding -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnvserver_vpnintranetapplication_binding -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -29789,7 +29789,7 @@ function Invoke-ADCAddVpnvservervpnnexthopserverbinding {
         Invoke-ADCAddVpnvservervpnnexthopserverbinding -name <string>
     .NOTES
         File Name : Invoke-ADCAddVpnvservervpnnexthopserverbinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/vpn/vpnvserver_vpnnexthopserver_binding/
         Requires  : PowerShell v5.1 and up
@@ -29825,7 +29825,7 @@ function Invoke-ADCAddVpnvservervpnnexthopserverbinding {
             if ($PSBoundParameters.ContainsKey('nexthopserver')) { $Payload.Add('nexthopserver', $nexthopserver) }
  
             if ($PSCmdlet.ShouldProcess("vpnvserver_vpnnexthopserver_binding", "Add SSL VPN configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -Type vpnvserver_vpnnexthopserver_binding -Payload $Payload -GetWarning
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -NitroPath nitro/v1/config -Type vpnvserver_vpnnexthopserver_binding -Payload $Payload -GetWarning
                 #HTTP Status Code on Success: 201 Created
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 if ($PSBoundParameters.ContainsKey('PassThru')) {
@@ -29859,7 +29859,7 @@ function Invoke-ADCDeleteVpnvservervpnnexthopserverbinding {
         Invoke-ADCDeleteVpnvservervpnnexthopserverbinding -name <string>
     .NOTES
         File Name : Invoke-ADCDeleteVpnvservervpnnexthopserverbinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/vpn/vpnvserver_vpnnexthopserver_binding/
         Requires  : PowerShell v5.1 and up
@@ -29889,7 +29889,7 @@ function Invoke-ADCDeleteVpnvservervpnnexthopserverbinding {
             }
             if ($PSBoundParameters.ContainsKey('nexthopserver')) { $Arguments.Add('nexthopserver', $nexthopserver) }
             if ($PSCmdlet.ShouldProcess("$name", "Delete SSL VPN configuration Object")) {
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type vpnvserver_vpnnexthopserver_binding -Resource $name -Arguments $Arguments
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type vpnvserver_vpnnexthopserver_binding -NitroPath nitro/v1/config -Resource $name -Arguments $Arguments
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $response
@@ -29933,7 +29933,7 @@ function Invoke-ADCGetVpnvservervpnnexthopserverbinding {
         Invoke-ADCGetVpnvservervpnnexthopserverbinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetVpnvservervpnnexthopserverbinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/vpn/vpnvserver_vpnnexthopserver_binding/
         Requires  : PowerShell v5.1 and up
@@ -29971,21 +29971,21 @@ function Invoke-ADCGetVpnvservervpnnexthopserverbinding {
                     bulkbindings = 'yes'
                 }
                 Write-Verbose "Retrieving all vpnvserver_vpnnexthopserver_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnvserver_vpnnexthopserver_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnvserver_vpnnexthopserver_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
                 if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for vpnvserver_vpnnexthopserver_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnvserver_vpnnexthopserver_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnvserver_vpnnexthopserver_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving vpnvserver_vpnnexthopserver_binding objects by arguments"
                 $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnvserver_vpnnexthopserver_binding -Arguments $Arguments -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnvserver_vpnnexthopserver_binding -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving vpnvserver_vpnnexthopserver_binding configuration for property 'name'"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnvserver_vpnnexthopserver_binding -Resource $name -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnvserver_vpnnexthopserver_binding -NitroPath nitro/v1/config -Resource $name -Summary:$ViewSummary -Filter $Filter -GetWarning
             } else {
                 Write-Verbose "Retrieving vpnvserver_vpnnexthopserver_binding configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnvserver_vpnnexthopserver_binding -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnvserver_vpnnexthopserver_binding -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -30015,7 +30015,7 @@ function Invoke-ADCAddVpnvservervpnportalthemebinding {
         Invoke-ADCAddVpnvservervpnportalthemebinding -name <string>
     .NOTES
         File Name : Invoke-ADCAddVpnvservervpnportalthemebinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/vpn/vpnvserver_vpnportaltheme_binding/
         Requires  : PowerShell v5.1 and up
@@ -30051,7 +30051,7 @@ function Invoke-ADCAddVpnvservervpnportalthemebinding {
             if ($PSBoundParameters.ContainsKey('portaltheme')) { $Payload.Add('portaltheme', $portaltheme) }
  
             if ($PSCmdlet.ShouldProcess("vpnvserver_vpnportaltheme_binding", "Add SSL VPN configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -Type vpnvserver_vpnportaltheme_binding -Payload $Payload -GetWarning
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -NitroPath nitro/v1/config -Type vpnvserver_vpnportaltheme_binding -Payload $Payload -GetWarning
                 #HTTP Status Code on Success: 201 Created
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 if ($PSBoundParameters.ContainsKey('PassThru')) {
@@ -30085,7 +30085,7 @@ function Invoke-ADCDeleteVpnvservervpnportalthemebinding {
         Invoke-ADCDeleteVpnvservervpnportalthemebinding -name <string>
     .NOTES
         File Name : Invoke-ADCDeleteVpnvservervpnportalthemebinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/vpn/vpnvserver_vpnportaltheme_binding/
         Requires  : PowerShell v5.1 and up
@@ -30115,7 +30115,7 @@ function Invoke-ADCDeleteVpnvservervpnportalthemebinding {
             }
             if ($PSBoundParameters.ContainsKey('portaltheme')) { $Arguments.Add('portaltheme', $portaltheme) }
             if ($PSCmdlet.ShouldProcess("$name", "Delete SSL VPN configuration Object")) {
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type vpnvserver_vpnportaltheme_binding -Resource $name -Arguments $Arguments
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type vpnvserver_vpnportaltheme_binding -NitroPath nitro/v1/config -Resource $name -Arguments $Arguments
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $response
@@ -30159,7 +30159,7 @@ function Invoke-ADCGetVpnvservervpnportalthemebinding {
         Invoke-ADCGetVpnvservervpnportalthemebinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetVpnvservervpnportalthemebinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/vpn/vpnvserver_vpnportaltheme_binding/
         Requires  : PowerShell v5.1 and up
@@ -30197,21 +30197,21 @@ function Invoke-ADCGetVpnvservervpnportalthemebinding {
                     bulkbindings = 'yes'
                 }
                 Write-Verbose "Retrieving all vpnvserver_vpnportaltheme_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnvserver_vpnportaltheme_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnvserver_vpnportaltheme_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
                 if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for vpnvserver_vpnportaltheme_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnvserver_vpnportaltheme_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnvserver_vpnportaltheme_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving vpnvserver_vpnportaltheme_binding objects by arguments"
                 $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnvserver_vpnportaltheme_binding -Arguments $Arguments -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnvserver_vpnportaltheme_binding -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving vpnvserver_vpnportaltheme_binding configuration for property 'name'"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnvserver_vpnportaltheme_binding -Resource $name -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnvserver_vpnportaltheme_binding -NitroPath nitro/v1/config -Resource $name -Summary:$ViewSummary -Filter $Filter -GetWarning
             } else {
                 Write-Verbose "Retrieving vpnvserver_vpnportaltheme_binding configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnvserver_vpnportaltheme_binding -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnvserver_vpnportaltheme_binding -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -30254,7 +30254,7 @@ function Invoke-ADCAddVpnvservervpnsessionpolicybinding {
         Invoke-ADCAddVpnvservervpnsessionpolicybinding -name <string>
     .NOTES
         File Name : Invoke-ADCAddVpnvservervpnsessionpolicybinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/vpn/vpnvserver_vpnsessionpolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -30307,7 +30307,7 @@ function Invoke-ADCAddVpnvservervpnsessionpolicybinding {
             if ($PSBoundParameters.ContainsKey('bindpoint')) { $Payload.Add('bindpoint', $bindpoint) }
  
             if ($PSCmdlet.ShouldProcess("vpnvserver_vpnsessionpolicy_binding", "Add SSL VPN configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -Type vpnvserver_vpnsessionpolicy_binding -Payload $Payload -GetWarning
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -NitroPath nitro/v1/config -Type vpnvserver_vpnsessionpolicy_binding -Payload $Payload -GetWarning
                 #HTTP Status Code on Success: 201 Created
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 if ($PSBoundParameters.ContainsKey('PassThru')) {
@@ -30345,7 +30345,7 @@ function Invoke-ADCDeleteVpnvservervpnsessionpolicybinding {
         Invoke-ADCDeleteVpnvservervpnsessionpolicybinding -name <string>
     .NOTES
         File Name : Invoke-ADCDeleteVpnvservervpnsessionpolicybinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/vpn/vpnvserver_vpnsessionpolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -30384,7 +30384,7 @@ function Invoke-ADCDeleteVpnvservervpnsessionpolicybinding {
             if ($PSBoundParameters.ContainsKey('groupextraction')) { $Arguments.Add('groupextraction', $groupextraction) }
             if ($PSBoundParameters.ContainsKey('bindpoint')) { $Arguments.Add('bindpoint', $bindpoint) }
             if ($PSCmdlet.ShouldProcess("$name", "Delete SSL VPN configuration Object")) {
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type vpnvserver_vpnsessionpolicy_binding -Resource $name -Arguments $Arguments
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type vpnvserver_vpnsessionpolicy_binding -NitroPath nitro/v1/config -Resource $name -Arguments $Arguments
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $response
@@ -30428,7 +30428,7 @@ function Invoke-ADCGetVpnvservervpnsessionpolicybinding {
         Invoke-ADCGetVpnvservervpnsessionpolicybinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetVpnvservervpnsessionpolicybinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/vpn/vpnvserver_vpnsessionpolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -30466,21 +30466,21 @@ function Invoke-ADCGetVpnvservervpnsessionpolicybinding {
                     bulkbindings = 'yes'
                 }
                 Write-Verbose "Retrieving all vpnvserver_vpnsessionpolicy_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnvserver_vpnsessionpolicy_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnvserver_vpnsessionpolicy_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
                 if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for vpnvserver_vpnsessionpolicy_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnvserver_vpnsessionpolicy_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnvserver_vpnsessionpolicy_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving vpnvserver_vpnsessionpolicy_binding objects by arguments"
                 $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnvserver_vpnsessionpolicy_binding -Arguments $Arguments -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnvserver_vpnsessionpolicy_binding -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving vpnvserver_vpnsessionpolicy_binding configuration for property 'name'"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnvserver_vpnsessionpolicy_binding -Resource $name -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnvserver_vpnsessionpolicy_binding -NitroPath nitro/v1/config -Resource $name -Summary:$ViewSummary -Filter $Filter -GetWarning
             } else {
                 Write-Verbose "Retrieving vpnvserver_vpnsessionpolicy_binding configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnvserver_vpnsessionpolicy_binding -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnvserver_vpnsessionpolicy_binding -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -30523,7 +30523,7 @@ function Invoke-ADCAddVpnvservervpntrafficpolicybinding {
         Invoke-ADCAddVpnvservervpntrafficpolicybinding -name <string>
     .NOTES
         File Name : Invoke-ADCAddVpnvservervpntrafficpolicybinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/vpn/vpnvserver_vpntrafficpolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -30576,7 +30576,7 @@ function Invoke-ADCAddVpnvservervpntrafficpolicybinding {
             if ($PSBoundParameters.ContainsKey('bindpoint')) { $Payload.Add('bindpoint', $bindpoint) }
  
             if ($PSCmdlet.ShouldProcess("vpnvserver_vpntrafficpolicy_binding", "Add SSL VPN configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -Type vpnvserver_vpntrafficpolicy_binding -Payload $Payload -GetWarning
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -NitroPath nitro/v1/config -Type vpnvserver_vpntrafficpolicy_binding -Payload $Payload -GetWarning
                 #HTTP Status Code on Success: 201 Created
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 if ($PSBoundParameters.ContainsKey('PassThru')) {
@@ -30614,7 +30614,7 @@ function Invoke-ADCDeleteVpnvservervpntrafficpolicybinding {
         Invoke-ADCDeleteVpnvservervpntrafficpolicybinding -name <string>
     .NOTES
         File Name : Invoke-ADCDeleteVpnvservervpntrafficpolicybinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/vpn/vpnvserver_vpntrafficpolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -30653,7 +30653,7 @@ function Invoke-ADCDeleteVpnvservervpntrafficpolicybinding {
             if ($PSBoundParameters.ContainsKey('groupextraction')) { $Arguments.Add('groupextraction', $groupextraction) }
             if ($PSBoundParameters.ContainsKey('bindpoint')) { $Arguments.Add('bindpoint', $bindpoint) }
             if ($PSCmdlet.ShouldProcess("$name", "Delete SSL VPN configuration Object")) {
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type vpnvserver_vpntrafficpolicy_binding -Resource $name -Arguments $Arguments
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type vpnvserver_vpntrafficpolicy_binding -NitroPath nitro/v1/config -Resource $name -Arguments $Arguments
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $response
@@ -30697,7 +30697,7 @@ function Invoke-ADCGetVpnvservervpntrafficpolicybinding {
         Invoke-ADCGetVpnvservervpntrafficpolicybinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetVpnvservervpntrafficpolicybinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/vpn/vpnvserver_vpntrafficpolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -30735,21 +30735,21 @@ function Invoke-ADCGetVpnvservervpntrafficpolicybinding {
                     bulkbindings = 'yes'
                 }
                 Write-Verbose "Retrieving all vpnvserver_vpntrafficpolicy_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnvserver_vpntrafficpolicy_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnvserver_vpntrafficpolicy_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
                 if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for vpnvserver_vpntrafficpolicy_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnvserver_vpntrafficpolicy_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnvserver_vpntrafficpolicy_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving vpnvserver_vpntrafficpolicy_binding objects by arguments"
                 $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnvserver_vpntrafficpolicy_binding -Arguments $Arguments -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnvserver_vpntrafficpolicy_binding -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving vpnvserver_vpntrafficpolicy_binding configuration for property 'name'"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnvserver_vpntrafficpolicy_binding -Resource $name -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnvserver_vpntrafficpolicy_binding -NitroPath nitro/v1/config -Resource $name -Summary:$ViewSummary -Filter $Filter -GetWarning
             } else {
                 Write-Verbose "Retrieving vpnvserver_vpntrafficpolicy_binding configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnvserver_vpntrafficpolicy_binding -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnvserver_vpntrafficpolicy_binding -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -30792,7 +30792,7 @@ function Invoke-ADCAddVpnvservervpnurlpolicybinding {
         Invoke-ADCAddVpnvservervpnurlpolicybinding -name <string>
     .NOTES
         File Name : Invoke-ADCAddVpnvservervpnurlpolicybinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/vpn/vpnvserver_vpnurlpolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -30845,7 +30845,7 @@ function Invoke-ADCAddVpnvservervpnurlpolicybinding {
             if ($PSBoundParameters.ContainsKey('bindpoint')) { $Payload.Add('bindpoint', $bindpoint) }
  
             if ($PSCmdlet.ShouldProcess("vpnvserver_vpnurlpolicy_binding", "Add SSL VPN configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -Type vpnvserver_vpnurlpolicy_binding -Payload $Payload -GetWarning
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -NitroPath nitro/v1/config -Type vpnvserver_vpnurlpolicy_binding -Payload $Payload -GetWarning
                 #HTTP Status Code on Success: 201 Created
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 if ($PSBoundParameters.ContainsKey('PassThru')) {
@@ -30883,7 +30883,7 @@ function Invoke-ADCDeleteVpnvservervpnurlpolicybinding {
         Invoke-ADCDeleteVpnvservervpnurlpolicybinding -name <string>
     .NOTES
         File Name : Invoke-ADCDeleteVpnvservervpnurlpolicybinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/vpn/vpnvserver_vpnurlpolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -30922,7 +30922,7 @@ function Invoke-ADCDeleteVpnvservervpnurlpolicybinding {
             if ($PSBoundParameters.ContainsKey('groupextraction')) { $Arguments.Add('groupextraction', $groupextraction) }
             if ($PSBoundParameters.ContainsKey('bindpoint')) { $Arguments.Add('bindpoint', $bindpoint) }
             if ($PSCmdlet.ShouldProcess("$name", "Delete SSL VPN configuration Object")) {
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type vpnvserver_vpnurlpolicy_binding -Resource $name -Arguments $Arguments
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type vpnvserver_vpnurlpolicy_binding -NitroPath nitro/v1/config -Resource $name -Arguments $Arguments
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $response
@@ -30966,7 +30966,7 @@ function Invoke-ADCGetVpnvservervpnurlpolicybinding {
         Invoke-ADCGetVpnvservervpnurlpolicybinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetVpnvservervpnurlpolicybinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/vpn/vpnvserver_vpnurlpolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -31004,21 +31004,21 @@ function Invoke-ADCGetVpnvservervpnurlpolicybinding {
                     bulkbindings = 'yes'
                 }
                 Write-Verbose "Retrieving all vpnvserver_vpnurlpolicy_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnvserver_vpnurlpolicy_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnvserver_vpnurlpolicy_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
                 if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for vpnvserver_vpnurlpolicy_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnvserver_vpnurlpolicy_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnvserver_vpnurlpolicy_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving vpnvserver_vpnurlpolicy_binding objects by arguments"
                 $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnvserver_vpnurlpolicy_binding -Arguments $Arguments -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnvserver_vpnurlpolicy_binding -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving vpnvserver_vpnurlpolicy_binding configuration for property 'name'"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnvserver_vpnurlpolicy_binding -Resource $name -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnvserver_vpnurlpolicy_binding -NitroPath nitro/v1/config -Resource $name -Summary:$ViewSummary -Filter $Filter -GetWarning
             } else {
                 Write-Verbose "Retrieving vpnvserver_vpnurlpolicy_binding configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnvserver_vpnurlpolicy_binding -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnvserver_vpnurlpolicy_binding -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -31048,7 +31048,7 @@ function Invoke-ADCAddVpnvservervpnurlbinding {
         Invoke-ADCAddVpnvservervpnurlbinding -name <string>
     .NOTES
         File Name : Invoke-ADCAddVpnvservervpnurlbinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/vpn/vpnvserver_vpnurl_binding/
         Requires  : PowerShell v5.1 and up
@@ -31084,7 +31084,7 @@ function Invoke-ADCAddVpnvservervpnurlbinding {
             if ($PSBoundParameters.ContainsKey('urlname')) { $Payload.Add('urlname', $urlname) }
  
             if ($PSCmdlet.ShouldProcess("vpnvserver_vpnurl_binding", "Add SSL VPN configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -Type vpnvserver_vpnurl_binding -Payload $Payload -GetWarning
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -NitroPath nitro/v1/config -Type vpnvserver_vpnurl_binding -Payload $Payload -GetWarning
                 #HTTP Status Code on Success: 201 Created
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 if ($PSBoundParameters.ContainsKey('PassThru')) {
@@ -31118,7 +31118,7 @@ function Invoke-ADCDeleteVpnvservervpnurlbinding {
         Invoke-ADCDeleteVpnvservervpnurlbinding -name <string>
     .NOTES
         File Name : Invoke-ADCDeleteVpnvservervpnurlbinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/vpn/vpnvserver_vpnurl_binding/
         Requires  : PowerShell v5.1 and up
@@ -31148,7 +31148,7 @@ function Invoke-ADCDeleteVpnvservervpnurlbinding {
             }
             if ($PSBoundParameters.ContainsKey('urlname')) { $Arguments.Add('urlname', $urlname) }
             if ($PSCmdlet.ShouldProcess("$name", "Delete SSL VPN configuration Object")) {
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type vpnvserver_vpnurl_binding -Resource $name -Arguments $Arguments
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type vpnvserver_vpnurl_binding -NitroPath nitro/v1/config -Resource $name -Arguments $Arguments
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $response
@@ -31192,7 +31192,7 @@ function Invoke-ADCGetVpnvservervpnurlbinding {
         Invoke-ADCGetVpnvservervpnurlbinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetVpnvservervpnurlbinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/vpn/vpnvserver_vpnurl_binding/
         Requires  : PowerShell v5.1 and up
@@ -31230,21 +31230,21 @@ function Invoke-ADCGetVpnvservervpnurlbinding {
                     bulkbindings = 'yes'
                 }
                 Write-Verbose "Retrieving all vpnvserver_vpnurl_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnvserver_vpnurl_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnvserver_vpnurl_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
                 if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for vpnvserver_vpnurl_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnvserver_vpnurl_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnvserver_vpnurl_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving vpnvserver_vpnurl_binding objects by arguments"
                 $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnvserver_vpnurl_binding -Arguments $Arguments -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnvserver_vpnurl_binding -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving vpnvserver_vpnurl_binding configuration for property 'name'"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnvserver_vpnurl_binding -Resource $name -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnvserver_vpnurl_binding -NitroPath nitro/v1/config -Resource $name -Summary:$ViewSummary -Filter $Filter -GetWarning
             } else {
                 Write-Verbose "Retrieving vpnvserver_vpnurl_binding configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnvserver_vpnurl_binding -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnvserver_vpnurl_binding -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"

@@ -10,7 +10,7 @@ function Invoke-ADCForceHafailover {
         Invoke-ADCForceHafailover 
     .NOTES
         File Name : Invoke-ADCForceHafailover
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ha/hafailover/
         Requires  : PowerShell v5.1 and up
@@ -39,7 +39,7 @@ function Invoke-ADCForceHafailover {
             }
             if ($PSBoundParameters.ContainsKey('force')) { $Payload.Add('force', $force) }
             if ($PSCmdlet.ShouldProcess($Name, "Force High Availability configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -Type hafailover -Action force -Payload $Payload -GetWarning
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -NitroPath nitro/v1/config -Type hafailover -Action force -Payload $Payload -GetWarning
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $result
@@ -74,7 +74,7 @@ function Invoke-ADCSyncHafiles {
         Invoke-ADCSyncHafiles 
     .NOTES
         File Name : Invoke-ADCSyncHafiles
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ha/hafiles/
         Requires  : PowerShell v5.1 and up
@@ -104,7 +104,7 @@ function Invoke-ADCSyncHafiles {
             }
             if ($PSBoundParameters.ContainsKey('mode')) { $Payload.Add('mode', $mode) }
             if ($PSCmdlet.ShouldProcess($Name, "Sync High Availability configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -Type hafiles -Action sync -Payload $Payload -GetWarning
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -NitroPath nitro/v1/config -Type hafiles -Action sync -Payload $Payload -GetWarning
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $result
@@ -142,7 +142,7 @@ function Invoke-ADCAddHanode {
         Invoke-ADCAddHanode -id <double> -ipaddress <string>
     .NOTES
         File Name : Invoke-ADCAddHanode
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ha/hanode/
         Requires  : PowerShell v5.1 and up
@@ -184,7 +184,7 @@ function Invoke-ADCAddHanode {
             if ($PSBoundParameters.ContainsKey('inc')) { $Payload.Add('inc', $inc) }
  
             if ($PSCmdlet.ShouldProcess("hanode", "Add High Availability configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -Type hanode -Payload $Payload -GetWarning
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -NitroPath nitro/v1/config -Type hanode -Payload $Payload -GetWarning
                 #HTTP Status Code on Success: 201 Created
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 if ($PSBoundParameters.ContainsKey('PassThru')) {
@@ -218,7 +218,7 @@ function Invoke-ADCDeleteHanode {
         Invoke-ADCDeleteHanode -id <double>
     .NOTES
         File Name : Invoke-ADCDeleteHanode
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ha/hanode/
         Requires  : PowerShell v5.1 and up
@@ -246,7 +246,7 @@ function Invoke-ADCDeleteHanode {
             }
 
             if ($PSCmdlet.ShouldProcess("$id", "Delete High Availability configuration Object")) {
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type hanode -Resource $id -Arguments $Arguments
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type hanode -NitroPath nitro/v1/config -Resource $id -Arguments $Arguments
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $response
@@ -322,7 +322,7 @@ function Invoke-ADCUpdateHanode {
         Invoke-ADCUpdateHanode 
     .NOTES
         File Name : Invoke-ADCUpdateHanode
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ha/hanode/
         Requires  : PowerShell v5.1 and up
@@ -393,7 +393,7 @@ function Invoke-ADCUpdateHanode {
             if ($PSBoundParameters.ContainsKey('syncstatusstrictmode')) { $Payload.Add('syncstatusstrictmode', $syncstatusstrictmode) }
  
             if ($PSCmdlet.ShouldProcess("hanode", "Update High Availability configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -Type hanode -Payload $Payload -GetWarning
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -NitroPath nitro/v1/config -Type hanode -Payload $Payload -GetWarning
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 if ($PSBoundParameters.ContainsKey('PassThru')) {
@@ -456,7 +456,7 @@ function Invoke-ADCUnsetHanode {
         Invoke-ADCUnsetHanode 
     .NOTES
         File Name : Invoke-ADCUnsetHanode
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ha/hanode
         Requires  : PowerShell v5.1 and up
@@ -514,7 +514,7 @@ function Invoke-ADCUnsetHanode {
             if ($PSBoundParameters.ContainsKey('syncvlan')) { $Payload.Add('syncvlan', $syncvlan) }
             if ($PSBoundParameters.ContainsKey('syncstatusstrictmode')) { $Payload.Add('syncstatusstrictmode', $syncstatusstrictmode) }
             if ($PSCmdlet.ShouldProcess("hanode", "Unset High Availability configuration Object")) {
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -Type hanode -Action unset -Payload $Payload -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -Type hanode -NitroPath nitro/v1/config -Action unset -Payload $Payload -GetWarning
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $response
@@ -558,7 +558,7 @@ function Invoke-ADCGetHanode {
         Invoke-ADCGetHanode -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetHanode
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ha/hanode/
         Requires  : PowerShell v5.1 and up
@@ -599,21 +599,21 @@ function Invoke-ADCGetHanode {
             if ( $PsCmdlet.ParameterSetName -eq 'Getall' ) {
                 $Query = @{ }
                 Write-Verbose "Retrieving all hanode objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type hanode -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type hanode -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
                 if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for hanode objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type hanode -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type hanode -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving hanode objects by arguments"
                 $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type hanode -Arguments $Arguments -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type hanode -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving hanode configuration for property 'id'"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type hanode -Resource $id -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type hanode -NitroPath nitro/v1/config -Resource $id -Summary:$ViewSummary -Filter $Filter -GetWarning
             } else {
                 Write-Verbose "Retrieving hanode configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type hanode -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type hanode -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -653,7 +653,7 @@ function Invoke-ADCGetHanodebinding {
         Invoke-ADCGetHanodebinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetHanodebinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ha/hanode_binding/
         Requires  : PowerShell v5.1 and up
@@ -688,21 +688,21 @@ function Invoke-ADCGetHanodebinding {
                     bulkbindings = 'yes'
                 }
                 Write-Verbose "Retrieving all hanode_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type hanode_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type hanode_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
                 if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for hanode_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type hanode_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type hanode_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving hanode_binding objects by arguments"
                 $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type hanode_binding -Arguments $Arguments -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type hanode_binding -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving hanode_binding configuration for property 'id'"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type hanode_binding -Resource $id -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type hanode_binding -NitroPath nitro/v1/config -Resource $id -Summary:$ViewSummary -Filter $Filter -GetWarning
             } else {
                 Write-Verbose "Retrieving hanode_binding configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type hanode_binding -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type hanode_binding -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -744,7 +744,7 @@ function Invoke-ADCGetHanodecibinding {
         Invoke-ADCGetHanodecibinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetHanodecibinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ha/hanode_ci_binding/
         Requires  : PowerShell v5.1 and up
@@ -782,21 +782,21 @@ function Invoke-ADCGetHanodecibinding {
                     bulkbindings = 'yes'
                 }
                 Write-Verbose "Retrieving all hanode_ci_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type hanode_ci_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type hanode_ci_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
                 if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for hanode_ci_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type hanode_ci_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type hanode_ci_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving hanode_ci_binding objects by arguments"
                 $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type hanode_ci_binding -Arguments $Arguments -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type hanode_ci_binding -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving hanode_ci_binding configuration for property 'id'"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type hanode_ci_binding -Resource $id -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type hanode_ci_binding -NitroPath nitro/v1/config -Resource $id -Summary:$ViewSummary -Filter $Filter -GetWarning
             } else {
                 Write-Verbose "Retrieving hanode_ci_binding configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type hanode_ci_binding -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type hanode_ci_binding -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -838,7 +838,7 @@ function Invoke-ADCGetHanodefisbinding {
         Invoke-ADCGetHanodefisbinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetHanodefisbinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ha/hanode_fis_binding/
         Requires  : PowerShell v5.1 and up
@@ -876,21 +876,21 @@ function Invoke-ADCGetHanodefisbinding {
                     bulkbindings = 'yes'
                 }
                 Write-Verbose "Retrieving all hanode_fis_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type hanode_fis_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type hanode_fis_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
                 if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for hanode_fis_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type hanode_fis_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type hanode_fis_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving hanode_fis_binding objects by arguments"
                 $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type hanode_fis_binding -Arguments $Arguments -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type hanode_fis_binding -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving hanode_fis_binding configuration for property 'id'"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type hanode_fis_binding -Resource $id -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type hanode_fis_binding -NitroPath nitro/v1/config -Resource $id -Summary:$ViewSummary -Filter $Filter -GetWarning
             } else {
                 Write-Verbose "Retrieving hanode_fis_binding configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type hanode_fis_binding -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type hanode_fis_binding -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -932,7 +932,7 @@ function Invoke-ADCGetHanodepartialfailureinterfacesbinding {
         Invoke-ADCGetHanodepartialfailureinterfacesbinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetHanodepartialfailureinterfacesbinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ha/hanode_partialfailureinterfaces_binding/
         Requires  : PowerShell v5.1 and up
@@ -970,21 +970,21 @@ function Invoke-ADCGetHanodepartialfailureinterfacesbinding {
                     bulkbindings = 'yes'
                 }
                 Write-Verbose "Retrieving all hanode_partialfailureinterfaces_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type hanode_partialfailureinterfaces_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type hanode_partialfailureinterfaces_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
                 if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for hanode_partialfailureinterfaces_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type hanode_partialfailureinterfaces_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type hanode_partialfailureinterfaces_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving hanode_partialfailureinterfaces_binding objects by arguments"
                 $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type hanode_partialfailureinterfaces_binding -Arguments $Arguments -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type hanode_partialfailureinterfaces_binding -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving hanode_partialfailureinterfaces_binding configuration for property 'id'"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type hanode_partialfailureinterfaces_binding -Resource $id -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type hanode_partialfailureinterfaces_binding -NitroPath nitro/v1/config -Resource $id -Summary:$ViewSummary -Filter $Filter -GetWarning
             } else {
                 Write-Verbose "Retrieving hanode_partialfailureinterfaces_binding configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type hanode_partialfailureinterfaces_binding -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type hanode_partialfailureinterfaces_binding -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -1017,7 +1017,7 @@ function Invoke-ADCAddHanoderoutemonitor6binding {
         Invoke-ADCAddHanoderoutemonitor6binding -routemonitor <string>
     .NOTES
         File Name : Invoke-ADCAddHanoderoutemonitor6binding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ha/hanode_routemonitor6_binding/
         Requires  : PowerShell v5.1 and up
@@ -1056,7 +1056,7 @@ function Invoke-ADCAddHanoderoutemonitor6binding {
             if ($PSBoundParameters.ContainsKey('netmask')) { $Payload.Add('netmask', $netmask) }
  
             if ($PSCmdlet.ShouldProcess("hanode_routemonitor6_binding", "Add High Availability configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -Type hanode_routemonitor6_binding -Payload $Payload -GetWarning
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -NitroPath nitro/v1/config -Type hanode_routemonitor6_binding -Payload $Payload -GetWarning
                 #HTTP Status Code on Success: 201 Created
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 if ($PSBoundParameters.ContainsKey('PassThru')) {
@@ -1092,7 +1092,7 @@ function Invoke-ADCDeleteHanoderoutemonitor6binding {
         Invoke-ADCDeleteHanoderoutemonitor6binding -id <double>
     .NOTES
         File Name : Invoke-ADCDeleteHanoderoutemonitor6binding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ha/hanode_routemonitor6_binding/
         Requires  : PowerShell v5.1 and up
@@ -1125,7 +1125,7 @@ function Invoke-ADCDeleteHanoderoutemonitor6binding {
             if ($PSBoundParameters.ContainsKey('routemonitor')) { $Arguments.Add('routemonitor', $routemonitor) }
             if ($PSBoundParameters.ContainsKey('netmask')) { $Arguments.Add('netmask', $netmask) }
             if ($PSCmdlet.ShouldProcess("$id", "Delete High Availability configuration Object")) {
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type hanode_routemonitor6_binding -Resource $id -Arguments $Arguments
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type hanode_routemonitor6_binding -NitroPath nitro/v1/config -Resource $id -Arguments $Arguments
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $response
@@ -1169,7 +1169,7 @@ function Invoke-ADCGetHanoderoutemonitor6binding {
         Invoke-ADCGetHanoderoutemonitor6binding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetHanoderoutemonitor6binding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ha/hanode_routemonitor6_binding/
         Requires  : PowerShell v5.1 and up
@@ -1207,21 +1207,21 @@ function Invoke-ADCGetHanoderoutemonitor6binding {
                     bulkbindings = 'yes'
                 }
                 Write-Verbose "Retrieving all hanode_routemonitor6_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type hanode_routemonitor6_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type hanode_routemonitor6_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
                 if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for hanode_routemonitor6_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type hanode_routemonitor6_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type hanode_routemonitor6_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving hanode_routemonitor6_binding objects by arguments"
                 $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type hanode_routemonitor6_binding -Arguments $Arguments -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type hanode_routemonitor6_binding -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving hanode_routemonitor6_binding configuration for property 'id'"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type hanode_routemonitor6_binding -Resource $id -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type hanode_routemonitor6_binding -NitroPath nitro/v1/config -Resource $id -Summary:$ViewSummary -Filter $Filter -GetWarning
             } else {
                 Write-Verbose "Retrieving hanode_routemonitor6_binding configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type hanode_routemonitor6_binding -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type hanode_routemonitor6_binding -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -1254,7 +1254,7 @@ function Invoke-ADCAddHanoderoutemonitorbinding {
         Invoke-ADCAddHanoderoutemonitorbinding -routemonitor <string>
     .NOTES
         File Name : Invoke-ADCAddHanoderoutemonitorbinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ha/hanode_routemonitor_binding/
         Requires  : PowerShell v5.1 and up
@@ -1293,7 +1293,7 @@ function Invoke-ADCAddHanoderoutemonitorbinding {
             if ($PSBoundParameters.ContainsKey('netmask')) { $Payload.Add('netmask', $netmask) }
  
             if ($PSCmdlet.ShouldProcess("hanode_routemonitor_binding", "Add High Availability configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -Type hanode_routemonitor_binding -Payload $Payload -GetWarning
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -NitroPath nitro/v1/config -Type hanode_routemonitor_binding -Payload $Payload -GetWarning
                 #HTTP Status Code on Success: 201 Created
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 if ($PSBoundParameters.ContainsKey('PassThru')) {
@@ -1329,7 +1329,7 @@ function Invoke-ADCDeleteHanoderoutemonitorbinding {
         Invoke-ADCDeleteHanoderoutemonitorbinding -id <double>
     .NOTES
         File Name : Invoke-ADCDeleteHanoderoutemonitorbinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ha/hanode_routemonitor_binding/
         Requires  : PowerShell v5.1 and up
@@ -1362,7 +1362,7 @@ function Invoke-ADCDeleteHanoderoutemonitorbinding {
             if ($PSBoundParameters.ContainsKey('routemonitor')) { $Arguments.Add('routemonitor', $routemonitor) }
             if ($PSBoundParameters.ContainsKey('netmask')) { $Arguments.Add('netmask', $netmask) }
             if ($PSCmdlet.ShouldProcess("$id", "Delete High Availability configuration Object")) {
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type hanode_routemonitor_binding -Resource $id -Arguments $Arguments
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type hanode_routemonitor_binding -NitroPath nitro/v1/config -Resource $id -Arguments $Arguments
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $response
@@ -1406,7 +1406,7 @@ function Invoke-ADCGetHanoderoutemonitorbinding {
         Invoke-ADCGetHanoderoutemonitorbinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetHanoderoutemonitorbinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ha/hanode_routemonitor_binding/
         Requires  : PowerShell v5.1 and up
@@ -1444,21 +1444,21 @@ function Invoke-ADCGetHanoderoutemonitorbinding {
                     bulkbindings = 'yes'
                 }
                 Write-Verbose "Retrieving all hanode_routemonitor_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type hanode_routemonitor_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type hanode_routemonitor_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
                 if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for hanode_routemonitor_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type hanode_routemonitor_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type hanode_routemonitor_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving hanode_routemonitor_binding objects by arguments"
                 $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type hanode_routemonitor_binding -Arguments $Arguments -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type hanode_routemonitor_binding -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving hanode_routemonitor_binding configuration for property 'id'"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type hanode_routemonitor_binding -Resource $id -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type hanode_routemonitor_binding -NitroPath nitro/v1/config -Resource $id -Summary:$ViewSummary -Filter $Filter -GetWarning
             } else {
                 Write-Verbose "Retrieving hanode_routemonitor_binding configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type hanode_routemonitor_binding -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type hanode_routemonitor_binding -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -1486,7 +1486,7 @@ function Invoke-ADCForceHasync {
         Invoke-ADCForceHasync 
     .NOTES
         File Name : Invoke-ADCForceHasync
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ha/hasync/
         Requires  : PowerShell v5.1 and up
@@ -1519,7 +1519,7 @@ function Invoke-ADCForceHasync {
             if ($PSBoundParameters.ContainsKey('force')) { $Payload.Add('force', $force) }
             if ($PSBoundParameters.ContainsKey('save')) { $Payload.Add('save', $save) }
             if ($PSCmdlet.ShouldProcess($Name, "Force High Availability configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -Type hasync -Action force -Payload $Payload -GetWarning
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -NitroPath nitro/v1/config -Type hasync -Action force -Payload $Payload -GetWarning
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $result
@@ -1559,7 +1559,7 @@ function Invoke-ADCGetHasyncfailures {
         Invoke-ADCGetHasyncfailures -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetHasyncfailures
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ha/hasyncfailures/
         Requires  : PowerShell v5.1 and up
@@ -1588,21 +1588,21 @@ function Invoke-ADCGetHasyncfailures {
             if ( $PsCmdlet.ParameterSetName -eq 'Getall' ) {
                 $Query = @{ }
                 Write-Verbose "Retrieving all hasyncfailures objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type hasyncfailures -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type hasyncfailures -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
                 if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for hasyncfailures objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type hasyncfailures -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type hasyncfailures -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving hasyncfailures objects by arguments"
                 $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type hasyncfailures -Arguments $Arguments -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type hasyncfailures -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving hasyncfailures configuration for property ''"
 
             } else {
                 Write-Verbose "Retrieving hasyncfailures configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type hasyncfailures -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type hasyncfailures -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"

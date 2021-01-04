@@ -35,7 +35,7 @@ function Invoke-ADCUpdateCallhome {
         Invoke-ADCUpdateCallhome 
     .NOTES
         File Name : Invoke-ADCUpdateCallhome
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/utility/callhome/
         Requires  : PowerShell v5.1 and up
@@ -88,7 +88,7 @@ function Invoke-ADCUpdateCallhome {
             if ($PSBoundParameters.ContainsKey('port')) { $Payload.Add('port', $port) }
  
             if ($PSCmdlet.ShouldProcess("callhome", "Update Utility configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -Type callhome -Payload $Payload -GetWarning
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -NitroPath nitro/v1/config -Type callhome -Payload $Payload -GetWarning
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
             Write-Output $result
@@ -131,7 +131,7 @@ function Invoke-ADCUnsetCallhome {
         Invoke-ADCUnsetCallhome 
     .NOTES
         File Name : Invoke-ADCUnsetCallhome
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/utility/callhome
         Requires  : PowerShell v5.1 and up
@@ -177,7 +177,7 @@ function Invoke-ADCUnsetCallhome {
             if ($PSBoundParameters.ContainsKey('proxyauthservice')) { $Payload.Add('proxyauthservice', $proxyauthservice) }
             if ($PSBoundParameters.ContainsKey('port')) { $Payload.Add('port', $port) }
             if ($PSCmdlet.ShouldProcess("callhome", "Unset Utility configuration Object")) {
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -Type callhome -Action unset -Payload $Payload -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -Type callhome -NitroPath nitro/v1/config -Action unset -Payload $Payload -GetWarning
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $response
@@ -219,7 +219,7 @@ function Invoke-ADCGetCallhome {
         Invoke-ADCGetCallhome -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetCallhome
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/utility/callhome/
         Requires  : PowerShell v5.1 and up
@@ -252,22 +252,22 @@ function Invoke-ADCGetCallhome {
             if ( $PsCmdlet.ParameterSetName -eq 'Getall' ) {
                 $Query = @{ }
                 Write-Verbose "Retrieving all callhome objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type callhome -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type callhome -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
                 if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for callhome objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type callhome -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type callhome -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving callhome objects by arguments"
                 $Arguments = @{ } 
                 if ($PSBoundParameters.ContainsKey('nodeid')) { $Arguments.Add('nodeid', $nodeid) }
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type callhome -Arguments $Arguments -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type callhome -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving callhome configuration for property ''"
 
             } else {
                 Write-Verbose "Retrieving callhome configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type callhome -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type callhome -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -306,7 +306,7 @@ function Invoke-ADCInstall {
         Invoke-ADCInstall -url <string>
     .NOTES
         File Name : Invoke-ADCInstall
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/utility/install/
         Requires  : PowerShell v5.1 and up
@@ -347,7 +347,7 @@ function Invoke-ADCInstall {
             if ($PSBoundParameters.ContainsKey('enhancedupgrade')) { $Payload.Add('enhancedupgrade', $enhancedupgrade) }
             if ($PSBoundParameters.ContainsKey('resizeswapvar')) { $Payload.Add('resizeswapvar', $resizeswapvar) }
             if ($PSCmdlet.ShouldProcess($Name, "Install Utility configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -Type install -Payload $Payload -GetWarning
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -NitroPath nitro/v1/config -Type install -Payload $Payload -GetWarning
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $result
@@ -387,7 +387,7 @@ function Invoke-ADCGetRaid {
         Invoke-ADCGetRaid -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetRaid
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/utility/raid/
         Requires  : PowerShell v5.1 and up
@@ -416,21 +416,21 @@ function Invoke-ADCGetRaid {
             if ( $PsCmdlet.ParameterSetName -eq 'Getall' ) {
                 $Query = @{ }
                 Write-Verbose "Retrieving all raid objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type raid -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type raid -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
                 if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for raid objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type raid -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type raid -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving raid objects by arguments"
                 $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type raid -Arguments $Arguments -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type raid -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving raid configuration for property ''"
 
             } else {
                 Write-Verbose "Retrieving raid configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type raid -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type raid -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -487,7 +487,7 @@ function Invoke-ADCGetTechsupport {
         Invoke-ADCGetTechsupport -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetTechsupport
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/utility/techsupport/
         Requires  : PowerShell v5.1 and up
@@ -545,11 +545,11 @@ function Invoke-ADCGetTechsupport {
             if ( $PsCmdlet.ParameterSetName -eq 'Getall' ) {
                 $Query = @{ }
                 Write-Verbose "Retrieving all techsupport objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type techsupport -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type techsupport -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
                 if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for techsupport objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type techsupport -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type techsupport -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving techsupport objects by arguments"
                 $Arguments = @{ } 
@@ -562,13 +562,13 @@ function Invoke-ADCGetTechsupport {
                 if ($PSBoundParameters.ContainsKey('description')) { $Arguments.Add('description', $description) } 
                 if ($PSBoundParameters.ContainsKey('username')) { $Arguments.Add('username', $username) } 
                 if ($PSBoundParameters.ContainsKey('password')) { $Arguments.Add('password', $password) }
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type techsupport -Arguments $Arguments -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type techsupport -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving techsupport configuration for property ''"
 
             } else {
                 Write-Verbose "Retrieving techsupport configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type techsupport -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type techsupport -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"

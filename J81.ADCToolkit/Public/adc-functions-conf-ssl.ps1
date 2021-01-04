@@ -87,7 +87,7 @@ function Invoke-ADCAddSslaction {
         Invoke-ADCAddSslaction -name <string>
     .NOTES
         File Name : Invoke-ADCAddSslaction
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ssl/sslaction/
         Requires  : PowerShell v5.1 and up
@@ -219,7 +219,7 @@ function Invoke-ADCAddSslaction {
             if ($PSBoundParameters.ContainsKey('cacertgrpname')) { $Payload.Add('cacertgrpname', $cacertgrpname) }
  
             if ($PSCmdlet.ShouldProcess("sslaction", "Add SSL configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -Type sslaction -Payload $Payload -GetWarning
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -NitroPath nitro/v1/config -Type sslaction -Payload $Payload -GetWarning
                 #HTTP Status Code on Success: 201 Created
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 if ($PSBoundParameters.ContainsKey('PassThru')) {
@@ -251,7 +251,7 @@ function Invoke-ADCDeleteSslaction {
         Invoke-ADCDeleteSslaction -name <string>
     .NOTES
         File Name : Invoke-ADCDeleteSslaction
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ssl/sslaction/
         Requires  : PowerShell v5.1 and up
@@ -279,7 +279,7 @@ function Invoke-ADCDeleteSslaction {
             }
 
             if ($PSCmdlet.ShouldProcess("$name", "Delete SSL configuration Object")) {
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type sslaction -Resource $name -Arguments $Arguments
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type sslaction -NitroPath nitro/v1/config -Resource $name -Arguments $Arguments
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $response
@@ -323,7 +323,7 @@ function Invoke-ADCGetSslaction {
         Invoke-ADCGetSslaction -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetSslaction
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ssl/sslaction/
         Requires  : PowerShell v5.1 and up
@@ -365,21 +365,21 @@ function Invoke-ADCGetSslaction {
             if ( $PsCmdlet.ParameterSetName -eq 'Getall' ) {
                 $Query = @{ }
                 Write-Verbose "Retrieving all sslaction objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type sslaction -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type sslaction -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
                 if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for sslaction objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type sslaction -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type sslaction -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving sslaction objects by arguments"
                 $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type sslaction -Arguments $Arguments -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type sslaction -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving sslaction configuration for property 'name'"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type sslaction -Resource $name -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type sslaction -NitroPath nitro/v1/config -Resource $name -Summary:$ViewSummary -Filter $Filter -GetWarning
             } else {
                 Write-Verbose "Retrieving sslaction configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type sslaction -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type sslaction -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -406,7 +406,7 @@ function Invoke-ADCAddSslcacertgroup {
         Invoke-ADCAddSslcacertgroup -cacertgroupname <string>
     .NOTES
         File Name : Invoke-ADCAddSslcacertgroup
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ssl/sslcacertgroup/
         Requires  : PowerShell v5.1 and up
@@ -441,7 +441,7 @@ function Invoke-ADCAddSslcacertgroup {
 
  
             if ($PSCmdlet.ShouldProcess("sslcacertgroup", "Add SSL configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -Type sslcacertgroup -Payload $Payload -GetWarning
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -NitroPath nitro/v1/config -Type sslcacertgroup -Payload $Payload -GetWarning
                 #HTTP Status Code on Success: 201 Created
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 if ($PSBoundParameters.ContainsKey('PassThru')) {
@@ -473,7 +473,7 @@ function Invoke-ADCDeleteSslcacertgroup {
         Invoke-ADCDeleteSslcacertgroup -cacertgroupname <string>
     .NOTES
         File Name : Invoke-ADCDeleteSslcacertgroup
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ssl/sslcacertgroup/
         Requires  : PowerShell v5.1 and up
@@ -501,7 +501,7 @@ function Invoke-ADCDeleteSslcacertgroup {
             }
 
             if ($PSCmdlet.ShouldProcess("$cacertgroupname", "Delete SSL configuration Object")) {
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type sslcacertgroup -Resource $cacertgroupname -Arguments $Arguments
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type sslcacertgroup -NitroPath nitro/v1/config -Resource $cacertgroupname -Arguments $Arguments
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $response
@@ -545,7 +545,7 @@ function Invoke-ADCGetSslcacertgroup {
         Invoke-ADCGetSslcacertgroup -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetSslcacertgroup
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ssl/sslcacertgroup/
         Requires  : PowerShell v5.1 and up
@@ -587,21 +587,21 @@ function Invoke-ADCGetSslcacertgroup {
             if ( $PsCmdlet.ParameterSetName -eq 'Getall' ) {
                 $Query = @{ }
                 Write-Verbose "Retrieving all sslcacertgroup objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type sslcacertgroup -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type sslcacertgroup -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
                 if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for sslcacertgroup objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type sslcacertgroup -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type sslcacertgroup -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving sslcacertgroup objects by arguments"
                 $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type sslcacertgroup -Arguments $Arguments -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type sslcacertgroup -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving sslcacertgroup configuration for property 'cacertgroupname'"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type sslcacertgroup -Resource $cacertgroupname -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type sslcacertgroup -NitroPath nitro/v1/config -Resource $cacertgroupname -Summary:$ViewSummary -Filter $Filter -GetWarning
             } else {
                 Write-Verbose "Retrieving sslcacertgroup configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type sslcacertgroup -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type sslcacertgroup -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -641,7 +641,7 @@ function Invoke-ADCGetSslcacertgroupbinding {
         Invoke-ADCGetSslcacertgroupbinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetSslcacertgroupbinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ssl/sslcacertgroup_binding/
         Requires  : PowerShell v5.1 and up
@@ -676,21 +676,21 @@ function Invoke-ADCGetSslcacertgroupbinding {
                     bulkbindings = 'yes'
                 }
                 Write-Verbose "Retrieving all sslcacertgroup_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type sslcacertgroup_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type sslcacertgroup_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
                 if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for sslcacertgroup_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type sslcacertgroup_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type sslcacertgroup_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving sslcacertgroup_binding objects by arguments"
                 $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type sslcacertgroup_binding -Arguments $Arguments -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type sslcacertgroup_binding -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving sslcacertgroup_binding configuration for property 'cacertgroupname'"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type sslcacertgroup_binding -Resource $cacertgroupname -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type sslcacertgroup_binding -NitroPath nitro/v1/config -Resource $cacertgroupname -Summary:$ViewSummary -Filter $Filter -GetWarning
             } else {
                 Write-Verbose "Retrieving sslcacertgroup_binding configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type sslcacertgroup_binding -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type sslcacertgroup_binding -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -725,7 +725,7 @@ function Invoke-ADCAddSslcacertgroupsslcertkeybinding {
         Invoke-ADCAddSslcacertgroupsslcertkeybinding -cacertgroupname <string> -certkeyname <string>
     .NOTES
         File Name : Invoke-ADCAddSslcacertgroupsslcertkeybinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ssl/sslcacertgroup_sslcertkey_binding/
         Requires  : PowerShell v5.1 and up
@@ -773,7 +773,7 @@ function Invoke-ADCAddSslcacertgroupsslcertkeybinding {
             if ($PSBoundParameters.ContainsKey('ocspcheck')) { $Payload.Add('ocspcheck', $ocspcheck) }
  
             if ($PSCmdlet.ShouldProcess("sslcacertgroup_sslcertkey_binding", "Add SSL configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -Type sslcacertgroup_sslcertkey_binding -Payload $Payload -GetWarning
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -NitroPath nitro/v1/config -Type sslcacertgroup_sslcertkey_binding -Payload $Payload -GetWarning
                 #HTTP Status Code on Success: 201 Created
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 if ($PSBoundParameters.ContainsKey('PassThru')) {
@@ -806,7 +806,7 @@ function Invoke-ADCDeleteSslcacertgroupsslcertkeybinding {
         Invoke-ADCDeleteSslcacertgroupsslcertkeybinding -cacertgroupname <string>
     .NOTES
         File Name : Invoke-ADCDeleteSslcacertgroupsslcertkeybinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ssl/sslcacertgroup_sslcertkey_binding/
         Requires  : PowerShell v5.1 and up
@@ -836,7 +836,7 @@ function Invoke-ADCDeleteSslcacertgroupsslcertkeybinding {
             }
             if ($PSBoundParameters.ContainsKey('certkeyname')) { $Arguments.Add('certkeyname', $certkeyname) }
             if ($PSCmdlet.ShouldProcess("$cacertgroupname", "Delete SSL configuration Object")) {
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type sslcacertgroup_sslcertkey_binding -Resource $cacertgroupname -Arguments $Arguments
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type sslcacertgroup_sslcertkey_binding -NitroPath nitro/v1/config -Resource $cacertgroupname -Arguments $Arguments
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $response
@@ -880,7 +880,7 @@ function Invoke-ADCGetSslcacertgroupsslcertkeybinding {
         Invoke-ADCGetSslcacertgroupsslcertkeybinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetSslcacertgroupsslcertkeybinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ssl/sslcacertgroup_sslcertkey_binding/
         Requires  : PowerShell v5.1 and up
@@ -919,21 +919,21 @@ function Invoke-ADCGetSslcacertgroupsslcertkeybinding {
                     bulkbindings = 'yes'
                 }
                 Write-Verbose "Retrieving all sslcacertgroup_sslcertkey_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type sslcacertgroup_sslcertkey_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type sslcacertgroup_sslcertkey_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
                 if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for sslcacertgroup_sslcertkey_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type sslcacertgroup_sslcertkey_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type sslcacertgroup_sslcertkey_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving sslcacertgroup_sslcertkey_binding objects by arguments"
                 $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type sslcacertgroup_sslcertkey_binding -Arguments $Arguments -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type sslcacertgroup_sslcertkey_binding -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving sslcacertgroup_sslcertkey_binding configuration for property 'cacertgroupname'"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type sslcacertgroup_sslcertkey_binding -Resource $cacertgroupname -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type sslcacertgroup_sslcertkey_binding -NitroPath nitro/v1/config -Resource $cacertgroupname -Summary:$ViewSummary -Filter $Filter -GetWarning
             } else {
                 Write-Verbose "Retrieving sslcacertgroup_sslcertkey_binding configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type sslcacertgroup_sslcertkey_binding -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type sslcacertgroup_sslcertkey_binding -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -999,7 +999,7 @@ function Invoke-ADCCreateSslcert {
         Invoke-ADCCreateSslcert -certfile <string> -reqfile <string> -certtype <string>
     .NOTES
         File Name : Invoke-ADCCreateSslcert
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ssl/sslcert/
         Requires  : PowerShell v5.1 and up
@@ -1077,7 +1077,7 @@ function Invoke-ADCCreateSslcert {
             if ($PSBoundParameters.ContainsKey('cakeyform')) { $Payload.Add('cakeyform', $cakeyform) }
             if ($PSBoundParameters.ContainsKey('caserial')) { $Payload.Add('caserial', $caserial) }
             if ($PSCmdlet.ShouldProcess($Name, "Create SSL configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -Type sslcert -Action create -Payload $Payload -GetWarning
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -NitroPath nitro/v1/config -Type sslcert -Action create -Payload $Payload -GetWarning
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $result
@@ -1107,7 +1107,7 @@ function Invoke-ADCImportSslcertbundle {
         Invoke-ADCImportSslcertbundle -name <string> -src <string>
     .NOTES
         File Name : Invoke-ADCImportSslcertbundle
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ssl/sslcertbundle/
         Requires  : PowerShell v5.1 and up
@@ -1144,7 +1144,7 @@ function Invoke-ADCImportSslcertbundle {
             }
 
             if ($PSCmdlet.ShouldProcess($Name, "Import SSL configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -Type sslcertbundle -Action import -Payload $Payload -GetWarning
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -NitroPath nitro/v1/config -Type sslcertbundle -Action import -Payload $Payload -GetWarning
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $result
@@ -1171,7 +1171,7 @@ function Invoke-ADCDeleteSslcertbundle {
         Invoke-ADCDeleteSslcertbundle 
     .NOTES
         File Name : Invoke-ADCDeleteSslcertbundle
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ssl/sslcertbundle/
         Requires  : PowerShell v5.1 and up
@@ -1198,7 +1198,7 @@ function Invoke-ADCDeleteSslcertbundle {
             }
             if ($PSBoundParameters.ContainsKey('name')) { $Arguments.Add('name', $name) }
             if ($PSCmdlet.ShouldProcess("sslcertbundle", "Delete SSL configuration Object")) {
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type sslcertbundle -Resource $ -Arguments $Arguments
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type sslcertbundle -NitroPath nitro/v1/config -Resource $ -Arguments $Arguments
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $response
@@ -1225,7 +1225,7 @@ function Invoke-ADCApplySslcertbundle {
         Invoke-ADCApplySslcertbundle -name <string>
     .NOTES
         File Name : Invoke-ADCApplySslcertbundle
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ssl/sslcertbundle/
         Requires  : PowerShell v5.1 and up
@@ -1257,7 +1257,7 @@ function Invoke-ADCApplySslcertbundle {
             }
 
             if ($PSCmdlet.ShouldProcess($Name, "Apply SSL configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -Type sslcertbundle -Action apply -Payload $Payload -GetWarning
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -NitroPath nitro/v1/config -Type sslcertbundle -Action apply -Payload $Payload -GetWarning
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $result
@@ -1287,7 +1287,7 @@ function Invoke-ADCExportSslcertbundle {
         Invoke-ADCExportSslcertbundle -name <string> -src <string>
     .NOTES
         File Name : Invoke-ADCExportSslcertbundle
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ssl/sslcertbundle/
         Requires  : PowerShell v5.1 and up
@@ -1324,7 +1324,7 @@ function Invoke-ADCExportSslcertbundle {
             }
 
             if ($PSCmdlet.ShouldProcess($Name, "Export SSL configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -Type sslcertbundle -Action export -Payload $Payload -GetWarning
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -NitroPath nitro/v1/config -Type sslcertbundle -Action export -Payload $Payload -GetWarning
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $result
@@ -1366,7 +1366,7 @@ function Invoke-ADCGetSslcertbundle {
         Invoke-ADCGetSslcertbundle -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetSslcertbundle
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ssl/sslcertbundle/
         Requires  : PowerShell v5.1 and up
@@ -1402,21 +1402,21 @@ function Invoke-ADCGetSslcertbundle {
             if ( $PsCmdlet.ParameterSetName -eq 'Getall' ) {
                 $Query = @{ }
                 Write-Verbose "Retrieving all sslcertbundle objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type sslcertbundle -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type sslcertbundle -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
                 if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for sslcertbundle objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type sslcertbundle -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type sslcertbundle -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving sslcertbundle objects by arguments"
                 $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type sslcertbundle -Arguments $Arguments -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type sslcertbundle -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving sslcertbundle configuration for property ''"
 
             } else {
                 Write-Verbose "Retrieving sslcertbundle configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type sslcertbundle -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type sslcertbundle -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -1458,7 +1458,7 @@ function Invoke-ADCGetSslcertchain {
         Invoke-ADCGetSslcertchain -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetSslcertchain
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ssl/sslcertchain/
         Requires  : PowerShell v5.1 and up
@@ -1499,21 +1499,21 @@ function Invoke-ADCGetSslcertchain {
             if ( $PsCmdlet.ParameterSetName -eq 'Getall' ) {
                 $Query = @{ }
                 Write-Verbose "Retrieving all sslcertchain objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type sslcertchain -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type sslcertchain -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
                 if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for sslcertchain objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type sslcertchain -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type sslcertchain -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving sslcertchain objects by arguments"
                 $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type sslcertchain -Arguments $Arguments -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type sslcertchain -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving sslcertchain configuration for property 'certkeyname'"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type sslcertchain -Resource $certkeyname -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type sslcertchain -NitroPath nitro/v1/config -Resource $certkeyname -Summary:$ViewSummary -Filter $Filter -GetWarning
             } else {
                 Write-Verbose "Retrieving sslcertchain configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type sslcertchain -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type sslcertchain -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -1553,7 +1553,7 @@ function Invoke-ADCGetSslcertchainbinding {
         Invoke-ADCGetSslcertchainbinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetSslcertchainbinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ssl/sslcertchain_binding/
         Requires  : PowerShell v5.1 and up
@@ -1588,21 +1588,21 @@ function Invoke-ADCGetSslcertchainbinding {
                     bulkbindings = 'yes'
                 }
                 Write-Verbose "Retrieving all sslcertchain_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type sslcertchain_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type sslcertchain_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
                 if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for sslcertchain_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type sslcertchain_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type sslcertchain_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving sslcertchain_binding objects by arguments"
                 $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type sslcertchain_binding -Arguments $Arguments -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type sslcertchain_binding -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving sslcertchain_binding configuration for property 'certkeyname'"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type sslcertchain_binding -Resource $certkeyname -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type sslcertchain_binding -NitroPath nitro/v1/config -Resource $certkeyname -Summary:$ViewSummary -Filter $Filter -GetWarning
             } else {
                 Write-Verbose "Retrieving sslcertchain_binding configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type sslcertchain_binding -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type sslcertchain_binding -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -1644,7 +1644,7 @@ function Invoke-ADCGetSslcertchainsslcertkeybinding {
         Invoke-ADCGetSslcertchainsslcertkeybinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetSslcertchainsslcertkeybinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ssl/sslcertchain_sslcertkey_binding/
         Requires  : PowerShell v5.1 and up
@@ -1682,21 +1682,21 @@ function Invoke-ADCGetSslcertchainsslcertkeybinding {
                     bulkbindings = 'yes'
                 }
                 Write-Verbose "Retrieving all sslcertchain_sslcertkey_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type sslcertchain_sslcertkey_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type sslcertchain_sslcertkey_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
                 if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for sslcertchain_sslcertkey_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type sslcertchain_sslcertkey_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type sslcertchain_sslcertkey_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving sslcertchain_sslcertkey_binding objects by arguments"
                 $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type sslcertchain_sslcertkey_binding -Arguments $Arguments -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type sslcertchain_sslcertkey_binding -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving sslcertchain_sslcertkey_binding configuration for property 'certkeyname'"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type sslcertchain_sslcertkey_binding -Resource $certkeyname -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type sslcertchain_sslcertkey_binding -NitroPath nitro/v1/config -Resource $certkeyname -Summary:$ViewSummary -Filter $Filter -GetWarning
             } else {
                 Write-Verbose "Retrieving sslcertchain_sslcertkey_binding configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type sslcertchain_sslcertkey_binding -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type sslcertchain_sslcertkey_binding -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -1724,7 +1724,7 @@ function Invoke-ADCImportSslcertfile {
         Invoke-ADCImportSslcertfile -name <string> -src <string>
     .NOTES
         File Name : Invoke-ADCImportSslcertfile
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ssl/sslcertfile/
         Requires  : PowerShell v5.1 and up
@@ -1761,7 +1761,7 @@ function Invoke-ADCImportSslcertfile {
             }
 
             if ($PSCmdlet.ShouldProcess($Name, "Import SSL configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -Type sslcertfile -Action import -Payload $Payload -GetWarning
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -NitroPath nitro/v1/config -Type sslcertfile -Action import -Payload $Payload -GetWarning
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $result
@@ -1788,7 +1788,7 @@ function Invoke-ADCDeleteSslcertfile {
         Invoke-ADCDeleteSslcertfile 
     .NOTES
         File Name : Invoke-ADCDeleteSslcertfile
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ssl/sslcertfile/
         Requires  : PowerShell v5.1 and up
@@ -1815,7 +1815,7 @@ function Invoke-ADCDeleteSslcertfile {
             }
             if ($PSBoundParameters.ContainsKey('name')) { $Arguments.Add('name', $name) }
             if ($PSCmdlet.ShouldProcess("sslcertfile", "Delete SSL configuration Object")) {
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type sslcertfile -Resource $ -Arguments $Arguments
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type sslcertfile -NitroPath nitro/v1/config -Resource $ -Arguments $Arguments
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $response
@@ -1857,7 +1857,7 @@ function Invoke-ADCGetSslcertfile {
         Invoke-ADCGetSslcertfile -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetSslcertfile
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ssl/sslcertfile/
         Requires  : PowerShell v5.1 and up
@@ -1893,21 +1893,21 @@ function Invoke-ADCGetSslcertfile {
             if ( $PsCmdlet.ParameterSetName -eq 'Getall' ) {
                 $Query = @{ }
                 Write-Verbose "Retrieving all sslcertfile objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type sslcertfile -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type sslcertfile -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
                 if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for sslcertfile objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type sslcertfile -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type sslcertfile -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving sslcertfile objects by arguments"
                 $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type sslcertfile -Arguments $Arguments -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type sslcertfile -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving sslcertfile configuration for property ''"
 
             } else {
                 Write-Verbose "Retrieving sslcertfile configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type sslcertfile -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type sslcertfile -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -1934,7 +1934,7 @@ function Invoke-ADCAddSslcertificatechain {
         Invoke-ADCAddSslcertificatechain -certkeyname <string>
     .NOTES
         File Name : Invoke-ADCAddSslcertificatechain
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ssl/sslcertificatechain/
         Requires  : PowerShell v5.1 and up
@@ -1967,7 +1967,7 @@ function Invoke-ADCAddSslcertificatechain {
 
  
             if ($PSCmdlet.ShouldProcess("sslcertificatechain", "Add SSL configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -Type sslcertificatechain -Payload $Payload -GetWarning
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -NitroPath nitro/v1/config -Type sslcertificatechain -Payload $Payload -GetWarning
                 #HTTP Status Code on Success: 201 Created
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 if ($PSBoundParameters.ContainsKey('PassThru')) {
@@ -2016,7 +2016,7 @@ function Invoke-ADCGetSslcertificatechain {
         Invoke-ADCGetSslcertificatechain -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetSslcertificatechain
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ssl/sslcertificatechain/
         Requires  : PowerShell v5.1 and up
@@ -2056,21 +2056,21 @@ function Invoke-ADCGetSslcertificatechain {
             if ( $PsCmdlet.ParameterSetName -eq 'Getall' ) {
                 $Query = @{ }
                 Write-Verbose "Retrieving all sslcertificatechain objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type sslcertificatechain -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type sslcertificatechain -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
                 if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for sslcertificatechain objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type sslcertificatechain -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type sslcertificatechain -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving sslcertificatechain objects by arguments"
                 $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type sslcertificatechain -Arguments $Arguments -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type sslcertificatechain -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving sslcertificatechain configuration for property 'certkeyname'"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type sslcertificatechain -Resource $certkeyname -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type sslcertificatechain -NitroPath nitro/v1/config -Resource $certkeyname -Summary:$ViewSummary -Filter $Filter -GetWarning
             } else {
                 Write-Verbose "Retrieving sslcertificatechain configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type sslcertificatechain -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type sslcertificatechain -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -2132,7 +2132,7 @@ function Invoke-ADCAddSslcertkey {
         Invoke-ADCAddSslcertkey -certkey <string> -cert <string>
     .NOTES
         File Name : Invoke-ADCAddSslcertkey
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ssl/sslcertkey/
         Requires  : PowerShell v5.1 and up
@@ -2206,7 +2206,7 @@ function Invoke-ADCAddSslcertkey {
             if ($PSBoundParameters.ContainsKey('bundle')) { $Payload.Add('bundle', $bundle) }
  
             if ($PSCmdlet.ShouldProcess("sslcertkey", "Add SSL configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -Type sslcertkey -Payload $Payload -GetWarning
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -NitroPath nitro/v1/config -Type sslcertkey -Payload $Payload -GetWarning
                 #HTTP Status Code on Success: 201 Created
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 if ($PSBoundParameters.ContainsKey('PassThru')) {
@@ -2239,7 +2239,7 @@ function Invoke-ADCDeleteSslcertkey {
         Invoke-ADCDeleteSslcertkey -certkey <string>
     .NOTES
         File Name : Invoke-ADCDeleteSslcertkey
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ssl/sslcertkey/
         Requires  : PowerShell v5.1 and up
@@ -2269,7 +2269,7 @@ function Invoke-ADCDeleteSslcertkey {
             }
             if ($PSBoundParameters.ContainsKey('deletefromdevice')) { $Arguments.Add('deletefromdevice', $deletefromdevice) }
             if ($PSCmdlet.ShouldProcess("$certkey", "Delete SSL configuration Object")) {
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type sslcertkey -Resource $certkey -Arguments $Arguments
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type sslcertkey -NitroPath nitro/v1/config -Resource $certkey -Arguments $Arguments
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $response
@@ -2305,7 +2305,7 @@ function Invoke-ADCUpdateSslcertkey {
         Invoke-ADCUpdateSslcertkey -certkey <string>
     .NOTES
         File Name : Invoke-ADCUpdateSslcertkey
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ssl/sslcertkey/
         Requires  : PowerShell v5.1 and up
@@ -2347,7 +2347,7 @@ function Invoke-ADCUpdateSslcertkey {
             if ($PSBoundParameters.ContainsKey('notificationperiod')) { $Payload.Add('notificationperiod', $notificationperiod) }
  
             if ($PSCmdlet.ShouldProcess("sslcertkey", "Update SSL configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -Type sslcertkey -Payload $Payload -GetWarning
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -NitroPath nitro/v1/config -Type sslcertkey -Payload $Payload -GetWarning
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 if ($PSBoundParameters.ContainsKey('PassThru')) {
@@ -2384,7 +2384,7 @@ function Invoke-ADCUnsetSslcertkey {
         Invoke-ADCUnsetSslcertkey -certkey <string>
     .NOTES
         File Name : Invoke-ADCUnsetSslcertkey
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ssl/sslcertkey
         Requires  : PowerShell v5.1 and up
@@ -2420,7 +2420,7 @@ function Invoke-ADCUnsetSslcertkey {
             if ($PSBoundParameters.ContainsKey('expirymonitor')) { $Payload.Add('expirymonitor', $expirymonitor) }
             if ($PSBoundParameters.ContainsKey('notificationperiod')) { $Payload.Add('notificationperiod', $notificationperiod) }
             if ($PSCmdlet.ShouldProcess("$certkey", "Unset SSL configuration Object")) {
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -Type sslcertkey -Action unset -Payload $Payload -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -Type sslcertkey -NitroPath nitro/v1/config -Action unset -Payload $Payload -GetWarning
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $response
@@ -2449,7 +2449,7 @@ function Invoke-ADCLinkSslcertkey {
         Invoke-ADCLinkSslcertkey -certkey <string> -linkcertkeyname <string>
     .NOTES
         File Name : Invoke-ADCLinkSslcertkey
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ssl/sslcertkey/
         Requires  : PowerShell v5.1 and up
@@ -2486,7 +2486,7 @@ function Invoke-ADCLinkSslcertkey {
             }
 
             if ($PSCmdlet.ShouldProcess($Name, "Link SSL configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -Type sslcertkey -Action link -Payload $Payload -GetWarning
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -NitroPath nitro/v1/config -Type sslcertkey -Action link -Payload $Payload -GetWarning
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $result
@@ -2513,7 +2513,7 @@ function Invoke-ADCUnlinkSslcertkey {
         Invoke-ADCUnlinkSslcertkey -certkey <string>
     .NOTES
         File Name : Invoke-ADCUnlinkSslcertkey
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ssl/sslcertkey/
         Requires  : PowerShell v5.1 and up
@@ -2545,7 +2545,7 @@ function Invoke-ADCUnlinkSslcertkey {
             }
 
             if ($PSCmdlet.ShouldProcess($Name, "Unlink SSL configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -Type sslcertkey -Action unlink -Payload $Payload -GetWarning
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -NitroPath nitro/v1/config -Type sslcertkey -Action unlink -Payload $Payload -GetWarning
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $result
@@ -2597,7 +2597,7 @@ function Invoke-ADCChangeSslcertkey {
         Invoke-ADCChangeSslcertkey -certkey <string>
     .NOTES
         File Name : Invoke-ADCChangeSslcertkey
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ssl/sslcertkey/
         Requires  : PowerShell v5.1 and up
@@ -2657,7 +2657,7 @@ function Invoke-ADCChangeSslcertkey {
             if ($PSBoundParameters.ContainsKey('nodomaincheck')) { $Payload.Add('nodomaincheck', $nodomaincheck) }
  
             if ($PSCmdlet.ShouldProcess("sslcertkey", "Change SSL configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -Type sslcertkey -Action update -Payload $Payload -GetWarning
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -NitroPath nitro/v1/config -Type sslcertkey -Action update -Payload $Payload -GetWarning
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 if ($PSBoundParameters.ContainsKey('PassThru')) {
@@ -2691,7 +2691,7 @@ function Invoke-ADCClearSslcertkey {
         Invoke-ADCClearSslcertkey -certkey <string>
     .NOTES
         File Name : Invoke-ADCClearSslcertkey
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ssl/sslcertkey/
         Requires  : PowerShell v5.1 and up
@@ -2725,7 +2725,7 @@ function Invoke-ADCClearSslcertkey {
             }
             if ($PSBoundParameters.ContainsKey('ocspstaplingcache')) { $Payload.Add('ocspstaplingcache', $ocspstaplingcache) }
             if ($PSCmdlet.ShouldProcess($Name, "Clear SSL configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -Type sslcertkey -Action clear -Payload $Payload -GetWarning
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -NitroPath nitro/v1/config -Type sslcertkey -Action clear -Payload $Payload -GetWarning
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $result
@@ -2769,7 +2769,7 @@ function Invoke-ADCGetSslcertkey {
         Invoke-ADCGetSslcertkey -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetSslcertkey
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ssl/sslcertkey/
         Requires  : PowerShell v5.1 and up
@@ -2811,21 +2811,21 @@ function Invoke-ADCGetSslcertkey {
             if ( $PsCmdlet.ParameterSetName -eq 'Getall' ) {
                 $Query = @{ }
                 Write-Verbose "Retrieving all sslcertkey objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type sslcertkey -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type sslcertkey -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
                 if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for sslcertkey objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type sslcertkey -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type sslcertkey -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving sslcertkey objects by arguments"
                 $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type sslcertkey -Arguments $Arguments -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type sslcertkey -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving sslcertkey configuration for property 'certkey'"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type sslcertkey -Resource $certkey -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type sslcertkey -NitroPath nitro/v1/config -Resource $certkey -Summary:$ViewSummary -Filter $Filter -GetWarning
             } else {
                 Write-Verbose "Retrieving sslcertkey configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type sslcertkey -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type sslcertkey -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -2865,7 +2865,7 @@ function Invoke-ADCGetSslcertkeybinding {
         Invoke-ADCGetSslcertkeybinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetSslcertkeybinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ssl/sslcertkey_binding/
         Requires  : PowerShell v5.1 and up
@@ -2900,21 +2900,21 @@ function Invoke-ADCGetSslcertkeybinding {
                     bulkbindings = 'yes'
                 }
                 Write-Verbose "Retrieving all sslcertkey_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type sslcertkey_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type sslcertkey_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
                 if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for sslcertkey_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type sslcertkey_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type sslcertkey_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving sslcertkey_binding objects by arguments"
                 $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type sslcertkey_binding -Arguments $Arguments -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type sslcertkey_binding -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving sslcertkey_binding configuration for property 'certkey'"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type sslcertkey_binding -Resource $certkey -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type sslcertkey_binding -NitroPath nitro/v1/config -Resource $certkey -Summary:$ViewSummary -Filter $Filter -GetWarning
             } else {
                 Write-Verbose "Retrieving sslcertkey_binding configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type sslcertkey_binding -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type sslcertkey_binding -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -2956,7 +2956,7 @@ function Invoke-ADCGetSslcertkeycrldistributionbinding {
         Invoke-ADCGetSslcertkeycrldistributionbinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetSslcertkeycrldistributionbinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ssl/sslcertkey_crldistribution_binding/
         Requires  : PowerShell v5.1 and up
@@ -2994,21 +2994,21 @@ function Invoke-ADCGetSslcertkeycrldistributionbinding {
                     bulkbindings = 'yes'
                 }
                 Write-Verbose "Retrieving all sslcertkey_crldistribution_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type sslcertkey_crldistribution_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type sslcertkey_crldistribution_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
                 if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for sslcertkey_crldistribution_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type sslcertkey_crldistribution_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type sslcertkey_crldistribution_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving sslcertkey_crldistribution_binding objects by arguments"
                 $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type sslcertkey_crldistribution_binding -Arguments $Arguments -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type sslcertkey_crldistribution_binding -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving sslcertkey_crldistribution_binding configuration for property 'certkey'"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type sslcertkey_crldistribution_binding -Resource $certkey -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type sslcertkey_crldistribution_binding -NitroPath nitro/v1/config -Resource $certkey -Summary:$ViewSummary -Filter $Filter -GetWarning
             } else {
                 Write-Verbose "Retrieving sslcertkey_crldistribution_binding configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type sslcertkey_crldistribution_binding -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type sslcertkey_crldistribution_binding -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -3050,7 +3050,7 @@ function Invoke-ADCGetSslcertkeyservicebinding {
         Invoke-ADCGetSslcertkeyservicebinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetSslcertkeyservicebinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ssl/sslcertkey_service_binding/
         Requires  : PowerShell v5.1 and up
@@ -3088,21 +3088,21 @@ function Invoke-ADCGetSslcertkeyservicebinding {
                     bulkbindings = 'yes'
                 }
                 Write-Verbose "Retrieving all sslcertkey_service_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type sslcertkey_service_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type sslcertkey_service_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
                 if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for sslcertkey_service_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type sslcertkey_service_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type sslcertkey_service_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving sslcertkey_service_binding objects by arguments"
                 $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type sslcertkey_service_binding -Arguments $Arguments -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type sslcertkey_service_binding -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving sslcertkey_service_binding configuration for property 'certkey'"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type sslcertkey_service_binding -Resource $certkey -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type sslcertkey_service_binding -NitroPath nitro/v1/config -Resource $certkey -Summary:$ViewSummary -Filter $Filter -GetWarning
             } else {
                 Write-Verbose "Retrieving sslcertkey_service_binding configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type sslcertkey_service_binding -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type sslcertkey_service_binding -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -3134,7 +3134,7 @@ function Invoke-ADCAddSslcertkeysslocspresponderbinding {
         Invoke-ADCAddSslcertkeysslocspresponderbinding 
     .NOTES
         File Name : Invoke-ADCAddSslcertkeysslocspresponderbinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ssl/sslcertkey_sslocspresponder_binding/
         Requires  : PowerShell v5.1 and up
@@ -3173,7 +3173,7 @@ function Invoke-ADCAddSslcertkeysslocspresponderbinding {
             if ($PSBoundParameters.ContainsKey('priority')) { $Payload.Add('priority', $priority) }
  
             if ($PSCmdlet.ShouldProcess("sslcertkey_sslocspresponder_binding", "Add SSL configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -Type sslcertkey_sslocspresponder_binding -Payload $Payload -GetWarning
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -NitroPath nitro/v1/config -Type sslcertkey_sslocspresponder_binding -Payload $Payload -GetWarning
                 #HTTP Status Code on Success: 201 Created
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 if ($PSBoundParameters.ContainsKey('PassThru')) {
@@ -3208,7 +3208,7 @@ function Invoke-ADCDeleteSslcertkeysslocspresponderbinding {
         Invoke-ADCDeleteSslcertkeysslocspresponderbinding -certkey <string>
     .NOTES
         File Name : Invoke-ADCDeleteSslcertkeysslocspresponderbinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ssl/sslcertkey_sslocspresponder_binding/
         Requires  : PowerShell v5.1 and up
@@ -3241,7 +3241,7 @@ function Invoke-ADCDeleteSslcertkeysslocspresponderbinding {
             if ($PSBoundParameters.ContainsKey('ocspresponder')) { $Arguments.Add('ocspresponder', $ocspresponder) }
             if ($PSBoundParameters.ContainsKey('ca')) { $Arguments.Add('ca', $ca) }
             if ($PSCmdlet.ShouldProcess("$certkey", "Delete SSL configuration Object")) {
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type sslcertkey_sslocspresponder_binding -Resource $certkey -Arguments $Arguments
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type sslcertkey_sslocspresponder_binding -NitroPath nitro/v1/config -Resource $certkey -Arguments $Arguments
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $response
@@ -3285,7 +3285,7 @@ function Invoke-ADCGetSslcertkeysslocspresponderbinding {
         Invoke-ADCGetSslcertkeysslocspresponderbinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetSslcertkeysslocspresponderbinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ssl/sslcertkey_sslocspresponder_binding/
         Requires  : PowerShell v5.1 and up
@@ -3323,21 +3323,21 @@ function Invoke-ADCGetSslcertkeysslocspresponderbinding {
                     bulkbindings = 'yes'
                 }
                 Write-Verbose "Retrieving all sslcertkey_sslocspresponder_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type sslcertkey_sslocspresponder_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type sslcertkey_sslocspresponder_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
                 if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for sslcertkey_sslocspresponder_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type sslcertkey_sslocspresponder_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type sslcertkey_sslocspresponder_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving sslcertkey_sslocspresponder_binding objects by arguments"
                 $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type sslcertkey_sslocspresponder_binding -Arguments $Arguments -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type sslcertkey_sslocspresponder_binding -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving sslcertkey_sslocspresponder_binding configuration for property 'certkey'"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type sslcertkey_sslocspresponder_binding -Resource $certkey -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type sslcertkey_sslocspresponder_binding -NitroPath nitro/v1/config -Resource $certkey -Summary:$ViewSummary -Filter $Filter -GetWarning
             } else {
                 Write-Verbose "Retrieving sslcertkey_sslocspresponder_binding configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type sslcertkey_sslocspresponder_binding -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type sslcertkey_sslocspresponder_binding -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -3379,7 +3379,7 @@ function Invoke-ADCGetSslcertkeysslprofilebinding {
         Invoke-ADCGetSslcertkeysslprofilebinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetSslcertkeysslprofilebinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ssl/sslcertkey_sslprofile_binding/
         Requires  : PowerShell v5.1 and up
@@ -3417,21 +3417,21 @@ function Invoke-ADCGetSslcertkeysslprofilebinding {
                     bulkbindings = 'yes'
                 }
                 Write-Verbose "Retrieving all sslcertkey_sslprofile_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type sslcertkey_sslprofile_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type sslcertkey_sslprofile_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
                 if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for sslcertkey_sslprofile_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type sslcertkey_sslprofile_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type sslcertkey_sslprofile_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving sslcertkey_sslprofile_binding objects by arguments"
                 $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type sslcertkey_sslprofile_binding -Arguments $Arguments -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type sslcertkey_sslprofile_binding -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving sslcertkey_sslprofile_binding configuration for property 'certkey'"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type sslcertkey_sslprofile_binding -Resource $certkey -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type sslcertkey_sslprofile_binding -NitroPath nitro/v1/config -Resource $certkey -Summary:$ViewSummary -Filter $Filter -GetWarning
             } else {
                 Write-Verbose "Retrieving sslcertkey_sslprofile_binding configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type sslcertkey_sslprofile_binding -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type sslcertkey_sslprofile_binding -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -3473,7 +3473,7 @@ function Invoke-ADCGetSslcertkeysslvserverbinding {
         Invoke-ADCGetSslcertkeysslvserverbinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetSslcertkeysslvserverbinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ssl/sslcertkey_sslvserver_binding/
         Requires  : PowerShell v5.1 and up
@@ -3511,21 +3511,21 @@ function Invoke-ADCGetSslcertkeysslvserverbinding {
                     bulkbindings = 'yes'
                 }
                 Write-Verbose "Retrieving all sslcertkey_sslvserver_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type sslcertkey_sslvserver_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type sslcertkey_sslvserver_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
                 if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for sslcertkey_sslvserver_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type sslcertkey_sslvserver_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type sslcertkey_sslvserver_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving sslcertkey_sslvserver_binding objects by arguments"
                 $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type sslcertkey_sslvserver_binding -Arguments $Arguments -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type sslcertkey_sslvserver_binding -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving sslcertkey_sslvserver_binding configuration for property 'certkey'"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type sslcertkey_sslvserver_binding -Resource $certkey -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type sslcertkey_sslvserver_binding -NitroPath nitro/v1/config -Resource $certkey -Summary:$ViewSummary -Filter $Filter -GetWarning
             } else {
                 Write-Verbose "Retrieving sslcertkey_sslvserver_binding configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type sslcertkey_sslvserver_binding -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type sslcertkey_sslvserver_binding -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -3565,7 +3565,7 @@ function Invoke-ADCGetSslcertlink {
         Invoke-ADCGetSslcertlink -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetSslcertlink
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ssl/sslcertlink/
         Requires  : PowerShell v5.1 and up
@@ -3601,21 +3601,21 @@ function Invoke-ADCGetSslcertlink {
             if ( $PsCmdlet.ParameterSetName -eq 'Getall' ) {
                 $Query = @{ }
                 Write-Verbose "Retrieving all sslcertlink objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type sslcertlink -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type sslcertlink -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
                 if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for sslcertlink objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type sslcertlink -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type sslcertlink -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving sslcertlink objects by arguments"
                 $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type sslcertlink -Arguments $Arguments -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type sslcertlink -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving sslcertlink configuration for property ''"
 
             } else {
                 Write-Verbose "Retrieving sslcertlink configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type sslcertlink -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type sslcertlink -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -3681,7 +3681,7 @@ function Invoke-ADCCreateSslcertreq {
         Invoke-ADCCreateSslcertreq -reqfile <string> -countryname <string> -statename <string> -organizationname <string>
     .NOTES
         File Name : Invoke-ADCCreateSslcertreq
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ssl/sslcertreq/
         Requires  : PowerShell v5.1 and up
@@ -3772,7 +3772,7 @@ function Invoke-ADCCreateSslcertreq {
             if ($PSBoundParameters.ContainsKey('companyname')) { $Payload.Add('companyname', $companyname) }
             if ($PSBoundParameters.ContainsKey('digestmethod')) { $Payload.Add('digestmethod', $digestmethod) }
             if ($PSCmdlet.ShouldProcess($Name, "Create SSL configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -Type sslcertreq -Action create -Payload $Payload -GetWarning
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -NitroPath nitro/v1/config -Type sslcertreq -Action create -Payload $Payload -GetWarning
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $result
@@ -3805,7 +3805,7 @@ function Invoke-ADCAddSslcipher {
         Invoke-ADCAddSslcipher -ciphergroupname <string>
     .NOTES
         File Name : Invoke-ADCAddSslcipher
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ssl/sslcipher/
         Requires  : PowerShell v5.1 and up
@@ -3843,7 +3843,7 @@ function Invoke-ADCAddSslcipher {
             if ($PSBoundParameters.ContainsKey('ciphgrpalias')) { $Payload.Add('ciphgrpalias', $ciphgrpalias) }
  
             if ($PSCmdlet.ShouldProcess("sslcipher", "Add SSL configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -Type sslcipher -Payload $Payload -GetWarning
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -NitroPath nitro/v1/config -Type sslcipher -Payload $Payload -GetWarning
                 #HTTP Status Code on Success: 201 Created
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 if ($PSBoundParameters.ContainsKey('PassThru')) {
@@ -3882,7 +3882,7 @@ function Invoke-ADCUpdateSslcipher {
         Invoke-ADCUpdateSslcipher -ciphergroupname <string>
     .NOTES
         File Name : Invoke-ADCUpdateSslcipher
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ssl/sslcipher/
         Requires  : PowerShell v5.1 and up
@@ -3922,7 +3922,7 @@ function Invoke-ADCUpdateSslcipher {
             if ($PSBoundParameters.ContainsKey('cipherpriority')) { $Payload.Add('cipherpriority', $cipherpriority) }
  
             if ($PSCmdlet.ShouldProcess("sslcipher", "Update SSL configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -Type sslcipher -Payload $Payload -GetWarning
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -NitroPath nitro/v1/config -Type sslcipher -Payload $Payload -GetWarning
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 if ($PSBoundParameters.ContainsKey('PassThru')) {
@@ -3958,7 +3958,7 @@ function Invoke-ADCUnsetSslcipher {
         Invoke-ADCUnsetSslcipher -ciphergroupname <string>
     .NOTES
         File Name : Invoke-ADCUnsetSslcipher
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ssl/sslcipher
         Requires  : PowerShell v5.1 and up
@@ -3994,7 +3994,7 @@ function Invoke-ADCUnsetSslcipher {
             if ($PSBoundParameters.ContainsKey('ciphername')) { $Payload.Add('ciphername', $ciphername) }
             if ($PSBoundParameters.ContainsKey('cipherpriority')) { $Payload.Add('cipherpriority', $cipherpriority) }
             if ($PSCmdlet.ShouldProcess("$ciphergroupname", "Unset SSL configuration Object")) {
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -Type sslcipher -Action unset -Payload $Payload -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -Type sslcipher -NitroPath nitro/v1/config -Action unset -Payload $Payload -GetWarning
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $response
@@ -4022,7 +4022,7 @@ function Invoke-ADCDeleteSslcipher {
         Invoke-ADCDeleteSslcipher -ciphergroupname <string>
     .NOTES
         File Name : Invoke-ADCDeleteSslcipher
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ssl/sslcipher/
         Requires  : PowerShell v5.1 and up
@@ -4052,7 +4052,7 @@ function Invoke-ADCDeleteSslcipher {
             }
             if ($PSBoundParameters.ContainsKey('ciphername')) { $Arguments.Add('ciphername', $ciphername) }
             if ($PSCmdlet.ShouldProcess("$ciphergroupname", "Delete SSL configuration Object")) {
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type sslcipher -Resource $ciphergroupname -Arguments $Arguments
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type sslcipher -NitroPath nitro/v1/config -Resource $ciphergroupname -Arguments $Arguments
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $response
@@ -4096,7 +4096,7 @@ function Invoke-ADCGetSslcipher {
         Invoke-ADCGetSslcipher -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetSslcipher
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ssl/sslcipher/
         Requires  : PowerShell v5.1 and up
@@ -4138,21 +4138,21 @@ function Invoke-ADCGetSslcipher {
             if ( $PsCmdlet.ParameterSetName -eq 'Getall' ) {
                 $Query = @{ }
                 Write-Verbose "Retrieving all sslcipher objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type sslcipher -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type sslcipher -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
                 if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for sslcipher objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type sslcipher -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type sslcipher -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving sslcipher objects by arguments"
                 $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type sslcipher -Arguments $Arguments -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type sslcipher -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving sslcipher configuration for property 'ciphergroupname'"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type sslcipher -Resource $ciphergroupname -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type sslcipher -NitroPath nitro/v1/config -Resource $ciphergroupname -Summary:$ViewSummary -Filter $Filter -GetWarning
             } else {
                 Write-Verbose "Retrieving sslcipher configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type sslcipher -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type sslcipher -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -4194,7 +4194,7 @@ function Invoke-ADCGetSslciphersuite {
         Invoke-ADCGetSslciphersuite -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetSslciphersuite
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ssl/sslciphersuite/
         Requires  : PowerShell v5.1 and up
@@ -4234,21 +4234,21 @@ function Invoke-ADCGetSslciphersuite {
             if ( $PsCmdlet.ParameterSetName -eq 'Getall' ) {
                 $Query = @{ }
                 Write-Verbose "Retrieving all sslciphersuite objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type sslciphersuite -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type sslciphersuite -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
                 if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for sslciphersuite objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type sslciphersuite -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type sslciphersuite -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving sslciphersuite objects by arguments"
                 $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type sslciphersuite -Arguments $Arguments -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type sslciphersuite -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving sslciphersuite configuration for property 'ciphername'"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type sslciphersuite -Resource $ciphername -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type sslciphersuite -NitroPath nitro/v1/config -Resource $ciphername -Summary:$ViewSummary -Filter $Filter -GetWarning
             } else {
                 Write-Verbose "Retrieving sslciphersuite configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type sslciphersuite -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type sslciphersuite -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -4288,7 +4288,7 @@ function Invoke-ADCGetSslcipherbinding {
         Invoke-ADCGetSslcipherbinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetSslcipherbinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ssl/sslcipher_binding/
         Requires  : PowerShell v5.1 and up
@@ -4323,21 +4323,21 @@ function Invoke-ADCGetSslcipherbinding {
                     bulkbindings = 'yes'
                 }
                 Write-Verbose "Retrieving all sslcipher_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type sslcipher_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type sslcipher_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
                 if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for sslcipher_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type sslcipher_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type sslcipher_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving sslcipher_binding objects by arguments"
                 $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type sslcipher_binding -Arguments $Arguments -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type sslcipher_binding -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving sslcipher_binding configuration for property 'ciphergroupname'"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type sslcipher_binding -Resource $ciphergroupname -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type sslcipher_binding -NitroPath nitro/v1/config -Resource $ciphergroupname -Summary:$ViewSummary -Filter $Filter -GetWarning
             } else {
                 Write-Verbose "Retrieving sslcipher_binding configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type sslcipher_binding -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type sslcipher_binding -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -4379,7 +4379,7 @@ function Invoke-ADCGetSslcipherindividualcipherbinding {
         Invoke-ADCGetSslcipherindividualcipherbinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetSslcipherindividualcipherbinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ssl/sslcipher_individualcipher_binding/
         Requires  : PowerShell v5.1 and up
@@ -4417,21 +4417,21 @@ function Invoke-ADCGetSslcipherindividualcipherbinding {
                     bulkbindings = 'yes'
                 }
                 Write-Verbose "Retrieving all sslcipher_individualcipher_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type sslcipher_individualcipher_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type sslcipher_individualcipher_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
                 if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for sslcipher_individualcipher_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type sslcipher_individualcipher_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type sslcipher_individualcipher_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving sslcipher_individualcipher_binding objects by arguments"
                 $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type sslcipher_individualcipher_binding -Arguments $Arguments -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type sslcipher_individualcipher_binding -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving sslcipher_individualcipher_binding configuration for property 'ciphergroupname'"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type sslcipher_individualcipher_binding -Resource $ciphergroupname -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type sslcipher_individualcipher_binding -NitroPath nitro/v1/config -Resource $ciphergroupname -Summary:$ViewSummary -Filter $Filter -GetWarning
             } else {
                 Write-Verbose "Retrieving sslcipher_individualcipher_binding configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type sslcipher_individualcipher_binding -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type sslcipher_individualcipher_binding -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -4470,7 +4470,7 @@ function Invoke-ADCAddSslciphersslciphersuitebinding {
         Invoke-ADCAddSslciphersslciphersuitebinding 
     .NOTES
         File Name : Invoke-ADCAddSslciphersslciphersuitebinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ssl/sslcipher_sslciphersuite_binding/
         Requires  : PowerShell v5.1 and up
@@ -4518,7 +4518,7 @@ function Invoke-ADCAddSslciphersslciphersuitebinding {
             if ($PSBoundParameters.ContainsKey('cipherpriority')) { $Payload.Add('cipherpriority', $cipherpriority) }
  
             if ($PSCmdlet.ShouldProcess("sslcipher_sslciphersuite_binding", "Add SSL configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -Type sslcipher_sslciphersuite_binding -Payload $Payload -GetWarning
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -NitroPath nitro/v1/config -Type sslcipher_sslciphersuite_binding -Payload $Payload -GetWarning
                 #HTTP Status Code on Success: 201 Created
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 if ($PSBoundParameters.ContainsKey('PassThru')) {
@@ -4551,7 +4551,7 @@ function Invoke-ADCDeleteSslciphersslciphersuitebinding {
         Invoke-ADCDeleteSslciphersslciphersuitebinding 
     .NOTES
         File Name : Invoke-ADCDeleteSslciphersslciphersuitebinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ssl/sslcipher_sslciphersuite_binding/
         Requires  : PowerShell v5.1 and up
@@ -4581,7 +4581,7 @@ function Invoke-ADCDeleteSslciphersslciphersuitebinding {
             if ($PSBoundParameters.ContainsKey('ciphergroupname')) { $Arguments.Add('ciphergroupname', $ciphergroupname) }
             if ($PSBoundParameters.ContainsKey('ciphername')) { $Arguments.Add('ciphername', $ciphername) }
             if ($PSCmdlet.ShouldProcess("sslcipher_sslciphersuite_binding", "Delete SSL configuration Object")) {
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type sslcipher_sslciphersuite_binding -Resource $ -Arguments $Arguments
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type sslcipher_sslciphersuite_binding -NitroPath nitro/v1/config -Resource $ -Arguments $Arguments
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $response
@@ -4623,7 +4623,7 @@ function Invoke-ADCGetSslciphersslciphersuitebinding {
         Invoke-ADCGetSslciphersslciphersuitebinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetSslciphersslciphersuitebinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ssl/sslcipher_sslciphersuite_binding/
         Requires  : PowerShell v5.1 and up
@@ -4654,21 +4654,21 @@ function Invoke-ADCGetSslciphersslciphersuitebinding {
                     bulkbindings = 'yes'
                 }
                 Write-Verbose "Retrieving all sslcipher_sslciphersuite_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type sslcipher_sslciphersuite_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type sslcipher_sslciphersuite_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
                 if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for sslcipher_sslciphersuite_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type sslcipher_sslciphersuite_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type sslcipher_sslciphersuite_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving sslcipher_sslciphersuite_binding objects by arguments"
                 $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type sslcipher_sslciphersuite_binding -Arguments $Arguments -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type sslcipher_sslciphersuite_binding -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving sslcipher_sslciphersuite_binding configuration for property ''"
 
             } else {
                 Write-Verbose "Retrieving sslcipher_sslciphersuite_binding configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type sslcipher_sslciphersuite_binding -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type sslcipher_sslciphersuite_binding -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -4710,7 +4710,7 @@ function Invoke-ADCGetSslciphersslprofilebinding {
         Invoke-ADCGetSslciphersslprofilebinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetSslciphersslprofilebinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ssl/sslcipher_sslprofile_binding/
         Requires  : PowerShell v5.1 and up
@@ -4748,21 +4748,21 @@ function Invoke-ADCGetSslciphersslprofilebinding {
                     bulkbindings = 'yes'
                 }
                 Write-Verbose "Retrieving all sslcipher_sslprofile_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type sslcipher_sslprofile_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type sslcipher_sslprofile_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
                 if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for sslcipher_sslprofile_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type sslcipher_sslprofile_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type sslcipher_sslprofile_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving sslcipher_sslprofile_binding objects by arguments"
                 $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type sslcipher_sslprofile_binding -Arguments $Arguments -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type sslcipher_sslprofile_binding -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving sslcipher_sslprofile_binding configuration for property 'ciphergroupname'"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type sslcipher_sslprofile_binding -Resource $ciphergroupname -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type sslcipher_sslprofile_binding -NitroPath nitro/v1/config -Resource $ciphergroupname -Summary:$ViewSummary -Filter $Filter -GetWarning
             } else {
                 Write-Verbose "Retrieving sslcipher_sslprofile_binding configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type sslcipher_sslprofile_binding -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type sslcipher_sslprofile_binding -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -4843,7 +4843,7 @@ function Invoke-ADCAddSslcrl {
         Invoke-ADCAddSslcrl -crlname <string> -crlpath <string>
     .NOTES
         File Name : Invoke-ADCAddSslcrl
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ssl/sslcrl/
         Requires  : PowerShell v5.1 and up
@@ -4939,7 +4939,7 @@ function Invoke-ADCAddSslcrl {
             if ($PSBoundParameters.ContainsKey('binary')) { $Payload.Add('binary', $binary) }
  
             if ($PSCmdlet.ShouldProcess("sslcrl", "Add SSL configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -Type sslcrl -Payload $Payload -GetWarning
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -NitroPath nitro/v1/config -Type sslcrl -Payload $Payload -GetWarning
                 #HTTP Status Code on Success: 201 Created
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 if ($PSBoundParameters.ContainsKey('PassThru')) {
@@ -4982,7 +4982,7 @@ function Invoke-ADCCreateSslcrl {
         Invoke-ADCCreateSslcrl -cacertfile <string> -cakeyfile <string> -indexfile <string>
     .NOTES
         File Name : Invoke-ADCCreateSslcrl
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ssl/sslcrl/
         Requires  : PowerShell v5.1 and up
@@ -5029,7 +5029,7 @@ function Invoke-ADCCreateSslcrl {
             if ($PSBoundParameters.ContainsKey('gencrl')) { $Payload.Add('gencrl', $gencrl) }
             if ($PSBoundParameters.ContainsKey('password')) { $Payload.Add('password', $password) }
             if ($PSCmdlet.ShouldProcess($Name, "Create SSL configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -Type sslcrl -Action create -Payload $Payload -GetWarning
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -NitroPath nitro/v1/config -Type sslcrl -Action create -Payload $Payload -GetWarning
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $result
@@ -5056,7 +5056,7 @@ function Invoke-ADCDeleteSslcrl {
         Invoke-ADCDeleteSslcrl -crlname <string>
     .NOTES
         File Name : Invoke-ADCDeleteSslcrl
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ssl/sslcrl/
         Requires  : PowerShell v5.1 and up
@@ -5084,7 +5084,7 @@ function Invoke-ADCDeleteSslcrl {
             }
 
             if ($PSCmdlet.ShouldProcess("$crlname", "Delete SSL configuration Object")) {
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type sslcrl -Resource $crlname -Arguments $Arguments
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type sslcrl -NitroPath nitro/v1/config -Resource $crlname -Arguments $Arguments
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $response
@@ -5158,7 +5158,7 @@ function Invoke-ADCUpdateSslcrl {
         Invoke-ADCUpdateSslcrl -crlname <string>
     .NOTES
         File Name : Invoke-ADCUpdateSslcrl
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ssl/sslcrl/
         Requires  : PowerShell v5.1 and up
@@ -5245,7 +5245,7 @@ function Invoke-ADCUpdateSslcrl {
             if ($PSBoundParameters.ContainsKey('binary')) { $Payload.Add('binary', $binary) }
  
             if ($PSCmdlet.ShouldProcess("sslcrl", "Update SSL configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -Type sslcrl -Payload $Payload -GetWarning
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -NitroPath nitro/v1/config -Type sslcrl -Payload $Payload -GetWarning
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 if ($PSBoundParameters.ContainsKey('PassThru')) {
@@ -5312,7 +5312,7 @@ function Invoke-ADCUnsetSslcrl {
         Invoke-ADCUnsetSslcrl -crlname <string>
     .NOTES
         File Name : Invoke-ADCUnsetSslcrl
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ssl/sslcrl
         Requires  : PowerShell v5.1 and up
@@ -5384,7 +5384,7 @@ function Invoke-ADCUnsetSslcrl {
             if ($PSBoundParameters.ContainsKey('password')) { $Payload.Add('password', $password) }
             if ($PSBoundParameters.ContainsKey('binary')) { $Payload.Add('binary', $binary) }
             if ($PSCmdlet.ShouldProcess("$crlname", "Unset SSL configuration Object")) {
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -Type sslcrl -Action unset -Payload $Payload -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -Type sslcrl -NitroPath nitro/v1/config -Action unset -Payload $Payload -GetWarning
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $response
@@ -5428,7 +5428,7 @@ function Invoke-ADCGetSslcrl {
         Invoke-ADCGetSslcrl -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetSslcrl
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ssl/sslcrl/
         Requires  : PowerShell v5.1 and up
@@ -5470,21 +5470,21 @@ function Invoke-ADCGetSslcrl {
             if ( $PsCmdlet.ParameterSetName -eq 'Getall' ) {
                 $Query = @{ }
                 Write-Verbose "Retrieving all sslcrl objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type sslcrl -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type sslcrl -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
                 if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for sslcrl objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type sslcrl -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type sslcrl -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving sslcrl objects by arguments"
                 $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type sslcrl -Arguments $Arguments -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type sslcrl -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving sslcrl configuration for property 'crlname'"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type sslcrl -Resource $crlname -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type sslcrl -NitroPath nitro/v1/config -Resource $crlname -Summary:$ViewSummary -Filter $Filter -GetWarning
             } else {
                 Write-Verbose "Retrieving sslcrl configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type sslcrl -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type sslcrl -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -5512,7 +5512,7 @@ function Invoke-ADCImportSslcrlfile {
         Invoke-ADCImportSslcrlfile -name <string> -src <string>
     .NOTES
         File Name : Invoke-ADCImportSslcrlfile
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ssl/sslcrlfile/
         Requires  : PowerShell v5.1 and up
@@ -5549,7 +5549,7 @@ function Invoke-ADCImportSslcrlfile {
             }
 
             if ($PSCmdlet.ShouldProcess($Name, "Import SSL configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -Type sslcrlfile -Action import -Payload $Payload -GetWarning
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -NitroPath nitro/v1/config -Type sslcrlfile -Action import -Payload $Payload -GetWarning
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $result
@@ -5576,7 +5576,7 @@ function Invoke-ADCDeleteSslcrlfile {
         Invoke-ADCDeleteSslcrlfile 
     .NOTES
         File Name : Invoke-ADCDeleteSslcrlfile
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ssl/sslcrlfile/
         Requires  : PowerShell v5.1 and up
@@ -5603,7 +5603,7 @@ function Invoke-ADCDeleteSslcrlfile {
             }
             if ($PSBoundParameters.ContainsKey('name')) { $Arguments.Add('name', $name) }
             if ($PSCmdlet.ShouldProcess("sslcrlfile", "Delete SSL configuration Object")) {
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type sslcrlfile -Resource $ -Arguments $Arguments
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type sslcrlfile -NitroPath nitro/v1/config -Resource $ -Arguments $Arguments
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $response
@@ -5645,7 +5645,7 @@ function Invoke-ADCGetSslcrlfile {
         Invoke-ADCGetSslcrlfile -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetSslcrlfile
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ssl/sslcrlfile/
         Requires  : PowerShell v5.1 and up
@@ -5681,21 +5681,21 @@ function Invoke-ADCGetSslcrlfile {
             if ( $PsCmdlet.ParameterSetName -eq 'Getall' ) {
                 $Query = @{ }
                 Write-Verbose "Retrieving all sslcrlfile objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type sslcrlfile -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type sslcrlfile -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
                 if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for sslcrlfile objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type sslcrlfile -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type sslcrlfile -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving sslcrlfile objects by arguments"
                 $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type sslcrlfile -Arguments $Arguments -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type sslcrlfile -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving sslcrlfile configuration for property ''"
 
             } else {
                 Write-Verbose "Retrieving sslcrlfile configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type sslcrlfile -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type sslcrlfile -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -5735,7 +5735,7 @@ function Invoke-ADCGetSslcrlbinding {
         Invoke-ADCGetSslcrlbinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetSslcrlbinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ssl/sslcrl_binding/
         Requires  : PowerShell v5.1 and up
@@ -5770,21 +5770,21 @@ function Invoke-ADCGetSslcrlbinding {
                     bulkbindings = 'yes'
                 }
                 Write-Verbose "Retrieving all sslcrl_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type sslcrl_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type sslcrl_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
                 if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for sslcrl_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type sslcrl_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type sslcrl_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving sslcrl_binding objects by arguments"
                 $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type sslcrl_binding -Arguments $Arguments -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type sslcrl_binding -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving sslcrl_binding configuration for property 'crlname'"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type sslcrl_binding -Resource $crlname -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type sslcrl_binding -NitroPath nitro/v1/config -Resource $crlname -Summary:$ViewSummary -Filter $Filter -GetWarning
             } else {
                 Write-Verbose "Retrieving sslcrl_binding configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type sslcrl_binding -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type sslcrl_binding -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -5826,7 +5826,7 @@ function Invoke-ADCGetSslcrlserialnumberbinding {
         Invoke-ADCGetSslcrlserialnumberbinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetSslcrlserialnumberbinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ssl/sslcrl_serialnumber_binding/
         Requires  : PowerShell v5.1 and up
@@ -5864,21 +5864,21 @@ function Invoke-ADCGetSslcrlserialnumberbinding {
                     bulkbindings = 'yes'
                 }
                 Write-Verbose "Retrieving all sslcrl_serialnumber_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type sslcrl_serialnumber_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type sslcrl_serialnumber_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
                 if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for sslcrl_serialnumber_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type sslcrl_serialnumber_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type sslcrl_serialnumber_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving sslcrl_serialnumber_binding objects by arguments"
                 $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type sslcrl_serialnumber_binding -Arguments $Arguments -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type sslcrl_serialnumber_binding -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving sslcrl_serialnumber_binding configuration for property 'crlname'"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type sslcrl_serialnumber_binding -Resource $crlname -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type sslcrl_serialnumber_binding -NitroPath nitro/v1/config -Resource $crlname -Summary:$ViewSummary -Filter $Filter -GetWarning
             } else {
                 Write-Verbose "Retrieving sslcrl_serialnumber_binding configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type sslcrl_serialnumber_binding -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type sslcrl_serialnumber_binding -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -5906,7 +5906,7 @@ function Invoke-ADCImportSsldhfile {
         Invoke-ADCImportSsldhfile -name <string> -src <string>
     .NOTES
         File Name : Invoke-ADCImportSsldhfile
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ssl/ssldhfile/
         Requires  : PowerShell v5.1 and up
@@ -5943,7 +5943,7 @@ function Invoke-ADCImportSsldhfile {
             }
 
             if ($PSCmdlet.ShouldProcess($Name, "Import SSL configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -Type ssldhfile -Action import -Payload $Payload -GetWarning
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -NitroPath nitro/v1/config -Type ssldhfile -Action import -Payload $Payload -GetWarning
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $result
@@ -5970,7 +5970,7 @@ function Invoke-ADCDeleteSsldhfile {
         Invoke-ADCDeleteSsldhfile 
     .NOTES
         File Name : Invoke-ADCDeleteSsldhfile
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ssl/ssldhfile/
         Requires  : PowerShell v5.1 and up
@@ -5997,7 +5997,7 @@ function Invoke-ADCDeleteSsldhfile {
             }
             if ($PSBoundParameters.ContainsKey('name')) { $Arguments.Add('name', $name) }
             if ($PSCmdlet.ShouldProcess("ssldhfile", "Delete SSL configuration Object")) {
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type ssldhfile -Resource $ -Arguments $Arguments
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type ssldhfile -NitroPath nitro/v1/config -Resource $ -Arguments $Arguments
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $response
@@ -6039,7 +6039,7 @@ function Invoke-ADCGetSsldhfile {
         Invoke-ADCGetSsldhfile -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetSsldhfile
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ssl/ssldhfile/
         Requires  : PowerShell v5.1 and up
@@ -6075,21 +6075,21 @@ function Invoke-ADCGetSsldhfile {
             if ( $PsCmdlet.ParameterSetName -eq 'Getall' ) {
                 $Query = @{ }
                 Write-Verbose "Retrieving all ssldhfile objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type ssldhfile -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type ssldhfile -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
                 if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for ssldhfile objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type ssldhfile -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type ssldhfile -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving ssldhfile objects by arguments"
                 $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type ssldhfile -Arguments $Arguments -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type ssldhfile -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving ssldhfile configuration for property ''"
 
             } else {
                 Write-Verbose "Retrieving ssldhfile configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type ssldhfile -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type ssldhfile -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -6119,7 +6119,7 @@ function Invoke-ADCCreateSsldhparam {
         Invoke-ADCCreateSsldhparam -dhfile <string>
     .NOTES
         File Name : Invoke-ADCCreateSsldhparam
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ssl/ssldhparam/
         Requires  : PowerShell v5.1 and up
@@ -6156,7 +6156,7 @@ function Invoke-ADCCreateSsldhparam {
             if ($PSBoundParameters.ContainsKey('bits')) { $Payload.Add('bits', $bits) }
             if ($PSBoundParameters.ContainsKey('gen')) { $Payload.Add('gen', $gen) }
             if ($PSCmdlet.ShouldProcess($Name, "Create SSL configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -Type ssldhparam -Action create -Payload $Payload -GetWarning
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -NitroPath nitro/v1/config -Type ssldhparam -Action create -Payload $Payload -GetWarning
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $result
@@ -6198,7 +6198,7 @@ function Invoke-ADCCreateSsldsakey {
         Invoke-ADCCreateSsldsakey -keyfile <string> -bits <double>
     .NOTES
         File Name : Invoke-ADCCreateSsldsakey
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ssl/ssldsakey/
         Requires  : PowerShell v5.1 and up
@@ -6252,7 +6252,7 @@ function Invoke-ADCCreateSsldsakey {
             if ($PSBoundParameters.ContainsKey('password')) { $Payload.Add('password', $password) }
             if ($PSBoundParameters.ContainsKey('pkcs8')) { $Payload.Add('pkcs8', $pkcs8) }
             if ($PSCmdlet.ShouldProcess($Name, "Create SSL configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -Type ssldsakey -Action create -Payload $Payload -GetWarning
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -NitroPath nitro/v1/config -Type ssldsakey -Action create -Payload $Payload -GetWarning
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $result
@@ -6308,7 +6308,7 @@ function Invoke-ADCAddSsldtlsprofile {
         Invoke-ADCAddSsldtlsprofile -name <string>
     .NOTES
         File Name : Invoke-ADCAddSsldtlsprofile
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ssl/ssldtlsprofile/
         Requires  : PowerShell v5.1 and up
@@ -6365,7 +6365,7 @@ function Invoke-ADCAddSsldtlsprofile {
             if ($PSBoundParameters.ContainsKey('maxpacketsize')) { $Payload.Add('maxpacketsize', $maxpacketsize) }
  
             if ($PSCmdlet.ShouldProcess("ssldtlsprofile", "Add SSL configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -Type ssldtlsprofile -Payload $Payload -GetWarning
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -NitroPath nitro/v1/config -Type ssldtlsprofile -Payload $Payload -GetWarning
                 #HTTP Status Code on Success: 201 Created
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 if ($PSBoundParameters.ContainsKey('PassThru')) {
@@ -6399,7 +6399,7 @@ function Invoke-ADCDeleteSsldtlsprofile {
         Invoke-ADCDeleteSsldtlsprofile -name <string>
     .NOTES
         File Name : Invoke-ADCDeleteSsldtlsprofile
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ssl/ssldtlsprofile/
         Requires  : PowerShell v5.1 and up
@@ -6427,7 +6427,7 @@ function Invoke-ADCDeleteSsldtlsprofile {
             }
 
             if ($PSCmdlet.ShouldProcess("$name", "Delete SSL configuration Object")) {
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type ssldtlsprofile -Resource $name -Arguments $Arguments
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type ssldtlsprofile -NitroPath nitro/v1/config -Resource $name -Arguments $Arguments
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $response
@@ -6483,7 +6483,7 @@ function Invoke-ADCUpdateSsldtlsprofile {
         Invoke-ADCUpdateSsldtlsprofile -name <string>
     .NOTES
         File Name : Invoke-ADCUpdateSsldtlsprofile
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ssl/ssldtlsprofile/
         Requires  : PowerShell v5.1 and up
@@ -6540,7 +6540,7 @@ function Invoke-ADCUpdateSsldtlsprofile {
             if ($PSBoundParameters.ContainsKey('maxpacketsize')) { $Payload.Add('maxpacketsize', $maxpacketsize) }
  
             if ($PSCmdlet.ShouldProcess("ssldtlsprofile", "Update SSL configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -Type ssldtlsprofile -Payload $Payload -GetWarning
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -NitroPath nitro/v1/config -Type ssldtlsprofile -Payload $Payload -GetWarning
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 if ($PSBoundParameters.ContainsKey('PassThru')) {
@@ -6587,7 +6587,7 @@ function Invoke-ADCUnsetSsldtlsprofile {
         Invoke-ADCUnsetSsldtlsprofile -name <string>
     .NOTES
         File Name : Invoke-ADCUnsetSsldtlsprofile
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ssl/ssldtlsprofile
         Requires  : PowerShell v5.1 and up
@@ -6635,7 +6635,7 @@ function Invoke-ADCUnsetSsldtlsprofile {
             if ($PSBoundParameters.ContainsKey('terminatesession')) { $Payload.Add('terminatesession', $terminatesession) }
             if ($PSBoundParameters.ContainsKey('maxpacketsize')) { $Payload.Add('maxpacketsize', $maxpacketsize) }
             if ($PSCmdlet.ShouldProcess("$name", "Unset SSL configuration Object")) {
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -Type ssldtlsprofile -Action unset -Payload $Payload -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -Type ssldtlsprofile -NitroPath nitro/v1/config -Action unset -Payload $Payload -GetWarning
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $response
@@ -6679,7 +6679,7 @@ function Invoke-ADCGetSsldtlsprofile {
         Invoke-ADCGetSsldtlsprofile -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetSsldtlsprofile
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ssl/ssldtlsprofile/
         Requires  : PowerShell v5.1 and up
@@ -6721,21 +6721,21 @@ function Invoke-ADCGetSsldtlsprofile {
             if ( $PsCmdlet.ParameterSetName -eq 'Getall' ) {
                 $Query = @{ }
                 Write-Verbose "Retrieving all ssldtlsprofile objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type ssldtlsprofile -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type ssldtlsprofile -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
                 if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for ssldtlsprofile objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type ssldtlsprofile -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type ssldtlsprofile -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving ssldtlsprofile objects by arguments"
                 $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type ssldtlsprofile -Arguments $Arguments -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type ssldtlsprofile -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving ssldtlsprofile configuration for property 'name'"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type ssldtlsprofile -Resource $name -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type ssldtlsprofile -NitroPath nitro/v1/config -Resource $name -Summary:$ViewSummary -Filter $Filter -GetWarning
             } else {
                 Write-Verbose "Retrieving ssldtlsprofile configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type ssldtlsprofile -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type ssldtlsprofile -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -6776,7 +6776,7 @@ function Invoke-ADCCreateSslecdsakey {
         Invoke-ADCCreateSslecdsakey -keyfile <string> -curve <string>
     .NOTES
         File Name : Invoke-ADCCreateSslecdsakey
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ssl/sslecdsakey/
         Requires  : PowerShell v5.1 and up
@@ -6830,7 +6830,7 @@ function Invoke-ADCCreateSslecdsakey {
             if ($PSBoundParameters.ContainsKey('password')) { $Payload.Add('password', $password) }
             if ($PSBoundParameters.ContainsKey('pkcs8')) { $Payload.Add('pkcs8', $pkcs8) }
             if ($PSCmdlet.ShouldProcess($Name, "Create SSL configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -Type sslecdsakey -Action create -Payload $Payload -GetWarning
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -NitroPath nitro/v1/config -Type sslecdsakey -Action create -Payload $Payload -GetWarning
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $result
@@ -6870,7 +6870,7 @@ function Invoke-ADCUpdateSslfips {
         Invoke-ADCUpdateSslfips -inithsm <string> -sopassword <string> -oldsopassword <string> -userpassword <string>
     .NOTES
         File Name : Invoke-ADCUpdateSslfips
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ssl/sslfips/
         Requires  : PowerShell v5.1 and up
@@ -6920,7 +6920,7 @@ function Invoke-ADCUpdateSslfips {
             if ($PSBoundParameters.ContainsKey('hsmlabel')) { $Payload.Add('hsmlabel', $hsmlabel) }
  
             if ($PSCmdlet.ShouldProcess("sslfips", "Update SSL configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -Type sslfips -Payload $Payload -GetWarning
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -NitroPath nitro/v1/config -Type sslfips -Payload $Payload -GetWarning
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
             Write-Output $result
@@ -6948,7 +6948,7 @@ function Invoke-ADCUnsetSslfips {
         Invoke-ADCUnsetSslfips 
     .NOTES
         File Name : Invoke-ADCUnsetSslfips
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ssl/sslfips
         Requires  : PowerShell v5.1 and up
@@ -6976,7 +6976,7 @@ function Invoke-ADCUnsetSslfips {
             }
             if ($PSBoundParameters.ContainsKey('hsmlabel')) { $Payload.Add('hsmlabel', $hsmlabel) }
             if ($PSCmdlet.ShouldProcess("sslfips", "Unset SSL configuration Object")) {
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -Type sslfips -Action unset -Payload $Payload -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -Type sslfips -NitroPath nitro/v1/config -Action unset -Payload $Payload -GetWarning
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $response
@@ -7001,7 +7001,7 @@ function Invoke-ADCResetSslfips {
         Invoke-ADCResetSslfips 
     .NOTES
         File Name : Invoke-ADCResetSslfips
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ssl/sslfips/
         Requires  : PowerShell v5.1 and up
@@ -7028,7 +7028,7 @@ function Invoke-ADCResetSslfips {
             }
 
             if ($PSCmdlet.ShouldProcess($Name, "Reset SSL configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -Type sslfips -Action reset -Payload $Payload -GetWarning
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -NitroPath nitro/v1/config -Type sslfips -Action reset -Payload $Payload -GetWarning
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $result
@@ -7056,7 +7056,7 @@ function Invoke-ADCChangeSslfips {
         Invoke-ADCChangeSslfips -fipsfw <string>
     .NOTES
         File Name : Invoke-ADCChangeSslfips
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ssl/sslfips/
         Requires  : PowerShell v5.1 and up
@@ -7088,7 +7088,7 @@ function Invoke-ADCChangeSslfips {
 
  
             if ($PSCmdlet.ShouldProcess("sslfips", "Change SSL configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -Type sslfips -Action update -Payload $Payload -GetWarning
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -NitroPath nitro/v1/config -Type sslfips -Action update -Payload $Payload -GetWarning
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
             Write-Output $result
@@ -7129,7 +7129,7 @@ function Invoke-ADCGetSslfips {
         Invoke-ADCGetSslfips -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetSslfips
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ssl/sslfips/
         Requires  : PowerShell v5.1 and up
@@ -7158,21 +7158,21 @@ function Invoke-ADCGetSslfips {
             if ( $PsCmdlet.ParameterSetName -eq 'Getall' ) {
                 $Query = @{ }
                 Write-Verbose "Retrieving all sslfips objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type sslfips -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type sslfips -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
                 if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for sslfips objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type sslfips -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type sslfips -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving sslfips objects by arguments"
                 $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type sslfips -Arguments $Arguments -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type sslfips -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving sslfips configuration for property ''"
 
             } else {
                 Write-Verbose "Retrieving sslfips configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type sslfips -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type sslfips -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -7210,7 +7210,7 @@ function Invoke-ADCCreateSslfipskey {
         Invoke-ADCCreateSslfipskey -fipskeyname <string> -keytype <string>
     .NOTES
         File Name : Invoke-ADCCreateSslfipskey
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ssl/sslfipskey/
         Requires  : PowerShell v5.1 and up
@@ -7258,7 +7258,7 @@ function Invoke-ADCCreateSslfipskey {
             if ($PSBoundParameters.ContainsKey('modulus')) { $Payload.Add('modulus', $modulus) }
             if ($PSBoundParameters.ContainsKey('curve')) { $Payload.Add('curve', $curve) }
             if ($PSCmdlet.ShouldProcess($Name, "Create SSL configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -Type sslfipskey -Action create -Payload $Payload -GetWarning
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -NitroPath nitro/v1/config -Type sslfipskey -Action create -Payload $Payload -GetWarning
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $result
@@ -7285,7 +7285,7 @@ function Invoke-ADCDeleteSslfipskey {
         Invoke-ADCDeleteSslfipskey -fipskeyname <string>
     .NOTES
         File Name : Invoke-ADCDeleteSslfipskey
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ssl/sslfipskey/
         Requires  : PowerShell v5.1 and up
@@ -7313,7 +7313,7 @@ function Invoke-ADCDeleteSslfipskey {
             }
 
             if ($PSCmdlet.ShouldProcess("$fipskeyname", "Delete SSL configuration Object")) {
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type sslfipskey -Resource $fipskeyname -Arguments $Arguments
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type sslfipskey -NitroPath nitro/v1/config -Resource $fipskeyname -Arguments $Arguments
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $response
@@ -7357,7 +7357,7 @@ function Invoke-ADCImportSslfipskey {
         Invoke-ADCImportSslfipskey -fipskeyname <string> -key <string>
     .NOTES
         File Name : Invoke-ADCImportSslfipskey
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ssl/sslfipskey/
         Requires  : PowerShell v5.1 and up
@@ -7409,7 +7409,7 @@ function Invoke-ADCImportSslfipskey {
             if ($PSBoundParameters.ContainsKey('iv')) { $Payload.Add('iv', $iv) }
             if ($PSBoundParameters.ContainsKey('exponent')) { $Payload.Add('exponent', $exponent) }
             if ($PSCmdlet.ShouldProcess($Name, "Import SSL configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -Type sslfipskey -Action import -Payload $Payload -GetWarning
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -NitroPath nitro/v1/config -Type sslfipskey -Action import -Payload $Payload -GetWarning
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $result
@@ -7439,7 +7439,7 @@ function Invoke-ADCExportSslfipskey {
         Invoke-ADCExportSslfipskey -fipskeyname <string> -key <string>
     .NOTES
         File Name : Invoke-ADCExportSslfipskey
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ssl/sslfipskey/
         Requires  : PowerShell v5.1 and up
@@ -7476,7 +7476,7 @@ function Invoke-ADCExportSslfipskey {
             }
 
             if ($PSCmdlet.ShouldProcess($Name, "Export SSL configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -Type sslfipskey -Action export -Payload $Payload -GetWarning
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -NitroPath nitro/v1/config -Type sslfipskey -Action export -Payload $Payload -GetWarning
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $result
@@ -7520,7 +7520,7 @@ function Invoke-ADCGetSslfipskey {
         Invoke-ADCGetSslfipskey -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetSslfipskey
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ssl/sslfipskey/
         Requires  : PowerShell v5.1 and up
@@ -7562,21 +7562,21 @@ function Invoke-ADCGetSslfipskey {
             if ( $PsCmdlet.ParameterSetName -eq 'Getall' ) {
                 $Query = @{ }
                 Write-Verbose "Retrieving all sslfipskey objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type sslfipskey -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type sslfipskey -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
                 if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for sslfipskey objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type sslfipskey -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type sslfipskey -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving sslfipskey objects by arguments"
                 $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type sslfipskey -Arguments $Arguments -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type sslfipskey -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving sslfipskey configuration for property 'fipskeyname'"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type sslfipskey -Resource $fipskeyname -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type sslfipskey -NitroPath nitro/v1/config -Resource $fipskeyname -Summary:$ViewSummary -Filter $Filter -GetWarning
             } else {
                 Write-Verbose "Retrieving sslfipskey configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type sslfipskey -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type sslfipskey -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -7603,7 +7603,7 @@ function Invoke-ADCEnableSslfipssimsource {
         Invoke-ADCEnableSslfipssimsource -targetsecret <string> -sourcesecret <string>
     .NOTES
         File Name : Invoke-ADCEnableSslfipssimsource
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ssl/sslfipssimsource/
         Requires  : PowerShell v5.1 and up
@@ -7639,7 +7639,7 @@ function Invoke-ADCEnableSslfipssimsource {
             }
 
             if ($PSCmdlet.ShouldProcess($Name, "Enable SSL configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -Type sslfipssimsource -Action enable -Payload $Payload -GetWarning
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -NitroPath nitro/v1/config -Type sslfipssimsource -Action enable -Payload $Payload -GetWarning
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $result
@@ -7666,7 +7666,7 @@ function Invoke-ADCInitSslfipssimsource {
         Invoke-ADCInitSslfipssimsource -certfile <string>
     .NOTES
         File Name : Invoke-ADCInitSslfipssimsource
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ssl/sslfipssimsource/
         Requires  : PowerShell v5.1 and up
@@ -7697,7 +7697,7 @@ function Invoke-ADCInitSslfipssimsource {
             }
 
             if ($PSCmdlet.ShouldProcess($Name, "Init SSL configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -Type sslfipssimsource -Action init -Payload $Payload -GetWarning
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -NitroPath nitro/v1/config -Type sslfipssimsource -Action init -Payload $Payload -GetWarning
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $result
@@ -7726,7 +7726,7 @@ function Invoke-ADCEnableSslfipssimtarget {
         Invoke-ADCEnableSslfipssimtarget -keyvector <string> -sourcesecret <string>
     .NOTES
         File Name : Invoke-ADCEnableSslfipssimtarget
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ssl/sslfipssimtarget/
         Requires  : PowerShell v5.1 and up
@@ -7762,7 +7762,7 @@ function Invoke-ADCEnableSslfipssimtarget {
             }
 
             if ($PSCmdlet.ShouldProcess($Name, "Enable SSL configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -Type sslfipssimtarget -Action enable -Payload $Payload -GetWarning
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -NitroPath nitro/v1/config -Type sslfipssimtarget -Action enable -Payload $Payload -GetWarning
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $result
@@ -7793,7 +7793,7 @@ function Invoke-ADCInitSslfipssimtarget {
         Invoke-ADCInitSslfipssimtarget -certfile <string> -keyvector <string> -targetsecret <string>
     .NOTES
         File Name : Invoke-ADCInitSslfipssimtarget
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ssl/sslfipssimtarget/
         Requires  : PowerShell v5.1 and up
@@ -7834,7 +7834,7 @@ function Invoke-ADCInitSslfipssimtarget {
             }
 
             if ($PSCmdlet.ShouldProcess($Name, "Init SSL configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -Type sslfipssimtarget -Action init -Payload $Payload -GetWarning
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -NitroPath nitro/v1/config -Type sslfipssimtarget -Action init -Payload $Payload -GetWarning
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $result
@@ -7874,7 +7874,7 @@ function Invoke-ADCGetSslglobalbinding {
         Invoke-ADCGetSslglobalbinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetSslglobalbinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ssl/sslglobal_binding/
         Requires  : PowerShell v5.1 and up
@@ -7905,21 +7905,21 @@ function Invoke-ADCGetSslglobalbinding {
                     bulkbindings = 'yes'
                 }
                 Write-Verbose "Retrieving all sslglobal_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type sslglobal_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type sslglobal_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
                 if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for sslglobal_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type sslglobal_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type sslglobal_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving sslglobal_binding objects by arguments"
                 $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type sslglobal_binding -Arguments $Arguments -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type sslglobal_binding -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving sslglobal_binding configuration for property ''"
 
             } else {
                 Write-Verbose "Retrieving sslglobal_binding configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type sslglobal_binding -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type sslglobal_binding -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -7961,7 +7961,7 @@ function Invoke-ADCAddSslglobalsslpolicybinding {
         Invoke-ADCAddSslglobalsslpolicybinding 
     .NOTES
         File Name : Invoke-ADCAddSslglobalsslpolicybinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ssl/sslglobal_sslpolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -8013,7 +8013,7 @@ function Invoke-ADCAddSslglobalsslpolicybinding {
             if ($PSBoundParameters.ContainsKey('labelname')) { $Payload.Add('labelname', $labelname) }
  
             if ($PSCmdlet.ShouldProcess("sslglobal_sslpolicy_binding", "Add SSL configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -Type sslglobal_sslpolicy_binding -Payload $Payload -GetWarning
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -NitroPath nitro/v1/config -Type sslglobal_sslpolicy_binding -Payload $Payload -GetWarning
                 #HTTP Status Code on Success: 201 Created
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 if ($PSBoundParameters.ContainsKey('PassThru')) {
@@ -8048,7 +8048,7 @@ function Invoke-ADCDeleteSslglobalsslpolicybinding {
         Invoke-ADCDeleteSslglobalsslpolicybinding 
     .NOTES
         File Name : Invoke-ADCDeleteSslglobalsslpolicybinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ssl/sslglobal_sslpolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -8081,7 +8081,7 @@ function Invoke-ADCDeleteSslglobalsslpolicybinding {
             if ($PSBoundParameters.ContainsKey('type')) { $Arguments.Add('type', $type) }
             if ($PSBoundParameters.ContainsKey('priority')) { $Arguments.Add('priority', $priority) }
             if ($PSCmdlet.ShouldProcess("sslglobal_sslpolicy_binding", "Delete SSL configuration Object")) {
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type sslglobal_sslpolicy_binding -Resource $ -Arguments $Arguments
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type sslglobal_sslpolicy_binding -NitroPath nitro/v1/config -Resource $ -Arguments $Arguments
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $response
@@ -8123,7 +8123,7 @@ function Invoke-ADCGetSslglobalsslpolicybinding {
         Invoke-ADCGetSslglobalsslpolicybinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetSslglobalsslpolicybinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ssl/sslglobal_sslpolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -8157,21 +8157,21 @@ function Invoke-ADCGetSslglobalsslpolicybinding {
                     bulkbindings = 'yes'
                 }
                 Write-Verbose "Retrieving all sslglobal_sslpolicy_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type sslglobal_sslpolicy_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type sslglobal_sslpolicy_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
                 if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for sslglobal_sslpolicy_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type sslglobal_sslpolicy_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type sslglobal_sslpolicy_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving sslglobal_sslpolicy_binding objects by arguments"
                 $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type sslglobal_sslpolicy_binding -Arguments $Arguments -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type sslglobal_sslpolicy_binding -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving sslglobal_sslpolicy_binding configuration for property ''"
 
             } else {
                 Write-Verbose "Retrieving sslglobal_sslpolicy_binding configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type sslglobal_sslpolicy_binding -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type sslglobal_sslpolicy_binding -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -8215,7 +8215,7 @@ function Invoke-ADCAddSslhsmkey {
         Invoke-ADCAddSslhsmkey -hsmkeyname <string>
     .NOTES
         File Name : Invoke-ADCAddSslhsmkey
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ssl/sslhsmkey/
         Requires  : PowerShell v5.1 and up
@@ -8266,7 +8266,7 @@ function Invoke-ADCAddSslhsmkey {
             if ($PSBoundParameters.ContainsKey('keystore')) { $Payload.Add('keystore', $keystore) }
  
             if ($PSCmdlet.ShouldProcess("sslhsmkey", "Add SSL configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -Type sslhsmkey -Payload $Payload -GetWarning
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -NitroPath nitro/v1/config -Type sslhsmkey -Payload $Payload -GetWarning
                 #HTTP Status Code on Success: 201 Created
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 if ($PSBoundParameters.ContainsKey('PassThru')) {
@@ -8306,7 +8306,7 @@ function Invoke-ADCDeleteSslhsmkey {
         Invoke-ADCDeleteSslhsmkey -hsmkeyname <string>
     .NOTES
         File Name : Invoke-ADCDeleteSslhsmkey
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ssl/sslhsmkey/
         Requires  : PowerShell v5.1 and up
@@ -8342,7 +8342,7 @@ function Invoke-ADCDeleteSslhsmkey {
             if ($PSBoundParameters.ContainsKey('serialnum')) { $Arguments.Add('serialnum', $serialnum) }
             if ($PSBoundParameters.ContainsKey('password')) { $Arguments.Add('password', $password) }
             if ($PSCmdlet.ShouldProcess("$hsmkeyname", "Delete SSL configuration Object")) {
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type sslhsmkey -Resource $hsmkeyname -Arguments $Arguments
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type sslhsmkey -NitroPath nitro/v1/config -Resource $hsmkeyname -Arguments $Arguments
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $response
@@ -8386,7 +8386,7 @@ function Invoke-ADCGetSslhsmkey {
         Invoke-ADCGetSslhsmkey -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetSslhsmkey
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ssl/sslhsmkey/
         Requires  : PowerShell v5.1 and up
@@ -8427,21 +8427,21 @@ function Invoke-ADCGetSslhsmkey {
             if ( $PsCmdlet.ParameterSetName -eq 'Getall' ) {
                 $Query = @{ }
                 Write-Verbose "Retrieving all sslhsmkey objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type sslhsmkey -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type sslhsmkey -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
                 if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for sslhsmkey objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type sslhsmkey -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type sslhsmkey -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving sslhsmkey objects by arguments"
                 $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type sslhsmkey -Arguments $Arguments -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type sslhsmkey -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving sslhsmkey configuration for property 'hsmkeyname'"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type sslhsmkey -Resource $hsmkeyname -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type sslhsmkey -NitroPath nitro/v1/config -Resource $hsmkeyname -Summary:$ViewSummary -Filter $Filter -GetWarning
             } else {
                 Write-Verbose "Retrieving sslhsmkey configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type sslhsmkey -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type sslhsmkey -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -8471,7 +8471,7 @@ function Invoke-ADCImportSslkeyfile {
         Invoke-ADCImportSslkeyfile -name <string> -src <string>
     .NOTES
         File Name : Invoke-ADCImportSslkeyfile
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ssl/sslkeyfile/
         Requires  : PowerShell v5.1 and up
@@ -8510,7 +8510,7 @@ function Invoke-ADCImportSslkeyfile {
             }
             if ($PSBoundParameters.ContainsKey('password')) { $Payload.Add('password', $password) }
             if ($PSCmdlet.ShouldProcess($Name, "Import SSL configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -Type sslkeyfile -Action import -Payload $Payload -GetWarning
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -NitroPath nitro/v1/config -Type sslkeyfile -Action import -Payload $Payload -GetWarning
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $result
@@ -8537,7 +8537,7 @@ function Invoke-ADCDeleteSslkeyfile {
         Invoke-ADCDeleteSslkeyfile 
     .NOTES
         File Name : Invoke-ADCDeleteSslkeyfile
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ssl/sslkeyfile/
         Requires  : PowerShell v5.1 and up
@@ -8564,7 +8564,7 @@ function Invoke-ADCDeleteSslkeyfile {
             }
             if ($PSBoundParameters.ContainsKey('name')) { $Arguments.Add('name', $name) }
             if ($PSCmdlet.ShouldProcess("sslkeyfile", "Delete SSL configuration Object")) {
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type sslkeyfile -Resource $ -Arguments $Arguments
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type sslkeyfile -NitroPath nitro/v1/config -Resource $ -Arguments $Arguments
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $response
@@ -8606,7 +8606,7 @@ function Invoke-ADCGetSslkeyfile {
         Invoke-ADCGetSslkeyfile -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetSslkeyfile
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ssl/sslkeyfile/
         Requires  : PowerShell v5.1 and up
@@ -8642,21 +8642,21 @@ function Invoke-ADCGetSslkeyfile {
             if ( $PsCmdlet.ParameterSetName -eq 'Getall' ) {
                 $Query = @{ }
                 Write-Verbose "Retrieving all sslkeyfile objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type sslkeyfile -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type sslkeyfile -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
                 if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for sslkeyfile objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type sslkeyfile -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type sslkeyfile -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving sslkeyfile objects by arguments"
                 $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type sslkeyfile -Arguments $Arguments -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type sslkeyfile -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving sslkeyfile configuration for property ''"
 
             } else {
                 Write-Verbose "Retrieving sslkeyfile configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type sslkeyfile -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type sslkeyfile -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -8701,7 +8701,7 @@ function Invoke-ADCAddSsllogprofile {
         Invoke-ADCAddSsllogprofile -name <string>
     .NOTES
         File Name : Invoke-ADCAddSsllogprofile
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ssl/ssllogprofile/
         Requires  : PowerShell v5.1 and up
@@ -8750,7 +8750,7 @@ function Invoke-ADCAddSsllogprofile {
             if ($PSBoundParameters.ContainsKey('sslloghsfailures')) { $Payload.Add('sslloghsfailures', $sslloghsfailures) }
  
             if ($PSCmdlet.ShouldProcess("ssllogprofile", "Add SSL configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -Type ssllogprofile -Payload $Payload -GetWarning
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -NitroPath nitro/v1/config -Type ssllogprofile -Payload $Payload -GetWarning
                 #HTTP Status Code on Success: 201 Created
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 if ($PSBoundParameters.ContainsKey('PassThru')) {
@@ -8802,7 +8802,7 @@ function Invoke-ADCUpdateSsllogprofile {
         Invoke-ADCUpdateSsllogprofile -name <string>
     .NOTES
         File Name : Invoke-ADCUpdateSsllogprofile
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ssl/ssllogprofile/
         Requires  : PowerShell v5.1 and up
@@ -8851,7 +8851,7 @@ function Invoke-ADCUpdateSsllogprofile {
             if ($PSBoundParameters.ContainsKey('sslloghsfailures')) { $Payload.Add('sslloghsfailures', $sslloghsfailures) }
  
             if ($PSCmdlet.ShouldProcess("ssllogprofile", "Update SSL configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -Type ssllogprofile -Payload $Payload -GetWarning
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -NitroPath nitro/v1/config -Type ssllogprofile -Payload $Payload -GetWarning
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 if ($PSBoundParameters.ContainsKey('PassThru')) {
@@ -8895,7 +8895,7 @@ function Invoke-ADCUnsetSsllogprofile {
         Invoke-ADCUnsetSsllogprofile -name <string>
     .NOTES
         File Name : Invoke-ADCUnsetSsllogprofile
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ssl/ssllogprofile
         Requires  : PowerShell v5.1 and up
@@ -8936,7 +8936,7 @@ function Invoke-ADCUnsetSsllogprofile {
             if ($PSBoundParameters.ContainsKey('sslloghs')) { $Payload.Add('sslloghs', $sslloghs) }
             if ($PSBoundParameters.ContainsKey('sslloghsfailures')) { $Payload.Add('sslloghsfailures', $sslloghsfailures) }
             if ($PSCmdlet.ShouldProcess("$name", "Unset SSL configuration Object")) {
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -Type ssllogprofile -Action unset -Payload $Payload -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -Type ssllogprofile -NitroPath nitro/v1/config -Action unset -Payload $Payload -GetWarning
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $response
@@ -8965,7 +8965,7 @@ function Invoke-ADCDeleteSsllogprofile {
         Invoke-ADCDeleteSsllogprofile -name <string>
     .NOTES
         File Name : Invoke-ADCDeleteSsllogprofile
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ssl/ssllogprofile/
         Requires  : PowerShell v5.1 and up
@@ -8993,7 +8993,7 @@ function Invoke-ADCDeleteSsllogprofile {
             }
 
             if ($PSCmdlet.ShouldProcess("$name", "Delete SSL configuration Object")) {
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type ssllogprofile -Resource $name -Arguments $Arguments
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type ssllogprofile -NitroPath nitro/v1/config -Resource $name -Arguments $Arguments
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $response
@@ -9037,7 +9037,7 @@ function Invoke-ADCGetSsllogprofile {
         Invoke-ADCGetSsllogprofile -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetSsllogprofile
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ssl/ssllogprofile/
         Requires  : PowerShell v5.1 and up
@@ -9078,21 +9078,21 @@ function Invoke-ADCGetSsllogprofile {
             if ( $PsCmdlet.ParameterSetName -eq 'Getall' ) {
                 $Query = @{ }
                 Write-Verbose "Retrieving all ssllogprofile objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type ssllogprofile -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type ssllogprofile -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
                 if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for ssllogprofile objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type ssllogprofile -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type ssllogprofile -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving ssllogprofile objects by arguments"
                 $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type ssllogprofile -Arguments $Arguments -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type ssllogprofile -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving ssllogprofile configuration for property 'name'"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type ssllogprofile -Resource $name -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type ssllogprofile -NitroPath nitro/v1/config -Resource $name -Summary:$ViewSummary -Filter $Filter -GetWarning
             } else {
                 Write-Verbose "Retrieving ssllogprofile configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type ssllogprofile -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type ssllogprofile -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -9171,7 +9171,7 @@ function Invoke-ADCAddSslocspresponder {
         Invoke-ADCAddSslocspresponder -name <string> -url <string>
     .NOTES
         File Name : Invoke-ADCAddSslocspresponder
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ssl/sslocspresponder/
         Requires  : PowerShell v5.1 and up
@@ -9260,7 +9260,7 @@ function Invoke-ADCAddSslocspresponder {
             if ($PSBoundParameters.ContainsKey('httpmethod')) { $Payload.Add('httpmethod', $httpmethod) }
  
             if ($PSCmdlet.ShouldProcess("sslocspresponder", "Add SSL configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -Type sslocspresponder -Payload $Payload -GetWarning
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -NitroPath nitro/v1/config -Type sslocspresponder -Payload $Payload -GetWarning
                 #HTTP Status Code on Success: 201 Created
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 if ($PSBoundParameters.ContainsKey('PassThru')) {
@@ -9292,7 +9292,7 @@ function Invoke-ADCDeleteSslocspresponder {
         Invoke-ADCDeleteSslocspresponder -name <string>
     .NOTES
         File Name : Invoke-ADCDeleteSslocspresponder
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ssl/sslocspresponder/
         Requires  : PowerShell v5.1 and up
@@ -9320,7 +9320,7 @@ function Invoke-ADCDeleteSslocspresponder {
             }
 
             if ($PSCmdlet.ShouldProcess("$name", "Delete SSL configuration Object")) {
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type sslocspresponder -Resource $name -Arguments $Arguments
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type sslocspresponder -NitroPath nitro/v1/config -Resource $name -Arguments $Arguments
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $response
@@ -9401,7 +9401,7 @@ function Invoke-ADCUpdateSslocspresponder {
         Invoke-ADCUpdateSslocspresponder -name <string>
     .NOTES
         File Name : Invoke-ADCUpdateSslocspresponder
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ssl/sslocspresponder/
         Requires  : PowerShell v5.1 and up
@@ -9489,7 +9489,7 @@ function Invoke-ADCUpdateSslocspresponder {
             if ($PSBoundParameters.ContainsKey('httpmethod')) { $Payload.Add('httpmethod', $httpmethod) }
  
             if ($PSCmdlet.ShouldProcess("sslocspresponder", "Update SSL configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -Type sslocspresponder -Payload $Payload -GetWarning
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -NitroPath nitro/v1/config -Type sslocspresponder -Payload $Payload -GetWarning
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 if ($PSBoundParameters.ContainsKey('PassThru')) {
@@ -9551,7 +9551,7 @@ function Invoke-ADCUnsetSslocspresponder {
         Invoke-ADCUnsetSslocspresponder -name <string>
     .NOTES
         File Name : Invoke-ADCUnsetSslocspresponder
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ssl/sslocspresponder
         Requires  : PowerShell v5.1 and up
@@ -9619,7 +9619,7 @@ function Invoke-ADCUnsetSslocspresponder {
             if ($PSBoundParameters.ContainsKey('usenonce')) { $Payload.Add('usenonce', $usenonce) }
             if ($PSBoundParameters.ContainsKey('httpmethod')) { $Payload.Add('httpmethod', $httpmethod) }
             if ($PSCmdlet.ShouldProcess("$name", "Unset SSL configuration Object")) {
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -Type sslocspresponder -Action unset -Payload $Payload -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -Type sslocspresponder -NitroPath nitro/v1/config -Action unset -Payload $Payload -GetWarning
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $response
@@ -9663,7 +9663,7 @@ function Invoke-ADCGetSslocspresponder {
         Invoke-ADCGetSslocspresponder -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetSslocspresponder
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ssl/sslocspresponder/
         Requires  : PowerShell v5.1 and up
@@ -9704,21 +9704,21 @@ function Invoke-ADCGetSslocspresponder {
             if ( $PsCmdlet.ParameterSetName -eq 'Getall' ) {
                 $Query = @{ }
                 Write-Verbose "Retrieving all sslocspresponder objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type sslocspresponder -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type sslocspresponder -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
                 if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for sslocspresponder objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type sslocspresponder -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type sslocspresponder -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving sslocspresponder objects by arguments"
                 $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type sslocspresponder -Arguments $Arguments -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type sslocspresponder -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving sslocspresponder configuration for property 'name'"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type sslocspresponder -Resource $name -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type sslocspresponder -NitroPath nitro/v1/config -Resource $name -Summary:$ViewSummary -Filter $Filter -GetWarning
             } else {
                 Write-Verbose "Retrieving sslocspresponder configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type sslocspresponder -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type sslocspresponder -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -9879,7 +9879,7 @@ function Invoke-ADCUpdateSslparameter {
         Invoke-ADCUpdateSslparameter 
     .NOTES
         File Name : Invoke-ADCUpdateSslparameter
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ssl/sslparameter/
         Requires  : PowerShell v5.1 and up
@@ -10007,7 +10007,7 @@ function Invoke-ADCUpdateSslparameter {
             if ($PSBoundParameters.ContainsKey('operationqueuelimit')) { $Payload.Add('operationqueuelimit', $operationqueuelimit) }
  
             if ($PSCmdlet.ShouldProcess("sslparameter", "Update SSL configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -Type sslparameter -Payload $Payload -GetWarning
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -NitroPath nitro/v1/config -Type sslparameter -Payload $Payload -GetWarning
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
             Write-Output $result
@@ -10128,7 +10128,7 @@ function Invoke-ADCUnsetSslparameter {
         Invoke-ADCUnsetSslparameter 
     .NOTES
         File Name : Invoke-ADCUnsetSslparameter
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ssl/sslparameter
         Requires  : PowerShell v5.1 and up
@@ -10231,7 +10231,7 @@ function Invoke-ADCUnsetSslparameter {
             if ($PSBoundParameters.ContainsKey('heterogeneoussslhw')) { $Payload.Add('heterogeneoussslhw', $heterogeneoussslhw) }
             if ($PSBoundParameters.ContainsKey('operationqueuelimit')) { $Payload.Add('operationqueuelimit', $operationqueuelimit) }
             if ($PSCmdlet.ShouldProcess("sslparameter", "Unset SSL configuration Object")) {
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -Type sslparameter -Action unset -Payload $Payload -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -Type sslparameter -NitroPath nitro/v1/config -Action unset -Payload $Payload -GetWarning
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $response
@@ -10271,7 +10271,7 @@ function Invoke-ADCGetSslparameter {
         Invoke-ADCGetSslparameter -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetSslparameter
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ssl/sslparameter/
         Requires  : PowerShell v5.1 and up
@@ -10300,21 +10300,21 @@ function Invoke-ADCGetSslparameter {
             if ( $PsCmdlet.ParameterSetName -eq 'Getall' ) {
                 $Query = @{ }
                 Write-Verbose "Retrieving all sslparameter objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type sslparameter -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type sslparameter -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
                 if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for sslparameter objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type sslparameter -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type sslparameter -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving sslparameter objects by arguments"
                 $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type sslparameter -Arguments $Arguments -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type sslparameter -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving sslparameter configuration for property ''"
 
             } else {
                 Write-Verbose "Retrieving sslparameter configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type sslparameter -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type sslparameter -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -10362,7 +10362,7 @@ function Invoke-ADCConvertSslpkcs12 {
         Invoke-ADCConvertSslpkcs12 -outfile <string> -password <string>
     .NOTES
         File Name : Invoke-ADCConvertSslpkcs12
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ssl/sslpkcs12/
         Requires  : PowerShell v5.1 and up
@@ -10424,7 +10424,7 @@ function Invoke-ADCConvertSslpkcs12 {
             if ($PSBoundParameters.ContainsKey('keyfile')) { $Payload.Add('keyfile', $keyfile) }
             if ($PSBoundParameters.ContainsKey('pempassphrase')) { $Payload.Add('pempassphrase', $pempassphrase) }
             if ($PSCmdlet.ShouldProcess($Name, "Convert SSL configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -Type sslpkcs12 -Action convert -Payload $Payload -GetWarning
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -NitroPath nitro/v1/config -Type sslpkcs12 -Action convert -Payload $Payload -GetWarning
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $result
@@ -10458,7 +10458,7 @@ function Invoke-ADCConvertSslpkcs8 {
         Invoke-ADCConvertSslpkcs8 -pkcs8file <string> -keyfile <string>
     .NOTES
         File Name : Invoke-ADCConvertSslpkcs8
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ssl/sslpkcs8/
         Requires  : PowerShell v5.1 and up
@@ -10499,7 +10499,7 @@ function Invoke-ADCConvertSslpkcs8 {
             if ($PSBoundParameters.ContainsKey('keyform')) { $Payload.Add('keyform', $keyform) }
             if ($PSBoundParameters.ContainsKey('password')) { $Payload.Add('password', $password) }
             if ($PSCmdlet.ShouldProcess($Name, "Convert SSL configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -Type sslpkcs8 -Action convert -Payload $Payload -GetWarning
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -NitroPath nitro/v1/config -Type sslpkcs8 -Action convert -Payload $Payload -GetWarning
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $result
@@ -10543,7 +10543,7 @@ function Invoke-ADCAddSslpolicy {
         Invoke-ADCAddSslpolicy -name <string> -rule <string>
     .NOTES
         File Name : Invoke-ADCAddSslpolicy
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ssl/sslpolicy/
         Requires  : PowerShell v5.1 and up
@@ -10594,7 +10594,7 @@ function Invoke-ADCAddSslpolicy {
             if ($PSBoundParameters.ContainsKey('comment')) { $Payload.Add('comment', $comment) }
  
             if ($PSCmdlet.ShouldProcess("sslpolicy", "Add SSL configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -Type sslpolicy -Payload $Payload -GetWarning
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -NitroPath nitro/v1/config -Type sslpolicy -Payload $Payload -GetWarning
                 #HTTP Status Code on Success: 201 Created
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 if ($PSBoundParameters.ContainsKey('PassThru')) {
@@ -10626,7 +10626,7 @@ function Invoke-ADCDeleteSslpolicy {
         Invoke-ADCDeleteSslpolicy -name <string>
     .NOTES
         File Name : Invoke-ADCDeleteSslpolicy
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ssl/sslpolicy/
         Requires  : PowerShell v5.1 and up
@@ -10654,7 +10654,7 @@ function Invoke-ADCDeleteSslpolicy {
             }
 
             if ($PSCmdlet.ShouldProcess("$name", "Delete SSL configuration Object")) {
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type sslpolicy -Resource $name -Arguments $Arguments
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type sslpolicy -NitroPath nitro/v1/config -Resource $name -Arguments $Arguments
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $response
@@ -10695,7 +10695,7 @@ function Invoke-ADCUpdateSslpolicy {
         Invoke-ADCUpdateSslpolicy -name <string>
     .NOTES
         File Name : Invoke-ADCUpdateSslpolicy
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ssl/sslpolicy/
         Requires  : PowerShell v5.1 and up
@@ -10741,7 +10741,7 @@ function Invoke-ADCUpdateSslpolicy {
             if ($PSBoundParameters.ContainsKey('comment')) { $Payload.Add('comment', $comment) }
  
             if ($PSCmdlet.ShouldProcess("sslpolicy", "Update SSL configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -Type sslpolicy -Payload $Payload -GetWarning
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -NitroPath nitro/v1/config -Type sslpolicy -Payload $Payload -GetWarning
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 if ($PSBoundParameters.ContainsKey('PassThru')) {
@@ -10777,7 +10777,7 @@ function Invoke-ADCUnsetSslpolicy {
         Invoke-ADCUnsetSslpolicy -name <string>
     .NOTES
         File Name : Invoke-ADCUnsetSslpolicy
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ssl/sslpolicy
         Requires  : PowerShell v5.1 and up
@@ -10813,7 +10813,7 @@ function Invoke-ADCUnsetSslpolicy {
             if ($PSBoundParameters.ContainsKey('undefaction')) { $Payload.Add('undefaction', $undefaction) }
             if ($PSBoundParameters.ContainsKey('comment')) { $Payload.Add('comment', $comment) }
             if ($PSCmdlet.ShouldProcess("$name", "Unset SSL configuration Object")) {
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -Type sslpolicy -Action unset -Payload $Payload -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -Type sslpolicy -NitroPath nitro/v1/config -Action unset -Payload $Payload -GetWarning
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $response
@@ -10857,7 +10857,7 @@ function Invoke-ADCGetSslpolicy {
         Invoke-ADCGetSslpolicy -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetSslpolicy
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ssl/sslpolicy/
         Requires  : PowerShell v5.1 and up
@@ -10899,21 +10899,21 @@ function Invoke-ADCGetSslpolicy {
             if ( $PsCmdlet.ParameterSetName -eq 'Getall' ) {
                 $Query = @{ }
                 Write-Verbose "Retrieving all sslpolicy objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type sslpolicy -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type sslpolicy -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
                 if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for sslpolicy objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type sslpolicy -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type sslpolicy -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving sslpolicy objects by arguments"
                 $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type sslpolicy -Arguments $Arguments -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type sslpolicy -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving sslpolicy configuration for property 'name'"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type sslpolicy -Resource $name -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type sslpolicy -NitroPath nitro/v1/config -Resource $name -Summary:$ViewSummary -Filter $Filter -GetWarning
             } else {
                 Write-Verbose "Retrieving sslpolicy configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type sslpolicy -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type sslpolicy -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -10943,7 +10943,7 @@ function Invoke-ADCAddSslpolicylabel {
         Invoke-ADCAddSslpolicylabel -labelname <string> -type <string>
     .NOTES
         File Name : Invoke-ADCAddSslpolicylabel
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ssl/sslpolicylabel/
         Requires  : PowerShell v5.1 and up
@@ -10982,7 +10982,7 @@ function Invoke-ADCAddSslpolicylabel {
 
  
             if ($PSCmdlet.ShouldProcess("sslpolicylabel", "Add SSL configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -Type sslpolicylabel -Payload $Payload -GetWarning
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -NitroPath nitro/v1/config -Type sslpolicylabel -Payload $Payload -GetWarning
                 #HTTP Status Code on Success: 201 Created
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 if ($PSBoundParameters.ContainsKey('PassThru')) {
@@ -11014,7 +11014,7 @@ function Invoke-ADCDeleteSslpolicylabel {
         Invoke-ADCDeleteSslpolicylabel -labelname <string>
     .NOTES
         File Name : Invoke-ADCDeleteSslpolicylabel
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ssl/sslpolicylabel/
         Requires  : PowerShell v5.1 and up
@@ -11042,7 +11042,7 @@ function Invoke-ADCDeleteSslpolicylabel {
             }
 
             if ($PSCmdlet.ShouldProcess("$labelname", "Delete SSL configuration Object")) {
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type sslpolicylabel -Resource $labelname -Arguments $Arguments
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type sslpolicylabel -NitroPath nitro/v1/config -Resource $labelname -Arguments $Arguments
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $response
@@ -11086,7 +11086,7 @@ function Invoke-ADCGetSslpolicylabel {
         Invoke-ADCGetSslpolicylabel -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetSslpolicylabel
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ssl/sslpolicylabel/
         Requires  : PowerShell v5.1 and up
@@ -11127,21 +11127,21 @@ function Invoke-ADCGetSslpolicylabel {
             if ( $PsCmdlet.ParameterSetName -eq 'Getall' ) {
                 $Query = @{ }
                 Write-Verbose "Retrieving all sslpolicylabel objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type sslpolicylabel -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type sslpolicylabel -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
                 if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for sslpolicylabel objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type sslpolicylabel -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type sslpolicylabel -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving sslpolicylabel objects by arguments"
                 $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type sslpolicylabel -Arguments $Arguments -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type sslpolicylabel -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving sslpolicylabel configuration for property 'labelname'"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type sslpolicylabel -Resource $labelname -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type sslpolicylabel -NitroPath nitro/v1/config -Resource $labelname -Summary:$ViewSummary -Filter $Filter -GetWarning
             } else {
                 Write-Verbose "Retrieving sslpolicylabel configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type sslpolicylabel -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type sslpolicylabel -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -11181,7 +11181,7 @@ function Invoke-ADCGetSslpolicylabelbinding {
         Invoke-ADCGetSslpolicylabelbinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetSslpolicylabelbinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ssl/sslpolicylabel_binding/
         Requires  : PowerShell v5.1 and up
@@ -11215,21 +11215,21 @@ function Invoke-ADCGetSslpolicylabelbinding {
                     bulkbindings = 'yes'
                 }
                 Write-Verbose "Retrieving all sslpolicylabel_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type sslpolicylabel_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type sslpolicylabel_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
                 if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for sslpolicylabel_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type sslpolicylabel_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type sslpolicylabel_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving sslpolicylabel_binding objects by arguments"
                 $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type sslpolicylabel_binding -Arguments $Arguments -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type sslpolicylabel_binding -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving sslpolicylabel_binding configuration for property 'labelname'"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type sslpolicylabel_binding -Resource $labelname -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type sslpolicylabel_binding -NitroPath nitro/v1/config -Resource $labelname -Summary:$ViewSummary -Filter $Filter -GetWarning
             } else {
                 Write-Verbose "Retrieving sslpolicylabel_binding configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type sslpolicylabel_binding -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type sslpolicylabel_binding -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -11269,7 +11269,7 @@ function Invoke-ADCAddSslpolicylabelsslpolicybinding {
         Invoke-ADCAddSslpolicylabelsslpolicybinding -labelname <string> -policyname <string> -priority <double>
     .NOTES
         File Name : Invoke-ADCAddSslpolicylabelsslpolicybinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ssl/sslpolicylabel_sslpolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -11322,7 +11322,7 @@ function Invoke-ADCAddSslpolicylabelsslpolicybinding {
             if ($PSBoundParameters.ContainsKey('invoke_labelname')) { $Payload.Add('invoke_labelname', $invoke_labelname) }
  
             if ($PSCmdlet.ShouldProcess("sslpolicylabel_sslpolicy_binding", "Add SSL configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -Type sslpolicylabel_sslpolicy_binding -Payload $Payload -GetWarning
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -NitroPath nitro/v1/config -Type sslpolicylabel_sslpolicy_binding -Payload $Payload -GetWarning
                 #HTTP Status Code on Success: 201 Created
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 if ($PSBoundParameters.ContainsKey('PassThru')) {
@@ -11356,7 +11356,7 @@ function Invoke-ADCDeleteSslpolicylabelsslpolicybinding {
         Invoke-ADCDeleteSslpolicylabelsslpolicybinding -labelname <string>
     .NOTES
         File Name : Invoke-ADCDeleteSslpolicylabelsslpolicybinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ssl/sslpolicylabel_sslpolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -11389,7 +11389,7 @@ function Invoke-ADCDeleteSslpolicylabelsslpolicybinding {
             if ($PSBoundParameters.ContainsKey('policyname')) { $Arguments.Add('policyname', $policyname) }
             if ($PSBoundParameters.ContainsKey('priority')) { $Arguments.Add('priority', $priority) }
             if ($PSCmdlet.ShouldProcess("$labelname", "Delete SSL configuration Object")) {
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type sslpolicylabel_sslpolicy_binding -Resource $labelname -Arguments $Arguments
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type sslpolicylabel_sslpolicy_binding -NitroPath nitro/v1/config -Resource $labelname -Arguments $Arguments
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $response
@@ -11433,7 +11433,7 @@ function Invoke-ADCGetSslpolicylabelsslpolicybinding {
         Invoke-ADCGetSslpolicylabelsslpolicybinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetSslpolicylabelsslpolicybinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ssl/sslpolicylabel_sslpolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -11470,21 +11470,21 @@ function Invoke-ADCGetSslpolicylabelsslpolicybinding {
                     bulkbindings = 'yes'
                 }
                 Write-Verbose "Retrieving all sslpolicylabel_sslpolicy_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type sslpolicylabel_sslpolicy_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type sslpolicylabel_sslpolicy_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
                 if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for sslpolicylabel_sslpolicy_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type sslpolicylabel_sslpolicy_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type sslpolicylabel_sslpolicy_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving sslpolicylabel_sslpolicy_binding objects by arguments"
                 $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type sslpolicylabel_sslpolicy_binding -Arguments $Arguments -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type sslpolicylabel_sslpolicy_binding -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving sslpolicylabel_sslpolicy_binding configuration for property 'labelname'"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type sslpolicylabel_sslpolicy_binding -Resource $labelname -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type sslpolicylabel_sslpolicy_binding -NitroPath nitro/v1/config -Resource $labelname -Summary:$ViewSummary -Filter $Filter -GetWarning
             } else {
                 Write-Verbose "Retrieving sslpolicylabel_sslpolicy_binding configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type sslpolicylabel_sslpolicy_binding -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type sslpolicylabel_sslpolicy_binding -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -11524,7 +11524,7 @@ function Invoke-ADCGetSslpolicybinding {
         Invoke-ADCGetSslpolicybinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetSslpolicybinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ssl/sslpolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -11559,21 +11559,21 @@ function Invoke-ADCGetSslpolicybinding {
                     bulkbindings = 'yes'
                 }
                 Write-Verbose "Retrieving all sslpolicy_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type sslpolicy_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type sslpolicy_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
                 if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for sslpolicy_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type sslpolicy_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type sslpolicy_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving sslpolicy_binding objects by arguments"
                 $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type sslpolicy_binding -Arguments $Arguments -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type sslpolicy_binding -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving sslpolicy_binding configuration for property 'name'"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type sslpolicy_binding -Resource $name -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type sslpolicy_binding -NitroPath nitro/v1/config -Resource $name -Summary:$ViewSummary -Filter $Filter -GetWarning
             } else {
                 Write-Verbose "Retrieving sslpolicy_binding configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type sslpolicy_binding -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type sslpolicy_binding -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -11615,7 +11615,7 @@ function Invoke-ADCGetSslpolicycsvserverbinding {
         Invoke-ADCGetSslpolicycsvserverbinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetSslpolicycsvserverbinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ssl/sslpolicy_csvserver_binding/
         Requires  : PowerShell v5.1 and up
@@ -11653,21 +11653,21 @@ function Invoke-ADCGetSslpolicycsvserverbinding {
                     bulkbindings = 'yes'
                 }
                 Write-Verbose "Retrieving all sslpolicy_csvserver_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type sslpolicy_csvserver_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type sslpolicy_csvserver_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
                 if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for sslpolicy_csvserver_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type sslpolicy_csvserver_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type sslpolicy_csvserver_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving sslpolicy_csvserver_binding objects by arguments"
                 $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type sslpolicy_csvserver_binding -Arguments $Arguments -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type sslpolicy_csvserver_binding -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving sslpolicy_csvserver_binding configuration for property 'name'"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type sslpolicy_csvserver_binding -Resource $name -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type sslpolicy_csvserver_binding -NitroPath nitro/v1/config -Resource $name -Summary:$ViewSummary -Filter $Filter -GetWarning
             } else {
                 Write-Verbose "Retrieving sslpolicy_csvserver_binding configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type sslpolicy_csvserver_binding -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type sslpolicy_csvserver_binding -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -11709,7 +11709,7 @@ function Invoke-ADCGetSslpolicylbvserverbinding {
         Invoke-ADCGetSslpolicylbvserverbinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetSslpolicylbvserverbinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ssl/sslpolicy_lbvserver_binding/
         Requires  : PowerShell v5.1 and up
@@ -11747,21 +11747,21 @@ function Invoke-ADCGetSslpolicylbvserverbinding {
                     bulkbindings = 'yes'
                 }
                 Write-Verbose "Retrieving all sslpolicy_lbvserver_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type sslpolicy_lbvserver_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type sslpolicy_lbvserver_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
                 if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for sslpolicy_lbvserver_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type sslpolicy_lbvserver_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type sslpolicy_lbvserver_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving sslpolicy_lbvserver_binding objects by arguments"
                 $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type sslpolicy_lbvserver_binding -Arguments $Arguments -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type sslpolicy_lbvserver_binding -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving sslpolicy_lbvserver_binding configuration for property 'name'"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type sslpolicy_lbvserver_binding -Resource $name -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type sslpolicy_lbvserver_binding -NitroPath nitro/v1/config -Resource $name -Summary:$ViewSummary -Filter $Filter -GetWarning
             } else {
                 Write-Verbose "Retrieving sslpolicy_lbvserver_binding configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type sslpolicy_lbvserver_binding -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type sslpolicy_lbvserver_binding -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -11803,7 +11803,7 @@ function Invoke-ADCGetSslpolicysslglobalbinding {
         Invoke-ADCGetSslpolicysslglobalbinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetSslpolicysslglobalbinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ssl/sslpolicy_sslglobal_binding/
         Requires  : PowerShell v5.1 and up
@@ -11841,21 +11841,21 @@ function Invoke-ADCGetSslpolicysslglobalbinding {
                     bulkbindings = 'yes'
                 }
                 Write-Verbose "Retrieving all sslpolicy_sslglobal_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type sslpolicy_sslglobal_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type sslpolicy_sslglobal_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
                 if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for sslpolicy_sslglobal_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type sslpolicy_sslglobal_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type sslpolicy_sslglobal_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving sslpolicy_sslglobal_binding objects by arguments"
                 $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type sslpolicy_sslglobal_binding -Arguments $Arguments -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type sslpolicy_sslglobal_binding -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving sslpolicy_sslglobal_binding configuration for property 'name'"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type sslpolicy_sslglobal_binding -Resource $name -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type sslpolicy_sslglobal_binding -NitroPath nitro/v1/config -Resource $name -Summary:$ViewSummary -Filter $Filter -GetWarning
             } else {
                 Write-Verbose "Retrieving sslpolicy_sslglobal_binding configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type sslpolicy_sslglobal_binding -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type sslpolicy_sslglobal_binding -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -11897,7 +11897,7 @@ function Invoke-ADCGetSslpolicysslpolicylabelbinding {
         Invoke-ADCGetSslpolicysslpolicylabelbinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetSslpolicysslpolicylabelbinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ssl/sslpolicy_sslpolicylabel_binding/
         Requires  : PowerShell v5.1 and up
@@ -11935,21 +11935,21 @@ function Invoke-ADCGetSslpolicysslpolicylabelbinding {
                     bulkbindings = 'yes'
                 }
                 Write-Verbose "Retrieving all sslpolicy_sslpolicylabel_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type sslpolicy_sslpolicylabel_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type sslpolicy_sslpolicylabel_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
                 if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for sslpolicy_sslpolicylabel_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type sslpolicy_sslpolicylabel_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type sslpolicy_sslpolicylabel_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving sslpolicy_sslpolicylabel_binding objects by arguments"
                 $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type sslpolicy_sslpolicylabel_binding -Arguments $Arguments -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type sslpolicy_sslpolicylabel_binding -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving sslpolicy_sslpolicylabel_binding configuration for property 'name'"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type sslpolicy_sslpolicylabel_binding -Resource $name -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type sslpolicy_sslpolicylabel_binding -NitroPath nitro/v1/config -Resource $name -Summary:$ViewSummary -Filter $Filter -GetWarning
             } else {
                 Write-Verbose "Retrieving sslpolicy_sslpolicylabel_binding configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type sslpolicy_sslpolicylabel_binding -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type sslpolicy_sslpolicylabel_binding -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -11991,7 +11991,7 @@ function Invoke-ADCGetSslpolicysslservicebinding {
         Invoke-ADCGetSslpolicysslservicebinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetSslpolicysslservicebinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ssl/sslpolicy_sslservice_binding/
         Requires  : PowerShell v5.1 and up
@@ -12029,21 +12029,21 @@ function Invoke-ADCGetSslpolicysslservicebinding {
                     bulkbindings = 'yes'
                 }
                 Write-Verbose "Retrieving all sslpolicy_sslservice_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type sslpolicy_sslservice_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type sslpolicy_sslservice_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
                 if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for sslpolicy_sslservice_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type sslpolicy_sslservice_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type sslpolicy_sslservice_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving sslpolicy_sslservice_binding objects by arguments"
                 $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type sslpolicy_sslservice_binding -Arguments $Arguments -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type sslpolicy_sslservice_binding -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving sslpolicy_sslservice_binding configuration for property 'name'"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type sslpolicy_sslservice_binding -Resource $name -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type sslpolicy_sslservice_binding -NitroPath nitro/v1/config -Resource $name -Summary:$ViewSummary -Filter $Filter -GetWarning
             } else {
                 Write-Verbose "Retrieving sslpolicy_sslservice_binding configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type sslpolicy_sslservice_binding -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type sslpolicy_sslservice_binding -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -12085,7 +12085,7 @@ function Invoke-ADCGetSslpolicysslvserverbinding {
         Invoke-ADCGetSslpolicysslvserverbinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetSslpolicysslvserverbinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ssl/sslpolicy_sslvserver_binding/
         Requires  : PowerShell v5.1 and up
@@ -12123,21 +12123,21 @@ function Invoke-ADCGetSslpolicysslvserverbinding {
                     bulkbindings = 'yes'
                 }
                 Write-Verbose "Retrieving all sslpolicy_sslvserver_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type sslpolicy_sslvserver_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type sslpolicy_sslvserver_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
                 if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for sslpolicy_sslvserver_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type sslpolicy_sslvserver_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type sslpolicy_sslvserver_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving sslpolicy_sslvserver_binding objects by arguments"
                 $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type sslpolicy_sslvserver_binding -Arguments $Arguments -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type sslpolicy_sslvserver_binding -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving sslpolicy_sslvserver_binding configuration for property 'name'"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type sslpolicy_sslvserver_binding -Resource $name -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type sslpolicy_sslvserver_binding -NitroPath nitro/v1/config -Resource $name -Summary:$ViewSummary -Filter $Filter -GetWarning
             } else {
                 Write-Verbose "Retrieving sslpolicy_sslvserver_binding configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type sslpolicy_sslvserver_binding -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type sslpolicy_sslvserver_binding -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -12449,7 +12449,7 @@ function Invoke-ADCAddSslprofile {
         Invoke-ADCAddSslprofile -name <string>
     .NOTES
         File Name : Invoke-ADCAddSslprofile
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ssl/sslprofile/
         Requires  : PowerShell v5.1 and up
@@ -12717,7 +12717,7 @@ function Invoke-ADCAddSslprofile {
             if ($PSBoundParameters.ContainsKey('alpnprotocol')) { $Payload.Add('alpnprotocol', $alpnprotocol) }
  
             if ($PSCmdlet.ShouldProcess("sslprofile", "Add SSL configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -Type sslprofile -Payload $Payload -GetWarning
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -NitroPath nitro/v1/config -Type sslprofile -Payload $Payload -GetWarning
                 #HTTP Status Code on Success: 201 Created
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 if ($PSBoundParameters.ContainsKey('PassThru')) {
@@ -12751,7 +12751,7 @@ function Invoke-ADCDeleteSslprofile {
         Invoke-ADCDeleteSslprofile -name <string>
     .NOTES
         File Name : Invoke-ADCDeleteSslprofile
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ssl/sslprofile/
         Requires  : PowerShell v5.1 and up
@@ -12779,7 +12779,7 @@ function Invoke-ADCDeleteSslprofile {
             }
 
             if ($PSCmdlet.ShouldProcess("$name", "Delete SSL configuration Object")) {
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type sslprofile -Resource $name -Arguments $Arguments
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type sslprofile -NitroPath nitro/v1/config -Resource $name -Arguments $Arguments
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $response
@@ -13098,7 +13098,7 @@ function Invoke-ADCUpdateSslprofile {
         Invoke-ADCUpdateSslprofile -name <string>
     .NOTES
         File Name : Invoke-ADCUpdateSslprofile
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ssl/sslprofile/
         Requires  : PowerShell v5.1 and up
@@ -13372,7 +13372,7 @@ function Invoke-ADCUpdateSslprofile {
             if ($PSBoundParameters.ContainsKey('alpnprotocol')) { $Payload.Add('alpnprotocol', $alpnprotocol) }
  
             if ($PSCmdlet.ShouldProcess("sslprofile", "Update SSL configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -Type sslprofile -Payload $Payload -GetWarning
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -NitroPath nitro/v1/config -Type sslprofile -Payload $Payload -GetWarning
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 if ($PSBoundParameters.ContainsKey('PassThru')) {
@@ -13613,7 +13613,7 @@ function Invoke-ADCUnsetSslprofile {
         Invoke-ADCUnsetSslprofile -name <string>
     .NOTES
         File Name : Invoke-ADCUnsetSslprofile
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ssl/sslprofile
         Requires  : PowerShell v5.1 and up
@@ -13826,7 +13826,7 @@ function Invoke-ADCUnsetSslprofile {
             if ($PSBoundParameters.ContainsKey('allowextendedmastersecret')) { $Payload.Add('allowextendedmastersecret', $allowextendedmastersecret) }
             if ($PSBoundParameters.ContainsKey('alpnprotocol')) { $Payload.Add('alpnprotocol', $alpnprotocol) }
             if ($PSCmdlet.ShouldProcess("$name", "Unset SSL configuration Object")) {
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -Type sslprofile -Action unset -Payload $Payload -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -Type sslprofile -NitroPath nitro/v1/config -Action unset -Payload $Payload -GetWarning
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $response
@@ -13870,7 +13870,7 @@ function Invoke-ADCGetSslprofile {
         Invoke-ADCGetSslprofile -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetSslprofile
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ssl/sslprofile/
         Requires  : PowerShell v5.1 and up
@@ -13912,21 +13912,21 @@ function Invoke-ADCGetSslprofile {
             if ( $PsCmdlet.ParameterSetName -eq 'Getall' ) {
                 $Query = @{ }
                 Write-Verbose "Retrieving all sslprofile objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type sslprofile -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type sslprofile -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
                 if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for sslprofile objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type sslprofile -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type sslprofile -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving sslprofile objects by arguments"
                 $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type sslprofile -Arguments $Arguments -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type sslprofile -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving sslprofile configuration for property 'name'"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type sslprofile -Resource $name -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type sslprofile -NitroPath nitro/v1/config -Resource $name -Summary:$ViewSummary -Filter $Filter -GetWarning
             } else {
                 Write-Verbose "Retrieving sslprofile configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type sslprofile -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type sslprofile -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -13966,7 +13966,7 @@ function Invoke-ADCGetSslprofilebinding {
         Invoke-ADCGetSslprofilebinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetSslprofilebinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ssl/sslprofile_binding/
         Requires  : PowerShell v5.1 and up
@@ -14001,21 +14001,21 @@ function Invoke-ADCGetSslprofilebinding {
                     bulkbindings = 'yes'
                 }
                 Write-Verbose "Retrieving all sslprofile_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type sslprofile_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type sslprofile_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
                 if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for sslprofile_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type sslprofile_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type sslprofile_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving sslprofile_binding objects by arguments"
                 $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type sslprofile_binding -Arguments $Arguments -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type sslprofile_binding -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving sslprofile_binding configuration for property 'name'"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type sslprofile_binding -Resource $name -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type sslprofile_binding -NitroPath nitro/v1/config -Resource $name -Summary:$ViewSummary -Filter $Filter -GetWarning
             } else {
                 Write-Verbose "Retrieving sslprofile_binding configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type sslprofile_binding -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type sslprofile_binding -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -14051,7 +14051,7 @@ function Invoke-ADCAddSslprofileecccurvebinding {
         Invoke-ADCAddSslprofileecccurvebinding -name <string>
     .NOTES
         File Name : Invoke-ADCAddSslprofileecccurvebinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ssl/sslprofile_ecccurve_binding/
         Requires  : PowerShell v5.1 and up
@@ -14092,7 +14092,7 @@ function Invoke-ADCAddSslprofileecccurvebinding {
             if ($PSBoundParameters.ContainsKey('ecccurvename')) { $Payload.Add('ecccurvename', $ecccurvename) }
  
             if ($PSCmdlet.ShouldProcess("sslprofile_ecccurve_binding", "Add SSL configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -Type sslprofile_ecccurve_binding -Payload $Payload -GetWarning
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -NitroPath nitro/v1/config -Type sslprofile_ecccurve_binding -Payload $Payload -GetWarning
                 #HTTP Status Code on Success: 201 Created
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 if ($PSBoundParameters.ContainsKey('PassThru')) {
@@ -14128,7 +14128,7 @@ function Invoke-ADCDeleteSslprofileecccurvebinding {
         Invoke-ADCDeleteSslprofileecccurvebinding -name <string>
     .NOTES
         File Name : Invoke-ADCDeleteSslprofileecccurvebinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ssl/sslprofile_ecccurve_binding/
         Requires  : PowerShell v5.1 and up
@@ -14158,7 +14158,7 @@ function Invoke-ADCDeleteSslprofileecccurvebinding {
             }
             if ($PSBoundParameters.ContainsKey('ecccurvename')) { $Arguments.Add('ecccurvename', $ecccurvename) }
             if ($PSCmdlet.ShouldProcess("$name", "Delete SSL configuration Object")) {
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type sslprofile_ecccurve_binding -Resource $name -Arguments $Arguments
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type sslprofile_ecccurve_binding -NitroPath nitro/v1/config -Resource $name -Arguments $Arguments
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $response
@@ -14202,7 +14202,7 @@ function Invoke-ADCGetSslprofileecccurvebinding {
         Invoke-ADCGetSslprofileecccurvebinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetSslprofileecccurvebinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ssl/sslprofile_ecccurve_binding/
         Requires  : PowerShell v5.1 and up
@@ -14240,21 +14240,21 @@ function Invoke-ADCGetSslprofileecccurvebinding {
                     bulkbindings = 'yes'
                 }
                 Write-Verbose "Retrieving all sslprofile_ecccurve_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type sslprofile_ecccurve_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type sslprofile_ecccurve_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
                 if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for sslprofile_ecccurve_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type sslprofile_ecccurve_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type sslprofile_ecccurve_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving sslprofile_ecccurve_binding objects by arguments"
                 $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type sslprofile_ecccurve_binding -Arguments $Arguments -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type sslprofile_ecccurve_binding -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving sslprofile_ecccurve_binding configuration for property 'name'"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type sslprofile_ecccurve_binding -Resource $name -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type sslprofile_ecccurve_binding -NitroPath nitro/v1/config -Resource $name -Summary:$ViewSummary -Filter $Filter -GetWarning
             } else {
                 Write-Verbose "Retrieving sslprofile_ecccurve_binding configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type sslprofile_ecccurve_binding -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type sslprofile_ecccurve_binding -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -14289,7 +14289,7 @@ function Invoke-ADCAddSslprofilesslcertkeybinding {
         Invoke-ADCAddSslprofilesslcertkeybinding -name <string>
     .NOTES
         File Name : Invoke-ADCAddSslprofilesslcertkeybinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ssl/sslprofile_sslcertkey_binding/
         Requires  : PowerShell v5.1 and up
@@ -14329,7 +14329,7 @@ function Invoke-ADCAddSslprofilesslcertkeybinding {
             if ($PSBoundParameters.ContainsKey('sslicacertkey')) { $Payload.Add('sslicacertkey', $sslicacertkey) }
  
             if ($PSCmdlet.ShouldProcess("sslprofile_sslcertkey_binding", "Add SSL configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -Type sslprofile_sslcertkey_binding -Payload $Payload -GetWarning
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -NitroPath nitro/v1/config -Type sslprofile_sslcertkey_binding -Payload $Payload -GetWarning
                 #HTTP Status Code on Success: 201 Created
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 if ($PSBoundParameters.ContainsKey('PassThru')) {
@@ -14364,7 +14364,7 @@ function Invoke-ADCDeleteSslprofilesslcertkeybinding {
         Invoke-ADCDeleteSslprofilesslcertkeybinding -name <string>
     .NOTES
         File Name : Invoke-ADCDeleteSslprofilesslcertkeybinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ssl/sslprofile_sslcertkey_binding/
         Requires  : PowerShell v5.1 and up
@@ -14394,7 +14394,7 @@ function Invoke-ADCDeleteSslprofilesslcertkeybinding {
             }
             if ($PSBoundParameters.ContainsKey('sslicacertkey')) { $Arguments.Add('sslicacertkey', $sslicacertkey) }
             if ($PSCmdlet.ShouldProcess("$name", "Delete SSL configuration Object")) {
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type sslprofile_sslcertkey_binding -Resource $name -Arguments $Arguments
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type sslprofile_sslcertkey_binding -NitroPath nitro/v1/config -Resource $name -Arguments $Arguments
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $response
@@ -14438,7 +14438,7 @@ function Invoke-ADCGetSslprofilesslcertkeybinding {
         Invoke-ADCGetSslprofilesslcertkeybinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetSslprofilesslcertkeybinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ssl/sslprofile_sslcertkey_binding/
         Requires  : PowerShell v5.1 and up
@@ -14476,21 +14476,21 @@ function Invoke-ADCGetSslprofilesslcertkeybinding {
                     bulkbindings = 'yes'
                 }
                 Write-Verbose "Retrieving all sslprofile_sslcertkey_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type sslprofile_sslcertkey_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type sslprofile_sslcertkey_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
                 if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for sslprofile_sslcertkey_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type sslprofile_sslcertkey_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type sslprofile_sslcertkey_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving sslprofile_sslcertkey_binding objects by arguments"
                 $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type sslprofile_sslcertkey_binding -Arguments $Arguments -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type sslprofile_sslcertkey_binding -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving sslprofile_sslcertkey_binding configuration for property 'name'"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type sslprofile_sslcertkey_binding -Resource $name -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type sslprofile_sslcertkey_binding -NitroPath nitro/v1/config -Resource $name -Summary:$ViewSummary -Filter $Filter -GetWarning
             } else {
                 Write-Verbose "Retrieving sslprofile_sslcertkey_binding configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type sslprofile_sslcertkey_binding -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type sslprofile_sslcertkey_binding -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -14524,7 +14524,7 @@ function Invoke-ADCAddSslprofilesslciphersuitebinding {
         Invoke-ADCAddSslprofilesslciphersuitebinding -name <string>
     .NOTES
         File Name : Invoke-ADCAddSslprofilesslciphersuitebinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ssl/sslprofile_sslciphersuite_binding/
         Requires  : PowerShell v5.1 and up
@@ -14563,7 +14563,7 @@ function Invoke-ADCAddSslprofilesslciphersuitebinding {
             if ($PSBoundParameters.ContainsKey('cipherpriority')) { $Payload.Add('cipherpriority', $cipherpriority) }
  
             if ($PSCmdlet.ShouldProcess("sslprofile_sslciphersuite_binding", "Add SSL configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -Type sslprofile_sslciphersuite_binding -Payload $Payload -GetWarning
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -NitroPath nitro/v1/config -Type sslprofile_sslciphersuite_binding -Payload $Payload -GetWarning
                 #HTTP Status Code on Success: 201 Created
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 if ($PSBoundParameters.ContainsKey('PassThru')) {
@@ -14598,7 +14598,7 @@ function Invoke-ADCDeleteSslprofilesslciphersuitebinding {
         Invoke-ADCDeleteSslprofilesslciphersuitebinding -name <string>
     .NOTES
         File Name : Invoke-ADCDeleteSslprofilesslciphersuitebinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ssl/sslprofile_sslciphersuite_binding/
         Requires  : PowerShell v5.1 and up
@@ -14628,7 +14628,7 @@ function Invoke-ADCDeleteSslprofilesslciphersuitebinding {
             }
             if ($PSBoundParameters.ContainsKey('ciphername')) { $Arguments.Add('ciphername', $ciphername) }
             if ($PSCmdlet.ShouldProcess("$name", "Delete SSL configuration Object")) {
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type sslprofile_sslciphersuite_binding -Resource $name -Arguments $Arguments
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type sslprofile_sslciphersuite_binding -NitroPath nitro/v1/config -Resource $name -Arguments $Arguments
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $response
@@ -14672,7 +14672,7 @@ function Invoke-ADCGetSslprofilesslciphersuitebinding {
         Invoke-ADCGetSslprofilesslciphersuitebinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetSslprofilesslciphersuitebinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ssl/sslprofile_sslciphersuite_binding/
         Requires  : PowerShell v5.1 and up
@@ -14710,21 +14710,21 @@ function Invoke-ADCGetSslprofilesslciphersuitebinding {
                     bulkbindings = 'yes'
                 }
                 Write-Verbose "Retrieving all sslprofile_sslciphersuite_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type sslprofile_sslciphersuite_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type sslprofile_sslciphersuite_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
                 if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for sslprofile_sslciphersuite_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type sslprofile_sslciphersuite_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type sslprofile_sslciphersuite_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving sslprofile_sslciphersuite_binding objects by arguments"
                 $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type sslprofile_sslciphersuite_binding -Arguments $Arguments -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type sslprofile_sslciphersuite_binding -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving sslprofile_sslciphersuite_binding configuration for property 'name'"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type sslprofile_sslciphersuite_binding -Resource $name -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type sslprofile_sslciphersuite_binding -NitroPath nitro/v1/config -Resource $name -Summary:$ViewSummary -Filter $Filter -GetWarning
             } else {
                 Write-Verbose "Retrieving sslprofile_sslciphersuite_binding configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type sslprofile_sslciphersuite_binding -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type sslprofile_sslciphersuite_binding -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -14759,7 +14759,7 @@ function Invoke-ADCAddSslprofilesslcipherbinding {
         Invoke-ADCAddSslprofilesslcipherbinding -name <string>
     .NOTES
         File Name : Invoke-ADCAddSslprofilesslcipherbinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ssl/sslprofile_sslcipher_binding/
         Requires  : PowerShell v5.1 and up
@@ -14799,7 +14799,7 @@ function Invoke-ADCAddSslprofilesslcipherbinding {
             if ($PSBoundParameters.ContainsKey('cipherpriority')) { $Payload.Add('cipherpriority', $cipherpriority) }
  
             if ($PSCmdlet.ShouldProcess("sslprofile_sslcipher_binding", "Add SSL configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -Type sslprofile_sslcipher_binding -Payload $Payload -GetWarning
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -NitroPath nitro/v1/config -Type sslprofile_sslcipher_binding -Payload $Payload -GetWarning
                 #HTTP Status Code on Success: 201 Created
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 if ($PSBoundParameters.ContainsKey('PassThru')) {
@@ -14835,7 +14835,7 @@ function Invoke-ADCDeleteSslprofilesslcipherbinding {
         Invoke-ADCDeleteSslprofilesslcipherbinding -name <string>
     .NOTES
         File Name : Invoke-ADCDeleteSslprofilesslcipherbinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ssl/sslprofile_sslcipher_binding/
         Requires  : PowerShell v5.1 and up
@@ -14865,7 +14865,7 @@ function Invoke-ADCDeleteSslprofilesslcipherbinding {
             }
             if ($PSBoundParameters.ContainsKey('ciphername')) { $Arguments.Add('ciphername', $ciphername) }
             if ($PSCmdlet.ShouldProcess("$name", "Delete SSL configuration Object")) {
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type sslprofile_sslcipher_binding -Resource $name -Arguments $Arguments
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type sslprofile_sslcipher_binding -NitroPath nitro/v1/config -Resource $name -Arguments $Arguments
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $response
@@ -14909,7 +14909,7 @@ function Invoke-ADCGetSslprofilesslcipherbinding {
         Invoke-ADCGetSslprofilesslcipherbinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetSslprofilesslcipherbinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ssl/sslprofile_sslcipher_binding/
         Requires  : PowerShell v5.1 and up
@@ -14947,21 +14947,21 @@ function Invoke-ADCGetSslprofilesslcipherbinding {
                     bulkbindings = 'yes'
                 }
                 Write-Verbose "Retrieving all sslprofile_sslcipher_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type sslprofile_sslcipher_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type sslprofile_sslcipher_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
                 if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for sslprofile_sslcipher_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type sslprofile_sslcipher_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type sslprofile_sslcipher_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving sslprofile_sslcipher_binding objects by arguments"
                 $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type sslprofile_sslcipher_binding -Arguments $Arguments -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type sslprofile_sslcipher_binding -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving sslprofile_sslcipher_binding configuration for property 'name'"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type sslprofile_sslcipher_binding -Resource $name -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type sslprofile_sslcipher_binding -NitroPath nitro/v1/config -Resource $name -Summary:$ViewSummary -Filter $Filter -GetWarning
             } else {
                 Write-Verbose "Retrieving sslprofile_sslcipher_binding configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type sslprofile_sslcipher_binding -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type sslprofile_sslcipher_binding -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -15003,7 +15003,7 @@ function Invoke-ADCGetSslprofilesslvserverbinding {
         Invoke-ADCGetSslprofilesslvserverbinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetSslprofilesslvserverbinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ssl/sslprofile_sslvserver_binding/
         Requires  : PowerShell v5.1 and up
@@ -15041,21 +15041,21 @@ function Invoke-ADCGetSslprofilesslvserverbinding {
                     bulkbindings = 'yes'
                 }
                 Write-Verbose "Retrieving all sslprofile_sslvserver_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type sslprofile_sslvserver_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type sslprofile_sslvserver_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
                 if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for sslprofile_sslvserver_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type sslprofile_sslvserver_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type sslprofile_sslvserver_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving sslprofile_sslvserver_binding objects by arguments"
                 $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type sslprofile_sslvserver_binding -Arguments $Arguments -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type sslprofile_sslvserver_binding -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving sslprofile_sslvserver_binding configuration for property 'name'"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type sslprofile_sslvserver_binding -Resource $name -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type sslprofile_sslvserver_binding -NitroPath nitro/v1/config -Resource $name -Summary:$ViewSummary -Filter $Filter -GetWarning
             } else {
                 Write-Verbose "Retrieving sslprofile_sslvserver_binding configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type sslprofile_sslvserver_binding -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type sslprofile_sslvserver_binding -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -15098,7 +15098,7 @@ function Invoke-ADCCreateSslrsakey {
         Invoke-ADCCreateSslrsakey -keyfile <string> -bits <double>
     .NOTES
         File Name : Invoke-ADCCreateSslrsakey
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ssl/sslrsakey/
         Requires  : PowerShell v5.1 and up
@@ -15156,7 +15156,7 @@ function Invoke-ADCCreateSslrsakey {
             if ($PSBoundParameters.ContainsKey('password')) { $Payload.Add('password', $password) }
             if ($PSBoundParameters.ContainsKey('pkcs8')) { $Payload.Add('pkcs8', $pkcs8) }
             if ($PSCmdlet.ShouldProcess($Name, "Create SSL configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -Type sslrsakey -Action create -Payload $Payload -GetWarning
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -NitroPath nitro/v1/config -Type sslrsakey -Action create -Payload $Payload -GetWarning
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $result
@@ -15331,7 +15331,7 @@ function Invoke-ADCUpdateSslservice {
         Invoke-ADCUpdateSslservice -servicename <string>
     .NOTES
         File Name : Invoke-ADCUpdateSslservice
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ssl/sslservice/
         Requires  : PowerShell v5.1 and up
@@ -15494,7 +15494,7 @@ function Invoke-ADCUpdateSslservice {
             if ($PSBoundParameters.ContainsKey('strictsigdigestcheck')) { $Payload.Add('strictsigdigestcheck', $strictsigdigestcheck) }
  
             if ($PSCmdlet.ShouldProcess("sslservice", "Update SSL configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -Type sslservice -Payload $Payload -GetWarning
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -NitroPath nitro/v1/config -Type sslservice -Payload $Payload -GetWarning
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 if ($PSBoundParameters.ContainsKey('PassThru')) {
@@ -15629,7 +15629,7 @@ function Invoke-ADCUnsetSslservice {
         Invoke-ADCUnsetSslservice -servicename <string>
     .NOTES
         File Name : Invoke-ADCUnsetSslservice
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ssl/sslservice
         Requires  : PowerShell v5.1 and up
@@ -15754,7 +15754,7 @@ function Invoke-ADCUnsetSslservice {
             if ($PSBoundParameters.ContainsKey('sslprofile')) { $Payload.Add('sslprofile', $sslprofile) }
             if ($PSBoundParameters.ContainsKey('strictsigdigestcheck')) { $Payload.Add('strictsigdigestcheck', $strictsigdigestcheck) }
             if ($PSCmdlet.ShouldProcess("$servicename", "Unset SSL configuration Object")) {
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -Type sslservice -Action unset -Payload $Payload -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -Type sslservice -NitroPath nitro/v1/config -Action unset -Payload $Payload -GetWarning
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $response
@@ -15798,7 +15798,7 @@ function Invoke-ADCGetSslservice {
         Invoke-ADCGetSslservice -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetSslservice
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ssl/sslservice/
         Requires  : PowerShell v5.1 and up
@@ -15839,21 +15839,21 @@ function Invoke-ADCGetSslservice {
             if ( $PsCmdlet.ParameterSetName -eq 'Getall' ) {
                 $Query = @{ }
                 Write-Verbose "Retrieving all sslservice objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type sslservice -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type sslservice -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
                 if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for sslservice objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type sslservice -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type sslservice -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving sslservice objects by arguments"
                 $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type sslservice -Arguments $Arguments -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type sslservice -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving sslservice configuration for property 'servicename'"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type sslservice -Resource $servicename -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type sslservice -NitroPath nitro/v1/config -Resource $servicename -Summary:$ViewSummary -Filter $Filter -GetWarning
             } else {
                 Write-Verbose "Retrieving sslservice configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type sslservice -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type sslservice -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -15940,7 +15940,7 @@ function Invoke-ADCUpdateSslservicegroup {
         Invoke-ADCUpdateSslservicegroup -servicegroupname <string>
     .NOTES
         File Name : Invoke-ADCUpdateSslservicegroup
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ssl/sslservicegroup/
         Requires  : PowerShell v5.1 and up
@@ -16029,7 +16029,7 @@ function Invoke-ADCUpdateSslservicegroup {
             if ($PSBoundParameters.ContainsKey('strictsigdigestcheck')) { $Payload.Add('strictsigdigestcheck', $strictsigdigestcheck) }
  
             if ($PSCmdlet.ShouldProcess("sslservicegroup", "Update SSL configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -Type sslservicegroup -Payload $Payload -GetWarning
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -NitroPath nitro/v1/config -Type sslservicegroup -Payload $Payload -GetWarning
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 if ($PSBoundParameters.ContainsKey('PassThru')) {
@@ -16103,7 +16103,7 @@ function Invoke-ADCUnsetSslservicegroup {
         Invoke-ADCUnsetSslservicegroup -servicegroupname <string>
     .NOTES
         File Name : Invoke-ADCUnsetSslservicegroup
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ssl/sslservicegroup
         Requires  : PowerShell v5.1 and up
@@ -16174,7 +16174,7 @@ function Invoke-ADCUnsetSslservicegroup {
             if ($PSBoundParameters.ContainsKey('sendclosenotify')) { $Payload.Add('sendclosenotify', $sendclosenotify) }
             if ($PSBoundParameters.ContainsKey('strictsigdigestcheck')) { $Payload.Add('strictsigdigestcheck', $strictsigdigestcheck) }
             if ($PSCmdlet.ShouldProcess("$servicegroupname", "Unset SSL configuration Object")) {
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -Type sslservicegroup -Action unset -Payload $Payload -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -Type sslservicegroup -NitroPath nitro/v1/config -Action unset -Payload $Payload -GetWarning
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $response
@@ -16218,7 +16218,7 @@ function Invoke-ADCGetSslservicegroup {
         Invoke-ADCGetSslservicegroup -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetSslservicegroup
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ssl/sslservicegroup/
         Requires  : PowerShell v5.1 and up
@@ -16259,21 +16259,21 @@ function Invoke-ADCGetSslservicegroup {
             if ( $PsCmdlet.ParameterSetName -eq 'Getall' ) {
                 $Query = @{ }
                 Write-Verbose "Retrieving all sslservicegroup objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type sslservicegroup -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type sslservicegroup -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
                 if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for sslservicegroup objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type sslservicegroup -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type sslservicegroup -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving sslservicegroup objects by arguments"
                 $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type sslservicegroup -Arguments $Arguments -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type sslservicegroup -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving sslservicegroup configuration for property 'servicegroupname'"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type sslservicegroup -Resource $servicegroupname -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type sslservicegroup -NitroPath nitro/v1/config -Resource $servicegroupname -Summary:$ViewSummary -Filter $Filter -GetWarning
             } else {
                 Write-Verbose "Retrieving sslservicegroup configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type sslservicegroup -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type sslservicegroup -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -16313,7 +16313,7 @@ function Invoke-ADCGetSslservicegroupbinding {
         Invoke-ADCGetSslservicegroupbinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetSslservicegroupbinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ssl/sslservicegroup_binding/
         Requires  : PowerShell v5.1 and up
@@ -16348,21 +16348,21 @@ function Invoke-ADCGetSslservicegroupbinding {
                     bulkbindings = 'yes'
                 }
                 Write-Verbose "Retrieving all sslservicegroup_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type sslservicegroup_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type sslservicegroup_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
                 if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for sslservicegroup_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type sslservicegroup_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type sslservicegroup_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving sslservicegroup_binding objects by arguments"
                 $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type sslservicegroup_binding -Arguments $Arguments -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type sslservicegroup_binding -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving sslservicegroup_binding configuration for property 'servicegroupname'"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type sslservicegroup_binding -Resource $servicegroupname -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type sslservicegroup_binding -NitroPath nitro/v1/config -Resource $servicegroupname -Summary:$ViewSummary -Filter $Filter -GetWarning
             } else {
                 Write-Verbose "Retrieving sslservicegroup_binding configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type sslservicegroup_binding -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type sslservicegroup_binding -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -16393,7 +16393,7 @@ function Invoke-ADCAddSslservicegroupecccurvebinding {
         Invoke-ADCAddSslservicegroupecccurvebinding -servicegroupname <string>
     .NOTES
         File Name : Invoke-ADCAddSslservicegroupecccurvebinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ssl/sslservicegroup_ecccurve_binding/
         Requires  : PowerShell v5.1 and up
@@ -16430,7 +16430,7 @@ function Invoke-ADCAddSslservicegroupecccurvebinding {
             if ($PSBoundParameters.ContainsKey('ecccurvename')) { $Payload.Add('ecccurvename', $ecccurvename) }
  
             if ($PSCmdlet.ShouldProcess("sslservicegroup_ecccurve_binding", "Add SSL configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -Type sslservicegroup_ecccurve_binding -Payload $Payload -GetWarning
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -NitroPath nitro/v1/config -Type sslservicegroup_ecccurve_binding -Payload $Payload -GetWarning
                 #HTTP Status Code on Success: 201 Created
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 if ($PSBoundParameters.ContainsKey('PassThru')) {
@@ -16465,7 +16465,7 @@ function Invoke-ADCDeleteSslservicegroupecccurvebinding {
         Invoke-ADCDeleteSslservicegroupecccurvebinding -servicegroupname <string>
     .NOTES
         File Name : Invoke-ADCDeleteSslservicegroupecccurvebinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ssl/sslservicegroup_ecccurve_binding/
         Requires  : PowerShell v5.1 and up
@@ -16495,7 +16495,7 @@ function Invoke-ADCDeleteSslservicegroupecccurvebinding {
             }
             if ($PSBoundParameters.ContainsKey('ecccurvename')) { $Arguments.Add('ecccurvename', $ecccurvename) }
             if ($PSCmdlet.ShouldProcess("$servicegroupname", "Delete SSL configuration Object")) {
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type sslservicegroup_ecccurve_binding -Resource $servicegroupname -Arguments $Arguments
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type sslservicegroup_ecccurve_binding -NitroPath nitro/v1/config -Resource $servicegroupname -Arguments $Arguments
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $response
@@ -16539,7 +16539,7 @@ function Invoke-ADCGetSslservicegroupecccurvebinding {
         Invoke-ADCGetSslservicegroupecccurvebinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetSslservicegroupecccurvebinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ssl/sslservicegroup_ecccurve_binding/
         Requires  : PowerShell v5.1 and up
@@ -16577,21 +16577,21 @@ function Invoke-ADCGetSslservicegroupecccurvebinding {
                     bulkbindings = 'yes'
                 }
                 Write-Verbose "Retrieving all sslservicegroup_ecccurve_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type sslservicegroup_ecccurve_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type sslservicegroup_ecccurve_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
                 if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for sslservicegroup_ecccurve_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type sslservicegroup_ecccurve_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type sslservicegroup_ecccurve_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving sslservicegroup_ecccurve_binding objects by arguments"
                 $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type sslservicegroup_ecccurve_binding -Arguments $Arguments -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type sslservicegroup_ecccurve_binding -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving sslservicegroup_ecccurve_binding configuration for property 'servicegroupname'"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type sslservicegroup_ecccurve_binding -Resource $servicegroupname -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type sslservicegroup_ecccurve_binding -NitroPath nitro/v1/config -Resource $servicegroupname -Summary:$ViewSummary -Filter $Filter -GetWarning
             } else {
                 Write-Verbose "Retrieving sslservicegroup_ecccurve_binding configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type sslservicegroup_ecccurve_binding -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type sslservicegroup_ecccurve_binding -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -16631,7 +16631,7 @@ function Invoke-ADCAddSslservicegroupsslcertkeybinding {
         Invoke-ADCAddSslservicegroupsslcertkeybinding -servicegroupname <string>
     .NOTES
         File Name : Invoke-ADCAddSslservicegroupsslcertkeybinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ssl/sslservicegroup_sslcertkey_binding/
         Requires  : PowerShell v5.1 and up
@@ -16681,7 +16681,7 @@ function Invoke-ADCAddSslservicegroupsslcertkeybinding {
             if ($PSBoundParameters.ContainsKey('ocspcheck')) { $Payload.Add('ocspcheck', $ocspcheck) }
  
             if ($PSCmdlet.ShouldProcess("sslservicegroup_sslcertkey_binding", "Add SSL configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -Type sslservicegroup_sslcertkey_binding -Payload $Payload -GetWarning
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -NitroPath nitro/v1/config -Type sslservicegroup_sslcertkey_binding -Payload $Payload -GetWarning
                 #HTTP Status Code on Success: 201 Created
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 if ($PSBoundParameters.ContainsKey('PassThru')) {
@@ -16719,7 +16719,7 @@ function Invoke-ADCDeleteSslservicegroupsslcertkeybinding {
         Invoke-ADCDeleteSslservicegroupsslcertkeybinding -servicegroupname <string>
     .NOTES
         File Name : Invoke-ADCDeleteSslservicegroupsslcertkeybinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ssl/sslservicegroup_sslcertkey_binding/
         Requires  : PowerShell v5.1 and up
@@ -16758,7 +16758,7 @@ function Invoke-ADCDeleteSslservicegroupsslcertkeybinding {
             if ($PSBoundParameters.ContainsKey('crlcheck')) { $Arguments.Add('crlcheck', $crlcheck) }
             if ($PSBoundParameters.ContainsKey('snicert')) { $Arguments.Add('snicert', $snicert) }
             if ($PSCmdlet.ShouldProcess("$servicegroupname", "Delete SSL configuration Object")) {
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type sslservicegroup_sslcertkey_binding -Resource $servicegroupname -Arguments $Arguments
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type sslservicegroup_sslcertkey_binding -NitroPath nitro/v1/config -Resource $servicegroupname -Arguments $Arguments
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $response
@@ -16802,7 +16802,7 @@ function Invoke-ADCGetSslservicegroupsslcertkeybinding {
         Invoke-ADCGetSslservicegroupsslcertkeybinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetSslservicegroupsslcertkeybinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ssl/sslservicegroup_sslcertkey_binding/
         Requires  : PowerShell v5.1 and up
@@ -16840,21 +16840,21 @@ function Invoke-ADCGetSslservicegroupsslcertkeybinding {
                     bulkbindings = 'yes'
                 }
                 Write-Verbose "Retrieving all sslservicegroup_sslcertkey_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type sslservicegroup_sslcertkey_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type sslservicegroup_sslcertkey_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
                 if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for sslservicegroup_sslcertkey_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type sslservicegroup_sslcertkey_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type sslservicegroup_sslcertkey_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving sslservicegroup_sslcertkey_binding objects by arguments"
                 $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type sslservicegroup_sslcertkey_binding -Arguments $Arguments -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type sslservicegroup_sslcertkey_binding -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving sslservicegroup_sslcertkey_binding configuration for property 'servicegroupname'"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type sslservicegroup_sslcertkey_binding -Resource $servicegroupname -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type sslservicegroup_sslcertkey_binding -NitroPath nitro/v1/config -Resource $servicegroupname -Summary:$ViewSummary -Filter $Filter -GetWarning
             } else {
                 Write-Verbose "Retrieving sslservicegroup_sslcertkey_binding configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type sslservicegroup_sslcertkey_binding -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type sslservicegroup_sslcertkey_binding -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -16884,7 +16884,7 @@ function Invoke-ADCAddSslservicegroupsslciphersuitebinding {
         Invoke-ADCAddSslservicegroupsslciphersuitebinding -servicegroupname <string>
     .NOTES
         File Name : Invoke-ADCAddSslservicegroupsslciphersuitebinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ssl/sslservicegroup_sslciphersuite_binding/
         Requires  : PowerShell v5.1 and up
@@ -16920,7 +16920,7 @@ function Invoke-ADCAddSslservicegroupsslciphersuitebinding {
             if ($PSBoundParameters.ContainsKey('ciphername')) { $Payload.Add('ciphername', $ciphername) }
  
             if ($PSCmdlet.ShouldProcess("sslservicegroup_sslciphersuite_binding", "Add SSL configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -Type sslservicegroup_sslciphersuite_binding -Payload $Payload -GetWarning
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -NitroPath nitro/v1/config -Type sslservicegroup_sslciphersuite_binding -Payload $Payload -GetWarning
                 #HTTP Status Code on Success: 201 Created
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 if ($PSBoundParameters.ContainsKey('PassThru')) {
@@ -16954,7 +16954,7 @@ function Invoke-ADCDeleteSslservicegroupsslciphersuitebinding {
         Invoke-ADCDeleteSslservicegroupsslciphersuitebinding -servicegroupname <string>
     .NOTES
         File Name : Invoke-ADCDeleteSslservicegroupsslciphersuitebinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ssl/sslservicegroup_sslciphersuite_binding/
         Requires  : PowerShell v5.1 and up
@@ -16984,7 +16984,7 @@ function Invoke-ADCDeleteSslservicegroupsslciphersuitebinding {
             }
             if ($PSBoundParameters.ContainsKey('ciphername')) { $Arguments.Add('ciphername', $ciphername) }
             if ($PSCmdlet.ShouldProcess("$servicegroupname", "Delete SSL configuration Object")) {
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type sslservicegroup_sslciphersuite_binding -Resource $servicegroupname -Arguments $Arguments
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type sslservicegroup_sslciphersuite_binding -NitroPath nitro/v1/config -Resource $servicegroupname -Arguments $Arguments
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $response
@@ -17028,7 +17028,7 @@ function Invoke-ADCGetSslservicegroupsslciphersuitebinding {
         Invoke-ADCGetSslservicegroupsslciphersuitebinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetSslservicegroupsslciphersuitebinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ssl/sslservicegroup_sslciphersuite_binding/
         Requires  : PowerShell v5.1 and up
@@ -17066,21 +17066,21 @@ function Invoke-ADCGetSslservicegroupsslciphersuitebinding {
                     bulkbindings = 'yes'
                 }
                 Write-Verbose "Retrieving all sslservicegroup_sslciphersuite_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type sslservicegroup_sslciphersuite_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type sslservicegroup_sslciphersuite_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
                 if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for sslservicegroup_sslciphersuite_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type sslservicegroup_sslciphersuite_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type sslservicegroup_sslciphersuite_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving sslservicegroup_sslciphersuite_binding objects by arguments"
                 $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type sslservicegroup_sslciphersuite_binding -Arguments $Arguments -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type sslservicegroup_sslciphersuite_binding -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving sslservicegroup_sslciphersuite_binding configuration for property 'servicegroupname'"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type sslservicegroup_sslciphersuite_binding -Resource $servicegroupname -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type sslservicegroup_sslciphersuite_binding -NitroPath nitro/v1/config -Resource $servicegroupname -Summary:$ViewSummary -Filter $Filter -GetWarning
             } else {
                 Write-Verbose "Retrieving sslservicegroup_sslciphersuite_binding configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type sslservicegroup_sslciphersuite_binding -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type sslservicegroup_sslciphersuite_binding -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -17110,7 +17110,7 @@ function Invoke-ADCAddSslservicegroupsslcipherbinding {
         Invoke-ADCAddSslservicegroupsslcipherbinding -servicegroupname <string>
     .NOTES
         File Name : Invoke-ADCAddSslservicegroupsslcipherbinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ssl/sslservicegroup_sslcipher_binding/
         Requires  : PowerShell v5.1 and up
@@ -17146,7 +17146,7 @@ function Invoke-ADCAddSslservicegroupsslcipherbinding {
             if ($PSBoundParameters.ContainsKey('ciphername')) { $Payload.Add('ciphername', $ciphername) }
  
             if ($PSCmdlet.ShouldProcess("sslservicegroup_sslcipher_binding", "Add SSL configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -Type sslservicegroup_sslcipher_binding -Payload $Payload -GetWarning
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -NitroPath nitro/v1/config -Type sslservicegroup_sslcipher_binding -Payload $Payload -GetWarning
                 #HTTP Status Code on Success: 201 Created
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 if ($PSBoundParameters.ContainsKey('PassThru')) {
@@ -17180,7 +17180,7 @@ function Invoke-ADCDeleteSslservicegroupsslcipherbinding {
         Invoke-ADCDeleteSslservicegroupsslcipherbinding -servicegroupname <string>
     .NOTES
         File Name : Invoke-ADCDeleteSslservicegroupsslcipherbinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ssl/sslservicegroup_sslcipher_binding/
         Requires  : PowerShell v5.1 and up
@@ -17210,7 +17210,7 @@ function Invoke-ADCDeleteSslservicegroupsslcipherbinding {
             }
             if ($PSBoundParameters.ContainsKey('ciphername')) { $Arguments.Add('ciphername', $ciphername) }
             if ($PSCmdlet.ShouldProcess("$servicegroupname", "Delete SSL configuration Object")) {
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type sslservicegroup_sslcipher_binding -Resource $servicegroupname -Arguments $Arguments
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type sslservicegroup_sslcipher_binding -NitroPath nitro/v1/config -Resource $servicegroupname -Arguments $Arguments
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $response
@@ -17254,7 +17254,7 @@ function Invoke-ADCGetSslservicegroupsslcipherbinding {
         Invoke-ADCGetSslservicegroupsslcipherbinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetSslservicegroupsslcipherbinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ssl/sslservicegroup_sslcipher_binding/
         Requires  : PowerShell v5.1 and up
@@ -17292,21 +17292,21 @@ function Invoke-ADCGetSslservicegroupsslcipherbinding {
                     bulkbindings = 'yes'
                 }
                 Write-Verbose "Retrieving all sslservicegroup_sslcipher_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type sslservicegroup_sslcipher_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type sslservicegroup_sslcipher_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
                 if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for sslservicegroup_sslcipher_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type sslservicegroup_sslcipher_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type sslservicegroup_sslcipher_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving sslservicegroup_sslcipher_binding objects by arguments"
                 $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type sslservicegroup_sslcipher_binding -Arguments $Arguments -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type sslservicegroup_sslcipher_binding -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving sslservicegroup_sslcipher_binding configuration for property 'servicegroupname'"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type sslservicegroup_sslcipher_binding -Resource $servicegroupname -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type sslservicegroup_sslcipher_binding -NitroPath nitro/v1/config -Resource $servicegroupname -Summary:$ViewSummary -Filter $Filter -GetWarning
             } else {
                 Write-Verbose "Retrieving sslservicegroup_sslcipher_binding configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type sslservicegroup_sslcipher_binding -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type sslservicegroup_sslcipher_binding -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -17346,7 +17346,7 @@ function Invoke-ADCGetSslservicebinding {
         Invoke-ADCGetSslservicebinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetSslservicebinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ssl/sslservice_binding/
         Requires  : PowerShell v5.1 and up
@@ -17381,21 +17381,21 @@ function Invoke-ADCGetSslservicebinding {
                     bulkbindings = 'yes'
                 }
                 Write-Verbose "Retrieving all sslservice_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type sslservice_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type sslservice_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
                 if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for sslservice_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type sslservice_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type sslservice_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving sslservice_binding objects by arguments"
                 $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type sslservice_binding -Arguments $Arguments -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type sslservice_binding -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving sslservice_binding configuration for property 'servicename'"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type sslservice_binding -Resource $servicename -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type sslservice_binding -NitroPath nitro/v1/config -Resource $servicename -Summary:$ViewSummary -Filter $Filter -GetWarning
             } else {
                 Write-Verbose "Retrieving sslservice_binding configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type sslservice_binding -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type sslservice_binding -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -17426,7 +17426,7 @@ function Invoke-ADCAddSslserviceecccurvebinding {
         Invoke-ADCAddSslserviceecccurvebinding -servicename <string>
     .NOTES
         File Name : Invoke-ADCAddSslserviceecccurvebinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ssl/sslservice_ecccurve_binding/
         Requires  : PowerShell v5.1 and up
@@ -17463,7 +17463,7 @@ function Invoke-ADCAddSslserviceecccurvebinding {
             if ($PSBoundParameters.ContainsKey('ecccurvename')) { $Payload.Add('ecccurvename', $ecccurvename) }
  
             if ($PSCmdlet.ShouldProcess("sslservice_ecccurve_binding", "Add SSL configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -Type sslservice_ecccurve_binding -Payload $Payload -GetWarning
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -NitroPath nitro/v1/config -Type sslservice_ecccurve_binding -Payload $Payload -GetWarning
                 #HTTP Status Code on Success: 201 Created
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 if ($PSBoundParameters.ContainsKey('PassThru')) {
@@ -17498,7 +17498,7 @@ function Invoke-ADCDeleteSslserviceecccurvebinding {
         Invoke-ADCDeleteSslserviceecccurvebinding -servicename <string>
     .NOTES
         File Name : Invoke-ADCDeleteSslserviceecccurvebinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ssl/sslservice_ecccurve_binding/
         Requires  : PowerShell v5.1 and up
@@ -17528,7 +17528,7 @@ function Invoke-ADCDeleteSslserviceecccurvebinding {
             }
             if ($PSBoundParameters.ContainsKey('ecccurvename')) { $Arguments.Add('ecccurvename', $ecccurvename) }
             if ($PSCmdlet.ShouldProcess("$servicename", "Delete SSL configuration Object")) {
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type sslservice_ecccurve_binding -Resource $servicename -Arguments $Arguments
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type sslservice_ecccurve_binding -NitroPath nitro/v1/config -Resource $servicename -Arguments $Arguments
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $response
@@ -17572,7 +17572,7 @@ function Invoke-ADCGetSslserviceecccurvebinding {
         Invoke-ADCGetSslserviceecccurvebinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetSslserviceecccurvebinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ssl/sslservice_ecccurve_binding/
         Requires  : PowerShell v5.1 and up
@@ -17610,21 +17610,21 @@ function Invoke-ADCGetSslserviceecccurvebinding {
                     bulkbindings = 'yes'
                 }
                 Write-Verbose "Retrieving all sslservice_ecccurve_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type sslservice_ecccurve_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type sslservice_ecccurve_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
                 if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for sslservice_ecccurve_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type sslservice_ecccurve_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type sslservice_ecccurve_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving sslservice_ecccurve_binding objects by arguments"
                 $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type sslservice_ecccurve_binding -Arguments $Arguments -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type sslservice_ecccurve_binding -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving sslservice_ecccurve_binding configuration for property 'servicename'"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type sslservice_ecccurve_binding -Resource $servicename -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type sslservice_ecccurve_binding -NitroPath nitro/v1/config -Resource $servicename -Summary:$ViewSummary -Filter $Filter -GetWarning
             } else {
                 Write-Verbose "Retrieving sslservice_ecccurve_binding configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type sslservice_ecccurve_binding -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type sslservice_ecccurve_binding -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -17666,7 +17666,7 @@ function Invoke-ADCAddSslservicesslcertkeybinding {
         Invoke-ADCAddSslservicesslcertkeybinding -servicename <string>
     .NOTES
         File Name : Invoke-ADCAddSslservicesslcertkeybinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ssl/sslservice_sslcertkey_binding/
         Requires  : PowerShell v5.1 and up
@@ -17719,7 +17719,7 @@ function Invoke-ADCAddSslservicesslcertkeybinding {
             if ($PSBoundParameters.ContainsKey('ocspcheck')) { $Payload.Add('ocspcheck', $ocspcheck) }
  
             if ($PSCmdlet.ShouldProcess("sslservice_sslcertkey_binding", "Add SSL configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -Type sslservice_sslcertkey_binding -Payload $Payload -GetWarning
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -NitroPath nitro/v1/config -Type sslservice_sslcertkey_binding -Payload $Payload -GetWarning
                 #HTTP Status Code on Success: 201 Created
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 if ($PSBoundParameters.ContainsKey('PassThru')) {
@@ -17757,7 +17757,7 @@ function Invoke-ADCDeleteSslservicesslcertkeybinding {
         Invoke-ADCDeleteSslservicesslcertkeybinding -servicename <string>
     .NOTES
         File Name : Invoke-ADCDeleteSslservicesslcertkeybinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ssl/sslservice_sslcertkey_binding/
         Requires  : PowerShell v5.1 and up
@@ -17796,7 +17796,7 @@ function Invoke-ADCDeleteSslservicesslcertkeybinding {
             if ($PSBoundParameters.ContainsKey('crlcheck')) { $Arguments.Add('crlcheck', $crlcheck) }
             if ($PSBoundParameters.ContainsKey('snicert')) { $Arguments.Add('snicert', $snicert) }
             if ($PSCmdlet.ShouldProcess("$servicename", "Delete SSL configuration Object")) {
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type sslservice_sslcertkey_binding -Resource $servicename -Arguments $Arguments
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type sslservice_sslcertkey_binding -NitroPath nitro/v1/config -Resource $servicename -Arguments $Arguments
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $response
@@ -17840,7 +17840,7 @@ function Invoke-ADCGetSslservicesslcertkeybinding {
         Invoke-ADCGetSslservicesslcertkeybinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetSslservicesslcertkeybinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ssl/sslservice_sslcertkey_binding/
         Requires  : PowerShell v5.1 and up
@@ -17878,21 +17878,21 @@ function Invoke-ADCGetSslservicesslcertkeybinding {
                     bulkbindings = 'yes'
                 }
                 Write-Verbose "Retrieving all sslservice_sslcertkey_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type sslservice_sslcertkey_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type sslservice_sslcertkey_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
                 if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for sslservice_sslcertkey_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type sslservice_sslcertkey_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type sslservice_sslcertkey_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving sslservice_sslcertkey_binding objects by arguments"
                 $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type sslservice_sslcertkey_binding -Arguments $Arguments -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type sslservice_sslcertkey_binding -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving sslservice_sslcertkey_binding configuration for property 'servicename'"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type sslservice_sslcertkey_binding -Resource $servicename -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type sslservice_sslcertkey_binding -NitroPath nitro/v1/config -Resource $servicename -Summary:$ViewSummary -Filter $Filter -GetWarning
             } else {
                 Write-Verbose "Retrieving sslservice_sslcertkey_binding configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type sslservice_sslcertkey_binding -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type sslservice_sslcertkey_binding -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -17922,7 +17922,7 @@ function Invoke-ADCAddSslservicesslciphersuitebinding {
         Invoke-ADCAddSslservicesslciphersuitebinding -servicename <string>
     .NOTES
         File Name : Invoke-ADCAddSslservicesslciphersuitebinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ssl/sslservice_sslciphersuite_binding/
         Requires  : PowerShell v5.1 and up
@@ -17958,7 +17958,7 @@ function Invoke-ADCAddSslservicesslciphersuitebinding {
             if ($PSBoundParameters.ContainsKey('ciphername')) { $Payload.Add('ciphername', $ciphername) }
  
             if ($PSCmdlet.ShouldProcess("sslservice_sslciphersuite_binding", "Add SSL configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -Type sslservice_sslciphersuite_binding -Payload $Payload -GetWarning
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -NitroPath nitro/v1/config -Type sslservice_sslciphersuite_binding -Payload $Payload -GetWarning
                 #HTTP Status Code on Success: 201 Created
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 if ($PSBoundParameters.ContainsKey('PassThru')) {
@@ -17992,7 +17992,7 @@ function Invoke-ADCDeleteSslservicesslciphersuitebinding {
         Invoke-ADCDeleteSslservicesslciphersuitebinding -servicename <string>
     .NOTES
         File Name : Invoke-ADCDeleteSslservicesslciphersuitebinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ssl/sslservice_sslciphersuite_binding/
         Requires  : PowerShell v5.1 and up
@@ -18022,7 +18022,7 @@ function Invoke-ADCDeleteSslservicesslciphersuitebinding {
             }
             if ($PSBoundParameters.ContainsKey('ciphername')) { $Arguments.Add('ciphername', $ciphername) }
             if ($PSCmdlet.ShouldProcess("$servicename", "Delete SSL configuration Object")) {
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type sslservice_sslciphersuite_binding -Resource $servicename -Arguments $Arguments
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type sslservice_sslciphersuite_binding -NitroPath nitro/v1/config -Resource $servicename -Arguments $Arguments
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $response
@@ -18066,7 +18066,7 @@ function Invoke-ADCGetSslservicesslciphersuitebinding {
         Invoke-ADCGetSslservicesslciphersuitebinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetSslservicesslciphersuitebinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ssl/sslservice_sslciphersuite_binding/
         Requires  : PowerShell v5.1 and up
@@ -18104,21 +18104,21 @@ function Invoke-ADCGetSslservicesslciphersuitebinding {
                     bulkbindings = 'yes'
                 }
                 Write-Verbose "Retrieving all sslservice_sslciphersuite_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type sslservice_sslciphersuite_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type sslservice_sslciphersuite_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
                 if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for sslservice_sslciphersuite_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type sslservice_sslciphersuite_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type sslservice_sslciphersuite_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving sslservice_sslciphersuite_binding objects by arguments"
                 $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type sslservice_sslciphersuite_binding -Arguments $Arguments -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type sslservice_sslciphersuite_binding -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving sslservice_sslciphersuite_binding configuration for property 'servicename'"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type sslservice_sslciphersuite_binding -Resource $servicename -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type sslservice_sslciphersuite_binding -NitroPath nitro/v1/config -Resource $servicename -Summary:$ViewSummary -Filter $Filter -GetWarning
             } else {
                 Write-Verbose "Retrieving sslservice_sslciphersuite_binding configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type sslservice_sslciphersuite_binding -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type sslservice_sslciphersuite_binding -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -18148,7 +18148,7 @@ function Invoke-ADCAddSslservicesslcipherbinding {
         Invoke-ADCAddSslservicesslcipherbinding -servicename <string>
     .NOTES
         File Name : Invoke-ADCAddSslservicesslcipherbinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ssl/sslservice_sslcipher_binding/
         Requires  : PowerShell v5.1 and up
@@ -18184,7 +18184,7 @@ function Invoke-ADCAddSslservicesslcipherbinding {
             if ($PSBoundParameters.ContainsKey('ciphername')) { $Payload.Add('ciphername', $ciphername) }
  
             if ($PSCmdlet.ShouldProcess("sslservice_sslcipher_binding", "Add SSL configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -Type sslservice_sslcipher_binding -Payload $Payload -GetWarning
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -NitroPath nitro/v1/config -Type sslservice_sslcipher_binding -Payload $Payload -GetWarning
                 #HTTP Status Code on Success: 201 Created
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 if ($PSBoundParameters.ContainsKey('PassThru')) {
@@ -18218,7 +18218,7 @@ function Invoke-ADCDeleteSslservicesslcipherbinding {
         Invoke-ADCDeleteSslservicesslcipherbinding -servicename <string>
     .NOTES
         File Name : Invoke-ADCDeleteSslservicesslcipherbinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ssl/sslservice_sslcipher_binding/
         Requires  : PowerShell v5.1 and up
@@ -18248,7 +18248,7 @@ function Invoke-ADCDeleteSslservicesslcipherbinding {
             }
             if ($PSBoundParameters.ContainsKey('ciphername')) { $Arguments.Add('ciphername', $ciphername) }
             if ($PSCmdlet.ShouldProcess("$servicename", "Delete SSL configuration Object")) {
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type sslservice_sslcipher_binding -Resource $servicename -Arguments $Arguments
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type sslservice_sslcipher_binding -NitroPath nitro/v1/config -Resource $servicename -Arguments $Arguments
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $response
@@ -18292,7 +18292,7 @@ function Invoke-ADCGetSslservicesslcipherbinding {
         Invoke-ADCGetSslservicesslcipherbinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetSslservicesslcipherbinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ssl/sslservice_sslcipher_binding/
         Requires  : PowerShell v5.1 and up
@@ -18330,21 +18330,21 @@ function Invoke-ADCGetSslservicesslcipherbinding {
                     bulkbindings = 'yes'
                 }
                 Write-Verbose "Retrieving all sslservice_sslcipher_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type sslservice_sslcipher_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type sslservice_sslcipher_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
                 if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for sslservice_sslcipher_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type sslservice_sslcipher_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type sslservice_sslcipher_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving sslservice_sslcipher_binding objects by arguments"
                 $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type sslservice_sslcipher_binding -Arguments $Arguments -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type sslservice_sslcipher_binding -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving sslservice_sslcipher_binding configuration for property 'servicename'"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type sslservice_sslcipher_binding -Resource $servicename -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type sslservice_sslcipher_binding -NitroPath nitro/v1/config -Resource $servicename -Summary:$ViewSummary -Filter $Filter -GetWarning
             } else {
                 Write-Verbose "Retrieving sslservice_sslcipher_binding configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type sslservice_sslcipher_binding -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type sslservice_sslcipher_binding -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -18387,7 +18387,7 @@ function Invoke-ADCAddSslservicesslpolicybinding {
         Invoke-ADCAddSslservicesslpolicybinding -servicename <string>
     .NOTES
         File Name : Invoke-ADCAddSslservicesslpolicybinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ssl/sslservice_sslpolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -18440,7 +18440,7 @@ function Invoke-ADCAddSslservicesslpolicybinding {
             if ($PSBoundParameters.ContainsKey('labelname')) { $Payload.Add('labelname', $labelname) }
  
             if ($PSCmdlet.ShouldProcess("sslservice_sslpolicy_binding", "Add SSL configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -Type sslservice_sslpolicy_binding -Payload $Payload -GetWarning
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -NitroPath nitro/v1/config -Type sslservice_sslpolicy_binding -Payload $Payload -GetWarning
                 #HTTP Status Code on Success: 201 Created
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 if ($PSBoundParameters.ContainsKey('PassThru')) {
@@ -18477,7 +18477,7 @@ function Invoke-ADCDeleteSslservicesslpolicybinding {
         Invoke-ADCDeleteSslservicesslpolicybinding -servicename <string>
     .NOTES
         File Name : Invoke-ADCDeleteSslservicesslpolicybinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ssl/sslservice_sslpolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -18510,7 +18510,7 @@ function Invoke-ADCDeleteSslservicesslpolicybinding {
             if ($PSBoundParameters.ContainsKey('policyname')) { $Arguments.Add('policyname', $policyname) }
             if ($PSBoundParameters.ContainsKey('priority')) { $Arguments.Add('priority', $priority) }
             if ($PSCmdlet.ShouldProcess("$servicename", "Delete SSL configuration Object")) {
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type sslservice_sslpolicy_binding -Resource $servicename -Arguments $Arguments
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type sslservice_sslpolicy_binding -NitroPath nitro/v1/config -Resource $servicename -Arguments $Arguments
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $response
@@ -18554,7 +18554,7 @@ function Invoke-ADCGetSslservicesslpolicybinding {
         Invoke-ADCGetSslservicesslpolicybinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetSslservicesslpolicybinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ssl/sslservice_sslpolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -18592,21 +18592,21 @@ function Invoke-ADCGetSslservicesslpolicybinding {
                     bulkbindings = 'yes'
                 }
                 Write-Verbose "Retrieving all sslservice_sslpolicy_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type sslservice_sslpolicy_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type sslservice_sslpolicy_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
                 if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for sslservice_sslpolicy_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type sslservice_sslpolicy_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type sslservice_sslpolicy_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving sslservice_sslpolicy_binding objects by arguments"
                 $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type sslservice_sslpolicy_binding -Arguments $Arguments -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type sslservice_sslpolicy_binding -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving sslservice_sslpolicy_binding configuration for property 'servicename'"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type sslservice_sslpolicy_binding -Resource $servicename -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type sslservice_sslpolicy_binding -NitroPath nitro/v1/config -Resource $servicename -Summary:$ViewSummary -Filter $Filter -GetWarning
             } else {
                 Write-Verbose "Retrieving sslservice_sslpolicy_binding configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type sslservice_sslpolicy_binding -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type sslservice_sslpolicy_binding -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -18803,7 +18803,7 @@ function Invoke-ADCUpdateSslvserver {
         Invoke-ADCUpdateSslvserver -vservername <string>
     .NOTES
         File Name : Invoke-ADCUpdateSslvserver
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ssl/sslvserver/
         Requires  : PowerShell v5.1 and up
@@ -18990,7 +18990,7 @@ function Invoke-ADCUpdateSslvserver {
             if ($PSBoundParameters.ContainsKey('dhekeyexchangewithpsk')) { $Payload.Add('dhekeyexchangewithpsk', $dhekeyexchangewithpsk) }
  
             if ($PSCmdlet.ShouldProcess("sslvserver", "Update SSL configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -Type sslvserver -Payload $Payload -GetWarning
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -NitroPath nitro/v1/config -Type sslvserver -Payload $Payload -GetWarning
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 if ($PSBoundParameters.ContainsKey('PassThru')) {
@@ -19137,7 +19137,7 @@ function Invoke-ADCUnsetSslvserver {
         Invoke-ADCUnsetSslvserver -vservername <string>
     .NOTES
         File Name : Invoke-ADCUnsetSslvserver
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ssl/sslvserver
         Requires  : PowerShell v5.1 and up
@@ -19280,7 +19280,7 @@ function Invoke-ADCUnsetSslvserver {
             if ($PSBoundParameters.ContainsKey('tls13sessionticketsperauthcontext')) { $Payload.Add('tls13sessionticketsperauthcontext', $tls13sessionticketsperauthcontext) }
             if ($PSBoundParameters.ContainsKey('dhekeyexchangewithpsk')) { $Payload.Add('dhekeyexchangewithpsk', $dhekeyexchangewithpsk) }
             if ($PSCmdlet.ShouldProcess("$vservername", "Unset SSL configuration Object")) {
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -Type sslvserver -Action unset -Payload $Payload -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -Type sslvserver -NitroPath nitro/v1/config -Action unset -Payload $Payload -GetWarning
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $response
@@ -19324,7 +19324,7 @@ function Invoke-ADCGetSslvserver {
         Invoke-ADCGetSslvserver -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetSslvserver
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ssl/sslvserver/
         Requires  : PowerShell v5.1 and up
@@ -19365,21 +19365,21 @@ function Invoke-ADCGetSslvserver {
             if ( $PsCmdlet.ParameterSetName -eq 'Getall' ) {
                 $Query = @{ }
                 Write-Verbose "Retrieving all sslvserver objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type sslvserver -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type sslvserver -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
                 if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for sslvserver objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type sslvserver -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type sslvserver -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving sslvserver objects by arguments"
                 $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type sslvserver -Arguments $Arguments -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type sslvserver -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving sslvserver configuration for property 'vservername'"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type sslvserver -Resource $vservername -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type sslvserver -NitroPath nitro/v1/config -Resource $vservername -Summary:$ViewSummary -Filter $Filter -GetWarning
             } else {
                 Write-Verbose "Retrieving sslvserver configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type sslvserver -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type sslvserver -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -19419,7 +19419,7 @@ function Invoke-ADCGetSslvserverbinding {
         Invoke-ADCGetSslvserverbinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetSslvserverbinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ssl/sslvserver_binding/
         Requires  : PowerShell v5.1 and up
@@ -19454,21 +19454,21 @@ function Invoke-ADCGetSslvserverbinding {
                     bulkbindings = 'yes'
                 }
                 Write-Verbose "Retrieving all sslvserver_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type sslvserver_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type sslvserver_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
                 if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for sslvserver_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type sslvserver_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type sslvserver_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving sslvserver_binding objects by arguments"
                 $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type sslvserver_binding -Arguments $Arguments -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type sslvserver_binding -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving sslvserver_binding configuration for property 'vservername'"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type sslvserver_binding -Resource $vservername -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type sslvserver_binding -NitroPath nitro/v1/config -Resource $vservername -Summary:$ViewSummary -Filter $Filter -GetWarning
             } else {
                 Write-Verbose "Retrieving sslvserver_binding configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type sslvserver_binding -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type sslvserver_binding -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -19499,7 +19499,7 @@ function Invoke-ADCAddSslvserverecccurvebinding {
         Invoke-ADCAddSslvserverecccurvebinding -vservername <string>
     .NOTES
         File Name : Invoke-ADCAddSslvserverecccurvebinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ssl/sslvserver_ecccurve_binding/
         Requires  : PowerShell v5.1 and up
@@ -19536,7 +19536,7 @@ function Invoke-ADCAddSslvserverecccurvebinding {
             if ($PSBoundParameters.ContainsKey('ecccurvename')) { $Payload.Add('ecccurvename', $ecccurvename) }
  
             if ($PSCmdlet.ShouldProcess("sslvserver_ecccurve_binding", "Add SSL configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -Type sslvserver_ecccurve_binding -Payload $Payload -GetWarning
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -NitroPath nitro/v1/config -Type sslvserver_ecccurve_binding -Payload $Payload -GetWarning
                 #HTTP Status Code on Success: 201 Created
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 if ($PSBoundParameters.ContainsKey('PassThru')) {
@@ -19571,7 +19571,7 @@ function Invoke-ADCDeleteSslvserverecccurvebinding {
         Invoke-ADCDeleteSslvserverecccurvebinding -vservername <string>
     .NOTES
         File Name : Invoke-ADCDeleteSslvserverecccurvebinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ssl/sslvserver_ecccurve_binding/
         Requires  : PowerShell v5.1 and up
@@ -19601,7 +19601,7 @@ function Invoke-ADCDeleteSslvserverecccurvebinding {
             }
             if ($PSBoundParameters.ContainsKey('ecccurvename')) { $Arguments.Add('ecccurvename', $ecccurvename) }
             if ($PSCmdlet.ShouldProcess("$vservername", "Delete SSL configuration Object")) {
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type sslvserver_ecccurve_binding -Resource $vservername -Arguments $Arguments
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type sslvserver_ecccurve_binding -NitroPath nitro/v1/config -Resource $vservername -Arguments $Arguments
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $response
@@ -19645,7 +19645,7 @@ function Invoke-ADCGetSslvserverecccurvebinding {
         Invoke-ADCGetSslvserverecccurvebinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetSslvserverecccurvebinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ssl/sslvserver_ecccurve_binding/
         Requires  : PowerShell v5.1 and up
@@ -19683,21 +19683,21 @@ function Invoke-ADCGetSslvserverecccurvebinding {
                     bulkbindings = 'yes'
                 }
                 Write-Verbose "Retrieving all sslvserver_ecccurve_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type sslvserver_ecccurve_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type sslvserver_ecccurve_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
                 if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for sslvserver_ecccurve_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type sslvserver_ecccurve_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type sslvserver_ecccurve_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving sslvserver_ecccurve_binding objects by arguments"
                 $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type sslvserver_ecccurve_binding -Arguments $Arguments -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type sslvserver_ecccurve_binding -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving sslvserver_ecccurve_binding configuration for property 'vservername'"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type sslvserver_ecccurve_binding -Resource $vservername -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type sslvserver_ecccurve_binding -NitroPath nitro/v1/config -Resource $vservername -Summary:$ViewSummary -Filter $Filter -GetWarning
             } else {
                 Write-Verbose "Retrieving sslvserver_ecccurve_binding configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type sslvserver_ecccurve_binding -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type sslvserver_ecccurve_binding -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -19739,7 +19739,7 @@ function Invoke-ADCAddSslvserversslcertkeybinding {
         Invoke-ADCAddSslvserversslcertkeybinding -vservername <string>
     .NOTES
         File Name : Invoke-ADCAddSslvserversslcertkeybinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ssl/sslvserver_sslcertkey_binding/
         Requires  : PowerShell v5.1 and up
@@ -19792,7 +19792,7 @@ function Invoke-ADCAddSslvserversslcertkeybinding {
             if ($PSBoundParameters.ContainsKey('ocspcheck')) { $Payload.Add('ocspcheck', $ocspcheck) }
  
             if ($PSCmdlet.ShouldProcess("sslvserver_sslcertkey_binding", "Add SSL configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -Type sslvserver_sslcertkey_binding -Payload $Payload -GetWarning
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -NitroPath nitro/v1/config -Type sslvserver_sslcertkey_binding -Payload $Payload -GetWarning
                 #HTTP Status Code on Success: 201 Created
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 if ($PSBoundParameters.ContainsKey('PassThru')) {
@@ -19832,7 +19832,7 @@ function Invoke-ADCDeleteSslvserversslcertkeybinding {
         Invoke-ADCDeleteSslvserversslcertkeybinding -vservername <string>
     .NOTES
         File Name : Invoke-ADCDeleteSslvserversslcertkeybinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ssl/sslvserver_sslcertkey_binding/
         Requires  : PowerShell v5.1 and up
@@ -19874,7 +19874,7 @@ function Invoke-ADCDeleteSslvserversslcertkeybinding {
             if ($PSBoundParameters.ContainsKey('snicert')) { $Arguments.Add('snicert', $snicert) }
             if ($PSBoundParameters.ContainsKey('ocspcheck')) { $Arguments.Add('ocspcheck', $ocspcheck) }
             if ($PSCmdlet.ShouldProcess("$vservername", "Delete SSL configuration Object")) {
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type sslvserver_sslcertkey_binding -Resource $vservername -Arguments $Arguments
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type sslvserver_sslcertkey_binding -NitroPath nitro/v1/config -Resource $vservername -Arguments $Arguments
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $response
@@ -19918,7 +19918,7 @@ function Invoke-ADCGetSslvserversslcertkeybinding {
         Invoke-ADCGetSslvserversslcertkeybinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetSslvserversslcertkeybinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ssl/sslvserver_sslcertkey_binding/
         Requires  : PowerShell v5.1 and up
@@ -19956,21 +19956,21 @@ function Invoke-ADCGetSslvserversslcertkeybinding {
                     bulkbindings = 'yes'
                 }
                 Write-Verbose "Retrieving all sslvserver_sslcertkey_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type sslvserver_sslcertkey_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type sslvserver_sslcertkey_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
                 if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for sslvserver_sslcertkey_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type sslvserver_sslcertkey_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type sslvserver_sslcertkey_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving sslvserver_sslcertkey_binding objects by arguments"
                 $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type sslvserver_sslcertkey_binding -Arguments $Arguments -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type sslvserver_sslcertkey_binding -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving sslvserver_sslcertkey_binding configuration for property 'vservername'"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type sslvserver_sslcertkey_binding -Resource $vservername -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type sslvserver_sslcertkey_binding -NitroPath nitro/v1/config -Resource $vservername -Summary:$ViewSummary -Filter $Filter -GetWarning
             } else {
                 Write-Verbose "Retrieving sslvserver_sslcertkey_binding configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type sslvserver_sslcertkey_binding -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type sslvserver_sslcertkey_binding -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -20000,7 +20000,7 @@ function Invoke-ADCAddSslvserversslciphersuitebinding {
         Invoke-ADCAddSslvserversslciphersuitebinding -vservername <string>
     .NOTES
         File Name : Invoke-ADCAddSslvserversslciphersuitebinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ssl/sslvserver_sslciphersuite_binding/
         Requires  : PowerShell v5.1 and up
@@ -20036,7 +20036,7 @@ function Invoke-ADCAddSslvserversslciphersuitebinding {
             if ($PSBoundParameters.ContainsKey('ciphername')) { $Payload.Add('ciphername', $ciphername) }
  
             if ($PSCmdlet.ShouldProcess("sslvserver_sslciphersuite_binding", "Add SSL configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -Type sslvserver_sslciphersuite_binding -Payload $Payload -GetWarning
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -NitroPath nitro/v1/config -Type sslvserver_sslciphersuite_binding -Payload $Payload -GetWarning
                 #HTTP Status Code on Success: 201 Created
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 if ($PSBoundParameters.ContainsKey('PassThru')) {
@@ -20070,7 +20070,7 @@ function Invoke-ADCDeleteSslvserversslciphersuitebinding {
         Invoke-ADCDeleteSslvserversslciphersuitebinding -vservername <string>
     .NOTES
         File Name : Invoke-ADCDeleteSslvserversslciphersuitebinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ssl/sslvserver_sslciphersuite_binding/
         Requires  : PowerShell v5.1 and up
@@ -20100,7 +20100,7 @@ function Invoke-ADCDeleteSslvserversslciphersuitebinding {
             }
             if ($PSBoundParameters.ContainsKey('ciphername')) { $Arguments.Add('ciphername', $ciphername) }
             if ($PSCmdlet.ShouldProcess("$vservername", "Delete SSL configuration Object")) {
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type sslvserver_sslciphersuite_binding -Resource $vservername -Arguments $Arguments
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type sslvserver_sslciphersuite_binding -NitroPath nitro/v1/config -Resource $vservername -Arguments $Arguments
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $response
@@ -20144,7 +20144,7 @@ function Invoke-ADCGetSslvserversslciphersuitebinding {
         Invoke-ADCGetSslvserversslciphersuitebinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetSslvserversslciphersuitebinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ssl/sslvserver_sslciphersuite_binding/
         Requires  : PowerShell v5.1 and up
@@ -20182,21 +20182,21 @@ function Invoke-ADCGetSslvserversslciphersuitebinding {
                     bulkbindings = 'yes'
                 }
                 Write-Verbose "Retrieving all sslvserver_sslciphersuite_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type sslvserver_sslciphersuite_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type sslvserver_sslciphersuite_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
                 if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for sslvserver_sslciphersuite_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type sslvserver_sslciphersuite_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type sslvserver_sslciphersuite_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving sslvserver_sslciphersuite_binding objects by arguments"
                 $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type sslvserver_sslciphersuite_binding -Arguments $Arguments -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type sslvserver_sslciphersuite_binding -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving sslvserver_sslciphersuite_binding configuration for property 'vservername'"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type sslvserver_sslciphersuite_binding -Resource $vservername -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type sslvserver_sslciphersuite_binding -NitroPath nitro/v1/config -Resource $vservername -Summary:$ViewSummary -Filter $Filter -GetWarning
             } else {
                 Write-Verbose "Retrieving sslvserver_sslciphersuite_binding configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type sslvserver_sslciphersuite_binding -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type sslvserver_sslciphersuite_binding -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -20226,7 +20226,7 @@ function Invoke-ADCAddSslvserversslcipherbinding {
         Invoke-ADCAddSslvserversslcipherbinding -vservername <string>
     .NOTES
         File Name : Invoke-ADCAddSslvserversslcipherbinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ssl/sslvserver_sslcipher_binding/
         Requires  : PowerShell v5.1 and up
@@ -20262,7 +20262,7 @@ function Invoke-ADCAddSslvserversslcipherbinding {
             if ($PSBoundParameters.ContainsKey('ciphername')) { $Payload.Add('ciphername', $ciphername) }
  
             if ($PSCmdlet.ShouldProcess("sslvserver_sslcipher_binding", "Add SSL configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -Type sslvserver_sslcipher_binding -Payload $Payload -GetWarning
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -NitroPath nitro/v1/config -Type sslvserver_sslcipher_binding -Payload $Payload -GetWarning
                 #HTTP Status Code on Success: 201 Created
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 if ($PSBoundParameters.ContainsKey('PassThru')) {
@@ -20296,7 +20296,7 @@ function Invoke-ADCDeleteSslvserversslcipherbinding {
         Invoke-ADCDeleteSslvserversslcipherbinding -vservername <string>
     .NOTES
         File Name : Invoke-ADCDeleteSslvserversslcipherbinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ssl/sslvserver_sslcipher_binding/
         Requires  : PowerShell v5.1 and up
@@ -20326,7 +20326,7 @@ function Invoke-ADCDeleteSslvserversslcipherbinding {
             }
             if ($PSBoundParameters.ContainsKey('ciphername')) { $Arguments.Add('ciphername', $ciphername) }
             if ($PSCmdlet.ShouldProcess("$vservername", "Delete SSL configuration Object")) {
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type sslvserver_sslcipher_binding -Resource $vservername -Arguments $Arguments
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type sslvserver_sslcipher_binding -NitroPath nitro/v1/config -Resource $vservername -Arguments $Arguments
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $response
@@ -20370,7 +20370,7 @@ function Invoke-ADCGetSslvserversslcipherbinding {
         Invoke-ADCGetSslvserversslcipherbinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetSslvserversslcipherbinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ssl/sslvserver_sslcipher_binding/
         Requires  : PowerShell v5.1 and up
@@ -20408,21 +20408,21 @@ function Invoke-ADCGetSslvserversslcipherbinding {
                     bulkbindings = 'yes'
                 }
                 Write-Verbose "Retrieving all sslvserver_sslcipher_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type sslvserver_sslcipher_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type sslvserver_sslcipher_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
                 if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for sslvserver_sslcipher_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type sslvserver_sslcipher_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type sslvserver_sslcipher_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving sslvserver_sslcipher_binding objects by arguments"
                 $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type sslvserver_sslcipher_binding -Arguments $Arguments -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type sslvserver_sslcipher_binding -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving sslvserver_sslcipher_binding configuration for property 'vservername'"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type sslvserver_sslcipher_binding -Resource $vservername -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type sslvserver_sslcipher_binding -NitroPath nitro/v1/config -Resource $vservername -Summary:$ViewSummary -Filter $Filter -GetWarning
             } else {
                 Write-Verbose "Retrieving sslvserver_sslcipher_binding configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type sslvserver_sslcipher_binding -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type sslvserver_sslcipher_binding -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -20469,7 +20469,7 @@ function Invoke-ADCAddSslvserversslpolicybinding {
         Invoke-ADCAddSslvserversslpolicybinding -vservername <string>
     .NOTES
         File Name : Invoke-ADCAddSslvserversslpolicybinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ssl/sslvserver_sslpolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -20526,7 +20526,7 @@ function Invoke-ADCAddSslvserversslpolicybinding {
             if ($PSBoundParameters.ContainsKey('type')) { $Payload.Add('type', $type) }
  
             if ($PSCmdlet.ShouldProcess("sslvserver_sslpolicy_binding", "Add SSL configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -Type sslvserver_sslpolicy_binding -Payload $Payload -GetWarning
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -NitroPath nitro/v1/config -Type sslvserver_sslpolicy_binding -Payload $Payload -GetWarning
                 #HTTP Status Code on Success: 201 Created
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 if ($PSBoundParameters.ContainsKey('PassThru')) {
@@ -20566,7 +20566,7 @@ function Invoke-ADCDeleteSslvserversslpolicybinding {
         Invoke-ADCDeleteSslvserversslpolicybinding -vservername <string>
     .NOTES
         File Name : Invoke-ADCDeleteSslvserversslpolicybinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ssl/sslvserver_sslpolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -20602,7 +20602,7 @@ function Invoke-ADCDeleteSslvserversslpolicybinding {
             if ($PSBoundParameters.ContainsKey('priority')) { $Arguments.Add('priority', $priority) }
             if ($PSBoundParameters.ContainsKey('type')) { $Arguments.Add('type', $type) }
             if ($PSCmdlet.ShouldProcess("$vservername", "Delete SSL configuration Object")) {
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type sslvserver_sslpolicy_binding -Resource $vservername -Arguments $Arguments
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type sslvserver_sslpolicy_binding -NitroPath nitro/v1/config -Resource $vservername -Arguments $Arguments
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $response
@@ -20646,7 +20646,7 @@ function Invoke-ADCGetSslvserversslpolicybinding {
         Invoke-ADCGetSslvserversslpolicybinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetSslvserversslpolicybinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ssl/sslvserver_sslpolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -20684,21 +20684,21 @@ function Invoke-ADCGetSslvserversslpolicybinding {
                     bulkbindings = 'yes'
                 }
                 Write-Verbose "Retrieving all sslvserver_sslpolicy_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type sslvserver_sslpolicy_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type sslvserver_sslpolicy_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
                 if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for sslvserver_sslpolicy_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type sslvserver_sslpolicy_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type sslvserver_sslpolicy_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving sslvserver_sslpolicy_binding objects by arguments"
                 $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type sslvserver_sslpolicy_binding -Arguments $Arguments -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type sslvserver_sslpolicy_binding -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving sslvserver_sslpolicy_binding configuration for property 'vservername'"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type sslvserver_sslpolicy_binding -Resource $vservername -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type sslvserver_sslpolicy_binding -NitroPath nitro/v1/config -Resource $vservername -Summary:$ViewSummary -Filter $Filter -GetWarning
             } else {
                 Write-Verbose "Retrieving sslvserver_sslpolicy_binding configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type sslvserver_sslpolicy_binding -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type sslvserver_sslpolicy_binding -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -20727,7 +20727,7 @@ function Invoke-ADCCreateSslwrapkey {
         Invoke-ADCCreateSslwrapkey -wrapkeyname <string> -password <string> -salt <string>
     .NOTES
         File Name : Invoke-ADCCreateSslwrapkey
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ssl/sslwrapkey/
         Requires  : PowerShell v5.1 and up
@@ -20769,7 +20769,7 @@ function Invoke-ADCCreateSslwrapkey {
             }
 
             if ($PSCmdlet.ShouldProcess($Name, "Create SSL configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -Type sslwrapkey -Action create -Payload $Payload -GetWarning
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -NitroPath nitro/v1/config -Type sslwrapkey -Action create -Payload $Payload -GetWarning
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $result
@@ -20796,7 +20796,7 @@ function Invoke-ADCDeleteSslwrapkey {
         Invoke-ADCDeleteSslwrapkey -wrapkeyname <string>
     .NOTES
         File Name : Invoke-ADCDeleteSslwrapkey
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ssl/sslwrapkey/
         Requires  : PowerShell v5.1 and up
@@ -20824,7 +20824,7 @@ function Invoke-ADCDeleteSslwrapkey {
             }
 
             if ($PSCmdlet.ShouldProcess("$wrapkeyname", "Delete SSL configuration Object")) {
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type sslwrapkey -Resource $wrapkeyname -Arguments $Arguments
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type sslwrapkey -NitroPath nitro/v1/config -Resource $wrapkeyname -Arguments $Arguments
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $response
@@ -20866,7 +20866,7 @@ function Invoke-ADCGetSslwrapkey {
         Invoke-ADCGetSslwrapkey -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetSslwrapkey
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ssl/sslwrapkey/
         Requires  : PowerShell v5.1 and up
@@ -20902,21 +20902,21 @@ function Invoke-ADCGetSslwrapkey {
             if ( $PsCmdlet.ParameterSetName -eq 'Getall' ) {
                 $Query = @{ }
                 Write-Verbose "Retrieving all sslwrapkey objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type sslwrapkey -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type sslwrapkey -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
                 if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for sslwrapkey objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type sslwrapkey -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type sslwrapkey -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving sslwrapkey objects by arguments"
                 $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type sslwrapkey -Arguments $Arguments -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type sslwrapkey -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving sslwrapkey configuration for property ''"
 
             } else {
                 Write-Verbose "Retrieving sslwrapkey configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type sslwrapkey -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type sslwrapkey -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"

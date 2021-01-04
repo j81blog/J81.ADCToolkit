@@ -35,7 +35,7 @@ function Invoke-ADCAddDbdbprofile {
         Invoke-ADCAddDbdbprofile -name <string>
     .NOTES
         File Name : Invoke-ADCAddDbdbprofile
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/db/dbdbprofile/
         Requires  : PowerShell v5.1 and up
@@ -89,7 +89,7 @@ function Invoke-ADCAddDbdbprofile {
             if ($PSBoundParameters.ContainsKey('enablecachingconmuxoff')) { $Payload.Add('enablecachingconmuxoff', $enablecachingconmuxoff) }
  
             if ($PSCmdlet.ShouldProcess("dbdbprofile", "Add Db configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -Type dbdbprofile -Payload $Payload -GetWarning
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -NitroPath nitro/v1/config -Type dbdbprofile -Payload $Payload -GetWarning
                 #HTTP Status Code on Success: 201 Created
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 if ($PSBoundParameters.ContainsKey('PassThru')) {
@@ -124,7 +124,7 @@ function Invoke-ADCDeleteDbdbprofile {
         Invoke-ADCDeleteDbdbprofile -name <string>
     .NOTES
         File Name : Invoke-ADCDeleteDbdbprofile
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/db/dbdbprofile/
         Requires  : PowerShell v5.1 and up
@@ -152,7 +152,7 @@ function Invoke-ADCDeleteDbdbprofile {
             }
 
             if ($PSCmdlet.ShouldProcess("$name", "Delete Db configuration Object")) {
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type dbdbprofile -Resource $name -Arguments $Arguments
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type dbdbprofile -NitroPath nitro/v1/config -Resource $name -Arguments $Arguments
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $response
@@ -204,7 +204,7 @@ function Invoke-ADCUpdateDbdbprofile {
         Invoke-ADCUpdateDbdbprofile -name <string>
     .NOTES
         File Name : Invoke-ADCUpdateDbdbprofile
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/db/dbdbprofile/
         Requires  : PowerShell v5.1 and up
@@ -258,7 +258,7 @@ function Invoke-ADCUpdateDbdbprofile {
             if ($PSBoundParameters.ContainsKey('enablecachingconmuxoff')) { $Payload.Add('enablecachingconmuxoff', $enablecachingconmuxoff) }
  
             if ($PSCmdlet.ShouldProcess("dbdbprofile", "Update Db configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -Type dbdbprofile -Payload $Payload -GetWarning
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -NitroPath nitro/v1/config -Type dbdbprofile -Payload $Payload -GetWarning
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 if ($PSBoundParameters.ContainsKey('PassThru')) {
@@ -305,7 +305,7 @@ function Invoke-ADCUnsetDbdbprofile {
         Invoke-ADCUnsetDbdbprofile -name <string>
     .NOTES
         File Name : Invoke-ADCUnsetDbdbprofile
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/db/dbdbprofile
         Requires  : PowerShell v5.1 and up
@@ -350,7 +350,7 @@ function Invoke-ADCUnsetDbdbprofile {
             if ($PSBoundParameters.ContainsKey('conmultiplex')) { $Payload.Add('conmultiplex', $conmultiplex) }
             if ($PSBoundParameters.ContainsKey('enablecachingconmuxoff')) { $Payload.Add('enablecachingconmuxoff', $enablecachingconmuxoff) }
             if ($PSCmdlet.ShouldProcess("$name", "Unset Db configuration Object")) {
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -Type dbdbprofile -Action unset -Payload $Payload -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -Type dbdbprofile -NitroPath nitro/v1/config -Action unset -Payload $Payload -GetWarning
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $response
@@ -395,7 +395,7 @@ function Invoke-ADCGetDbdbprofile {
         Invoke-ADCGetDbdbprofile -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetDbdbprofile
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/db/dbdbprofile/
         Requires  : PowerShell v5.1 and up
@@ -437,21 +437,21 @@ function Invoke-ADCGetDbdbprofile {
             if ( $PsCmdlet.ParameterSetName -eq 'Getall' ) {
                 $Query = @{ }
                 Write-Verbose "Retrieving all dbdbprofile objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type dbdbprofile -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type dbdbprofile -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
                 if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for dbdbprofile objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type dbdbprofile -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type dbdbprofile -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving dbdbprofile objects by arguments"
                 $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type dbdbprofile -Arguments $Arguments -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type dbdbprofile -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving dbdbprofile configuration for property 'name'"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type dbdbprofile -Resource $name -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type dbdbprofile -NitroPath nitro/v1/config -Resource $name -Summary:$ViewSummary -Filter $Filter -GetWarning
             } else {
                 Write-Verbose "Retrieving dbdbprofile configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type dbdbprofile -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type dbdbprofile -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -482,7 +482,7 @@ function Invoke-ADCAddDbuser {
         Invoke-ADCAddDbuser -username <string>
     .NOTES
         File Name : Invoke-ADCAddDbuser
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/db/dbuser/
         Requires  : PowerShell v5.1 and up
@@ -519,7 +519,7 @@ function Invoke-ADCAddDbuser {
             if ($PSBoundParameters.ContainsKey('password')) { $Payload.Add('password', $password) }
  
             if ($PSCmdlet.ShouldProcess("dbuser", "Add Db configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -Type dbuser -Payload $Payload -GetWarning
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -NitroPath nitro/v1/config -Type dbuser -Payload $Payload -GetWarning
                 #HTTP Status Code on Success: 201 Created
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 if ($PSBoundParameters.ContainsKey('PassThru')) {
@@ -552,7 +552,7 @@ function Invoke-ADCDeleteDbuser {
         Invoke-ADCDeleteDbuser -username <string>
     .NOTES
         File Name : Invoke-ADCDeleteDbuser
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/db/dbuser/
         Requires  : PowerShell v5.1 and up
@@ -580,7 +580,7 @@ function Invoke-ADCDeleteDbuser {
             }
 
             if ($PSCmdlet.ShouldProcess("$username", "Delete Db configuration Object")) {
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type dbuser -Resource $username -Arguments $Arguments
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type dbuser -NitroPath nitro/v1/config -Resource $username -Arguments $Arguments
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $response
@@ -613,7 +613,7 @@ function Invoke-ADCUpdateDbuser {
         Invoke-ADCUpdateDbuser -username <string> -password <string>
     .NOTES
         File Name : Invoke-ADCUpdateDbuser
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/db/dbuser/
         Requires  : PowerShell v5.1 and up
@@ -652,7 +652,7 @@ function Invoke-ADCUpdateDbuser {
 
  
             if ($PSCmdlet.ShouldProcess("dbuser", "Update Db configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -Type dbuser -Payload $Payload -GetWarning
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -NitroPath nitro/v1/config -Type dbuser -Payload $Payload -GetWarning
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 if ($PSBoundParameters.ContainsKey('PassThru')) {
@@ -701,7 +701,7 @@ function Invoke-ADCGetDbuser {
         Invoke-ADCGetDbuser -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetDbuser
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/db/dbuser/
         Requires  : PowerShell v5.1 and up
@@ -742,21 +742,21 @@ function Invoke-ADCGetDbuser {
             if ( $PsCmdlet.ParameterSetName -eq 'Getall' ) {
                 $Query = @{ }
                 Write-Verbose "Retrieving all dbuser objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type dbuser -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type dbuser -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
                 if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for dbuser objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type dbuser -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type dbuser -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving dbuser objects by arguments"
                 $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type dbuser -Arguments $Arguments -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type dbuser -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving dbuser configuration for property 'username'"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type dbuser -Resource $username -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type dbuser -NitroPath nitro/v1/config -Resource $username -Summary:$ViewSummary -Filter $Filter -GetWarning
             } else {
                 Write-Verbose "Retrieving dbuser configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type dbuser -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type dbuser -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"

@@ -31,8 +31,8 @@ function Invoke-ADCNitroApi {
     .EXAMPLE
         Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type nsip
     .NOTES
-        File Name : Invoke-ADCGetSystemFileDirectories
-        Version   : v2012.2023
+        File Name : Invoke-ADCNitroApi
+        Version   : v2101.0322
         Author    : John Billekens
         Requires  : PowerShell v5.1 and up
                     ADC 11.x and up
@@ -60,7 +60,7 @@ function Invoke-ADCNitroApi {
         [ValidateCount(0, 1)]
         [hashtable]$Query = @{ },
     
-        [ValidateScript( { $Method -eq 'GET' })]
+        [ValidateScript( { $Method -in 'GET', 'GET-ALL' })]
         [hashtable]$Filters = @{ },
     
         [ValidateScript( { $Method -ne 'GET' })]
@@ -68,7 +68,7 @@ function Invoke-ADCNitroApi {
     
         [switch]$GetWarning = $false,
     
-        [ValidateScript( { $Method -eq 'GET' })]
+        [ValidateScript( { $Method -in 'GET', 'GET-ALL' })]
         [switch]$Summary = $false,
     
         [ValidateSet('EXIT', 'CONTINUE', 'ROLLBACK')]
@@ -161,14 +161,20 @@ function Invoke-ADCNitroApi {
         if ($Method -ne 'GET') {
             $restParams.Add('Body', $jsonPayload)
         }
+        if ((-Not ('PSEdition' -notin $PSVersionTable.Keys -or $PSVersionTable.PSEdition -eq 'Desktop')) -and ($uri -match "^https://.*?$")) {
+            $restParams.Add("SkipCertificateCheck", $true)
+        }
         #$response = Invoke-RestMethod @restParams
         $webResult = Invoke-WebRequest @restParams
         if (-Not [String]::IsNullOrEmpty($($webResult.Content))) {
             $response = ConvertFrom-Json $([String]::new($webResult.Content))
         }
-        
     } catch [Exception] {
-        $response = $restError.Message | ConvertFrom-Json -ErrorAction Continue
+        try {
+            $response = $restError.Message | ConvertFrom-Json -ErrorAction Stop
+        } catch {
+            $response = $restError.Message
+        }
         if ($restError.InnerException.Message) {
             $response | Add-Member -Membertype NoteProperty -Name ErrorMessage -value $restError.InnerException.Message -ErrorAction SilentlyContinue
         }

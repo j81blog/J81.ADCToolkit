@@ -16,7 +16,7 @@ function Invoke-ADCInstallWipackage {
         Invoke-ADCInstallWipackage 
     .NOTES
         File Name : Invoke-ADCInstallWipackage
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/wi/wipackage/
         Requires  : PowerShell v5.1 and up
@@ -54,7 +54,7 @@ function Invoke-ADCInstallWipackage {
             if ($PSBoundParameters.ContainsKey('wi')) { $Payload.Add('wi', $wi) }
             if ($PSBoundParameters.ContainsKey('maxsites')) { $Payload.Add('maxsites', $maxsites) }
             if ($PSCmdlet.ShouldProcess($Name, "Install WebInterface configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -Type wipackage -Payload $Payload -GetWarning
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -NitroPath nitro/v1/config -Type wipackage -Payload $Payload -GetWarning
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $result
@@ -94,7 +94,7 @@ function Invoke-ADCGetWipackage {
         Invoke-ADCGetWipackage -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetWipackage
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/wi/wipackage/
         Requires  : PowerShell v5.1 and up
@@ -123,21 +123,21 @@ function Invoke-ADCGetWipackage {
             if ( $PsCmdlet.ParameterSetName -eq 'Getall' ) {
                 $Query = @{ }
                 Write-Verbose "Retrieving all wipackage objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type wipackage -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type wipackage -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
                 if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for wipackage objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type wipackage -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type wipackage -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving wipackage objects by arguments"
                 $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type wipackage -Arguments $Arguments -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type wipackage -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving wipackage configuration for property ''"
 
             } else {
                 Write-Verbose "Retrieving wipackage configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type wipackage -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type wipackage -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -308,7 +308,7 @@ function Invoke-ADCAddWisite {
         Invoke-ADCAddWisite -sitepath <string>
     .NOTES
         File Name : Invoke-ADCAddWisite
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/wi/wisite/
         Requires  : PowerShell v5.1 and up
@@ -469,7 +469,7 @@ function Invoke-ADCAddWisite {
             if ($PSBoundParameters.ContainsKey('agcallbackurl')) { $Payload.Add('agcallbackurl', $agcallbackurl) }
  
             if ($PSCmdlet.ShouldProcess("wisite", "Add WebInterface configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -Type wisite -Payload $Payload -GetWarning
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -NitroPath nitro/v1/config -Type wisite -Payload $Payload -GetWarning
                 #HTTP Status Code on Success: 201 Created
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 if ($PSBoundParameters.ContainsKey('PassThru')) {
@@ -503,7 +503,7 @@ function Invoke-ADCDeleteWisite {
         Invoke-ADCDeleteWisite -sitepath <string>
     .NOTES
         File Name : Invoke-ADCDeleteWisite
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/wi/wisite/
         Requires  : PowerShell v5.1 and up
@@ -531,7 +531,7 @@ function Invoke-ADCDeleteWisite {
             }
 
             if ($PSCmdlet.ShouldProcess("$sitepath", "Delete WebInterface configuration Object")) {
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type wisite -Resource $sitepath -Arguments $Arguments
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type wisite -NitroPath nitro/v1/config -Resource $sitepath -Arguments $Arguments
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $response
@@ -698,7 +698,7 @@ function Invoke-ADCUpdateWisite {
         Invoke-ADCUpdateWisite -sitepath <string>
     .NOTES
         File Name : Invoke-ADCUpdateWisite
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/wi/wisite/
         Requires  : PowerShell v5.1 and up
@@ -855,7 +855,7 @@ function Invoke-ADCUpdateWisite {
             if ($PSBoundParameters.ContainsKey('agcallbackurl')) { $Payload.Add('agcallbackurl', $agcallbackurl) }
  
             if ($PSCmdlet.ShouldProcess("wisite", "Update WebInterface configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -Type wisite -Payload $Payload -GetWarning
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -NitroPath nitro/v1/config -Type wisite -Payload $Payload -GetWarning
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 if ($PSBoundParameters.ContainsKey('PassThru')) {
@@ -907,7 +907,7 @@ function Invoke-ADCUnsetWisite {
         Invoke-ADCUnsetWisite -sitepath <string>
     .NOTES
         File Name : Invoke-ADCUnsetWisite
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/wi/wisite
         Requires  : PowerShell v5.1 and up
@@ -963,7 +963,7 @@ function Invoke-ADCUnsetWisite {
             if ($PSBoundParameters.ContainsKey('userinterfacebranding')) { $Payload.Add('userinterfacebranding', $userinterfacebranding) }
             if ($PSBoundParameters.ContainsKey('logindomains')) { $Payload.Add('logindomains', $logindomains) }
             if ($PSCmdlet.ShouldProcess("$sitepath", "Unset WebInterface configuration Object")) {
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -Type wisite -Action unset -Payload $Payload -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -Type wisite -NitroPath nitro/v1/config -Action unset -Payload $Payload -GetWarning
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $response
@@ -1007,7 +1007,7 @@ function Invoke-ADCGetWisite {
         Invoke-ADCGetWisite -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetWisite
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/wi/wisite/
         Requires  : PowerShell v5.1 and up
@@ -1048,21 +1048,21 @@ function Invoke-ADCGetWisite {
             if ( $PsCmdlet.ParameterSetName -eq 'Getall' ) {
                 $Query = @{ }
                 Write-Verbose "Retrieving all wisite objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type wisite -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type wisite -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
                 if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for wisite objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type wisite -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type wisite -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving wisite objects by arguments"
                 $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type wisite -Arguments $Arguments -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type wisite -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving wisite configuration for property 'sitepath'"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type wisite -Resource $sitepath -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type wisite -NitroPath nitro/v1/config -Resource $sitepath -Summary:$ViewSummary -Filter $Filter -GetWarning
             } else {
                 Write-Verbose "Retrieving wisite configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type wisite -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type wisite -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -1100,7 +1100,7 @@ function Invoke-ADCAddWisiteaccessmethodbinding {
         Invoke-ADCAddWisiteaccessmethodbinding -sitepath <string>
     .NOTES
         File Name : Invoke-ADCAddWisiteaccessmethodbinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/wi/wisite_accessmethod_binding/
         Requires  : PowerShell v5.1 and up
@@ -1143,7 +1143,7 @@ function Invoke-ADCAddWisiteaccessmethodbinding {
             if ($PSBoundParameters.ContainsKey('clientnetmask')) { $Payload.Add('clientnetmask', $clientnetmask) }
  
             if ($PSCmdlet.ShouldProcess("wisite_accessmethod_binding", "Add WebInterface configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -Type wisite_accessmethod_binding -Payload $Payload -GetWarning
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -NitroPath nitro/v1/config -Type wisite_accessmethod_binding -Payload $Payload -GetWarning
                 #HTTP Status Code on Success: 201 Created
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 if ($PSBoundParameters.ContainsKey('PassThru')) {
@@ -1181,7 +1181,7 @@ function Invoke-ADCDeleteWisiteaccessmethodbinding {
         Invoke-ADCDeleteWisiteaccessmethodbinding -sitepath <string>
     .NOTES
         File Name : Invoke-ADCDeleteWisiteaccessmethodbinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/wi/wisite_accessmethod_binding/
         Requires  : PowerShell v5.1 and up
@@ -1214,7 +1214,7 @@ function Invoke-ADCDeleteWisiteaccessmethodbinding {
             if ($PSBoundParameters.ContainsKey('clientipaddress')) { $Arguments.Add('clientipaddress', $clientipaddress) }
             if ($PSBoundParameters.ContainsKey('clientnetmask')) { $Arguments.Add('clientnetmask', $clientnetmask) }
             if ($PSCmdlet.ShouldProcess("$sitepath", "Delete WebInterface configuration Object")) {
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type wisite_accessmethod_binding -Resource $sitepath -Arguments $Arguments
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type wisite_accessmethod_binding -NitroPath nitro/v1/config -Resource $sitepath -Arguments $Arguments
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $response
@@ -1258,7 +1258,7 @@ function Invoke-ADCGetWisiteaccessmethodbinding {
         Invoke-ADCGetWisiteaccessmethodbinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetWisiteaccessmethodbinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/wi/wisite_accessmethod_binding/
         Requires  : PowerShell v5.1 and up
@@ -1296,21 +1296,21 @@ function Invoke-ADCGetWisiteaccessmethodbinding {
                     bulkbindings = 'yes'
                 }
                 Write-Verbose "Retrieving all wisite_accessmethod_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type wisite_accessmethod_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type wisite_accessmethod_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
                 if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for wisite_accessmethod_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type wisite_accessmethod_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type wisite_accessmethod_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving wisite_accessmethod_binding objects by arguments"
                 $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type wisite_accessmethod_binding -Arguments $Arguments -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type wisite_accessmethod_binding -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving wisite_accessmethod_binding configuration for property 'sitepath'"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type wisite_accessmethod_binding -Resource $sitepath -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type wisite_accessmethod_binding -NitroPath nitro/v1/config -Resource $sitepath -Summary:$ViewSummary -Filter $Filter -GetWarning
             } else {
                 Write-Verbose "Retrieving wisite_accessmethod_binding configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type wisite_accessmethod_binding -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type wisite_accessmethod_binding -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -1350,7 +1350,7 @@ function Invoke-ADCGetWisitebinding {
         Invoke-ADCGetWisitebinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetWisitebinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/wi/wisite_binding/
         Requires  : PowerShell v5.1 and up
@@ -1385,21 +1385,21 @@ function Invoke-ADCGetWisitebinding {
                     bulkbindings = 'yes'
                 }
                 Write-Verbose "Retrieving all wisite_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type wisite_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type wisite_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
                 if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for wisite_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type wisite_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type wisite_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving wisite_binding objects by arguments"
                 $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type wisite_binding -Arguments $Arguments -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type wisite_binding -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving wisite_binding configuration for property 'sitepath'"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type wisite_binding -Resource $sitepath -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type wisite_binding -NitroPath nitro/v1/config -Resource $sitepath -Summary:$ViewSummary -Filter $Filter -GetWarning
             } else {
                 Write-Verbose "Retrieving wisite_binding configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type wisite_binding -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type wisite_binding -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -1448,7 +1448,7 @@ function Invoke-ADCAddWisitefarmnamebinding {
         Invoke-ADCAddWisitefarmnamebinding -sitepath <string>
     .NOTES
         File Name : Invoke-ADCAddWisitefarmnamebinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/wi/wisite_farmname_binding/
         Requires  : PowerShell v5.1 and up
@@ -1509,7 +1509,7 @@ function Invoke-ADCAddWisitefarmnamebinding {
             if ($PSBoundParameters.ContainsKey('loadbalance')) { $Payload.Add('loadbalance', $loadbalance) }
  
             if ($PSCmdlet.ShouldProcess("wisite_farmname_binding", "Add WebInterface configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -Type wisite_farmname_binding -Payload $Payload -GetWarning
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -NitroPath nitro/v1/config -Type wisite_farmname_binding -Payload $Payload -GetWarning
                 #HTTP Status Code on Success: 201 Created
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 if ($PSBoundParameters.ContainsKey('PassThru')) {
@@ -1544,7 +1544,7 @@ function Invoke-ADCDeleteWisitefarmnamebinding {
         Invoke-ADCDeleteWisitefarmnamebinding -sitepath <string>
     .NOTES
         File Name : Invoke-ADCDeleteWisitefarmnamebinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/wi/wisite_farmname_binding/
         Requires  : PowerShell v5.1 and up
@@ -1574,7 +1574,7 @@ function Invoke-ADCDeleteWisitefarmnamebinding {
             }
             if ($PSBoundParameters.ContainsKey('farmname')) { $Arguments.Add('farmname', $farmname) }
             if ($PSCmdlet.ShouldProcess("$sitepath", "Delete WebInterface configuration Object")) {
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type wisite_farmname_binding -Resource $sitepath -Arguments $Arguments
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type wisite_farmname_binding -NitroPath nitro/v1/config -Resource $sitepath -Arguments $Arguments
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $response
@@ -1618,7 +1618,7 @@ function Invoke-ADCGetWisitefarmnamebinding {
         Invoke-ADCGetWisitefarmnamebinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetWisitefarmnamebinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/wi/wisite_farmname_binding/
         Requires  : PowerShell v5.1 and up
@@ -1656,21 +1656,21 @@ function Invoke-ADCGetWisitefarmnamebinding {
                     bulkbindings = 'yes'
                 }
                 Write-Verbose "Retrieving all wisite_farmname_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type wisite_farmname_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type wisite_farmname_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
                 if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for wisite_farmname_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type wisite_farmname_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type wisite_farmname_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving wisite_farmname_binding objects by arguments"
                 $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type wisite_farmname_binding -Arguments $Arguments -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type wisite_farmname_binding -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving wisite_farmname_binding configuration for property 'sitepath'"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type wisite_farmname_binding -Resource $sitepath -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type wisite_farmname_binding -NitroPath nitro/v1/config -Resource $sitepath -Summary:$ViewSummary -Filter $Filter -GetWarning
             } else {
                 Write-Verbose "Retrieving wisite_farmname_binding configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type wisite_farmname_binding -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type wisite_farmname_binding -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -1716,7 +1716,7 @@ function Invoke-ADCAddWisitetranslationinternalipbinding {
         Invoke-ADCAddWisitetranslationinternalipbinding -sitepath <string>
     .NOTES
         File Name : Invoke-ADCAddWisitetranslationinternalipbinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/wi/wisite_translationinternalip_binding/
         Requires  : PowerShell v5.1 and up
@@ -1767,7 +1767,7 @@ function Invoke-ADCAddWisitetranslationinternalipbinding {
             if ($PSBoundParameters.ContainsKey('accesstype')) { $Payload.Add('accesstype', $accesstype) }
  
             if ($PSCmdlet.ShouldProcess("wisite_translationinternalip_binding", "Add WebInterface configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -Type wisite_translationinternalip_binding -Payload $Payload -GetWarning
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -NitroPath nitro/v1/config -Type wisite_translationinternalip_binding -Payload $Payload -GetWarning
                 #HTTP Status Code on Success: 201 Created
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 if ($PSBoundParameters.ContainsKey('PassThru')) {
@@ -1810,7 +1810,7 @@ function Invoke-ADCDeleteWisitetranslationinternalipbinding {
         Invoke-ADCDeleteWisitetranslationinternalipbinding -sitepath <string>
     .NOTES
         File Name : Invoke-ADCDeleteWisitetranslationinternalipbinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/wi/wisite_translationinternalip_binding/
         Requires  : PowerShell v5.1 and up
@@ -1849,7 +1849,7 @@ function Invoke-ADCDeleteWisitetranslationinternalipbinding {
             if ($PSBoundParameters.ContainsKey('translationexternalip')) { $Arguments.Add('translationexternalip', $translationexternalip) }
             if ($PSBoundParameters.ContainsKey('translationexternalport')) { $Arguments.Add('translationexternalport', $translationexternalport) }
             if ($PSCmdlet.ShouldProcess("$sitepath", "Delete WebInterface configuration Object")) {
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type wisite_translationinternalip_binding -Resource $sitepath -Arguments $Arguments
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type wisite_translationinternalip_binding -NitroPath nitro/v1/config -Resource $sitepath -Arguments $Arguments
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $response
@@ -1893,7 +1893,7 @@ function Invoke-ADCGetWisitetranslationinternalipbinding {
         Invoke-ADCGetWisitetranslationinternalipbinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetWisitetranslationinternalipbinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/wi/wisite_translationinternalip_binding/
         Requires  : PowerShell v5.1 and up
@@ -1931,21 +1931,21 @@ function Invoke-ADCGetWisitetranslationinternalipbinding {
                     bulkbindings = 'yes'
                 }
                 Write-Verbose "Retrieving all wisite_translationinternalip_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type wisite_translationinternalip_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type wisite_translationinternalip_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
                 if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for wisite_translationinternalip_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type wisite_translationinternalip_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type wisite_translationinternalip_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving wisite_translationinternalip_binding objects by arguments"
                 $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type wisite_translationinternalip_binding -Arguments $Arguments -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type wisite_translationinternalip_binding -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving wisite_translationinternalip_binding configuration for property 'sitepath'"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type wisite_translationinternalip_binding -Resource $sitepath -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type wisite_translationinternalip_binding -NitroPath nitro/v1/config -Resource $sitepath -Summary:$ViewSummary -Filter $Filter -GetWarning
             } else {
                 Write-Verbose "Retrieving wisite_translationinternalip_binding configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type wisite_translationinternalip_binding -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type wisite_translationinternalip_binding -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"

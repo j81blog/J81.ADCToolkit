@@ -29,7 +29,7 @@ function Invoke-ADCGetBfdsession {
         Invoke-ADCGetBfdsession -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetBfdsession
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/bfd/bfdsession/
         Requires  : PowerShell v5.1 and up
@@ -71,23 +71,23 @@ function Invoke-ADCGetBfdsession {
             if ( $PsCmdlet.ParameterSetName -eq 'Getall' ) {
                 $Query = @{ }
                 Write-Verbose "Retrieving all bfdsession objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type bfdsession -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type bfdsession -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
                 if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for bfdsession objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type bfdsession -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type bfdsession -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving bfdsession objects by arguments"
                 $Arguments = @{ } 
                 if ($PSBoundParameters.ContainsKey('localip')) { $Arguments.Add('localip', $localip) } 
                 if ($PSBoundParameters.ContainsKey('remoteip')) { $Arguments.Add('remoteip', $remoteip) }
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type bfdsession -Arguments $Arguments -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type bfdsession -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving bfdsession configuration for property ''"
 
             } else {
                 Write-Verbose "Retrieving bfdsession configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type bfdsession -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type bfdsession -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"

@@ -13,7 +13,7 @@ function Invoke-ADCInstallWfpackage {
         Invoke-ADCInstallWfpackage 
     .NOTES
         File Name : Invoke-ADCInstallWfpackage
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/wf/wfpackage/
         Requires  : PowerShell v5.1 and up
@@ -47,7 +47,7 @@ function Invoke-ADCInstallWfpackage {
             if ($PSBoundParameters.ContainsKey('jre')) { $Payload.Add('jre', $jre) }
             if ($PSBoundParameters.ContainsKey('wf')) { $Payload.Add('wf', $wf) }
             if ($PSCmdlet.ShouldProcess($Name, "Install Wf configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -Type wfpackage -Payload $Payload -GetWarning
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -NitroPath nitro/v1/config -Type wfpackage -Payload $Payload -GetWarning
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $result
@@ -87,7 +87,7 @@ function Invoke-ADCGetWfpackage {
         Invoke-ADCGetWfpackage -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetWfpackage
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/wf/wfpackage/
         Requires  : PowerShell v5.1 and up
@@ -116,21 +116,21 @@ function Invoke-ADCGetWfpackage {
             if ( $PsCmdlet.ParameterSetName -eq 'Getall' ) {
                 $Query = @{ }
                 Write-Verbose "Retrieving all wfpackage objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type wfpackage -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type wfpackage -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
                 if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for wfpackage objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type wfpackage -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type wfpackage -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving wfpackage objects by arguments"
                 $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type wfpackage -Arguments $Arguments -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type wfpackage -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving wfpackage configuration for property ''"
 
             } else {
                 Write-Verbose "Retrieving wfpackage configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type wfpackage -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type wfpackage -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -183,7 +183,7 @@ function Invoke-ADCAddWfsite {
         Invoke-ADCAddWfsite -sitename <string> -storefronturl <string> -storename <string>
     .NOTES
         File Name : Invoke-ADCAddWfsite
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/wf/wfsite/
         Requires  : PowerShell v5.1 and up
@@ -242,7 +242,7 @@ function Invoke-ADCAddWfsite {
             if ($PSBoundParameters.ContainsKey('xframeoptions')) { $Payload.Add('xframeoptions', $xframeoptions) }
  
             if ($PSCmdlet.ShouldProcess("wfsite", "Add Wf configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -Type wfsite -Payload $Payload -GetWarning
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -NitroPath nitro/v1/config -Type wfsite -Payload $Payload -GetWarning
                 #HTTP Status Code on Success: 201 Created
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 if ($PSBoundParameters.ContainsKey('PassThru')) {
@@ -276,7 +276,7 @@ function Invoke-ADCDeleteWfsite {
         Invoke-ADCDeleteWfsite -sitename <string>
     .NOTES
         File Name : Invoke-ADCDeleteWfsite
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/wf/wfsite/
         Requires  : PowerShell v5.1 and up
@@ -304,7 +304,7 @@ function Invoke-ADCDeleteWfsite {
             }
 
             if ($PSCmdlet.ShouldProcess("$sitename", "Delete Wf configuration Object")) {
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type wfsite -Resource $sitename -Arguments $Arguments
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type wfsite -NitroPath nitro/v1/config -Resource $sitename -Arguments $Arguments
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $response
@@ -359,7 +359,7 @@ function Invoke-ADCUpdateWfsite {
         Invoke-ADCUpdateWfsite -sitename <string>
     .NOTES
         File Name : Invoke-ADCUpdateWfsite
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/wf/wfsite/
         Requires  : PowerShell v5.1 and up
@@ -416,7 +416,7 @@ function Invoke-ADCUpdateWfsite {
             if ($PSBoundParameters.ContainsKey('xframeoptions')) { $Payload.Add('xframeoptions', $xframeoptions) }
  
             if ($PSCmdlet.ShouldProcess("wfsite", "Update Wf configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -Type wfsite -Payload $Payload -GetWarning
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -NitroPath nitro/v1/config -Type wfsite -Payload $Payload -GetWarning
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 if ($PSBoundParameters.ContainsKey('PassThru')) {
@@ -465,7 +465,7 @@ function Invoke-ADCGetWfsite {
         Invoke-ADCGetWfsite -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetWfsite
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/wf/wfsite/
         Requires  : PowerShell v5.1 and up
@@ -506,21 +506,21 @@ function Invoke-ADCGetWfsite {
             if ( $PsCmdlet.ParameterSetName -eq 'Getall' ) {
                 $Query = @{ }
                 Write-Verbose "Retrieving all wfsite objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type wfsite -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type wfsite -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
                 if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for wfsite objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type wfsite -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type wfsite -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving wfsite objects by arguments"
                 $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type wfsite -Arguments $Arguments -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type wfsite -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving wfsite configuration for property 'sitename'"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type wfsite -Resource $sitename -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type wfsite -NitroPath nitro/v1/config -Resource $sitename -Summary:$ViewSummary -Filter $Filter -GetWarning
             } else {
                 Write-Verbose "Retrieving wfsite configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type wfsite -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type wfsite -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"

@@ -14,7 +14,7 @@ function Invoke-ADCImportApplication {
         Invoke-ADCImportApplication -apptemplatefilename <string>
     .NOTES
         File Name : Invoke-ADCImportApplication
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/app/application/
         Requires  : PowerShell v5.1 and up
@@ -49,7 +49,7 @@ function Invoke-ADCImportApplication {
             if ($PSBoundParameters.ContainsKey('appname')) { $Payload.Add('appname', $appname) }
             if ($PSBoundParameters.ContainsKey('deploymentfilename')) { $Payload.Add('deploymentfilename', $deploymentfilename) }
             if ($PSCmdlet.ShouldProcess($Name, "Import App configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -Type application -Action import -Payload $Payload -GetWarning
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -NitroPath nitro/v1/config -Type application -Action import -Payload $Payload -GetWarning
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $result
@@ -80,7 +80,7 @@ function Invoke-ADCExportApplication {
         Invoke-ADCExportApplication -appname <string>
     .NOTES
         File Name : Invoke-ADCExportApplication
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/app/application/
         Requires  : PowerShell v5.1 and up
@@ -115,7 +115,7 @@ function Invoke-ADCExportApplication {
             if ($PSBoundParameters.ContainsKey('apptemplatefilename')) { $Payload.Add('apptemplatefilename', $apptemplatefilename) }
             if ($PSBoundParameters.ContainsKey('deploymentfilename')) { $Payload.Add('deploymentfilename', $deploymentfilename) }
             if ($PSCmdlet.ShouldProcess($Name, "Export App configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -Type application -Action export -Payload $Payload -GetWarning
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -NitroPath nitro/v1/config -Type application -Action export -Payload $Payload -GetWarning
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $result
@@ -142,7 +142,7 @@ function Invoke-ADCDeleteApplication {
         Invoke-ADCDeleteApplication 
     .NOTES
         File Name : Invoke-ADCDeleteApplication
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/app/application/
         Requires  : PowerShell v5.1 and up
@@ -169,7 +169,7 @@ function Invoke-ADCDeleteApplication {
             }
             if ($PSBoundParameters.ContainsKey('appname')) { $Arguments.Add('appname', $appname) }
             if ($PSCmdlet.ShouldProcess("application", "Delete App configuration Object")) {
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type application -Resource $ -Arguments $Arguments
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type application -NitroPath nitro/v1/config -Resource $ -Arguments $Arguments
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $response

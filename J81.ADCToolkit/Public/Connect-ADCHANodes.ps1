@@ -16,7 +16,7 @@ function Connect-ADCHANodes {
         Connect-ADCNode -ManagementURL https://citrixacd.domain.local -Credential (Get-Credential)
     .NOTES
         File Name : Connect-ADCHANodes
-        Version   : v2101.0315
+        Version   : v2101.0322
         Author    : John Billekens
         Requires  : PowerShell v5.1 and up
                     ADC 11.x and up
@@ -144,7 +144,7 @@ function Connect-ADCHANodes {
             Write-ConsoleText -Line "URL" -NoConsoleOutput:$NoConsoleOutput
             Write-ConsoleText -ForeGroundColor Cyan "$($PrimaryURL.OriginalString)" -NoConsoleOutput:$NoConsoleOutput
             Write-ConsoleText -Line "Version" -NoConsoleOutput:$NoConsoleOutput
-            Write-ConsoleText -ForeGroundColor Cyan "$($PrimarySessionDetails.Version)"
+            Write-ConsoleText -ForeGroundColor Cyan "$($PrimarySessionDetails.Version)" -NoConsoleOutput:$NoConsoleOutput
             if ((-Not [String]::IsNullOrEmpty($SecondarySessionDetails)) -Or ($SecNode.state -eq "UNKNOWN")) {
                 Write-ConsoleText -Line "Node" -NoConsoleOutput:$NoConsoleOutput
                 Write-ConsoleText -ForeGroundColor Cyan "$($SecNode.state)" -NoConsoleOutput:$NoConsoleOutput

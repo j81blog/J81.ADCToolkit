@@ -48,7 +48,7 @@ function Invoke-ADCSyncClusterfiles {
         Invoke-ADCSyncClusterfiles 
     .NOTES
         File Name : Invoke-ADCSyncClusterfiles
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/cluster/clusterfiles/
         Requires  : PowerShell v5.1 and up
@@ -78,7 +78,7 @@ function Invoke-ADCSyncClusterfiles {
             }
             if ($PSBoundParameters.ContainsKey('mode')) { $Payload.Add('mode', $mode) }
             if ($PSCmdlet.ShouldProcess($Name, "Sync cluster configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -Type clusterfiles -Action sync -Payload $Payload -GetWarning
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -NitroPath nitro/v1/config -Type clusterfiles -Action sync -Payload $Payload -GetWarning
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $result
@@ -147,7 +147,7 @@ function Invoke-ADCAddClusterinstance {
         Invoke-ADCAddClusterinstance -clid <double>
     .NOTES
         File Name : Invoke-ADCAddClusterinstance
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/cluster/clusterinstance/
         Requires  : PowerShell v5.1 and up
@@ -216,7 +216,7 @@ function Invoke-ADCAddClusterinstance {
             if ($PSBoundParameters.ContainsKey('syncstatusstrictmode')) { $Payload.Add('syncstatusstrictmode', $syncstatusstrictmode) }
  
             if ($PSCmdlet.ShouldProcess("clusterinstance", "Add cluster configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -Type clusterinstance -Payload $Payload -GetWarning
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -NitroPath nitro/v1/config -Type clusterinstance -Payload $Payload -GetWarning
                 #HTTP Status Code on Success: 201 Created
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 if ($PSBoundParameters.ContainsKey('PassThru')) {
@@ -250,7 +250,7 @@ function Invoke-ADCDeleteClusterinstance {
         Invoke-ADCDeleteClusterinstance -clid <double>
     .NOTES
         File Name : Invoke-ADCDeleteClusterinstance
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/cluster/clusterinstance/
         Requires  : PowerShell v5.1 and up
@@ -278,7 +278,7 @@ function Invoke-ADCDeleteClusterinstance {
             }
 
             if ($PSCmdlet.ShouldProcess("$clid", "Delete cluster configuration Object")) {
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type clusterinstance -Resource $clid -Arguments $Arguments
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type clusterinstance -NitroPath nitro/v1/config -Resource $clid -Arguments $Arguments
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $response
@@ -349,7 +349,7 @@ function Invoke-ADCUpdateClusterinstance {
         Invoke-ADCUpdateClusterinstance -clid <double>
     .NOTES
         File Name : Invoke-ADCUpdateClusterinstance
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/cluster/clusterinstance/
         Requires  : PowerShell v5.1 and up
@@ -421,7 +421,7 @@ function Invoke-ADCUpdateClusterinstance {
             if ($PSBoundParameters.ContainsKey('syncstatusstrictmode')) { $Payload.Add('syncstatusstrictmode', $syncstatusstrictmode) }
  
             if ($PSCmdlet.ShouldProcess("clusterinstance", "Update cluster configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -Type clusterinstance -Payload $Payload -GetWarning
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -NitroPath nitro/v1/config -Type clusterinstance -Payload $Payload -GetWarning
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 if ($PSBoundParameters.ContainsKey('PassThru')) {
@@ -480,7 +480,7 @@ function Invoke-ADCUnsetClusterinstance {
         Invoke-ADCUnsetClusterinstance -clid <double>
     .NOTES
         File Name : Invoke-ADCUnsetClusterinstance
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/cluster/clusterinstance
         Requires  : PowerShell v5.1 and up
@@ -539,7 +539,7 @@ function Invoke-ADCUnsetClusterinstance {
             if ($PSBoundParameters.ContainsKey('backplanebasedview')) { $Payload.Add('backplanebasedview', $backplanebasedview) }
             if ($PSBoundParameters.ContainsKey('syncstatusstrictmode')) { $Payload.Add('syncstatusstrictmode', $syncstatusstrictmode) }
             if ($PSCmdlet.ShouldProcess("$clid", "Unset cluster configuration Object")) {
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -Type clusterinstance -Action unset -Payload $Payload -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -Type clusterinstance -NitroPath nitro/v1/config -Action unset -Payload $Payload -GetWarning
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $response
@@ -566,7 +566,7 @@ function Invoke-ADCEnableClusterinstance {
         Invoke-ADCEnableClusterinstance -clid <double>
     .NOTES
         File Name : Invoke-ADCEnableClusterinstance
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/cluster/clusterinstance/
         Requires  : PowerShell v5.1 and up
@@ -597,7 +597,7 @@ function Invoke-ADCEnableClusterinstance {
             }
 
             if ($PSCmdlet.ShouldProcess($Name, "Enable cluster configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -Type clusterinstance -Action enable -Payload $Payload -GetWarning
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -NitroPath nitro/v1/config -Type clusterinstance -Action enable -Payload $Payload -GetWarning
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $result
@@ -624,7 +624,7 @@ function Invoke-ADCDisableClusterinstance {
         Invoke-ADCDisableClusterinstance -clid <double>
     .NOTES
         File Name : Invoke-ADCDisableClusterinstance
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/cluster/clusterinstance/
         Requires  : PowerShell v5.1 and up
@@ -655,7 +655,7 @@ function Invoke-ADCDisableClusterinstance {
             }
 
             if ($PSCmdlet.ShouldProcess($Name, "Disable cluster configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -Type clusterinstance -Action disable -Payload $Payload -GetWarning
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -NitroPath nitro/v1/config -Type clusterinstance -Action disable -Payload $Payload -GetWarning
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $result
@@ -699,7 +699,7 @@ function Invoke-ADCGetClusterinstance {
         Invoke-ADCGetClusterinstance -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetClusterinstance
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/cluster/clusterinstance/
         Requires  : PowerShell v5.1 and up
@@ -740,21 +740,21 @@ function Invoke-ADCGetClusterinstance {
             if ( $PsCmdlet.ParameterSetName -eq 'Getall' ) {
                 $Query = @{ }
                 Write-Verbose "Retrieving all clusterinstance objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type clusterinstance -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type clusterinstance -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
                 if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for clusterinstance objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type clusterinstance -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type clusterinstance -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving clusterinstance objects by arguments"
                 $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type clusterinstance -Arguments $Arguments -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type clusterinstance -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving clusterinstance configuration for property 'clid'"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type clusterinstance -Resource $clid -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type clusterinstance -NitroPath nitro/v1/config -Resource $clid -Summary:$ViewSummary -Filter $Filter -GetWarning
             } else {
                 Write-Verbose "Retrieving clusterinstance configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type clusterinstance -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type clusterinstance -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -794,7 +794,7 @@ function Invoke-ADCGetClusterinstancebinding {
         Invoke-ADCGetClusterinstancebinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetClusterinstancebinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/cluster/clusterinstance_binding/
         Requires  : PowerShell v5.1 and up
@@ -829,21 +829,21 @@ function Invoke-ADCGetClusterinstancebinding {
                     bulkbindings = 'yes'
                 }
                 Write-Verbose "Retrieving all clusterinstance_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type clusterinstance_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type clusterinstance_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
                 if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for clusterinstance_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type clusterinstance_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type clusterinstance_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving clusterinstance_binding objects by arguments"
                 $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type clusterinstance_binding -Arguments $Arguments -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type clusterinstance_binding -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving clusterinstance_binding configuration for property 'clid'"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type clusterinstance_binding -Resource $clid -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type clusterinstance_binding -NitroPath nitro/v1/config -Resource $clid -Summary:$ViewSummary -Filter $Filter -GetWarning
             } else {
                 Write-Verbose "Retrieving clusterinstance_binding configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type clusterinstance_binding -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type clusterinstance_binding -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -885,7 +885,7 @@ function Invoke-ADCGetClusterinstanceclusternodebinding {
         Invoke-ADCGetClusterinstanceclusternodebinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetClusterinstanceclusternodebinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/cluster/clusterinstance_clusternode_binding/
         Requires  : PowerShell v5.1 and up
@@ -923,21 +923,21 @@ function Invoke-ADCGetClusterinstanceclusternodebinding {
                     bulkbindings = 'yes'
                 }
                 Write-Verbose "Retrieving all clusterinstance_clusternode_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type clusterinstance_clusternode_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type clusterinstance_clusternode_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
                 if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for clusterinstance_clusternode_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type clusterinstance_clusternode_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type clusterinstance_clusternode_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving clusterinstance_clusternode_binding objects by arguments"
                 $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type clusterinstance_clusternode_binding -Arguments $Arguments -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type clusterinstance_clusternode_binding -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving clusterinstance_clusternode_binding configuration for property 'clid'"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type clusterinstance_clusternode_binding -Resource $clid -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type clusterinstance_clusternode_binding -NitroPath nitro/v1/config -Resource $clid -Summary:$ViewSummary -Filter $Filter -GetWarning
             } else {
                 Write-Verbose "Retrieving clusterinstance_clusternode_binding configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type clusterinstance_clusternode_binding -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type clusterinstance_clusternode_binding -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -999,7 +999,7 @@ function Invoke-ADCAddClusternode {
         Invoke-ADCAddClusternode -nodeid <double> -ipaddress <string>
     .NOTES
         File Name : Invoke-ADCAddClusternode
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/cluster/clusternode/
         Requires  : PowerShell v5.1 and up
@@ -1061,7 +1061,7 @@ function Invoke-ADCAddClusternode {
             if ($PSBoundParameters.ContainsKey('tunnelmode')) { $Payload.Add('tunnelmode', $tunnelmode) }
  
             if ($PSCmdlet.ShouldProcess("clusternode", "Add cluster configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -Type clusternode -Payload $Payload -GetWarning
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -NitroPath nitro/v1/config -Type clusternode -Payload $Payload -GetWarning
                 #HTTP Status Code on Success: 201 Created
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 if ($PSBoundParameters.ContainsKey('PassThru')) {
@@ -1123,7 +1123,7 @@ function Invoke-ADCUpdateClusternode {
         Invoke-ADCUpdateClusternode -nodeid <double>
     .NOTES
         File Name : Invoke-ADCUpdateClusternode
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/cluster/clusternode/
         Requires  : PowerShell v5.1 and up
@@ -1176,7 +1176,7 @@ function Invoke-ADCUpdateClusternode {
             if ($PSBoundParameters.ContainsKey('tunnelmode')) { $Payload.Add('tunnelmode', $tunnelmode) }
  
             if ($PSCmdlet.ShouldProcess("clusternode", "Update cluster configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -Type clusternode -Payload $Payload -GetWarning
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -NitroPath nitro/v1/config -Type clusternode -Payload $Payload -GetWarning
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 if ($PSBoundParameters.ContainsKey('PassThru')) {
@@ -1225,7 +1225,7 @@ function Invoke-ADCUnsetClusternode {
         Invoke-ADCUnsetClusternode -nodeid <double>
     .NOTES
         File Name : Invoke-ADCUnsetClusternode
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/cluster/clusternode
         Requires  : PowerShell v5.1 and up
@@ -1269,7 +1269,7 @@ function Invoke-ADCUnsetClusternode {
             if ($PSBoundParameters.ContainsKey('delay')) { $Payload.Add('delay', $delay) }
             if ($PSBoundParameters.ContainsKey('tunnelmode')) { $Payload.Add('tunnelmode', $tunnelmode) }
             if ($PSCmdlet.ShouldProcess("$nodeid", "Unset cluster configuration Object")) {
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -Type clusternode -Action unset -Payload $Payload -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -Type clusternode -NitroPath nitro/v1/config -Action unset -Payload $Payload -GetWarning
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $response
@@ -1301,7 +1301,7 @@ function Invoke-ADCDeleteClusternode {
         Invoke-ADCDeleteClusternode -nodeid <double>
     .NOTES
         File Name : Invoke-ADCDeleteClusternode
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/cluster/clusternode/
         Requires  : PowerShell v5.1 and up
@@ -1331,7 +1331,7 @@ function Invoke-ADCDeleteClusternode {
             }
             if ($PSBoundParameters.ContainsKey('clearnodegroupconfig')) { $Arguments.Add('clearnodegroupconfig', $clearnodegroupconfig) }
             if ($PSCmdlet.ShouldProcess("$nodeid", "Delete cluster configuration Object")) {
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type clusternode -Resource $nodeid -Arguments $Arguments
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type clusternode -NitroPath nitro/v1/config -Resource $nodeid -Arguments $Arguments
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $response
@@ -1375,7 +1375,7 @@ function Invoke-ADCGetClusternode {
         Invoke-ADCGetClusternode -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetClusternode
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/cluster/clusternode/
         Requires  : PowerShell v5.1 and up
@@ -1416,21 +1416,21 @@ function Invoke-ADCGetClusternode {
             if ( $PsCmdlet.ParameterSetName -eq 'Getall' ) {
                 $Query = @{ }
                 Write-Verbose "Retrieving all clusternode objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type clusternode -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type clusternode -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
                 if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for clusternode objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type clusternode -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type clusternode -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving clusternode objects by arguments"
                 $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type clusternode -Arguments $Arguments -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type clusternode -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving clusternode configuration for property 'nodeid'"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type clusternode -Resource $nodeid -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type clusternode -NitroPath nitro/v1/config -Resource $nodeid -Summary:$ViewSummary -Filter $Filter -GetWarning
             } else {
                 Write-Verbose "Retrieving clusternode configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type clusternode -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type clusternode -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -1477,7 +1477,7 @@ function Invoke-ADCAddClusternodegroup {
         Invoke-ADCAddClusternodegroup -name <string>
     .NOTES
         File Name : Invoke-ADCAddClusternodegroup
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/cluster/clusternodegroup/
         Requires  : PowerShell v5.1 and up
@@ -1526,7 +1526,7 @@ function Invoke-ADCAddClusternodegroup {
             if ($PSBoundParameters.ContainsKey('priority')) { $Payload.Add('priority', $priority) }
  
             if ($PSCmdlet.ShouldProcess("clusternodegroup", "Add cluster configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -Type clusternodegroup -Payload $Payload -GetWarning
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -NitroPath nitro/v1/config -Type clusternodegroup -Payload $Payload -GetWarning
                 #HTTP Status Code on Success: 201 Created
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 if ($PSBoundParameters.ContainsKey('PassThru')) {
@@ -1574,7 +1574,7 @@ function Invoke-ADCUpdateClusternodegroup {
         Invoke-ADCUpdateClusternodegroup -name <string>
     .NOTES
         File Name : Invoke-ADCUpdateClusternodegroup
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/cluster/clusternodegroup/
         Requires  : PowerShell v5.1 and up
@@ -1619,7 +1619,7 @@ function Invoke-ADCUpdateClusternodegroup {
             if ($PSBoundParameters.ContainsKey('priority')) { $Payload.Add('priority', $priority) }
  
             if ($PSCmdlet.ShouldProcess("clusternodegroup", "Update cluster configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -Type clusternodegroup -Payload $Payload -GetWarning
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -NitroPath nitro/v1/config -Type clusternodegroup -Payload $Payload -GetWarning
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 if ($PSBoundParameters.ContainsKey('PassThru')) {
@@ -1656,7 +1656,7 @@ function Invoke-ADCUnsetClusternodegroup {
         Invoke-ADCUnsetClusternodegroup -name <string>
     .NOTES
         File Name : Invoke-ADCUnsetClusternodegroup
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/cluster/clusternodegroup
         Requires  : PowerShell v5.1 and up
@@ -1688,7 +1688,7 @@ function Invoke-ADCUnsetClusternodegroup {
             }
             if ($PSBoundParameters.ContainsKey('strict')) { $Payload.Add('strict', $strict) }
             if ($PSCmdlet.ShouldProcess("$name", "Unset cluster configuration Object")) {
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -Type clusternodegroup -Action unset -Payload $Payload -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -Type clusternodegroup -NitroPath nitro/v1/config -Action unset -Payload $Payload -GetWarning
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $response
@@ -1716,7 +1716,7 @@ function Invoke-ADCDeleteClusternodegroup {
         Invoke-ADCDeleteClusternodegroup -name <string>
     .NOTES
         File Name : Invoke-ADCDeleteClusternodegroup
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/cluster/clusternodegroup/
         Requires  : PowerShell v5.1 and up
@@ -1744,7 +1744,7 @@ function Invoke-ADCDeleteClusternodegroup {
             }
 
             if ($PSCmdlet.ShouldProcess("$name", "Delete cluster configuration Object")) {
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type clusternodegroup -Resource $name -Arguments $Arguments
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type clusternodegroup -NitroPath nitro/v1/config -Resource $name -Arguments $Arguments
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $response
@@ -1788,7 +1788,7 @@ function Invoke-ADCGetClusternodegroup {
         Invoke-ADCGetClusternodegroup -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetClusternodegroup
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/cluster/clusternodegroup/
         Requires  : PowerShell v5.1 and up
@@ -1829,21 +1829,21 @@ function Invoke-ADCGetClusternodegroup {
             if ( $PsCmdlet.ParameterSetName -eq 'Getall' ) {
                 $Query = @{ }
                 Write-Verbose "Retrieving all clusternodegroup objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type clusternodegroup -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type clusternodegroup -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
                 if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for clusternodegroup objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type clusternodegroup -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type clusternodegroup -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving clusternodegroup objects by arguments"
                 $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type clusternodegroup -Arguments $Arguments -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type clusternodegroup -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving clusternodegroup configuration for property 'name'"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type clusternodegroup -Resource $name -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type clusternodegroup -NitroPath nitro/v1/config -Resource $name -Summary:$ViewSummary -Filter $Filter -GetWarning
             } else {
                 Write-Verbose "Retrieving clusternodegroup configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type clusternodegroup -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type clusternodegroup -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -1873,7 +1873,7 @@ function Invoke-ADCAddClusternodegroupauthenticationvserverbinding {
         Invoke-ADCAddClusternodegroupauthenticationvserverbinding -name <string>
     .NOTES
         File Name : Invoke-ADCAddClusternodegroupauthenticationvserverbinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/cluster/clusternodegroup_authenticationvserver_binding/
         Requires  : PowerShell v5.1 and up
@@ -1909,7 +1909,7 @@ function Invoke-ADCAddClusternodegroupauthenticationvserverbinding {
             if ($PSBoundParameters.ContainsKey('vserver')) { $Payload.Add('vserver', $vserver) }
  
             if ($PSCmdlet.ShouldProcess("clusternodegroup_authenticationvserver_binding", "Add cluster configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -Type clusternodegroup_authenticationvserver_binding -Payload $Payload -GetWarning
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -NitroPath nitro/v1/config -Type clusternodegroup_authenticationvserver_binding -Payload $Payload -GetWarning
                 #HTTP Status Code on Success: 201 Created
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 if ($PSBoundParameters.ContainsKey('PassThru')) {
@@ -1943,7 +1943,7 @@ function Invoke-ADCDeleteClusternodegroupauthenticationvserverbinding {
         Invoke-ADCDeleteClusternodegroupauthenticationvserverbinding 
     .NOTES
         File Name : Invoke-ADCDeleteClusternodegroupauthenticationvserverbinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/cluster/clusternodegroup_authenticationvserver_binding/
         Requires  : PowerShell v5.1 and up
@@ -1973,7 +1973,7 @@ function Invoke-ADCDeleteClusternodegroupauthenticationvserverbinding {
             if ($PSBoundParameters.ContainsKey('name')) { $Arguments.Add('name', $name) }
             if ($PSBoundParameters.ContainsKey('vserver')) { $Arguments.Add('vserver', $vserver) }
             if ($PSCmdlet.ShouldProcess("clusternodegroup_authenticationvserver_binding", "Delete cluster configuration Object")) {
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type clusternodegroup_authenticationvserver_binding -Resource $ -Arguments $Arguments
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type clusternodegroup_authenticationvserver_binding -NitroPath nitro/v1/config -Resource $ -Arguments $Arguments
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $response
@@ -2015,7 +2015,7 @@ function Invoke-ADCGetClusternodegroupauthenticationvserverbinding {
         Invoke-ADCGetClusternodegroupauthenticationvserverbinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetClusternodegroupauthenticationvserverbinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/cluster/clusternodegroup_authenticationvserver_binding/
         Requires  : PowerShell v5.1 and up
@@ -2046,21 +2046,21 @@ function Invoke-ADCGetClusternodegroupauthenticationvserverbinding {
                     bulkbindings = 'yes'
                 }
                 Write-Verbose "Retrieving all clusternodegroup_authenticationvserver_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type clusternodegroup_authenticationvserver_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type clusternodegroup_authenticationvserver_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
                 if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for clusternodegroup_authenticationvserver_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type clusternodegroup_authenticationvserver_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type clusternodegroup_authenticationvserver_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving clusternodegroup_authenticationvserver_binding objects by arguments"
                 $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type clusternodegroup_authenticationvserver_binding -Arguments $Arguments -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type clusternodegroup_authenticationvserver_binding -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving clusternodegroup_authenticationvserver_binding configuration for property ''"
 
             } else {
                 Write-Verbose "Retrieving clusternodegroup_authenticationvserver_binding configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type clusternodegroup_authenticationvserver_binding -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type clusternodegroup_authenticationvserver_binding -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -2100,7 +2100,7 @@ function Invoke-ADCGetClusternodegroupbinding {
         Invoke-ADCGetClusternodegroupbinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetClusternodegroupbinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/cluster/clusternodegroup_binding/
         Requires  : PowerShell v5.1 and up
@@ -2135,21 +2135,21 @@ function Invoke-ADCGetClusternodegroupbinding {
                     bulkbindings = 'yes'
                 }
                 Write-Verbose "Retrieving all clusternodegroup_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type clusternodegroup_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type clusternodegroup_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
                 if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for clusternodegroup_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type clusternodegroup_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type clusternodegroup_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving clusternodegroup_binding objects by arguments"
                 $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type clusternodegroup_binding -Arguments $Arguments -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type clusternodegroup_binding -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving clusternodegroup_binding configuration for property 'name'"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type clusternodegroup_binding -Resource $name -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type clusternodegroup_binding -NitroPath nitro/v1/config -Resource $name -Summary:$ViewSummary -Filter $Filter -GetWarning
             } else {
                 Write-Verbose "Retrieving clusternodegroup_binding configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type clusternodegroup_binding -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type clusternodegroup_binding -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -2181,7 +2181,7 @@ function Invoke-ADCAddClusternodegroupclusternodebinding {
         Invoke-ADCAddClusternodegroupclusternodebinding -name <string>
     .NOTES
         File Name : Invoke-ADCAddClusternodegroupclusternodebinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/cluster/clusternodegroup_clusternode_binding/
         Requires  : PowerShell v5.1 and up
@@ -2218,7 +2218,7 @@ function Invoke-ADCAddClusternodegroupclusternodebinding {
             if ($PSBoundParameters.ContainsKey('node')) { $Payload.Add('node', $node) }
  
             if ($PSCmdlet.ShouldProcess("clusternodegroup_clusternode_binding", "Add cluster configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -Type clusternodegroup_clusternode_binding -Payload $Payload -GetWarning
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -NitroPath nitro/v1/config -Type clusternodegroup_clusternode_binding -Payload $Payload -GetWarning
                 #HTTP Status Code on Success: 201 Created
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 if ($PSBoundParameters.ContainsKey('PassThru')) {
@@ -2254,7 +2254,7 @@ function Invoke-ADCDeleteClusternodegroupclusternodebinding {
         Invoke-ADCDeleteClusternodegroupclusternodebinding 
     .NOTES
         File Name : Invoke-ADCDeleteClusternodegroupclusternodebinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/cluster/clusternodegroup_clusternode_binding/
         Requires  : PowerShell v5.1 and up
@@ -2284,7 +2284,7 @@ function Invoke-ADCDeleteClusternodegroupclusternodebinding {
             if ($PSBoundParameters.ContainsKey('name')) { $Arguments.Add('name', $name) }
             if ($PSBoundParameters.ContainsKey('node')) { $Arguments.Add('node', $node) }
             if ($PSCmdlet.ShouldProcess("clusternodegroup_clusternode_binding", "Delete cluster configuration Object")) {
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type clusternodegroup_clusternode_binding -Resource $ -Arguments $Arguments
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type clusternodegroup_clusternode_binding -NitroPath nitro/v1/config -Resource $ -Arguments $Arguments
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $response
@@ -2326,7 +2326,7 @@ function Invoke-ADCGetClusternodegroupclusternodebinding {
         Invoke-ADCGetClusternodegroupclusternodebinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetClusternodegroupclusternodebinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/cluster/clusternodegroup_clusternode_binding/
         Requires  : PowerShell v5.1 and up
@@ -2357,21 +2357,21 @@ function Invoke-ADCGetClusternodegroupclusternodebinding {
                     bulkbindings = 'yes'
                 }
                 Write-Verbose "Retrieving all clusternodegroup_clusternode_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type clusternodegroup_clusternode_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type clusternodegroup_clusternode_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
                 if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for clusternodegroup_clusternode_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type clusternodegroup_clusternode_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type clusternodegroup_clusternode_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving clusternodegroup_clusternode_binding objects by arguments"
                 $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type clusternodegroup_clusternode_binding -Arguments $Arguments -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type clusternodegroup_clusternode_binding -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving clusternodegroup_clusternode_binding configuration for property ''"
 
             } else {
                 Write-Verbose "Retrieving clusternodegroup_clusternode_binding configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type clusternodegroup_clusternode_binding -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type clusternodegroup_clusternode_binding -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -2401,7 +2401,7 @@ function Invoke-ADCAddClusternodegroupcrvserverbinding {
         Invoke-ADCAddClusternodegroupcrvserverbinding -name <string>
     .NOTES
         File Name : Invoke-ADCAddClusternodegroupcrvserverbinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/cluster/clusternodegroup_crvserver_binding/
         Requires  : PowerShell v5.1 and up
@@ -2437,7 +2437,7 @@ function Invoke-ADCAddClusternodegroupcrvserverbinding {
             if ($PSBoundParameters.ContainsKey('vserver')) { $Payload.Add('vserver', $vserver) }
  
             if ($PSCmdlet.ShouldProcess("clusternodegroup_crvserver_binding", "Add cluster configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -Type clusternodegroup_crvserver_binding -Payload $Payload -GetWarning
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -NitroPath nitro/v1/config -Type clusternodegroup_crvserver_binding -Payload $Payload -GetWarning
                 #HTTP Status Code on Success: 201 Created
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 if ($PSBoundParameters.ContainsKey('PassThru')) {
@@ -2471,7 +2471,7 @@ function Invoke-ADCDeleteClusternodegroupcrvserverbinding {
         Invoke-ADCDeleteClusternodegroupcrvserverbinding 
     .NOTES
         File Name : Invoke-ADCDeleteClusternodegroupcrvserverbinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/cluster/clusternodegroup_crvserver_binding/
         Requires  : PowerShell v5.1 and up
@@ -2501,7 +2501,7 @@ function Invoke-ADCDeleteClusternodegroupcrvserverbinding {
             if ($PSBoundParameters.ContainsKey('name')) { $Arguments.Add('name', $name) }
             if ($PSBoundParameters.ContainsKey('vserver')) { $Arguments.Add('vserver', $vserver) }
             if ($PSCmdlet.ShouldProcess("clusternodegroup_crvserver_binding", "Delete cluster configuration Object")) {
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type clusternodegroup_crvserver_binding -Resource $ -Arguments $Arguments
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type clusternodegroup_crvserver_binding -NitroPath nitro/v1/config -Resource $ -Arguments $Arguments
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $response
@@ -2543,7 +2543,7 @@ function Invoke-ADCGetClusternodegroupcrvserverbinding {
         Invoke-ADCGetClusternodegroupcrvserverbinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetClusternodegroupcrvserverbinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/cluster/clusternodegroup_crvserver_binding/
         Requires  : PowerShell v5.1 and up
@@ -2574,21 +2574,21 @@ function Invoke-ADCGetClusternodegroupcrvserverbinding {
                     bulkbindings = 'yes'
                 }
                 Write-Verbose "Retrieving all clusternodegroup_crvserver_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type clusternodegroup_crvserver_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type clusternodegroup_crvserver_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
                 if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for clusternodegroup_crvserver_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type clusternodegroup_crvserver_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type clusternodegroup_crvserver_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving clusternodegroup_crvserver_binding objects by arguments"
                 $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type clusternodegroup_crvserver_binding -Arguments $Arguments -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type clusternodegroup_crvserver_binding -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving clusternodegroup_crvserver_binding configuration for property ''"
 
             } else {
                 Write-Verbose "Retrieving clusternodegroup_crvserver_binding configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type clusternodegroup_crvserver_binding -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type clusternodegroup_crvserver_binding -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -2618,7 +2618,7 @@ function Invoke-ADCAddClusternodegroupcsvserverbinding {
         Invoke-ADCAddClusternodegroupcsvserverbinding -name <string>
     .NOTES
         File Name : Invoke-ADCAddClusternodegroupcsvserverbinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/cluster/clusternodegroup_csvserver_binding/
         Requires  : PowerShell v5.1 and up
@@ -2654,7 +2654,7 @@ function Invoke-ADCAddClusternodegroupcsvserverbinding {
             if ($PSBoundParameters.ContainsKey('vserver')) { $Payload.Add('vserver', $vserver) }
  
             if ($PSCmdlet.ShouldProcess("clusternodegroup_csvserver_binding", "Add cluster configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -Type clusternodegroup_csvserver_binding -Payload $Payload -GetWarning
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -NitroPath nitro/v1/config -Type clusternodegroup_csvserver_binding -Payload $Payload -GetWarning
                 #HTTP Status Code on Success: 201 Created
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 if ($PSBoundParameters.ContainsKey('PassThru')) {
@@ -2688,7 +2688,7 @@ function Invoke-ADCDeleteClusternodegroupcsvserverbinding {
         Invoke-ADCDeleteClusternodegroupcsvserverbinding 
     .NOTES
         File Name : Invoke-ADCDeleteClusternodegroupcsvserverbinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/cluster/clusternodegroup_csvserver_binding/
         Requires  : PowerShell v5.1 and up
@@ -2718,7 +2718,7 @@ function Invoke-ADCDeleteClusternodegroupcsvserverbinding {
             if ($PSBoundParameters.ContainsKey('name')) { $Arguments.Add('name', $name) }
             if ($PSBoundParameters.ContainsKey('vserver')) { $Arguments.Add('vserver', $vserver) }
             if ($PSCmdlet.ShouldProcess("clusternodegroup_csvserver_binding", "Delete cluster configuration Object")) {
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type clusternodegroup_csvserver_binding -Resource $ -Arguments $Arguments
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type clusternodegroup_csvserver_binding -NitroPath nitro/v1/config -Resource $ -Arguments $Arguments
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $response
@@ -2760,7 +2760,7 @@ function Invoke-ADCGetClusternodegroupcsvserverbinding {
         Invoke-ADCGetClusternodegroupcsvserverbinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetClusternodegroupcsvserverbinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/cluster/clusternodegroup_csvserver_binding/
         Requires  : PowerShell v5.1 and up
@@ -2791,21 +2791,21 @@ function Invoke-ADCGetClusternodegroupcsvserverbinding {
                     bulkbindings = 'yes'
                 }
                 Write-Verbose "Retrieving all clusternodegroup_csvserver_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type clusternodegroup_csvserver_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type clusternodegroup_csvserver_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
                 if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for clusternodegroup_csvserver_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type clusternodegroup_csvserver_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type clusternodegroup_csvserver_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving clusternodegroup_csvserver_binding objects by arguments"
                 $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type clusternodegroup_csvserver_binding -Arguments $Arguments -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type clusternodegroup_csvserver_binding -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving clusternodegroup_csvserver_binding configuration for property ''"
 
             } else {
                 Write-Verbose "Retrieving clusternodegroup_csvserver_binding configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type clusternodegroup_csvserver_binding -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type clusternodegroup_csvserver_binding -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -2835,7 +2835,7 @@ function Invoke-ADCAddClusternodegroupgslbsitebinding {
         Invoke-ADCAddClusternodegroupgslbsitebinding -name <string>
     .NOTES
         File Name : Invoke-ADCAddClusternodegroupgslbsitebinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/cluster/clusternodegroup_gslbsite_binding/
         Requires  : PowerShell v5.1 and up
@@ -2871,7 +2871,7 @@ function Invoke-ADCAddClusternodegroupgslbsitebinding {
             if ($PSBoundParameters.ContainsKey('gslbsite')) { $Payload.Add('gslbsite', $gslbsite) }
  
             if ($PSCmdlet.ShouldProcess("clusternodegroup_gslbsite_binding", "Add cluster configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -Type clusternodegroup_gslbsite_binding -Payload $Payload -GetWarning
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -NitroPath nitro/v1/config -Type clusternodegroup_gslbsite_binding -Payload $Payload -GetWarning
                 #HTTP Status Code on Success: 201 Created
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 if ($PSBoundParameters.ContainsKey('PassThru')) {
@@ -2905,7 +2905,7 @@ function Invoke-ADCDeleteClusternodegroupgslbsitebinding {
         Invoke-ADCDeleteClusternodegroupgslbsitebinding 
     .NOTES
         File Name : Invoke-ADCDeleteClusternodegroupgslbsitebinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/cluster/clusternodegroup_gslbsite_binding/
         Requires  : PowerShell v5.1 and up
@@ -2935,7 +2935,7 @@ function Invoke-ADCDeleteClusternodegroupgslbsitebinding {
             if ($PSBoundParameters.ContainsKey('name')) { $Arguments.Add('name', $name) }
             if ($PSBoundParameters.ContainsKey('gslbsite')) { $Arguments.Add('gslbsite', $gslbsite) }
             if ($PSCmdlet.ShouldProcess("clusternodegroup_gslbsite_binding", "Delete cluster configuration Object")) {
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type clusternodegroup_gslbsite_binding -Resource $ -Arguments $Arguments
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type clusternodegroup_gslbsite_binding -NitroPath nitro/v1/config -Resource $ -Arguments $Arguments
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $response
@@ -2977,7 +2977,7 @@ function Invoke-ADCGetClusternodegroupgslbsitebinding {
         Invoke-ADCGetClusternodegroupgslbsitebinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetClusternodegroupgslbsitebinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/cluster/clusternodegroup_gslbsite_binding/
         Requires  : PowerShell v5.1 and up
@@ -3008,21 +3008,21 @@ function Invoke-ADCGetClusternodegroupgslbsitebinding {
                     bulkbindings = 'yes'
                 }
                 Write-Verbose "Retrieving all clusternodegroup_gslbsite_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type clusternodegroup_gslbsite_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type clusternodegroup_gslbsite_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
                 if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for clusternodegroup_gslbsite_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type clusternodegroup_gslbsite_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type clusternodegroup_gslbsite_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving clusternodegroup_gslbsite_binding objects by arguments"
                 $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type clusternodegroup_gslbsite_binding -Arguments $Arguments -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type clusternodegroup_gslbsite_binding -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving clusternodegroup_gslbsite_binding configuration for property ''"
 
             } else {
                 Write-Verbose "Retrieving clusternodegroup_gslbsite_binding configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type clusternodegroup_gslbsite_binding -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type clusternodegroup_gslbsite_binding -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -3052,7 +3052,7 @@ function Invoke-ADCAddClusternodegroupgslbvserverbinding {
         Invoke-ADCAddClusternodegroupgslbvserverbinding -name <string>
     .NOTES
         File Name : Invoke-ADCAddClusternodegroupgslbvserverbinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/cluster/clusternodegroup_gslbvserver_binding/
         Requires  : PowerShell v5.1 and up
@@ -3088,7 +3088,7 @@ function Invoke-ADCAddClusternodegroupgslbvserverbinding {
             if ($PSBoundParameters.ContainsKey('vserver')) { $Payload.Add('vserver', $vserver) }
  
             if ($PSCmdlet.ShouldProcess("clusternodegroup_gslbvserver_binding", "Add cluster configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -Type clusternodegroup_gslbvserver_binding -Payload $Payload -GetWarning
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -NitroPath nitro/v1/config -Type clusternodegroup_gslbvserver_binding -Payload $Payload -GetWarning
                 #HTTP Status Code on Success: 201 Created
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 if ($PSBoundParameters.ContainsKey('PassThru')) {
@@ -3122,7 +3122,7 @@ function Invoke-ADCDeleteClusternodegroupgslbvserverbinding {
         Invoke-ADCDeleteClusternodegroupgslbvserverbinding 
     .NOTES
         File Name : Invoke-ADCDeleteClusternodegroupgslbvserverbinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/cluster/clusternodegroup_gslbvserver_binding/
         Requires  : PowerShell v5.1 and up
@@ -3152,7 +3152,7 @@ function Invoke-ADCDeleteClusternodegroupgslbvserverbinding {
             if ($PSBoundParameters.ContainsKey('name')) { $Arguments.Add('name', $name) }
             if ($PSBoundParameters.ContainsKey('vserver')) { $Arguments.Add('vserver', $vserver) }
             if ($PSCmdlet.ShouldProcess("clusternodegroup_gslbvserver_binding", "Delete cluster configuration Object")) {
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type clusternodegroup_gslbvserver_binding -Resource $ -Arguments $Arguments
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type clusternodegroup_gslbvserver_binding -NitroPath nitro/v1/config -Resource $ -Arguments $Arguments
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $response
@@ -3194,7 +3194,7 @@ function Invoke-ADCGetClusternodegroupgslbvserverbinding {
         Invoke-ADCGetClusternodegroupgslbvserverbinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetClusternodegroupgslbvserverbinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/cluster/clusternodegroup_gslbvserver_binding/
         Requires  : PowerShell v5.1 and up
@@ -3225,21 +3225,21 @@ function Invoke-ADCGetClusternodegroupgslbvserverbinding {
                     bulkbindings = 'yes'
                 }
                 Write-Verbose "Retrieving all clusternodegroup_gslbvserver_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type clusternodegroup_gslbvserver_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type clusternodegroup_gslbvserver_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
                 if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for clusternodegroup_gslbvserver_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type clusternodegroup_gslbvserver_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type clusternodegroup_gslbvserver_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving clusternodegroup_gslbvserver_binding objects by arguments"
                 $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type clusternodegroup_gslbvserver_binding -Arguments $Arguments -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type clusternodegroup_gslbvserver_binding -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving clusternodegroup_gslbvserver_binding configuration for property ''"
 
             } else {
                 Write-Verbose "Retrieving clusternodegroup_gslbvserver_binding configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type clusternodegroup_gslbvserver_binding -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type clusternodegroup_gslbvserver_binding -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -3269,7 +3269,7 @@ function Invoke-ADCAddClusternodegrouplbvserverbinding {
         Invoke-ADCAddClusternodegrouplbvserverbinding -name <string>
     .NOTES
         File Name : Invoke-ADCAddClusternodegrouplbvserverbinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/cluster/clusternodegroup_lbvserver_binding/
         Requires  : PowerShell v5.1 and up
@@ -3305,7 +3305,7 @@ function Invoke-ADCAddClusternodegrouplbvserverbinding {
             if ($PSBoundParameters.ContainsKey('vserver')) { $Payload.Add('vserver', $vserver) }
  
             if ($PSCmdlet.ShouldProcess("clusternodegroup_lbvserver_binding", "Add cluster configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -Type clusternodegroup_lbvserver_binding -Payload $Payload -GetWarning
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -NitroPath nitro/v1/config -Type clusternodegroup_lbvserver_binding -Payload $Payload -GetWarning
                 #HTTP Status Code on Success: 201 Created
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 if ($PSBoundParameters.ContainsKey('PassThru')) {
@@ -3339,7 +3339,7 @@ function Invoke-ADCDeleteClusternodegrouplbvserverbinding {
         Invoke-ADCDeleteClusternodegrouplbvserverbinding 
     .NOTES
         File Name : Invoke-ADCDeleteClusternodegrouplbvserverbinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/cluster/clusternodegroup_lbvserver_binding/
         Requires  : PowerShell v5.1 and up
@@ -3369,7 +3369,7 @@ function Invoke-ADCDeleteClusternodegrouplbvserverbinding {
             if ($PSBoundParameters.ContainsKey('name')) { $Arguments.Add('name', $name) }
             if ($PSBoundParameters.ContainsKey('vserver')) { $Arguments.Add('vserver', $vserver) }
             if ($PSCmdlet.ShouldProcess("clusternodegroup_lbvserver_binding", "Delete cluster configuration Object")) {
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type clusternodegroup_lbvserver_binding -Resource $ -Arguments $Arguments
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type clusternodegroup_lbvserver_binding -NitroPath nitro/v1/config -Resource $ -Arguments $Arguments
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $response
@@ -3411,7 +3411,7 @@ function Invoke-ADCGetClusternodegrouplbvserverbinding {
         Invoke-ADCGetClusternodegrouplbvserverbinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetClusternodegrouplbvserverbinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/cluster/clusternodegroup_lbvserver_binding/
         Requires  : PowerShell v5.1 and up
@@ -3442,21 +3442,21 @@ function Invoke-ADCGetClusternodegrouplbvserverbinding {
                     bulkbindings = 'yes'
                 }
                 Write-Verbose "Retrieving all clusternodegroup_lbvserver_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type clusternodegroup_lbvserver_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type clusternodegroup_lbvserver_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
                 if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for clusternodegroup_lbvserver_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type clusternodegroup_lbvserver_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type clusternodegroup_lbvserver_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving clusternodegroup_lbvserver_binding objects by arguments"
                 $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type clusternodegroup_lbvserver_binding -Arguments $Arguments -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type clusternodegroup_lbvserver_binding -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving clusternodegroup_lbvserver_binding configuration for property ''"
 
             } else {
                 Write-Verbose "Retrieving clusternodegroup_lbvserver_binding configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type clusternodegroup_lbvserver_binding -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type clusternodegroup_lbvserver_binding -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -3486,7 +3486,7 @@ function Invoke-ADCAddClusternodegroupnslimitidentifierbinding {
         Invoke-ADCAddClusternodegroupnslimitidentifierbinding -name <string>
     .NOTES
         File Name : Invoke-ADCAddClusternodegroupnslimitidentifierbinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/cluster/clusternodegroup_nslimitidentifier_binding/
         Requires  : PowerShell v5.1 and up
@@ -3522,7 +3522,7 @@ function Invoke-ADCAddClusternodegroupnslimitidentifierbinding {
             if ($PSBoundParameters.ContainsKey('identifiername')) { $Payload.Add('identifiername', $identifiername) }
  
             if ($PSCmdlet.ShouldProcess("clusternodegroup_nslimitidentifier_binding", "Add cluster configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -Type clusternodegroup_nslimitidentifier_binding -Payload $Payload -GetWarning
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -NitroPath nitro/v1/config -Type clusternodegroup_nslimitidentifier_binding -Payload $Payload -GetWarning
                 #HTTP Status Code on Success: 201 Created
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 if ($PSBoundParameters.ContainsKey('PassThru')) {
@@ -3556,7 +3556,7 @@ function Invoke-ADCDeleteClusternodegroupnslimitidentifierbinding {
         Invoke-ADCDeleteClusternodegroupnslimitidentifierbinding -name <string>
     .NOTES
         File Name : Invoke-ADCDeleteClusternodegroupnslimitidentifierbinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/cluster/clusternodegroup_nslimitidentifier_binding/
         Requires  : PowerShell v5.1 and up
@@ -3586,7 +3586,7 @@ function Invoke-ADCDeleteClusternodegroupnslimitidentifierbinding {
             }
             if ($PSBoundParameters.ContainsKey('identifiername')) { $Arguments.Add('identifiername', $identifiername) }
             if ($PSCmdlet.ShouldProcess("$name", "Delete cluster configuration Object")) {
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type clusternodegroup_nslimitidentifier_binding -Resource $name -Arguments $Arguments
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type clusternodegroup_nslimitidentifier_binding -NitroPath nitro/v1/config -Resource $name -Arguments $Arguments
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $response
@@ -3630,7 +3630,7 @@ function Invoke-ADCGetClusternodegroupnslimitidentifierbinding {
         Invoke-ADCGetClusternodegroupnslimitidentifierbinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetClusternodegroupnslimitidentifierbinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/cluster/clusternodegroup_nslimitidentifier_binding/
         Requires  : PowerShell v5.1 and up
@@ -3668,21 +3668,21 @@ function Invoke-ADCGetClusternodegroupnslimitidentifierbinding {
                     bulkbindings = 'yes'
                 }
                 Write-Verbose "Retrieving all clusternodegroup_nslimitidentifier_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type clusternodegroup_nslimitidentifier_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type clusternodegroup_nslimitidentifier_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
                 if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for clusternodegroup_nslimitidentifier_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type clusternodegroup_nslimitidentifier_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type clusternodegroup_nslimitidentifier_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving clusternodegroup_nslimitidentifier_binding objects by arguments"
                 $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type clusternodegroup_nslimitidentifier_binding -Arguments $Arguments -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type clusternodegroup_nslimitidentifier_binding -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving clusternodegroup_nslimitidentifier_binding configuration for property 'name'"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type clusternodegroup_nslimitidentifier_binding -Resource $name -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type clusternodegroup_nslimitidentifier_binding -NitroPath nitro/v1/config -Resource $name -Summary:$ViewSummary -Filter $Filter -GetWarning
             } else {
                 Write-Verbose "Retrieving clusternodegroup_nslimitidentifier_binding configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type clusternodegroup_nslimitidentifier_binding -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type clusternodegroup_nslimitidentifier_binding -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -3712,7 +3712,7 @@ function Invoke-ADCAddClusternodegroupservicebinding {
         Invoke-ADCAddClusternodegroupservicebinding -name <string>
     .NOTES
         File Name : Invoke-ADCAddClusternodegroupservicebinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/cluster/clusternodegroup_service_binding/
         Requires  : PowerShell v5.1 and up
@@ -3748,7 +3748,7 @@ function Invoke-ADCAddClusternodegroupservicebinding {
             if ($PSBoundParameters.ContainsKey('service')) { $Payload.Add('service', $service) }
  
             if ($PSCmdlet.ShouldProcess("clusternodegroup_service_binding", "Add cluster configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -Type clusternodegroup_service_binding -Payload $Payload -GetWarning
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -NitroPath nitro/v1/config -Type clusternodegroup_service_binding -Payload $Payload -GetWarning
                 #HTTP Status Code on Success: 201 Created
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 if ($PSBoundParameters.ContainsKey('PassThru')) {
@@ -3782,7 +3782,7 @@ function Invoke-ADCDeleteClusternodegroupservicebinding {
         Invoke-ADCDeleteClusternodegroupservicebinding 
     .NOTES
         File Name : Invoke-ADCDeleteClusternodegroupservicebinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/cluster/clusternodegroup_service_binding/
         Requires  : PowerShell v5.1 and up
@@ -3812,7 +3812,7 @@ function Invoke-ADCDeleteClusternodegroupservicebinding {
             if ($PSBoundParameters.ContainsKey('name')) { $Arguments.Add('name', $name) }
             if ($PSBoundParameters.ContainsKey('service')) { $Arguments.Add('service', $service) }
             if ($PSCmdlet.ShouldProcess("clusternodegroup_service_binding", "Delete cluster configuration Object")) {
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type clusternodegroup_service_binding -Resource $ -Arguments $Arguments
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type clusternodegroup_service_binding -NitroPath nitro/v1/config -Resource $ -Arguments $Arguments
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $response
@@ -3854,7 +3854,7 @@ function Invoke-ADCGetClusternodegroupservicebinding {
         Invoke-ADCGetClusternodegroupservicebinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetClusternodegroupservicebinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/cluster/clusternodegroup_service_binding/
         Requires  : PowerShell v5.1 and up
@@ -3885,21 +3885,21 @@ function Invoke-ADCGetClusternodegroupservicebinding {
                     bulkbindings = 'yes'
                 }
                 Write-Verbose "Retrieving all clusternodegroup_service_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type clusternodegroup_service_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type clusternodegroup_service_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
                 if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for clusternodegroup_service_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type clusternodegroup_service_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type clusternodegroup_service_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving clusternodegroup_service_binding objects by arguments"
                 $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type clusternodegroup_service_binding -Arguments $Arguments -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type clusternodegroup_service_binding -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving clusternodegroup_service_binding configuration for property ''"
 
             } else {
                 Write-Verbose "Retrieving clusternodegroup_service_binding configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type clusternodegroup_service_binding -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type clusternodegroup_service_binding -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -3929,7 +3929,7 @@ function Invoke-ADCAddClusternodegroupstreamidentifierbinding {
         Invoke-ADCAddClusternodegroupstreamidentifierbinding -name <string>
     .NOTES
         File Name : Invoke-ADCAddClusternodegroupstreamidentifierbinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/cluster/clusternodegroup_streamidentifier_binding/
         Requires  : PowerShell v5.1 and up
@@ -3965,7 +3965,7 @@ function Invoke-ADCAddClusternodegroupstreamidentifierbinding {
             if ($PSBoundParameters.ContainsKey('identifiername')) { $Payload.Add('identifiername', $identifiername) }
  
             if ($PSCmdlet.ShouldProcess("clusternodegroup_streamidentifier_binding", "Add cluster configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -Type clusternodegroup_streamidentifier_binding -Payload $Payload -GetWarning
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -NitroPath nitro/v1/config -Type clusternodegroup_streamidentifier_binding -Payload $Payload -GetWarning
                 #HTTP Status Code on Success: 201 Created
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 if ($PSBoundParameters.ContainsKey('PassThru')) {
@@ -3999,7 +3999,7 @@ function Invoke-ADCDeleteClusternodegroupstreamidentifierbinding {
         Invoke-ADCDeleteClusternodegroupstreamidentifierbinding -name <string>
     .NOTES
         File Name : Invoke-ADCDeleteClusternodegroupstreamidentifierbinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/cluster/clusternodegroup_streamidentifier_binding/
         Requires  : PowerShell v5.1 and up
@@ -4029,7 +4029,7 @@ function Invoke-ADCDeleteClusternodegroupstreamidentifierbinding {
             }
             if ($PSBoundParameters.ContainsKey('identifiername')) { $Arguments.Add('identifiername', $identifiername) }
             if ($PSCmdlet.ShouldProcess("$name", "Delete cluster configuration Object")) {
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type clusternodegroup_streamidentifier_binding -Resource $name -Arguments $Arguments
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type clusternodegroup_streamidentifier_binding -NitroPath nitro/v1/config -Resource $name -Arguments $Arguments
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $response
@@ -4073,7 +4073,7 @@ function Invoke-ADCGetClusternodegroupstreamidentifierbinding {
         Invoke-ADCGetClusternodegroupstreamidentifierbinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetClusternodegroupstreamidentifierbinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/cluster/clusternodegroup_streamidentifier_binding/
         Requires  : PowerShell v5.1 and up
@@ -4111,21 +4111,21 @@ function Invoke-ADCGetClusternodegroupstreamidentifierbinding {
                     bulkbindings = 'yes'
                 }
                 Write-Verbose "Retrieving all clusternodegroup_streamidentifier_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type clusternodegroup_streamidentifier_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type clusternodegroup_streamidentifier_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
                 if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for clusternodegroup_streamidentifier_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type clusternodegroup_streamidentifier_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type clusternodegroup_streamidentifier_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving clusternodegroup_streamidentifier_binding objects by arguments"
                 $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type clusternodegroup_streamidentifier_binding -Arguments $Arguments -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type clusternodegroup_streamidentifier_binding -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving clusternodegroup_streamidentifier_binding configuration for property 'name'"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type clusternodegroup_streamidentifier_binding -Resource $name -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type clusternodegroup_streamidentifier_binding -NitroPath nitro/v1/config -Resource $name -Summary:$ViewSummary -Filter $Filter -GetWarning
             } else {
                 Write-Verbose "Retrieving clusternodegroup_streamidentifier_binding configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type clusternodegroup_streamidentifier_binding -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type clusternodegroup_streamidentifier_binding -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -4155,7 +4155,7 @@ function Invoke-ADCAddClusternodegroupvpnvserverbinding {
         Invoke-ADCAddClusternodegroupvpnvserverbinding -name <string>
     .NOTES
         File Name : Invoke-ADCAddClusternodegroupvpnvserverbinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/cluster/clusternodegroup_vpnvserver_binding/
         Requires  : PowerShell v5.1 and up
@@ -4191,7 +4191,7 @@ function Invoke-ADCAddClusternodegroupvpnvserverbinding {
             if ($PSBoundParameters.ContainsKey('vserver')) { $Payload.Add('vserver', $vserver) }
  
             if ($PSCmdlet.ShouldProcess("clusternodegroup_vpnvserver_binding", "Add cluster configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -Type clusternodegroup_vpnvserver_binding -Payload $Payload -GetWarning
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -NitroPath nitro/v1/config -Type clusternodegroup_vpnvserver_binding -Payload $Payload -GetWarning
                 #HTTP Status Code on Success: 201 Created
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 if ($PSBoundParameters.ContainsKey('PassThru')) {
@@ -4225,7 +4225,7 @@ function Invoke-ADCDeleteClusternodegroupvpnvserverbinding {
         Invoke-ADCDeleteClusternodegroupvpnvserverbinding 
     .NOTES
         File Name : Invoke-ADCDeleteClusternodegroupvpnvserverbinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/cluster/clusternodegroup_vpnvserver_binding/
         Requires  : PowerShell v5.1 and up
@@ -4255,7 +4255,7 @@ function Invoke-ADCDeleteClusternodegroupvpnvserverbinding {
             if ($PSBoundParameters.ContainsKey('name')) { $Arguments.Add('name', $name) }
             if ($PSBoundParameters.ContainsKey('vserver')) { $Arguments.Add('vserver', $vserver) }
             if ($PSCmdlet.ShouldProcess("clusternodegroup_vpnvserver_binding", "Delete cluster configuration Object")) {
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type clusternodegroup_vpnvserver_binding -Resource $ -Arguments $Arguments
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type clusternodegroup_vpnvserver_binding -NitroPath nitro/v1/config -Resource $ -Arguments $Arguments
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $response
@@ -4297,7 +4297,7 @@ function Invoke-ADCGetClusternodegroupvpnvserverbinding {
         Invoke-ADCGetClusternodegroupvpnvserverbinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetClusternodegroupvpnvserverbinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/cluster/clusternodegroup_vpnvserver_binding/
         Requires  : PowerShell v5.1 and up
@@ -4328,21 +4328,21 @@ function Invoke-ADCGetClusternodegroupvpnvserverbinding {
                     bulkbindings = 'yes'
                 }
                 Write-Verbose "Retrieving all clusternodegroup_vpnvserver_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type clusternodegroup_vpnvserver_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type clusternodegroup_vpnvserver_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
                 if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for clusternodegroup_vpnvserver_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type clusternodegroup_vpnvserver_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type clusternodegroup_vpnvserver_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving clusternodegroup_vpnvserver_binding objects by arguments"
                 $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type clusternodegroup_vpnvserver_binding -Arguments $Arguments -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type clusternodegroup_vpnvserver_binding -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving clusternodegroup_vpnvserver_binding configuration for property ''"
 
             } else {
                 Write-Verbose "Retrieving clusternodegroup_vpnvserver_binding configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type clusternodegroup_vpnvserver_binding -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type clusternodegroup_vpnvserver_binding -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -4382,7 +4382,7 @@ function Invoke-ADCGetClusternodebinding {
         Invoke-ADCGetClusternodebinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetClusternodebinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/cluster/clusternode_binding/
         Requires  : PowerShell v5.1 and up
@@ -4417,21 +4417,21 @@ function Invoke-ADCGetClusternodebinding {
                     bulkbindings = 'yes'
                 }
                 Write-Verbose "Retrieving all clusternode_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type clusternode_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type clusternode_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
                 if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for clusternode_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type clusternode_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type clusternode_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving clusternode_binding objects by arguments"
                 $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type clusternode_binding -Arguments $Arguments -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type clusternode_binding -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving clusternode_binding configuration for property 'nodeid'"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type clusternode_binding -Resource $nodeid -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type clusternode_binding -NitroPath nitro/v1/config -Resource $nodeid -Summary:$ViewSummary -Filter $Filter -GetWarning
             } else {
                 Write-Verbose "Retrieving clusternode_binding configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type clusternode_binding -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type clusternode_binding -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -4464,7 +4464,7 @@ function Invoke-ADCAddClusternoderoutemonitorbinding {
         Invoke-ADCAddClusternoderoutemonitorbinding -nodeid <double> -routemonitor <string>
     .NOTES
         File Name : Invoke-ADCAddClusternoderoutemonitorbinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/cluster/clusternode_routemonitor_binding/
         Requires  : PowerShell v5.1 and up
@@ -4504,7 +4504,7 @@ function Invoke-ADCAddClusternoderoutemonitorbinding {
             if ($PSBoundParameters.ContainsKey('netmask')) { $Payload.Add('netmask', $netmask) }
  
             if ($PSCmdlet.ShouldProcess("clusternode_routemonitor_binding", "Add cluster configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -Type clusternode_routemonitor_binding -Payload $Payload -GetWarning
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -NitroPath nitro/v1/config -Type clusternode_routemonitor_binding -Payload $Payload -GetWarning
                 #HTTP Status Code on Success: 201 Created
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 if ($PSBoundParameters.ContainsKey('PassThru')) {
@@ -4540,7 +4540,7 @@ function Invoke-ADCDeleteClusternoderoutemonitorbinding {
         Invoke-ADCDeleteClusternoderoutemonitorbinding -nodeid <double>
     .NOTES
         File Name : Invoke-ADCDeleteClusternoderoutemonitorbinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/cluster/clusternode_routemonitor_binding/
         Requires  : PowerShell v5.1 and up
@@ -4573,7 +4573,7 @@ function Invoke-ADCDeleteClusternoderoutemonitorbinding {
             if ($PSBoundParameters.ContainsKey('routemonitor')) { $Arguments.Add('routemonitor', $routemonitor) }
             if ($PSBoundParameters.ContainsKey('netmask')) { $Arguments.Add('netmask', $netmask) }
             if ($PSCmdlet.ShouldProcess("$nodeid", "Delete cluster configuration Object")) {
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type clusternode_routemonitor_binding -Resource $nodeid -Arguments $Arguments
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type clusternode_routemonitor_binding -NitroPath nitro/v1/config -Resource $nodeid -Arguments $Arguments
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $response
@@ -4617,7 +4617,7 @@ function Invoke-ADCGetClusternoderoutemonitorbinding {
         Invoke-ADCGetClusternoderoutemonitorbinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetClusternoderoutemonitorbinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/cluster/clusternode_routemonitor_binding/
         Requires  : PowerShell v5.1 and up
@@ -4655,21 +4655,21 @@ function Invoke-ADCGetClusternoderoutemonitorbinding {
                     bulkbindings = 'yes'
                 }
                 Write-Verbose "Retrieving all clusternode_routemonitor_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type clusternode_routemonitor_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type clusternode_routemonitor_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
                 if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for clusternode_routemonitor_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type clusternode_routemonitor_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type clusternode_routemonitor_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving clusternode_routemonitor_binding objects by arguments"
                 $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type clusternode_routemonitor_binding -Arguments $Arguments -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type clusternode_routemonitor_binding -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving clusternode_routemonitor_binding configuration for property 'nodeid'"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type clusternode_routemonitor_binding -Resource $nodeid -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type clusternode_routemonitor_binding -NitroPath nitro/v1/config -Resource $nodeid -Summary:$ViewSummary -Filter $Filter -GetWarning
             } else {
                 Write-Verbose "Retrieving clusternode_routemonitor_binding configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type clusternode_routemonitor_binding -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type clusternode_routemonitor_binding -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -4692,7 +4692,7 @@ function Invoke-ADCClearClusterpropstatus {
         Invoke-ADCClearClusterpropstatus 
     .NOTES
         File Name : Invoke-ADCClearClusterpropstatus
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/cluster/clusterpropstatus/
         Requires  : PowerShell v5.1 and up
@@ -4719,7 +4719,7 @@ function Invoke-ADCClearClusterpropstatus {
             }
 
             if ($PSCmdlet.ShouldProcess($Name, "Clear cluster configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -Type clusterpropstatus -Action clear -Payload $Payload -GetWarning
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -NitroPath nitro/v1/config -Type clusterpropstatus -Action clear -Payload $Payload -GetWarning
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $result
@@ -4763,7 +4763,7 @@ function Invoke-ADCGetClusterpropstatus {
         Invoke-ADCGetClusterpropstatus -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetClusterpropstatus
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/cluster/clusterpropstatus/
         Requires  : PowerShell v5.1 and up
@@ -4803,22 +4803,22 @@ function Invoke-ADCGetClusterpropstatus {
             if ( $PsCmdlet.ParameterSetName -eq 'Getall' ) {
                 $Query = @{ }
                 Write-Verbose "Retrieving all clusterpropstatus objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type clusterpropstatus -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type clusterpropstatus -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
                 if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for clusterpropstatus objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type clusterpropstatus -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type clusterpropstatus -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving clusterpropstatus objects by arguments"
                 $Arguments = @{ } 
                 if ($PSBoundParameters.ContainsKey('nodeid')) { $Arguments.Add('nodeid', $nodeid) }
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type clusterpropstatus -Arguments $Arguments -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type clusterpropstatus -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving clusterpropstatus configuration for property ''"
 
             } else {
                 Write-Verbose "Retrieving clusterpropstatus configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type clusterpropstatus -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type clusterpropstatus -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -4841,7 +4841,7 @@ function Invoke-ADCForceClustersync {
         Invoke-ADCForceClustersync 
     .NOTES
         File Name : Invoke-ADCForceClustersync
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/cluster/clustersync/
         Requires  : PowerShell v5.1 and up
@@ -4868,7 +4868,7 @@ function Invoke-ADCForceClustersync {
             }
 
             if ($PSCmdlet.ShouldProcess($Name, "Force cluster configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -Type clustersync -Action force -Payload $Payload -GetWarning
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -NitroPath nitro/v1/config -Type clustersync -Action force -Payload $Payload -GetWarning
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $result

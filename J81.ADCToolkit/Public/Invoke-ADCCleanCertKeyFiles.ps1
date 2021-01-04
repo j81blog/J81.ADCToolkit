@@ -28,7 +28,7 @@ function Invoke-ADCCleanCertKeyFiles {
         Invoke-ADCCleanCertKeyFiles @Params
     .NOTES
         File Name : Invoke-ADCCleanCertKeyFiles.ps1
-        Version   : v2101.0121
+        Version   : v2101.0322
         Author    : John Billekens
         Requires  : PowerShell v5.1 and up
                     ADC 11.x and up

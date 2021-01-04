@@ -13,7 +13,7 @@ function Invoke-ADCUpdateReputationsettings {
         Invoke-ADCUpdateReputationsettings 
     .NOTES
         File Name : Invoke-ADCUpdateReputationsettings
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/reputation/reputationsettings/
         Requires  : PowerShell v5.1 and up
@@ -47,7 +47,7 @@ function Invoke-ADCUpdateReputationsettings {
             if ($PSBoundParameters.ContainsKey('proxyport')) { $Payload.Add('proxyport', $proxyport) }
  
             if ($PSCmdlet.ShouldProcess("reputationsettings", "Update Reputation configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -Type reputationsettings -Payload $Payload -GetWarning
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -NitroPath nitro/v1/config -Type reputationsettings -Payload $Payload -GetWarning
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
             Write-Output $result
@@ -77,7 +77,7 @@ function Invoke-ADCUnsetReputationsettings {
         Invoke-ADCUnsetReputationsettings 
     .NOTES
         File Name : Invoke-ADCUnsetReputationsettings
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/reputation/reputationsettings
         Requires  : PowerShell v5.1 and up
@@ -108,7 +108,7 @@ function Invoke-ADCUnsetReputationsettings {
             if ($PSBoundParameters.ContainsKey('proxyserver')) { $Payload.Add('proxyserver', $proxyserver) }
             if ($PSBoundParameters.ContainsKey('proxyport')) { $Payload.Add('proxyport', $proxyport) }
             if ($PSCmdlet.ShouldProcess("reputationsettings", "Unset Reputation configuration Object")) {
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -Type reputationsettings -Action unset -Payload $Payload -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -Type reputationsettings -NitroPath nitro/v1/config -Action unset -Payload $Payload -GetWarning
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $response
@@ -148,7 +148,7 @@ function Invoke-ADCGetReputationsettings {
         Invoke-ADCGetReputationsettings -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetReputationsettings
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/reputation/reputationsettings/
         Requires  : PowerShell v5.1 and up
@@ -177,21 +177,21 @@ function Invoke-ADCGetReputationsettings {
             if ( $PsCmdlet.ParameterSetName -eq 'Getall' ) {
                 $Query = @{ }
                 Write-Verbose "Retrieving all reputationsettings objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type reputationsettings -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type reputationsettings -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
                 if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for reputationsettings objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type reputationsettings -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type reputationsettings -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving reputationsettings objects by arguments"
                 $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type reputationsettings -Arguments $Arguments -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type reputationsettings -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving reputationsettings configuration for property ''"
 
             } else {
                 Write-Verbose "Retrieving reputationsettings configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type reputationsettings -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type reputationsettings -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"

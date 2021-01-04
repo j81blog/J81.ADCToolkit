@@ -35,7 +35,7 @@ function Invoke-ADCUpdateSmppparam {
         Invoke-ADCUpdateSmppparam 
     .NOTES
         File Name : Invoke-ADCUpdateSmppparam
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/smpp/smppparam/
         Requires  : PowerShell v5.1 and up
@@ -84,7 +84,7 @@ function Invoke-ADCUpdateSmppparam {
             if ($PSBoundParameters.ContainsKey('addrrange')) { $Payload.Add('addrrange', $addrrange) }
  
             if ($PSCmdlet.ShouldProcess("smppparam", "Update Smpp configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -Type smppparam -Payload $Payload -GetWarning
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -NitroPath nitro/v1/config -Type smppparam -Payload $Payload -GetWarning
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
             Write-Output $result
@@ -127,7 +127,7 @@ function Invoke-ADCUnsetSmppparam {
         Invoke-ADCUnsetSmppparam 
     .NOTES
         File Name : Invoke-ADCUnsetSmppparam
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/smpp/smppparam
         Requires  : PowerShell v5.1 and up
@@ -170,7 +170,7 @@ function Invoke-ADCUnsetSmppparam {
             if ($PSBoundParameters.ContainsKey('addrnpi')) { $Payload.Add('addrnpi', $addrnpi) }
             if ($PSBoundParameters.ContainsKey('addrrange')) { $Payload.Add('addrrange', $addrrange) }
             if ($PSCmdlet.ShouldProcess("smppparam", "Unset Smpp configuration Object")) {
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -Type smppparam -Action unset -Payload $Payload -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -Type smppparam -NitroPath nitro/v1/config -Action unset -Payload $Payload -GetWarning
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $response
@@ -210,7 +210,7 @@ function Invoke-ADCGetSmppparam {
         Invoke-ADCGetSmppparam -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetSmppparam
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/smpp/smppparam/
         Requires  : PowerShell v5.1 and up
@@ -239,21 +239,21 @@ function Invoke-ADCGetSmppparam {
             if ( $PsCmdlet.ParameterSetName -eq 'Getall' ) {
                 $Query = @{ }
                 Write-Verbose "Retrieving all smppparam objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type smppparam -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type smppparam -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
                 if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for smppparam objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type smppparam -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type smppparam -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving smppparam objects by arguments"
                 $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type smppparam -Arguments $Arguments -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type smppparam -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving smppparam configuration for property ''"
 
             } else {
                 Write-Verbose "Retrieving smppparam configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type smppparam -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type smppparam -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -284,7 +284,7 @@ function Invoke-ADCAddSmppuser {
         Invoke-ADCAddSmppuser -username <string>
     .NOTES
         File Name : Invoke-ADCAddSmppuser
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/smpp/smppuser/
         Requires  : PowerShell v5.1 and up
@@ -321,7 +321,7 @@ function Invoke-ADCAddSmppuser {
             if ($PSBoundParameters.ContainsKey('password')) { $Payload.Add('password', $password) }
  
             if ($PSCmdlet.ShouldProcess("smppuser", "Add Smpp configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -Type smppuser -Payload $Payload -GetWarning
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -NitroPath nitro/v1/config -Type smppuser -Payload $Payload -GetWarning
                 #HTTP Status Code on Success: 201 Created
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 if ($PSBoundParameters.ContainsKey('PassThru')) {
@@ -354,7 +354,7 @@ function Invoke-ADCDeleteSmppuser {
         Invoke-ADCDeleteSmppuser -username <string>
     .NOTES
         File Name : Invoke-ADCDeleteSmppuser
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/smpp/smppuser/
         Requires  : PowerShell v5.1 and up
@@ -382,7 +382,7 @@ function Invoke-ADCDeleteSmppuser {
             }
 
             if ($PSCmdlet.ShouldProcess("$username", "Delete Smpp configuration Object")) {
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type smppuser -Resource $username -Arguments $Arguments
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type smppuser -NitroPath nitro/v1/config -Resource $username -Arguments $Arguments
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $response
@@ -415,7 +415,7 @@ function Invoke-ADCUpdateSmppuser {
         Invoke-ADCUpdateSmppuser -username <string>
     .NOTES
         File Name : Invoke-ADCUpdateSmppuser
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/smpp/smppuser/
         Requires  : PowerShell v5.1 and up
@@ -452,7 +452,7 @@ function Invoke-ADCUpdateSmppuser {
             if ($PSBoundParameters.ContainsKey('password')) { $Payload.Add('password', $password) }
  
             if ($PSCmdlet.ShouldProcess("smppuser", "Update Smpp configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -Type smppuser -Payload $Payload -GetWarning
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -NitroPath nitro/v1/config -Type smppuser -Payload $Payload -GetWarning
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 if ($PSBoundParameters.ContainsKey('PassThru')) {
@@ -501,7 +501,7 @@ function Invoke-ADCGetSmppuser {
         Invoke-ADCGetSmppuser -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetSmppuser
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/smpp/smppuser/
         Requires  : PowerShell v5.1 and up
@@ -542,21 +542,21 @@ function Invoke-ADCGetSmppuser {
             if ( $PsCmdlet.ParameterSetName -eq 'Getall' ) {
                 $Query = @{ }
                 Write-Verbose "Retrieving all smppuser objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type smppuser -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type smppuser -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
                 if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for smppuser objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type smppuser -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type smppuser -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving smppuser objects by arguments"
                 $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type smppuser -Arguments $Arguments -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type smppuser -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving smppuser configuration for property 'username'"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type smppuser -Resource $username -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type smppuser -NitroPath nitro/v1/config -Resource $username -Summary:$ViewSummary -Filter $Filter -GetWarning
             } else {
                 Write-Verbose "Retrieving smppuser configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type smppuser -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type smppuser -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"

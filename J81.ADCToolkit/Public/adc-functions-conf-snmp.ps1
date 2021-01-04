@@ -35,7 +35,7 @@ function Invoke-ADCUpdateSnmpalarm {
         Invoke-ADCUpdateSnmpalarm -trapname <string>
     .NOTES
         File Name : Invoke-ADCUpdateSnmpalarm
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/snmp/snmpalarm/
         Requires  : PowerShell v5.1 and up
@@ -89,7 +89,7 @@ function Invoke-ADCUpdateSnmpalarm {
             if ($PSBoundParameters.ContainsKey('logging')) { $Payload.Add('logging', $logging) }
  
             if ($PSCmdlet.ShouldProcess("snmpalarm", "Update SNMP configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -Type snmpalarm -Payload $Payload -GetWarning
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -NitroPath nitro/v1/config -Type snmpalarm -Payload $Payload -GetWarning
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 if ($PSBoundParameters.ContainsKey('PassThru')) {
@@ -138,7 +138,7 @@ function Invoke-ADCUnsetSnmpalarm {
         Invoke-ADCUnsetSnmpalarm -trapname <string>
     .NOTES
         File Name : Invoke-ADCUnsetSnmpalarm
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/snmp/snmpalarm
         Requires  : PowerShell v5.1 and up
@@ -185,7 +185,7 @@ function Invoke-ADCUnsetSnmpalarm {
             if ($PSBoundParameters.ContainsKey('severity')) { $Payload.Add('severity', $severity) }
             if ($PSBoundParameters.ContainsKey('logging')) { $Payload.Add('logging', $logging) }
             if ($PSCmdlet.ShouldProcess("$trapname", "Unset SNMP configuration Object")) {
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -Type snmpalarm -Action unset -Payload $Payload -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -Type snmpalarm -NitroPath nitro/v1/config -Action unset -Payload $Payload -GetWarning
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $response
@@ -213,7 +213,7 @@ function Invoke-ADCEnableSnmpalarm {
         Invoke-ADCEnableSnmpalarm -trapname <string>
     .NOTES
         File Name : Invoke-ADCEnableSnmpalarm
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/snmp/snmpalarm/
         Requires  : PowerShell v5.1 and up
@@ -244,7 +244,7 @@ function Invoke-ADCEnableSnmpalarm {
             }
 
             if ($PSCmdlet.ShouldProcess($Name, "Enable SNMP configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -Type snmpalarm -Action enable -Payload $Payload -GetWarning
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -NitroPath nitro/v1/config -Type snmpalarm -Action enable -Payload $Payload -GetWarning
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $result
@@ -272,7 +272,7 @@ function Invoke-ADCDisableSnmpalarm {
         Invoke-ADCDisableSnmpalarm -trapname <string>
     .NOTES
         File Name : Invoke-ADCDisableSnmpalarm
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/snmp/snmpalarm/
         Requires  : PowerShell v5.1 and up
@@ -303,7 +303,7 @@ function Invoke-ADCDisableSnmpalarm {
             }
 
             if ($PSCmdlet.ShouldProcess($Name, "Disable SNMP configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -Type snmpalarm -Action disable -Payload $Payload -GetWarning
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -NitroPath nitro/v1/config -Type snmpalarm -Action disable -Payload $Payload -GetWarning
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $result
@@ -348,7 +348,7 @@ function Invoke-ADCGetSnmpalarm {
         Invoke-ADCGetSnmpalarm -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetSnmpalarm
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/snmp/snmpalarm/
         Requires  : PowerShell v5.1 and up
@@ -389,21 +389,21 @@ function Invoke-ADCGetSnmpalarm {
             if ( $PsCmdlet.ParameterSetName -eq 'Getall' ) {
                 $Query = @{ }
                 Write-Verbose "Retrieving all snmpalarm objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type snmpalarm -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type snmpalarm -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
                 if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for snmpalarm objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type snmpalarm -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type snmpalarm -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving snmpalarm objects by arguments"
                 $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type snmpalarm -Arguments $Arguments -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type snmpalarm -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving snmpalarm configuration for property 'trapname'"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type snmpalarm -Resource $trapname -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type snmpalarm -NitroPath nitro/v1/config -Resource $trapname -Summary:$ViewSummary -Filter $Filter -GetWarning
             } else {
                 Write-Verbose "Retrieving snmpalarm configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type snmpalarm -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type snmpalarm -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -433,7 +433,7 @@ function Invoke-ADCAddSnmpcommunity {
         Invoke-ADCAddSnmpcommunity -communityname <string> -permissions <string>
     .NOTES
         File Name : Invoke-ADCAddSnmpcommunity
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/snmp/snmpcommunity/
         Requires  : PowerShell v5.1 and up
@@ -472,7 +472,7 @@ function Invoke-ADCAddSnmpcommunity {
 
  
             if ($PSCmdlet.ShouldProcess("snmpcommunity", "Add SNMP configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -Type snmpcommunity -Payload $Payload -GetWarning
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -NitroPath nitro/v1/config -Type snmpcommunity -Payload $Payload -GetWarning
                 #HTTP Status Code on Success: 201 Created
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 if ($PSBoundParameters.ContainsKey('PassThru')) {
@@ -504,7 +504,7 @@ function Invoke-ADCDeleteSnmpcommunity {
         Invoke-ADCDeleteSnmpcommunity -communityname <string>
     .NOTES
         File Name : Invoke-ADCDeleteSnmpcommunity
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/snmp/snmpcommunity/
         Requires  : PowerShell v5.1 and up
@@ -532,7 +532,7 @@ function Invoke-ADCDeleteSnmpcommunity {
             }
 
             if ($PSCmdlet.ShouldProcess("$communityname", "Delete SNMP configuration Object")) {
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type snmpcommunity -Resource $communityname -Arguments $Arguments
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type snmpcommunity -NitroPath nitro/v1/config -Resource $communityname -Arguments $Arguments
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $response
@@ -576,7 +576,7 @@ function Invoke-ADCGetSnmpcommunity {
         Invoke-ADCGetSnmpcommunity -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetSnmpcommunity
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/snmp/snmpcommunity/
         Requires  : PowerShell v5.1 and up
@@ -617,21 +617,21 @@ function Invoke-ADCGetSnmpcommunity {
             if ( $PsCmdlet.ParameterSetName -eq 'Getall' ) {
                 $Query = @{ }
                 Write-Verbose "Retrieving all snmpcommunity objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type snmpcommunity -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type snmpcommunity -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
                 if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for snmpcommunity objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type snmpcommunity -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type snmpcommunity -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving snmpcommunity objects by arguments"
                 $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type snmpcommunity -Arguments $Arguments -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type snmpcommunity -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving snmpcommunity configuration for property 'communityname'"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type snmpcommunity -Resource $communityname -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type snmpcommunity -NitroPath nitro/v1/config -Resource $communityname -Summary:$ViewSummary -Filter $Filter -GetWarning
             } else {
                 Write-Verbose "Retrieving snmpcommunity configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type snmpcommunity -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type snmpcommunity -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -665,7 +665,7 @@ function Invoke-ADCUpdateSnmpengineid {
         Invoke-ADCUpdateSnmpengineid -engineid <string>
     .NOTES
         File Name : Invoke-ADCUpdateSnmpengineid
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/snmp/snmpengineid/
         Requires  : PowerShell v5.1 and up
@@ -702,7 +702,7 @@ function Invoke-ADCUpdateSnmpengineid {
             if ($PSBoundParameters.ContainsKey('ownernode')) { $Payload.Add('ownernode', $ownernode) }
  
             if ($PSCmdlet.ShouldProcess("snmpengineid", "Update SNMP configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -Type snmpengineid -Payload $Payload -GetWarning
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -NitroPath nitro/v1/config -Type snmpengineid -Payload $Payload -GetWarning
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 if ($PSBoundParameters.ContainsKey('PassThru')) {
@@ -734,7 +734,7 @@ function Invoke-ADCUnsetSnmpengineid {
         Invoke-ADCUnsetSnmpengineid 
     .NOTES
         File Name : Invoke-ADCUnsetSnmpengineid
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/snmp/snmpengineid
         Requires  : PowerShell v5.1 and up
@@ -762,7 +762,7 @@ function Invoke-ADCUnsetSnmpengineid {
             }
             if ($PSBoundParameters.ContainsKey('ownernode')) { $Payload.Add('ownernode', $ownernode) }
             if ($PSCmdlet.ShouldProcess("snmpengineid", "Unset SNMP configuration Object")) {
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -Type snmpengineid -Action unset -Payload $Payload -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -Type snmpengineid -NitroPath nitro/v1/config -Action unset -Payload $Payload -GetWarning
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $response
@@ -806,7 +806,7 @@ function Invoke-ADCGetSnmpengineid {
         Invoke-ADCGetSnmpengineid -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetSnmpengineid
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/snmp/snmpengineid/
         Requires  : PowerShell v5.1 and up
@@ -847,21 +847,21 @@ function Invoke-ADCGetSnmpengineid {
             if ( $PsCmdlet.ParameterSetName -eq 'Getall' ) {
                 $Query = @{ }
                 Write-Verbose "Retrieving all snmpengineid objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type snmpengineid -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type snmpengineid -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
                 if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for snmpengineid objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type snmpengineid -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type snmpengineid -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving snmpengineid objects by arguments"
                 $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type snmpengineid -Arguments $Arguments -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type snmpengineid -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving snmpengineid configuration for property 'ownernode'"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type snmpengineid -Resource $ownernode -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type snmpengineid -NitroPath nitro/v1/config -Resource $ownernode -Summary:$ViewSummary -Filter $Filter -GetWarning
             } else {
                 Write-Verbose "Retrieving snmpengineid configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type snmpengineid -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type snmpengineid -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -896,7 +896,7 @@ function Invoke-ADCAddSnmpgroup {
         Invoke-ADCAddSnmpgroup -name <string> -securitylevel <string> -readviewname <string>
     .NOTES
         File Name : Invoke-ADCAddSnmpgroup
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/snmp/snmpgroup/
         Requires  : PowerShell v5.1 and up
@@ -938,7 +938,7 @@ function Invoke-ADCAddSnmpgroup {
 
  
             if ($PSCmdlet.ShouldProcess("snmpgroup", "Add SNMP configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -Type snmpgroup -Payload $Payload -GetWarning
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -NitroPath nitro/v1/config -Type snmpgroup -Payload $Payload -GetWarning
                 #HTTP Status Code on Success: 201 Created
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
             Write-Output $result
@@ -972,7 +972,7 @@ function Invoke-ADCDeleteSnmpgroup {
         Invoke-ADCDeleteSnmpgroup -name <string>
     .NOTES
         File Name : Invoke-ADCDeleteSnmpgroup
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/snmp/snmpgroup/
         Requires  : PowerShell v5.1 and up
@@ -1002,7 +1002,7 @@ function Invoke-ADCDeleteSnmpgroup {
             }
             if ($PSBoundParameters.ContainsKey('securitylevel')) { $Arguments.Add('securitylevel', $securitylevel) }
             if ($PSCmdlet.ShouldProcess("$name", "Delete SNMP configuration Object")) {
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type snmpgroup -Resource $name -Arguments $Arguments
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type snmpgroup -NitroPath nitro/v1/config -Resource $name -Arguments $Arguments
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $response
@@ -1039,7 +1039,7 @@ function Invoke-ADCUpdateSnmpgroup {
         Invoke-ADCUpdateSnmpgroup -name <string> -securitylevel <string> -readviewname <string>
     .NOTES
         File Name : Invoke-ADCUpdateSnmpgroup
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/snmp/snmpgroup/
         Requires  : PowerShell v5.1 and up
@@ -1081,7 +1081,7 @@ function Invoke-ADCUpdateSnmpgroup {
 
  
             if ($PSCmdlet.ShouldProcess("snmpgroup", "Update SNMP configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -Type snmpgroup -Payload $Payload -GetWarning
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -NitroPath nitro/v1/config -Type snmpgroup -Payload $Payload -GetWarning
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
             Write-Output $result
@@ -1124,7 +1124,7 @@ function Invoke-ADCGetSnmpgroup {
         Invoke-ADCGetSnmpgroup -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetSnmpgroup
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/snmp/snmpgroup/
         Requires  : PowerShell v5.1 and up
@@ -1160,21 +1160,21 @@ function Invoke-ADCGetSnmpgroup {
             if ( $PsCmdlet.ParameterSetName -eq 'Getall' ) {
                 $Query = @{ }
                 Write-Verbose "Retrieving all snmpgroup objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type snmpgroup -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type snmpgroup -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
                 if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for snmpgroup objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type snmpgroup -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type snmpgroup -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving snmpgroup objects by arguments"
                 $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type snmpgroup -Arguments $Arguments -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type snmpgroup -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving snmpgroup configuration for property ''"
 
             } else {
                 Write-Verbose "Retrieving snmpgroup configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type snmpgroup -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type snmpgroup -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -1208,7 +1208,7 @@ function Invoke-ADCAddSnmpmanager {
         Invoke-ADCAddSnmpmanager -ipaddress <string>
     .NOTES
         File Name : Invoke-ADCAddSnmpmanager
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/snmp/snmpmanager/
         Requires  : PowerShell v5.1 and up
@@ -1246,7 +1246,7 @@ function Invoke-ADCAddSnmpmanager {
             if ($PSBoundParameters.ContainsKey('domainresolveretry')) { $Payload.Add('domainresolveretry', $domainresolveretry) }
  
             if ($PSCmdlet.ShouldProcess("snmpmanager", "Add SNMP configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -Type snmpmanager -Payload $Payload -GetWarning
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -NitroPath nitro/v1/config -Type snmpmanager -Payload $Payload -GetWarning
                 #HTTP Status Code on Success: 201 Created
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
             Write-Output $result
@@ -1278,7 +1278,7 @@ function Invoke-ADCDeleteSnmpmanager {
         Invoke-ADCDeleteSnmpmanager -ipaddress <string>
     .NOTES
         File Name : Invoke-ADCDeleteSnmpmanager
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/snmp/snmpmanager/
         Requires  : PowerShell v5.1 and up
@@ -1308,7 +1308,7 @@ function Invoke-ADCDeleteSnmpmanager {
             }
             if ($PSBoundParameters.ContainsKey('netmask')) { $Arguments.Add('netmask', $netmask) }
             if ($PSCmdlet.ShouldProcess("$ipaddress", "Delete SNMP configuration Object")) {
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type snmpmanager -Resource $ipaddress -Arguments $Arguments
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type snmpmanager -NitroPath nitro/v1/config -Resource $ipaddress -Arguments $Arguments
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $response
@@ -1344,7 +1344,7 @@ function Invoke-ADCUpdateSnmpmanager {
         Invoke-ADCUpdateSnmpmanager -ipaddress <string>
     .NOTES
         File Name : Invoke-ADCUpdateSnmpmanager
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/snmp/snmpmanager/
         Requires  : PowerShell v5.1 and up
@@ -1382,7 +1382,7 @@ function Invoke-ADCUpdateSnmpmanager {
             if ($PSBoundParameters.ContainsKey('domainresolveretry')) { $Payload.Add('domainresolveretry', $domainresolveretry) }
  
             if ($PSCmdlet.ShouldProcess("snmpmanager", "Update SNMP configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -Type snmpmanager -Payload $Payload -GetWarning
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -NitroPath nitro/v1/config -Type snmpmanager -Payload $Payload -GetWarning
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
             Write-Output $result
@@ -1415,7 +1415,7 @@ function Invoke-ADCUnsetSnmpmanager {
         Invoke-ADCUnsetSnmpmanager -ipaddress <string>
     .NOTES
         File Name : Invoke-ADCUnsetSnmpmanager
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/snmp/snmpmanager
         Requires  : PowerShell v5.1 and up
@@ -1450,7 +1450,7 @@ function Invoke-ADCUnsetSnmpmanager {
             if ($PSBoundParameters.ContainsKey('netmask')) { $Payload.Add('netmask', $netmask) }
             if ($PSBoundParameters.ContainsKey('domainresolveretry')) { $Payload.Add('domainresolveretry', $domainresolveretry) }
             if ($PSCmdlet.ShouldProcess("$ipaddress", "Unset SNMP configuration Object")) {
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -Type snmpmanager -Action unset -Payload $Payload -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -Type snmpmanager -NitroPath nitro/v1/config -Action unset -Payload $Payload -GetWarning
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $response
@@ -1492,7 +1492,7 @@ function Invoke-ADCGetSnmpmanager {
         Invoke-ADCGetSnmpmanager -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetSnmpmanager
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/snmp/snmpmanager/
         Requires  : PowerShell v5.1 and up
@@ -1528,21 +1528,21 @@ function Invoke-ADCGetSnmpmanager {
             if ( $PsCmdlet.ParameterSetName -eq 'Getall' ) {
                 $Query = @{ }
                 Write-Verbose "Retrieving all snmpmanager objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type snmpmanager -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type snmpmanager -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
                 if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for snmpmanager objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type snmpmanager -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type snmpmanager -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving snmpmanager objects by arguments"
                 $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type snmpmanager -Arguments $Arguments -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type snmpmanager -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving snmpmanager configuration for property ''"
 
             } else {
                 Write-Verbose "Retrieving snmpmanager configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type snmpmanager -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type snmpmanager -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -1580,7 +1580,7 @@ function Invoke-ADCUpdateSnmpmib {
         Invoke-ADCUpdateSnmpmib 
     .NOTES
         File Name : Invoke-ADCUpdateSnmpmib
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/snmp/snmpmib/
         Requires  : PowerShell v5.1 and up
@@ -1629,7 +1629,7 @@ function Invoke-ADCUpdateSnmpmib {
             if ($PSBoundParameters.ContainsKey('ownernode')) { $Payload.Add('ownernode', $ownernode) }
  
             if ($PSCmdlet.ShouldProcess("snmpmib", "Update SNMP configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -Type snmpmib -Payload $Payload -GetWarning
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -NitroPath nitro/v1/config -Type snmpmib -Payload $Payload -GetWarning
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 if ($PSBoundParameters.ContainsKey('PassThru')) {
@@ -1669,7 +1669,7 @@ function Invoke-ADCUnsetSnmpmib {
         Invoke-ADCUnsetSnmpmib 
     .NOTES
         File Name : Invoke-ADCUnsetSnmpmib
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/snmp/snmpmib
         Requires  : PowerShell v5.1 and up
@@ -1709,7 +1709,7 @@ function Invoke-ADCUnsetSnmpmib {
             if ($PSBoundParameters.ContainsKey('customid')) { $Payload.Add('customid', $customid) }
             if ($PSBoundParameters.ContainsKey('ownernode')) { $Payload.Add('ownernode', $ownernode) }
             if ($PSCmdlet.ShouldProcess("snmpmib", "Unset SNMP configuration Object")) {
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -Type snmpmib -Action unset -Payload $Payload -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -Type snmpmib -NitroPath nitro/v1/config -Action unset -Payload $Payload -GetWarning
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $response
@@ -1753,7 +1753,7 @@ function Invoke-ADCGetSnmpmib {
         Invoke-ADCGetSnmpmib -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetSnmpmib
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/snmp/snmpmib/
         Requires  : PowerShell v5.1 and up
@@ -1794,21 +1794,21 @@ function Invoke-ADCGetSnmpmib {
             if ( $PsCmdlet.ParameterSetName -eq 'Getall' ) {
                 $Query = @{ }
                 Write-Verbose "Retrieving all snmpmib objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type snmpmib -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type snmpmib -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
                 if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for snmpmib objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type snmpmib -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type snmpmib -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving snmpmib objects by arguments"
                 $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type snmpmib -Arguments $Arguments -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type snmpmib -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving snmpmib configuration for property 'ownernode'"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type snmpmib -Resource $ownernode -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type snmpmib -NitroPath nitro/v1/config -Resource $ownernode -Summary:$ViewSummary -Filter $Filter -GetWarning
             } else {
                 Write-Verbose "Retrieving snmpmib configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type snmpmib -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type snmpmib -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -1853,7 +1853,7 @@ function Invoke-ADCGetSnmpoid {
         Invoke-ADCGetSnmpoid -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetSnmpoid
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/snmp/snmpoid/
         Requires  : PowerShell v5.1 and up
@@ -1894,23 +1894,23 @@ function Invoke-ADCGetSnmpoid {
             if ( $PsCmdlet.ParameterSetName -eq 'Getall' ) {
                 $Query = @{ }
                 Write-Verbose "Retrieving all snmpoid objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type snmpoid -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type snmpoid -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
                 if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for snmpoid objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type snmpoid -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type snmpoid -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving snmpoid objects by arguments"
                 $Arguments = @{ } 
                 if ($PSBoundParameters.ContainsKey('entitytype')) { $Arguments.Add('entitytype', $entitytype) } 
                 if ($PSBoundParameters.ContainsKey('name')) { $Arguments.Add('name', $name) }
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type snmpoid -Arguments $Arguments -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type snmpoid -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving snmpoid configuration for property ''"
 
             } else {
                 Write-Verbose "Retrieving snmpoid configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type snmpoid -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type snmpoid -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -1949,7 +1949,7 @@ function Invoke-ADCUpdateSnmpoption {
         Invoke-ADCUpdateSnmpoption 
     .NOTES
         File Name : Invoke-ADCUpdateSnmpoption
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/snmp/snmpoption/
         Requires  : PowerShell v5.1 and up
@@ -1992,7 +1992,7 @@ function Invoke-ADCUpdateSnmpoption {
             if ($PSBoundParameters.ContainsKey('snmptraplogginglevel')) { $Payload.Add('snmptraplogginglevel', $snmptraplogginglevel) }
  
             if ($PSCmdlet.ShouldProcess("snmpoption", "Update SNMP configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -Type snmpoption -Payload $Payload -GetWarning
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -NitroPath nitro/v1/config -Type snmpoption -Payload $Payload -GetWarning
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
             Write-Output $result
@@ -2030,7 +2030,7 @@ function Invoke-ADCUnsetSnmpoption {
         Invoke-ADCUnsetSnmpoption 
     .NOTES
         File Name : Invoke-ADCUnsetSnmpoption
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/snmp/snmpoption
         Requires  : PowerShell v5.1 and up
@@ -2067,7 +2067,7 @@ function Invoke-ADCUnsetSnmpoption {
             if ($PSBoundParameters.ContainsKey('partitionnameintrap')) { $Payload.Add('partitionnameintrap', $partitionnameintrap) }
             if ($PSBoundParameters.ContainsKey('snmptraplogginglevel')) { $Payload.Add('snmptraplogginglevel', $snmptraplogginglevel) }
             if ($PSCmdlet.ShouldProcess("snmpoption", "Unset SNMP configuration Object")) {
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -Type snmpoption -Action unset -Payload $Payload -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -Type snmpoption -NitroPath nitro/v1/config -Action unset -Payload $Payload -GetWarning
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $response
@@ -2107,7 +2107,7 @@ function Invoke-ADCGetSnmpoption {
         Invoke-ADCGetSnmpoption -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetSnmpoption
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/snmp/snmpoption/
         Requires  : PowerShell v5.1 and up
@@ -2136,21 +2136,21 @@ function Invoke-ADCGetSnmpoption {
             if ( $PsCmdlet.ParameterSetName -eq 'Getall' ) {
                 $Query = @{ }
                 Write-Verbose "Retrieving all snmpoption objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type snmpoption -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type snmpoption -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
                 if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for snmpoption objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type snmpoption -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type snmpoption -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving snmpoption objects by arguments"
                 $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type snmpoption -Arguments $Arguments -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type snmpoption -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving snmpoption configuration for property ''"
 
             } else {
                 Write-Verbose "Retrieving snmpoption configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type snmpoption -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type snmpoption -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -2208,7 +2208,7 @@ function Invoke-ADCAddSnmptrap {
         Invoke-ADCAddSnmptrap -trapclass <string> -trapdestination <string>
     .NOTES
         File Name : Invoke-ADCAddSnmptrap
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/snmp/snmptrap/
         Requires  : PowerShell v5.1 and up
@@ -2271,7 +2271,7 @@ function Invoke-ADCAddSnmptrap {
             if ($PSBoundParameters.ContainsKey('allpartitions')) { $Payload.Add('allpartitions', $allpartitions) }
  
             if ($PSCmdlet.ShouldProcess("snmptrap", "Add SNMP configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -Type snmptrap -Payload $Payload -GetWarning
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -NitroPath nitro/v1/config -Type snmptrap -Payload $Payload -GetWarning
                 #HTTP Status Code on Success: 201 Created
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
             Write-Output $result
@@ -2309,7 +2309,7 @@ function Invoke-ADCDeleteSnmptrap {
         Invoke-ADCDeleteSnmptrap -trapclass <string>
     .NOTES
         File Name : Invoke-ADCDeleteSnmptrap
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/snmp/snmptrap/
         Requires  : PowerShell v5.1 and up
@@ -2345,7 +2345,7 @@ function Invoke-ADCDeleteSnmptrap {
             if ($PSBoundParameters.ContainsKey('version')) { $Arguments.Add('version', $version) }
             if ($PSBoundParameters.ContainsKey('td')) { $Arguments.Add('td', $td) }
             if ($PSCmdlet.ShouldProcess("$trapclass", "Delete SNMP configuration Object")) {
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type snmptrap -Resource $trapclass -Arguments $Arguments
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type snmptrap -NitroPath nitro/v1/config -Resource $trapclass -Arguments $Arguments
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $response
@@ -2405,7 +2405,7 @@ function Invoke-ADCUpdateSnmptrap {
         Invoke-ADCUpdateSnmptrap -trapclass <string> -trapdestination <string>
     .NOTES
         File Name : Invoke-ADCUpdateSnmptrap
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/snmp/snmptrap/
         Requires  : PowerShell v5.1 and up
@@ -2468,7 +2468,7 @@ function Invoke-ADCUpdateSnmptrap {
             if ($PSBoundParameters.ContainsKey('allpartitions')) { $Payload.Add('allpartitions', $allpartitions) }
  
             if ($PSCmdlet.ShouldProcess("snmptrap", "Update SNMP configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -Type snmptrap -Payload $Payload -GetWarning
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -NitroPath nitro/v1/config -Type snmptrap -Payload $Payload -GetWarning
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
             Write-Output $result
@@ -2519,7 +2519,7 @@ function Invoke-ADCUnsetSnmptrap {
         Invoke-ADCUnsetSnmptrap -trapclass <string> -trapdestination <string>
     .NOTES
         File Name : Invoke-ADCUnsetSnmptrap
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/snmp/snmptrap
         Requires  : PowerShell v5.1 and up
@@ -2574,7 +2574,7 @@ function Invoke-ADCUnsetSnmptrap {
             if ($PSBoundParameters.ContainsKey('severity')) { $Payload.Add('severity', $severity) }
             if ($PSBoundParameters.ContainsKey('allpartitions')) { $Payload.Add('allpartitions', $allpartitions) }
             if ($PSCmdlet.ShouldProcess("$trapclass trapdestination", "Unset SNMP configuration Object")) {
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -Type snmptrap -Action unset -Payload $Payload -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -Type snmptrap -NitroPath nitro/v1/config -Action unset -Payload $Payload -GetWarning
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $response
@@ -2616,7 +2616,7 @@ function Invoke-ADCGetSnmptrap {
         Invoke-ADCGetSnmptrap -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetSnmptrap
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/snmp/snmptrap/
         Requires  : PowerShell v5.1 and up
@@ -2652,21 +2652,21 @@ function Invoke-ADCGetSnmptrap {
             if ( $PsCmdlet.ParameterSetName -eq 'Getall' ) {
                 $Query = @{ }
                 Write-Verbose "Retrieving all snmptrap objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type snmptrap -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type snmptrap -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
                 if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for snmptrap objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type snmptrap -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type snmptrap -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving snmptrap objects by arguments"
                 $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type snmptrap -Arguments $Arguments -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type snmptrap -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving snmptrap configuration for property ''"
 
             } else {
                 Write-Verbose "Retrieving snmptrap configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type snmptrap -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type snmptrap -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -2714,7 +2714,7 @@ function Invoke-ADCGetSnmptrapbinding {
         Invoke-ADCGetSnmptrapbinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetSnmptrapbinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/snmp/snmptrap_binding/
         Requires  : PowerShell v5.1 and up
@@ -2761,11 +2761,11 @@ function Invoke-ADCGetSnmptrapbinding {
                     bulkbindings = 'yes'
                 }
                 Write-Verbose "Retrieving all snmptrap_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type snmptrap_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type snmptrap_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
                 if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for snmptrap_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type snmptrap_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type snmptrap_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving snmptrap_binding objects by arguments"
                 $Arguments = @{ } 
@@ -2773,13 +2773,13 @@ function Invoke-ADCGetSnmptrapbinding {
                 if ($PSBoundParameters.ContainsKey('version')) { $Arguments.Add('version', $version) } 
                 if ($PSBoundParameters.ContainsKey('td')) { $Arguments.Add('td', $td) } 
                 if ($PSBoundParameters.ContainsKey('trapclass')) { $Arguments.Add('trapclass', $trapclass) }
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type snmptrap_binding -Arguments $Arguments -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type snmptrap_binding -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving snmptrap_binding configuration for property ''"
 
             } else {
                 Write-Verbose "Retrieving snmptrap_binding configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type snmptrap_binding -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type snmptrap_binding -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -2824,7 +2824,7 @@ function Invoke-ADCAddSnmptrapsnmpuserbinding {
         Invoke-ADCAddSnmptrapsnmpuserbinding -trapclass <string> -trapdestination <string> -username <string>
     .NOTES
         File Name : Invoke-ADCAddSnmptrapsnmpuserbinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/snmp/snmptrap_snmpuser_binding/
         Requires  : PowerShell v5.1 and up
@@ -2878,7 +2878,7 @@ function Invoke-ADCAddSnmptrapsnmpuserbinding {
             if ($PSBoundParameters.ContainsKey('securitylevel')) { $Payload.Add('securitylevel', $securitylevel) }
  
             if ($PSCmdlet.ShouldProcess("snmptrap_snmpuser_binding", "Add SNMP configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -Type snmptrap_snmpuser_binding -Payload $Payload -GetWarning
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -NitroPath nitro/v1/config -Type snmptrap_snmpuser_binding -Payload $Payload -GetWarning
                 #HTTP Status Code on Success: 201 Created
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 if ($PSBoundParameters.ContainsKey('PassThru')) {
@@ -2920,7 +2920,7 @@ function Invoke-ADCDeleteSnmptrapsnmpuserbinding {
         Invoke-ADCDeleteSnmptrapsnmpuserbinding -trapclass <string>
     .NOTES
         File Name : Invoke-ADCDeleteSnmptrapsnmpuserbinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/snmp/snmptrap_snmpuser_binding/
         Requires  : PowerShell v5.1 and up
@@ -2959,7 +2959,7 @@ function Invoke-ADCDeleteSnmptrapsnmpuserbinding {
             if ($PSBoundParameters.ContainsKey('version')) { $Arguments.Add('version', $version) }
             if ($PSBoundParameters.ContainsKey('username')) { $Arguments.Add('username', $username) }
             if ($PSCmdlet.ShouldProcess("$trapclass", "Delete SNMP configuration Object")) {
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type snmptrap_snmpuser_binding -Resource $trapclass -Arguments $Arguments
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type snmptrap_snmpuser_binding -NitroPath nitro/v1/config -Resource $trapclass -Arguments $Arguments
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $response
@@ -3011,7 +3011,7 @@ function Invoke-ADCGetSnmptrapsnmpuserbinding {
         Invoke-ADCGetSnmptrapsnmpuserbinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetSnmptrapsnmpuserbinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/snmp/snmptrap_snmpuser_binding/
         Requires  : PowerShell v5.1 and up
@@ -3058,11 +3058,11 @@ function Invoke-ADCGetSnmptrapsnmpuserbinding {
                     bulkbindings = 'yes'
                 }
                 Write-Verbose "Retrieving all snmptrap_snmpuser_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type snmptrap_snmpuser_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type snmptrap_snmpuser_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
                 if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for snmptrap_snmpuser_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type snmptrap_snmpuser_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type snmptrap_snmpuser_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving snmptrap_snmpuser_binding objects by arguments"
                 $Arguments = @{ } 
@@ -3070,13 +3070,13 @@ function Invoke-ADCGetSnmptrapsnmpuserbinding {
                 if ($PSBoundParameters.ContainsKey('version')) { $Arguments.Add('version', $version) } 
                 if ($PSBoundParameters.ContainsKey('td')) { $Arguments.Add('td', $td) } 
                 if ($PSBoundParameters.ContainsKey('trapclass')) { $Arguments.Add('trapclass', $trapclass) }
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type snmptrap_snmpuser_binding -Arguments $Arguments -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type snmptrap_snmpuser_binding -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving snmptrap_snmpuser_binding configuration for property ''"
 
             } else {
                 Write-Verbose "Retrieving snmptrap_snmpuser_binding configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type snmptrap_snmpuser_binding -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type snmptrap_snmpuser_binding -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -3116,7 +3116,7 @@ function Invoke-ADCAddSnmpuser {
         Invoke-ADCAddSnmpuser -name <string> -group <string>
     .NOTES
         File Name : Invoke-ADCAddSnmpuser
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/snmp/snmpuser/
         Requires  : PowerShell v5.1 and up
@@ -3170,7 +3170,7 @@ function Invoke-ADCAddSnmpuser {
             if ($PSBoundParameters.ContainsKey('privpasswd')) { $Payload.Add('privpasswd', $privpasswd) }
  
             if ($PSCmdlet.ShouldProcess("snmpuser", "Add SNMP configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -Type snmpuser -Payload $Payload -GetWarning
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -NitroPath nitro/v1/config -Type snmpuser -Payload $Payload -GetWarning
                 #HTTP Status Code on Success: 201 Created
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 if ($PSBoundParameters.ContainsKey('PassThru')) {
@@ -3202,7 +3202,7 @@ function Invoke-ADCDeleteSnmpuser {
         Invoke-ADCDeleteSnmpuser -name <string>
     .NOTES
         File Name : Invoke-ADCDeleteSnmpuser
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/snmp/snmpuser/
         Requires  : PowerShell v5.1 and up
@@ -3230,7 +3230,7 @@ function Invoke-ADCDeleteSnmpuser {
             }
 
             if ($PSCmdlet.ShouldProcess("$name", "Delete SNMP configuration Object")) {
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type snmpuser -Resource $name -Arguments $Arguments
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type snmpuser -NitroPath nitro/v1/config -Resource $name -Arguments $Arguments
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $response
@@ -3272,7 +3272,7 @@ function Invoke-ADCUpdateSnmpuser {
         Invoke-ADCUpdateSnmpuser -name <string>
     .NOTES
         File Name : Invoke-ADCUpdateSnmpuser
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/snmp/snmpuser/
         Requires  : PowerShell v5.1 and up
@@ -3325,7 +3325,7 @@ function Invoke-ADCUpdateSnmpuser {
             if ($PSBoundParameters.ContainsKey('privpasswd')) { $Payload.Add('privpasswd', $privpasswd) }
  
             if ($PSCmdlet.ShouldProcess("snmpuser", "Update SNMP configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -Type snmpuser -Payload $Payload -GetWarning
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -NitroPath nitro/v1/config -Type snmpuser -Payload $Payload -GetWarning
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 if ($PSBoundParameters.ContainsKey('PassThru')) {
@@ -3367,7 +3367,7 @@ function Invoke-ADCUnsetSnmpuser {
         Invoke-ADCUnsetSnmpuser -name <string>
     .NOTES
         File Name : Invoke-ADCUnsetSnmpuser
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/snmp/snmpuser
         Requires  : PowerShell v5.1 and up
@@ -3408,7 +3408,7 @@ function Invoke-ADCUnsetSnmpuser {
             if ($PSBoundParameters.ContainsKey('authpasswd')) { $Payload.Add('authpasswd', $authpasswd) }
             if ($PSBoundParameters.ContainsKey('privpasswd')) { $Payload.Add('privpasswd', $privpasswd) }
             if ($PSCmdlet.ShouldProcess("$name", "Unset SNMP configuration Object")) {
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -Type snmpuser -Action unset -Payload $Payload -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -Type snmpuser -NitroPath nitro/v1/config -Action unset -Payload $Payload -GetWarning
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $response
@@ -3452,7 +3452,7 @@ function Invoke-ADCGetSnmpuser {
         Invoke-ADCGetSnmpuser -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetSnmpuser
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/snmp/snmpuser/
         Requires  : PowerShell v5.1 and up
@@ -3493,21 +3493,21 @@ function Invoke-ADCGetSnmpuser {
             if ( $PsCmdlet.ParameterSetName -eq 'Getall' ) {
                 $Query = @{ }
                 Write-Verbose "Retrieving all snmpuser objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type snmpuser -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type snmpuser -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
                 if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for snmpuser objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type snmpuser -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type snmpuser -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving snmpuser objects by arguments"
                 $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type snmpuser -Arguments $Arguments -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type snmpuser -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving snmpuser configuration for property 'name'"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type snmpuser -Resource $name -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type snmpuser -NitroPath nitro/v1/config -Resource $name -Summary:$ViewSummary -Filter $Filter -GetWarning
             } else {
                 Write-Verbose "Retrieving snmpuser configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type snmpuser -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type snmpuser -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -3538,7 +3538,7 @@ function Invoke-ADCAddSnmpview {
         Invoke-ADCAddSnmpview -name <string> -subtree <string> -type <string>
     .NOTES
         File Name : Invoke-ADCAddSnmpview
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/snmp/snmpview/
         Requires  : PowerShell v5.1 and up
@@ -3580,7 +3580,7 @@ function Invoke-ADCAddSnmpview {
 
  
             if ($PSCmdlet.ShouldProcess("snmpview", "Add SNMP configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -Type snmpview -Payload $Payload -GetWarning
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -NitroPath nitro/v1/config -Type snmpview -Payload $Payload -GetWarning
                 #HTTP Status Code on Success: 201 Created
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
             Write-Output $result
@@ -3610,7 +3610,7 @@ function Invoke-ADCDeleteSnmpview {
         Invoke-ADCDeleteSnmpview -name <string>
     .NOTES
         File Name : Invoke-ADCDeleteSnmpview
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/snmp/snmpview/
         Requires  : PowerShell v5.1 and up
@@ -3640,7 +3640,7 @@ function Invoke-ADCDeleteSnmpview {
             }
             if ($PSBoundParameters.ContainsKey('subtree')) { $Arguments.Add('subtree', $subtree) }
             if ($PSCmdlet.ShouldProcess("$name", "Delete SNMP configuration Object")) {
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type snmpview -Resource $name -Arguments $Arguments
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type snmpview -NitroPath nitro/v1/config -Resource $name -Arguments $Arguments
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $response
@@ -3673,7 +3673,7 @@ function Invoke-ADCUpdateSnmpview {
         Invoke-ADCUpdateSnmpview -name <string> -subtree <string> -type <string>
     .NOTES
         File Name : Invoke-ADCUpdateSnmpview
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/snmp/snmpview/
         Requires  : PowerShell v5.1 and up
@@ -3715,7 +3715,7 @@ function Invoke-ADCUpdateSnmpview {
 
  
             if ($PSCmdlet.ShouldProcess("snmpview", "Update SNMP configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -Type snmpview -Payload $Payload -GetWarning
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -NitroPath nitro/v1/config -Type snmpview -Payload $Payload -GetWarning
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
             Write-Output $result
@@ -3758,7 +3758,7 @@ function Invoke-ADCGetSnmpview {
         Invoke-ADCGetSnmpview -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetSnmpview
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/snmp/snmpview/
         Requires  : PowerShell v5.1 and up
@@ -3794,21 +3794,21 @@ function Invoke-ADCGetSnmpview {
             if ( $PsCmdlet.ParameterSetName -eq 'Getall' ) {
                 $Query = @{ }
                 Write-Verbose "Retrieving all snmpview objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type snmpview -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type snmpview -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
                 if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for snmpview objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type snmpview -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type snmpview -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving snmpview objects by arguments"
                 $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type snmpview -Arguments $Arguments -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type snmpview -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving snmpview configuration for property ''"
 
             } else {
                 Write-Verbose "Retrieving snmpview configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type snmpview -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type snmpview -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"

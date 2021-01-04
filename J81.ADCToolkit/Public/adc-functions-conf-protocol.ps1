@@ -22,7 +22,7 @@ function Invoke-ADCUpdateProtocolhttpband {
         Invoke-ADCUpdateProtocolhttpband 
     .NOTES
         File Name : Invoke-ADCUpdateProtocolhttpband
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/protocol/protocolhttpband/
         Requires  : PowerShell v5.1 and up
@@ -57,7 +57,7 @@ function Invoke-ADCUpdateProtocolhttpband {
             if ($PSBoundParameters.ContainsKey('respbandsize')) { $Payload.Add('respbandsize', $respbandsize) }
  
             if ($PSCmdlet.ShouldProcess("protocolhttpband", "Update Protocol configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -Type protocolhttpband -Payload $Payload -GetWarning
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -NitroPath nitro/v1/config -Type protocolhttpband -Payload $Payload -GetWarning
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
             Write-Output $result
@@ -91,7 +91,7 @@ function Invoke-ADCUnsetProtocolhttpband {
         Invoke-ADCUnsetProtocolhttpband 
     .NOTES
         File Name : Invoke-ADCUnsetProtocolhttpband
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/protocol/protocolhttpband
         Requires  : PowerShell v5.1 and up
@@ -122,7 +122,7 @@ function Invoke-ADCUnsetProtocolhttpband {
             if ($PSBoundParameters.ContainsKey('reqbandsize')) { $Payload.Add('reqbandsize', $reqbandsize) }
             if ($PSBoundParameters.ContainsKey('respbandsize')) { $Payload.Add('respbandsize', $respbandsize) }
             if ($PSCmdlet.ShouldProcess("protocolhttpband", "Unset Protocol configuration Object")) {
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -Type protocolhttpband -Action unset -Payload $Payload -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -Type protocolhttpband -NitroPath nitro/v1/config -Action unset -Payload $Payload -GetWarning
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $response
@@ -150,7 +150,7 @@ function Invoke-ADCClearProtocolhttpband {
         Invoke-ADCClearProtocolhttpband -type <string>
     .NOTES
         File Name : Invoke-ADCClearProtocolhttpband
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/protocol/protocolhttpband/
         Requires  : PowerShell v5.1 and up
@@ -181,7 +181,7 @@ function Invoke-ADCClearProtocolhttpband {
             }
 
             if ($PSCmdlet.ShouldProcess($Name, "Clear Protocol configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -Type protocolhttpband -Action clear -Payload $Payload -GetWarning
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -NitroPath nitro/v1/config -Type protocolhttpband -Action clear -Payload $Payload -GetWarning
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $result
@@ -226,7 +226,7 @@ function Invoke-ADCGetProtocolhttpband {
         Invoke-ADCGetProtocolhttpband -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetProtocolhttpband
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/protocol/protocolhttpband/
         Requires  : PowerShell v5.1 and up
@@ -263,23 +263,23 @@ function Invoke-ADCGetProtocolhttpband {
             if ( $PsCmdlet.ParameterSetName -eq 'Getall' ) {
                 $Query = @{ }
                 Write-Verbose "Retrieving all protocolhttpband objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type protocolhttpband -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type protocolhttpband -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
                 if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for protocolhttpband objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type protocolhttpband -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type protocolhttpband -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving protocolhttpband objects by arguments"
                 $Arguments = @{ } 
                 if ($PSBoundParameters.ContainsKey('type')) { $Arguments.Add('type', $type) } 
                 if ($PSBoundParameters.ContainsKey('nodeid')) { $Arguments.Add('nodeid', $nodeid) }
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type protocolhttpband -Arguments $Arguments -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type protocolhttpband -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving protocolhttpband configuration for property ''"
 
             } else {
                 Write-Verbose "Retrieving protocolhttpband configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type protocolhttpband -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type protocolhttpband -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"

@@ -12,7 +12,7 @@ function Invoke-ADCExportAppfwarchive {
         Invoke-ADCExportAppfwarchive -name <string> -target <string>
     .NOTES
         File Name : Invoke-ADCExportAppfwarchive
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/appfw/appfwarchive/
         Requires  : PowerShell v5.1 and up
@@ -48,7 +48,7 @@ function Invoke-ADCExportAppfwarchive {
             }
 
             if ($PSCmdlet.ShouldProcess($Name, "Export Application Firewall configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -Type appfwarchive -Action export -Payload $Payload -GetWarning
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -NitroPath nitro/v1/config -Type appfwarchive -Action export -Payload $Payload -GetWarning
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $result
@@ -89,7 +89,7 @@ function Invoke-ADCImportAppfwarchive {
         Invoke-ADCImportAppfwarchive -src <string> -name <string>
     .NOTES
         File Name : Invoke-ADCImportAppfwarchive
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/appfw/appfwarchive/
         Requires  : PowerShell v5.1 and up
@@ -127,7 +127,7 @@ function Invoke-ADCImportAppfwarchive {
             }
             if ($PSBoundParameters.ContainsKey('comment')) { $Payload.Add('comment', $comment) }
             if ($PSCmdlet.ShouldProcess($Name, "Import Application Firewall configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -Type appfwarchive -Action import -Payload $Payload -GetWarning
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -NitroPath nitro/v1/config -Type appfwarchive -Action import -Payload $Payload -GetWarning
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $result
@@ -156,7 +156,7 @@ function Invoke-ADCDeleteAppfwarchive {
         Invoke-ADCDeleteAppfwarchive -name <string>
     .NOTES
         File Name : Invoke-ADCDeleteAppfwarchive
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/appfw/appfwarchive/
         Requires  : PowerShell v5.1 and up
@@ -184,7 +184,7 @@ function Invoke-ADCDeleteAppfwarchive {
             }
 
             if ($PSCmdlet.ShouldProcess("$name", "Delete Application Firewall configuration Object")) {
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type appfwarchive -Resource $name -Arguments $Arguments
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type appfwarchive -NitroPath nitro/v1/config -Resource $name -Arguments $Arguments
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $response
@@ -224,7 +224,7 @@ function Invoke-ADCGetAppfwarchive {
         Invoke-ADCGetAppfwarchive -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetAppfwarchive
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/appfw/appfwarchive/
         Requires  : PowerShell v5.1 and up
@@ -253,21 +253,21 @@ function Invoke-ADCGetAppfwarchive {
             if ( $PsCmdlet.ParameterSetName -eq 'Getall' ) {
                 $Query = @{ }
                 Write-Verbose "Retrieving all appfwarchive objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type appfwarchive -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type appfwarchive -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
                 if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for appfwarchive objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type appfwarchive -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type appfwarchive -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving appfwarchive objects by arguments"
                 $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type appfwarchive -Arguments $Arguments -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type appfwarchive -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving appfwarchive configuration for property ''"
 
             } else {
                 Write-Verbose "Retrieving appfwarchive configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type appfwarchive -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type appfwarchive -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -308,7 +308,7 @@ function Invoke-ADCAddAppfwconfidfield {
         Invoke-ADCAddAppfwconfidfield -fieldname <string> -url <string>
     .NOTES
         File Name : Invoke-ADCAddAppfwconfidfield
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/appfw/appfwconfidfield/
         Requires  : PowerShell v5.1 and up
@@ -355,7 +355,7 @@ function Invoke-ADCAddAppfwconfidfield {
             if ($PSBoundParameters.ContainsKey('state')) { $Payload.Add('state', $state) }
  
             if ($PSCmdlet.ShouldProcess("appfwconfidfield", "Add Application Firewall configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -Type appfwconfidfield -Payload $Payload -GetWarning
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -NitroPath nitro/v1/config -Type appfwconfidfield -Payload $Payload -GetWarning
                 #HTTP Status Code on Success: 201 Created
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
             Write-Output $result
@@ -386,7 +386,7 @@ function Invoke-ADCDeleteAppfwconfidfield {
         Invoke-ADCDeleteAppfwconfidfield -fieldname <string>
     .NOTES
         File Name : Invoke-ADCDeleteAppfwconfidfield
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/appfw/appfwconfidfield/
         Requires  : PowerShell v5.1 and up
@@ -416,7 +416,7 @@ function Invoke-ADCDeleteAppfwconfidfield {
             }
             if ($PSBoundParameters.ContainsKey('url')) { $Arguments.Add('url', $url) }
             if ($PSCmdlet.ShouldProcess("$fieldname", "Delete Application Firewall configuration Object")) {
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type appfwconfidfield -Resource $fieldname -Arguments $Arguments
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type appfwconfidfield -NitroPath nitro/v1/config -Resource $fieldname -Arguments $Arguments
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $response
@@ -459,7 +459,7 @@ function Invoke-ADCUpdateAppfwconfidfield {
         Invoke-ADCUpdateAppfwconfidfield -fieldname <string> -url <string>
     .NOTES
         File Name : Invoke-ADCUpdateAppfwconfidfield
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/appfw/appfwconfidfield/
         Requires  : PowerShell v5.1 and up
@@ -506,7 +506,7 @@ function Invoke-ADCUpdateAppfwconfidfield {
             if ($PSBoundParameters.ContainsKey('state')) { $Payload.Add('state', $state) }
  
             if ($PSCmdlet.ShouldProcess("appfwconfidfield", "Update Application Firewall configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -Type appfwconfidfield -Payload $Payload -GetWarning
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -NitroPath nitro/v1/config -Type appfwconfidfield -Payload $Payload -GetWarning
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
             Write-Output $result
@@ -546,7 +546,7 @@ function Invoke-ADCUnsetAppfwconfidfield {
         Invoke-ADCUnsetAppfwconfidfield -fieldname <string> -url <string>
     .NOTES
         File Name : Invoke-ADCUnsetAppfwconfidfield
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/appfw/appfwconfidfield
         Requires  : PowerShell v5.1 and up
@@ -589,7 +589,7 @@ function Invoke-ADCUnsetAppfwconfidfield {
             if ($PSBoundParameters.ContainsKey('isregex')) { $Payload.Add('isregex', $isregex) }
             if ($PSBoundParameters.ContainsKey('state')) { $Payload.Add('state', $state) }
             if ($PSCmdlet.ShouldProcess("$fieldname url", "Unset Application Firewall configuration Object")) {
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -Type appfwconfidfield -Action unset -Payload $Payload -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -Type appfwconfidfield -NitroPath nitro/v1/config -Action unset -Payload $Payload -GetWarning
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $response
@@ -631,7 +631,7 @@ function Invoke-ADCGetAppfwconfidfield {
         Invoke-ADCGetAppfwconfidfield -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetAppfwconfidfield
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/appfw/appfwconfidfield/
         Requires  : PowerShell v5.1 and up
@@ -667,21 +667,21 @@ function Invoke-ADCGetAppfwconfidfield {
             if ( $PsCmdlet.ParameterSetName -eq 'Getall' ) {
                 $Query = @{ }
                 Write-Verbose "Retrieving all appfwconfidfield objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type appfwconfidfield -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type appfwconfidfield -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
                 if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for appfwconfidfield objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type appfwconfidfield -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type appfwconfidfield -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving appfwconfidfield objects by arguments"
                 $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type appfwconfidfield -Arguments $Arguments -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type appfwconfidfield -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving appfwconfidfield configuration for property ''"
 
             } else {
                 Write-Verbose "Retrieving appfwconfidfield configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type appfwconfidfield -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type appfwconfidfield -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -708,7 +708,7 @@ function Invoke-ADCExportAppfwcustomsettings {
         Invoke-ADCExportAppfwcustomsettings -name <string> -target <string>
     .NOTES
         File Name : Invoke-ADCExportAppfwcustomsettings
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/appfw/appfwcustomsettings/
         Requires  : PowerShell v5.1 and up
@@ -744,7 +744,7 @@ function Invoke-ADCExportAppfwcustomsettings {
             }
 
             if ($PSCmdlet.ShouldProcess($Name, "Export Application Firewall configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -Type appfwcustomsettings -Action export -Payload $Payload -GetWarning
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -NitroPath nitro/v1/config -Type appfwcustomsettings -Action export -Payload $Payload -GetWarning
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $result
@@ -783,7 +783,7 @@ function Invoke-ADCAddAppfwfieldtype {
         Invoke-ADCAddAppfwfieldtype -name <string> -regex <string> -priority <double>
     .NOTES
         File Name : Invoke-ADCAddAppfwfieldtype
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/appfw/appfwfieldtype/
         Requires  : PowerShell v5.1 and up
@@ -829,7 +829,7 @@ function Invoke-ADCAddAppfwfieldtype {
             if ($PSBoundParameters.ContainsKey('comment')) { $Payload.Add('comment', $comment) }
  
             if ($PSCmdlet.ShouldProcess("appfwfieldtype", "Add Application Firewall configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -Type appfwfieldtype -Payload $Payload -GetWarning
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -NitroPath nitro/v1/config -Type appfwfieldtype -Payload $Payload -GetWarning
                 #HTTP Status Code on Success: 201 Created
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 if ($PSBoundParameters.ContainsKey('PassThru')) {
@@ -862,7 +862,7 @@ function Invoke-ADCDeleteAppfwfieldtype {
         Invoke-ADCDeleteAppfwfieldtype -name <string>
     .NOTES
         File Name : Invoke-ADCDeleteAppfwfieldtype
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/appfw/appfwfieldtype/
         Requires  : PowerShell v5.1 and up
@@ -890,7 +890,7 @@ function Invoke-ADCDeleteAppfwfieldtype {
             }
 
             if ($PSCmdlet.ShouldProcess("$name", "Delete Application Firewall configuration Object")) {
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type appfwfieldtype -Resource $name -Arguments $Arguments
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type appfwfieldtype -NitroPath nitro/v1/config -Resource $name -Arguments $Arguments
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $response
@@ -929,7 +929,7 @@ function Invoke-ADCUpdateAppfwfieldtype {
         Invoke-ADCUpdateAppfwfieldtype -name <string> -regex <string> -priority <double>
     .NOTES
         File Name : Invoke-ADCUpdateAppfwfieldtype
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/appfw/appfwfieldtype/
         Requires  : PowerShell v5.1 and up
@@ -975,7 +975,7 @@ function Invoke-ADCUpdateAppfwfieldtype {
             if ($PSBoundParameters.ContainsKey('comment')) { $Payload.Add('comment', $comment) }
  
             if ($PSCmdlet.ShouldProcess("appfwfieldtype", "Update Application Firewall configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -Type appfwfieldtype -Payload $Payload -GetWarning
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -NitroPath nitro/v1/config -Type appfwfieldtype -Payload $Payload -GetWarning
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 if ($PSBoundParameters.ContainsKey('PassThru')) {
@@ -1025,7 +1025,7 @@ function Invoke-ADCGetAppfwfieldtype {
         Invoke-ADCGetAppfwfieldtype -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetAppfwfieldtype
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/appfw/appfwfieldtype/
         Requires  : PowerShell v5.1 and up
@@ -1066,21 +1066,21 @@ function Invoke-ADCGetAppfwfieldtype {
             if ( $PsCmdlet.ParameterSetName -eq 'Getall' ) {
                 $Query = @{ }
                 Write-Verbose "Retrieving all appfwfieldtype objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type appfwfieldtype -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type appfwfieldtype -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
                 if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for appfwfieldtype objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type appfwfieldtype -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type appfwfieldtype -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving appfwfieldtype objects by arguments"
                 $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type appfwfieldtype -Arguments $Arguments -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type appfwfieldtype -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving appfwfieldtype configuration for property 'name'"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type appfwfieldtype -Resource $name -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type appfwfieldtype -NitroPath nitro/v1/config -Resource $name -Summary:$ViewSummary -Filter $Filter -GetWarning
             } else {
                 Write-Verbose "Retrieving appfwfieldtype configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type appfwfieldtype -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type appfwfieldtype -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -1124,7 +1124,7 @@ function Invoke-ADCAddAppfwglobalappfwpolicybinding {
         Invoke-ADCAddAppfwglobalappfwpolicybinding -policyname <string> -priority <double>
     .NOTES
         File Name : Invoke-ADCAddAppfwglobalappfwpolicybinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/appfw/appfwglobal_appfwpolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -1181,7 +1181,7 @@ function Invoke-ADCAddAppfwglobalappfwpolicybinding {
             if ($PSBoundParameters.ContainsKey('labelname')) { $Payload.Add('labelname', $labelname) }
  
             if ($PSCmdlet.ShouldProcess("appfwglobal_appfwpolicy_binding", "Add Application Firewall configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -Type appfwglobal_appfwpolicy_binding -Payload $Payload -GetWarning
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -NitroPath nitro/v1/config -Type appfwglobal_appfwpolicy_binding -Payload $Payload -GetWarning
                 #HTTP Status Code on Success: 201 Created
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 if ($PSBoundParameters.ContainsKey('PassThru')) {
@@ -1216,7 +1216,7 @@ function Invoke-ADCDeleteAppfwglobalappfwpolicybinding {
         Invoke-ADCDeleteAppfwglobalappfwpolicybinding 
     .NOTES
         File Name : Invoke-ADCDeleteAppfwglobalappfwpolicybinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/appfw/appfwglobal_appfwpolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -1249,7 +1249,7 @@ function Invoke-ADCDeleteAppfwglobalappfwpolicybinding {
             if ($PSBoundParameters.ContainsKey('type')) { $Arguments.Add('type', $type) }
             if ($PSBoundParameters.ContainsKey('priority')) { $Arguments.Add('priority', $priority) }
             if ($PSCmdlet.ShouldProcess("appfwglobal_appfwpolicy_binding", "Delete Application Firewall configuration Object")) {
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type appfwglobal_appfwpolicy_binding -Resource $ -Arguments $Arguments
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type appfwglobal_appfwpolicy_binding -NitroPath nitro/v1/config -Resource $ -Arguments $Arguments
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $response
@@ -1291,7 +1291,7 @@ function Invoke-ADCGetAppfwglobalappfwpolicybinding {
         Invoke-ADCGetAppfwglobalappfwpolicybinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetAppfwglobalappfwpolicybinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/appfw/appfwglobal_appfwpolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -1325,21 +1325,21 @@ function Invoke-ADCGetAppfwglobalappfwpolicybinding {
                     bulkbindings = 'yes'
                 }
                 Write-Verbose "Retrieving all appfwglobal_appfwpolicy_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type appfwglobal_appfwpolicy_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type appfwglobal_appfwpolicy_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
                 if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for appfwglobal_appfwpolicy_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type appfwglobal_appfwpolicy_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type appfwglobal_appfwpolicy_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving appfwglobal_appfwpolicy_binding objects by arguments"
                 $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type appfwglobal_appfwpolicy_binding -Arguments $Arguments -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type appfwglobal_appfwpolicy_binding -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving appfwglobal_appfwpolicy_binding configuration for property ''"
 
             } else {
                 Write-Verbose "Retrieving appfwglobal_appfwpolicy_binding configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type appfwglobal_appfwpolicy_binding -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type appfwglobal_appfwpolicy_binding -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -1383,7 +1383,7 @@ function Invoke-ADCAddAppfwglobalauditnslogpolicybinding {
         Invoke-ADCAddAppfwglobalauditnslogpolicybinding -policyname <string> -priority <double>
     .NOTES
         File Name : Invoke-ADCAddAppfwglobalauditnslogpolicybinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/appfw/appfwglobal_auditnslogpolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -1440,7 +1440,7 @@ function Invoke-ADCAddAppfwglobalauditnslogpolicybinding {
             if ($PSBoundParameters.ContainsKey('labelname')) { $Payload.Add('labelname', $labelname) }
  
             if ($PSCmdlet.ShouldProcess("appfwglobal_auditnslogpolicy_binding", "Add Application Firewall configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -Type appfwglobal_auditnslogpolicy_binding -Payload $Payload -GetWarning
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -NitroPath nitro/v1/config -Type appfwglobal_auditnslogpolicy_binding -Payload $Payload -GetWarning
                 #HTTP Status Code on Success: 201 Created
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 if ($PSBoundParameters.ContainsKey('PassThru')) {
@@ -1475,7 +1475,7 @@ function Invoke-ADCDeleteAppfwglobalauditnslogpolicybinding {
         Invoke-ADCDeleteAppfwglobalauditnslogpolicybinding 
     .NOTES
         File Name : Invoke-ADCDeleteAppfwglobalauditnslogpolicybinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/appfw/appfwglobal_auditnslogpolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -1508,7 +1508,7 @@ function Invoke-ADCDeleteAppfwglobalauditnslogpolicybinding {
             if ($PSBoundParameters.ContainsKey('type')) { $Arguments.Add('type', $type) }
             if ($PSBoundParameters.ContainsKey('priority')) { $Arguments.Add('priority', $priority) }
             if ($PSCmdlet.ShouldProcess("appfwglobal_auditnslogpolicy_binding", "Delete Application Firewall configuration Object")) {
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type appfwglobal_auditnslogpolicy_binding -Resource $ -Arguments $Arguments
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type appfwglobal_auditnslogpolicy_binding -NitroPath nitro/v1/config -Resource $ -Arguments $Arguments
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $response
@@ -1550,7 +1550,7 @@ function Invoke-ADCGetAppfwglobalauditnslogpolicybinding {
         Invoke-ADCGetAppfwglobalauditnslogpolicybinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetAppfwglobalauditnslogpolicybinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/appfw/appfwglobal_auditnslogpolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -1584,21 +1584,21 @@ function Invoke-ADCGetAppfwglobalauditnslogpolicybinding {
                     bulkbindings = 'yes'
                 }
                 Write-Verbose "Retrieving all appfwglobal_auditnslogpolicy_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type appfwglobal_auditnslogpolicy_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type appfwglobal_auditnslogpolicy_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
                 if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for appfwglobal_auditnslogpolicy_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type appfwglobal_auditnslogpolicy_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type appfwglobal_auditnslogpolicy_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving appfwglobal_auditnslogpolicy_binding objects by arguments"
                 $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type appfwglobal_auditnslogpolicy_binding -Arguments $Arguments -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type appfwglobal_auditnslogpolicy_binding -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving appfwglobal_auditnslogpolicy_binding configuration for property ''"
 
             } else {
                 Write-Verbose "Retrieving appfwglobal_auditnslogpolicy_binding configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type appfwglobal_auditnslogpolicy_binding -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type appfwglobal_auditnslogpolicy_binding -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -1642,7 +1642,7 @@ function Invoke-ADCAddAppfwglobalauditsyslogpolicybinding {
         Invoke-ADCAddAppfwglobalauditsyslogpolicybinding -policyname <string> -priority <double>
     .NOTES
         File Name : Invoke-ADCAddAppfwglobalauditsyslogpolicybinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/appfw/appfwglobal_auditsyslogpolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -1699,7 +1699,7 @@ function Invoke-ADCAddAppfwglobalauditsyslogpolicybinding {
             if ($PSBoundParameters.ContainsKey('labelname')) { $Payload.Add('labelname', $labelname) }
  
             if ($PSCmdlet.ShouldProcess("appfwglobal_auditsyslogpolicy_binding", "Add Application Firewall configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -Type appfwglobal_auditsyslogpolicy_binding -Payload $Payload -GetWarning
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -NitroPath nitro/v1/config -Type appfwglobal_auditsyslogpolicy_binding -Payload $Payload -GetWarning
                 #HTTP Status Code on Success: 201 Created
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 if ($PSBoundParameters.ContainsKey('PassThru')) {
@@ -1734,7 +1734,7 @@ function Invoke-ADCDeleteAppfwglobalauditsyslogpolicybinding {
         Invoke-ADCDeleteAppfwglobalauditsyslogpolicybinding 
     .NOTES
         File Name : Invoke-ADCDeleteAppfwglobalauditsyslogpolicybinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/appfw/appfwglobal_auditsyslogpolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -1767,7 +1767,7 @@ function Invoke-ADCDeleteAppfwglobalauditsyslogpolicybinding {
             if ($PSBoundParameters.ContainsKey('type')) { $Arguments.Add('type', $type) }
             if ($PSBoundParameters.ContainsKey('priority')) { $Arguments.Add('priority', $priority) }
             if ($PSCmdlet.ShouldProcess("appfwglobal_auditsyslogpolicy_binding", "Delete Application Firewall configuration Object")) {
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type appfwglobal_auditsyslogpolicy_binding -Resource $ -Arguments $Arguments
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type appfwglobal_auditsyslogpolicy_binding -NitroPath nitro/v1/config -Resource $ -Arguments $Arguments
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $response
@@ -1809,7 +1809,7 @@ function Invoke-ADCGetAppfwglobalauditsyslogpolicybinding {
         Invoke-ADCGetAppfwglobalauditsyslogpolicybinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetAppfwglobalauditsyslogpolicybinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/appfw/appfwglobal_auditsyslogpolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -1843,21 +1843,21 @@ function Invoke-ADCGetAppfwglobalauditsyslogpolicybinding {
                     bulkbindings = 'yes'
                 }
                 Write-Verbose "Retrieving all appfwglobal_auditsyslogpolicy_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type appfwglobal_auditsyslogpolicy_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type appfwglobal_auditsyslogpolicy_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
                 if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for appfwglobal_auditsyslogpolicy_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type appfwglobal_auditsyslogpolicy_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type appfwglobal_auditsyslogpolicy_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving appfwglobal_auditsyslogpolicy_binding objects by arguments"
                 $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type appfwglobal_auditsyslogpolicy_binding -Arguments $Arguments -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type appfwglobal_auditsyslogpolicy_binding -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving appfwglobal_auditsyslogpolicy_binding configuration for property ''"
 
             } else {
                 Write-Verbose "Retrieving appfwglobal_auditsyslogpolicy_binding configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type appfwglobal_auditsyslogpolicy_binding -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type appfwglobal_auditsyslogpolicy_binding -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -1895,7 +1895,7 @@ function Invoke-ADCGetAppfwglobalbinding {
         Invoke-ADCGetAppfwglobalbinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetAppfwglobalbinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/appfw/appfwglobal_binding/
         Requires  : PowerShell v5.1 and up
@@ -1926,21 +1926,21 @@ function Invoke-ADCGetAppfwglobalbinding {
                     bulkbindings = 'yes'
                 }
                 Write-Verbose "Retrieving all appfwglobal_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type appfwglobal_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type appfwglobal_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
                 if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for appfwglobal_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type appfwglobal_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type appfwglobal_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving appfwglobal_binding objects by arguments"
                 $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type appfwglobal_binding -Arguments $Arguments -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type appfwglobal_binding -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving appfwglobal_binding configuration for property ''"
 
             } else {
                 Write-Verbose "Retrieving appfwglobal_binding configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type appfwglobal_binding -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type appfwglobal_binding -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -1967,7 +1967,7 @@ function Invoke-ADCDeleteAppfwhtmlerrorpage {
         Invoke-ADCDeleteAppfwhtmlerrorpage -name <string>
     .NOTES
         File Name : Invoke-ADCDeleteAppfwhtmlerrorpage
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/appfw/appfwhtmlerrorpage/
         Requires  : PowerShell v5.1 and up
@@ -1995,7 +1995,7 @@ function Invoke-ADCDeleteAppfwhtmlerrorpage {
             }
 
             if ($PSCmdlet.ShouldProcess("$name", "Delete Application Firewall configuration Object")) {
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type appfwhtmlerrorpage -Resource $name -Arguments $Arguments
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type appfwhtmlerrorpage -NitroPath nitro/v1/config -Resource $name -Arguments $Arguments
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $response
@@ -2029,7 +2029,7 @@ function Invoke-ADCImportAppfwhtmlerrorpage {
         Invoke-ADCImportAppfwhtmlerrorpage -src <string> -name <string>
     .NOTES
         File Name : Invoke-ADCImportAppfwhtmlerrorpage
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/appfw/appfwhtmlerrorpage/
         Requires  : PowerShell v5.1 and up
@@ -2070,7 +2070,7 @@ function Invoke-ADCImportAppfwhtmlerrorpage {
             if ($PSBoundParameters.ContainsKey('comment')) { $Payload.Add('comment', $comment) }
             if ($PSBoundParameters.ContainsKey('overwrite')) { $Payload.Add('overwrite', $overwrite) }
             if ($PSCmdlet.ShouldProcess($Name, "Import Application Firewall configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -Type appfwhtmlerrorpage -Action import -Payload $Payload -GetWarning
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -NitroPath nitro/v1/config -Type appfwhtmlerrorpage -Action import -Payload $Payload -GetWarning
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $result
@@ -2101,7 +2101,7 @@ function Invoke-ADCChangeAppfwhtmlerrorpage {
         Invoke-ADCChangeAppfwhtmlerrorpage -name <string>
     .NOTES
         File Name : Invoke-ADCChangeAppfwhtmlerrorpage
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/appfw/appfwhtmlerrorpage/
         Requires  : PowerShell v5.1 and up
@@ -2135,7 +2135,7 @@ function Invoke-ADCChangeAppfwhtmlerrorpage {
 
  
             if ($PSCmdlet.ShouldProcess("appfwhtmlerrorpage", "Change Application Firewall configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -Type appfwhtmlerrorpage -Action update -Payload $Payload -GetWarning
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -NitroPath nitro/v1/config -Type appfwhtmlerrorpage -Action update -Payload $Payload -GetWarning
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 if ($PSBoundParameters.ContainsKey('PassThru')) {
@@ -2182,7 +2182,7 @@ function Invoke-ADCGetAppfwhtmlerrorpage {
         Invoke-ADCGetAppfwhtmlerrorpage -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetAppfwhtmlerrorpage
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/appfw/appfwhtmlerrorpage/
         Requires  : PowerShell v5.1 and up
@@ -2219,21 +2219,21 @@ function Invoke-ADCGetAppfwhtmlerrorpage {
             if ( $PsCmdlet.ParameterSetName -eq 'Getall' ) {
                 $Query = @{ }
                 Write-Verbose "Retrieving all appfwhtmlerrorpage objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type appfwhtmlerrorpage -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type appfwhtmlerrorpage -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
                 if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for appfwhtmlerrorpage objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type appfwhtmlerrorpage -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type appfwhtmlerrorpage -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving appfwhtmlerrorpage objects by arguments"
                 $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type appfwhtmlerrorpage -Arguments $Arguments -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type appfwhtmlerrorpage -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving appfwhtmlerrorpage configuration for property 'name'"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type appfwhtmlerrorpage -Resource $name -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type appfwhtmlerrorpage -NitroPath nitro/v1/config -Resource $name -Summary:$ViewSummary -Filter $Filter -GetWarning
             } else {
                 Write-Verbose "Retrieving appfwhtmlerrorpage configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type appfwhtmlerrorpage -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type appfwhtmlerrorpage -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -2265,7 +2265,7 @@ function Invoke-ADCAddAppfwjsoncontenttype {
         Invoke-ADCAddAppfwjsoncontenttype -jsoncontenttypevalue <string>
     .NOTES
         File Name : Invoke-ADCAddAppfwjsoncontenttype
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/appfw/appfwjsoncontenttype/
         Requires  : PowerShell v5.1 and up
@@ -2302,7 +2302,7 @@ function Invoke-ADCAddAppfwjsoncontenttype {
             if ($PSBoundParameters.ContainsKey('isregex')) { $Payload.Add('isregex', $isregex) }
  
             if ($PSCmdlet.ShouldProcess("appfwjsoncontenttype", "Add Application Firewall configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -Type appfwjsoncontenttype -Payload $Payload -GetWarning
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -NitroPath nitro/v1/config -Type appfwjsoncontenttype -Payload $Payload -GetWarning
                 #HTTP Status Code on Success: 201 Created
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 if ($PSBoundParameters.ContainsKey('PassThru')) {
@@ -2335,7 +2335,7 @@ function Invoke-ADCDeleteAppfwjsoncontenttype {
         Invoke-ADCDeleteAppfwjsoncontenttype -jsoncontenttypevalue <string>
     .NOTES
         File Name : Invoke-ADCDeleteAppfwjsoncontenttype
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/appfw/appfwjsoncontenttype/
         Requires  : PowerShell v5.1 and up
@@ -2363,7 +2363,7 @@ function Invoke-ADCDeleteAppfwjsoncontenttype {
             }
 
             if ($PSCmdlet.ShouldProcess("$jsoncontenttypevalue", "Delete Application Firewall configuration Object")) {
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type appfwjsoncontenttype -Resource $jsoncontenttypevalue -Arguments $Arguments
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type appfwjsoncontenttype -NitroPath nitro/v1/config -Resource $jsoncontenttypevalue -Arguments $Arguments
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $response
@@ -2407,7 +2407,7 @@ function Invoke-ADCGetAppfwjsoncontenttype {
         Invoke-ADCGetAppfwjsoncontenttype -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetAppfwjsoncontenttype
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/appfw/appfwjsoncontenttype/
         Requires  : PowerShell v5.1 and up
@@ -2448,21 +2448,21 @@ function Invoke-ADCGetAppfwjsoncontenttype {
             if ( $PsCmdlet.ParameterSetName -eq 'Getall' ) {
                 $Query = @{ }
                 Write-Verbose "Retrieving all appfwjsoncontenttype objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type appfwjsoncontenttype -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type appfwjsoncontenttype -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
                 if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for appfwjsoncontenttype objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type appfwjsoncontenttype -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type appfwjsoncontenttype -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving appfwjsoncontenttype objects by arguments"
                 $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type appfwjsoncontenttype -Arguments $Arguments -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type appfwjsoncontenttype -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving appfwjsoncontenttype configuration for property 'jsoncontenttypevalue'"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type appfwjsoncontenttype -Resource $jsoncontenttypevalue -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type appfwjsoncontenttype -NitroPath nitro/v1/config -Resource $jsoncontenttypevalue -Summary:$ViewSummary -Filter $Filter -GetWarning
             } else {
                 Write-Verbose "Retrieving appfwjsoncontenttype configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type appfwjsoncontenttype -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type appfwjsoncontenttype -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -2489,7 +2489,7 @@ function Invoke-ADCDeleteAppfwjsonerrorpage {
         Invoke-ADCDeleteAppfwjsonerrorpage -name <string>
     .NOTES
         File Name : Invoke-ADCDeleteAppfwjsonerrorpage
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/appfw/appfwjsonerrorpage/
         Requires  : PowerShell v5.1 and up
@@ -2517,7 +2517,7 @@ function Invoke-ADCDeleteAppfwjsonerrorpage {
             }
 
             if ($PSCmdlet.ShouldProcess("$name", "Delete Application Firewall configuration Object")) {
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type appfwjsonerrorpage -Resource $name -Arguments $Arguments
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type appfwjsonerrorpage -NitroPath nitro/v1/config -Resource $name -Arguments $Arguments
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $response
@@ -2551,7 +2551,7 @@ function Invoke-ADCImportAppfwjsonerrorpage {
         Invoke-ADCImportAppfwjsonerrorpage -src <string> -name <string>
     .NOTES
         File Name : Invoke-ADCImportAppfwjsonerrorpage
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/appfw/appfwjsonerrorpage/
         Requires  : PowerShell v5.1 and up
@@ -2592,7 +2592,7 @@ function Invoke-ADCImportAppfwjsonerrorpage {
             if ($PSBoundParameters.ContainsKey('comment')) { $Payload.Add('comment', $comment) }
             if ($PSBoundParameters.ContainsKey('overwrite')) { $Payload.Add('overwrite', $overwrite) }
             if ($PSCmdlet.ShouldProcess($Name, "Import Application Firewall configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -Type appfwjsonerrorpage -Action import -Payload $Payload -GetWarning
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -NitroPath nitro/v1/config -Type appfwjsonerrorpage -Action import -Payload $Payload -GetWarning
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $result
@@ -2623,7 +2623,7 @@ function Invoke-ADCChangeAppfwjsonerrorpage {
         Invoke-ADCChangeAppfwjsonerrorpage -name <string>
     .NOTES
         File Name : Invoke-ADCChangeAppfwjsonerrorpage
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/appfw/appfwjsonerrorpage/
         Requires  : PowerShell v5.1 and up
@@ -2657,7 +2657,7 @@ function Invoke-ADCChangeAppfwjsonerrorpage {
 
  
             if ($PSCmdlet.ShouldProcess("appfwjsonerrorpage", "Change Application Firewall configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -Type appfwjsonerrorpage -Action update -Payload $Payload -GetWarning
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -NitroPath nitro/v1/config -Type appfwjsonerrorpage -Action update -Payload $Payload -GetWarning
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 if ($PSBoundParameters.ContainsKey('PassThru')) {
@@ -2704,7 +2704,7 @@ function Invoke-ADCGetAppfwjsonerrorpage {
         Invoke-ADCGetAppfwjsonerrorpage -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetAppfwjsonerrorpage
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/appfw/appfwjsonerrorpage/
         Requires  : PowerShell v5.1 and up
@@ -2741,21 +2741,21 @@ function Invoke-ADCGetAppfwjsonerrorpage {
             if ( $PsCmdlet.ParameterSetName -eq 'Getall' ) {
                 $Query = @{ }
                 Write-Verbose "Retrieving all appfwjsonerrorpage objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type appfwjsonerrorpage -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type appfwjsonerrorpage -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
                 if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for appfwjsonerrorpage objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type appfwjsonerrorpage -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type appfwjsonerrorpage -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving appfwjsonerrorpage objects by arguments"
                 $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type appfwjsonerrorpage -Arguments $Arguments -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type appfwjsonerrorpage -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving appfwjsonerrorpage configuration for property 'name'"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type appfwjsonerrorpage -Resource $name -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type appfwjsonerrorpage -NitroPath nitro/v1/config -Resource $name -Summary:$ViewSummary -Filter $Filter -GetWarning
             } else {
                 Write-Verbose "Retrieving appfwjsonerrorpage configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type appfwjsonerrorpage -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type appfwjsonerrorpage -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -2846,7 +2846,7 @@ function Invoke-ADCDeleteAppfwlearningdata {
         Invoke-ADCDeleteAppfwlearningdata 
     .NOTES
         File Name : Invoke-ADCDeleteAppfwlearningdata
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/appfw/appfwlearningdata/
         Requires  : PowerShell v5.1 and up
@@ -2948,7 +2948,7 @@ function Invoke-ADCDeleteAppfwlearningdata {
             if ($PSBoundParameters.ContainsKey('xmlattachmentcheck')) { $Arguments.Add('xmlattachmentcheck', $xmlattachmentcheck) }
             if ($PSBoundParameters.ContainsKey('totalxmlrequests')) { $Arguments.Add('totalxmlrequests', $totalxmlrequests) }
             if ($PSCmdlet.ShouldProcess("appfwlearningdata", "Delete Application Firewall configuration Object")) {
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type appfwlearningdata -Resource $ -Arguments $Arguments
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type appfwlearningdata -NitroPath nitro/v1/config -Resource $ -Arguments $Arguments
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $response
@@ -2973,7 +2973,7 @@ function Invoke-ADCResetAppfwlearningdata {
         Invoke-ADCResetAppfwlearningdata 
     .NOTES
         File Name : Invoke-ADCResetAppfwlearningdata
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/appfw/appfwlearningdata/
         Requires  : PowerShell v5.1 and up
@@ -3000,7 +3000,7 @@ function Invoke-ADCResetAppfwlearningdata {
             }
 
             if ($PSCmdlet.ShouldProcess($Name, "Reset Application Firewall configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -Type appfwlearningdata -Action reset -Payload $Payload -GetWarning
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -NitroPath nitro/v1/config -Type appfwlearningdata -Action reset -Payload $Payload -GetWarning
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $result
@@ -3032,7 +3032,7 @@ function Invoke-ADCExportAppfwlearningdata {
         Invoke-ADCExportAppfwlearningdata -profilename <string> -securitycheck <string>
     .NOTES
         File Name : Invoke-ADCExportAppfwlearningdata
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/appfw/appfwlearningdata/
         Requires  : PowerShell v5.1 and up
@@ -3070,7 +3070,7 @@ function Invoke-ADCExportAppfwlearningdata {
             }
             if ($PSBoundParameters.ContainsKey('target')) { $Payload.Add('target', $target) }
             if ($PSCmdlet.ShouldProcess($Name, "Export Application Firewall configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -Type appfwlearningdata -Action export -Payload $Payload -GetWarning
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -NitroPath nitro/v1/config -Type appfwlearningdata -Action export -Payload $Payload -GetWarning
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $result
@@ -3117,7 +3117,7 @@ function Invoke-ADCGetAppfwlearningdata {
         Invoke-ADCGetAppfwlearningdata -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetAppfwlearningdata
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/appfw/appfwlearningdata/
         Requires  : PowerShell v5.1 and up
@@ -3157,23 +3157,23 @@ function Invoke-ADCGetAppfwlearningdata {
             if ( $PsCmdlet.ParameterSetName -eq 'Getall' ) {
                 $Query = @{ }
                 Write-Verbose "Retrieving all appfwlearningdata objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type appfwlearningdata -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type appfwlearningdata -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
                 if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for appfwlearningdata objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type appfwlearningdata -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type appfwlearningdata -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving appfwlearningdata objects by arguments"
                 $Arguments = @{ } 
                 if ($PSBoundParameters.ContainsKey('profilename')) { $Arguments.Add('profilename', $profilename) } 
                 if ($PSBoundParameters.ContainsKey('securitycheck')) { $Arguments.Add('securitycheck', $securitycheck) }
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type appfwlearningdata -Arguments $Arguments -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type appfwlearningdata -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving appfwlearningdata configuration for property ''"
 
             } else {
                 Write-Verbose "Retrieving appfwlearningdata configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type appfwlearningdata -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type appfwlearningdata -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -3340,7 +3340,7 @@ function Invoke-ADCUpdateAppfwlearningsettings {
         Invoke-ADCUpdateAppfwlearningsettings -profilename <string>
     .NOTES
         File Name : Invoke-ADCUpdateAppfwlearningsettings
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/appfw/appfwlearningsettings/
         Requires  : PowerShell v5.1 and up
@@ -3482,7 +3482,7 @@ function Invoke-ADCUpdateAppfwlearningsettings {
             if ($PSBoundParameters.ContainsKey('contenttypeautodeploygraceperiod')) { $Payload.Add('contenttypeautodeploygraceperiod', $contenttypeautodeploygraceperiod) }
  
             if ($PSCmdlet.ShouldProcess("appfwlearningsettings", "Update Application Firewall configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -Type appfwlearningsettings -Payload $Payload -GetWarning
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -NitroPath nitro/v1/config -Type appfwlearningsettings -Payload $Payload -GetWarning
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 if ($PSBoundParameters.ContainsKey('PassThru')) {
@@ -3574,7 +3574,7 @@ function Invoke-ADCUnsetAppfwlearningsettings {
         Invoke-ADCUnsetAppfwlearningsettings -profilename <string>
     .NOTES
         File Name : Invoke-ADCUnsetAppfwlearningsettings
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/appfw/appfwlearningsettings
         Requires  : PowerShell v5.1 and up
@@ -3693,7 +3693,7 @@ function Invoke-ADCUnsetAppfwlearningsettings {
             if ($PSBoundParameters.ContainsKey('fieldconsistencyautodeploygraceperiod')) { $Payload.Add('fieldconsistencyautodeploygraceperiod', $fieldconsistencyautodeploygraceperiod) }
             if ($PSBoundParameters.ContainsKey('contenttypeautodeploygraceperiod')) { $Payload.Add('contenttypeautodeploygraceperiod', $contenttypeautodeploygraceperiod) }
             if ($PSCmdlet.ShouldProcess("$profilename", "Unset Application Firewall configuration Object")) {
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -Type appfwlearningsettings -Action unset -Payload $Payload -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -Type appfwlearningsettings -NitroPath nitro/v1/config -Action unset -Payload $Payload -GetWarning
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $response
@@ -3737,7 +3737,7 @@ function Invoke-ADCGetAppfwlearningsettings {
         Invoke-ADCGetAppfwlearningsettings -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetAppfwlearningsettings
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/appfw/appfwlearningsettings/
         Requires  : PowerShell v5.1 and up
@@ -3778,21 +3778,21 @@ function Invoke-ADCGetAppfwlearningsettings {
             if ( $PsCmdlet.ParameterSetName -eq 'Getall' ) {
                 $Query = @{ }
                 Write-Verbose "Retrieving all appfwlearningsettings objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type appfwlearningsettings -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type appfwlearningsettings -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
                 if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for appfwlearningsettings objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type appfwlearningsettings -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type appfwlearningsettings -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving appfwlearningsettings objects by arguments"
                 $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type appfwlearningsettings -Arguments $Arguments -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type appfwlearningsettings -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving appfwlearningsettings configuration for property 'profilename'"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type appfwlearningsettings -Resource $profilename -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type appfwlearningsettings -NitroPath nitro/v1/config -Resource $profilename -Summary:$ViewSummary -Filter $Filter -GetWarning
             } else {
                 Write-Verbose "Retrieving appfwlearningsettings configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type appfwlearningsettings -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type appfwlearningsettings -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -3824,7 +3824,7 @@ function Invoke-ADCAddAppfwmultipartformcontenttype {
         Invoke-ADCAddAppfwmultipartformcontenttype -multipartformcontenttypevalue <string>
     .NOTES
         File Name : Invoke-ADCAddAppfwmultipartformcontenttype
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/appfw/appfwmultipartformcontenttype/
         Requires  : PowerShell v5.1 and up
@@ -3861,7 +3861,7 @@ function Invoke-ADCAddAppfwmultipartformcontenttype {
             if ($PSBoundParameters.ContainsKey('isregex')) { $Payload.Add('isregex', $isregex) }
  
             if ($PSCmdlet.ShouldProcess("appfwmultipartformcontenttype", "Add Application Firewall configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -Type appfwmultipartformcontenttype -Payload $Payload -GetWarning
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -NitroPath nitro/v1/config -Type appfwmultipartformcontenttype -Payload $Payload -GetWarning
                 #HTTP Status Code on Success: 201 Created
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 if ($PSBoundParameters.ContainsKey('PassThru')) {
@@ -3894,7 +3894,7 @@ function Invoke-ADCDeleteAppfwmultipartformcontenttype {
         Invoke-ADCDeleteAppfwmultipartformcontenttype -multipartformcontenttypevalue <string>
     .NOTES
         File Name : Invoke-ADCDeleteAppfwmultipartformcontenttype
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/appfw/appfwmultipartformcontenttype/
         Requires  : PowerShell v5.1 and up
@@ -3922,7 +3922,7 @@ function Invoke-ADCDeleteAppfwmultipartformcontenttype {
             }
 
             if ($PSCmdlet.ShouldProcess("$multipartformcontenttypevalue", "Delete Application Firewall configuration Object")) {
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type appfwmultipartformcontenttype -Resource $multipartformcontenttypevalue -Arguments $Arguments
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type appfwmultipartformcontenttype -NitroPath nitro/v1/config -Resource $multipartformcontenttypevalue -Arguments $Arguments
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $response
@@ -3966,7 +3966,7 @@ function Invoke-ADCGetAppfwmultipartformcontenttype {
         Invoke-ADCGetAppfwmultipartformcontenttype -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetAppfwmultipartformcontenttype
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/appfw/appfwmultipartformcontenttype/
         Requires  : PowerShell v5.1 and up
@@ -4007,21 +4007,21 @@ function Invoke-ADCGetAppfwmultipartformcontenttype {
             if ( $PsCmdlet.ParameterSetName -eq 'Getall' ) {
                 $Query = @{ }
                 Write-Verbose "Retrieving all appfwmultipartformcontenttype objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type appfwmultipartformcontenttype -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type appfwmultipartformcontenttype -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
                 if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for appfwmultipartformcontenttype objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type appfwmultipartformcontenttype -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type appfwmultipartformcontenttype -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving appfwmultipartformcontenttype objects by arguments"
                 $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type appfwmultipartformcontenttype -Arguments $Arguments -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type appfwmultipartformcontenttype -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving appfwmultipartformcontenttype configuration for property 'multipartformcontenttypevalue'"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type appfwmultipartformcontenttype -Resource $multipartformcontenttypevalue -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type appfwmultipartformcontenttype -NitroPath nitro/v1/config -Resource $multipartformcontenttypevalue -Summary:$ViewSummary -Filter $Filter -GetWarning
             } else {
                 Write-Verbose "Retrieving appfwmultipartformcontenttype configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type appfwmultipartformcontenttype -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type appfwmultipartformcontenttype -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -4058,7 +4058,7 @@ function Invoke-ADCAddAppfwpolicy {
         Invoke-ADCAddAppfwpolicy -name <string> -rule <string> -profilename <string>
     .NOTES
         File Name : Invoke-ADCAddAppfwpolicy
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/appfw/appfwpolicy/
         Requires  : PowerShell v5.1 and up
@@ -4106,7 +4106,7 @@ function Invoke-ADCAddAppfwpolicy {
             if ($PSBoundParameters.ContainsKey('logaction')) { $Payload.Add('logaction', $logaction) }
  
             if ($PSCmdlet.ShouldProcess("appfwpolicy", "Add Application Firewall configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -Type appfwpolicy -Payload $Payload -GetWarning
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -NitroPath nitro/v1/config -Type appfwpolicy -Payload $Payload -GetWarning
                 #HTTP Status Code on Success: 201 Created
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 if ($PSBoundParameters.ContainsKey('PassThru')) {
@@ -4139,7 +4139,7 @@ function Invoke-ADCDeleteAppfwpolicy {
         Invoke-ADCDeleteAppfwpolicy -name <string>
     .NOTES
         File Name : Invoke-ADCDeleteAppfwpolicy
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/appfw/appfwpolicy/
         Requires  : PowerShell v5.1 and up
@@ -4167,7 +4167,7 @@ function Invoke-ADCDeleteAppfwpolicy {
             }
 
             if ($PSCmdlet.ShouldProcess("$name", "Delete Application Firewall configuration Object")) {
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type appfwpolicy -Resource $name -Arguments $Arguments
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type appfwpolicy -NitroPath nitro/v1/config -Resource $name -Arguments $Arguments
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $response
@@ -4206,7 +4206,7 @@ function Invoke-ADCUpdateAppfwpolicy {
         Invoke-ADCUpdateAppfwpolicy -name <string>
     .NOTES
         File Name : Invoke-ADCUpdateAppfwpolicy
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/appfw/appfwpolicy/
         Requires  : PowerShell v5.1 and up
@@ -4252,7 +4252,7 @@ function Invoke-ADCUpdateAppfwpolicy {
             if ($PSBoundParameters.ContainsKey('logaction')) { $Payload.Add('logaction', $logaction) }
  
             if ($PSCmdlet.ShouldProcess("appfwpolicy", "Update Application Firewall configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -Type appfwpolicy -Payload $Payload -GetWarning
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -NitroPath nitro/v1/config -Type appfwpolicy -Payload $Payload -GetWarning
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 if ($PSBoundParameters.ContainsKey('PassThru')) {
@@ -4289,7 +4289,7 @@ function Invoke-ADCUnsetAppfwpolicy {
         Invoke-ADCUnsetAppfwpolicy -name <string>
     .NOTES
         File Name : Invoke-ADCUnsetAppfwpolicy
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/appfw/appfwpolicy
         Requires  : PowerShell v5.1 and up
@@ -4324,7 +4324,7 @@ function Invoke-ADCUnsetAppfwpolicy {
             if ($PSBoundParameters.ContainsKey('comment')) { $Payload.Add('comment', $comment) }
             if ($PSBoundParameters.ContainsKey('logaction')) { $Payload.Add('logaction', $logaction) }
             if ($PSCmdlet.ShouldProcess("$name", "Unset Application Firewall configuration Object")) {
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -Type appfwpolicy -Action unset -Payload $Payload -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -Type appfwpolicy -NitroPath nitro/v1/config -Action unset -Payload $Payload -GetWarning
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $response
@@ -4356,7 +4356,7 @@ function Invoke-ADCRenameAppfwpolicy {
         Invoke-ADCRenameAppfwpolicy -name <string> -newname <string>
     .NOTES
         File Name : Invoke-ADCRenameAppfwpolicy
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/appfw/appfwpolicy/
         Requires  : PowerShell v5.1 and up
@@ -4395,7 +4395,7 @@ function Invoke-ADCRenameAppfwpolicy {
 
  
             if ($PSCmdlet.ShouldProcess("appfwpolicy", "Rename Application Firewall configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -Type appfwpolicy -Action rename -Payload $Payload -GetWarning
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -NitroPath nitro/v1/config -Type appfwpolicy -Action rename -Payload $Payload -GetWarning
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 if ($PSBoundParameters.ContainsKey('PassThru')) {
@@ -4445,7 +4445,7 @@ function Invoke-ADCGetAppfwpolicy {
         Invoke-ADCGetAppfwpolicy -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetAppfwpolicy
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/appfw/appfwpolicy/
         Requires  : PowerShell v5.1 and up
@@ -4486,21 +4486,21 @@ function Invoke-ADCGetAppfwpolicy {
             if ( $PsCmdlet.ParameterSetName -eq 'Getall' ) {
                 $Query = @{ }
                 Write-Verbose "Retrieving all appfwpolicy objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type appfwpolicy -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type appfwpolicy -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
                 if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for appfwpolicy objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type appfwpolicy -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type appfwpolicy -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving appfwpolicy objects by arguments"
                 $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type appfwpolicy -Arguments $Arguments -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type appfwpolicy -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving appfwpolicy configuration for property 'name'"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type appfwpolicy -Resource $name -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type appfwpolicy -NitroPath nitro/v1/config -Resource $name -Summary:$ViewSummary -Filter $Filter -GetWarning
             } else {
                 Write-Verbose "Retrieving appfwpolicy configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type appfwpolicy -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type appfwpolicy -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -4530,7 +4530,7 @@ function Invoke-ADCAddAppfwpolicylabel {
         Invoke-ADCAddAppfwpolicylabel -labelname <string> -policylabeltype <string>
     .NOTES
         File Name : Invoke-ADCAddAppfwpolicylabel
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/appfw/appfwpolicylabel/
         Requires  : PowerShell v5.1 and up
@@ -4568,7 +4568,7 @@ function Invoke-ADCAddAppfwpolicylabel {
 
  
             if ($PSCmdlet.ShouldProcess("appfwpolicylabel", "Add Application Firewall configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -Type appfwpolicylabel -Payload $Payload -GetWarning
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -NitroPath nitro/v1/config -Type appfwpolicylabel -Payload $Payload -GetWarning
                 #HTTP Status Code on Success: 201 Created
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 if ($PSBoundParameters.ContainsKey('PassThru')) {
@@ -4600,7 +4600,7 @@ function Invoke-ADCDeleteAppfwpolicylabel {
         Invoke-ADCDeleteAppfwpolicylabel -labelname <string>
     .NOTES
         File Name : Invoke-ADCDeleteAppfwpolicylabel
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/appfw/appfwpolicylabel/
         Requires  : PowerShell v5.1 and up
@@ -4628,7 +4628,7 @@ function Invoke-ADCDeleteAppfwpolicylabel {
             }
 
             if ($PSCmdlet.ShouldProcess("$labelname", "Delete Application Firewall configuration Object")) {
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type appfwpolicylabel -Resource $labelname -Arguments $Arguments
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type appfwpolicylabel -NitroPath nitro/v1/config -Resource $labelname -Arguments $Arguments
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $response
@@ -4660,7 +4660,7 @@ function Invoke-ADCRenameAppfwpolicylabel {
         Invoke-ADCRenameAppfwpolicylabel -labelname <string> -newname <string>
     .NOTES
         File Name : Invoke-ADCRenameAppfwpolicylabel
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/appfw/appfwpolicylabel/
         Requires  : PowerShell v5.1 and up
@@ -4698,7 +4698,7 @@ function Invoke-ADCRenameAppfwpolicylabel {
 
  
             if ($PSCmdlet.ShouldProcess("appfwpolicylabel", "Rename Application Firewall configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -Type appfwpolicylabel -Action rename -Payload $Payload -GetWarning
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -NitroPath nitro/v1/config -Type appfwpolicylabel -Action rename -Payload $Payload -GetWarning
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 if ($PSBoundParameters.ContainsKey('PassThru')) {
@@ -4747,7 +4747,7 @@ function Invoke-ADCGetAppfwpolicylabel {
         Invoke-ADCGetAppfwpolicylabel -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetAppfwpolicylabel
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/appfw/appfwpolicylabel/
         Requires  : PowerShell v5.1 and up
@@ -4787,21 +4787,21 @@ function Invoke-ADCGetAppfwpolicylabel {
             if ( $PsCmdlet.ParameterSetName -eq 'Getall' ) {
                 $Query = @{ }
                 Write-Verbose "Retrieving all appfwpolicylabel objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type appfwpolicylabel -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type appfwpolicylabel -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
                 if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for appfwpolicylabel objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type appfwpolicylabel -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type appfwpolicylabel -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving appfwpolicylabel objects by arguments"
                 $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type appfwpolicylabel -Arguments $Arguments -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type appfwpolicylabel -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving appfwpolicylabel configuration for property 'labelname'"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type appfwpolicylabel -Resource $labelname -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type appfwpolicylabel -NitroPath nitro/v1/config -Resource $labelname -Summary:$ViewSummary -Filter $Filter -GetWarning
             } else {
                 Write-Verbose "Retrieving appfwpolicylabel configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type appfwpolicylabel -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type appfwpolicylabel -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -4841,7 +4841,7 @@ function Invoke-ADCAddAppfwpolicylabelappfwpolicybinding {
         Invoke-ADCAddAppfwpolicylabelappfwpolicybinding -labelname <string> -policyname <string> -priority <double>
     .NOTES
         File Name : Invoke-ADCAddAppfwpolicylabelappfwpolicybinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/appfw/appfwpolicylabel_appfwpolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -4894,7 +4894,7 @@ function Invoke-ADCAddAppfwpolicylabelappfwpolicybinding {
             if ($PSBoundParameters.ContainsKey('invoke_labelname')) { $Payload.Add('invoke_labelname', $invoke_labelname) }
  
             if ($PSCmdlet.ShouldProcess("appfwpolicylabel_appfwpolicy_binding", "Add Application Firewall configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -Type appfwpolicylabel_appfwpolicy_binding -Payload $Payload -GetWarning
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -NitroPath nitro/v1/config -Type appfwpolicylabel_appfwpolicy_binding -Payload $Payload -GetWarning
                 #HTTP Status Code on Success: 201 Created
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 if ($PSBoundParameters.ContainsKey('PassThru')) {
@@ -4928,7 +4928,7 @@ function Invoke-ADCDeleteAppfwpolicylabelappfwpolicybinding {
         Invoke-ADCDeleteAppfwpolicylabelappfwpolicybinding -labelname <string>
     .NOTES
         File Name : Invoke-ADCDeleteAppfwpolicylabelappfwpolicybinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/appfw/appfwpolicylabel_appfwpolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -4961,7 +4961,7 @@ function Invoke-ADCDeleteAppfwpolicylabelappfwpolicybinding {
             if ($PSBoundParameters.ContainsKey('policyname')) { $Arguments.Add('policyname', $policyname) }
             if ($PSBoundParameters.ContainsKey('priority')) { $Arguments.Add('priority', $priority) }
             if ($PSCmdlet.ShouldProcess("$labelname", "Delete Application Firewall configuration Object")) {
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type appfwpolicylabel_appfwpolicy_binding -Resource $labelname -Arguments $Arguments
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type appfwpolicylabel_appfwpolicy_binding -NitroPath nitro/v1/config -Resource $labelname -Arguments $Arguments
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $response
@@ -5005,7 +5005,7 @@ function Invoke-ADCGetAppfwpolicylabelappfwpolicybinding {
         Invoke-ADCGetAppfwpolicylabelappfwpolicybinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetAppfwpolicylabelappfwpolicybinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/appfw/appfwpolicylabel_appfwpolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -5042,21 +5042,21 @@ function Invoke-ADCGetAppfwpolicylabelappfwpolicybinding {
                     bulkbindings = 'yes'
                 }
                 Write-Verbose "Retrieving all appfwpolicylabel_appfwpolicy_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type appfwpolicylabel_appfwpolicy_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type appfwpolicylabel_appfwpolicy_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
                 if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for appfwpolicylabel_appfwpolicy_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type appfwpolicylabel_appfwpolicy_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type appfwpolicylabel_appfwpolicy_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving appfwpolicylabel_appfwpolicy_binding objects by arguments"
                 $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type appfwpolicylabel_appfwpolicy_binding -Arguments $Arguments -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type appfwpolicylabel_appfwpolicy_binding -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving appfwpolicylabel_appfwpolicy_binding configuration for property 'labelname'"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type appfwpolicylabel_appfwpolicy_binding -Resource $labelname -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type appfwpolicylabel_appfwpolicy_binding -NitroPath nitro/v1/config -Resource $labelname -Summary:$ViewSummary -Filter $Filter -GetWarning
             } else {
                 Write-Verbose "Retrieving appfwpolicylabel_appfwpolicy_binding configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type appfwpolicylabel_appfwpolicy_binding -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type appfwpolicylabel_appfwpolicy_binding -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -5096,7 +5096,7 @@ function Invoke-ADCGetAppfwpolicylabelbinding {
         Invoke-ADCGetAppfwpolicylabelbinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetAppfwpolicylabelbinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/appfw/appfwpolicylabel_binding/
         Requires  : PowerShell v5.1 and up
@@ -5130,21 +5130,21 @@ function Invoke-ADCGetAppfwpolicylabelbinding {
                     bulkbindings = 'yes'
                 }
                 Write-Verbose "Retrieving all appfwpolicylabel_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type appfwpolicylabel_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type appfwpolicylabel_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
                 if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for appfwpolicylabel_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type appfwpolicylabel_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type appfwpolicylabel_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving appfwpolicylabel_binding objects by arguments"
                 $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type appfwpolicylabel_binding -Arguments $Arguments -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type appfwpolicylabel_binding -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving appfwpolicylabel_binding configuration for property 'labelname'"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type appfwpolicylabel_binding -Resource $labelname -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type appfwpolicylabel_binding -NitroPath nitro/v1/config -Resource $labelname -Summary:$ViewSummary -Filter $Filter -GetWarning
             } else {
                 Write-Verbose "Retrieving appfwpolicylabel_binding configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type appfwpolicylabel_binding -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type appfwpolicylabel_binding -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -5186,7 +5186,7 @@ function Invoke-ADCGetAppfwpolicylabelpolicybindingbinding {
         Invoke-ADCGetAppfwpolicylabelpolicybindingbinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetAppfwpolicylabelpolicybindingbinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/appfw/appfwpolicylabel_policybinding_binding/
         Requires  : PowerShell v5.1 and up
@@ -5223,21 +5223,21 @@ function Invoke-ADCGetAppfwpolicylabelpolicybindingbinding {
                     bulkbindings = 'yes'
                 }
                 Write-Verbose "Retrieving all appfwpolicylabel_policybinding_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type appfwpolicylabel_policybinding_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type appfwpolicylabel_policybinding_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
                 if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for appfwpolicylabel_policybinding_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type appfwpolicylabel_policybinding_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type appfwpolicylabel_policybinding_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving appfwpolicylabel_policybinding_binding objects by arguments"
                 $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type appfwpolicylabel_policybinding_binding -Arguments $Arguments -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type appfwpolicylabel_policybinding_binding -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving appfwpolicylabel_policybinding_binding configuration for property 'labelname'"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type appfwpolicylabel_policybinding_binding -Resource $labelname -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type appfwpolicylabel_policybinding_binding -NitroPath nitro/v1/config -Resource $labelname -Summary:$ViewSummary -Filter $Filter -GetWarning
             } else {
                 Write-Verbose "Retrieving appfwpolicylabel_policybinding_binding configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type appfwpolicylabel_policybinding_binding -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type appfwpolicylabel_policybinding_binding -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -5279,7 +5279,7 @@ function Invoke-ADCGetAppfwpolicyappfwglobalbinding {
         Invoke-ADCGetAppfwpolicyappfwglobalbinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetAppfwpolicyappfwglobalbinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/appfw/appfwpolicy_appfwglobal_binding/
         Requires  : PowerShell v5.1 and up
@@ -5317,21 +5317,21 @@ function Invoke-ADCGetAppfwpolicyappfwglobalbinding {
                     bulkbindings = 'yes'
                 }
                 Write-Verbose "Retrieving all appfwpolicy_appfwglobal_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type appfwpolicy_appfwglobal_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type appfwpolicy_appfwglobal_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
                 if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for appfwpolicy_appfwglobal_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type appfwpolicy_appfwglobal_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type appfwpolicy_appfwglobal_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving appfwpolicy_appfwglobal_binding objects by arguments"
                 $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type appfwpolicy_appfwglobal_binding -Arguments $Arguments -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type appfwpolicy_appfwglobal_binding -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving appfwpolicy_appfwglobal_binding configuration for property 'name'"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type appfwpolicy_appfwglobal_binding -Resource $name -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type appfwpolicy_appfwglobal_binding -NitroPath nitro/v1/config -Resource $name -Summary:$ViewSummary -Filter $Filter -GetWarning
             } else {
                 Write-Verbose "Retrieving appfwpolicy_appfwglobal_binding configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type appfwpolicy_appfwglobal_binding -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type appfwpolicy_appfwglobal_binding -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -5373,7 +5373,7 @@ function Invoke-ADCGetAppfwpolicyappfwpolicylabelbinding {
         Invoke-ADCGetAppfwpolicyappfwpolicylabelbinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetAppfwpolicyappfwpolicylabelbinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/appfw/appfwpolicy_appfwpolicylabel_binding/
         Requires  : PowerShell v5.1 and up
@@ -5411,21 +5411,21 @@ function Invoke-ADCGetAppfwpolicyappfwpolicylabelbinding {
                     bulkbindings = 'yes'
                 }
                 Write-Verbose "Retrieving all appfwpolicy_appfwpolicylabel_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type appfwpolicy_appfwpolicylabel_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type appfwpolicy_appfwpolicylabel_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
                 if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for appfwpolicy_appfwpolicylabel_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type appfwpolicy_appfwpolicylabel_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type appfwpolicy_appfwpolicylabel_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving appfwpolicy_appfwpolicylabel_binding objects by arguments"
                 $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type appfwpolicy_appfwpolicylabel_binding -Arguments $Arguments -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type appfwpolicy_appfwpolicylabel_binding -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving appfwpolicy_appfwpolicylabel_binding configuration for property 'name'"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type appfwpolicy_appfwpolicylabel_binding -Resource $name -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type appfwpolicy_appfwpolicylabel_binding -NitroPath nitro/v1/config -Resource $name -Summary:$ViewSummary -Filter $Filter -GetWarning
             } else {
                 Write-Verbose "Retrieving appfwpolicy_appfwpolicylabel_binding configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type appfwpolicy_appfwpolicylabel_binding -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type appfwpolicy_appfwpolicylabel_binding -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -5465,7 +5465,7 @@ function Invoke-ADCGetAppfwpolicybinding {
         Invoke-ADCGetAppfwpolicybinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetAppfwpolicybinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/appfw/appfwpolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -5500,21 +5500,21 @@ function Invoke-ADCGetAppfwpolicybinding {
                     bulkbindings = 'yes'
                 }
                 Write-Verbose "Retrieving all appfwpolicy_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type appfwpolicy_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type appfwpolicy_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
                 if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for appfwpolicy_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type appfwpolicy_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type appfwpolicy_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving appfwpolicy_binding objects by arguments"
                 $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type appfwpolicy_binding -Arguments $Arguments -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type appfwpolicy_binding -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving appfwpolicy_binding configuration for property 'name'"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type appfwpolicy_binding -Resource $name -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type appfwpolicy_binding -NitroPath nitro/v1/config -Resource $name -Summary:$ViewSummary -Filter $Filter -GetWarning
             } else {
                 Write-Verbose "Retrieving appfwpolicy_binding configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type appfwpolicy_binding -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type appfwpolicy_binding -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -5556,7 +5556,7 @@ function Invoke-ADCGetAppfwpolicycsvserverbinding {
         Invoke-ADCGetAppfwpolicycsvserverbinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetAppfwpolicycsvserverbinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/appfw/appfwpolicy_csvserver_binding/
         Requires  : PowerShell v5.1 and up
@@ -5594,21 +5594,21 @@ function Invoke-ADCGetAppfwpolicycsvserverbinding {
                     bulkbindings = 'yes'
                 }
                 Write-Verbose "Retrieving all appfwpolicy_csvserver_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type appfwpolicy_csvserver_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type appfwpolicy_csvserver_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
                 if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for appfwpolicy_csvserver_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type appfwpolicy_csvserver_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type appfwpolicy_csvserver_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving appfwpolicy_csvserver_binding objects by arguments"
                 $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type appfwpolicy_csvserver_binding -Arguments $Arguments -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type appfwpolicy_csvserver_binding -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving appfwpolicy_csvserver_binding configuration for property 'name'"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type appfwpolicy_csvserver_binding -Resource $name -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type appfwpolicy_csvserver_binding -NitroPath nitro/v1/config -Resource $name -Summary:$ViewSummary -Filter $Filter -GetWarning
             } else {
                 Write-Verbose "Retrieving appfwpolicy_csvserver_binding configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type appfwpolicy_csvserver_binding -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type appfwpolicy_csvserver_binding -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -5650,7 +5650,7 @@ function Invoke-ADCGetAppfwpolicylbvserverbinding {
         Invoke-ADCGetAppfwpolicylbvserverbinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetAppfwpolicylbvserverbinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/appfw/appfwpolicy_lbvserver_binding/
         Requires  : PowerShell v5.1 and up
@@ -5688,21 +5688,21 @@ function Invoke-ADCGetAppfwpolicylbvserverbinding {
                     bulkbindings = 'yes'
                 }
                 Write-Verbose "Retrieving all appfwpolicy_lbvserver_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type appfwpolicy_lbvserver_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type appfwpolicy_lbvserver_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
                 if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for appfwpolicy_lbvserver_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type appfwpolicy_lbvserver_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type appfwpolicy_lbvserver_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving appfwpolicy_lbvserver_binding objects by arguments"
                 $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type appfwpolicy_lbvserver_binding -Arguments $Arguments -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type appfwpolicy_lbvserver_binding -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving appfwpolicy_lbvserver_binding configuration for property 'name'"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type appfwpolicy_lbvserver_binding -Resource $name -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type appfwpolicy_lbvserver_binding -NitroPath nitro/v1/config -Resource $name -Summary:$ViewSummary -Filter $Filter -GetWarning
             } else {
                 Write-Verbose "Retrieving appfwpolicy_lbvserver_binding configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type appfwpolicy_lbvserver_binding -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type appfwpolicy_lbvserver_binding -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -6323,7 +6323,7 @@ function Invoke-ADCAddAppfwprofile {
         Invoke-ADCAddAppfwprofile -name <string>
     .NOTES
         File Name : Invoke-ADCAddAppfwprofile
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/appfw/appfwprofile/
         Requires  : PowerShell v5.1 and up
@@ -6745,7 +6745,7 @@ function Invoke-ADCAddAppfwprofile {
             if ($PSBoundParameters.ContainsKey('verboseloglevel')) { $Payload.Add('verboseloglevel', $verboseloglevel) }
  
             if ($PSCmdlet.ShouldProcess("appfwprofile", "Add Application Firewall configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -Type appfwprofile -Payload $Payload -GetWarning
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -NitroPath nitro/v1/config -Type appfwprofile -Payload $Payload -GetWarning
                 #HTTP Status Code on Success: 201 Created
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 if ($PSBoundParameters.ContainsKey('PassThru')) {
@@ -6777,7 +6777,7 @@ function Invoke-ADCDeleteAppfwprofile {
         Invoke-ADCDeleteAppfwprofile -name <string>
     .NOTES
         File Name : Invoke-ADCDeleteAppfwprofile
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/appfw/appfwprofile/
         Requires  : PowerShell v5.1 and up
@@ -6805,7 +6805,7 @@ function Invoke-ADCDeleteAppfwprofile {
             }
 
             if ($PSCmdlet.ShouldProcess("$name", "Delete Application Firewall configuration Object")) {
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type appfwprofile -Resource $name -Arguments $Arguments
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type appfwprofile -NitroPath nitro/v1/config -Resource $name -Arguments $Arguments
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $response
@@ -7424,7 +7424,7 @@ function Invoke-ADCUpdateAppfwprofile {
         Invoke-ADCUpdateAppfwprofile -name <string>
     .NOTES
         File Name : Invoke-ADCUpdateAppfwprofile
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/appfw/appfwprofile/
         Requires  : PowerShell v5.1 and up
@@ -7842,7 +7842,7 @@ function Invoke-ADCUpdateAppfwprofile {
             if ($PSBoundParameters.ContainsKey('verboseloglevel')) { $Payload.Add('verboseloglevel', $verboseloglevel) }
  
             if ($PSCmdlet.ShouldProcess("appfwprofile", "Update Application Firewall configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -Type appfwprofile -Payload $Payload -GetWarning
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -NitroPath nitro/v1/config -Type appfwprofile -Payload $Payload -GetWarning
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 if ($PSBoundParameters.ContainsKey('PassThru')) {
@@ -8375,7 +8375,7 @@ function Invoke-ADCUnsetAppfwprofile {
         Invoke-ADCUnsetAppfwprofile -name <string>
     .NOTES
         File Name : Invoke-ADCUnsetAppfwprofile
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/appfw/appfwprofile
         Requires  : PowerShell v5.1 and up
@@ -8695,7 +8695,7 @@ function Invoke-ADCUnsetAppfwprofile {
             if ($PSBoundParameters.ContainsKey('fileuploadtypesaction')) { $Payload.Add('fileuploadtypesaction', $fileuploadtypesaction) }
             if ($PSBoundParameters.ContainsKey('verboseloglevel')) { $Payload.Add('verboseloglevel', $verboseloglevel) }
             if ($PSCmdlet.ShouldProcess("$name", "Unset Application Firewall configuration Object")) {
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -Type appfwprofile -Action unset -Payload $Payload -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -Type appfwprofile -NitroPath nitro/v1/config -Action unset -Payload $Payload -GetWarning
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $response
@@ -8734,7 +8734,7 @@ function Invoke-ADCRestoreAppfwprofile {
         Invoke-ADCRestoreAppfwprofile -archivename <string>
     .NOTES
         File Name : Invoke-ADCRestoreAppfwprofile
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/appfw/appfwprofile/
         Requires  : PowerShell v5.1 and up
@@ -8782,7 +8782,7 @@ function Invoke-ADCRestoreAppfwprofile {
             if ($PSBoundParameters.ContainsKey('overwrite')) { $Payload.Add('overwrite', $overwrite) }
             if ($PSBoundParameters.ContainsKey('augment')) { $Payload.Add('augment', $augment) }
             if ($PSCmdlet.ShouldProcess($Name, "Restore Application Firewall configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -Type appfwprofile -Action restore -Payload $Payload -GetWarning
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -NitroPath nitro/v1/config -Type appfwprofile -Action restore -Payload $Payload -GetWarning
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $result
@@ -8826,7 +8826,7 @@ function Invoke-ADCGetAppfwprofile {
         Invoke-ADCGetAppfwprofile -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetAppfwprofile
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/appfw/appfwprofile/
         Requires  : PowerShell v5.1 and up
@@ -8867,21 +8867,21 @@ function Invoke-ADCGetAppfwprofile {
             if ( $PsCmdlet.ParameterSetName -eq 'Getall' ) {
                 $Query = @{ }
                 Write-Verbose "Retrieving all appfwprofile objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type appfwprofile -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type appfwprofile -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
                 if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for appfwprofile objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type appfwprofile -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type appfwprofile -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving appfwprofile objects by arguments"
                 $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type appfwprofile -Arguments $Arguments -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type appfwprofile -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving appfwprofile configuration for property 'name'"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type appfwprofile -Resource $name -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type appfwprofile -NitroPath nitro/v1/config -Resource $name -Summary:$ViewSummary -Filter $Filter -GetWarning
             } else {
                 Write-Verbose "Retrieving appfwprofile configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type appfwprofile -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type appfwprofile -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -8921,7 +8921,7 @@ function Invoke-ADCGetAppfwprofilebinding {
         Invoke-ADCGetAppfwprofilebinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetAppfwprofilebinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/appfw/appfwprofile_binding/
         Requires  : PowerShell v5.1 and up
@@ -8956,21 +8956,21 @@ function Invoke-ADCGetAppfwprofilebinding {
                     bulkbindings = 'yes'
                 }
                 Write-Verbose "Retrieving all appfwprofile_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type appfwprofile_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type appfwprofile_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
                 if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for appfwprofile_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type appfwprofile_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type appfwprofile_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving appfwprofile_binding objects by arguments"
                 $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type appfwprofile_binding -Arguments $Arguments -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type appfwprofile_binding -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving appfwprofile_binding configuration for property 'name'"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type appfwprofile_binding -Resource $name -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type appfwprofile_binding -NitroPath nitro/v1/config -Resource $name -Summary:$ViewSummary -Filter $Filter -GetWarning
             } else {
                 Write-Verbose "Retrieving appfwprofile_binding configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type appfwprofile_binding -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type appfwprofile_binding -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -9024,7 +9024,7 @@ function Invoke-ADCAddAppfwprofilecmdinjectionbinding {
         Invoke-ADCAddAppfwprofilecmdinjectionbinding -name <string>
     .NOTES
         File Name : Invoke-ADCAddAppfwprofilecmdinjectionbinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/appfw/appfwprofile_cmdinjection_binding/
         Requires  : PowerShell v5.1 and up
@@ -9093,7 +9093,7 @@ function Invoke-ADCAddAppfwprofilecmdinjectionbinding {
             if ($PSBoundParameters.ContainsKey('isautodeployed')) { $Payload.Add('isautodeployed', $isautodeployed) }
  
             if ($PSCmdlet.ShouldProcess("appfwprofile_cmdinjection_binding", "Add Application Firewall configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -Type appfwprofile_cmdinjection_binding -Payload $Payload -GetWarning
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -NitroPath nitro/v1/config -Type appfwprofile_cmdinjection_binding -Payload $Payload -GetWarning
                 #HTTP Status Code on Success: 201 Created
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 if ($PSBoundParameters.ContainsKey('PassThru')) {
@@ -9133,7 +9133,7 @@ function Invoke-ADCDeleteAppfwprofilecmdinjectionbinding {
         Invoke-ADCDeleteAppfwprofilecmdinjectionbinding -name <string>
     .NOTES
         File Name : Invoke-ADCDeleteAppfwprofilecmdinjectionbinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/appfw/appfwprofile_cmdinjection_binding/
         Requires  : PowerShell v5.1 and up
@@ -9175,7 +9175,7 @@ function Invoke-ADCDeleteAppfwprofilecmdinjectionbinding {
             if ($PSBoundParameters.ContainsKey('as_value_type_cmd')) { $Arguments.Add('as_value_type_cmd', $as_value_type_cmd) }
             if ($PSBoundParameters.ContainsKey('as_value_expr_cmd')) { $Arguments.Add('as_value_expr_cmd', $as_value_expr_cmd) }
             if ($PSCmdlet.ShouldProcess("$name", "Delete Application Firewall configuration Object")) {
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type appfwprofile_cmdinjection_binding -Resource $name -Arguments $Arguments
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type appfwprofile_cmdinjection_binding -NitroPath nitro/v1/config -Resource $name -Arguments $Arguments
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $response
@@ -9219,7 +9219,7 @@ function Invoke-ADCGetAppfwprofilecmdinjectionbinding {
         Invoke-ADCGetAppfwprofilecmdinjectionbinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetAppfwprofilecmdinjectionbinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/appfw/appfwprofile_cmdinjection_binding/
         Requires  : PowerShell v5.1 and up
@@ -9257,21 +9257,21 @@ function Invoke-ADCGetAppfwprofilecmdinjectionbinding {
                     bulkbindings = 'yes'
                 }
                 Write-Verbose "Retrieving all appfwprofile_cmdinjection_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type appfwprofile_cmdinjection_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type appfwprofile_cmdinjection_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
                 if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for appfwprofile_cmdinjection_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type appfwprofile_cmdinjection_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type appfwprofile_cmdinjection_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving appfwprofile_cmdinjection_binding objects by arguments"
                 $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type appfwprofile_cmdinjection_binding -Arguments $Arguments -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type appfwprofile_cmdinjection_binding -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving appfwprofile_cmdinjection_binding configuration for property 'name'"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type appfwprofile_cmdinjection_binding -Resource $name -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type appfwprofile_cmdinjection_binding -NitroPath nitro/v1/config -Resource $name -Summary:$ViewSummary -Filter $Filter -GetWarning
             } else {
                 Write-Verbose "Retrieving appfwprofile_cmdinjection_binding configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type appfwprofile_cmdinjection_binding -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type appfwprofile_cmdinjection_binding -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -9309,7 +9309,7 @@ function Invoke-ADCAddAppfwprofilecontenttypebinding {
         Invoke-ADCAddAppfwprofilecontenttypebinding -name <string>
     .NOTES
         File Name : Invoke-ADCAddAppfwprofilecontenttypebinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/appfw/appfwprofile_contenttype_binding/
         Requires  : PowerShell v5.1 and up
@@ -9356,7 +9356,7 @@ function Invoke-ADCAddAppfwprofilecontenttypebinding {
             if ($PSBoundParameters.ContainsKey('isautodeployed')) { $Payload.Add('isautodeployed', $isautodeployed) }
  
             if ($PSCmdlet.ShouldProcess("appfwprofile_contenttype_binding", "Add Application Firewall configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -Type appfwprofile_contenttype_binding -Payload $Payload -GetWarning
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -NitroPath nitro/v1/config -Type appfwprofile_contenttype_binding -Payload $Payload -GetWarning
                 #HTTP Status Code on Success: 201 Created
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 if ($PSBoundParameters.ContainsKey('PassThru')) {
@@ -9390,7 +9390,7 @@ function Invoke-ADCDeleteAppfwprofilecontenttypebinding {
         Invoke-ADCDeleteAppfwprofilecontenttypebinding -name <string>
     .NOTES
         File Name : Invoke-ADCDeleteAppfwprofilecontenttypebinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/appfw/appfwprofile_contenttype_binding/
         Requires  : PowerShell v5.1 and up
@@ -9420,7 +9420,7 @@ function Invoke-ADCDeleteAppfwprofilecontenttypebinding {
             }
             if ($PSBoundParameters.ContainsKey('contenttype')) { $Arguments.Add('contenttype', $contenttype) }
             if ($PSCmdlet.ShouldProcess("$name", "Delete Application Firewall configuration Object")) {
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type appfwprofile_contenttype_binding -Resource $name -Arguments $Arguments
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type appfwprofile_contenttype_binding -NitroPath nitro/v1/config -Resource $name -Arguments $Arguments
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $response
@@ -9464,7 +9464,7 @@ function Invoke-ADCGetAppfwprofilecontenttypebinding {
         Invoke-ADCGetAppfwprofilecontenttypebinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetAppfwprofilecontenttypebinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/appfw/appfwprofile_contenttype_binding/
         Requires  : PowerShell v5.1 and up
@@ -9502,21 +9502,21 @@ function Invoke-ADCGetAppfwprofilecontenttypebinding {
                     bulkbindings = 'yes'
                 }
                 Write-Verbose "Retrieving all appfwprofile_contenttype_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type appfwprofile_contenttype_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type appfwprofile_contenttype_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
                 if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for appfwprofile_contenttype_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type appfwprofile_contenttype_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type appfwprofile_contenttype_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving appfwprofile_contenttype_binding objects by arguments"
                 $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type appfwprofile_contenttype_binding -Arguments $Arguments -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type appfwprofile_contenttype_binding -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving appfwprofile_contenttype_binding configuration for property 'name'"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type appfwprofile_contenttype_binding -Resource $name -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type appfwprofile_contenttype_binding -NitroPath nitro/v1/config -Resource $name -Summary:$ViewSummary -Filter $Filter -GetWarning
             } else {
                 Write-Verbose "Retrieving appfwprofile_contenttype_binding configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type appfwprofile_contenttype_binding -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type appfwprofile_contenttype_binding -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -9557,7 +9557,7 @@ function Invoke-ADCAddAppfwprofilecookieconsistencybinding {
         Invoke-ADCAddAppfwprofilecookieconsistencybinding -name <string>
     .NOTES
         File Name : Invoke-ADCAddAppfwprofilecookieconsistencybinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/appfw/appfwprofile_cookieconsistency_binding/
         Requires  : PowerShell v5.1 and up
@@ -9608,7 +9608,7 @@ function Invoke-ADCAddAppfwprofilecookieconsistencybinding {
             if ($PSBoundParameters.ContainsKey('isautodeployed')) { $Payload.Add('isautodeployed', $isautodeployed) }
  
             if ($PSCmdlet.ShouldProcess("appfwprofile_cookieconsistency_binding", "Add Application Firewall configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -Type appfwprofile_cookieconsistency_binding -Payload $Payload -GetWarning
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -NitroPath nitro/v1/config -Type appfwprofile_cookieconsistency_binding -Payload $Payload -GetWarning
                 #HTTP Status Code on Success: 201 Created
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 if ($PSBoundParameters.ContainsKey('PassThru')) {
@@ -9642,7 +9642,7 @@ function Invoke-ADCDeleteAppfwprofilecookieconsistencybinding {
         Invoke-ADCDeleteAppfwprofilecookieconsistencybinding -name <string>
     .NOTES
         File Name : Invoke-ADCDeleteAppfwprofilecookieconsistencybinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/appfw/appfwprofile_cookieconsistency_binding/
         Requires  : PowerShell v5.1 and up
@@ -9672,7 +9672,7 @@ function Invoke-ADCDeleteAppfwprofilecookieconsistencybinding {
             }
             if ($PSBoundParameters.ContainsKey('cookieconsistency')) { $Arguments.Add('cookieconsistency', $cookieconsistency) }
             if ($PSCmdlet.ShouldProcess("$name", "Delete Application Firewall configuration Object")) {
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type appfwprofile_cookieconsistency_binding -Resource $name -Arguments $Arguments
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type appfwprofile_cookieconsistency_binding -NitroPath nitro/v1/config -Resource $name -Arguments $Arguments
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $response
@@ -9716,7 +9716,7 @@ function Invoke-ADCGetAppfwprofilecookieconsistencybinding {
         Invoke-ADCGetAppfwprofilecookieconsistencybinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetAppfwprofilecookieconsistencybinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/appfw/appfwprofile_cookieconsistency_binding/
         Requires  : PowerShell v5.1 and up
@@ -9754,21 +9754,21 @@ function Invoke-ADCGetAppfwprofilecookieconsistencybinding {
                     bulkbindings = 'yes'
                 }
                 Write-Verbose "Retrieving all appfwprofile_cookieconsistency_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type appfwprofile_cookieconsistency_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type appfwprofile_cookieconsistency_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
                 if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for appfwprofile_cookieconsistency_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type appfwprofile_cookieconsistency_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type appfwprofile_cookieconsistency_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving appfwprofile_cookieconsistency_binding objects by arguments"
                 $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type appfwprofile_cookieconsistency_binding -Arguments $Arguments -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type appfwprofile_cookieconsistency_binding -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving appfwprofile_cookieconsistency_binding configuration for property 'name'"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type appfwprofile_cookieconsistency_binding -Resource $name -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type appfwprofile_cookieconsistency_binding -NitroPath nitro/v1/config -Resource $name -Summary:$ViewSummary -Filter $Filter -GetWarning
             } else {
                 Write-Verbose "Retrieving appfwprofile_cookieconsistency_binding configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type appfwprofile_cookieconsistency_binding -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type appfwprofile_cookieconsistency_binding -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -9808,7 +9808,7 @@ function Invoke-ADCAddAppfwprofilecreditcardnumberbinding {
         Invoke-ADCAddAppfwprofilecreditcardnumberbinding -name <string>
     .NOTES
         File Name : Invoke-ADCAddAppfwprofilecreditcardnumberbinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/appfw/appfwprofile_creditcardnumber_binding/
         Requires  : PowerShell v5.1 and up
@@ -9858,7 +9858,7 @@ function Invoke-ADCAddAppfwprofilecreditcardnumberbinding {
             if ($PSBoundParameters.ContainsKey('isautodeployed')) { $Payload.Add('isautodeployed', $isautodeployed) }
  
             if ($PSCmdlet.ShouldProcess("appfwprofile_creditcardnumber_binding", "Add Application Firewall configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -Type appfwprofile_creditcardnumber_binding -Payload $Payload -GetWarning
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -NitroPath nitro/v1/config -Type appfwprofile_creditcardnumber_binding -Payload $Payload -GetWarning
                 #HTTP Status Code on Success: 201 Created
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 if ($PSBoundParameters.ContainsKey('PassThru')) {
@@ -9893,7 +9893,7 @@ function Invoke-ADCDeleteAppfwprofilecreditcardnumberbinding {
         Invoke-ADCDeleteAppfwprofilecreditcardnumberbinding -name <string>
     .NOTES
         File Name : Invoke-ADCDeleteAppfwprofilecreditcardnumberbinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/appfw/appfwprofile_creditcardnumber_binding/
         Requires  : PowerShell v5.1 and up
@@ -9926,7 +9926,7 @@ function Invoke-ADCDeleteAppfwprofilecreditcardnumberbinding {
             if ($PSBoundParameters.ContainsKey('creditcardnumber')) { $Arguments.Add('creditcardnumber', $creditcardnumber) }
             if ($PSBoundParameters.ContainsKey('creditcardnumberurl')) { $Arguments.Add('creditcardnumberurl', $creditcardnumberurl) }
             if ($PSCmdlet.ShouldProcess("$name", "Delete Application Firewall configuration Object")) {
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type appfwprofile_creditcardnumber_binding -Resource $name -Arguments $Arguments
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type appfwprofile_creditcardnumber_binding -NitroPath nitro/v1/config -Resource $name -Arguments $Arguments
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $response
@@ -9970,7 +9970,7 @@ function Invoke-ADCGetAppfwprofilecreditcardnumberbinding {
         Invoke-ADCGetAppfwprofilecreditcardnumberbinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetAppfwprofilecreditcardnumberbinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/appfw/appfwprofile_creditcardnumber_binding/
         Requires  : PowerShell v5.1 and up
@@ -10008,21 +10008,21 @@ function Invoke-ADCGetAppfwprofilecreditcardnumberbinding {
                     bulkbindings = 'yes'
                 }
                 Write-Verbose "Retrieving all appfwprofile_creditcardnumber_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type appfwprofile_creditcardnumber_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type appfwprofile_creditcardnumber_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
                 if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for appfwprofile_creditcardnumber_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type appfwprofile_creditcardnumber_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type appfwprofile_creditcardnumber_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving appfwprofile_creditcardnumber_binding objects by arguments"
                 $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type appfwprofile_creditcardnumber_binding -Arguments $Arguments -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type appfwprofile_creditcardnumber_binding -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving appfwprofile_creditcardnumber_binding configuration for property 'name'"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type appfwprofile_creditcardnumber_binding -Resource $name -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type appfwprofile_creditcardnumber_binding -NitroPath nitro/v1/config -Resource $name -Summary:$ViewSummary -Filter $Filter -GetWarning
             } else {
                 Write-Verbose "Retrieving appfwprofile_creditcardnumber_binding configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type appfwprofile_creditcardnumber_binding -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type appfwprofile_creditcardnumber_binding -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -10076,7 +10076,7 @@ function Invoke-ADCAddAppfwprofilecrosssitescriptingbinding {
         Invoke-ADCAddAppfwprofilecrosssitescriptingbinding -name <string>
     .NOTES
         File Name : Invoke-ADCAddAppfwprofilecrosssitescriptingbinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/appfw/appfwprofile_crosssitescripting_binding/
         Requires  : PowerShell v5.1 and up
@@ -10145,7 +10145,7 @@ function Invoke-ADCAddAppfwprofilecrosssitescriptingbinding {
             if ($PSBoundParameters.ContainsKey('isautodeployed')) { $Payload.Add('isautodeployed', $isautodeployed) }
  
             if ($PSCmdlet.ShouldProcess("appfwprofile_crosssitescripting_binding", "Add Application Firewall configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -Type appfwprofile_crosssitescripting_binding -Payload $Payload -GetWarning
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -NitroPath nitro/v1/config -Type appfwprofile_crosssitescripting_binding -Payload $Payload -GetWarning
                 #HTTP Status Code on Success: 201 Created
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 if ($PSBoundParameters.ContainsKey('PassThru')) {
@@ -10185,7 +10185,7 @@ function Invoke-ADCDeleteAppfwprofilecrosssitescriptingbinding {
         Invoke-ADCDeleteAppfwprofilecrosssitescriptingbinding -name <string>
     .NOTES
         File Name : Invoke-ADCDeleteAppfwprofilecrosssitescriptingbinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/appfw/appfwprofile_crosssitescripting_binding/
         Requires  : PowerShell v5.1 and up
@@ -10227,7 +10227,7 @@ function Invoke-ADCDeleteAppfwprofilecrosssitescriptingbinding {
             if ($PSBoundParameters.ContainsKey('as_value_type_xss')) { $Arguments.Add('as_value_type_xss', $as_value_type_xss) }
             if ($PSBoundParameters.ContainsKey('as_value_expr_xss')) { $Arguments.Add('as_value_expr_xss', $as_value_expr_xss) }
             if ($PSCmdlet.ShouldProcess("$name", "Delete Application Firewall configuration Object")) {
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type appfwprofile_crosssitescripting_binding -Resource $name -Arguments $Arguments
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type appfwprofile_crosssitescripting_binding -NitroPath nitro/v1/config -Resource $name -Arguments $Arguments
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $response
@@ -10271,7 +10271,7 @@ function Invoke-ADCGetAppfwprofilecrosssitescriptingbinding {
         Invoke-ADCGetAppfwprofilecrosssitescriptingbinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetAppfwprofilecrosssitescriptingbinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/appfw/appfwprofile_crosssitescripting_binding/
         Requires  : PowerShell v5.1 and up
@@ -10309,21 +10309,21 @@ function Invoke-ADCGetAppfwprofilecrosssitescriptingbinding {
                     bulkbindings = 'yes'
                 }
                 Write-Verbose "Retrieving all appfwprofile_crosssitescripting_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type appfwprofile_crosssitescripting_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type appfwprofile_crosssitescripting_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
                 if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for appfwprofile_crosssitescripting_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type appfwprofile_crosssitescripting_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type appfwprofile_crosssitescripting_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving appfwprofile_crosssitescripting_binding objects by arguments"
                 $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type appfwprofile_crosssitescripting_binding -Arguments $Arguments -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type appfwprofile_crosssitescripting_binding -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving appfwprofile_crosssitescripting_binding configuration for property 'name'"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type appfwprofile_crosssitescripting_binding -Resource $name -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type appfwprofile_crosssitescripting_binding -NitroPath nitro/v1/config -Resource $name -Summary:$ViewSummary -Filter $Filter -GetWarning
             } else {
                 Write-Verbose "Retrieving appfwprofile_crosssitescripting_binding configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type appfwprofile_crosssitescripting_binding -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type appfwprofile_crosssitescripting_binding -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -10363,7 +10363,7 @@ function Invoke-ADCAddAppfwprofilecsrftagbinding {
         Invoke-ADCAddAppfwprofilecsrftagbinding -name <string>
     .NOTES
         File Name : Invoke-ADCAddAppfwprofilecsrftagbinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/appfw/appfwprofile_csrftag_binding/
         Requires  : PowerShell v5.1 and up
@@ -10413,7 +10413,7 @@ function Invoke-ADCAddAppfwprofilecsrftagbinding {
             if ($PSBoundParameters.ContainsKey('isautodeployed')) { $Payload.Add('isautodeployed', $isautodeployed) }
  
             if ($PSCmdlet.ShouldProcess("appfwprofile_csrftag_binding", "Add Application Firewall configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -Type appfwprofile_csrftag_binding -Payload $Payload -GetWarning
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -NitroPath nitro/v1/config -Type appfwprofile_csrftag_binding -Payload $Payload -GetWarning
                 #HTTP Status Code on Success: 201 Created
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 if ($PSBoundParameters.ContainsKey('PassThru')) {
@@ -10448,7 +10448,7 @@ function Invoke-ADCDeleteAppfwprofilecsrftagbinding {
         Invoke-ADCDeleteAppfwprofilecsrftagbinding -name <string>
     .NOTES
         File Name : Invoke-ADCDeleteAppfwprofilecsrftagbinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/appfw/appfwprofile_csrftag_binding/
         Requires  : PowerShell v5.1 and up
@@ -10481,7 +10481,7 @@ function Invoke-ADCDeleteAppfwprofilecsrftagbinding {
             if ($PSBoundParameters.ContainsKey('csrftag')) { $Arguments.Add('csrftag', $csrftag) }
             if ($PSBoundParameters.ContainsKey('csrfformactionurl')) { $Arguments.Add('csrfformactionurl', $csrfformactionurl) }
             if ($PSCmdlet.ShouldProcess("$name", "Delete Application Firewall configuration Object")) {
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type appfwprofile_csrftag_binding -Resource $name -Arguments $Arguments
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type appfwprofile_csrftag_binding -NitroPath nitro/v1/config -Resource $name -Arguments $Arguments
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $response
@@ -10525,7 +10525,7 @@ function Invoke-ADCGetAppfwprofilecsrftagbinding {
         Invoke-ADCGetAppfwprofilecsrftagbinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetAppfwprofilecsrftagbinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/appfw/appfwprofile_csrftag_binding/
         Requires  : PowerShell v5.1 and up
@@ -10563,21 +10563,21 @@ function Invoke-ADCGetAppfwprofilecsrftagbinding {
                     bulkbindings = 'yes'
                 }
                 Write-Verbose "Retrieving all appfwprofile_csrftag_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type appfwprofile_csrftag_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type appfwprofile_csrftag_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
                 if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for appfwprofile_csrftag_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type appfwprofile_csrftag_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type appfwprofile_csrftag_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving appfwprofile_csrftag_binding objects by arguments"
                 $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type appfwprofile_csrftag_binding -Arguments $Arguments -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type appfwprofile_csrftag_binding -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving appfwprofile_csrftag_binding configuration for property 'name'"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type appfwprofile_csrftag_binding -Resource $name -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type appfwprofile_csrftag_binding -NitroPath nitro/v1/config -Resource $name -Summary:$ViewSummary -Filter $Filter -GetWarning
             } else {
                 Write-Verbose "Retrieving appfwprofile_csrftag_binding configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type appfwprofile_csrftag_binding -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type appfwprofile_csrftag_binding -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -10615,7 +10615,7 @@ function Invoke-ADCAddAppfwprofiledenyurlbinding {
         Invoke-ADCAddAppfwprofiledenyurlbinding -name <string>
     .NOTES
         File Name : Invoke-ADCAddAppfwprofiledenyurlbinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/appfw/appfwprofile_denyurl_binding/
         Requires  : PowerShell v5.1 and up
@@ -10662,7 +10662,7 @@ function Invoke-ADCAddAppfwprofiledenyurlbinding {
             if ($PSBoundParameters.ContainsKey('isautodeployed')) { $Payload.Add('isautodeployed', $isautodeployed) }
  
             if ($PSCmdlet.ShouldProcess("appfwprofile_denyurl_binding", "Add Application Firewall configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -Type appfwprofile_denyurl_binding -Payload $Payload -GetWarning
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -NitroPath nitro/v1/config -Type appfwprofile_denyurl_binding -Payload $Payload -GetWarning
                 #HTTP Status Code on Success: 201 Created
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 if ($PSBoundParameters.ContainsKey('PassThru')) {
@@ -10696,7 +10696,7 @@ function Invoke-ADCDeleteAppfwprofiledenyurlbinding {
         Invoke-ADCDeleteAppfwprofiledenyurlbinding -name <string>
     .NOTES
         File Name : Invoke-ADCDeleteAppfwprofiledenyurlbinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/appfw/appfwprofile_denyurl_binding/
         Requires  : PowerShell v5.1 and up
@@ -10726,7 +10726,7 @@ function Invoke-ADCDeleteAppfwprofiledenyurlbinding {
             }
             if ($PSBoundParameters.ContainsKey('denyurl')) { $Arguments.Add('denyurl', $denyurl) }
             if ($PSCmdlet.ShouldProcess("$name", "Delete Application Firewall configuration Object")) {
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type appfwprofile_denyurl_binding -Resource $name -Arguments $Arguments
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type appfwprofile_denyurl_binding -NitroPath nitro/v1/config -Resource $name -Arguments $Arguments
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $response
@@ -10770,7 +10770,7 @@ function Invoke-ADCGetAppfwprofiledenyurlbinding {
         Invoke-ADCGetAppfwprofiledenyurlbinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetAppfwprofiledenyurlbinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/appfw/appfwprofile_denyurl_binding/
         Requires  : PowerShell v5.1 and up
@@ -10808,21 +10808,21 @@ function Invoke-ADCGetAppfwprofiledenyurlbinding {
                     bulkbindings = 'yes'
                 }
                 Write-Verbose "Retrieving all appfwprofile_denyurl_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type appfwprofile_denyurl_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type appfwprofile_denyurl_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
                 if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for appfwprofile_denyurl_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type appfwprofile_denyurl_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type appfwprofile_denyurl_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving appfwprofile_denyurl_binding objects by arguments"
                 $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type appfwprofile_denyurl_binding -Arguments $Arguments -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type appfwprofile_denyurl_binding -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving appfwprofile_denyurl_binding configuration for property 'name'"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type appfwprofile_denyurl_binding -Resource $name -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type appfwprofile_denyurl_binding -NitroPath nitro/v1/config -Resource $name -Summary:$ViewSummary -Filter $Filter -GetWarning
             } else {
                 Write-Verbose "Retrieving appfwprofile_denyurl_binding configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type appfwprofile_denyurl_binding -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type appfwprofile_denyurl_binding -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -10860,7 +10860,7 @@ function Invoke-ADCAddAppfwprofileexcluderescontenttypebinding {
         Invoke-ADCAddAppfwprofileexcluderescontenttypebinding -name <string>
     .NOTES
         File Name : Invoke-ADCAddAppfwprofileexcluderescontenttypebinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/appfw/appfwprofile_excluderescontenttype_binding/
         Requires  : PowerShell v5.1 and up
@@ -10907,7 +10907,7 @@ function Invoke-ADCAddAppfwprofileexcluderescontenttypebinding {
             if ($PSBoundParameters.ContainsKey('isautodeployed')) { $Payload.Add('isautodeployed', $isautodeployed) }
  
             if ($PSCmdlet.ShouldProcess("appfwprofile_excluderescontenttype_binding", "Add Application Firewall configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -Type appfwprofile_excluderescontenttype_binding -Payload $Payload -GetWarning
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -NitroPath nitro/v1/config -Type appfwprofile_excluderescontenttype_binding -Payload $Payload -GetWarning
                 #HTTP Status Code on Success: 201 Created
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 if ($PSBoundParameters.ContainsKey('PassThru')) {
@@ -10941,7 +10941,7 @@ function Invoke-ADCDeleteAppfwprofileexcluderescontenttypebinding {
         Invoke-ADCDeleteAppfwprofileexcluderescontenttypebinding -name <string>
     .NOTES
         File Name : Invoke-ADCDeleteAppfwprofileexcluderescontenttypebinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/appfw/appfwprofile_excluderescontenttype_binding/
         Requires  : PowerShell v5.1 and up
@@ -10971,7 +10971,7 @@ function Invoke-ADCDeleteAppfwprofileexcluderescontenttypebinding {
             }
             if ($PSBoundParameters.ContainsKey('excluderescontenttype')) { $Arguments.Add('excluderescontenttype', $excluderescontenttype) }
             if ($PSCmdlet.ShouldProcess("$name", "Delete Application Firewall configuration Object")) {
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type appfwprofile_excluderescontenttype_binding -Resource $name -Arguments $Arguments
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type appfwprofile_excluderescontenttype_binding -NitroPath nitro/v1/config -Resource $name -Arguments $Arguments
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $response
@@ -11015,7 +11015,7 @@ function Invoke-ADCGetAppfwprofileexcluderescontenttypebinding {
         Invoke-ADCGetAppfwprofileexcluderescontenttypebinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetAppfwprofileexcluderescontenttypebinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/appfw/appfwprofile_excluderescontenttype_binding/
         Requires  : PowerShell v5.1 and up
@@ -11053,21 +11053,21 @@ function Invoke-ADCGetAppfwprofileexcluderescontenttypebinding {
                     bulkbindings = 'yes'
                 }
                 Write-Verbose "Retrieving all appfwprofile_excluderescontenttype_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type appfwprofile_excluderescontenttype_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type appfwprofile_excluderescontenttype_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
                 if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for appfwprofile_excluderescontenttype_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type appfwprofile_excluderescontenttype_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type appfwprofile_excluderescontenttype_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving appfwprofile_excluderescontenttype_binding objects by arguments"
                 $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type appfwprofile_excluderescontenttype_binding -Arguments $Arguments -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type appfwprofile_excluderescontenttype_binding -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving appfwprofile_excluderescontenttype_binding configuration for property 'name'"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type appfwprofile_excluderescontenttype_binding -Resource $name -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type appfwprofile_excluderescontenttype_binding -NitroPath nitro/v1/config -Resource $name -Summary:$ViewSummary -Filter $Filter -GetWarning
             } else {
                 Write-Verbose "Retrieving appfwprofile_excluderescontenttype_binding configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type appfwprofile_excluderescontenttype_binding -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type appfwprofile_excluderescontenttype_binding -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -11110,7 +11110,7 @@ function Invoke-ADCAddAppfwprofilefieldconsistencybinding {
         Invoke-ADCAddAppfwprofilefieldconsistencybinding -name <string>
     .NOTES
         File Name : Invoke-ADCAddAppfwprofilefieldconsistencybinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/appfw/appfwprofile_fieldconsistency_binding/
         Requires  : PowerShell v5.1 and up
@@ -11164,7 +11164,7 @@ function Invoke-ADCAddAppfwprofilefieldconsistencybinding {
             if ($PSBoundParameters.ContainsKey('isautodeployed')) { $Payload.Add('isautodeployed', $isautodeployed) }
  
             if ($PSCmdlet.ShouldProcess("appfwprofile_fieldconsistency_binding", "Add Application Firewall configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -Type appfwprofile_fieldconsistency_binding -Payload $Payload -GetWarning
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -NitroPath nitro/v1/config -Type appfwprofile_fieldconsistency_binding -Payload $Payload -GetWarning
                 #HTTP Status Code on Success: 201 Created
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 if ($PSBoundParameters.ContainsKey('PassThru')) {
@@ -11199,7 +11199,7 @@ function Invoke-ADCDeleteAppfwprofilefieldconsistencybinding {
         Invoke-ADCDeleteAppfwprofilefieldconsistencybinding -name <string>
     .NOTES
         File Name : Invoke-ADCDeleteAppfwprofilefieldconsistencybinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/appfw/appfwprofile_fieldconsistency_binding/
         Requires  : PowerShell v5.1 and up
@@ -11232,7 +11232,7 @@ function Invoke-ADCDeleteAppfwprofilefieldconsistencybinding {
             if ($PSBoundParameters.ContainsKey('fieldconsistency')) { $Arguments.Add('fieldconsistency', $fieldconsistency) }
             if ($PSBoundParameters.ContainsKey('formactionurl_ffc')) { $Arguments.Add('formactionurl_ffc', $formactionurl_ffc) }
             if ($PSCmdlet.ShouldProcess("$name", "Delete Application Firewall configuration Object")) {
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type appfwprofile_fieldconsistency_binding -Resource $name -Arguments $Arguments
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type appfwprofile_fieldconsistency_binding -NitroPath nitro/v1/config -Resource $name -Arguments $Arguments
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $response
@@ -11276,7 +11276,7 @@ function Invoke-ADCGetAppfwprofilefieldconsistencybinding {
         Invoke-ADCGetAppfwprofilefieldconsistencybinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetAppfwprofilefieldconsistencybinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/appfw/appfwprofile_fieldconsistency_binding/
         Requires  : PowerShell v5.1 and up
@@ -11314,21 +11314,21 @@ function Invoke-ADCGetAppfwprofilefieldconsistencybinding {
                     bulkbindings = 'yes'
                 }
                 Write-Verbose "Retrieving all appfwprofile_fieldconsistency_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type appfwprofile_fieldconsistency_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type appfwprofile_fieldconsistency_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
                 if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for appfwprofile_fieldconsistency_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type appfwprofile_fieldconsistency_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type appfwprofile_fieldconsistency_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving appfwprofile_fieldconsistency_binding objects by arguments"
                 $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type appfwprofile_fieldconsistency_binding -Arguments $Arguments -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type appfwprofile_fieldconsistency_binding -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving appfwprofile_fieldconsistency_binding configuration for property 'name'"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type appfwprofile_fieldconsistency_binding -Resource $name -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type appfwprofile_fieldconsistency_binding -NitroPath nitro/v1/config -Resource $name -Summary:$ViewSummary -Filter $Filter -GetWarning
             } else {
                 Write-Verbose "Retrieving appfwprofile_fieldconsistency_binding configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type appfwprofile_fieldconsistency_binding -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type appfwprofile_fieldconsistency_binding -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -11377,7 +11377,7 @@ function Invoke-ADCAddAppfwprofilefieldformatbinding {
         Invoke-ADCAddAppfwprofilefieldformatbinding -name <string>
     .NOTES
         File Name : Invoke-ADCAddAppfwprofilefieldformatbinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/appfw/appfwprofile_fieldformat_binding/
         Requires  : PowerShell v5.1 and up
@@ -11440,7 +11440,7 @@ function Invoke-ADCAddAppfwprofilefieldformatbinding {
             if ($PSBoundParameters.ContainsKey('isautodeployed')) { $Payload.Add('isautodeployed', $isautodeployed) }
  
             if ($PSCmdlet.ShouldProcess("appfwprofile_fieldformat_binding", "Add Application Firewall configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -Type appfwprofile_fieldformat_binding -Payload $Payload -GetWarning
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -NitroPath nitro/v1/config -Type appfwprofile_fieldformat_binding -Payload $Payload -GetWarning
                 #HTTP Status Code on Success: 201 Created
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 if ($PSBoundParameters.ContainsKey('PassThru')) {
@@ -11475,7 +11475,7 @@ function Invoke-ADCDeleteAppfwprofilefieldformatbinding {
         Invoke-ADCDeleteAppfwprofilefieldformatbinding -name <string>
     .NOTES
         File Name : Invoke-ADCDeleteAppfwprofilefieldformatbinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/appfw/appfwprofile_fieldformat_binding/
         Requires  : PowerShell v5.1 and up
@@ -11508,7 +11508,7 @@ function Invoke-ADCDeleteAppfwprofilefieldformatbinding {
             if ($PSBoundParameters.ContainsKey('fieldformat')) { $Arguments.Add('fieldformat', $fieldformat) }
             if ($PSBoundParameters.ContainsKey('formactionurl_ff')) { $Arguments.Add('formactionurl_ff', $formactionurl_ff) }
             if ($PSCmdlet.ShouldProcess("$name", "Delete Application Firewall configuration Object")) {
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type appfwprofile_fieldformat_binding -Resource $name -Arguments $Arguments
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type appfwprofile_fieldformat_binding -NitroPath nitro/v1/config -Resource $name -Arguments $Arguments
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $response
@@ -11552,7 +11552,7 @@ function Invoke-ADCGetAppfwprofilefieldformatbinding {
         Invoke-ADCGetAppfwprofilefieldformatbinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetAppfwprofilefieldformatbinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/appfw/appfwprofile_fieldformat_binding/
         Requires  : PowerShell v5.1 and up
@@ -11590,21 +11590,21 @@ function Invoke-ADCGetAppfwprofilefieldformatbinding {
                     bulkbindings = 'yes'
                 }
                 Write-Verbose "Retrieving all appfwprofile_fieldformat_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type appfwprofile_fieldformat_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type appfwprofile_fieldformat_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
                 if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for appfwprofile_fieldformat_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type appfwprofile_fieldformat_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type appfwprofile_fieldformat_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving appfwprofile_fieldformat_binding objects by arguments"
                 $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type appfwprofile_fieldformat_binding -Arguments $Arguments -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type appfwprofile_fieldformat_binding -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving appfwprofile_fieldformat_binding configuration for property 'name'"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type appfwprofile_fieldformat_binding -Resource $name -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type appfwprofile_fieldformat_binding -NitroPath nitro/v1/config -Resource $name -Summary:$ViewSummary -Filter $Filter -GetWarning
             } else {
                 Write-Verbose "Retrieving appfwprofile_fieldformat_binding configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type appfwprofile_fieldformat_binding -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type appfwprofile_fieldformat_binding -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -11650,7 +11650,7 @@ function Invoke-ADCAddAppfwprofilefileuploadtypebinding {
         Invoke-ADCAddAppfwprofilefileuploadtypebinding -name <string>
     .NOTES
         File Name : Invoke-ADCAddAppfwprofilefileuploadtypebinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/appfw/appfwprofile_fileuploadtype_binding/
         Requires  : PowerShell v5.1 and up
@@ -11708,7 +11708,7 @@ function Invoke-ADCAddAppfwprofilefileuploadtypebinding {
             if ($PSBoundParameters.ContainsKey('isautodeployed')) { $Payload.Add('isautodeployed', $isautodeployed) }
  
             if ($PSCmdlet.ShouldProcess("appfwprofile_fileuploadtype_binding", "Add Application Firewall configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -Type appfwprofile_fileuploadtype_binding -Payload $Payload -GetWarning
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -NitroPath nitro/v1/config -Type appfwprofile_fileuploadtype_binding -Payload $Payload -GetWarning
                 #HTTP Status Code on Success: 201 Created
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 if ($PSBoundParameters.ContainsKey('PassThru')) {
@@ -11745,7 +11745,7 @@ function Invoke-ADCDeleteAppfwprofilefileuploadtypebinding {
         Invoke-ADCDeleteAppfwprofilefileuploadtypebinding -name <string>
     .NOTES
         File Name : Invoke-ADCDeleteAppfwprofilefileuploadtypebinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/appfw/appfwprofile_fileuploadtype_binding/
         Requires  : PowerShell v5.1 and up
@@ -11781,7 +11781,7 @@ function Invoke-ADCDeleteAppfwprofilefileuploadtypebinding {
             if ($PSBoundParameters.ContainsKey('as_fileuploadtypes_url')) { $Arguments.Add('as_fileuploadtypes_url', $as_fileuploadtypes_url) }
             if ($PSBoundParameters.ContainsKey('filetype')) { $Arguments.Add('filetype', $filetype) }
             if ($PSCmdlet.ShouldProcess("$name", "Delete Application Firewall configuration Object")) {
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type appfwprofile_fileuploadtype_binding -Resource $name -Arguments $Arguments
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type appfwprofile_fileuploadtype_binding -NitroPath nitro/v1/config -Resource $name -Arguments $Arguments
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $response
@@ -11825,7 +11825,7 @@ function Invoke-ADCGetAppfwprofilefileuploadtypebinding {
         Invoke-ADCGetAppfwprofilefileuploadtypebinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetAppfwprofilefileuploadtypebinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/appfw/appfwprofile_fileuploadtype_binding/
         Requires  : PowerShell v5.1 and up
@@ -11863,21 +11863,21 @@ function Invoke-ADCGetAppfwprofilefileuploadtypebinding {
                     bulkbindings = 'yes'
                 }
                 Write-Verbose "Retrieving all appfwprofile_fileuploadtype_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type appfwprofile_fileuploadtype_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type appfwprofile_fileuploadtype_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
                 if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for appfwprofile_fileuploadtype_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type appfwprofile_fileuploadtype_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type appfwprofile_fileuploadtype_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving appfwprofile_fileuploadtype_binding objects by arguments"
                 $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type appfwprofile_fileuploadtype_binding -Arguments $Arguments -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type appfwprofile_fileuploadtype_binding -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving appfwprofile_fileuploadtype_binding configuration for property 'name'"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type appfwprofile_fileuploadtype_binding -Resource $name -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type appfwprofile_fileuploadtype_binding -NitroPath nitro/v1/config -Resource $name -Summary:$ViewSummary -Filter $Filter -GetWarning
             } else {
                 Write-Verbose "Retrieving appfwprofile_fileuploadtype_binding configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type appfwprofile_fileuploadtype_binding -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type appfwprofile_fileuploadtype_binding -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -11965,7 +11965,7 @@ function Invoke-ADCAddAppfwprofilejsondosurlbinding {
         Invoke-ADCAddAppfwprofilejsondosurlbinding -name <string>
     .NOTES
         File Name : Invoke-ADCAddAppfwprofilejsondosurlbinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/appfw/appfwprofile_jsondosurl_binding/
         Requires  : PowerShell v5.1 and up
@@ -12061,7 +12061,7 @@ function Invoke-ADCAddAppfwprofilejsondosurlbinding {
             if ($PSBoundParameters.ContainsKey('isautodeployed')) { $Payload.Add('isautodeployed', $isautodeployed) }
  
             if ($PSCmdlet.ShouldProcess("appfwprofile_jsondosurl_binding", "Add Application Firewall configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -Type appfwprofile_jsondosurl_binding -Payload $Payload -GetWarning
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -NitroPath nitro/v1/config -Type appfwprofile_jsondosurl_binding -Payload $Payload -GetWarning
                 #HTTP Status Code on Success: 201 Created
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 if ($PSBoundParameters.ContainsKey('PassThru')) {
@@ -12097,7 +12097,7 @@ function Invoke-ADCDeleteAppfwprofilejsondosurlbinding {
         Invoke-ADCDeleteAppfwprofilejsondosurlbinding -name <string>
     .NOTES
         File Name : Invoke-ADCDeleteAppfwprofilejsondosurlbinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/appfw/appfwprofile_jsondosurl_binding/
         Requires  : PowerShell v5.1 and up
@@ -12127,7 +12127,7 @@ function Invoke-ADCDeleteAppfwprofilejsondosurlbinding {
             }
             if ($PSBoundParameters.ContainsKey('jsondosurl')) { $Arguments.Add('jsondosurl', $jsondosurl) }
             if ($PSCmdlet.ShouldProcess("$name", "Delete Application Firewall configuration Object")) {
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type appfwprofile_jsondosurl_binding -Resource $name -Arguments $Arguments
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type appfwprofile_jsondosurl_binding -NitroPath nitro/v1/config -Resource $name -Arguments $Arguments
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $response
@@ -12171,7 +12171,7 @@ function Invoke-ADCGetAppfwprofilejsondosurlbinding {
         Invoke-ADCGetAppfwprofilejsondosurlbinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetAppfwprofilejsondosurlbinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/appfw/appfwprofile_jsondosurl_binding/
         Requires  : PowerShell v5.1 and up
@@ -12209,21 +12209,21 @@ function Invoke-ADCGetAppfwprofilejsondosurlbinding {
                     bulkbindings = 'yes'
                 }
                 Write-Verbose "Retrieving all appfwprofile_jsondosurl_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type appfwprofile_jsondosurl_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type appfwprofile_jsondosurl_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
                 if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for appfwprofile_jsondosurl_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type appfwprofile_jsondosurl_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type appfwprofile_jsondosurl_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving appfwprofile_jsondosurl_binding objects by arguments"
                 $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type appfwprofile_jsondosurl_binding -Arguments $Arguments -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type appfwprofile_jsondosurl_binding -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving appfwprofile_jsondosurl_binding configuration for property 'name'"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type appfwprofile_jsondosurl_binding -Resource $name -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type appfwprofile_jsondosurl_binding -NitroPath nitro/v1/config -Resource $name -Summary:$ViewSummary -Filter $Filter -GetWarning
             } else {
                 Write-Verbose "Retrieving appfwprofile_jsondosurl_binding configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type appfwprofile_jsondosurl_binding -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type appfwprofile_jsondosurl_binding -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -12263,7 +12263,7 @@ function Invoke-ADCAddAppfwprofilejsonsqlurlbinding {
         Invoke-ADCAddAppfwprofilejsonsqlurlbinding -name <string>
     .NOTES
         File Name : Invoke-ADCAddAppfwprofilejsonsqlurlbinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/appfw/appfwprofile_jsonsqlurl_binding/
         Requires  : PowerShell v5.1 and up
@@ -12311,7 +12311,7 @@ function Invoke-ADCAddAppfwprofilejsonsqlurlbinding {
             if ($PSBoundParameters.ContainsKey('isautodeployed')) { $Payload.Add('isautodeployed', $isautodeployed) }
  
             if ($PSCmdlet.ShouldProcess("appfwprofile_jsonsqlurl_binding", "Add Application Firewall configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -Type appfwprofile_jsonsqlurl_binding -Payload $Payload -GetWarning
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -NitroPath nitro/v1/config -Type appfwprofile_jsonsqlurl_binding -Payload $Payload -GetWarning
                 #HTTP Status Code on Success: 201 Created
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 if ($PSBoundParameters.ContainsKey('PassThru')) {
@@ -12347,7 +12347,7 @@ function Invoke-ADCDeleteAppfwprofilejsonsqlurlbinding {
         Invoke-ADCDeleteAppfwprofilejsonsqlurlbinding -name <string>
     .NOTES
         File Name : Invoke-ADCDeleteAppfwprofilejsonsqlurlbinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/appfw/appfwprofile_jsonsqlurl_binding/
         Requires  : PowerShell v5.1 and up
@@ -12377,7 +12377,7 @@ function Invoke-ADCDeleteAppfwprofilejsonsqlurlbinding {
             }
             if ($PSBoundParameters.ContainsKey('jsonsqlurl')) { $Arguments.Add('jsonsqlurl', $jsonsqlurl) }
             if ($PSCmdlet.ShouldProcess("$name", "Delete Application Firewall configuration Object")) {
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type appfwprofile_jsonsqlurl_binding -Resource $name -Arguments $Arguments
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type appfwprofile_jsonsqlurl_binding -NitroPath nitro/v1/config -Resource $name -Arguments $Arguments
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $response
@@ -12421,7 +12421,7 @@ function Invoke-ADCGetAppfwprofilejsonsqlurlbinding {
         Invoke-ADCGetAppfwprofilejsonsqlurlbinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetAppfwprofilejsonsqlurlbinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/appfw/appfwprofile_jsonsqlurl_binding/
         Requires  : PowerShell v5.1 and up
@@ -12459,21 +12459,21 @@ function Invoke-ADCGetAppfwprofilejsonsqlurlbinding {
                     bulkbindings = 'yes'
                 }
                 Write-Verbose "Retrieving all appfwprofile_jsonsqlurl_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type appfwprofile_jsonsqlurl_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type appfwprofile_jsonsqlurl_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
                 if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for appfwprofile_jsonsqlurl_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type appfwprofile_jsonsqlurl_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type appfwprofile_jsonsqlurl_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving appfwprofile_jsonsqlurl_binding objects by arguments"
                 $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type appfwprofile_jsonsqlurl_binding -Arguments $Arguments -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type appfwprofile_jsonsqlurl_binding -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving appfwprofile_jsonsqlurl_binding configuration for property 'name'"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type appfwprofile_jsonsqlurl_binding -Resource $name -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type appfwprofile_jsonsqlurl_binding -NitroPath nitro/v1/config -Resource $name -Summary:$ViewSummary -Filter $Filter -GetWarning
             } else {
                 Write-Verbose "Retrieving appfwprofile_jsonsqlurl_binding configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type appfwprofile_jsonsqlurl_binding -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type appfwprofile_jsonsqlurl_binding -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -12513,7 +12513,7 @@ function Invoke-ADCAddAppfwprofilejsonxssurlbinding {
         Invoke-ADCAddAppfwprofilejsonxssurlbinding -name <string>
     .NOTES
         File Name : Invoke-ADCAddAppfwprofilejsonxssurlbinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/appfw/appfwprofile_jsonxssurl_binding/
         Requires  : PowerShell v5.1 and up
@@ -12561,7 +12561,7 @@ function Invoke-ADCAddAppfwprofilejsonxssurlbinding {
             if ($PSBoundParameters.ContainsKey('isautodeployed')) { $Payload.Add('isautodeployed', $isautodeployed) }
  
             if ($PSCmdlet.ShouldProcess("appfwprofile_jsonxssurl_binding", "Add Application Firewall configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -Type appfwprofile_jsonxssurl_binding -Payload $Payload -GetWarning
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -NitroPath nitro/v1/config -Type appfwprofile_jsonxssurl_binding -Payload $Payload -GetWarning
                 #HTTP Status Code on Success: 201 Created
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 if ($PSBoundParameters.ContainsKey('PassThru')) {
@@ -12597,7 +12597,7 @@ function Invoke-ADCDeleteAppfwprofilejsonxssurlbinding {
         Invoke-ADCDeleteAppfwprofilejsonxssurlbinding -name <string>
     .NOTES
         File Name : Invoke-ADCDeleteAppfwprofilejsonxssurlbinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/appfw/appfwprofile_jsonxssurl_binding/
         Requires  : PowerShell v5.1 and up
@@ -12627,7 +12627,7 @@ function Invoke-ADCDeleteAppfwprofilejsonxssurlbinding {
             }
             if ($PSBoundParameters.ContainsKey('jsonxssurl')) { $Arguments.Add('jsonxssurl', $jsonxssurl) }
             if ($PSCmdlet.ShouldProcess("$name", "Delete Application Firewall configuration Object")) {
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type appfwprofile_jsonxssurl_binding -Resource $name -Arguments $Arguments
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type appfwprofile_jsonxssurl_binding -NitroPath nitro/v1/config -Resource $name -Arguments $Arguments
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $response
@@ -12671,7 +12671,7 @@ function Invoke-ADCGetAppfwprofilejsonxssurlbinding {
         Invoke-ADCGetAppfwprofilejsonxssurlbinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetAppfwprofilejsonxssurlbinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/appfw/appfwprofile_jsonxssurl_binding/
         Requires  : PowerShell v5.1 and up
@@ -12709,21 +12709,21 @@ function Invoke-ADCGetAppfwprofilejsonxssurlbinding {
                     bulkbindings = 'yes'
                 }
                 Write-Verbose "Retrieving all appfwprofile_jsonxssurl_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type appfwprofile_jsonxssurl_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type appfwprofile_jsonxssurl_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
                 if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for appfwprofile_jsonxssurl_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type appfwprofile_jsonxssurl_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type appfwprofile_jsonxssurl_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving appfwprofile_jsonxssurl_binding objects by arguments"
                 $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type appfwprofile_jsonxssurl_binding -Arguments $Arguments -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type appfwprofile_jsonxssurl_binding -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving appfwprofile_jsonxssurl_binding configuration for property 'name'"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type appfwprofile_jsonxssurl_binding -Resource $name -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type appfwprofile_jsonxssurl_binding -NitroPath nitro/v1/config -Resource $name -Summary:$ViewSummary -Filter $Filter -GetWarning
             } else {
                 Write-Verbose "Retrieving appfwprofile_jsonxssurl_binding configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type appfwprofile_jsonxssurl_binding -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type appfwprofile_jsonxssurl_binding -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -12764,7 +12764,7 @@ function Invoke-ADCAddAppfwprofilelogexpressionbinding {
         Invoke-ADCAddAppfwprofilelogexpressionbinding -name <string>
     .NOTES
         File Name : Invoke-ADCAddAppfwprofilelogexpressionbinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/appfw/appfwprofile_logexpression_binding/
         Requires  : PowerShell v5.1 and up
@@ -12814,7 +12814,7 @@ function Invoke-ADCAddAppfwprofilelogexpressionbinding {
             if ($PSBoundParameters.ContainsKey('isautodeployed')) { $Payload.Add('isautodeployed', $isautodeployed) }
  
             if ($PSCmdlet.ShouldProcess("appfwprofile_logexpression_binding", "Add Application Firewall configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -Type appfwprofile_logexpression_binding -Payload $Payload -GetWarning
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -NitroPath nitro/v1/config -Type appfwprofile_logexpression_binding -Payload $Payload -GetWarning
                 #HTTP Status Code on Success: 201 Created
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 if ($PSBoundParameters.ContainsKey('PassThru')) {
@@ -12848,7 +12848,7 @@ function Invoke-ADCDeleteAppfwprofilelogexpressionbinding {
         Invoke-ADCDeleteAppfwprofilelogexpressionbinding -name <string>
     .NOTES
         File Name : Invoke-ADCDeleteAppfwprofilelogexpressionbinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/appfw/appfwprofile_logexpression_binding/
         Requires  : PowerShell v5.1 and up
@@ -12878,7 +12878,7 @@ function Invoke-ADCDeleteAppfwprofilelogexpressionbinding {
             }
             if ($PSBoundParameters.ContainsKey('logexpression')) { $Arguments.Add('logexpression', $logexpression) }
             if ($PSCmdlet.ShouldProcess("$name", "Delete Application Firewall configuration Object")) {
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type appfwprofile_logexpression_binding -Resource $name -Arguments $Arguments
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type appfwprofile_logexpression_binding -NitroPath nitro/v1/config -Resource $name -Arguments $Arguments
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $response
@@ -12922,7 +12922,7 @@ function Invoke-ADCGetAppfwprofilelogexpressionbinding {
         Invoke-ADCGetAppfwprofilelogexpressionbinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetAppfwprofilelogexpressionbinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/appfw/appfwprofile_logexpression_binding/
         Requires  : PowerShell v5.1 and up
@@ -12960,21 +12960,21 @@ function Invoke-ADCGetAppfwprofilelogexpressionbinding {
                     bulkbindings = 'yes'
                 }
                 Write-Verbose "Retrieving all appfwprofile_logexpression_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type appfwprofile_logexpression_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type appfwprofile_logexpression_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
                 if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for appfwprofile_logexpression_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type appfwprofile_logexpression_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type appfwprofile_logexpression_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving appfwprofile_logexpression_binding objects by arguments"
                 $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type appfwprofile_logexpression_binding -Arguments $Arguments -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type appfwprofile_logexpression_binding -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving appfwprofile_logexpression_binding configuration for property 'name'"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type appfwprofile_logexpression_binding -Resource $name -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type appfwprofile_logexpression_binding -NitroPath nitro/v1/config -Resource $name -Summary:$ViewSummary -Filter $Filter -GetWarning
             } else {
                 Write-Verbose "Retrieving appfwprofile_logexpression_binding configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type appfwprofile_logexpression_binding -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type appfwprofile_logexpression_binding -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -13019,7 +13019,7 @@ function Invoke-ADCAddAppfwprofilesafeobjectbinding {
         Invoke-ADCAddAppfwprofilesafeobjectbinding -name <string>
     .NOTES
         File Name : Invoke-ADCAddAppfwprofilesafeobjectbinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/appfw/appfwprofile_safeobject_binding/
         Requires  : PowerShell v5.1 and up
@@ -13076,7 +13076,7 @@ function Invoke-ADCAddAppfwprofilesafeobjectbinding {
             if ($PSBoundParameters.ContainsKey('isautodeployed')) { $Payload.Add('isautodeployed', $isautodeployed) }
  
             if ($PSCmdlet.ShouldProcess("appfwprofile_safeobject_binding", "Add Application Firewall configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -Type appfwprofile_safeobject_binding -Payload $Payload -GetWarning
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -NitroPath nitro/v1/config -Type appfwprofile_safeobject_binding -Payload $Payload -GetWarning
                 #HTTP Status Code on Success: 201 Created
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 if ($PSBoundParameters.ContainsKey('PassThru')) {
@@ -13110,7 +13110,7 @@ function Invoke-ADCDeleteAppfwprofilesafeobjectbinding {
         Invoke-ADCDeleteAppfwprofilesafeobjectbinding -name <string>
     .NOTES
         File Name : Invoke-ADCDeleteAppfwprofilesafeobjectbinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/appfw/appfwprofile_safeobject_binding/
         Requires  : PowerShell v5.1 and up
@@ -13140,7 +13140,7 @@ function Invoke-ADCDeleteAppfwprofilesafeobjectbinding {
             }
             if ($PSBoundParameters.ContainsKey('safeobject')) { $Arguments.Add('safeobject', $safeobject) }
             if ($PSCmdlet.ShouldProcess("$name", "Delete Application Firewall configuration Object")) {
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type appfwprofile_safeobject_binding -Resource $name -Arguments $Arguments
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type appfwprofile_safeobject_binding -NitroPath nitro/v1/config -Resource $name -Arguments $Arguments
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $response
@@ -13184,7 +13184,7 @@ function Invoke-ADCGetAppfwprofilesafeobjectbinding {
         Invoke-ADCGetAppfwprofilesafeobjectbinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetAppfwprofilesafeobjectbinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/appfw/appfwprofile_safeobject_binding/
         Requires  : PowerShell v5.1 and up
@@ -13222,21 +13222,21 @@ function Invoke-ADCGetAppfwprofilesafeobjectbinding {
                     bulkbindings = 'yes'
                 }
                 Write-Verbose "Retrieving all appfwprofile_safeobject_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type appfwprofile_safeobject_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type appfwprofile_safeobject_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
                 if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for appfwprofile_safeobject_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type appfwprofile_safeobject_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type appfwprofile_safeobject_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving appfwprofile_safeobject_binding objects by arguments"
                 $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type appfwprofile_safeobject_binding -Arguments $Arguments -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type appfwprofile_safeobject_binding -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving appfwprofile_safeobject_binding configuration for property 'name'"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type appfwprofile_safeobject_binding -Resource $name -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type appfwprofile_safeobject_binding -NitroPath nitro/v1/config -Resource $name -Summary:$ViewSummary -Filter $Filter -GetWarning
             } else {
                 Write-Verbose "Retrieving appfwprofile_safeobject_binding configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type appfwprofile_safeobject_binding -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type appfwprofile_safeobject_binding -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -13290,7 +13290,7 @@ function Invoke-ADCAddAppfwprofilesqlinjectionbinding {
         Invoke-ADCAddAppfwprofilesqlinjectionbinding -name <string>
     .NOTES
         File Name : Invoke-ADCAddAppfwprofilesqlinjectionbinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/appfw/appfwprofile_sqlinjection_binding/
         Requires  : PowerShell v5.1 and up
@@ -13359,7 +13359,7 @@ function Invoke-ADCAddAppfwprofilesqlinjectionbinding {
             if ($PSBoundParameters.ContainsKey('isautodeployed')) { $Payload.Add('isautodeployed', $isautodeployed) }
  
             if ($PSCmdlet.ShouldProcess("appfwprofile_sqlinjection_binding", "Add Application Firewall configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -Type appfwprofile_sqlinjection_binding -Payload $Payload -GetWarning
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -NitroPath nitro/v1/config -Type appfwprofile_sqlinjection_binding -Payload $Payload -GetWarning
                 #HTTP Status Code on Success: 201 Created
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 if ($PSBoundParameters.ContainsKey('PassThru')) {
@@ -13399,7 +13399,7 @@ function Invoke-ADCDeleteAppfwprofilesqlinjectionbinding {
         Invoke-ADCDeleteAppfwprofilesqlinjectionbinding -name <string>
     .NOTES
         File Name : Invoke-ADCDeleteAppfwprofilesqlinjectionbinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/appfw/appfwprofile_sqlinjection_binding/
         Requires  : PowerShell v5.1 and up
@@ -13441,7 +13441,7 @@ function Invoke-ADCDeleteAppfwprofilesqlinjectionbinding {
             if ($PSBoundParameters.ContainsKey('as_value_type_sql')) { $Arguments.Add('as_value_type_sql', $as_value_type_sql) }
             if ($PSBoundParameters.ContainsKey('as_value_expr_sql')) { $Arguments.Add('as_value_expr_sql', $as_value_expr_sql) }
             if ($PSCmdlet.ShouldProcess("$name", "Delete Application Firewall configuration Object")) {
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type appfwprofile_sqlinjection_binding -Resource $name -Arguments $Arguments
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type appfwprofile_sqlinjection_binding -NitroPath nitro/v1/config -Resource $name -Arguments $Arguments
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $response
@@ -13485,7 +13485,7 @@ function Invoke-ADCGetAppfwprofilesqlinjectionbinding {
         Invoke-ADCGetAppfwprofilesqlinjectionbinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetAppfwprofilesqlinjectionbinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/appfw/appfwprofile_sqlinjection_binding/
         Requires  : PowerShell v5.1 and up
@@ -13523,21 +13523,21 @@ function Invoke-ADCGetAppfwprofilesqlinjectionbinding {
                     bulkbindings = 'yes'
                 }
                 Write-Verbose "Retrieving all appfwprofile_sqlinjection_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type appfwprofile_sqlinjection_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type appfwprofile_sqlinjection_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
                 if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for appfwprofile_sqlinjection_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type appfwprofile_sqlinjection_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type appfwprofile_sqlinjection_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving appfwprofile_sqlinjection_binding objects by arguments"
                 $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type appfwprofile_sqlinjection_binding -Arguments $Arguments -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type appfwprofile_sqlinjection_binding -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving appfwprofile_sqlinjection_binding configuration for property 'name'"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type appfwprofile_sqlinjection_binding -Resource $name -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type appfwprofile_sqlinjection_binding -NitroPath nitro/v1/config -Resource $name -Summary:$ViewSummary -Filter $Filter -GetWarning
             } else {
                 Write-Verbose "Retrieving appfwprofile_sqlinjection_binding configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type appfwprofile_sqlinjection_binding -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type appfwprofile_sqlinjection_binding -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -13575,7 +13575,7 @@ function Invoke-ADCAddAppfwprofilestarturlbinding {
         Invoke-ADCAddAppfwprofilestarturlbinding -name <string>
     .NOTES
         File Name : Invoke-ADCAddAppfwprofilestarturlbinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/appfw/appfwprofile_starturl_binding/
         Requires  : PowerShell v5.1 and up
@@ -13622,7 +13622,7 @@ function Invoke-ADCAddAppfwprofilestarturlbinding {
             if ($PSBoundParameters.ContainsKey('isautodeployed')) { $Payload.Add('isautodeployed', $isautodeployed) }
  
             if ($PSCmdlet.ShouldProcess("appfwprofile_starturl_binding", "Add Application Firewall configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -Type appfwprofile_starturl_binding -Payload $Payload -GetWarning
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -NitroPath nitro/v1/config -Type appfwprofile_starturl_binding -Payload $Payload -GetWarning
                 #HTTP Status Code on Success: 201 Created
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 if ($PSBoundParameters.ContainsKey('PassThru')) {
@@ -13656,7 +13656,7 @@ function Invoke-ADCDeleteAppfwprofilestarturlbinding {
         Invoke-ADCDeleteAppfwprofilestarturlbinding -name <string>
     .NOTES
         File Name : Invoke-ADCDeleteAppfwprofilestarturlbinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/appfw/appfwprofile_starturl_binding/
         Requires  : PowerShell v5.1 and up
@@ -13686,7 +13686,7 @@ function Invoke-ADCDeleteAppfwprofilestarturlbinding {
             }
             if ($PSBoundParameters.ContainsKey('starturl')) { $Arguments.Add('starturl', $starturl) }
             if ($PSCmdlet.ShouldProcess("$name", "Delete Application Firewall configuration Object")) {
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type appfwprofile_starturl_binding -Resource $name -Arguments $Arguments
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type appfwprofile_starturl_binding -NitroPath nitro/v1/config -Resource $name -Arguments $Arguments
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $response
@@ -13730,7 +13730,7 @@ function Invoke-ADCGetAppfwprofilestarturlbinding {
         Invoke-ADCGetAppfwprofilestarturlbinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetAppfwprofilestarturlbinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/appfw/appfwprofile_starturl_binding/
         Requires  : PowerShell v5.1 and up
@@ -13768,21 +13768,21 @@ function Invoke-ADCGetAppfwprofilestarturlbinding {
                     bulkbindings = 'yes'
                 }
                 Write-Verbose "Retrieving all appfwprofile_starturl_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type appfwprofile_starturl_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type appfwprofile_starturl_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
                 if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for appfwprofile_starturl_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type appfwprofile_starturl_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type appfwprofile_starturl_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving appfwprofile_starturl_binding objects by arguments"
                 $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type appfwprofile_starturl_binding -Arguments $Arguments -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type appfwprofile_starturl_binding -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving appfwprofile_starturl_binding configuration for property 'name'"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type appfwprofile_starturl_binding -Resource $name -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type appfwprofile_starturl_binding -NitroPath nitro/v1/config -Resource $name -Summary:$ViewSummary -Filter $Filter -GetWarning
             } else {
                 Write-Verbose "Retrieving appfwprofile_starturl_binding configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type appfwprofile_starturl_binding -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type appfwprofile_starturl_binding -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -13820,7 +13820,7 @@ function Invoke-ADCAddAppfwprofiletrustedlearningclientsbinding {
         Invoke-ADCAddAppfwprofiletrustedlearningclientsbinding -name <string>
     .NOTES
         File Name : Invoke-ADCAddAppfwprofiletrustedlearningclientsbinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/appfw/appfwprofile_trustedlearningclients_binding/
         Requires  : PowerShell v5.1 and up
@@ -13867,7 +13867,7 @@ function Invoke-ADCAddAppfwprofiletrustedlearningclientsbinding {
             if ($PSBoundParameters.ContainsKey('isautodeployed')) { $Payload.Add('isautodeployed', $isautodeployed) }
  
             if ($PSCmdlet.ShouldProcess("appfwprofile_trustedlearningclients_binding", "Add Application Firewall configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -Type appfwprofile_trustedlearningclients_binding -Payload $Payload -GetWarning
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -NitroPath nitro/v1/config -Type appfwprofile_trustedlearningclients_binding -Payload $Payload -GetWarning
                 #HTTP Status Code on Success: 201 Created
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 if ($PSBoundParameters.ContainsKey('PassThru')) {
@@ -13901,7 +13901,7 @@ function Invoke-ADCDeleteAppfwprofiletrustedlearningclientsbinding {
         Invoke-ADCDeleteAppfwprofiletrustedlearningclientsbinding -name <string>
     .NOTES
         File Name : Invoke-ADCDeleteAppfwprofiletrustedlearningclientsbinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/appfw/appfwprofile_trustedlearningclients_binding/
         Requires  : PowerShell v5.1 and up
@@ -13931,7 +13931,7 @@ function Invoke-ADCDeleteAppfwprofiletrustedlearningclientsbinding {
             }
             if ($PSBoundParameters.ContainsKey('trustedlearningclients')) { $Arguments.Add('trustedlearningclients', $trustedlearningclients) }
             if ($PSCmdlet.ShouldProcess("$name", "Delete Application Firewall configuration Object")) {
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type appfwprofile_trustedlearningclients_binding -Resource $name -Arguments $Arguments
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type appfwprofile_trustedlearningclients_binding -NitroPath nitro/v1/config -Resource $name -Arguments $Arguments
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $response
@@ -13975,7 +13975,7 @@ function Invoke-ADCGetAppfwprofiletrustedlearningclientsbinding {
         Invoke-ADCGetAppfwprofiletrustedlearningclientsbinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetAppfwprofiletrustedlearningclientsbinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/appfw/appfwprofile_trustedlearningclients_binding/
         Requires  : PowerShell v5.1 and up
@@ -14013,21 +14013,21 @@ function Invoke-ADCGetAppfwprofiletrustedlearningclientsbinding {
                     bulkbindings = 'yes'
                 }
                 Write-Verbose "Retrieving all appfwprofile_trustedlearningclients_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type appfwprofile_trustedlearningclients_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type appfwprofile_trustedlearningclients_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
                 if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for appfwprofile_trustedlearningclients_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type appfwprofile_trustedlearningclients_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type appfwprofile_trustedlearningclients_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving appfwprofile_trustedlearningclients_binding objects by arguments"
                 $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type appfwprofile_trustedlearningclients_binding -Arguments $Arguments -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type appfwprofile_trustedlearningclients_binding -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving appfwprofile_trustedlearningclients_binding configuration for property 'name'"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type appfwprofile_trustedlearningclients_binding -Resource $name -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type appfwprofile_trustedlearningclients_binding -NitroPath nitro/v1/config -Resource $name -Summary:$ViewSummary -Filter $Filter -GetWarning
             } else {
                 Write-Verbose "Retrieving appfwprofile_trustedlearningclients_binding configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type appfwprofile_trustedlearningclients_binding -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type appfwprofile_trustedlearningclients_binding -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -14077,7 +14077,7 @@ function Invoke-ADCAddAppfwprofilexmlattachmenturlbinding {
         Invoke-ADCAddAppfwprofilexmlattachmenturlbinding -name <string>
     .NOTES
         File Name : Invoke-ADCAddAppfwprofilexmlattachmenturlbinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/appfw/appfwprofile_xmlattachmenturl_binding/
         Requires  : PowerShell v5.1 and up
@@ -14139,7 +14139,7 @@ function Invoke-ADCAddAppfwprofilexmlattachmenturlbinding {
             if ($PSBoundParameters.ContainsKey('isautodeployed')) { $Payload.Add('isautodeployed', $isautodeployed) }
  
             if ($PSCmdlet.ShouldProcess("appfwprofile_xmlattachmenturl_binding", "Add Application Firewall configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -Type appfwprofile_xmlattachmenturl_binding -Payload $Payload -GetWarning
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -NitroPath nitro/v1/config -Type appfwprofile_xmlattachmenturl_binding -Payload $Payload -GetWarning
                 #HTTP Status Code on Success: 201 Created
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 if ($PSBoundParameters.ContainsKey('PassThru')) {
@@ -14173,7 +14173,7 @@ function Invoke-ADCDeleteAppfwprofilexmlattachmenturlbinding {
         Invoke-ADCDeleteAppfwprofilexmlattachmenturlbinding -name <string>
     .NOTES
         File Name : Invoke-ADCDeleteAppfwprofilexmlattachmenturlbinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/appfw/appfwprofile_xmlattachmenturl_binding/
         Requires  : PowerShell v5.1 and up
@@ -14203,7 +14203,7 @@ function Invoke-ADCDeleteAppfwprofilexmlattachmenturlbinding {
             }
             if ($PSBoundParameters.ContainsKey('xmlattachmenturl')) { $Arguments.Add('xmlattachmenturl', $xmlattachmenturl) }
             if ($PSCmdlet.ShouldProcess("$name", "Delete Application Firewall configuration Object")) {
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type appfwprofile_xmlattachmenturl_binding -Resource $name -Arguments $Arguments
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type appfwprofile_xmlattachmenturl_binding -NitroPath nitro/v1/config -Resource $name -Arguments $Arguments
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $response
@@ -14247,7 +14247,7 @@ function Invoke-ADCGetAppfwprofilexmlattachmenturlbinding {
         Invoke-ADCGetAppfwprofilexmlattachmenturlbinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetAppfwprofilexmlattachmenturlbinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/appfw/appfwprofile_xmlattachmenturl_binding/
         Requires  : PowerShell v5.1 and up
@@ -14285,21 +14285,21 @@ function Invoke-ADCGetAppfwprofilexmlattachmenturlbinding {
                     bulkbindings = 'yes'
                 }
                 Write-Verbose "Retrieving all appfwprofile_xmlattachmenturl_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type appfwprofile_xmlattachmenturl_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type appfwprofile_xmlattachmenturl_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
                 if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for appfwprofile_xmlattachmenturl_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type appfwprofile_xmlattachmenturl_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type appfwprofile_xmlattachmenturl_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving appfwprofile_xmlattachmenturl_binding objects by arguments"
                 $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type appfwprofile_xmlattachmenturl_binding -Arguments $Arguments -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type appfwprofile_xmlattachmenturl_binding -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving appfwprofile_xmlattachmenturl_binding configuration for property 'name'"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type appfwprofile_xmlattachmenturl_binding -Resource $name -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type appfwprofile_xmlattachmenturl_binding -NitroPath nitro/v1/config -Resource $name -Summary:$ViewSummary -Filter $Filter -GetWarning
             } else {
                 Write-Verbose "Retrieving appfwprofile_xmlattachmenturl_binding configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type appfwprofile_xmlattachmenturl_binding -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type appfwprofile_xmlattachmenturl_binding -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -14436,7 +14436,7 @@ function Invoke-ADCAddAppfwprofilexmldosurlbinding {
         Invoke-ADCAddAppfwprofilexmldosurlbinding -name <string>
     .NOTES
         File Name : Invoke-ADCAddAppfwprofilexmldosurlbinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/appfw/appfwprofile_xmldosurl_binding/
         Requires  : PowerShell v5.1 and up
@@ -14614,7 +14614,7 @@ function Invoke-ADCAddAppfwprofilexmldosurlbinding {
             if ($PSBoundParameters.ContainsKey('isautodeployed')) { $Payload.Add('isautodeployed', $isautodeployed) }
  
             if ($PSCmdlet.ShouldProcess("appfwprofile_xmldosurl_binding", "Add Application Firewall configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -Type appfwprofile_xmldosurl_binding -Payload $Payload -GetWarning
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -NitroPath nitro/v1/config -Type appfwprofile_xmldosurl_binding -Payload $Payload -GetWarning
                 #HTTP Status Code on Success: 201 Created
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 if ($PSBoundParameters.ContainsKey('PassThru')) {
@@ -14648,7 +14648,7 @@ function Invoke-ADCDeleteAppfwprofilexmldosurlbinding {
         Invoke-ADCDeleteAppfwprofilexmldosurlbinding -name <string>
     .NOTES
         File Name : Invoke-ADCDeleteAppfwprofilexmldosurlbinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/appfw/appfwprofile_xmldosurl_binding/
         Requires  : PowerShell v5.1 and up
@@ -14678,7 +14678,7 @@ function Invoke-ADCDeleteAppfwprofilexmldosurlbinding {
             }
             if ($PSBoundParameters.ContainsKey('xmldosurl')) { $Arguments.Add('xmldosurl', $xmldosurl) }
             if ($PSCmdlet.ShouldProcess("$name", "Delete Application Firewall configuration Object")) {
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type appfwprofile_xmldosurl_binding -Resource $name -Arguments $Arguments
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type appfwprofile_xmldosurl_binding -NitroPath nitro/v1/config -Resource $name -Arguments $Arguments
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $response
@@ -14722,7 +14722,7 @@ function Invoke-ADCGetAppfwprofilexmldosurlbinding {
         Invoke-ADCGetAppfwprofilexmldosurlbinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetAppfwprofilexmldosurlbinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/appfw/appfwprofile_xmldosurl_binding/
         Requires  : PowerShell v5.1 and up
@@ -14760,21 +14760,21 @@ function Invoke-ADCGetAppfwprofilexmldosurlbinding {
                     bulkbindings = 'yes'
                 }
                 Write-Verbose "Retrieving all appfwprofile_xmldosurl_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type appfwprofile_xmldosurl_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type appfwprofile_xmldosurl_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
                 if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for appfwprofile_xmldosurl_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type appfwprofile_xmldosurl_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type appfwprofile_xmldosurl_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving appfwprofile_xmldosurl_binding objects by arguments"
                 $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type appfwprofile_xmldosurl_binding -Arguments $Arguments -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type appfwprofile_xmldosurl_binding -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving appfwprofile_xmldosurl_binding configuration for property 'name'"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type appfwprofile_xmldosurl_binding -Resource $name -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type appfwprofile_xmldosurl_binding -NitroPath nitro/v1/config -Resource $name -Summary:$ViewSummary -Filter $Filter -GetWarning
             } else {
                 Write-Verbose "Retrieving appfwprofile_xmldosurl_binding configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type appfwprofile_xmldosurl_binding -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type appfwprofile_xmldosurl_binding -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -14818,7 +14818,7 @@ function Invoke-ADCAddAppfwprofilexmlsqlinjectionbinding {
         Invoke-ADCAddAppfwprofilexmlsqlinjectionbinding -name <string>
     .NOTES
         File Name : Invoke-ADCAddAppfwprofilexmlsqlinjectionbinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/appfw/appfwprofile_xmlsqlinjection_binding/
         Requires  : PowerShell v5.1 and up
@@ -14873,7 +14873,7 @@ function Invoke-ADCAddAppfwprofilexmlsqlinjectionbinding {
             if ($PSBoundParameters.ContainsKey('isautodeployed')) { $Payload.Add('isautodeployed', $isautodeployed) }
  
             if ($PSCmdlet.ShouldProcess("appfwprofile_xmlsqlinjection_binding", "Add Application Firewall configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -Type appfwprofile_xmlsqlinjection_binding -Payload $Payload -GetWarning
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -NitroPath nitro/v1/config -Type appfwprofile_xmlsqlinjection_binding -Payload $Payload -GetWarning
                 #HTTP Status Code on Success: 201 Created
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 if ($PSBoundParameters.ContainsKey('PassThru')) {
@@ -14909,7 +14909,7 @@ function Invoke-ADCDeleteAppfwprofilexmlsqlinjectionbinding {
         Invoke-ADCDeleteAppfwprofilexmlsqlinjectionbinding -name <string>
     .NOTES
         File Name : Invoke-ADCDeleteAppfwprofilexmlsqlinjectionbinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/appfw/appfwprofile_xmlsqlinjection_binding/
         Requires  : PowerShell v5.1 and up
@@ -14942,7 +14942,7 @@ function Invoke-ADCDeleteAppfwprofilexmlsqlinjectionbinding {
             if ($PSBoundParameters.ContainsKey('xmlsqlinjection')) { $Arguments.Add('xmlsqlinjection', $xmlsqlinjection) }
             if ($PSBoundParameters.ContainsKey('as_scan_location_xmlsql')) { $Arguments.Add('as_scan_location_xmlsql', $as_scan_location_xmlsql) }
             if ($PSCmdlet.ShouldProcess("$name", "Delete Application Firewall configuration Object")) {
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type appfwprofile_xmlsqlinjection_binding -Resource $name -Arguments $Arguments
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type appfwprofile_xmlsqlinjection_binding -NitroPath nitro/v1/config -Resource $name -Arguments $Arguments
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $response
@@ -14986,7 +14986,7 @@ function Invoke-ADCGetAppfwprofilexmlsqlinjectionbinding {
         Invoke-ADCGetAppfwprofilexmlsqlinjectionbinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetAppfwprofilexmlsqlinjectionbinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/appfw/appfwprofile_xmlsqlinjection_binding/
         Requires  : PowerShell v5.1 and up
@@ -15024,21 +15024,21 @@ function Invoke-ADCGetAppfwprofilexmlsqlinjectionbinding {
                     bulkbindings = 'yes'
                 }
                 Write-Verbose "Retrieving all appfwprofile_xmlsqlinjection_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type appfwprofile_xmlsqlinjection_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type appfwprofile_xmlsqlinjection_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
                 if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for appfwprofile_xmlsqlinjection_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type appfwprofile_xmlsqlinjection_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type appfwprofile_xmlsqlinjection_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving appfwprofile_xmlsqlinjection_binding objects by arguments"
                 $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type appfwprofile_xmlsqlinjection_binding -Arguments $Arguments -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type appfwprofile_xmlsqlinjection_binding -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving appfwprofile_xmlsqlinjection_binding configuration for property 'name'"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type appfwprofile_xmlsqlinjection_binding -Resource $name -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type appfwprofile_xmlsqlinjection_binding -NitroPath nitro/v1/config -Resource $name -Summary:$ViewSummary -Filter $Filter -GetWarning
             } else {
                 Write-Verbose "Retrieving appfwprofile_xmlsqlinjection_binding configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type appfwprofile_xmlsqlinjection_binding -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type appfwprofile_xmlsqlinjection_binding -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -15094,7 +15094,7 @@ function Invoke-ADCAddAppfwprofilexmlvalidationurlbinding {
         Invoke-ADCAddAppfwprofilexmlvalidationurlbinding -name <string>
     .NOTES
         File Name : Invoke-ADCAddAppfwprofilexmlvalidationurlbinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/appfw/appfwprofile_xmlvalidationurl_binding/
         Requires  : PowerShell v5.1 and up
@@ -15166,7 +15166,7 @@ function Invoke-ADCAddAppfwprofilexmlvalidationurlbinding {
             if ($PSBoundParameters.ContainsKey('isautodeployed')) { $Payload.Add('isautodeployed', $isautodeployed) }
  
             if ($PSCmdlet.ShouldProcess("appfwprofile_xmlvalidationurl_binding", "Add Application Firewall configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -Type appfwprofile_xmlvalidationurl_binding -Payload $Payload -GetWarning
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -NitroPath nitro/v1/config -Type appfwprofile_xmlvalidationurl_binding -Payload $Payload -GetWarning
                 #HTTP Status Code on Success: 201 Created
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 if ($PSBoundParameters.ContainsKey('PassThru')) {
@@ -15200,7 +15200,7 @@ function Invoke-ADCDeleteAppfwprofilexmlvalidationurlbinding {
         Invoke-ADCDeleteAppfwprofilexmlvalidationurlbinding -name <string>
     .NOTES
         File Name : Invoke-ADCDeleteAppfwprofilexmlvalidationurlbinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/appfw/appfwprofile_xmlvalidationurl_binding/
         Requires  : PowerShell v5.1 and up
@@ -15230,7 +15230,7 @@ function Invoke-ADCDeleteAppfwprofilexmlvalidationurlbinding {
             }
             if ($PSBoundParameters.ContainsKey('xmlvalidationurl')) { $Arguments.Add('xmlvalidationurl', $xmlvalidationurl) }
             if ($PSCmdlet.ShouldProcess("$name", "Delete Application Firewall configuration Object")) {
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type appfwprofile_xmlvalidationurl_binding -Resource $name -Arguments $Arguments
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type appfwprofile_xmlvalidationurl_binding -NitroPath nitro/v1/config -Resource $name -Arguments $Arguments
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $response
@@ -15274,7 +15274,7 @@ function Invoke-ADCGetAppfwprofilexmlvalidationurlbinding {
         Invoke-ADCGetAppfwprofilexmlvalidationurlbinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetAppfwprofilexmlvalidationurlbinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/appfw/appfwprofile_xmlvalidationurl_binding/
         Requires  : PowerShell v5.1 and up
@@ -15312,21 +15312,21 @@ function Invoke-ADCGetAppfwprofilexmlvalidationurlbinding {
                     bulkbindings = 'yes'
                 }
                 Write-Verbose "Retrieving all appfwprofile_xmlvalidationurl_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type appfwprofile_xmlvalidationurl_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type appfwprofile_xmlvalidationurl_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
                 if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for appfwprofile_xmlvalidationurl_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type appfwprofile_xmlvalidationurl_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type appfwprofile_xmlvalidationurl_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving appfwprofile_xmlvalidationurl_binding objects by arguments"
                 $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type appfwprofile_xmlvalidationurl_binding -Arguments $Arguments -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type appfwprofile_xmlvalidationurl_binding -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving appfwprofile_xmlvalidationurl_binding configuration for property 'name'"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type appfwprofile_xmlvalidationurl_binding -Resource $name -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type appfwprofile_xmlvalidationurl_binding -NitroPath nitro/v1/config -Resource $name -Summary:$ViewSummary -Filter $Filter -GetWarning
             } else {
                 Write-Verbose "Retrieving appfwprofile_xmlvalidationurl_binding configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type appfwprofile_xmlvalidationurl_binding -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type appfwprofile_xmlvalidationurl_binding -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -15366,7 +15366,7 @@ function Invoke-ADCAddAppfwprofilexmlwsiurlbinding {
         Invoke-ADCAddAppfwprofilexmlwsiurlbinding -name <string>
     .NOTES
         File Name : Invoke-ADCAddAppfwprofilexmlwsiurlbinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/appfw/appfwprofile_xmlwsiurl_binding/
         Requires  : PowerShell v5.1 and up
@@ -15416,7 +15416,7 @@ function Invoke-ADCAddAppfwprofilexmlwsiurlbinding {
             if ($PSBoundParameters.ContainsKey('isautodeployed')) { $Payload.Add('isautodeployed', $isautodeployed) }
  
             if ($PSCmdlet.ShouldProcess("appfwprofile_xmlwsiurl_binding", "Add Application Firewall configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -Type appfwprofile_xmlwsiurl_binding -Payload $Payload -GetWarning
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -NitroPath nitro/v1/config -Type appfwprofile_xmlwsiurl_binding -Payload $Payload -GetWarning
                 #HTTP Status Code on Success: 201 Created
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 if ($PSBoundParameters.ContainsKey('PassThru')) {
@@ -15450,7 +15450,7 @@ function Invoke-ADCDeleteAppfwprofilexmlwsiurlbinding {
         Invoke-ADCDeleteAppfwprofilexmlwsiurlbinding -name <string>
     .NOTES
         File Name : Invoke-ADCDeleteAppfwprofilexmlwsiurlbinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/appfw/appfwprofile_xmlwsiurl_binding/
         Requires  : PowerShell v5.1 and up
@@ -15480,7 +15480,7 @@ function Invoke-ADCDeleteAppfwprofilexmlwsiurlbinding {
             }
             if ($PSBoundParameters.ContainsKey('xmlwsiurl')) { $Arguments.Add('xmlwsiurl', $xmlwsiurl) }
             if ($PSCmdlet.ShouldProcess("$name", "Delete Application Firewall configuration Object")) {
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type appfwprofile_xmlwsiurl_binding -Resource $name -Arguments $Arguments
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type appfwprofile_xmlwsiurl_binding -NitroPath nitro/v1/config -Resource $name -Arguments $Arguments
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $response
@@ -15524,7 +15524,7 @@ function Invoke-ADCGetAppfwprofilexmlwsiurlbinding {
         Invoke-ADCGetAppfwprofilexmlwsiurlbinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetAppfwprofilexmlwsiurlbinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/appfw/appfwprofile_xmlwsiurl_binding/
         Requires  : PowerShell v5.1 and up
@@ -15562,21 +15562,21 @@ function Invoke-ADCGetAppfwprofilexmlwsiurlbinding {
                     bulkbindings = 'yes'
                 }
                 Write-Verbose "Retrieving all appfwprofile_xmlwsiurl_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type appfwprofile_xmlwsiurl_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type appfwprofile_xmlwsiurl_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
                 if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for appfwprofile_xmlwsiurl_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type appfwprofile_xmlwsiurl_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type appfwprofile_xmlwsiurl_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving appfwprofile_xmlwsiurl_binding objects by arguments"
                 $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type appfwprofile_xmlwsiurl_binding -Arguments $Arguments -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type appfwprofile_xmlwsiurl_binding -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving appfwprofile_xmlwsiurl_binding configuration for property 'name'"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type appfwprofile_xmlwsiurl_binding -Resource $name -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type appfwprofile_xmlwsiurl_binding -NitroPath nitro/v1/config -Resource $name -Summary:$ViewSummary -Filter $Filter -GetWarning
             } else {
                 Write-Verbose "Retrieving appfwprofile_xmlwsiurl_binding configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type appfwprofile_xmlwsiurl_binding -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type appfwprofile_xmlwsiurl_binding -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -15620,7 +15620,7 @@ function Invoke-ADCAddAppfwprofilexmlxssbinding {
         Invoke-ADCAddAppfwprofilexmlxssbinding -name <string>
     .NOTES
         File Name : Invoke-ADCAddAppfwprofilexmlxssbinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/appfw/appfwprofile_xmlxss_binding/
         Requires  : PowerShell v5.1 and up
@@ -15675,7 +15675,7 @@ function Invoke-ADCAddAppfwprofilexmlxssbinding {
             if ($PSBoundParameters.ContainsKey('isautodeployed')) { $Payload.Add('isautodeployed', $isautodeployed) }
  
             if ($PSCmdlet.ShouldProcess("appfwprofile_xmlxss_binding", "Add Application Firewall configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -Type appfwprofile_xmlxss_binding -Payload $Payload -GetWarning
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -NitroPath nitro/v1/config -Type appfwprofile_xmlxss_binding -Payload $Payload -GetWarning
                 #HTTP Status Code on Success: 201 Created
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 if ($PSBoundParameters.ContainsKey('PassThru')) {
@@ -15711,7 +15711,7 @@ function Invoke-ADCDeleteAppfwprofilexmlxssbinding {
         Invoke-ADCDeleteAppfwprofilexmlxssbinding -name <string>
     .NOTES
         File Name : Invoke-ADCDeleteAppfwprofilexmlxssbinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/appfw/appfwprofile_xmlxss_binding/
         Requires  : PowerShell v5.1 and up
@@ -15744,7 +15744,7 @@ function Invoke-ADCDeleteAppfwprofilexmlxssbinding {
             if ($PSBoundParameters.ContainsKey('xmlxss')) { $Arguments.Add('xmlxss', $xmlxss) }
             if ($PSBoundParameters.ContainsKey('as_scan_location_xmlxss')) { $Arguments.Add('as_scan_location_xmlxss', $as_scan_location_xmlxss) }
             if ($PSCmdlet.ShouldProcess("$name", "Delete Application Firewall configuration Object")) {
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type appfwprofile_xmlxss_binding -Resource $name -Arguments $Arguments
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type appfwprofile_xmlxss_binding -NitroPath nitro/v1/config -Resource $name -Arguments $Arguments
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $response
@@ -15788,7 +15788,7 @@ function Invoke-ADCGetAppfwprofilexmlxssbinding {
         Invoke-ADCGetAppfwprofilexmlxssbinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetAppfwprofilexmlxssbinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/appfw/appfwprofile_xmlxss_binding/
         Requires  : PowerShell v5.1 and up
@@ -15826,21 +15826,21 @@ function Invoke-ADCGetAppfwprofilexmlxssbinding {
                     bulkbindings = 'yes'
                 }
                 Write-Verbose "Retrieving all appfwprofile_xmlxss_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type appfwprofile_xmlxss_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type appfwprofile_xmlxss_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
                 if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for appfwprofile_xmlxss_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type appfwprofile_xmlxss_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type appfwprofile_xmlxss_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving appfwprofile_xmlxss_binding objects by arguments"
                 $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type appfwprofile_xmlxss_binding -Arguments $Arguments -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type appfwprofile_xmlxss_binding -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving appfwprofile_xmlxss_binding configuration for property 'name'"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type appfwprofile_xmlxss_binding -Resource $name -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type appfwprofile_xmlxss_binding -NitroPath nitro/v1/config -Resource $name -Summary:$ViewSummary -Filter $Filter -GetWarning
             } else {
                 Write-Verbose "Retrieving appfwprofile_xmlxss_binding configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type appfwprofile_xmlxss_binding -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type appfwprofile_xmlxss_binding -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -15939,7 +15939,7 @@ function Invoke-ADCUpdateAppfwsettings {
         Invoke-ADCUpdateAppfwsettings 
     .NOTES
         File Name : Invoke-ADCUpdateAppfwsettings
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/appfw/appfwsettings/
         Requires  : PowerShell v5.1 and up
@@ -16040,7 +16040,7 @@ function Invoke-ADCUpdateAppfwsettings {
             if ($PSBoundParameters.ContainsKey('centralizedlearning')) { $Payload.Add('centralizedlearning', $centralizedlearning) }
  
             if ($PSCmdlet.ShouldProcess("appfwsettings", "Update Application Firewall configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -Type appfwsettings -Payload $Payload -GetWarning
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -NitroPath nitro/v1/config -Type appfwsettings -Payload $Payload -GetWarning
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
             Write-Output $result
@@ -16114,7 +16114,7 @@ function Invoke-ADCUnsetAppfwsettings {
         Invoke-ADCUnsetAppfwsettings 
     .NOTES
         File Name : Invoke-ADCUnsetAppfwsettings
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/appfw/appfwsettings
         Requires  : PowerShell v5.1 and up
@@ -16196,7 +16196,7 @@ function Invoke-ADCUnsetAppfwsettings {
             if ($PSBoundParameters.ContainsKey('malformedreqaction')) { $Payload.Add('malformedreqaction', $malformedreqaction) }
             if ($PSBoundParameters.ContainsKey('centralizedlearning')) { $Payload.Add('centralizedlearning', $centralizedlearning) }
             if ($PSCmdlet.ShouldProcess("appfwsettings", "Unset Application Firewall configuration Object")) {
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -Type appfwsettings -Action unset -Payload $Payload -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -Type appfwsettings -NitroPath nitro/v1/config -Action unset -Payload $Payload -GetWarning
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $response
@@ -16236,7 +16236,7 @@ function Invoke-ADCGetAppfwsettings {
         Invoke-ADCGetAppfwsettings -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetAppfwsettings
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/appfw/appfwsettings/
         Requires  : PowerShell v5.1 and up
@@ -16265,21 +16265,21 @@ function Invoke-ADCGetAppfwsettings {
             if ( $PsCmdlet.ParameterSetName -eq 'Getall' ) {
                 $Query = @{ }
                 Write-Verbose "Retrieving all appfwsettings objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type appfwsettings -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type appfwsettings -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
                 if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for appfwsettings objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type appfwsettings -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type appfwsettings -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving appfwsettings objects by arguments"
                 $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type appfwsettings -Arguments $Arguments -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type appfwsettings -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving appfwsettings configuration for property ''"
 
             } else {
                 Write-Verbose "Retrieving appfwsettings configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type appfwsettings -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type appfwsettings -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -16306,7 +16306,7 @@ function Invoke-ADCDeleteAppfwsignatures {
         Invoke-ADCDeleteAppfwsignatures -name <string>
     .NOTES
         File Name : Invoke-ADCDeleteAppfwsignatures
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/appfw/appfwsignatures/
         Requires  : PowerShell v5.1 and up
@@ -16334,7 +16334,7 @@ function Invoke-ADCDeleteAppfwsignatures {
             }
 
             if ($PSCmdlet.ShouldProcess("$name", "Delete Application Firewall configuration Object")) {
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type appfwsignatures -Resource $name -Arguments $Arguments
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type appfwsignatures -NitroPath nitro/v1/config -Resource $name -Arguments $Arguments
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $response
@@ -16379,7 +16379,7 @@ function Invoke-ADCImportAppfwsignatures {
         Invoke-ADCImportAppfwsignatures -src <string> -name <string>
     .NOTES
         File Name : Invoke-ADCImportAppfwsignatures
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/appfw/appfwsignatures/
         Requires  : PowerShell v5.1 and up
@@ -16437,7 +16437,7 @@ function Invoke-ADCImportAppfwsignatures {
             if ($PSBoundParameters.ContainsKey('sha1')) { $Payload.Add('sha1', $sha1) }
             if ($PSBoundParameters.ContainsKey('vendortype')) { $Payload.Add('vendortype', $vendortype) }
             if ($PSCmdlet.ShouldProcess($Name, "Import Application Firewall configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -Type appfwsignatures -Action import -Payload $Payload -GetWarning
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -NitroPath nitro/v1/config -Type appfwsignatures -Action import -Payload $Payload -GetWarning
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $result
@@ -16470,7 +16470,7 @@ function Invoke-ADCChangeAppfwsignatures {
         Invoke-ADCChangeAppfwsignatures -name <string>
     .NOTES
         File Name : Invoke-ADCChangeAppfwsignatures
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/appfw/appfwsignatures/
         Requires  : PowerShell v5.1 and up
@@ -16506,7 +16506,7 @@ function Invoke-ADCChangeAppfwsignatures {
             if ($PSBoundParameters.ContainsKey('mergedefault')) { $Payload.Add('mergedefault', $mergedefault) }
  
             if ($PSCmdlet.ShouldProcess("appfwsignatures", "Change Application Firewall configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -Type appfwsignatures -Action update -Payload $Payload -GetWarning
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -NitroPath nitro/v1/config -Type appfwsignatures -Action update -Payload $Payload -GetWarning
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 if ($PSBoundParameters.ContainsKey('PassThru')) {
@@ -16553,7 +16553,7 @@ function Invoke-ADCGetAppfwsignatures {
         Invoke-ADCGetAppfwsignatures -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetAppfwsignatures
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/appfw/appfwsignatures/
         Requires  : PowerShell v5.1 and up
@@ -16590,21 +16590,21 @@ function Invoke-ADCGetAppfwsignatures {
             if ( $PsCmdlet.ParameterSetName -eq 'Getall' ) {
                 $Query = @{ }
                 Write-Verbose "Retrieving all appfwsignatures objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type appfwsignatures -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type appfwsignatures -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
                 if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for appfwsignatures objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type appfwsignatures -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type appfwsignatures -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving appfwsignatures objects by arguments"
                 $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type appfwsignatures -Arguments $Arguments -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type appfwsignatures -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving appfwsignatures configuration for property 'name'"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type appfwsignatures -Resource $name -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type appfwsignatures -NitroPath nitro/v1/config -Resource $name -Summary:$ViewSummary -Filter $Filter -GetWarning
             } else {
                 Write-Verbose "Retrieving appfwsignatures configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type appfwsignatures -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type appfwsignatures -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -16646,7 +16646,7 @@ function Invoke-ADCGetAppfwtransactionrecords {
         Invoke-ADCGetAppfwtransactionrecords -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetAppfwtransactionrecords
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/appfw/appfwtransactionrecords/
         Requires  : PowerShell v5.1 and up
@@ -16686,22 +16686,22 @@ function Invoke-ADCGetAppfwtransactionrecords {
             if ( $PsCmdlet.ParameterSetName -eq 'Getall' ) {
                 $Query = @{ }
                 Write-Verbose "Retrieving all appfwtransactionrecords objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type appfwtransactionrecords -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type appfwtransactionrecords -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
                 if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for appfwtransactionrecords objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type appfwtransactionrecords -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type appfwtransactionrecords -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving appfwtransactionrecords objects by arguments"
                 $Arguments = @{ } 
                 if ($PSBoundParameters.ContainsKey('nodeid')) { $Arguments.Add('nodeid', $nodeid) }
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type appfwtransactionrecords -Arguments $Arguments -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type appfwtransactionrecords -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving appfwtransactionrecords configuration for property ''"
 
             } else {
                 Write-Verbose "Retrieving appfwtransactionrecords configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type appfwtransactionrecords -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type appfwtransactionrecords -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -16733,7 +16733,7 @@ function Invoke-ADCAddAppfwurlencodedformcontenttype {
         Invoke-ADCAddAppfwurlencodedformcontenttype -urlencodedformcontenttypevalue <string>
     .NOTES
         File Name : Invoke-ADCAddAppfwurlencodedformcontenttype
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/appfw/appfwurlencodedformcontenttype/
         Requires  : PowerShell v5.1 and up
@@ -16770,7 +16770,7 @@ function Invoke-ADCAddAppfwurlencodedformcontenttype {
             if ($PSBoundParameters.ContainsKey('isregex')) { $Payload.Add('isregex', $isregex) }
  
             if ($PSCmdlet.ShouldProcess("appfwurlencodedformcontenttype", "Add Application Firewall configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -Type appfwurlencodedformcontenttype -Payload $Payload -GetWarning
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -NitroPath nitro/v1/config -Type appfwurlencodedformcontenttype -Payload $Payload -GetWarning
                 #HTTP Status Code on Success: 201 Created
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 if ($PSBoundParameters.ContainsKey('PassThru')) {
@@ -16803,7 +16803,7 @@ function Invoke-ADCDeleteAppfwurlencodedformcontenttype {
         Invoke-ADCDeleteAppfwurlencodedformcontenttype -urlencodedformcontenttypevalue <string>
     .NOTES
         File Name : Invoke-ADCDeleteAppfwurlencodedformcontenttype
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/appfw/appfwurlencodedformcontenttype/
         Requires  : PowerShell v5.1 and up
@@ -16831,7 +16831,7 @@ function Invoke-ADCDeleteAppfwurlencodedformcontenttype {
             }
 
             if ($PSCmdlet.ShouldProcess("$urlencodedformcontenttypevalue", "Delete Application Firewall configuration Object")) {
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type appfwurlencodedformcontenttype -Resource $urlencodedformcontenttypevalue -Arguments $Arguments
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type appfwurlencodedformcontenttype -NitroPath nitro/v1/config -Resource $urlencodedformcontenttypevalue -Arguments $Arguments
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $response
@@ -16875,7 +16875,7 @@ function Invoke-ADCGetAppfwurlencodedformcontenttype {
         Invoke-ADCGetAppfwurlencodedformcontenttype -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetAppfwurlencodedformcontenttype
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/appfw/appfwurlencodedformcontenttype/
         Requires  : PowerShell v5.1 and up
@@ -16916,21 +16916,21 @@ function Invoke-ADCGetAppfwurlencodedformcontenttype {
             if ( $PsCmdlet.ParameterSetName -eq 'Getall' ) {
                 $Query = @{ }
                 Write-Verbose "Retrieving all appfwurlencodedformcontenttype objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type appfwurlencodedformcontenttype -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type appfwurlencodedformcontenttype -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
                 if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for appfwurlencodedformcontenttype objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type appfwurlencodedformcontenttype -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type appfwurlencodedformcontenttype -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving appfwurlencodedformcontenttype objects by arguments"
                 $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type appfwurlencodedformcontenttype -Arguments $Arguments -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type appfwurlencodedformcontenttype -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving appfwurlencodedformcontenttype configuration for property 'urlencodedformcontenttypevalue'"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type appfwurlencodedformcontenttype -Resource $urlencodedformcontenttypevalue -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type appfwurlencodedformcontenttype -NitroPath nitro/v1/config -Resource $urlencodedformcontenttypevalue -Summary:$ViewSummary -Filter $Filter -GetWarning
             } else {
                 Write-Verbose "Retrieving appfwurlencodedformcontenttype configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type appfwurlencodedformcontenttype -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type appfwurlencodedformcontenttype -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -16957,7 +16957,7 @@ function Invoke-ADCDeleteAppfwwsdl {
         Invoke-ADCDeleteAppfwwsdl -name <string>
     .NOTES
         File Name : Invoke-ADCDeleteAppfwwsdl
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/appfw/appfwwsdl/
         Requires  : PowerShell v5.1 and up
@@ -16985,7 +16985,7 @@ function Invoke-ADCDeleteAppfwwsdl {
             }
 
             if ($PSCmdlet.ShouldProcess("$name", "Delete Application Firewall configuration Object")) {
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type appfwwsdl -Resource $name -Arguments $Arguments
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type appfwwsdl -NitroPath nitro/v1/config -Resource $name -Arguments $Arguments
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $response
@@ -17019,7 +17019,7 @@ function Invoke-ADCImportAppfwwsdl {
         Invoke-ADCImportAppfwwsdl -src <string> -name <string>
     .NOTES
         File Name : Invoke-ADCImportAppfwwsdl
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/appfw/appfwwsdl/
         Requires  : PowerShell v5.1 and up
@@ -17060,7 +17060,7 @@ function Invoke-ADCImportAppfwwsdl {
             if ($PSBoundParameters.ContainsKey('comment')) { $Payload.Add('comment', $comment) }
             if ($PSBoundParameters.ContainsKey('overwrite')) { $Payload.Add('overwrite', $overwrite) }
             if ($PSCmdlet.ShouldProcess($Name, "Import Application Firewall configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -Type appfwwsdl -Action import -Payload $Payload -GetWarning
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -NitroPath nitro/v1/config -Type appfwwsdl -Action import -Payload $Payload -GetWarning
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $result
@@ -17102,7 +17102,7 @@ function Invoke-ADCGetAppfwwsdl {
         Invoke-ADCGetAppfwwsdl -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetAppfwwsdl
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/appfw/appfwwsdl/
         Requires  : PowerShell v5.1 and up
@@ -17139,21 +17139,21 @@ function Invoke-ADCGetAppfwwsdl {
             if ( $PsCmdlet.ParameterSetName -eq 'Getall' ) {
                 $Query = @{ }
                 Write-Verbose "Retrieving all appfwwsdl objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type appfwwsdl -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type appfwwsdl -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
                 if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for appfwwsdl objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type appfwwsdl -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type appfwwsdl -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving appfwwsdl objects by arguments"
                 $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type appfwwsdl -Arguments $Arguments -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type appfwwsdl -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving appfwwsdl configuration for property 'name'"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type appfwwsdl -Resource $name -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type appfwwsdl -NitroPath nitro/v1/config -Resource $name -Summary:$ViewSummary -Filter $Filter -GetWarning
             } else {
                 Write-Verbose "Retrieving appfwwsdl configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type appfwwsdl -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type appfwwsdl -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -17185,7 +17185,7 @@ function Invoke-ADCAddAppfwxmlcontenttype {
         Invoke-ADCAddAppfwxmlcontenttype -xmlcontenttypevalue <string>
     .NOTES
         File Name : Invoke-ADCAddAppfwxmlcontenttype
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/appfw/appfwxmlcontenttype/
         Requires  : PowerShell v5.1 and up
@@ -17222,7 +17222,7 @@ function Invoke-ADCAddAppfwxmlcontenttype {
             if ($PSBoundParameters.ContainsKey('isregex')) { $Payload.Add('isregex', $isregex) }
  
             if ($PSCmdlet.ShouldProcess("appfwxmlcontenttype", "Add Application Firewall configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -Type appfwxmlcontenttype -Payload $Payload -GetWarning
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -NitroPath nitro/v1/config -Type appfwxmlcontenttype -Payload $Payload -GetWarning
                 #HTTP Status Code on Success: 201 Created
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 if ($PSBoundParameters.ContainsKey('PassThru')) {
@@ -17255,7 +17255,7 @@ function Invoke-ADCDeleteAppfwxmlcontenttype {
         Invoke-ADCDeleteAppfwxmlcontenttype -xmlcontenttypevalue <string>
     .NOTES
         File Name : Invoke-ADCDeleteAppfwxmlcontenttype
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/appfw/appfwxmlcontenttype/
         Requires  : PowerShell v5.1 and up
@@ -17283,7 +17283,7 @@ function Invoke-ADCDeleteAppfwxmlcontenttype {
             }
 
             if ($PSCmdlet.ShouldProcess("$xmlcontenttypevalue", "Delete Application Firewall configuration Object")) {
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type appfwxmlcontenttype -Resource $xmlcontenttypevalue -Arguments $Arguments
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type appfwxmlcontenttype -NitroPath nitro/v1/config -Resource $xmlcontenttypevalue -Arguments $Arguments
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $response
@@ -17327,7 +17327,7 @@ function Invoke-ADCGetAppfwxmlcontenttype {
         Invoke-ADCGetAppfwxmlcontenttype -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetAppfwxmlcontenttype
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/appfw/appfwxmlcontenttype/
         Requires  : PowerShell v5.1 and up
@@ -17368,21 +17368,21 @@ function Invoke-ADCGetAppfwxmlcontenttype {
             if ( $PsCmdlet.ParameterSetName -eq 'Getall' ) {
                 $Query = @{ }
                 Write-Verbose "Retrieving all appfwxmlcontenttype objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type appfwxmlcontenttype -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type appfwxmlcontenttype -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
                 if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for appfwxmlcontenttype objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type appfwxmlcontenttype -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type appfwxmlcontenttype -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving appfwxmlcontenttype objects by arguments"
                 $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type appfwxmlcontenttype -Arguments $Arguments -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type appfwxmlcontenttype -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving appfwxmlcontenttype configuration for property 'xmlcontenttypevalue'"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type appfwxmlcontenttype -Resource $xmlcontenttypevalue -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type appfwxmlcontenttype -NitroPath nitro/v1/config -Resource $xmlcontenttypevalue -Summary:$ViewSummary -Filter $Filter -GetWarning
             } else {
                 Write-Verbose "Retrieving appfwxmlcontenttype configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type appfwxmlcontenttype -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type appfwxmlcontenttype -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -17409,7 +17409,7 @@ function Invoke-ADCDeleteAppfwxmlerrorpage {
         Invoke-ADCDeleteAppfwxmlerrorpage -name <string>
     .NOTES
         File Name : Invoke-ADCDeleteAppfwxmlerrorpage
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/appfw/appfwxmlerrorpage/
         Requires  : PowerShell v5.1 and up
@@ -17437,7 +17437,7 @@ function Invoke-ADCDeleteAppfwxmlerrorpage {
             }
 
             if ($PSCmdlet.ShouldProcess("$name", "Delete Application Firewall configuration Object")) {
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type appfwxmlerrorpage -Resource $name -Arguments $Arguments
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type appfwxmlerrorpage -NitroPath nitro/v1/config -Resource $name -Arguments $Arguments
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $response
@@ -17471,7 +17471,7 @@ function Invoke-ADCImportAppfwxmlerrorpage {
         Invoke-ADCImportAppfwxmlerrorpage -src <string> -name <string>
     .NOTES
         File Name : Invoke-ADCImportAppfwxmlerrorpage
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/appfw/appfwxmlerrorpage/
         Requires  : PowerShell v5.1 and up
@@ -17512,7 +17512,7 @@ function Invoke-ADCImportAppfwxmlerrorpage {
             if ($PSBoundParameters.ContainsKey('comment')) { $Payload.Add('comment', $comment) }
             if ($PSBoundParameters.ContainsKey('overwrite')) { $Payload.Add('overwrite', $overwrite) }
             if ($PSCmdlet.ShouldProcess($Name, "Import Application Firewall configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -Type appfwxmlerrorpage -Action import -Payload $Payload -GetWarning
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -NitroPath nitro/v1/config -Type appfwxmlerrorpage -Action import -Payload $Payload -GetWarning
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $result
@@ -17543,7 +17543,7 @@ function Invoke-ADCChangeAppfwxmlerrorpage {
         Invoke-ADCChangeAppfwxmlerrorpage -name <string>
     .NOTES
         File Name : Invoke-ADCChangeAppfwxmlerrorpage
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/appfw/appfwxmlerrorpage/
         Requires  : PowerShell v5.1 and up
@@ -17577,7 +17577,7 @@ function Invoke-ADCChangeAppfwxmlerrorpage {
 
  
             if ($PSCmdlet.ShouldProcess("appfwxmlerrorpage", "Change Application Firewall configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -Type appfwxmlerrorpage -Action update -Payload $Payload -GetWarning
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -NitroPath nitro/v1/config -Type appfwxmlerrorpage -Action update -Payload $Payload -GetWarning
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 if ($PSBoundParameters.ContainsKey('PassThru')) {
@@ -17624,7 +17624,7 @@ function Invoke-ADCGetAppfwxmlerrorpage {
         Invoke-ADCGetAppfwxmlerrorpage -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetAppfwxmlerrorpage
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/appfw/appfwxmlerrorpage/
         Requires  : PowerShell v5.1 and up
@@ -17661,21 +17661,21 @@ function Invoke-ADCGetAppfwxmlerrorpage {
             if ( $PsCmdlet.ParameterSetName -eq 'Getall' ) {
                 $Query = @{ }
                 Write-Verbose "Retrieving all appfwxmlerrorpage objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type appfwxmlerrorpage -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type appfwxmlerrorpage -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
                 if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for appfwxmlerrorpage objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type appfwxmlerrorpage -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type appfwxmlerrorpage -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving appfwxmlerrorpage objects by arguments"
                 $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type appfwxmlerrorpage -Arguments $Arguments -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type appfwxmlerrorpage -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving appfwxmlerrorpage configuration for property 'name'"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type appfwxmlerrorpage -Resource $name -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type appfwxmlerrorpage -NitroPath nitro/v1/config -Resource $name -Summary:$ViewSummary -Filter $Filter -GetWarning
             } else {
                 Write-Verbose "Retrieving appfwxmlerrorpage configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type appfwxmlerrorpage -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type appfwxmlerrorpage -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -17702,7 +17702,7 @@ function Invoke-ADCDeleteAppfwxmlschema {
         Invoke-ADCDeleteAppfwxmlschema -name <string>
     .NOTES
         File Name : Invoke-ADCDeleteAppfwxmlschema
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/appfw/appfwxmlschema/
         Requires  : PowerShell v5.1 and up
@@ -17730,7 +17730,7 @@ function Invoke-ADCDeleteAppfwxmlschema {
             }
 
             if ($PSCmdlet.ShouldProcess("$name", "Delete Application Firewall configuration Object")) {
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type appfwxmlschema -Resource $name -Arguments $Arguments
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type appfwxmlschema -NitroPath nitro/v1/config -Resource $name -Arguments $Arguments
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $response
@@ -17764,7 +17764,7 @@ function Invoke-ADCImportAppfwxmlschema {
         Invoke-ADCImportAppfwxmlschema -src <string> -name <string>
     .NOTES
         File Name : Invoke-ADCImportAppfwxmlschema
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/appfw/appfwxmlschema/
         Requires  : PowerShell v5.1 and up
@@ -17805,7 +17805,7 @@ function Invoke-ADCImportAppfwxmlschema {
             if ($PSBoundParameters.ContainsKey('comment')) { $Payload.Add('comment', $comment) }
             if ($PSBoundParameters.ContainsKey('overwrite')) { $Payload.Add('overwrite', $overwrite) }
             if ($PSCmdlet.ShouldProcess($Name, "Import Application Firewall configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -Type appfwxmlschema -Action import -Payload $Payload -GetWarning
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -NitroPath nitro/v1/config -Type appfwxmlschema -Action import -Payload $Payload -GetWarning
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $result
@@ -17847,7 +17847,7 @@ function Invoke-ADCGetAppfwxmlschema {
         Invoke-ADCGetAppfwxmlschema -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetAppfwxmlschema
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/appfw/appfwxmlschema/
         Requires  : PowerShell v5.1 and up
@@ -17884,21 +17884,21 @@ function Invoke-ADCGetAppfwxmlschema {
             if ( $PsCmdlet.ParameterSetName -eq 'Getall' ) {
                 $Query = @{ }
                 Write-Verbose "Retrieving all appfwxmlschema objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type appfwxmlschema -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type appfwxmlschema -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
                 if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for appfwxmlschema objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type appfwxmlschema -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type appfwxmlschema -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving appfwxmlschema objects by arguments"
                 $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type appfwxmlschema -Arguments $Arguments -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type appfwxmlschema -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving appfwxmlschema configuration for property 'name'"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type appfwxmlschema -Resource $name -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type appfwxmlschema -NitroPath nitro/v1/config -Resource $name -Summary:$ViewSummary -Filter $Filter -GetWarning
             } else {
                 Write-Verbose "Retrieving appfwxmlschema configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type appfwxmlschema -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type appfwxmlschema -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"

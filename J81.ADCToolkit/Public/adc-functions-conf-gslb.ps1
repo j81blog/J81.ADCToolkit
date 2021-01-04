@@ -22,7 +22,7 @@ function Invoke-ADCSyncGslbconfig {
         Invoke-ADCSyncGslbconfig 
     .NOTES
         File Name : Invoke-ADCSyncGslbconfig
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/gslb/gslbconfig/
         Requires  : PowerShell v5.1 and up
@@ -66,7 +66,7 @@ function Invoke-ADCSyncGslbconfig {
             if ($PSBoundParameters.ContainsKey('saveconfig')) { $Payload.Add('saveconfig', $saveconfig) }
             if ($PSBoundParameters.ContainsKey('command')) { $Payload.Add('command', $command) }
             if ($PSCmdlet.ShouldProcess($Name, "Sync Global Server Load Balancing configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -Type gslbconfig -Action sync -Payload $Payload -GetWarning
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -NitroPath nitro/v1/config -Type gslbconfig -Action sync -Payload $Payload -GetWarning
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $result
@@ -110,7 +110,7 @@ function Invoke-ADCGetGslbdomain {
         Invoke-ADCGetGslbdomain -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetGslbdomain
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/gslb/gslbdomain/
         Requires  : PowerShell v5.1 and up
@@ -151,21 +151,21 @@ function Invoke-ADCGetGslbdomain {
             if ( $PsCmdlet.ParameterSetName -eq 'Getall' ) {
                 $Query = @{ }
                 Write-Verbose "Retrieving all gslbdomain objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type gslbdomain -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type gslbdomain -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
                 if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for gslbdomain objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type gslbdomain -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type gslbdomain -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving gslbdomain objects by arguments"
                 $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type gslbdomain -Arguments $Arguments -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type gslbdomain -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving gslbdomain configuration for property 'name'"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type gslbdomain -Resource $name -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type gslbdomain -NitroPath nitro/v1/config -Resource $name -Summary:$ViewSummary -Filter $Filter -GetWarning
             } else {
                 Write-Verbose "Retrieving gslbdomain configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type gslbdomain -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type gslbdomain -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -205,7 +205,7 @@ function Invoke-ADCGetGslbdomainbinding {
         Invoke-ADCGetGslbdomainbinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetGslbdomainbinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/gslb/gslbdomain_binding/
         Requires  : PowerShell v5.1 and up
@@ -240,21 +240,21 @@ function Invoke-ADCGetGslbdomainbinding {
                     bulkbindings = 'yes'
                 }
                 Write-Verbose "Retrieving all gslbdomain_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type gslbdomain_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type gslbdomain_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
                 if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for gslbdomain_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type gslbdomain_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type gslbdomain_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving gslbdomain_binding objects by arguments"
                 $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type gslbdomain_binding -Arguments $Arguments -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type gslbdomain_binding -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving gslbdomain_binding configuration for property 'name'"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type gslbdomain_binding -Resource $name -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type gslbdomain_binding -NitroPath nitro/v1/config -Resource $name -Summary:$ViewSummary -Filter $Filter -GetWarning
             } else {
                 Write-Verbose "Retrieving gslbdomain_binding configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type gslbdomain_binding -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type gslbdomain_binding -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -296,7 +296,7 @@ function Invoke-ADCGetGslbdomaingslbservicegroupmemberbinding {
         Invoke-ADCGetGslbdomaingslbservicegroupmemberbinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetGslbdomaingslbservicegroupmemberbinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/gslb/gslbdomain_gslbservicegroupmember_binding/
         Requires  : PowerShell v5.1 and up
@@ -334,21 +334,21 @@ function Invoke-ADCGetGslbdomaingslbservicegroupmemberbinding {
                     bulkbindings = 'yes'
                 }
                 Write-Verbose "Retrieving all gslbdomain_gslbservicegroupmember_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type gslbdomain_gslbservicegroupmember_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type gslbdomain_gslbservicegroupmember_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
                 if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for gslbdomain_gslbservicegroupmember_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type gslbdomain_gslbservicegroupmember_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type gslbdomain_gslbservicegroupmember_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving gslbdomain_gslbservicegroupmember_binding objects by arguments"
                 $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type gslbdomain_gslbservicegroupmember_binding -Arguments $Arguments -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type gslbdomain_gslbservicegroupmember_binding -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving gslbdomain_gslbservicegroupmember_binding configuration for property 'name'"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type gslbdomain_gslbservicegroupmember_binding -Resource $name -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type gslbdomain_gslbservicegroupmember_binding -NitroPath nitro/v1/config -Resource $name -Summary:$ViewSummary -Filter $Filter -GetWarning
             } else {
                 Write-Verbose "Retrieving gslbdomain_gslbservicegroupmember_binding configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type gslbdomain_gslbservicegroupmember_binding -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type gslbdomain_gslbservicegroupmember_binding -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -390,7 +390,7 @@ function Invoke-ADCGetGslbdomaingslbservicegroupbinding {
         Invoke-ADCGetGslbdomaingslbservicegroupbinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetGslbdomaingslbservicegroupbinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/gslb/gslbdomain_gslbservicegroup_binding/
         Requires  : PowerShell v5.1 and up
@@ -428,21 +428,21 @@ function Invoke-ADCGetGslbdomaingslbservicegroupbinding {
                     bulkbindings = 'yes'
                 }
                 Write-Verbose "Retrieving all gslbdomain_gslbservicegroup_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type gslbdomain_gslbservicegroup_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type gslbdomain_gslbservicegroup_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
                 if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for gslbdomain_gslbservicegroup_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type gslbdomain_gslbservicegroup_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type gslbdomain_gslbservicegroup_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving gslbdomain_gslbservicegroup_binding objects by arguments"
                 $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type gslbdomain_gslbservicegroup_binding -Arguments $Arguments -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type gslbdomain_gslbservicegroup_binding -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving gslbdomain_gslbservicegroup_binding configuration for property 'name'"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type gslbdomain_gslbservicegroup_binding -Resource $name -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type gslbdomain_gslbservicegroup_binding -NitroPath nitro/v1/config -Resource $name -Summary:$ViewSummary -Filter $Filter -GetWarning
             } else {
                 Write-Verbose "Retrieving gslbdomain_gslbservicegroup_binding configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type gslbdomain_gslbservicegroup_binding -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type gslbdomain_gslbservicegroup_binding -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -484,7 +484,7 @@ function Invoke-ADCGetGslbdomaingslbservicebinding {
         Invoke-ADCGetGslbdomaingslbservicebinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetGslbdomaingslbservicebinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/gslb/gslbdomain_gslbservice_binding/
         Requires  : PowerShell v5.1 and up
@@ -522,21 +522,21 @@ function Invoke-ADCGetGslbdomaingslbservicebinding {
                     bulkbindings = 'yes'
                 }
                 Write-Verbose "Retrieving all gslbdomain_gslbservice_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type gslbdomain_gslbservice_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type gslbdomain_gslbservice_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
                 if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for gslbdomain_gslbservice_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type gslbdomain_gslbservice_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type gslbdomain_gslbservice_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving gslbdomain_gslbservice_binding objects by arguments"
                 $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type gslbdomain_gslbservice_binding -Arguments $Arguments -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type gslbdomain_gslbservice_binding -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving gslbdomain_gslbservice_binding configuration for property 'name'"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type gslbdomain_gslbservice_binding -Resource $name -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type gslbdomain_gslbservice_binding -NitroPath nitro/v1/config -Resource $name -Summary:$ViewSummary -Filter $Filter -GetWarning
             } else {
                 Write-Verbose "Retrieving gslbdomain_gslbservice_binding configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type gslbdomain_gslbservice_binding -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type gslbdomain_gslbservice_binding -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -578,7 +578,7 @@ function Invoke-ADCGetGslbdomaingslbvserverbinding {
         Invoke-ADCGetGslbdomaingslbvserverbinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetGslbdomaingslbvserverbinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/gslb/gslbdomain_gslbvserver_binding/
         Requires  : PowerShell v5.1 and up
@@ -616,21 +616,21 @@ function Invoke-ADCGetGslbdomaingslbvserverbinding {
                     bulkbindings = 'yes'
                 }
                 Write-Verbose "Retrieving all gslbdomain_gslbvserver_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type gslbdomain_gslbvserver_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type gslbdomain_gslbvserver_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
                 if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for gslbdomain_gslbvserver_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type gslbdomain_gslbvserver_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type gslbdomain_gslbvserver_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving gslbdomain_gslbvserver_binding objects by arguments"
                 $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type gslbdomain_gslbvserver_binding -Arguments $Arguments -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type gslbdomain_gslbvserver_binding -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving gslbdomain_gslbvserver_binding configuration for property 'name'"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type gslbdomain_gslbvserver_binding -Resource $name -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type gslbdomain_gslbvserver_binding -NitroPath nitro/v1/config -Resource $name -Summary:$ViewSummary -Filter $Filter -GetWarning
             } else {
                 Write-Verbose "Retrieving gslbdomain_gslbvserver_binding configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type gslbdomain_gslbvserver_binding -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type gslbdomain_gslbvserver_binding -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -672,7 +672,7 @@ function Invoke-ADCGetGslbdomainlbmonitorbinding {
         Invoke-ADCGetGslbdomainlbmonitorbinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetGslbdomainlbmonitorbinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/gslb/gslbdomain_lbmonitor_binding/
         Requires  : PowerShell v5.1 and up
@@ -710,21 +710,21 @@ function Invoke-ADCGetGslbdomainlbmonitorbinding {
                     bulkbindings = 'yes'
                 }
                 Write-Verbose "Retrieving all gslbdomain_lbmonitor_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type gslbdomain_lbmonitor_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type gslbdomain_lbmonitor_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
                 if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for gslbdomain_lbmonitor_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type gslbdomain_lbmonitor_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type gslbdomain_lbmonitor_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving gslbdomain_lbmonitor_binding objects by arguments"
                 $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type gslbdomain_lbmonitor_binding -Arguments $Arguments -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type gslbdomain_lbmonitor_binding -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving gslbdomain_lbmonitor_binding configuration for property 'name'"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type gslbdomain_lbmonitor_binding -Resource $name -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type gslbdomain_lbmonitor_binding -NitroPath nitro/v1/config -Resource $name -Summary:$ViewSummary -Filter $Filter -GetWarning
             } else {
                 Write-Verbose "Retrieving gslbdomain_lbmonitor_binding configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type gslbdomain_lbmonitor_binding -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type gslbdomain_lbmonitor_binding -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -747,7 +747,7 @@ function Invoke-ADCClearGslbldnsentries {
         Invoke-ADCClearGslbldnsentries 
     .NOTES
         File Name : Invoke-ADCClearGslbldnsentries
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/gslb/gslbldnsentries/
         Requires  : PowerShell v5.1 and up
@@ -774,7 +774,7 @@ function Invoke-ADCClearGslbldnsentries {
             }
 
             if ($PSCmdlet.ShouldProcess($Name, "Clear Global Server Load Balancing configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -Type gslbldnsentries -Action clear -Payload $Payload -GetWarning
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -NitroPath nitro/v1/config -Type gslbldnsentries -Action clear -Payload $Payload -GetWarning
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $result
@@ -818,7 +818,7 @@ function Invoke-ADCGetGslbldnsentries {
         Invoke-ADCGetGslbldnsentries -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetGslbldnsentries
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/gslb/gslbldnsentries/
         Requires  : PowerShell v5.1 and up
@@ -858,22 +858,22 @@ function Invoke-ADCGetGslbldnsentries {
             if ( $PsCmdlet.ParameterSetName -eq 'Getall' ) {
                 $Query = @{ }
                 Write-Verbose "Retrieving all gslbldnsentries objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type gslbldnsentries -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type gslbldnsentries -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
                 if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for gslbldnsentries objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type gslbldnsentries -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type gslbldnsentries -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving gslbldnsentries objects by arguments"
                 $Arguments = @{ } 
                 if ($PSBoundParameters.ContainsKey('nodeid')) { $Arguments.Add('nodeid', $nodeid) }
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type gslbldnsentries -Arguments $Arguments -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type gslbldnsentries -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving gslbldnsentries configuration for property ''"
 
             } else {
                 Write-Verbose "Retrieving gslbldnsentries configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type gslbldnsentries -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type gslbldnsentries -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -899,7 +899,7 @@ function Invoke-ADCDeleteGslbldnsentry {
         Invoke-ADCDeleteGslbldnsentry 
     .NOTES
         File Name : Invoke-ADCDeleteGslbldnsentry
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/gslb/gslbldnsentry/
         Requires  : PowerShell v5.1 and up
@@ -926,7 +926,7 @@ function Invoke-ADCDeleteGslbldnsentry {
             }
             if ($PSBoundParameters.ContainsKey('ipaddress')) { $Arguments.Add('ipaddress', $ipaddress) }
             if ($PSCmdlet.ShouldProcess("gslbldnsentry", "Delete Global Server Load Balancing configuration Object")) {
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type gslbldnsentry -Resource $ -Arguments $Arguments
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type gslbldnsentry -NitroPath nitro/v1/config -Resource $ -Arguments $Arguments
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $response
@@ -986,7 +986,7 @@ function Invoke-ADCUpdateGslbparameter {
         Invoke-ADCUpdateGslbparameter 
     .NOTES
         File Name : Invoke-ADCUpdateGslbparameter
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/gslb/gslbparameter/
         Requires  : PowerShell v5.1 and up
@@ -1045,7 +1045,7 @@ function Invoke-ADCUpdateGslbparameter {
             if ($PSBoundParameters.ContainsKey('automaticconfigsync')) { $Payload.Add('automaticconfigsync', $automaticconfigsync) }
  
             if ($PSCmdlet.ShouldProcess("gslbparameter", "Update Global Server Load Balancing configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -Type gslbparameter -Payload $Payload -GetWarning
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -NitroPath nitro/v1/config -Type gslbparameter -Payload $Payload -GetWarning
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
             Write-Output $result
@@ -1091,7 +1091,7 @@ function Invoke-ADCUnsetGslbparameter {
         Invoke-ADCUnsetGslbparameter 
     .NOTES
         File Name : Invoke-ADCUnsetGslbparameter
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/gslb/gslbparameter
         Requires  : PowerShell v5.1 and up
@@ -1140,7 +1140,7 @@ function Invoke-ADCUnsetGslbparameter {
             if ($PSBoundParameters.ContainsKey('gslbsvcstatedelaytime')) { $Payload.Add('gslbsvcstatedelaytime', $gslbsvcstatedelaytime) }
             if ($PSBoundParameters.ContainsKey('automaticconfigsync')) { $Payload.Add('automaticconfigsync', $automaticconfigsync) }
             if ($PSCmdlet.ShouldProcess("gslbparameter", "Unset Global Server Load Balancing configuration Object")) {
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -Type gslbparameter -Action unset -Payload $Payload -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -Type gslbparameter -NitroPath nitro/v1/config -Action unset -Payload $Payload -GetWarning
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $response
@@ -1180,7 +1180,7 @@ function Invoke-ADCGetGslbparameter {
         Invoke-ADCGetGslbparameter -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetGslbparameter
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/gslb/gslbparameter/
         Requires  : PowerShell v5.1 and up
@@ -1209,21 +1209,21 @@ function Invoke-ADCGetGslbparameter {
             if ( $PsCmdlet.ParameterSetName -eq 'Getall' ) {
                 $Query = @{ }
                 Write-Verbose "Retrieving all gslbparameter objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type gslbparameter -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type gslbparameter -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
                 if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for gslbparameter objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type gslbparameter -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type gslbparameter -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving gslbparameter objects by arguments"
                 $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type gslbparameter -Arguments $Arguments -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type gslbparameter -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving gslbparameter configuration for property ''"
 
             } else {
                 Write-Verbose "Retrieving gslbparameter configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type gslbparameter -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type gslbparameter -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -1261,7 +1261,7 @@ function Invoke-ADCGetGslbrunningconfig {
         Invoke-ADCGetGslbrunningconfig -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetGslbrunningconfig
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/gslb/gslbrunningconfig/
         Requires  : PowerShell v5.1 and up
@@ -1290,21 +1290,21 @@ function Invoke-ADCGetGslbrunningconfig {
             if ( $PsCmdlet.ParameterSetName -eq 'Getall' ) {
                 $Query = @{ }
                 Write-Verbose "Retrieving all gslbrunningconfig objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type gslbrunningconfig -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type gslbrunningconfig -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
                 if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for gslbrunningconfig objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type gslbrunningconfig -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type gslbrunningconfig -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving gslbrunningconfig objects by arguments"
                 $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type gslbrunningconfig -Arguments $Arguments -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type gslbrunningconfig -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving gslbrunningconfig configuration for property ''"
 
             } else {
                 Write-Verbose "Retrieving gslbrunningconfig configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type gslbrunningconfig -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type gslbrunningconfig -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -1436,7 +1436,7 @@ function Invoke-ADCAddGslbservice {
         Invoke-ADCAddGslbservice -servicename <string> -sitename <string>
     .NOTES
         File Name : Invoke-ADCAddGslbservice
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/gslb/gslbservice/
         Requires  : PowerShell v5.1 and up
@@ -1582,7 +1582,7 @@ function Invoke-ADCAddGslbservice {
             if ($PSBoundParameters.ContainsKey('naptrpreference')) { $Payload.Add('naptrpreference', $naptrpreference) }
  
             if ($PSCmdlet.ShouldProcess("gslbservice", "Add Global Server Load Balancing configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -Type gslbservice -Payload $Payload -GetWarning
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -NitroPath nitro/v1/config -Type gslbservice -Payload $Payload -GetWarning
                 #HTTP Status Code on Success: 201 Created
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 if ($PSBoundParameters.ContainsKey('PassThru')) {
@@ -1616,7 +1616,7 @@ function Invoke-ADCDeleteGslbservice {
         Invoke-ADCDeleteGslbservice -servicename <string>
     .NOTES
         File Name : Invoke-ADCDeleteGslbservice
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/gslb/gslbservice/
         Requires  : PowerShell v5.1 and up
@@ -1644,7 +1644,7 @@ function Invoke-ADCDeleteGslbservice {
             }
 
             if ($PSCmdlet.ShouldProcess("$servicename", "Delete Global Server Load Balancing configuration Object")) {
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type gslbservice -Resource $servicename -Arguments $Arguments
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type gslbservice -NitroPath nitro/v1/config -Resource $servicename -Arguments $Arguments
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $response
@@ -1755,7 +1755,7 @@ function Invoke-ADCUpdateGslbservice {
         Invoke-ADCUpdateGslbservice -servicename <string>
     .NOTES
         File Name : Invoke-ADCUpdateGslbservice
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/gslb/gslbservice/
         Requires  : PowerShell v5.1 and up
@@ -1878,7 +1878,7 @@ function Invoke-ADCUpdateGslbservice {
             if ($PSBoundParameters.ContainsKey('naptrdomainttl')) { $Payload.Add('naptrdomainttl', $naptrdomainttl) }
  
             if ($PSCmdlet.ShouldProcess("gslbservice", "Update Global Server Load Balancing configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -Type gslbservice -Payload $Payload -GetWarning
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -NitroPath nitro/v1/config -Type gslbservice -Payload $Payload -GetWarning
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 if ($PSBoundParameters.ContainsKey('PassThru')) {
@@ -1956,7 +1956,7 @@ function Invoke-ADCUnsetGslbservice {
         Invoke-ADCUnsetGslbservice -servicename <string>
     .NOTES
         File Name : Invoke-ADCUnsetGslbservice
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/gslb/gslbservice
         Requires  : PowerShell v5.1 and up
@@ -2046,7 +2046,7 @@ function Invoke-ADCUnsetGslbservice {
             if ($PSBoundParameters.ContainsKey('naptrreplacement')) { $Payload.Add('naptrreplacement', $naptrreplacement) }
             if ($PSBoundParameters.ContainsKey('naptrdomainttl')) { $Payload.Add('naptrdomainttl', $naptrdomainttl) }
             if ($PSCmdlet.ShouldProcess("$servicename", "Unset Global Server Load Balancing configuration Object")) {
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -Type gslbservice -Action unset -Payload $Payload -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -Type gslbservice -NitroPath nitro/v1/config -Action unset -Payload $Payload -GetWarning
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $response
@@ -2080,7 +2080,7 @@ function Invoke-ADCRenameGslbservice {
         Invoke-ADCRenameGslbservice -servicename <string> -newname <string>
     .NOTES
         File Name : Invoke-ADCRenameGslbservice
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/gslb/gslbservice/
         Requires  : PowerShell v5.1 and up
@@ -2120,7 +2120,7 @@ function Invoke-ADCRenameGslbservice {
 
  
             if ($PSCmdlet.ShouldProcess("gslbservice", "Rename Global Server Load Balancing configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -Type gslbservice -Action rename -Payload $Payload -GetWarning
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -NitroPath nitro/v1/config -Type gslbservice -Action rename -Payload $Payload -GetWarning
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 if ($PSBoundParameters.ContainsKey('PassThru')) {
@@ -2170,7 +2170,7 @@ function Invoke-ADCGetGslbservice {
         Invoke-ADCGetGslbservice -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetGslbservice
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/gslb/gslbservice/
         Requires  : PowerShell v5.1 and up
@@ -2212,21 +2212,21 @@ function Invoke-ADCGetGslbservice {
             if ( $PsCmdlet.ParameterSetName -eq 'Getall' ) {
                 $Query = @{ }
                 Write-Verbose "Retrieving all gslbservice objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type gslbservice -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type gslbservice -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
                 if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for gslbservice objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type gslbservice -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type gslbservice -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving gslbservice objects by arguments"
                 $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type gslbservice -Arguments $Arguments -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type gslbservice -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving gslbservice configuration for property 'servicename'"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type gslbservice -Resource $servicename -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type gslbservice -NitroPath nitro/v1/config -Resource $servicename -Summary:$ViewSummary -Filter $Filter -GetWarning
             } else {
                 Write-Verbose "Retrieving gslbservice configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type gslbservice -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type gslbservice -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -2313,7 +2313,7 @@ function Invoke-ADCAddGslbservicegroup {
         Invoke-ADCAddGslbservicegroup -servicegroupname <string> -servicetype <string> -sitename <string>
     .NOTES
         File Name : Invoke-ADCAddGslbservicegroup
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/gslb/gslbservicegroup/
         Requires  : PowerShell v5.1 and up
@@ -2412,7 +2412,7 @@ function Invoke-ADCAddGslbservicegroup {
             if ($PSBoundParameters.ContainsKey('sitepersistence')) { $Payload.Add('sitepersistence', $sitepersistence) }
  
             if ($PSCmdlet.ShouldProcess("gslbservicegroup", "Add Global Server Load Balancing configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -Type gslbservicegroup -Payload $Payload -GetWarning
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -NitroPath nitro/v1/config -Type gslbservicegroup -Payload $Payload -GetWarning
                 #HTTP Status Code on Success: 201 Created
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 if ($PSBoundParameters.ContainsKey('PassThru')) {
@@ -2445,7 +2445,7 @@ function Invoke-ADCDeleteGslbservicegroup {
         Invoke-ADCDeleteGslbservicegroup -servicegroupname <string>
     .NOTES
         File Name : Invoke-ADCDeleteGslbservicegroup
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/gslb/gslbservicegroup/
         Requires  : PowerShell v5.1 and up
@@ -2473,7 +2473,7 @@ function Invoke-ADCDeleteGslbservicegroup {
             }
 
             if ($PSCmdlet.ShouldProcess("$servicegroupname", "Delete Global Server Load Balancing configuration Object")) {
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type gslbservicegroup -Resource $servicegroupname -Arguments $Arguments
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type gslbservicegroup -NitroPath nitro/v1/config -Resource $servicegroupname -Arguments $Arguments
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $response
@@ -2576,7 +2576,7 @@ function Invoke-ADCUpdateGslbservicegroup {
         Invoke-ADCUpdateGslbservicegroup -servicegroupname <string>
     .NOTES
         File Name : Invoke-ADCUpdateGslbservicegroup
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/gslb/gslbservicegroup/
         Requires  : PowerShell v5.1 and up
@@ -2689,7 +2689,7 @@ function Invoke-ADCUpdateGslbservicegroup {
             if ($PSBoundParameters.ContainsKey('sitepersistence')) { $Payload.Add('sitepersistence', $sitepersistence) }
  
             if ($PSCmdlet.ShouldProcess("gslbservicegroup", "Update Global Server Load Balancing configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -Type gslbservicegroup -Payload $Payload -GetWarning
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -NitroPath nitro/v1/config -Type gslbservicegroup -Payload $Payload -GetWarning
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 if ($PSBoundParameters.ContainsKey('PassThru')) {
@@ -2771,7 +2771,7 @@ function Invoke-ADCUnsetGslbservicegroup {
         Invoke-ADCUnsetGslbservicegroup -servicegroupname <string>
     .NOTES
         File Name : Invoke-ADCUnsetGslbservicegroup
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/gslb/gslbservicegroup
         Requires  : PowerShell v5.1 and up
@@ -2864,7 +2864,7 @@ function Invoke-ADCUnsetGslbservicegroup {
             if ($PSBoundParameters.ContainsKey('downstateflush')) { $Payload.Add('downstateflush', $downstateflush) }
             if ($PSBoundParameters.ContainsKey('comment')) { $Payload.Add('comment', $comment) }
             if ($PSCmdlet.ShouldProcess("$servicegroupname", "Unset Global Server Load Balancing configuration Object")) {
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -Type gslbservicegroup -Action unset -Payload $Payload -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -Type gslbservicegroup -NitroPath nitro/v1/config -Action unset -Payload $Payload -GetWarning
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $response
@@ -2896,7 +2896,7 @@ function Invoke-ADCEnableGslbservicegroup {
         Invoke-ADCEnableGslbservicegroup -servicegroupname <string>
     .NOTES
         File Name : Invoke-ADCEnableGslbservicegroup
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/gslb/gslbservicegroup/
         Requires  : PowerShell v5.1 and up
@@ -2935,7 +2935,7 @@ function Invoke-ADCEnableGslbservicegroup {
             if ($PSBoundParameters.ContainsKey('servername')) { $Payload.Add('servername', $servername) }
             if ($PSBoundParameters.ContainsKey('port')) { $Payload.Add('port', $port) }
             if ($PSCmdlet.ShouldProcess($Name, "Enable Global Server Load Balancing configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -Type gslbservicegroup -Action enable -Payload $Payload -GetWarning
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -NitroPath nitro/v1/config -Type gslbservicegroup -Action enable -Payload $Payload -GetWarning
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $result
@@ -2972,7 +2972,7 @@ function Invoke-ADCDisableGslbservicegroup {
         Invoke-ADCDisableGslbservicegroup -servicegroupname <string>
     .NOTES
         File Name : Invoke-ADCDisableGslbservicegroup
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/gslb/gslbservicegroup/
         Requires  : PowerShell v5.1 and up
@@ -3018,7 +3018,7 @@ function Invoke-ADCDisableGslbservicegroup {
             if ($PSBoundParameters.ContainsKey('delay')) { $Payload.Add('delay', $delay) }
             if ($PSBoundParameters.ContainsKey('graceful')) { $Payload.Add('graceful', $graceful) }
             if ($PSCmdlet.ShouldProcess($Name, "Disable Global Server Load Balancing configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -Type gslbservicegroup -Action disable -Payload $Payload -GetWarning
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -NitroPath nitro/v1/config -Type gslbservicegroup -Action disable -Payload $Payload -GetWarning
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $result
@@ -3051,7 +3051,7 @@ function Invoke-ADCRenameGslbservicegroup {
         Invoke-ADCRenameGslbservicegroup -servicegroupname <string> -newname <string>
     .NOTES
         File Name : Invoke-ADCRenameGslbservicegroup
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/gslb/gslbservicegroup/
         Requires  : PowerShell v5.1 and up
@@ -3091,7 +3091,7 @@ function Invoke-ADCRenameGslbservicegroup {
 
  
             if ($PSCmdlet.ShouldProcess("gslbservicegroup", "Rename Global Server Load Balancing configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -Type gslbservicegroup -Action rename -Payload $Payload -GetWarning
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -NitroPath nitro/v1/config -Type gslbservicegroup -Action rename -Payload $Payload -GetWarning
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 if ($PSBoundParameters.ContainsKey('PassThru')) {
@@ -3140,7 +3140,7 @@ function Invoke-ADCGetGslbservicegroup {
         Invoke-ADCGetGslbservicegroup -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetGslbservicegroup
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/gslb/gslbservicegroup/
         Requires  : PowerShell v5.1 and up
@@ -3182,21 +3182,21 @@ function Invoke-ADCGetGslbservicegroup {
             if ( $PsCmdlet.ParameterSetName -eq 'Getall' ) {
                 $Query = @{ }
                 Write-Verbose "Retrieving all gslbservicegroup objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type gslbservicegroup -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type gslbservicegroup -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
                 if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for gslbservicegroup objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type gslbservicegroup -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type gslbservicegroup -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving gslbservicegroup objects by arguments"
                 $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type gslbservicegroup -Arguments $Arguments -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type gslbservicegroup -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving gslbservicegroup configuration for property 'servicegroupname'"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type gslbservicegroup -Resource $servicegroupname -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type gslbservicegroup -NitroPath nitro/v1/config -Resource $servicegroupname -Summary:$ViewSummary -Filter $Filter -GetWarning
             } else {
                 Write-Verbose "Retrieving gslbservicegroup configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type gslbservicegroup -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type gslbservicegroup -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -3236,7 +3236,7 @@ function Invoke-ADCGetGslbservicegroupbinding {
         Invoke-ADCGetGslbservicegroupbinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetGslbservicegroupbinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/gslb/gslbservicegroup_binding/
         Requires  : PowerShell v5.1 and up
@@ -3271,21 +3271,21 @@ function Invoke-ADCGetGslbservicegroupbinding {
                     bulkbindings = 'yes'
                 }
                 Write-Verbose "Retrieving all gslbservicegroup_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type gslbservicegroup_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type gslbservicegroup_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
                 if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for gslbservicegroup_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type gslbservicegroup_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type gslbservicegroup_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving gslbservicegroup_binding objects by arguments"
                 $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type gslbservicegroup_binding -Arguments $Arguments -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type gslbservicegroup_binding -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving gslbservicegroup_binding configuration for property 'servicegroupname'"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type gslbservicegroup_binding -Resource $servicegroupname -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type gslbservicegroup_binding -NitroPath nitro/v1/config -Resource $servicegroupname -Summary:$ViewSummary -Filter $Filter -GetWarning
             } else {
                 Write-Verbose "Retrieving gslbservicegroup_binding configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type gslbservicegroup_binding -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type gslbservicegroup_binding -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -3341,7 +3341,7 @@ function Invoke-ADCAddGslbservicegroupgslbservicegroupmemberbinding {
         Invoke-ADCAddGslbservicegroupgslbservicegroupmemberbinding -servicegroupname <string>
     .NOTES
         File Name : Invoke-ADCAddGslbservicegroupgslbservicegroupmemberbinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/gslb/gslbservicegroup_gslbservicegroupmember_binding/
         Requires  : PowerShell v5.1 and up
@@ -3406,7 +3406,7 @@ function Invoke-ADCAddGslbservicegroupgslbservicegroupmemberbinding {
             if ($PSBoundParameters.ContainsKey('siteprefix')) { $Payload.Add('siteprefix', $siteprefix) }
  
             if ($PSCmdlet.ShouldProcess("gslbservicegroup_gslbservicegroupmember_binding", "Add Global Server Load Balancing configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -Type gslbservicegroup_gslbservicegroupmember_binding -Payload $Payload -GetWarning
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -NitroPath nitro/v1/config -Type gslbservicegroup_gslbservicegroupmember_binding -Payload $Payload -GetWarning
                 #HTTP Status Code on Success: 201 Created
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 if ($PSBoundParameters.ContainsKey('PassThru')) {
@@ -3445,7 +3445,7 @@ function Invoke-ADCDeleteGslbservicegroupgslbservicegroupmemberbinding {
         Invoke-ADCDeleteGslbservicegroupgslbservicegroupmemberbinding -servicegroupname <string>
     .NOTES
         File Name : Invoke-ADCDeleteGslbservicegroupgslbservicegroupmemberbinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/gslb/gslbservicegroup_gslbservicegroupmember_binding/
         Requires  : PowerShell v5.1 and up
@@ -3481,7 +3481,7 @@ function Invoke-ADCDeleteGslbservicegroupgslbservicegroupmemberbinding {
             if ($PSBoundParameters.ContainsKey('servername')) { $Arguments.Add('servername', $servername) }
             if ($PSBoundParameters.ContainsKey('port')) { $Arguments.Add('port', $port) }
             if ($PSCmdlet.ShouldProcess("$servicegroupname", "Delete Global Server Load Balancing configuration Object")) {
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type gslbservicegroup_gslbservicegroupmember_binding -Resource $servicegroupname -Arguments $Arguments
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type gslbservicegroup_gslbservicegroupmember_binding -NitroPath nitro/v1/config -Resource $servicegroupname -Arguments $Arguments
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $response
@@ -3525,7 +3525,7 @@ function Invoke-ADCGetGslbservicegroupgslbservicegroupmemberbinding {
         Invoke-ADCGetGslbservicegroupgslbservicegroupmemberbinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetGslbservicegroupgslbservicegroupmemberbinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/gslb/gslbservicegroup_gslbservicegroupmember_binding/
         Requires  : PowerShell v5.1 and up
@@ -3563,21 +3563,21 @@ function Invoke-ADCGetGslbservicegroupgslbservicegroupmemberbinding {
                     bulkbindings = 'yes'
                 }
                 Write-Verbose "Retrieving all gslbservicegroup_gslbservicegroupmember_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type gslbservicegroup_gslbservicegroupmember_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type gslbservicegroup_gslbservicegroupmember_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
                 if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for gslbservicegroup_gslbservicegroupmember_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type gslbservicegroup_gslbservicegroupmember_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type gslbservicegroup_gslbservicegroupmember_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving gslbservicegroup_gslbservicegroupmember_binding objects by arguments"
                 $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type gslbservicegroup_gslbservicegroupmember_binding -Arguments $Arguments -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type gslbservicegroup_gslbservicegroupmember_binding -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving gslbservicegroup_gslbservicegroupmember_binding configuration for property 'servicegroupname'"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type gslbservicegroup_gslbservicegroupmember_binding -Resource $servicegroupname -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type gslbservicegroup_gslbservicegroupmember_binding -NitroPath nitro/v1/config -Resource $servicegroupname -Summary:$ViewSummary -Filter $Filter -GetWarning
             } else {
                 Write-Verbose "Retrieving gslbservicegroup_gslbservicegroupmember_binding configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type gslbservicegroup_gslbservicegroupmember_binding -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type gslbservicegroup_gslbservicegroupmember_binding -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -3633,7 +3633,7 @@ function Invoke-ADCAddGslbservicegrouplbmonitorbinding {
         Invoke-ADCAddGslbservicegrouplbmonitorbinding -servicegroupname <string>
     .NOTES
         File Name : Invoke-ADCAddGslbservicegrouplbmonitorbinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/gslb/gslbservicegroup_lbmonitor_binding/
         Requires  : PowerShell v5.1 and up
@@ -3700,7 +3700,7 @@ function Invoke-ADCAddGslbservicegrouplbmonitorbinding {
             if ($PSBoundParameters.ContainsKey('siteprefix')) { $Payload.Add('siteprefix', $siteprefix) }
  
             if ($PSCmdlet.ShouldProcess("gslbservicegroup_lbmonitor_binding", "Add Global Server Load Balancing configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -Type gslbservicegroup_lbmonitor_binding -Payload $Payload -GetWarning
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -NitroPath nitro/v1/config -Type gslbservicegroup_lbmonitor_binding -Payload $Payload -GetWarning
                 #HTTP Status Code on Success: 201 Created
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 if ($PSBoundParameters.ContainsKey('PassThru')) {
@@ -3737,7 +3737,7 @@ function Invoke-ADCDeleteGslbservicegrouplbmonitorbinding {
         Invoke-ADCDeleteGslbservicegrouplbmonitorbinding -servicegroupname <string>
     .NOTES
         File Name : Invoke-ADCDeleteGslbservicegrouplbmonitorbinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/gslb/gslbservicegroup_lbmonitor_binding/
         Requires  : PowerShell v5.1 and up
@@ -3770,7 +3770,7 @@ function Invoke-ADCDeleteGslbservicegrouplbmonitorbinding {
             if ($PSBoundParameters.ContainsKey('port')) { $Arguments.Add('port', $port) }
             if ($PSBoundParameters.ContainsKey('monitor_name')) { $Arguments.Add('monitor_name', $monitor_name) }
             if ($PSCmdlet.ShouldProcess("$servicegroupname", "Delete Global Server Load Balancing configuration Object")) {
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type gslbservicegroup_lbmonitor_binding -Resource $servicegroupname -Arguments $Arguments
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type gslbservicegroup_lbmonitor_binding -NitroPath nitro/v1/config -Resource $servicegroupname -Arguments $Arguments
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $response
@@ -3814,7 +3814,7 @@ function Invoke-ADCGetGslbservicegrouplbmonitorbinding {
         Invoke-ADCGetGslbservicegrouplbmonitorbinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetGslbservicegrouplbmonitorbinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/gslb/gslbservicegroup_lbmonitor_binding/
         Requires  : PowerShell v5.1 and up
@@ -3852,21 +3852,21 @@ function Invoke-ADCGetGslbservicegrouplbmonitorbinding {
                     bulkbindings = 'yes'
                 }
                 Write-Verbose "Retrieving all gslbservicegroup_lbmonitor_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type gslbservicegroup_lbmonitor_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type gslbservicegroup_lbmonitor_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
                 if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for gslbservicegroup_lbmonitor_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type gslbservicegroup_lbmonitor_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type gslbservicegroup_lbmonitor_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving gslbservicegroup_lbmonitor_binding objects by arguments"
                 $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type gslbservicegroup_lbmonitor_binding -Arguments $Arguments -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type gslbservicegroup_lbmonitor_binding -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving gslbservicegroup_lbmonitor_binding configuration for property 'servicegroupname'"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type gslbservicegroup_lbmonitor_binding -Resource $servicegroupname -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type gslbservicegroup_lbmonitor_binding -NitroPath nitro/v1/config -Resource $servicegroupname -Summary:$ViewSummary -Filter $Filter -GetWarning
             } else {
                 Write-Verbose "Retrieving gslbservicegroup_lbmonitor_binding configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type gslbservicegroup_lbmonitor_binding -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type gslbservicegroup_lbmonitor_binding -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -3908,7 +3908,7 @@ function Invoke-ADCGetGslbservicegroupservicegroupentitymonbindingsbinding {
         Invoke-ADCGetGslbservicegroupservicegroupentitymonbindingsbinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetGslbservicegroupservicegroupentitymonbindingsbinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/gslb/gslbservicegroup_servicegroupentitymonbindings_binding/
         Requires  : PowerShell v5.1 and up
@@ -3946,21 +3946,21 @@ function Invoke-ADCGetGslbservicegroupservicegroupentitymonbindingsbinding {
                     bulkbindings = 'yes'
                 }
                 Write-Verbose "Retrieving all gslbservicegroup_servicegroupentitymonbindings_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type gslbservicegroup_servicegroupentitymonbindings_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type gslbservicegroup_servicegroupentitymonbindings_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
                 if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for gslbservicegroup_servicegroupentitymonbindings_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type gslbservicegroup_servicegroupentitymonbindings_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type gslbservicegroup_servicegroupentitymonbindings_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving gslbservicegroup_servicegroupentitymonbindings_binding objects by arguments"
                 $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type gslbservicegroup_servicegroupentitymonbindings_binding -Arguments $Arguments -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type gslbservicegroup_servicegroupentitymonbindings_binding -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving gslbservicegroup_servicegroupentitymonbindings_binding configuration for property 'servicegroupname'"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type gslbservicegroup_servicegroupentitymonbindings_binding -Resource $servicegroupname -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type gslbservicegroup_servicegroupentitymonbindings_binding -NitroPath nitro/v1/config -Resource $servicegroupname -Summary:$ViewSummary -Filter $Filter -GetWarning
             } else {
                 Write-Verbose "Retrieving gslbservicegroup_servicegroupentitymonbindings_binding configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type gslbservicegroup_servicegroupentitymonbindings_binding -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type gslbservicegroup_servicegroupentitymonbindings_binding -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -4000,7 +4000,7 @@ function Invoke-ADCGetGslbservicebinding {
         Invoke-ADCGetGslbservicebinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetGslbservicebinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/gslb/gslbservice_binding/
         Requires  : PowerShell v5.1 and up
@@ -4035,21 +4035,21 @@ function Invoke-ADCGetGslbservicebinding {
                     bulkbindings = 'yes'
                 }
                 Write-Verbose "Retrieving all gslbservice_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type gslbservice_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type gslbservice_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
                 if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for gslbservice_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type gslbservice_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type gslbservice_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving gslbservice_binding objects by arguments"
                 $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type gslbservice_binding -Arguments $Arguments -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type gslbservice_binding -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving gslbservice_binding configuration for property 'servicename'"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type gslbservice_binding -Resource $servicename -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type gslbservice_binding -NitroPath nitro/v1/config -Resource $servicename -Summary:$ViewSummary -Filter $Filter -GetWarning
             } else {
                 Write-Verbose "Retrieving gslbservice_binding configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type gslbservice_binding -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type gslbservice_binding -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -4082,7 +4082,7 @@ function Invoke-ADCAddGslbservicednsviewbinding {
         Invoke-ADCAddGslbservicednsviewbinding -servicename <string>
     .NOTES
         File Name : Invoke-ADCAddGslbservicednsviewbinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/gslb/gslbservice_dnsview_binding/
         Requires  : PowerShell v5.1 and up
@@ -4122,7 +4122,7 @@ function Invoke-ADCAddGslbservicednsviewbinding {
             if ($PSBoundParameters.ContainsKey('viewip')) { $Payload.Add('viewip', $viewip) }
  
             if ($PSCmdlet.ShouldProcess("gslbservice_dnsview_binding", "Add Global Server Load Balancing configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -Type gslbservice_dnsview_binding -Payload $Payload -GetWarning
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -NitroPath nitro/v1/config -Type gslbservice_dnsview_binding -Payload $Payload -GetWarning
                 #HTTP Status Code on Success: 201 Created
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 if ($PSBoundParameters.ContainsKey('PassThru')) {
@@ -4157,7 +4157,7 @@ function Invoke-ADCDeleteGslbservicednsviewbinding {
         Invoke-ADCDeleteGslbservicednsviewbinding -servicename <string>
     .NOTES
         File Name : Invoke-ADCDeleteGslbservicednsviewbinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/gslb/gslbservice_dnsview_binding/
         Requires  : PowerShell v5.1 and up
@@ -4187,7 +4187,7 @@ function Invoke-ADCDeleteGslbservicednsviewbinding {
             }
             if ($PSBoundParameters.ContainsKey('viewname')) { $Arguments.Add('viewname', $viewname) }
             if ($PSCmdlet.ShouldProcess("$servicename", "Delete Global Server Load Balancing configuration Object")) {
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type gslbservice_dnsview_binding -Resource $servicename -Arguments $Arguments
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type gslbservice_dnsview_binding -NitroPath nitro/v1/config -Resource $servicename -Arguments $Arguments
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $response
@@ -4231,7 +4231,7 @@ function Invoke-ADCGetGslbservicednsviewbinding {
         Invoke-ADCGetGslbservicednsviewbinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetGslbservicednsviewbinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/gslb/gslbservice_dnsview_binding/
         Requires  : PowerShell v5.1 and up
@@ -4269,21 +4269,21 @@ function Invoke-ADCGetGslbservicednsviewbinding {
                     bulkbindings = 'yes'
                 }
                 Write-Verbose "Retrieving all gslbservice_dnsview_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type gslbservice_dnsview_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type gslbservice_dnsview_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
                 if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for gslbservice_dnsview_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type gslbservice_dnsview_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type gslbservice_dnsview_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving gslbservice_dnsview_binding objects by arguments"
                 $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type gslbservice_dnsview_binding -Arguments $Arguments -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type gslbservice_dnsview_binding -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving gslbservice_dnsview_binding configuration for property 'servicename'"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type gslbservice_dnsview_binding -Resource $servicename -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type gslbservice_dnsview_binding -NitroPath nitro/v1/config -Resource $servicename -Summary:$ViewSummary -Filter $Filter -GetWarning
             } else {
                 Write-Verbose "Retrieving gslbservice_dnsview_binding configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type gslbservice_dnsview_binding -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type gslbservice_dnsview_binding -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -4320,7 +4320,7 @@ function Invoke-ADCAddGslbservicelbmonitorbinding {
         Invoke-ADCAddGslbservicelbmonitorbinding -servicename <string>
     .NOTES
         File Name : Invoke-ADCAddGslbservicelbmonitorbinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/gslb/gslbservice_lbmonitor_binding/
         Requires  : PowerShell v5.1 and up
@@ -4364,7 +4364,7 @@ function Invoke-ADCAddGslbservicelbmonitorbinding {
             if ($PSBoundParameters.ContainsKey('weight')) { $Payload.Add('weight', $weight) }
  
             if ($PSCmdlet.ShouldProcess("gslbservice_lbmonitor_binding", "Add Global Server Load Balancing configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -Type gslbservice_lbmonitor_binding -Payload $Payload -GetWarning
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -NitroPath nitro/v1/config -Type gslbservice_lbmonitor_binding -Payload $Payload -GetWarning
                 #HTTP Status Code on Success: 201 Created
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 if ($PSBoundParameters.ContainsKey('PassThru')) {
@@ -4398,7 +4398,7 @@ function Invoke-ADCDeleteGslbservicelbmonitorbinding {
         Invoke-ADCDeleteGslbservicelbmonitorbinding -servicename <string>
     .NOTES
         File Name : Invoke-ADCDeleteGslbservicelbmonitorbinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/gslb/gslbservice_lbmonitor_binding/
         Requires  : PowerShell v5.1 and up
@@ -4428,7 +4428,7 @@ function Invoke-ADCDeleteGslbservicelbmonitorbinding {
             }
             if ($PSBoundParameters.ContainsKey('monitor_name')) { $Arguments.Add('monitor_name', $monitor_name) }
             if ($PSCmdlet.ShouldProcess("$servicename", "Delete Global Server Load Balancing configuration Object")) {
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type gslbservice_lbmonitor_binding -Resource $servicename -Arguments $Arguments
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type gslbservice_lbmonitor_binding -NitroPath nitro/v1/config -Resource $servicename -Arguments $Arguments
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $response
@@ -4472,7 +4472,7 @@ function Invoke-ADCGetGslbservicelbmonitorbinding {
         Invoke-ADCGetGslbservicelbmonitorbinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetGslbservicelbmonitorbinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/gslb/gslbservice_lbmonitor_binding/
         Requires  : PowerShell v5.1 and up
@@ -4510,21 +4510,21 @@ function Invoke-ADCGetGslbservicelbmonitorbinding {
                     bulkbindings = 'yes'
                 }
                 Write-Verbose "Retrieving all gslbservice_lbmonitor_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type gslbservice_lbmonitor_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type gslbservice_lbmonitor_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
                 if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for gslbservice_lbmonitor_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type gslbservice_lbmonitor_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type gslbservice_lbmonitor_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving gslbservice_lbmonitor_binding objects by arguments"
                 $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type gslbservice_lbmonitor_binding -Arguments $Arguments -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type gslbservice_lbmonitor_binding -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving gslbservice_lbmonitor_binding configuration for property 'servicename'"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type gslbservice_lbmonitor_binding -Resource $servicename -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type gslbservice_lbmonitor_binding -NitroPath nitro/v1/config -Resource $servicename -Summary:$ViewSummary -Filter $Filter -GetWarning
             } else {
                 Write-Verbose "Retrieving gslbservice_lbmonitor_binding configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type gslbservice_lbmonitor_binding -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type gslbservice_lbmonitor_binding -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -4597,7 +4597,7 @@ function Invoke-ADCAddGslbsite {
         Invoke-ADCAddGslbsite -sitename <string> -siteipaddress <string>
     .NOTES
         File Name : Invoke-ADCAddGslbsite
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/gslb/gslbsite/
         Requires  : PowerShell v5.1 and up
@@ -4676,7 +4676,7 @@ function Invoke-ADCAddGslbsite {
             if ($PSBoundParameters.ContainsKey('backupparentlist')) { $Payload.Add('backupparentlist', $backupparentlist) }
  
             if ($PSCmdlet.ShouldProcess("gslbsite", "Add Global Server Load Balancing configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -Type gslbsite -Payload $Payload -GetWarning
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -NitroPath nitro/v1/config -Type gslbsite -Payload $Payload -GetWarning
                 #HTTP Status Code on Success: 201 Created
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 if ($PSBoundParameters.ContainsKey('PassThru')) {
@@ -4710,7 +4710,7 @@ function Invoke-ADCDeleteGslbsite {
         Invoke-ADCDeleteGslbsite -sitename <string>
     .NOTES
         File Name : Invoke-ADCDeleteGslbsite
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/gslb/gslbsite/
         Requires  : PowerShell v5.1 and up
@@ -4738,7 +4738,7 @@ function Invoke-ADCDeleteGslbsite {
             }
 
             if ($PSCmdlet.ShouldProcess("$sitename", "Delete Global Server Load Balancing configuration Object")) {
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type gslbsite -Resource $sitename -Arguments $Arguments
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type gslbsite -NitroPath nitro/v1/config -Resource $sitename -Arguments $Arguments
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $response
@@ -4797,7 +4797,7 @@ function Invoke-ADCUpdateGslbsite {
         Invoke-ADCUpdateGslbsite -sitename <string>
     .NOTES
         File Name : Invoke-ADCUpdateGslbsite
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/gslb/gslbsite/
         Requires  : PowerShell v5.1 and up
@@ -4854,7 +4854,7 @@ function Invoke-ADCUpdateGslbsite {
             if ($PSBoundParameters.ContainsKey('backupparentlist')) { $Payload.Add('backupparentlist', $backupparentlist) }
  
             if ($PSCmdlet.ShouldProcess("gslbsite", "Update Global Server Load Balancing configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -Type gslbsite -Payload $Payload -GetWarning
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -NitroPath nitro/v1/config -Type gslbsite -Payload $Payload -GetWarning
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 if ($PSBoundParameters.ContainsKey('PassThru')) {
@@ -4909,7 +4909,7 @@ function Invoke-ADCUnsetGslbsite {
         Invoke-ADCUnsetGslbsite -sitename <string>
     .NOTES
         File Name : Invoke-ADCUnsetGslbsite
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/gslb/gslbsite
         Requires  : PowerShell v5.1 and up
@@ -4957,7 +4957,7 @@ function Invoke-ADCUnsetGslbsite {
             if ($PSBoundParameters.ContainsKey('naptrreplacementsuffix')) { $Payload.Add('naptrreplacementsuffix', $naptrreplacementsuffix) }
             if ($PSBoundParameters.ContainsKey('backupparentlist')) { $Payload.Add('backupparentlist', $backupparentlist) }
             if ($PSCmdlet.ShouldProcess("$sitename", "Unset Global Server Load Balancing configuration Object")) {
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -Type gslbsite -Action unset -Payload $Payload -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -Type gslbsite -NitroPath nitro/v1/config -Action unset -Payload $Payload -GetWarning
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $response
@@ -5002,7 +5002,7 @@ function Invoke-ADCGetGslbsite {
         Invoke-ADCGetGslbsite -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetGslbsite
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/gslb/gslbsite/
         Requires  : PowerShell v5.1 and up
@@ -5044,21 +5044,21 @@ function Invoke-ADCGetGslbsite {
             if ( $PsCmdlet.ParameterSetName -eq 'Getall' ) {
                 $Query = @{ }
                 Write-Verbose "Retrieving all gslbsite objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type gslbsite -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type gslbsite -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
                 if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for gslbsite objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type gslbsite -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type gslbsite -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving gslbsite objects by arguments"
                 $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type gslbsite -Arguments $Arguments -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type gslbsite -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving gslbsite configuration for property 'sitename'"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type gslbsite -Resource $sitename -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type gslbsite -NitroPath nitro/v1/config -Resource $sitename -Summary:$ViewSummary -Filter $Filter -GetWarning
             } else {
                 Write-Verbose "Retrieving gslbsite configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type gslbsite -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type gslbsite -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -5098,7 +5098,7 @@ function Invoke-ADCGetGslbsitebinding {
         Invoke-ADCGetGslbsitebinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetGslbsitebinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/gslb/gslbsite_binding/
         Requires  : PowerShell v5.1 and up
@@ -5133,21 +5133,21 @@ function Invoke-ADCGetGslbsitebinding {
                     bulkbindings = 'yes'
                 }
                 Write-Verbose "Retrieving all gslbsite_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type gslbsite_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type gslbsite_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
                 if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for gslbsite_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type gslbsite_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type gslbsite_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving gslbsite_binding objects by arguments"
                 $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type gslbsite_binding -Arguments $Arguments -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type gslbsite_binding -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving gslbsite_binding configuration for property 'sitename'"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type gslbsite_binding -Resource $sitename -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type gslbsite_binding -NitroPath nitro/v1/config -Resource $sitename -Summary:$ViewSummary -Filter $Filter -GetWarning
             } else {
                 Write-Verbose "Retrieving gslbsite_binding configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type gslbsite_binding -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type gslbsite_binding -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -5189,7 +5189,7 @@ function Invoke-ADCGetGslbsitegslbservicegroupmemberbinding {
         Invoke-ADCGetGslbsitegslbservicegroupmemberbinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetGslbsitegslbservicegroupmemberbinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/gslb/gslbsite_gslbservicegroupmember_binding/
         Requires  : PowerShell v5.1 and up
@@ -5227,21 +5227,21 @@ function Invoke-ADCGetGslbsitegslbservicegroupmemberbinding {
                     bulkbindings = 'yes'
                 }
                 Write-Verbose "Retrieving all gslbsite_gslbservicegroupmember_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type gslbsite_gslbservicegroupmember_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type gslbsite_gslbservicegroupmember_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
                 if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for gslbsite_gslbservicegroupmember_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type gslbsite_gslbservicegroupmember_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type gslbsite_gslbservicegroupmember_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving gslbsite_gslbservicegroupmember_binding objects by arguments"
                 $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type gslbsite_gslbservicegroupmember_binding -Arguments $Arguments -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type gslbsite_gslbservicegroupmember_binding -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving gslbsite_gslbservicegroupmember_binding configuration for property 'sitename'"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type gslbsite_gslbservicegroupmember_binding -Resource $sitename -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type gslbsite_gslbservicegroupmember_binding -NitroPath nitro/v1/config -Resource $sitename -Summary:$ViewSummary -Filter $Filter -GetWarning
             } else {
                 Write-Verbose "Retrieving gslbsite_gslbservicegroupmember_binding configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type gslbsite_gslbservicegroupmember_binding -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type gslbsite_gslbservicegroupmember_binding -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -5283,7 +5283,7 @@ function Invoke-ADCGetGslbsitegslbservicegroupbinding {
         Invoke-ADCGetGslbsitegslbservicegroupbinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetGslbsitegslbservicegroupbinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/gslb/gslbsite_gslbservicegroup_binding/
         Requires  : PowerShell v5.1 and up
@@ -5321,21 +5321,21 @@ function Invoke-ADCGetGslbsitegslbservicegroupbinding {
                     bulkbindings = 'yes'
                 }
                 Write-Verbose "Retrieving all gslbsite_gslbservicegroup_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type gslbsite_gslbservicegroup_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type gslbsite_gslbservicegroup_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
                 if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for gslbsite_gslbservicegroup_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type gslbsite_gslbservicegroup_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type gslbsite_gslbservicegroup_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving gslbsite_gslbservicegroup_binding objects by arguments"
                 $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type gslbsite_gslbservicegroup_binding -Arguments $Arguments -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type gslbsite_gslbservicegroup_binding -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving gslbsite_gslbservicegroup_binding configuration for property 'sitename'"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type gslbsite_gslbservicegroup_binding -Resource $sitename -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type gslbsite_gslbservicegroup_binding -NitroPath nitro/v1/config -Resource $sitename -Summary:$ViewSummary -Filter $Filter -GetWarning
             } else {
                 Write-Verbose "Retrieving gslbsite_gslbservicegroup_binding configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type gslbsite_gslbservicegroup_binding -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type gslbsite_gslbservicegroup_binding -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -5377,7 +5377,7 @@ function Invoke-ADCGetGslbsitegslbservicebinding {
         Invoke-ADCGetGslbsitegslbservicebinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetGslbsitegslbservicebinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/gslb/gslbsite_gslbservice_binding/
         Requires  : PowerShell v5.1 and up
@@ -5415,21 +5415,21 @@ function Invoke-ADCGetGslbsitegslbservicebinding {
                     bulkbindings = 'yes'
                 }
                 Write-Verbose "Retrieving all gslbsite_gslbservice_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type gslbsite_gslbservice_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type gslbsite_gslbservice_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
                 if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for gslbsite_gslbservice_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type gslbsite_gslbservice_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type gslbsite_gslbservice_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving gslbsite_gslbservice_binding objects by arguments"
                 $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type gslbsite_gslbservice_binding -Arguments $Arguments -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type gslbsite_gslbservice_binding -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving gslbsite_gslbservice_binding configuration for property 'sitename'"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type gslbsite_gslbservice_binding -Resource $sitename -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type gslbsite_gslbservice_binding -NitroPath nitro/v1/config -Resource $sitename -Summary:$ViewSummary -Filter $Filter -GetWarning
             } else {
                 Write-Verbose "Retrieving gslbsite_gslbservice_binding configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type gslbsite_gslbservice_binding -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type gslbsite_gslbservice_binding -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -5469,7 +5469,7 @@ function Invoke-ADCGetGslbsyncstatus {
         Invoke-ADCGetGslbsyncstatus -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetGslbsyncstatus
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/gslb/gslbsyncstatus/
         Requires  : PowerShell v5.1 and up
@@ -5501,22 +5501,22 @@ function Invoke-ADCGetGslbsyncstatus {
             if ( $PsCmdlet.ParameterSetName -eq 'Getall' ) {
                 $Query = @{ }
                 Write-Verbose "Retrieving all gslbsyncstatus objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type gslbsyncstatus -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type gslbsyncstatus -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
                 if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for gslbsyncstatus objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type gslbsyncstatus -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type gslbsyncstatus -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving gslbsyncstatus objects by arguments"
                 $Arguments = @{ } 
                 if ($PSBoundParameters.ContainsKey('summary')) { $Arguments.Add('summary', $summary) }
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type gslbsyncstatus -Arguments $Arguments -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type gslbsyncstatus -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving gslbsyncstatus configuration for property ''"
 
             } else {
                 Write-Verbose "Retrieving gslbsyncstatus configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type gslbsyncstatus -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type gslbsyncstatus -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -5672,7 +5672,7 @@ function Invoke-ADCAddGslbvserver {
         Invoke-ADCAddGslbvserver -name <string> -servicetype <string>
     .NOTES
         File Name : Invoke-ADCAddGslbvserver
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/gslb/gslbvserver/
         Requires  : PowerShell v5.1 and up
@@ -5825,7 +5825,7 @@ function Invoke-ADCAddGslbvserver {
             if ($PSBoundParameters.ContainsKey('appflowlog')) { $Payload.Add('appflowlog', $appflowlog) }
  
             if ($PSCmdlet.ShouldProcess("gslbvserver", "Add Global Server Load Balancing configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -Type gslbvserver -Payload $Payload -GetWarning
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -NitroPath nitro/v1/config -Type gslbvserver -Payload $Payload -GetWarning
                 #HTTP Status Code on Success: 201 Created
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 if ($PSBoundParameters.ContainsKey('PassThru')) {
@@ -5860,7 +5860,7 @@ function Invoke-ADCDeleteGslbvserver {
         Invoke-ADCDeleteGslbvserver -name <string>
     .NOTES
         File Name : Invoke-ADCDeleteGslbvserver
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/gslb/gslbvserver/
         Requires  : PowerShell v5.1 and up
@@ -5888,7 +5888,7 @@ function Invoke-ADCDeleteGslbvserver {
             }
 
             if ($PSCmdlet.ShouldProcess("$name", "Delete Global Server Load Balancing configuration Object")) {
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type gslbvserver -Resource $name -Arguments $Arguments
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type gslbvserver -NitroPath nitro/v1/config -Resource $name -Arguments $Arguments
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $response
@@ -6068,7 +6068,7 @@ function Invoke-ADCUpdateGslbvserver {
         Invoke-ADCUpdateGslbvserver -name <string>
     .NOTES
         File Name : Invoke-ADCUpdateGslbvserver
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/gslb/gslbvserver/
         Requires  : PowerShell v5.1 and up
@@ -6246,7 +6246,7 @@ function Invoke-ADCUpdateGslbvserver {
             if ($PSBoundParameters.ContainsKey('rule')) { $Payload.Add('rule', $rule) }
  
             if ($PSCmdlet.ShouldProcess("gslbvserver", "Update Global Server Load Balancing configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -Type gslbvserver -Payload $Payload -GetWarning
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -NitroPath nitro/v1/config -Type gslbvserver -Payload $Payload -GetWarning
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 if ($PSBoundParameters.ContainsKey('PassThru')) {
@@ -6370,7 +6370,7 @@ function Invoke-ADCUnsetGslbvserver {
         Invoke-ADCUnsetGslbvserver -name <string>
     .NOTES
         File Name : Invoke-ADCUnsetGslbvserver
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/gslb/gslbvserver
         Requires  : PowerShell v5.1 and up
@@ -6493,7 +6493,7 @@ function Invoke-ADCUnsetGslbvserver {
             if ($PSBoundParameters.ContainsKey('appflowlog')) { $Payload.Add('appflowlog', $appflowlog) }
             if ($PSBoundParameters.ContainsKey('rule')) { $Payload.Add('rule', $rule) }
             if ($PSCmdlet.ShouldProcess("$name", "Unset Global Server Load Balancing configuration Object")) {
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -Type gslbvserver -Action unset -Payload $Payload -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -Type gslbvserver -NitroPath nitro/v1/config -Action unset -Payload $Payload -GetWarning
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $response
@@ -6522,7 +6522,7 @@ function Invoke-ADCEnableGslbvserver {
         Invoke-ADCEnableGslbvserver -name <string>
     .NOTES
         File Name : Invoke-ADCEnableGslbvserver
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/gslb/gslbvserver/
         Requires  : PowerShell v5.1 and up
@@ -6554,7 +6554,7 @@ function Invoke-ADCEnableGslbvserver {
             }
 
             if ($PSCmdlet.ShouldProcess($Name, "Enable Global Server Load Balancing configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -Type gslbvserver -Action enable -Payload $Payload -GetWarning
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -NitroPath nitro/v1/config -Type gslbvserver -Action enable -Payload $Payload -GetWarning
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $result
@@ -6583,7 +6583,7 @@ function Invoke-ADCDisableGslbvserver {
         Invoke-ADCDisableGslbvserver -name <string>
     .NOTES
         File Name : Invoke-ADCDisableGslbvserver
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/gslb/gslbvserver/
         Requires  : PowerShell v5.1 and up
@@ -6615,7 +6615,7 @@ function Invoke-ADCDisableGslbvserver {
             }
 
             if ($PSCmdlet.ShouldProcess($Name, "Disable Global Server Load Balancing configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -Type gslbvserver -Action disable -Payload $Payload -GetWarning
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -NitroPath nitro/v1/config -Type gslbvserver -Action disable -Payload $Payload -GetWarning
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $result
@@ -6650,7 +6650,7 @@ function Invoke-ADCRenameGslbvserver {
         Invoke-ADCRenameGslbvserver -name <string> -newname <string>
     .NOTES
         File Name : Invoke-ADCRenameGslbvserver
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/gslb/gslbvserver/
         Requires  : PowerShell v5.1 and up
@@ -6690,7 +6690,7 @@ function Invoke-ADCRenameGslbvserver {
 
  
             if ($PSCmdlet.ShouldProcess("gslbvserver", "Rename Global Server Load Balancing configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -Type gslbvserver -Action rename -Payload $Payload -GetWarning
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -NitroPath nitro/v1/config -Type gslbvserver -Action rename -Payload $Payload -GetWarning
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 if ($PSBoundParameters.ContainsKey('PassThru')) {
@@ -6741,7 +6741,7 @@ function Invoke-ADCGetGslbvserver {
         Invoke-ADCGetGslbvserver -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetGslbvserver
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/gslb/gslbvserver/
         Requires  : PowerShell v5.1 and up
@@ -6783,21 +6783,21 @@ function Invoke-ADCGetGslbvserver {
             if ( $PsCmdlet.ParameterSetName -eq 'Getall' ) {
                 $Query = @{ }
                 Write-Verbose "Retrieving all gslbvserver objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type gslbvserver -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type gslbvserver -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
                 if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for gslbvserver objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type gslbvserver -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type gslbvserver -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving gslbvserver objects by arguments"
                 $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type gslbvserver -Arguments $Arguments -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type gslbvserver -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving gslbvserver configuration for property 'name'"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type gslbvserver -Resource $name -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type gslbvserver -NitroPath nitro/v1/config -Resource $name -Summary:$ViewSummary -Filter $Filter -GetWarning
             } else {
                 Write-Verbose "Retrieving gslbvserver configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type gslbvserver -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type gslbvserver -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -6837,7 +6837,7 @@ function Invoke-ADCGetGslbvserverbinding {
         Invoke-ADCGetGslbvserverbinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetGslbvserverbinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/gslb/gslbvserver_binding/
         Requires  : PowerShell v5.1 and up
@@ -6872,21 +6872,21 @@ function Invoke-ADCGetGslbvserverbinding {
                     bulkbindings = 'yes'
                 }
                 Write-Verbose "Retrieving all gslbvserver_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type gslbvserver_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type gslbvserver_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
                 if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for gslbvserver_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type gslbvserver_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type gslbvserver_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving gslbvserver_binding objects by arguments"
                 $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type gslbvserver_binding -Arguments $Arguments -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type gslbvserver_binding -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving gslbvserver_binding configuration for property 'name'"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type gslbvserver_binding -Resource $name -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type gslbvserver_binding -NitroPath nitro/v1/config -Resource $name -Summary:$ViewSummary -Filter $Filter -GetWarning
             } else {
                 Write-Verbose "Retrieving gslbvserver_binding configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type gslbvserver_binding -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type gslbvserver_binding -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -6933,7 +6933,7 @@ function Invoke-ADCAddGslbvserverdomainbinding {
         Invoke-ADCAddGslbvserverdomainbinding -name <string>
     .NOTES
         File Name : Invoke-ADCAddGslbvserverdomainbinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/gslb/gslbvserver_domain_binding/
         Requires  : PowerShell v5.1 and up
@@ -6988,7 +6988,7 @@ function Invoke-ADCAddGslbvserverdomainbinding {
             if ($PSBoundParameters.ContainsKey('sitedomainttl')) { $Payload.Add('sitedomainttl', $sitedomainttl) }
  
             if ($PSCmdlet.ShouldProcess("gslbvserver_domain_binding", "Add Global Server Load Balancing configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -Type gslbvserver_domain_binding -Payload $Payload -GetWarning
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -NitroPath nitro/v1/config -Type gslbvserver_domain_binding -Payload $Payload -GetWarning
                 #HTTP Status Code on Success: 201 Created
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 if ($PSBoundParameters.ContainsKey('PassThru')) {
@@ -7025,7 +7025,7 @@ function Invoke-ADCDeleteGslbvserverdomainbinding {
         Invoke-ADCDeleteGslbvserverdomainbinding -name <string>
     .NOTES
         File Name : Invoke-ADCDeleteGslbvserverdomainbinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/gslb/gslbvserver_domain_binding/
         Requires  : PowerShell v5.1 and up
@@ -7061,7 +7061,7 @@ function Invoke-ADCDeleteGslbvserverdomainbinding {
             if ($PSBoundParameters.ContainsKey('backupipflag')) { $Arguments.Add('backupipflag', $backupipflag) }
             if ($PSBoundParameters.ContainsKey('cookie_domainflag')) { $Arguments.Add('cookie_domainflag', $cookie_domainflag) }
             if ($PSCmdlet.ShouldProcess("$name", "Delete Global Server Load Balancing configuration Object")) {
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type gslbvserver_domain_binding -Resource $name -Arguments $Arguments
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type gslbvserver_domain_binding -NitroPath nitro/v1/config -Resource $name -Arguments $Arguments
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $response
@@ -7105,7 +7105,7 @@ function Invoke-ADCGetGslbvserverdomainbinding {
         Invoke-ADCGetGslbvserverdomainbinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetGslbvserverdomainbinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/gslb/gslbvserver_domain_binding/
         Requires  : PowerShell v5.1 and up
@@ -7143,21 +7143,21 @@ function Invoke-ADCGetGslbvserverdomainbinding {
                     bulkbindings = 'yes'
                 }
                 Write-Verbose "Retrieving all gslbvserver_domain_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type gslbvserver_domain_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type gslbvserver_domain_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
                 if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for gslbvserver_domain_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type gslbvserver_domain_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type gslbvserver_domain_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving gslbvserver_domain_binding objects by arguments"
                 $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type gslbvserver_domain_binding -Arguments $Arguments -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type gslbvserver_domain_binding -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving gslbvserver_domain_binding configuration for property 'name'"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type gslbvserver_domain_binding -Resource $name -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type gslbvserver_domain_binding -NitroPath nitro/v1/config -Resource $name -Summary:$ViewSummary -Filter $Filter -GetWarning
             } else {
                 Write-Verbose "Retrieving gslbvserver_domain_binding configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type gslbvserver_domain_binding -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type gslbvserver_domain_binding -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -7199,7 +7199,7 @@ function Invoke-ADCGetGslbvservergslbservicegroupmemberbinding {
         Invoke-ADCGetGslbvservergslbservicegroupmemberbinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetGslbvservergslbservicegroupmemberbinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/gslb/gslbvserver_gslbservicegroupmember_binding/
         Requires  : PowerShell v5.1 and up
@@ -7237,21 +7237,21 @@ function Invoke-ADCGetGslbvservergslbservicegroupmemberbinding {
                     bulkbindings = 'yes'
                 }
                 Write-Verbose "Retrieving all gslbvserver_gslbservicegroupmember_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type gslbvserver_gslbservicegroupmember_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type gslbvserver_gslbservicegroupmember_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
                 if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for gslbvserver_gslbservicegroupmember_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type gslbvserver_gslbservicegroupmember_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type gslbvserver_gslbservicegroupmember_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving gslbvserver_gslbservicegroupmember_binding objects by arguments"
                 $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type gslbvserver_gslbservicegroupmember_binding -Arguments $Arguments -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type gslbvserver_gslbservicegroupmember_binding -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving gslbvserver_gslbservicegroupmember_binding configuration for property 'name'"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type gslbvserver_gslbservicegroupmember_binding -Resource $name -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type gslbvserver_gslbservicegroupmember_binding -NitroPath nitro/v1/config -Resource $name -Summary:$ViewSummary -Filter $Filter -GetWarning
             } else {
                 Write-Verbose "Retrieving gslbvserver_gslbservicegroupmember_binding configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type gslbvserver_gslbservicegroupmember_binding -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type gslbvserver_gslbservicegroupmember_binding -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -7281,7 +7281,7 @@ function Invoke-ADCAddGslbvservergslbservicegroupbinding {
         Invoke-ADCAddGslbvservergslbservicegroupbinding -name <string>
     .NOTES
         File Name : Invoke-ADCAddGslbvservergslbservicegroupbinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/gslb/gslbvserver_gslbservicegroup_binding/
         Requires  : PowerShell v5.1 and up
@@ -7317,7 +7317,7 @@ function Invoke-ADCAddGslbvservergslbservicegroupbinding {
             if ($PSBoundParameters.ContainsKey('servicegroupname')) { $Payload.Add('servicegroupname', $servicegroupname) }
  
             if ($PSCmdlet.ShouldProcess("gslbvserver_gslbservicegroup_binding", "Add Global Server Load Balancing configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -Type gslbvserver_gslbservicegroup_binding -Payload $Payload -GetWarning
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -NitroPath nitro/v1/config -Type gslbvserver_gslbservicegroup_binding -Payload $Payload -GetWarning
                 #HTTP Status Code on Success: 201 Created
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 if ($PSBoundParameters.ContainsKey('PassThru')) {
@@ -7351,7 +7351,7 @@ function Invoke-ADCDeleteGslbvservergslbservicegroupbinding {
         Invoke-ADCDeleteGslbvservergslbservicegroupbinding -name <string>
     .NOTES
         File Name : Invoke-ADCDeleteGslbvservergslbservicegroupbinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/gslb/gslbvserver_gslbservicegroup_binding/
         Requires  : PowerShell v5.1 and up
@@ -7381,7 +7381,7 @@ function Invoke-ADCDeleteGslbvservergslbservicegroupbinding {
             }
             if ($PSBoundParameters.ContainsKey('servicegroupname')) { $Arguments.Add('servicegroupname', $servicegroupname) }
             if ($PSCmdlet.ShouldProcess("$name", "Delete Global Server Load Balancing configuration Object")) {
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type gslbvserver_gslbservicegroup_binding -Resource $name -Arguments $Arguments
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type gslbvserver_gslbservicegroup_binding -NitroPath nitro/v1/config -Resource $name -Arguments $Arguments
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $response
@@ -7425,7 +7425,7 @@ function Invoke-ADCGetGslbvservergslbservicegroupbinding {
         Invoke-ADCGetGslbvservergslbservicegroupbinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetGslbvservergslbservicegroupbinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/gslb/gslbvserver_gslbservicegroup_binding/
         Requires  : PowerShell v5.1 and up
@@ -7463,21 +7463,21 @@ function Invoke-ADCGetGslbvservergslbservicegroupbinding {
                     bulkbindings = 'yes'
                 }
                 Write-Verbose "Retrieving all gslbvserver_gslbservicegroup_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type gslbvserver_gslbservicegroup_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type gslbvserver_gslbservicegroup_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
                 if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for gslbvserver_gslbservicegroup_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type gslbvserver_gslbservicegroup_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type gslbvserver_gslbservicegroup_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving gslbvserver_gslbservicegroup_binding objects by arguments"
                 $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type gslbvserver_gslbservicegroup_binding -Arguments $Arguments -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type gslbvserver_gslbservicegroup_binding -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving gslbvserver_gslbservicegroup_binding configuration for property 'name'"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type gslbvserver_gslbservicegroup_binding -Resource $name -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type gslbvserver_gslbservicegroup_binding -NitroPath nitro/v1/config -Resource $name -Summary:$ViewSummary -Filter $Filter -GetWarning
             } else {
                 Write-Verbose "Retrieving gslbvserver_gslbservicegroup_binding configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type gslbvserver_gslbservicegroup_binding -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type gslbvserver_gslbservicegroup_binding -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -7515,7 +7515,7 @@ function Invoke-ADCAddGslbvservergslbservicebinding {
         Invoke-ADCAddGslbvservergslbservicebinding -name <string>
     .NOTES
         File Name : Invoke-ADCAddGslbvservergslbservicebinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/gslb/gslbvserver_gslbservice_binding/
         Requires  : PowerShell v5.1 and up
@@ -7560,7 +7560,7 @@ function Invoke-ADCAddGslbvservergslbservicebinding {
             if ($PSBoundParameters.ContainsKey('domainname')) { $Payload.Add('domainname', $domainname) }
  
             if ($PSCmdlet.ShouldProcess("gslbvserver_gslbservice_binding", "Add Global Server Load Balancing configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -Type gslbvserver_gslbservice_binding -Payload $Payload -GetWarning
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -NitroPath nitro/v1/config -Type gslbvserver_gslbservice_binding -Payload $Payload -GetWarning
                 #HTTP Status Code on Success: 201 Created
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 if ($PSBoundParameters.ContainsKey('PassThru')) {
@@ -7597,7 +7597,7 @@ function Invoke-ADCDeleteGslbvservergslbservicebinding {
         Invoke-ADCDeleteGslbvservergslbservicebinding -name <string>
     .NOTES
         File Name : Invoke-ADCDeleteGslbvservergslbservicebinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/gslb/gslbvserver_gslbservice_binding/
         Requires  : PowerShell v5.1 and up
@@ -7630,7 +7630,7 @@ function Invoke-ADCDeleteGslbvservergslbservicebinding {
             if ($PSBoundParameters.ContainsKey('servicename')) { $Arguments.Add('servicename', $servicename) }
             if ($PSBoundParameters.ContainsKey('domainname')) { $Arguments.Add('domainname', $domainname) }
             if ($PSCmdlet.ShouldProcess("$name", "Delete Global Server Load Balancing configuration Object")) {
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type gslbvserver_gslbservice_binding -Resource $name -Arguments $Arguments
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type gslbvserver_gslbservice_binding -NitroPath nitro/v1/config -Resource $name -Arguments $Arguments
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $response
@@ -7674,7 +7674,7 @@ function Invoke-ADCGetGslbvservergslbservicebinding {
         Invoke-ADCGetGslbvservergslbservicebinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetGslbvservergslbservicebinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/gslb/gslbvserver_gslbservice_binding/
         Requires  : PowerShell v5.1 and up
@@ -7712,21 +7712,21 @@ function Invoke-ADCGetGslbvservergslbservicebinding {
                     bulkbindings = 'yes'
                 }
                 Write-Verbose "Retrieving all gslbvserver_gslbservice_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type gslbvserver_gslbservice_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type gslbvserver_gslbservice_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
                 if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for gslbvserver_gslbservice_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type gslbvserver_gslbservice_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type gslbvserver_gslbservice_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving gslbvserver_gslbservice_binding objects by arguments"
                 $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type gslbvserver_gslbservice_binding -Arguments $Arguments -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type gslbvserver_gslbservice_binding -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving gslbvserver_gslbservice_binding configuration for property 'name'"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type gslbvserver_gslbservice_binding -Resource $name -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type gslbvserver_gslbservice_binding -NitroPath nitro/v1/config -Resource $name -Summary:$ViewSummary -Filter $Filter -GetWarning
             } else {
                 Write-Verbose "Retrieving gslbvserver_gslbservice_binding configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type gslbvserver_gslbservice_binding -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type gslbvserver_gslbservice_binding -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -7765,7 +7765,7 @@ function Invoke-ADCAddGslbvserverspilloverpolicybinding {
         Invoke-ADCAddGslbvserverspilloverpolicybinding -name <string>
     .NOTES
         File Name : Invoke-ADCAddGslbvserverspilloverpolicybinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/gslb/gslbvserver_spilloverpolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -7812,7 +7812,7 @@ function Invoke-ADCAddGslbvserverspilloverpolicybinding {
             if ($PSBoundParameters.ContainsKey('type')) { $Payload.Add('type', $type) }
  
             if ($PSCmdlet.ShouldProcess("gslbvserver_spilloverpolicy_binding", "Add Global Server Load Balancing configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -Type gslbvserver_spilloverpolicy_binding -Payload $Payload -GetWarning
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -NitroPath nitro/v1/config -Type gslbvserver_spilloverpolicy_binding -Payload $Payload -GetWarning
                 #HTTP Status Code on Success: 201 Created
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 if ($PSBoundParameters.ContainsKey('PassThru')) {
@@ -7846,7 +7846,7 @@ function Invoke-ADCDeleteGslbvserverspilloverpolicybinding {
         Invoke-ADCDeleteGslbvserverspilloverpolicybinding -name <string>
     .NOTES
         File Name : Invoke-ADCDeleteGslbvserverspilloverpolicybinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/gslb/gslbvserver_spilloverpolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -7876,7 +7876,7 @@ function Invoke-ADCDeleteGslbvserverspilloverpolicybinding {
             }
             if ($PSBoundParameters.ContainsKey('policyname')) { $Arguments.Add('policyname', $policyname) }
             if ($PSCmdlet.ShouldProcess("$name", "Delete Global Server Load Balancing configuration Object")) {
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type gslbvserver_spilloverpolicy_binding -Resource $name -Arguments $Arguments
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type gslbvserver_spilloverpolicy_binding -NitroPath nitro/v1/config -Resource $name -Arguments $Arguments
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $response
@@ -7920,7 +7920,7 @@ function Invoke-ADCGetGslbvserverspilloverpolicybinding {
         Invoke-ADCGetGslbvserverspilloverpolicybinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetGslbvserverspilloverpolicybinding
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/gslb/gslbvserver_spilloverpolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -7958,21 +7958,21 @@ function Invoke-ADCGetGslbvserverspilloverpolicybinding {
                     bulkbindings = 'yes'
                 }
                 Write-Verbose "Retrieving all gslbvserver_spilloverpolicy_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type gslbvserver_spilloverpolicy_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type gslbvserver_spilloverpolicy_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
                 if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for gslbvserver_spilloverpolicy_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type gslbvserver_spilloverpolicy_binding -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type gslbvserver_spilloverpolicy_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving gslbvserver_spilloverpolicy_binding objects by arguments"
                 $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type gslbvserver_spilloverpolicy_binding -Arguments $Arguments -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type gslbvserver_spilloverpolicy_binding -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving gslbvserver_spilloverpolicy_binding configuration for property 'name'"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type gslbvserver_spilloverpolicy_binding -Resource $name -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type gslbvserver_spilloverpolicy_binding -NitroPath nitro/v1/config -Resource $name -Summary:$ViewSummary -Filter $Filter -GetWarning
             } else {
                 Write-Verbose "Retrieving gslbvserver_spilloverpolicy_binding configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type gslbvserver_spilloverpolicy_binding -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type gslbvserver_spilloverpolicy_binding -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"

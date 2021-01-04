@@ -26,7 +26,7 @@ function Invoke-ADCUpdateNtpparam {
         Invoke-ADCUpdateNtpparam 
     .NOTES
         File Name : Invoke-ADCUpdateNtpparam
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ntp/ntpparam/
         Requires  : PowerShell v5.1 and up
@@ -69,7 +69,7 @@ function Invoke-ADCUpdateNtpparam {
             if ($PSBoundParameters.ContainsKey('revokelogsec')) { $Payload.Add('revokelogsec', $revokelogsec) }
  
             if ($PSCmdlet.ShouldProcess("ntpparam", "Update NTP configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -Type ntpparam -Payload $Payload -GetWarning
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -NitroPath nitro/v1/config -Type ntpparam -Payload $Payload -GetWarning
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
             Write-Output $result
@@ -104,7 +104,7 @@ function Invoke-ADCUnsetNtpparam {
         Invoke-ADCUnsetNtpparam 
     .NOTES
         File Name : Invoke-ADCUnsetNtpparam
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ntp/ntpparam
         Requires  : PowerShell v5.1 and up
@@ -141,7 +141,7 @@ function Invoke-ADCUnsetNtpparam {
             if ($PSBoundParameters.ContainsKey('autokeylogsec')) { $Payload.Add('autokeylogsec', $autokeylogsec) }
             if ($PSBoundParameters.ContainsKey('revokelogsec')) { $Payload.Add('revokelogsec', $revokelogsec) }
             if ($PSCmdlet.ShouldProcess("ntpparam", "Unset NTP configuration Object")) {
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -Type ntpparam -Action unset -Payload $Payload -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -Type ntpparam -NitroPath nitro/v1/config -Action unset -Payload $Payload -GetWarning
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $response
@@ -181,7 +181,7 @@ function Invoke-ADCGetNtpparam {
         Invoke-ADCGetNtpparam -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetNtpparam
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ntp/ntpparam/
         Requires  : PowerShell v5.1 and up
@@ -210,21 +210,21 @@ function Invoke-ADCGetNtpparam {
             if ( $PsCmdlet.ParameterSetName -eq 'Getall' ) {
                 $Query = @{ }
                 Write-Verbose "Retrieving all ntpparam objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type ntpparam -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type ntpparam -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
                 if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for ntpparam objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type ntpparam -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type ntpparam -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving ntpparam objects by arguments"
                 $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type ntpparam -Arguments $Arguments -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type ntpparam -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving ntpparam configuration for property ''"
 
             } else {
                 Write-Verbose "Retrieving ntpparam configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type ntpparam -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type ntpparam -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -266,7 +266,7 @@ function Invoke-ADCAddNtpserver {
         Invoke-ADCAddNtpserver 
     .NOTES
         File Name : Invoke-ADCAddNtpserver
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ntp/ntpserver/
         Requires  : PowerShell v5.1 and up
@@ -315,7 +315,7 @@ function Invoke-ADCAddNtpserver {
             if ($PSBoundParameters.ContainsKey('key')) { $Payload.Add('key', $key) }
  
             if ($PSCmdlet.ShouldProcess("ntpserver", "Add NTP configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -Type ntpserver -Payload $Payload -GetWarning
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -NitroPath nitro/v1/config -Type ntpserver -Payload $Payload -GetWarning
                 #HTTP Status Code on Success: 201 Created
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
             Write-Output $result
@@ -345,7 +345,7 @@ function Invoke-ADCDeleteNtpserver {
         Invoke-ADCDeleteNtpserver -serverip <string>
     .NOTES
         File Name : Invoke-ADCDeleteNtpserver
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ntp/ntpserver/
         Requires  : PowerShell v5.1 and up
@@ -375,7 +375,7 @@ function Invoke-ADCDeleteNtpserver {
             }
             if ($PSBoundParameters.ContainsKey('servername')) { $Arguments.Add('servername', $servername) }
             if ($PSCmdlet.ShouldProcess("$serverip", "Delete NTP configuration Object")) {
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type ntpserver -Resource $serverip -Arguments $Arguments
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type ntpserver -NitroPath nitro/v1/config -Resource $serverip -Arguments $Arguments
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $response
@@ -423,7 +423,7 @@ function Invoke-ADCUpdateNtpserver {
         Invoke-ADCUpdateNtpserver 
     .NOTES
         File Name : Invoke-ADCUpdateNtpserver
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ntp/ntpserver/
         Requires  : PowerShell v5.1 and up
@@ -476,7 +476,7 @@ function Invoke-ADCUpdateNtpserver {
             if ($PSBoundParameters.ContainsKey('key')) { $Payload.Add('key', $key) }
  
             if ($PSCmdlet.ShouldProcess("ntpserver", "Update NTP configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -Type ntpserver -Payload $Payload -GetWarning
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -NitroPath nitro/v1/config -Type ntpserver -Payload $Payload -GetWarning
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
             Write-Output $result
@@ -517,7 +517,7 @@ function Invoke-ADCUnsetNtpserver {
         Invoke-ADCUnsetNtpserver 
     .NOTES
         File Name : Invoke-ADCUnsetNtpserver
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ntp/ntpserver
         Requires  : PowerShell v5.1 and up
@@ -563,7 +563,7 @@ function Invoke-ADCUnsetNtpserver {
             if ($PSBoundParameters.ContainsKey('preferredntpserver')) { $Payload.Add('preferredntpserver', $preferredntpserver) }
             if ($PSBoundParameters.ContainsKey('key')) { $Payload.Add('key', $key) }
             if ($PSCmdlet.ShouldProcess("ntpserver", "Unset NTP configuration Object")) {
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -Type ntpserver -Action unset -Payload $Payload -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -Type ntpserver -NitroPath nitro/v1/config -Action unset -Payload $Payload -GetWarning
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $response
@@ -605,7 +605,7 @@ function Invoke-ADCGetNtpserver {
         Invoke-ADCGetNtpserver -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetNtpserver
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ntp/ntpserver/
         Requires  : PowerShell v5.1 and up
@@ -641,21 +641,21 @@ function Invoke-ADCGetNtpserver {
             if ( $PsCmdlet.ParameterSetName -eq 'Getall' ) {
                 $Query = @{ }
                 Write-Verbose "Retrieving all ntpserver objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type ntpserver -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type ntpserver -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
                 if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for ntpserver objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type ntpserver -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type ntpserver -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving ntpserver objects by arguments"
                 $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type ntpserver -Arguments $Arguments -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type ntpserver -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving ntpserver configuration for property ''"
 
             } else {
                 Write-Verbose "Retrieving ntpserver configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type ntpserver -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type ntpserver -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -693,7 +693,7 @@ function Invoke-ADCGetNtpstatus {
         Invoke-ADCGetNtpstatus -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetNtpstatus
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ntp/ntpstatus/
         Requires  : PowerShell v5.1 and up
@@ -722,21 +722,21 @@ function Invoke-ADCGetNtpstatus {
             if ( $PsCmdlet.ParameterSetName -eq 'Getall' ) {
                 $Query = @{ }
                 Write-Verbose "Retrieving all ntpstatus objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type ntpstatus -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type ntpstatus -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
                 if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for ntpstatus objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type ntpstatus -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type ntpstatus -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving ntpstatus objects by arguments"
                 $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type ntpstatus -Arguments $Arguments -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type ntpstatus -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving ntpstatus configuration for property ''"
 
             } else {
                 Write-Verbose "Retrieving ntpstatus configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type ntpstatus -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type ntpstatus -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -759,7 +759,7 @@ function Invoke-ADCEnableNtpsync {
         Invoke-ADCEnableNtpsync 
     .NOTES
         File Name : Invoke-ADCEnableNtpsync
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ntp/ntpsync/
         Requires  : PowerShell v5.1 and up
@@ -786,7 +786,7 @@ function Invoke-ADCEnableNtpsync {
             }
 
             if ($PSCmdlet.ShouldProcess($Name, "Enable NTP configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -Type ntpsync -Action enable -Payload $Payload -GetWarning
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -NitroPath nitro/v1/config -Type ntpsync -Action enable -Payload $Payload -GetWarning
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $result
@@ -811,7 +811,7 @@ function Invoke-ADCDisableNtpsync {
         Invoke-ADCDisableNtpsync 
     .NOTES
         File Name : Invoke-ADCDisableNtpsync
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ntp/ntpsync/
         Requires  : PowerShell v5.1 and up
@@ -838,7 +838,7 @@ function Invoke-ADCDisableNtpsync {
             }
 
             if ($PSCmdlet.ShouldProcess($Name, "Disable NTP configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -Type ntpsync -Action disable -Payload $Payload -GetWarning
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -NitroPath nitro/v1/config -Type ntpsync -Action disable -Payload $Payload -GetWarning
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $result
@@ -878,7 +878,7 @@ function Invoke-ADCGetNtpsync {
         Invoke-ADCGetNtpsync -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetNtpsync
-        Version   : v2012.2411
+        Version   : v2101.0322
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ntp/ntpsync/
         Requires  : PowerShell v5.1 and up
@@ -907,21 +907,21 @@ function Invoke-ADCGetNtpsync {
             if ( $PsCmdlet.ParameterSetName -eq 'Getall' ) {
                 $Query = @{ }
                 Write-Verbose "Retrieving all ntpsync objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type ntpsync -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type ntpsync -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
                 if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for ntpsync objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type ntpsync -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type ntpsync -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving ntpsync objects by arguments"
                 $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type ntpsync -Arguments $Arguments -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type ntpsync -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving ntpsync configuration for property ''"
 
             } else {
                 Write-Verbose "Retrieving ntpsync configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type ntpsync -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type ntpsync -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"

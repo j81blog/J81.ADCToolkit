@@ -28,8 +28,10 @@
 * Added almost all (except for PING and TRACEROUTE) ADC functions (configuration and statistics) based on the Nitro documentation.
 * A lot of functions are still untested!
 
-## v2101.0315
+## v2101.0322
 
+* Compatibility improvements for PowerShell 6/7 & Core
 * Changed the Invoke-ADCCleanCertKeyFiles function so a full backup is created instead of a basic backup
 * Added a function Connect-ADCHANodes for connecting all HA nodes
 * Added option -HA to Connect-ADCNode to connect all HA nodes (Will call Connect-ADCHANodes internally)
+* ADC functions regenerated, change required for statistics functions
