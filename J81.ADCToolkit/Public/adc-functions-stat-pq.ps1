@@ -26,7 +26,7 @@ function Invoke-ADCGetPqStats {
         Invoke-ADCGetPqStats -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetPqStats
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/statistics/pq/pq/
         Requires  : PowerShell v5.1 and up
@@ -118,7 +118,7 @@ function Invoke-ADCGetPqpolicyStats {
         Invoke-ADCGetPqpolicyStats -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetPqpolicyStats
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/statistics/pq/pqpolicy/
         Requires  : PowerShell v5.1 and up

@@ -40,7 +40,7 @@ function Invoke-ADCAddResponderaction {
         Invoke-ADCAddResponderaction -name <string> -type <string>
     .NOTES
         File Name : Invoke-ADCAddResponderaction
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/responder/responderaction/
         Requires  : PowerShell v5.1 and up
@@ -134,7 +134,7 @@ function Invoke-ADCDeleteResponderaction {
         Invoke-ADCDeleteResponderaction -name <string>
     .NOTES
         File Name : Invoke-ADCDeleteResponderaction
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/responder/responderaction/
         Requires  : PowerShell v5.1 and up
@@ -211,7 +211,7 @@ function Invoke-ADCUpdateResponderaction {
         Invoke-ADCUpdateResponderaction -name <string>
     .NOTES
         File Name : Invoke-ADCUpdateResponderaction
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/responder/responderaction/
         Requires  : PowerShell v5.1 and up
@@ -308,7 +308,7 @@ function Invoke-ADCUnsetResponderaction {
         Invoke-ADCUnsetResponderaction -name <string>
     .NOTES
         File Name : Invoke-ADCUnsetResponderaction
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/responder/responderaction
         Requires  : PowerShell v5.1 and up
@@ -380,7 +380,7 @@ function Invoke-ADCRenameResponderaction {
         Invoke-ADCRenameResponderaction -name <string> -newname <string>
     .NOTES
         File Name : Invoke-ADCRenameResponderaction
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/responder/responderaction/
         Requires  : PowerShell v5.1 and up
@@ -467,7 +467,7 @@ function Invoke-ADCGetResponderaction {
         Invoke-ADCGetResponderaction -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetResponderaction
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/responder/responderaction/
         Requires  : PowerShell v5.1 and up
@@ -559,7 +559,7 @@ function Invoke-ADCGetResponderglobalbinding {
         Invoke-ADCGetResponderglobalbinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetResponderglobalbinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/responder/responderglobal_binding/
         Requires  : PowerShell v5.1 and up
@@ -645,7 +645,7 @@ function Invoke-ADCAddResponderglobalresponderpolicybinding {
         Invoke-ADCAddResponderglobalresponderpolicybinding -policyname <string> -priority <double>
     .NOTES
         File Name : Invoke-ADCAddResponderglobalresponderpolicybinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/responder/responderglobal_responderpolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -733,7 +733,7 @@ function Invoke-ADCDeleteResponderglobalresponderpolicybinding {
         Invoke-ADCDeleteResponderglobalresponderpolicybinding 
     .NOTES
         File Name : Invoke-ADCDeleteResponderglobalresponderpolicybinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/responder/responderglobal_responderpolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -808,7 +808,7 @@ function Invoke-ADCGetResponderglobalresponderpolicybinding {
         Invoke-ADCGetResponderglobalresponderpolicybinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetResponderglobalresponderpolicybinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/responder/responderglobal_responderpolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -890,7 +890,7 @@ function Invoke-ADCImportResponderhtmlpage {
         Invoke-ADCImportResponderhtmlpage -name <string>
     .NOTES
         File Name : Invoke-ADCImportResponderhtmlpage
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/responder/responderhtmlpage/
         Requires  : PowerShell v5.1 and up
@@ -962,7 +962,7 @@ function Invoke-ADCDeleteResponderhtmlpage {
         Invoke-ADCDeleteResponderhtmlpage -name <string>
     .NOTES
         File Name : Invoke-ADCDeleteResponderhtmlpage
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/responder/responderhtmlpage/
         Requires  : PowerShell v5.1 and up
@@ -1021,7 +1021,7 @@ function Invoke-ADCChangeResponderhtmlpage {
         Invoke-ADCChangeResponderhtmlpage -name <string>
     .NOTES
         File Name : Invoke-ADCChangeResponderhtmlpage
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/responder/responderhtmlpage/
         Requires  : PowerShell v5.1 and up
@@ -1102,7 +1102,7 @@ function Invoke-ADCGetResponderhtmlpage {
         Invoke-ADCGetResponderhtmlpage -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetResponderhtmlpage
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/responder/responderhtmlpage/
         Requires  : PowerShell v5.1 and up
@@ -1187,7 +1187,7 @@ function Invoke-ADCUpdateResponderparam {
         Invoke-ADCUpdateResponderparam 
     .NOTES
         File Name : Invoke-ADCUpdateResponderparam
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/responder/responderparam/
         Requires  : PowerShell v5.1 and up
@@ -1254,7 +1254,7 @@ function Invoke-ADCUnsetResponderparam {
         Invoke-ADCUnsetResponderparam 
     .NOTES
         File Name : Invoke-ADCUnsetResponderparam
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/responder/responderparam
         Requires  : PowerShell v5.1 and up
@@ -1325,7 +1325,7 @@ function Invoke-ADCGetResponderparam {
         Invoke-ADCGetResponderparam -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetResponderparam
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/responder/responderparam/
         Requires  : PowerShell v5.1 and up
@@ -1411,7 +1411,7 @@ function Invoke-ADCAddResponderpolicy {
         Invoke-ADCAddResponderpolicy -name <string> -rule <string> -action <string>
     .NOTES
         File Name : Invoke-ADCAddResponderpolicy
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/responder/responderpolicy/
         Requires  : PowerShell v5.1 and up
@@ -1496,7 +1496,7 @@ function Invoke-ADCDeleteResponderpolicy {
         Invoke-ADCDeleteResponderpolicy -name <string>
     .NOTES
         File Name : Invoke-ADCDeleteResponderpolicy
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/responder/responderpolicy/
         Requires  : PowerShell v5.1 and up
@@ -1569,7 +1569,7 @@ function Invoke-ADCUpdateResponderpolicy {
         Invoke-ADCUpdateResponderpolicy -name <string>
     .NOTES
         File Name : Invoke-ADCUpdateResponderpolicy
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/responder/responderpolicy/
         Requires  : PowerShell v5.1 and up
@@ -1660,7 +1660,7 @@ function Invoke-ADCUnsetResponderpolicy {
         Invoke-ADCUnsetResponderpolicy -name <string>
     .NOTES
         File Name : Invoke-ADCUnsetResponderpolicy
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/responder/responderpolicy
         Requires  : PowerShell v5.1 and up
@@ -1732,7 +1732,7 @@ function Invoke-ADCRenameResponderpolicy {
         Invoke-ADCRenameResponderpolicy -name <string> -newname <string>
     .NOTES
         File Name : Invoke-ADCRenameResponderpolicy
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/responder/responderpolicy/
         Requires  : PowerShell v5.1 and up
@@ -1820,7 +1820,7 @@ function Invoke-ADCGetResponderpolicy {
         Invoke-ADCGetResponderpolicy -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetResponderpolicy
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/responder/responderpolicy/
         Requires  : PowerShell v5.1 and up
@@ -1914,7 +1914,7 @@ function Invoke-ADCAddResponderpolicylabel {
         Invoke-ADCAddResponderpolicylabel -labelname <string>
     .NOTES
         File Name : Invoke-ADCAddResponderpolicylabel
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/responder/responderpolicylabel/
         Requires  : PowerShell v5.1 and up
@@ -1985,7 +1985,7 @@ function Invoke-ADCDeleteResponderpolicylabel {
         Invoke-ADCDeleteResponderpolicylabel -labelname <string>
     .NOTES
         File Name : Invoke-ADCDeleteResponderpolicylabel
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/responder/responderpolicylabel/
         Requires  : PowerShell v5.1 and up
@@ -2045,7 +2045,7 @@ function Invoke-ADCRenameResponderpolicylabel {
         Invoke-ADCRenameResponderpolicylabel -labelname <string> -newname <string>
     .NOTES
         File Name : Invoke-ADCRenameResponderpolicylabel
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/responder/responderpolicylabel/
         Requires  : PowerShell v5.1 and up
@@ -2132,7 +2132,7 @@ function Invoke-ADCGetResponderpolicylabel {
         Invoke-ADCGetResponderpolicylabel -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetResponderpolicylabel
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/responder/responderpolicylabel/
         Requires  : PowerShell v5.1 and up
@@ -2226,7 +2226,7 @@ function Invoke-ADCGetResponderpolicylabelbinding {
         Invoke-ADCGetResponderpolicylabelbinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetResponderpolicylabelbinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/responder/responderpolicylabel_binding/
         Requires  : PowerShell v5.1 and up
@@ -2316,7 +2316,7 @@ function Invoke-ADCGetResponderpolicylabelpolicybindingbinding {
         Invoke-ADCGetResponderpolicylabelpolicybindingbinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetResponderpolicylabelpolicybindingbinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/responder/responderpolicylabel_policybinding_binding/
         Requires  : PowerShell v5.1 and up
@@ -2407,7 +2407,7 @@ function Invoke-ADCAddResponderpolicylabelresponderpolicybinding {
         Invoke-ADCAddResponderpolicylabelresponderpolicybinding -labelname <string> -policyname <string> -priority <double>
     .NOTES
         File Name : Invoke-ADCAddResponderpolicylabelresponderpolicybinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/responder/responderpolicylabel_responderpolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -2494,7 +2494,7 @@ function Invoke-ADCDeleteResponderpolicylabelresponderpolicybinding {
         Invoke-ADCDeleteResponderpolicylabelresponderpolicybinding -labelname <string>
     .NOTES
         File Name : Invoke-ADCDeleteResponderpolicylabelresponderpolicybinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/responder/responderpolicylabel_responderpolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -2571,7 +2571,7 @@ function Invoke-ADCGetResponderpolicylabelresponderpolicybinding {
         Invoke-ADCGetResponderpolicylabelresponderpolicybinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetResponderpolicylabelresponderpolicybinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/responder/responderpolicylabel_responderpolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -2662,7 +2662,7 @@ function Invoke-ADCGetResponderpolicybinding {
         Invoke-ADCGetResponderpolicybinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetResponderpolicybinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/responder/responderpolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -2752,7 +2752,7 @@ function Invoke-ADCGetResponderpolicycrvserverbinding {
         Invoke-ADCGetResponderpolicycrvserverbinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetResponderpolicycrvserverbinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/responder/responderpolicy_crvserver_binding/
         Requires  : PowerShell v5.1 and up
@@ -2845,7 +2845,7 @@ function Invoke-ADCGetResponderpolicycsvserverbinding {
         Invoke-ADCGetResponderpolicycsvserverbinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetResponderpolicycsvserverbinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/responder/responderpolicy_csvserver_binding/
         Requires  : PowerShell v5.1 and up
@@ -2938,7 +2938,7 @@ function Invoke-ADCGetResponderpolicylbvserverbinding {
         Invoke-ADCGetResponderpolicylbvserverbinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetResponderpolicylbvserverbinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/responder/responderpolicy_lbvserver_binding/
         Requires  : PowerShell v5.1 and up
@@ -3031,7 +3031,7 @@ function Invoke-ADCGetResponderpolicyresponderglobalbinding {
         Invoke-ADCGetResponderpolicyresponderglobalbinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetResponderpolicyresponderglobalbinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/responder/responderpolicy_responderglobal_binding/
         Requires  : PowerShell v5.1 and up
@@ -3124,7 +3124,7 @@ function Invoke-ADCGetResponderpolicyresponderpolicylabelbinding {
         Invoke-ADCGetResponderpolicyresponderpolicylabelbinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetResponderpolicyresponderpolicylabelbinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/responder/responderpolicy_responderpolicylabel_binding/
         Requires  : PowerShell v5.1 and up
@@ -3217,7 +3217,7 @@ function Invoke-ADCGetResponderpolicyvpnvserverbinding {
         Invoke-ADCGetResponderpolicyvpnvserverbinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetResponderpolicyvpnvserverbinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/responder/responderpolicy_vpnvserver_binding/
         Requires  : PowerShell v5.1 and up

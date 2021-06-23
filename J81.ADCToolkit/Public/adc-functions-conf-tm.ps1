@@ -36,7 +36,7 @@ function Invoke-ADCAddTmformssoaction {
         Invoke-ADCAddTmformssoaction -name <string> -actionurl <string> -userfield <string> -passwdfield <string> -ssosuccessrule <string>
     .NOTES
         File Name : Invoke-ADCAddTmformssoaction
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/tm/tmformssoaction/
         Requires  : PowerShell v5.1 and up
@@ -135,7 +135,7 @@ function Invoke-ADCDeleteTmformssoaction {
         Invoke-ADCDeleteTmformssoaction -name <string>
     .NOTES
         File Name : Invoke-ADCDeleteTmformssoaction
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/tm/tmformssoaction/
         Requires  : PowerShell v5.1 and up
@@ -216,7 +216,7 @@ function Invoke-ADCUpdateTmformssoaction {
         Invoke-ADCUpdateTmformssoaction -name <string>
     .NOTES
         File Name : Invoke-ADCUpdateTmformssoaction
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/tm/tmformssoaction/
         Requires  : PowerShell v5.1 and up
@@ -321,7 +321,7 @@ function Invoke-ADCUnsetTmformssoaction {
         Invoke-ADCUnsetTmformssoaction -name <string>
     .NOTES
         File Name : Invoke-ADCUnsetTmformssoaction
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/tm/tmformssoaction
         Requires  : PowerShell v5.1 and up
@@ -407,7 +407,7 @@ function Invoke-ADCGetTmformssoaction {
         Invoke-ADCGetTmformssoaction -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetTmformssoaction
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/tm/tmformssoaction/
         Requires  : PowerShell v5.1 and up
@@ -494,7 +494,7 @@ function Invoke-ADCAddTmglobalauditnslogpolicybinding {
         Invoke-ADCAddTmglobalauditnslogpolicybinding 
     .NOTES
         File Name : Invoke-ADCAddTmglobalauditnslogpolicybinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/tm/tmglobal_auditnslogpolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -564,7 +564,7 @@ function Invoke-ADCDeleteTmglobalauditnslogpolicybinding {
         Invoke-ADCDeleteTmglobalauditnslogpolicybinding 
     .NOTES
         File Name : Invoke-ADCDeleteTmglobalauditnslogpolicybinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/tm/tmglobal_auditnslogpolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -633,7 +633,7 @@ function Invoke-ADCGetTmglobalauditnslogpolicybinding {
         Invoke-ADCGetTmglobalauditnslogpolicybinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetTmglobalauditnslogpolicybinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/tm/tmglobal_auditnslogpolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -712,7 +712,7 @@ function Invoke-ADCAddTmglobalauditsyslogpolicybinding {
         Invoke-ADCAddTmglobalauditsyslogpolicybinding 
     .NOTES
         File Name : Invoke-ADCAddTmglobalauditsyslogpolicybinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/tm/tmglobal_auditsyslogpolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -782,7 +782,7 @@ function Invoke-ADCDeleteTmglobalauditsyslogpolicybinding {
         Invoke-ADCDeleteTmglobalauditsyslogpolicybinding 
     .NOTES
         File Name : Invoke-ADCDeleteTmglobalauditsyslogpolicybinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/tm/tmglobal_auditsyslogpolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -851,7 +851,7 @@ function Invoke-ADCGetTmglobalauditsyslogpolicybinding {
         Invoke-ADCGetTmglobalauditsyslogpolicybinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetTmglobalauditsyslogpolicybinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/tm/tmglobal_auditsyslogpolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -937,7 +937,7 @@ function Invoke-ADCGetTmglobalbinding {
         Invoke-ADCGetTmglobalbinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetTmglobalbinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/tm/tmglobal_binding/
         Requires  : PowerShell v5.1 and up
@@ -1013,7 +1013,7 @@ function Invoke-ADCAddTmglobaltmsessionpolicybinding {
         Invoke-ADCAddTmglobaltmsessionpolicybinding 
     .NOTES
         File Name : Invoke-ADCAddTmglobaltmsessionpolicybinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/tm/tmglobal_tmsessionpolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -1083,7 +1083,7 @@ function Invoke-ADCDeleteTmglobaltmsessionpolicybinding {
         Invoke-ADCDeleteTmglobaltmsessionpolicybinding 
     .NOTES
         File Name : Invoke-ADCDeleteTmglobaltmsessionpolicybinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/tm/tmglobal_tmsessionpolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -1152,7 +1152,7 @@ function Invoke-ADCGetTmglobaltmsessionpolicybinding {
         Invoke-ADCGetTmglobaltmsessionpolicybinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetTmglobaltmsessionpolicybinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/tm/tmglobal_tmsessionpolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -1231,7 +1231,7 @@ function Invoke-ADCAddTmglobaltmtrafficpolicybinding {
         Invoke-ADCAddTmglobaltmtrafficpolicybinding 
     .NOTES
         File Name : Invoke-ADCAddTmglobaltmtrafficpolicybinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/tm/tmglobal_tmtrafficpolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -1301,7 +1301,7 @@ function Invoke-ADCDeleteTmglobaltmtrafficpolicybinding {
         Invoke-ADCDeleteTmglobaltmtrafficpolicybinding 
     .NOTES
         File Name : Invoke-ADCDeleteTmglobaltmtrafficpolicybinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/tm/tmglobal_tmtrafficpolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -1370,7 +1370,7 @@ function Invoke-ADCGetTmglobaltmtrafficpolicybinding {
         Invoke-ADCGetTmglobaltmtrafficpolicybinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetTmglobaltmtrafficpolicybinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/tm/tmglobal_tmtrafficpolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -1656,7 +1656,7 @@ function Invoke-ADCAddTmsamlssoprofile {
         Invoke-ADCAddTmsamlssoprofile -name <string> -assertionconsumerserviceurl <string>
     .NOTES
         File Name : Invoke-ADCAddTmsamlssoprofile
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/tm/tmsamlssoprofile/
         Requires  : PowerShell v5.1 and up
@@ -1987,7 +1987,7 @@ function Invoke-ADCDeleteTmsamlssoprofile {
         Invoke-ADCDeleteTmsamlssoprofile -name <string>
     .NOTES
         File Name : Invoke-ADCDeleteTmsamlssoprofile
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/tm/tmsamlssoprofile/
         Requires  : PowerShell v5.1 and up
@@ -2255,7 +2255,7 @@ function Invoke-ADCUpdateTmsamlssoprofile {
         Invoke-ADCUpdateTmsamlssoprofile -name <string>
     .NOTES
         File Name : Invoke-ADCUpdateTmsamlssoprofile
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/tm/tmsamlssoprofile/
         Requires  : PowerShell v5.1 and up
@@ -2733,7 +2733,7 @@ function Invoke-ADCUnsetTmsamlssoprofile {
         Invoke-ADCUnsetTmsamlssoprofile -name <string>
     .NOTES
         File Name : Invoke-ADCUnsetTmsamlssoprofile
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/tm/tmsamlssoprofile
         Requires  : PowerShell v5.1 and up
@@ -2993,7 +2993,7 @@ function Invoke-ADCGetTmsamlssoprofile {
         Invoke-ADCGetTmsamlssoprofile -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetTmsamlssoprofile
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/tm/tmsamlssoprofile/
         Requires  : PowerShell v5.1 and up
@@ -3110,7 +3110,7 @@ function Invoke-ADCAddTmsessionaction {
         Invoke-ADCAddTmsessionaction -name <string>
     .NOTES
         File Name : Invoke-ADCAddTmsessionaction
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/tm/tmsessionaction/
         Requires  : PowerShell v5.1 and up
@@ -3213,7 +3213,7 @@ function Invoke-ADCDeleteTmsessionaction {
         Invoke-ADCDeleteTmsessionaction -name <string>
     .NOTES
         File Name : Invoke-ADCDeleteTmsessionaction
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/tm/tmsessionaction/
         Requires  : PowerShell v5.1 and up
@@ -3304,7 +3304,7 @@ function Invoke-ADCUpdateTmsessionaction {
         Invoke-ADCUpdateTmsessionaction -name <string>
     .NOTES
         File Name : Invoke-ADCUpdateTmsessionaction
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/tm/tmsessionaction/
         Requires  : PowerShell v5.1 and up
@@ -3433,7 +3433,7 @@ function Invoke-ADCUnsetTmsessionaction {
         Invoke-ADCUnsetTmsessionaction -name <string>
     .NOTES
         File Name : Invoke-ADCUnsetTmsessionaction
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/tm/tmsessionaction
         Requires  : PowerShell v5.1 and up
@@ -3537,7 +3537,7 @@ function Invoke-ADCGetTmsessionaction {
         Invoke-ADCGetTmsessionaction -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetTmsessionaction
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/tm/tmsessionaction/
         Requires  : PowerShell v5.1 and up
@@ -3654,7 +3654,7 @@ function Invoke-ADCUpdateTmsessionparameter {
         Invoke-ADCUpdateTmsessionparameter 
     .NOTES
         File Name : Invoke-ADCUpdateTmsessionparameter
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/tm/tmsessionparameter/
         Requires  : PowerShell v5.1 and up
@@ -3769,7 +3769,7 @@ function Invoke-ADCUnsetTmsessionparameter {
         Invoke-ADCUnsetTmsessionparameter 
     .NOTES
         File Name : Invoke-ADCUnsetTmsessionparameter
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/tm/tmsessionparameter
         Requires  : PowerShell v5.1 and up
@@ -3864,7 +3864,7 @@ function Invoke-ADCGetTmsessionparameter {
         Invoke-ADCGetTmsessionparameter -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetTmsessionparameter
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/tm/tmsessionparameter/
         Requires  : PowerShell v5.1 and up
@@ -3943,7 +3943,7 @@ function Invoke-ADCAddTmsessionpolicy {
         Invoke-ADCAddTmsessionpolicy -name <string> -rule <string> -action <string>
     .NOTES
         File Name : Invoke-ADCAddTmsessionpolicy
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/tm/tmsessionpolicy/
         Requires  : PowerShell v5.1 and up
@@ -4019,7 +4019,7 @@ function Invoke-ADCDeleteTmsessionpolicy {
         Invoke-ADCDeleteTmsessionpolicy -name <string>
     .NOTES
         File Name : Invoke-ADCDeleteTmsessionpolicy
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/tm/tmsessionpolicy/
         Requires  : PowerShell v5.1 and up
@@ -4085,7 +4085,7 @@ function Invoke-ADCUpdateTmsessionpolicy {
         Invoke-ADCUpdateTmsessionpolicy -name <string>
     .NOTES
         File Name : Invoke-ADCUpdateTmsessionpolicy
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/tm/tmsessionpolicy/
         Requires  : PowerShell v5.1 and up
@@ -4166,7 +4166,7 @@ function Invoke-ADCUnsetTmsessionpolicy {
         Invoke-ADCUnsetTmsessionpolicy -name <string>
     .NOTES
         File Name : Invoke-ADCUnsetTmsessionpolicy
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/tm/tmsessionpolicy
         Requires  : PowerShell v5.1 and up
@@ -4246,7 +4246,7 @@ function Invoke-ADCGetTmsessionpolicy {
         Invoke-ADCGetTmsessionpolicy -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetTmsessionpolicy
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/tm/tmsessionpolicy/
         Requires  : PowerShell v5.1 and up
@@ -4344,7 +4344,7 @@ function Invoke-ADCGetTmsessionpolicyaaagroupbinding {
         Invoke-ADCGetTmsessionpolicyaaagroupbinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetTmsessionpolicyaaagroupbinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/tm/tmsessionpolicy_aaagroup_binding/
         Requires  : PowerShell v5.1 and up
@@ -4438,7 +4438,7 @@ function Invoke-ADCGetTmsessionpolicyaaauserbinding {
         Invoke-ADCGetTmsessionpolicyaaauserbinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetTmsessionpolicyaaauserbinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/tm/tmsessionpolicy_aaauser_binding/
         Requires  : PowerShell v5.1 and up
@@ -4532,7 +4532,7 @@ function Invoke-ADCGetTmsessionpolicyauthenticationvserverbinding {
         Invoke-ADCGetTmsessionpolicyauthenticationvserverbinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetTmsessionpolicyauthenticationvserverbinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/tm/tmsessionpolicy_authenticationvserver_binding/
         Requires  : PowerShell v5.1 and up
@@ -4624,7 +4624,7 @@ function Invoke-ADCGetTmsessionpolicybinding {
         Invoke-ADCGetTmsessionpolicybinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetTmsessionpolicybinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/tm/tmsessionpolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -4715,7 +4715,7 @@ function Invoke-ADCGetTmsessionpolicytmglobalbinding {
         Invoke-ADCGetTmsessionpolicytmglobalbinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetTmsessionpolicytmglobalbinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/tm/tmsessionpolicy_tmglobal_binding/
         Requires  : PowerShell v5.1 and up
@@ -4828,7 +4828,7 @@ function Invoke-ADCAddTmtrafficaction {
         Invoke-ADCAddTmtrafficaction -name <string>
     .NOTES
         File Name : Invoke-ADCAddTmtrafficaction
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/tm/tmtrafficaction/
         Requires  : PowerShell v5.1 and up
@@ -4934,7 +4934,7 @@ function Invoke-ADCDeleteTmtrafficaction {
         Invoke-ADCDeleteTmtrafficaction -name <string>
     .NOTES
         File Name : Invoke-ADCDeleteTmtrafficaction
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/tm/tmtrafficaction/
         Requires  : PowerShell v5.1 and up
@@ -5025,7 +5025,7 @@ function Invoke-ADCUpdateTmtrafficaction {
         Invoke-ADCUpdateTmtrafficaction -name <string>
     .NOTES
         File Name : Invoke-ADCUpdateTmtrafficaction
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/tm/tmtrafficaction/
         Requires  : PowerShell v5.1 and up
@@ -5143,7 +5143,7 @@ function Invoke-ADCUnsetTmtrafficaction {
         Invoke-ADCUnsetTmtrafficaction -name <string>
     .NOTES
         File Name : Invoke-ADCUnsetTmtrafficaction
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/tm/tmtrafficaction
         Requires  : PowerShell v5.1 and up
@@ -5232,7 +5232,7 @@ function Invoke-ADCGetTmtrafficaction {
         Invoke-ADCGetTmtrafficaction -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetTmtrafficaction
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/tm/tmtrafficaction/
         Requires  : PowerShell v5.1 and up
@@ -5320,7 +5320,7 @@ function Invoke-ADCAddTmtrafficpolicy {
         Invoke-ADCAddTmtrafficpolicy -name <string> -rule <string> -action <string>
     .NOTES
         File Name : Invoke-ADCAddTmtrafficpolicy
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/tm/tmtrafficpolicy/
         Requires  : PowerShell v5.1 and up
@@ -5396,7 +5396,7 @@ function Invoke-ADCDeleteTmtrafficpolicy {
         Invoke-ADCDeleteTmtrafficpolicy -name <string>
     .NOTES
         File Name : Invoke-ADCDeleteTmtrafficpolicy
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/tm/tmtrafficpolicy/
         Requires  : PowerShell v5.1 and up
@@ -5458,7 +5458,7 @@ function Invoke-ADCUpdateTmtrafficpolicy {
         Invoke-ADCUpdateTmtrafficpolicy -name <string>
     .NOTES
         File Name : Invoke-ADCUpdateTmtrafficpolicy
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/tm/tmtrafficpolicy/
         Requires  : PowerShell v5.1 and up
@@ -5535,7 +5535,7 @@ function Invoke-ADCUnsetTmtrafficpolicy {
         Invoke-ADCUnsetTmtrafficpolicy -name <string>
     .NOTES
         File Name : Invoke-ADCUnsetTmtrafficpolicy
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/tm/tmtrafficpolicy
         Requires  : PowerShell v5.1 and up
@@ -5615,7 +5615,7 @@ function Invoke-ADCGetTmtrafficpolicy {
         Invoke-ADCGetTmtrafficpolicy -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetTmtrafficpolicy
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/tm/tmtrafficpolicy/
         Requires  : PowerShell v5.1 and up
@@ -5711,7 +5711,7 @@ function Invoke-ADCGetTmtrafficpolicybinding {
         Invoke-ADCGetTmtrafficpolicybinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetTmtrafficpolicybinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/tm/tmtrafficpolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -5802,7 +5802,7 @@ function Invoke-ADCGetTmtrafficpolicycsvserverbinding {
         Invoke-ADCGetTmtrafficpolicycsvserverbinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetTmtrafficpolicycsvserverbinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/tm/tmtrafficpolicy_csvserver_binding/
         Requires  : PowerShell v5.1 and up
@@ -5896,7 +5896,7 @@ function Invoke-ADCGetTmtrafficpolicylbvserverbinding {
         Invoke-ADCGetTmtrafficpolicylbvserverbinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetTmtrafficpolicylbvserverbinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/tm/tmtrafficpolicy_lbvserver_binding/
         Requires  : PowerShell v5.1 and up
@@ -5990,7 +5990,7 @@ function Invoke-ADCGetTmtrafficpolicytmglobalbinding {
         Invoke-ADCGetTmtrafficpolicytmglobalbinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetTmtrafficpolicytmglobalbinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/tm/tmtrafficpolicy_tmglobal_binding/
         Requires  : PowerShell v5.1 and up

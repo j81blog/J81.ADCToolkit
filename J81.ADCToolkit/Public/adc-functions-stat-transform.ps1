@@ -25,7 +25,7 @@ function Invoke-ADCGetTransformpolicyStats {
         Invoke-ADCGetTransformpolicyStats -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetTransformpolicyStats
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/statistics/transform/transformpolicy/
         Requires  : PowerShell v5.1 and up
@@ -112,7 +112,7 @@ function Invoke-ADCGetTransformpolicylabelStats {
         Invoke-ADCGetTransformpolicylabelStats -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetTransformpolicylabelStats
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/statistics/transform/transformpolicylabel/
         Requires  : PowerShell v5.1 and up

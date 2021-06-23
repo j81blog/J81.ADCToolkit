@@ -26,7 +26,7 @@ function Invoke-ADCGetVpnStats {
         Invoke-ADCGetVpnStats -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetVpnStats
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/statistics/vpn/vpn/
         Requires  : PowerShell v5.1 and up
@@ -118,7 +118,7 @@ function Invoke-ADCGetVpnurlpolicyStats {
         Invoke-ADCGetVpnurlpolicyStats -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetVpnurlpolicyStats
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/statistics/vpn/vpnurlpolicy/
         Requires  : PowerShell v5.1 and up
@@ -205,7 +205,7 @@ function Invoke-ADCGetVpnvserverStats {
         Invoke-ADCGetVpnvserverStats -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetVpnvserverStats
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/statistics/vpn/vpnvserver/
         Requires  : PowerShell v5.1 and up

@@ -125,7 +125,7 @@ function Invoke-ADCAddNsacl {
         Invoke-ADCAddNsacl -aclname <string> -aclaction <string>
     .NOTES
         File Name : Invoke-ADCAddNsacl
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ns/nsacl/
         Requires  : PowerShell v5.1 and up
@@ -317,7 +317,7 @@ function Invoke-ADCDeleteNsacl {
         Invoke-ADCDeleteNsacl -aclname <string>
     .NOTES
         File Name : Invoke-ADCDeleteNsacl
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ns/nsacl/
         Requires  : PowerShell v5.1 and up
@@ -468,7 +468,7 @@ function Invoke-ADCUpdateNsacl {
         Invoke-ADCUpdateNsacl -aclname <string>
     .NOTES
         File Name : Invoke-ADCUpdateNsacl
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ns/nsacl/
         Requires  : PowerShell v5.1 and up
@@ -683,7 +683,7 @@ function Invoke-ADCUnsetNsacl {
         Invoke-ADCUnsetNsacl -aclname <string>
     .NOTES
         File Name : Invoke-ADCUnsetNsacl
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ns/nsacl
         Requires  : PowerShell v5.1 and up
@@ -791,7 +791,7 @@ function Invoke-ADCEnableNsacl {
         Invoke-ADCEnableNsacl -aclname <string>
     .NOTES
         File Name : Invoke-ADCEnableNsacl
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ns/nsacl/
         Requires  : PowerShell v5.1 and up
@@ -850,7 +850,7 @@ function Invoke-ADCDisableNsacl {
         Invoke-ADCDisableNsacl -aclname <string>
     .NOTES
         File Name : Invoke-ADCDisableNsacl
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ns/nsacl/
         Requires  : PowerShell v5.1 and up
@@ -915,7 +915,7 @@ function Invoke-ADCRenameNsacl {
         Invoke-ADCRenameNsacl -aclname <string> -newname <string>
     .NOTES
         File Name : Invoke-ADCRenameNsacl
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ns/nsacl/
         Requires  : PowerShell v5.1 and up
@@ -1005,7 +1005,7 @@ function Invoke-ADCGetNsacl {
         Invoke-ADCGetNsacl -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetNsacl
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ns/nsacl/
         Requires  : PowerShell v5.1 and up
@@ -1206,7 +1206,7 @@ function Invoke-ADCAddNsacl6 {
         Invoke-ADCAddNsacl6 -acl6name <string> -acl6action <string>
     .NOTES
         File Name : Invoke-ADCAddNsacl6
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ns/nsacl6/
         Requires  : PowerShell v5.1 and up
@@ -1396,7 +1396,7 @@ function Invoke-ADCDeleteNsacl6 {
         Invoke-ADCDeleteNsacl6 -acl6name <string>
     .NOTES
         File Name : Invoke-ADCDeleteNsacl6
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ns/nsacl6/
         Requires  : PowerShell v5.1 and up
@@ -1548,7 +1548,7 @@ function Invoke-ADCUpdateNsacl6 {
         Invoke-ADCUpdateNsacl6 -acl6name <string>
     .NOTES
         File Name : Invoke-ADCUpdateNsacl6
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ns/nsacl6/
         Requires  : PowerShell v5.1 and up
@@ -1764,7 +1764,7 @@ function Invoke-ADCUnsetNsacl6 {
         Invoke-ADCUnsetNsacl6 -acl6name <string>
     .NOTES
         File Name : Invoke-ADCUnsetNsacl6
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ns/nsacl6
         Requires  : PowerShell v5.1 and up
@@ -1875,7 +1875,7 @@ function Invoke-ADCEnableNsacl6 {
         Invoke-ADCEnableNsacl6 -acl6name <string>
     .NOTES
         File Name : Invoke-ADCEnableNsacl6
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ns/nsacl6/
         Requires  : PowerShell v5.1 and up
@@ -1934,7 +1934,7 @@ function Invoke-ADCDisableNsacl6 {
         Invoke-ADCDisableNsacl6 -acl6name <string>
     .NOTES
         File Name : Invoke-ADCDisableNsacl6
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ns/nsacl6/
         Requires  : PowerShell v5.1 and up
@@ -1999,7 +1999,7 @@ function Invoke-ADCRenameNsacl6 {
         Invoke-ADCRenameNsacl6 -acl6name <string> -newname <string>
     .NOTES
         File Name : Invoke-ADCRenameNsacl6
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ns/nsacl6/
         Requires  : PowerShell v5.1 and up
@@ -2088,7 +2088,7 @@ function Invoke-ADCGetNsacl6 {
         Invoke-ADCGetNsacl6 -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetNsacl6
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ns/nsacl6/
         Requires  : PowerShell v5.1 and up
@@ -2173,7 +2173,7 @@ function Invoke-ADCRenumberNsacls {
         Invoke-ADCRenumberNsacls 
     .NOTES
         File Name : Invoke-ADCRenumberNsacls
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ns/nsacls/
         Requires  : PowerShell v5.1 and up
@@ -2234,7 +2234,7 @@ function Invoke-ADCClearNsacls {
         Invoke-ADCClearNsacls 
     .NOTES
         File Name : Invoke-ADCClearNsacls
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ns/nsacls/
         Requires  : PowerShell v5.1 and up
@@ -2295,7 +2295,7 @@ function Invoke-ADCApplyNsacls {
         Invoke-ADCApplyNsacls 
     .NOTES
         File Name : Invoke-ADCApplyNsacls
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ns/nsacls/
         Requires  : PowerShell v5.1 and up
@@ -2356,7 +2356,7 @@ function Invoke-ADCClearNsacls6 {
         Invoke-ADCClearNsacls6 
     .NOTES
         File Name : Invoke-ADCClearNsacls6
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ns/nsacls6/
         Requires  : PowerShell v5.1 and up
@@ -2417,7 +2417,7 @@ function Invoke-ADCApplyNsacls6 {
         Invoke-ADCApplyNsacls6 
     .NOTES
         File Name : Invoke-ADCApplyNsacls6
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ns/nsacls6/
         Requires  : PowerShell v5.1 and up
@@ -2478,7 +2478,7 @@ function Invoke-ADCRenumberNsacls6 {
         Invoke-ADCRenumberNsacls6 
     .NOTES
         File Name : Invoke-ADCRenumberNsacls6
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ns/nsacls6/
         Requires  : PowerShell v5.1 and up
@@ -2544,7 +2544,7 @@ function Invoke-ADCAddNsappflowcollector {
         Invoke-ADCAddNsappflowcollector -name <string> -ipaddress <string>
     .NOTES
         File Name : Invoke-ADCAddNsappflowcollector
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ns/nsappflowcollector/
         Requires  : PowerShell v5.1 and up
@@ -2618,7 +2618,7 @@ function Invoke-ADCDeleteNsappflowcollector {
         Invoke-ADCDeleteNsappflowcollector -name <string>
     .NOTES
         File Name : Invoke-ADCDeleteNsappflowcollector
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ns/nsappflowcollector/
         Requires  : PowerShell v5.1 and up
@@ -2690,7 +2690,7 @@ function Invoke-ADCGetNsappflowcollector {
         Invoke-ADCGetNsappflowcollector -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetNsappflowcollector
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ns/nsappflowcollector/
         Requires  : PowerShell v5.1 and up
@@ -2806,7 +2806,7 @@ function Invoke-ADCUpdateNsappflowparam {
         Invoke-ADCUpdateNsappflowparam 
     .NOTES
         File Name : Invoke-ADCUpdateNsappflowparam
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ns/nsappflowparam/
         Requires  : PowerShell v5.1 and up
@@ -2920,7 +2920,7 @@ function Invoke-ADCUnsetNsappflowparam {
         Invoke-ADCUnsetNsappflowparam 
     .NOTES
         File Name : Invoke-ADCUnsetNsappflowparam
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ns/nsappflowparam
         Requires  : PowerShell v5.1 and up
@@ -3012,7 +3012,7 @@ function Invoke-ADCGetNsappflowparam {
         Invoke-ADCGetNsappflowparam -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetNsappflowparam
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ns/nsappflowparam/
         Requires  : PowerShell v5.1 and up
@@ -3092,7 +3092,7 @@ function Invoke-ADCChangeNsaptlicense {
         Invoke-ADCChangeNsaptlicense -id <string> -sessionid <string> -bindtype <string> -countavailable <string>
     .NOTES
         File Name : Invoke-ADCChangeNsaptlicense
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ns/nsaptlicense/
         Requires  : PowerShell v5.1 and up
@@ -3189,7 +3189,7 @@ function Invoke-ADCGetNsaptlicense {
         Invoke-ADCGetNsaptlicense -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetNsaptlicense
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ns/nsaptlicense/
         Requires  : PowerShell v5.1 and up
@@ -3282,7 +3282,7 @@ function Invoke-ADCAddNsassignment {
         Invoke-ADCAddNsassignment -name <string> -variable <string>
     .NOTES
         File Name : Invoke-ADCAddNsassignment
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ns/nsassignment/
         Requires  : PowerShell v5.1 and up
@@ -3384,7 +3384,7 @@ function Invoke-ADCUpdateNsassignment {
         Invoke-ADCUpdateNsassignment -name <string>
     .NOTES
         File Name : Invoke-ADCUpdateNsassignment
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ns/nsassignment/
         Requires  : PowerShell v5.1 and up
@@ -3471,7 +3471,7 @@ function Invoke-ADCUnsetNsassignment {
         Invoke-ADCUnsetNsassignment -name <string>
     .NOTES
         File Name : Invoke-ADCUnsetNsassignment
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ns/nsassignment
         Requires  : PowerShell v5.1 and up
@@ -3529,7 +3529,7 @@ function Invoke-ADCDeleteNsassignment {
         Invoke-ADCDeleteNsassignment -name <string>
     .NOTES
         File Name : Invoke-ADCDeleteNsassignment
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ns/nsassignment/
         Requires  : PowerShell v5.1 and up
@@ -3589,7 +3589,7 @@ function Invoke-ADCRenameNsassignment {
         Invoke-ADCRenameNsassignment -name <string> -newname <string>
     .NOTES
         File Name : Invoke-ADCRenameNsassignment
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ns/nsassignment/
         Requires  : PowerShell v5.1 and up
@@ -3676,7 +3676,7 @@ function Invoke-ADCGetNsassignment {
         Invoke-ADCGetNsassignment -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetNsassignment
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ns/nsassignment/
         Requires  : PowerShell v5.1 and up
@@ -3766,7 +3766,7 @@ function Invoke-ADCUpdateNscapacity {
         Invoke-ADCUpdateNscapacity 
     .NOTES
         File Name : Invoke-ADCUpdateNscapacity
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ns/nscapacity/
         Requires  : PowerShell v5.1 and up
@@ -3844,7 +3844,7 @@ function Invoke-ADCUnsetNscapacity {
         Invoke-ADCUnsetNscapacity 
     .NOTES
         File Name : Invoke-ADCUnsetNscapacity
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ns/nscapacity
         Requires  : PowerShell v5.1 and up
@@ -3920,7 +3920,7 @@ function Invoke-ADCGetNscapacity {
         Invoke-ADCGetNscapacity -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetNscapacity
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ns/nscapacity/
         Requires  : PowerShell v5.1 and up
@@ -4016,7 +4016,7 @@ function Invoke-ADCAddNscentralmanagementserver {
         Invoke-ADCAddNscentralmanagementserver -type <string> -username <string> -password <string>
     .NOTES
         File Name : Invoke-ADCAddNscentralmanagementserver
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ns/nscentralmanagementserver/
         Requires  : PowerShell v5.1 and up
@@ -4107,7 +4107,7 @@ function Invoke-ADCDeleteNscentralmanagementserver {
         Invoke-ADCDeleteNscentralmanagementserver -type <string>
     .NOTES
         File Name : Invoke-ADCDeleteNscentralmanagementserver
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ns/nscentralmanagementserver/
         Requires  : PowerShell v5.1 and up
@@ -4180,7 +4180,7 @@ function Invoke-ADCGetNscentralmanagementserver {
         Invoke-ADCGetNscentralmanagementserver -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetNscentralmanagementserver
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ns/nscentralmanagementserver/
         Requires  : PowerShell v5.1 and up
@@ -4276,7 +4276,7 @@ function Invoke-ADCClearNsconfig {
         Invoke-ADCClearNsconfig -level <string>
     .NOTES
         File Name : Invoke-ADCClearNsconfig
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ns/nsconfig/
         Requires  : PowerShell v5.1 and up
@@ -4425,7 +4425,7 @@ function Invoke-ADCUpdateNsconfig {
         Invoke-ADCUpdateNsconfig 
     .NOTES
         File Name : Invoke-ADCUpdateNsconfig
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ns/nsconfig/
         Requires  : PowerShell v5.1 and up
@@ -4610,7 +4610,7 @@ function Invoke-ADCUnsetNsconfig {
         Invoke-ADCUnsetNsconfig 
     .NOTES
         File Name : Invoke-ADCUnsetNsconfig
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ns/nsconfig
         Requires  : PowerShell v5.1 and up
@@ -4725,7 +4725,7 @@ function Invoke-ADCSaveNsconfig {
         Invoke-ADCSaveNsconfig 
     .NOTES
         File Name : Invoke-ADCSaveNsconfig
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ns/nsconfig/
         Requires  : PowerShell v5.1 and up
@@ -4790,7 +4790,7 @@ function Invoke-ADCDiffNsconfig {
         Invoke-ADCDiffNsconfig 
     .NOTES
         File Name : Invoke-ADCDiffNsconfig
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ns/nsconfig/
         Requires  : PowerShell v5.1 and up
@@ -4872,7 +4872,7 @@ function Invoke-ADCGetNsconfig {
         Invoke-ADCGetNsconfig -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetNsconfig
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ns/nsconfig/
         Requires  : PowerShell v5.1 and up
@@ -5103,7 +5103,7 @@ function Invoke-ADCGetNsconnectiontable {
         Invoke-ADCGetNsconnectiontable -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetNsconnectiontable
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ns/nsconnectiontable/
         Requires  : PowerShell v5.1 and up
@@ -5204,7 +5204,7 @@ function Invoke-ADCUpdateNsconsoleloginprompt {
         Invoke-ADCUpdateNsconsoleloginprompt 
     .NOTES
         File Name : Invoke-ADCUpdateNsconsoleloginprompt
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ns/nsconsoleloginprompt/
         Requires  : PowerShell v5.1 and up
@@ -5262,7 +5262,7 @@ function Invoke-ADCUnsetNsconsoleloginprompt {
         Invoke-ADCUnsetNsconsoleloginprompt 
     .NOTES
         File Name : Invoke-ADCUnsetNsconsoleloginprompt
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ns/nsconsoleloginprompt
         Requires  : PowerShell v5.1 and up
@@ -5330,7 +5330,7 @@ function Invoke-ADCGetNsconsoleloginprompt {
         Invoke-ADCGetNsconsoleloginprompt -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetNsconsoleloginprompt
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ns/nsconsoleloginprompt/
         Requires  : PowerShell v5.1 and up
@@ -5457,7 +5457,7 @@ function Invoke-ADCUpdateNscqaparam {
         Invoke-ADCUpdateNscqaparam 
     .NOTES
         File Name : Invoke-ADCUpdateNscqaparam
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ns/nscqaparam/
         Requires  : PowerShell v5.1 and up
@@ -5612,7 +5612,7 @@ function Invoke-ADCUnsetNscqaparam {
         Invoke-ADCUnsetNscqaparam 
     .NOTES
         File Name : Invoke-ADCUnsetNscqaparam
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ns/nscqaparam
         Requires  : PowerShell v5.1 and up
@@ -5731,7 +5731,7 @@ function Invoke-ADCGetNscqaparam {
         Invoke-ADCGetNscqaparam -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetNscqaparam
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ns/nscqaparam/
         Requires  : PowerShell v5.1 and up
@@ -5797,7 +5797,7 @@ function Invoke-ADCReleaseNsdhcpip {
         Invoke-ADCReleaseNsdhcpip 
     .NOTES
         File Name : Invoke-ADCReleaseNsdhcpip
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ns/nsdhcpip/
         Requires  : PowerShell v5.1 and up
@@ -5857,7 +5857,7 @@ function Invoke-ADCUpdateNsdhcpparams {
         Invoke-ADCUpdateNsdhcpparams 
     .NOTES
         File Name : Invoke-ADCUpdateNsdhcpparams
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ns/nsdhcpparams/
         Requires  : PowerShell v5.1 and up
@@ -5924,7 +5924,7 @@ function Invoke-ADCUnsetNsdhcpparams {
         Invoke-ADCUnsetNsdhcpparams 
     .NOTES
         File Name : Invoke-ADCUnsetNsdhcpparams
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ns/nsdhcpparams
         Requires  : PowerShell v5.1 and up
@@ -5995,7 +5995,7 @@ function Invoke-ADCGetNsdhcpparams {
         Invoke-ADCGetNsdhcpparams -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetNsdhcpparams
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ns/nsdhcpparams/
         Requires  : PowerShell v5.1 and up
@@ -6086,7 +6086,7 @@ function Invoke-ADCUpdateNsdiameter {
         Invoke-ADCUpdateNsdiameter 
     .NOTES
         File Name : Invoke-ADCUpdateNsdiameter
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ns/nsdiameter/
         Requires  : PowerShell v5.1 and up
@@ -6166,7 +6166,7 @@ function Invoke-ADCUnsetNsdiameter {
         Invoke-ADCUnsetNsdiameter 
     .NOTES
         File Name : Invoke-ADCUnsetNsdiameter
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ns/nsdiameter
         Requires  : PowerShell v5.1 and up
@@ -6241,7 +6241,7 @@ function Invoke-ADCGetNsdiameter {
         Invoke-ADCGetNsdiameter -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetNsdiameter
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ns/nsdiameter/
         Requires  : PowerShell v5.1 and up
@@ -6369,7 +6369,7 @@ function Invoke-ADCAddNsencryptionkey {
         Invoke-ADCAddNsencryptionkey -name <string> -method <string>
     .NOTES
         File Name : Invoke-ADCAddNsencryptionkey
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ns/nsencryptionkey/
         Requires  : PowerShell v5.1 and up
@@ -6500,7 +6500,7 @@ function Invoke-ADCUpdateNsencryptionkey {
         Invoke-ADCUpdateNsencryptionkey -name <string>
     .NOTES
         File Name : Invoke-ADCUpdateNsencryptionkey
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ns/nsencryptionkey/
         Requires  : PowerShell v5.1 and up
@@ -6602,7 +6602,7 @@ function Invoke-ADCUnsetNsencryptionkey {
         Invoke-ADCUnsetNsencryptionkey -name <string>
     .NOTES
         File Name : Invoke-ADCUnsetNsencryptionkey
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ns/nsencryptionkey
         Requires  : PowerShell v5.1 and up
@@ -6673,7 +6673,7 @@ function Invoke-ADCDeleteNsencryptionkey {
         Invoke-ADCDeleteNsencryptionkey -name <string>
     .NOTES
         File Name : Invoke-ADCDeleteNsencryptionkey
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ns/nsencryptionkey/
         Requires  : PowerShell v5.1 and up
@@ -6750,7 +6750,7 @@ function Invoke-ADCGetNsencryptionkey {
         Invoke-ADCGetNsencryptionkey -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetNsencryptionkey
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ns/nsencryptionkey/
         Requires  : PowerShell v5.1 and up
@@ -6836,7 +6836,7 @@ function Invoke-ADCUpdateNsencryptionparams {
         Invoke-ADCUpdateNsencryptionparams -method <string>
     .NOTES
         File Name : Invoke-ADCUpdateNsencryptionparams
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ns/nsencryptionparams/
         Requires  : PowerShell v5.1 and up
@@ -6911,7 +6911,7 @@ function Invoke-ADCGetNsencryptionparams {
         Invoke-ADCGetNsencryptionparams -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetNsencryptionparams
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ns/nsencryptionparams/
         Requires  : PowerShell v5.1 and up
@@ -6996,7 +6996,7 @@ function Invoke-ADCGetNsevents {
         Invoke-ADCGetNsevents -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetNsevents
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ns/nsevents/
         Requires  : PowerShell v5.1 and up
@@ -7082,7 +7082,7 @@ function Invoke-ADCImportNsextension {
         Invoke-ADCImportNsextension -src <string> -name <string>
     .NOTES
         File Name : Invoke-ADCImportNsextension
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ns/nsextension/
         Requires  : PowerShell v5.1 and up
@@ -7152,7 +7152,7 @@ function Invoke-ADCDeleteNsextension {
         Invoke-ADCDeleteNsextension -name <string>
     .NOTES
         File Name : Invoke-ADCDeleteNsextension
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ns/nsextension/
         Requires  : PowerShell v5.1 and up
@@ -7214,7 +7214,7 @@ function Invoke-ADCAddNsextension {
         Invoke-ADCAddNsextension -name <string>
     .NOTES
         File Name : Invoke-ADCAddNsextension
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ns/nsextension/
         Requires  : PowerShell v5.1 and up
@@ -7282,7 +7282,7 @@ function Invoke-ADCChangeNsextension {
         Invoke-ADCChangeNsextension 
     .NOTES
         File Name : Invoke-ADCChangeNsextension
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ns/nsextension/
         Requires  : PowerShell v5.1 and up
@@ -7367,7 +7367,7 @@ function Invoke-ADCUpdateNsextension {
         Invoke-ADCUpdateNsextension -name <string>
     .NOTES
         File Name : Invoke-ADCUpdateNsextension
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ns/nsextension/
         Requires  : PowerShell v5.1 and up
@@ -7460,7 +7460,7 @@ function Invoke-ADCUnsetNsextension {
         Invoke-ADCUnsetNsextension -name <string>
     .NOTES
         File Name : Invoke-ADCUnsetNsextension
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ns/nsextension
         Requires  : PowerShell v5.1 and up
@@ -7545,7 +7545,7 @@ function Invoke-ADCGetNsextension {
         Invoke-ADCGetNsextension -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetNsextension
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ns/nsextension/
         Requires  : PowerShell v5.1 and up
@@ -7640,7 +7640,7 @@ function Invoke-ADCGetNsextensionbinding {
         Invoke-ADCGetNsextensionbinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetNsextensionbinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ns/nsextension_binding/
         Requires  : PowerShell v5.1 and up
@@ -7731,7 +7731,7 @@ function Invoke-ADCGetNsextensionextensionfunctionbinding {
         Invoke-ADCGetNsextensionextensionfunctionbinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetNsextensionextensionfunctionbinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ns/nsextension_extensionfunction_binding/
         Requires  : PowerShell v5.1 and up
@@ -7808,7 +7808,7 @@ function Invoke-ADCEnableNsfeature {
         Invoke-ADCEnableNsfeature 
     .NOTES
         File Name : Invoke-ADCEnableNsfeature
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ns/nsfeature/
         Requires  : PowerShell v5.1 and up
@@ -7864,7 +7864,7 @@ function Invoke-ADCDisableNsfeature {
         Invoke-ADCDisableNsfeature 
     .NOTES
         File Name : Invoke-ADCDisableNsfeature
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ns/nsfeature/
         Requires  : PowerShell v5.1 and up
@@ -7933,7 +7933,7 @@ function Invoke-ADCGetNsfeature {
         Invoke-ADCGetNsfeature -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetNsfeature
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ns/nsfeature/
         Requires  : PowerShell v5.1 and up
@@ -8014,7 +8014,7 @@ function Invoke-ADCGetNshardware {
         Invoke-ADCGetNshardware -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetNshardware
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ns/nshardware/
         Requires  : PowerShell v5.1 and up
@@ -8108,7 +8108,7 @@ function Invoke-ADCAddNshmackey {
         Invoke-ADCAddNshmackey -name <string> -digest <string>
     .NOTES
         File Name : Invoke-ADCAddNshmackey
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ns/nshmackey/
         Requires  : PowerShell v5.1 and up
@@ -8210,7 +8210,7 @@ function Invoke-ADCUpdateNshmackey {
         Invoke-ADCUpdateNshmackey -name <string>
     .NOTES
         File Name : Invoke-ADCUpdateNshmackey
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ns/nshmackey/
         Requires  : PowerShell v5.1 and up
@@ -8292,7 +8292,7 @@ function Invoke-ADCUnsetNshmackey {
         Invoke-ADCUnsetNshmackey -name <string>
     .NOTES
         File Name : Invoke-ADCUnsetNshmackey
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ns/nshmackey
         Requires  : PowerShell v5.1 and up
@@ -8357,7 +8357,7 @@ function Invoke-ADCDeleteNshmackey {
         Invoke-ADCDeleteNshmackey -name <string>
     .NOTES
         File Name : Invoke-ADCDeleteNshmackey
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ns/nshmackey/
         Requires  : PowerShell v5.1 and up
@@ -8434,7 +8434,7 @@ function Invoke-ADCGetNshmackey {
         Invoke-ADCGetNshmackey -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetNshmackey
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ns/nshmackey/
         Requires  : PowerShell v5.1 and up
@@ -8521,7 +8521,7 @@ function Invoke-ADCUpdateNshostname {
         Invoke-ADCUpdateNshostname -hostname <string>
     .NOTES
         File Name : Invoke-ADCUpdateNshostname
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ns/nshostname/
         Requires  : PowerShell v5.1 and up
@@ -8599,7 +8599,7 @@ function Invoke-ADCGetNshostname {
         Invoke-ADCGetNshostname -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetNshostname
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ns/nshostname/
         Requires  : PowerShell v5.1 and up
@@ -8712,7 +8712,7 @@ function Invoke-ADCUpdateNshttpparam {
         Invoke-ADCUpdateNshttpparam 
     .NOTES
         File Name : Invoke-ADCUpdateNshttpparam
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ns/nshttpparam/
         Requires  : PowerShell v5.1 and up
@@ -8833,7 +8833,7 @@ function Invoke-ADCUnsetNshttpparam {
         Invoke-ADCUnsetNshttpparam 
     .NOTES
         File Name : Invoke-ADCUnsetNshttpparam
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ns/nshttpparam
         Requires  : PowerShell v5.1 and up
@@ -8928,7 +8928,7 @@ function Invoke-ADCGetNshttpparam {
         Invoke-ADCGetNshttpparam -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetNshttpparam
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ns/nshttpparam/
         Requires  : PowerShell v5.1 and up
@@ -9178,7 +9178,7 @@ function Invoke-ADCAddNshttpprofile {
         Invoke-ADCAddNshttpprofile -name <string>
     .NOTES
         File Name : Invoke-ADCAddNshttpprofile
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ns/nshttpprofile/
         Requires  : PowerShell v5.1 and up
@@ -9404,7 +9404,7 @@ function Invoke-ADCDeleteNshttpprofile {
         Invoke-ADCDeleteNshttpprofile -name <string>
     .NOTES
         File Name : Invoke-ADCDeleteNshttpprofile
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ns/nshttpprofile/
         Requires  : PowerShell v5.1 and up
@@ -9641,7 +9641,7 @@ function Invoke-ADCUpdateNshttpprofile {
         Invoke-ADCUpdateNshttpprofile -name <string>
     .NOTES
         File Name : Invoke-ADCUpdateNshttpprofile
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ns/nshttpprofile/
         Requires  : PowerShell v5.1 and up
@@ -9968,7 +9968,7 @@ function Invoke-ADCUnsetNshttpprofile {
         Invoke-ADCUnsetNshttpprofile -name <string>
     .NOTES
         File Name : Invoke-ADCUnsetNshttpprofile
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ns/nshttpprofile
         Requires  : PowerShell v5.1 and up
@@ -10162,7 +10162,7 @@ function Invoke-ADCGetNshttpprofile {
         Invoke-ADCGetNshttpprofile -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetNshttpprofile
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ns/nshttpprofile/
         Requires  : PowerShell v5.1 and up
@@ -10302,7 +10302,7 @@ function Invoke-ADCAddNsicapprofile {
         Invoke-ADCAddNsicapprofile -name <string> -uri <string> -mode <string>
     .NOTES
         File Name : Invoke-ADCAddNsicapprofile
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ns/nsicapprofile/
         Requires  : PowerShell v5.1 and up
@@ -10427,7 +10427,7 @@ function Invoke-ADCDeleteNsicapprofile {
         Invoke-ADCDeleteNsicapprofile -name <string>
     .NOTES
         File Name : Invoke-ADCDeleteNsicapprofile
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ns/nsicapprofile/
         Requires  : PowerShell v5.1 and up
@@ -10542,7 +10542,7 @@ function Invoke-ADCUpdateNsicapprofile {
         Invoke-ADCUpdateNsicapprofile -name <string>
     .NOTES
         File Name : Invoke-ADCUpdateNsicapprofile
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ns/nsicapprofile/
         Requires  : PowerShell v5.1 and up
@@ -10697,7 +10697,7 @@ function Invoke-ADCUnsetNsicapprofile {
         Invoke-ADCUnsetNsicapprofile -name <string>
     .NOTES
         File Name : Invoke-ADCUnsetNsicapprofile
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ns/nsicapprofile
         Requires  : PowerShell v5.1 and up
@@ -10807,7 +10807,7 @@ function Invoke-ADCGetNsicapprofile {
         Invoke-ADCGetNsicapprofile -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetNsicapprofile
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ns/nsicapprofile/
         Requires  : PowerShell v5.1 and up
@@ -11039,7 +11039,7 @@ function Invoke-ADCAddNsip {
         Invoke-ADCAddNsip -ipaddress <string> -netmask <string>
     .NOTES
         File Name : Invoke-ADCAddNsip
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ns/nsip/
         Requires  : PowerShell v5.1 and up
@@ -11233,7 +11233,7 @@ function Invoke-ADCDeleteNsip {
         Invoke-ADCDeleteNsip -ipaddress <string>
     .NOTES
         File Name : Invoke-ADCDeleteNsip
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ns/nsip/
         Requires  : PowerShell v5.1 and up
@@ -11427,7 +11427,7 @@ function Invoke-ADCUpdateNsip {
         Invoke-ADCUpdateNsip -ipaddress <string>
     .NOTES
         File Name : Invoke-ADCUpdateNsip
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ns/nsip/
         Requires  : PowerShell v5.1 and up
@@ -11709,7 +11709,7 @@ function Invoke-ADCUnsetNsip {
         Invoke-ADCUnsetNsip -ipaddress <string>
     .NOTES
         File Name : Invoke-ADCUnsetNsip
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ns/nsip
         Requires  : PowerShell v5.1 and up
@@ -11860,7 +11860,7 @@ function Invoke-ADCEnableNsip {
         Invoke-ADCEnableNsip -ipaddress <string>
     .NOTES
         File Name : Invoke-ADCEnableNsip
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ns/nsip/
         Requires  : PowerShell v5.1 and up
@@ -11923,7 +11923,7 @@ function Invoke-ADCDisableNsip {
         Invoke-ADCDisableNsip -ipaddress <string>
     .NOTES
         File Name : Invoke-ADCDisableNsip
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ns/nsip/
         Requires  : PowerShell v5.1 and up
@@ -12010,7 +12010,7 @@ function Invoke-ADCGetNsip {
         Invoke-ADCGetNsip -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetNsip
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ns/nsip/
         Requires  : PowerShell v5.1 and up
@@ -12226,7 +12226,7 @@ function Invoke-ADCAddNsip6 {
         Invoke-ADCAddNsip6 -ipv6address <string>
     .NOTES
         File Name : Invoke-ADCAddNsip6
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ns/nsip6/
         Requires  : PowerShell v5.1 and up
@@ -12407,7 +12407,7 @@ function Invoke-ADCDeleteNsip6 {
         Invoke-ADCDeleteNsip6 -ipv6address <string>
     .NOTES
         File Name : Invoke-ADCDeleteNsip6
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ns/nsip6/
         Requires  : PowerShell v5.1 and up
@@ -12574,7 +12574,7 @@ function Invoke-ADCUpdateNsip6 {
         Invoke-ADCUpdateNsip6 -ipv6address <string>
     .NOTES
         File Name : Invoke-ADCUpdateNsip6
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ns/nsip6/
         Requires  : PowerShell v5.1 and up
@@ -12817,7 +12817,7 @@ function Invoke-ADCUnsetNsip6 {
         Invoke-ADCUnsetNsip6 -ipv6address <string>
     .NOTES
         File Name : Invoke-ADCUnsetNsip6
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ns/nsip6
         Requires  : PowerShell v5.1 and up
@@ -12969,7 +12969,7 @@ function Invoke-ADCGetNsip6 {
         Invoke-ADCGetNsip6 -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetNsip6
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ns/nsip6/
         Requires  : PowerShell v5.1 and up
@@ -13057,7 +13057,7 @@ function Invoke-ADCGetNslicense {
         Invoke-ADCGetNslicense -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetNslicense
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ns/nslicense/
         Requires  : PowerShell v5.1 and up
@@ -13130,7 +13130,7 @@ function Invoke-ADCAddNslicenseproxyserver {
         Invoke-ADCAddNslicenseproxyserver -port <double>
     .NOTES
         File Name : Invoke-ADCAddNslicenseproxyserver
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ns/nslicenseproxyserver/
         Requires  : PowerShell v5.1 and up
@@ -13197,7 +13197,7 @@ function Invoke-ADCDeleteNslicenseproxyserver {
         Invoke-ADCDeleteNslicenseproxyserver -serverip <string>
     .NOTES
         File Name : Invoke-ADCDeleteNslicenseproxyserver
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ns/nslicenseproxyserver/
         Requires  : PowerShell v5.1 and up
@@ -13259,7 +13259,7 @@ function Invoke-ADCUpdateNslicenseproxyserver {
         Invoke-ADCUpdateNslicenseproxyserver -port <double>
     .NOTES
         File Name : Invoke-ADCUpdateNslicenseproxyserver
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ns/nslicenseproxyserver/
         Requires  : PowerShell v5.1 and up
@@ -13339,7 +13339,7 @@ function Invoke-ADCGetNslicenseproxyserver {
         Invoke-ADCGetNslicenseproxyserver -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetNslicenseproxyserver
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ns/nslicenseproxyserver/
         Requires  : PowerShell v5.1 and up
@@ -13421,7 +13421,7 @@ function Invoke-ADCAddNslicenseserver {
         Invoke-ADCAddNslicenseserver 
     .NOTES
         File Name : Invoke-ADCAddNslicenseserver
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ns/nslicenseserver/
         Requires  : PowerShell v5.1 and up
@@ -13491,7 +13491,7 @@ function Invoke-ADCDeleteNslicenseserver {
         Invoke-ADCDeleteNslicenseserver -licenseserverip <string>
     .NOTES
         File Name : Invoke-ADCDeleteNslicenseserver
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ns/nslicenseserver/
         Requires  : PowerShell v5.1 and up
@@ -13553,7 +13553,7 @@ function Invoke-ADCUpdateNslicenseserver {
         Invoke-ADCUpdateNslicenseserver 
     .NOTES
         File Name : Invoke-ADCUpdateNslicenseserver
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ns/nslicenseserver/
         Requires  : PowerShell v5.1 and up
@@ -13639,7 +13639,7 @@ function Invoke-ADCGetNslicenseserver {
         Invoke-ADCGetNslicenseserver -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetNslicenseserver
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ns/nslicenseserver/
         Requires  : PowerShell v5.1 and up
@@ -13741,7 +13741,7 @@ function Invoke-ADCGetNslicenseserverpool {
         Invoke-ADCGetNslicenseserverpool -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetNslicenseserverpool
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ns/nslicenseserverpool/
         Requires  : PowerShell v5.1 and up
@@ -13855,7 +13855,7 @@ function Invoke-ADCAddNslimitidentifier {
         Invoke-ADCAddNslimitidentifier -limitidentifier <string>
     .NOTES
         File Name : Invoke-ADCAddNslimitidentifier
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ns/nslimitidentifier/
         Requires  : PowerShell v5.1 and up
@@ -13946,7 +13946,7 @@ function Invoke-ADCDeleteNslimitidentifier {
         Invoke-ADCDeleteNslimitidentifier -limitidentifier <string>
     .NOTES
         File Name : Invoke-ADCDeleteNslimitidentifier
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ns/nslimitidentifier/
         Requires  : PowerShell v5.1 and up
@@ -14047,7 +14047,7 @@ function Invoke-ADCUpdateNslimitidentifier {
         Invoke-ADCUpdateNslimitidentifier -limitidentifier <string>
     .NOTES
         File Name : Invoke-ADCUpdateNslimitidentifier
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ns/nslimitidentifier/
         Requires  : PowerShell v5.1 and up
@@ -14171,7 +14171,7 @@ function Invoke-ADCUnsetNslimitidentifier {
         Invoke-ADCUnsetNslimitidentifier -limitidentifier <string>
     .NOTES
         File Name : Invoke-ADCUnsetNslimitidentifier
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ns/nslimitidentifier
         Requires  : PowerShell v5.1 and up
@@ -14265,7 +14265,7 @@ function Invoke-ADCGetNslimitidentifier {
         Invoke-ADCGetNslimitidentifier -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetNslimitidentifier
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ns/nslimitidentifier/
         Requires  : PowerShell v5.1 and up
@@ -14360,7 +14360,7 @@ function Invoke-ADCGetNslimitidentifierbinding {
         Invoke-ADCGetNslimitidentifierbinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetNslimitidentifierbinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ns/nslimitidentifier_binding/
         Requires  : PowerShell v5.1 and up
@@ -14450,7 +14450,7 @@ function Invoke-ADCGetNslimitidentifiernslimitsessionsbinding {
         Invoke-ADCGetNslimitidentifiernslimitsessionsbinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetNslimitidentifiernslimitsessionsbinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ns/nslimitidentifier_nslimitsessions_binding/
         Requires  : PowerShell v5.1 and up
@@ -14531,7 +14531,7 @@ function Invoke-ADCAddNslimitselector {
         Invoke-ADCAddNslimitselector -selectorname <string> -rule <string[]>
     .NOTES
         File Name : Invoke-ADCAddNslimitselector
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ns/nslimitselector/
         Requires  : PowerShell v5.1 and up
@@ -14601,7 +14601,7 @@ function Invoke-ADCDeleteNslimitselector {
         Invoke-ADCDeleteNslimitselector -selectorname <string>
     .NOTES
         File Name : Invoke-ADCDeleteNslimitselector
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ns/nslimitselector/
         Requires  : PowerShell v5.1 and up
@@ -14661,7 +14661,7 @@ function Invoke-ADCUpdateNslimitselector {
         Invoke-ADCUpdateNslimitselector -selectorname <string>
     .NOTES
         File Name : Invoke-ADCUpdateNslimitselector
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ns/nslimitselector/
         Requires  : PowerShell v5.1 and up
@@ -14731,7 +14731,7 @@ function Invoke-ADCUnsetNslimitselector {
         Invoke-ADCUnsetNslimitselector -selectorname <string>
     .NOTES
         File Name : Invoke-ADCUnsetNslimitselector
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ns/nslimitselector
         Requires  : PowerShell v5.1 and up
@@ -14806,7 +14806,7 @@ function Invoke-ADCGetNslimitselector {
         Invoke-ADCGetNslimitselector -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetNslimitselector
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ns/nslimitselector/
         Requires  : PowerShell v5.1 and up
@@ -14885,7 +14885,7 @@ function Invoke-ADCClearNslimitsessions {
         Invoke-ADCClearNslimitsessions -limitidentifier <string>
     .NOTES
         File Name : Invoke-ADCClearNslimitsessions
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ns/nslimitsessions/
         Requires  : PowerShell v5.1 and up
@@ -14962,7 +14962,7 @@ function Invoke-ADCGetNslimitsessions {
         Invoke-ADCGetNslimitsessions -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetNslimitsessions
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ns/nslimitsessions/
         Requires  : PowerShell v5.1 and up
@@ -15056,7 +15056,7 @@ function Invoke-ADCGetNsmigration {
         Invoke-ADCGetNsmigration -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetNsmigration
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ns/nsmigration/
         Requires  : PowerShell v5.1 and up
@@ -15125,7 +15125,7 @@ function Invoke-ADCEnableNsmode {
         Invoke-ADCEnableNsmode 
     .NOTES
         File Name : Invoke-ADCEnableNsmode
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ns/nsmode/
         Requires  : PowerShell v5.1 and up
@@ -15183,7 +15183,7 @@ function Invoke-ADCDisableNsmode {
         Invoke-ADCDisableNsmode 
     .NOTES
         File Name : Invoke-ADCDisableNsmode
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ns/nsmode/
         Requires  : PowerShell v5.1 and up
@@ -15253,7 +15253,7 @@ function Invoke-ADCGetNsmode {
         Invoke-ADCGetNsmode -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetNsmode
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ns/nsmode/
         Requires  : PowerShell v5.1 and up
@@ -15435,7 +15435,7 @@ function Invoke-ADCUpdateNsparam {
         Invoke-ADCUpdateNsparam 
     .NOTES
         File Name : Invoke-ADCUpdateNsparam
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ns/nsparam/
         Requires  : PowerShell v5.1 and up
@@ -15660,7 +15660,7 @@ function Invoke-ADCUnsetNsparam {
         Invoke-ADCUnsetNsparam 
     .NOTES
         File Name : Invoke-ADCUnsetNsparam
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ns/nsparam
         Requires  : PowerShell v5.1 and up
@@ -15806,7 +15806,7 @@ function Invoke-ADCGetNsparam {
         Invoke-ADCGetNsparam -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetNsparam
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ns/nsparam/
         Requires  : PowerShell v5.1 and up
@@ -15893,7 +15893,7 @@ function Invoke-ADCAddNspartition {
         Invoke-ADCAddNspartition -partitionname <string>
     .NOTES
         File Name : Invoke-ADCAddNspartition
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ns/nspartition/
         Requires  : PowerShell v5.1 and up
@@ -15976,7 +15976,7 @@ function Invoke-ADCDeleteNspartition {
         Invoke-ADCDeleteNspartition -partitionname <string>
     .NOTES
         File Name : Invoke-ADCDeleteNspartition
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ns/nspartition/
         Requires  : PowerShell v5.1 and up
@@ -16050,7 +16050,7 @@ function Invoke-ADCUpdateNspartition {
         Invoke-ADCUpdateNspartition -partitionname <string>
     .NOTES
         File Name : Invoke-ADCUpdateNspartition
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ns/nspartition/
         Requires  : PowerShell v5.1 and up
@@ -16142,7 +16142,7 @@ function Invoke-ADCUnsetNspartition {
         Invoke-ADCUnsetNspartition -partitionname <string>
     .NOTES
         File Name : Invoke-ADCUnsetNspartition
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ns/nspartition
         Requires  : PowerShell v5.1 and up
@@ -16217,7 +16217,7 @@ function Invoke-ADCSwitchNspartition {
         Invoke-ADCSwitchNspartition -partitionname <string>
     .NOTES
         File Name : Invoke-ADCSwitchNspartition
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ns/nspartition/
         Requires  : PowerShell v5.1 and up
@@ -16301,7 +16301,7 @@ function Invoke-ADCGetNspartition {
         Invoke-ADCGetNspartition -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetNspartition
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ns/nspartition/
         Requires  : PowerShell v5.1 and up
@@ -16397,7 +16397,7 @@ function Invoke-ADCGetNspartitionmac {
         Invoke-ADCGetNspartitionmac -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetNspartitionmac
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ns/nspartitionmac/
         Requires  : PowerShell v5.1 and up
@@ -16487,7 +16487,7 @@ function Invoke-ADCGetNspartitionbinding {
         Invoke-ADCGetNspartitionbinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetNspartitionbinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ns/nspartition_binding/
         Requires  : PowerShell v5.1 and up
@@ -16568,7 +16568,7 @@ function Invoke-ADCAddNspartitionbridgegroupbinding {
         Invoke-ADCAddNspartitionbridgegroupbinding -partitionname <string>
     .NOTES
         File Name : Invoke-ADCAddNspartitionbridgegroupbinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ns/nspartition_bridgegroup_binding/
         Requires  : PowerShell v5.1 and up
@@ -16642,7 +16642,7 @@ function Invoke-ADCDeleteNspartitionbridgegroupbinding {
         Invoke-ADCDeleteNspartitionbridgegroupbinding -partitionname <string>
     .NOTES
         File Name : Invoke-ADCDeleteNspartitionbridgegroupbinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ns/nspartition_bridgegroup_binding/
         Requires  : PowerShell v5.1 and up
@@ -16716,7 +16716,7 @@ function Invoke-ADCGetNspartitionbridgegroupbinding {
         Invoke-ADCGetNspartitionbridgegroupbinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetNspartitionbridgegroupbinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ns/nspartition_bridgegroup_binding/
         Requires  : PowerShell v5.1 and up
@@ -16801,7 +16801,7 @@ function Invoke-ADCAddNspartitionvlanbinding {
         Invoke-ADCAddNspartitionvlanbinding -partitionname <string>
     .NOTES
         File Name : Invoke-ADCAddNspartitionvlanbinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ns/nspartition_vlan_binding/
         Requires  : PowerShell v5.1 and up
@@ -16875,7 +16875,7 @@ function Invoke-ADCDeleteNspartitionvlanbinding {
         Invoke-ADCDeleteNspartitionvlanbinding -partitionname <string>
     .NOTES
         File Name : Invoke-ADCDeleteNspartitionvlanbinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ns/nspartition_vlan_binding/
         Requires  : PowerShell v5.1 and up
@@ -16949,7 +16949,7 @@ function Invoke-ADCGetNspartitionvlanbinding {
         Invoke-ADCGetNspartitionvlanbinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetNspartitionvlanbinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ns/nspartition_vlan_binding/
         Requires  : PowerShell v5.1 and up
@@ -17034,7 +17034,7 @@ function Invoke-ADCAddNspartitionvxlanbinding {
         Invoke-ADCAddNspartitionvxlanbinding -partitionname <string>
     .NOTES
         File Name : Invoke-ADCAddNspartitionvxlanbinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ns/nspartition_vxlan_binding/
         Requires  : PowerShell v5.1 and up
@@ -17108,7 +17108,7 @@ function Invoke-ADCDeleteNspartitionvxlanbinding {
         Invoke-ADCDeleteNspartitionvxlanbinding -partitionname <string>
     .NOTES
         File Name : Invoke-ADCDeleteNspartitionvxlanbinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ns/nspartition_vxlan_binding/
         Requires  : PowerShell v5.1 and up
@@ -17182,7 +17182,7 @@ function Invoke-ADCGetNspartitionvxlanbinding {
         Invoke-ADCGetNspartitionvxlanbinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetNspartitionvxlanbinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ns/nspartition_vxlan_binding/
         Requires  : PowerShell v5.1 and up
@@ -17359,7 +17359,7 @@ function Invoke-ADCAddNspbr {
         Invoke-ADCAddNspbr -name <string> -action <string>
     .NOTES
         File Name : Invoke-ADCAddNspbr
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ns/nspbr/
         Requires  : PowerShell v5.1 and up
@@ -17542,7 +17542,7 @@ function Invoke-ADCDeleteNspbr {
         Invoke-ADCDeleteNspbr -name <string>
     .NOTES
         File Name : Invoke-ADCDeleteNspbr
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ns/nspbr/
         Requires  : PowerShell v5.1 and up
@@ -17684,7 +17684,7 @@ function Invoke-ADCUpdateNspbr {
         Invoke-ADCUpdateNspbr -name <string>
     .NOTES
         File Name : Invoke-ADCUpdateNspbr
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ns/nspbr/
         Requires  : PowerShell v5.1 and up
@@ -17888,7 +17888,7 @@ function Invoke-ADCUnsetNspbr {
         Invoke-ADCUnsetNspbr -name <string>
     .NOTES
         File Name : Invoke-ADCUnsetNspbr
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ns/nspbr
         Requires  : PowerShell v5.1 and up
@@ -17989,7 +17989,7 @@ function Invoke-ADCEnableNspbr {
         Invoke-ADCEnableNspbr -name <string>
     .NOTES
         File Name : Invoke-ADCEnableNspbr
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ns/nspbr/
         Requires  : PowerShell v5.1 and up
@@ -18047,7 +18047,7 @@ function Invoke-ADCDisableNspbr {
         Invoke-ADCDisableNspbr -name <string>
     .NOTES
         File Name : Invoke-ADCDisableNspbr
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ns/nspbr/
         Requires  : PowerShell v5.1 and up
@@ -18122,7 +18122,7 @@ function Invoke-ADCGetNspbr {
         Invoke-ADCGetNspbr -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetNspbr
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ns/nspbr/
         Requires  : PowerShell v5.1 and up
@@ -18299,7 +18299,7 @@ function Invoke-ADCAddNspbr6 {
         Invoke-ADCAddNspbr6 -name <string> -action <string>
     .NOTES
         File Name : Invoke-ADCAddNspbr6
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ns/nspbr6/
         Requires  : PowerShell v5.1 and up
@@ -18474,7 +18474,7 @@ function Invoke-ADCRenumberNspbr6 {
         Invoke-ADCRenumberNspbr6 
     .NOTES
         File Name : Invoke-ADCRenumberNspbr6
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ns/nspbr6/
         Requires  : PowerShell v5.1 and up
@@ -18529,7 +18529,7 @@ function Invoke-ADCDeleteNspbr6 {
         Invoke-ADCDeleteNspbr6 -name <string>
     .NOTES
         File Name : Invoke-ADCDeleteNspbr6
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ns/nspbr6/
         Requires  : PowerShell v5.1 and up
@@ -18669,7 +18669,7 @@ function Invoke-ADCUpdateNspbr6 {
         Invoke-ADCUpdateNspbr6 -name <string>
     .NOTES
         File Name : Invoke-ADCUpdateNspbr6
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ns/nspbr6/
         Requires  : PowerShell v5.1 and up
@@ -18868,7 +18868,7 @@ function Invoke-ADCUnsetNspbr6 {
         Invoke-ADCUnsetNspbr6 -name <string>
     .NOTES
         File Name : Invoke-ADCUnsetNspbr6
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ns/nspbr6
         Requires  : PowerShell v5.1 and up
@@ -18972,7 +18972,7 @@ function Invoke-ADCEnableNspbr6 {
         Invoke-ADCEnableNspbr6 -name <string>
     .NOTES
         File Name : Invoke-ADCEnableNspbr6
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ns/nspbr6/
         Requires  : PowerShell v5.1 and up
@@ -19030,7 +19030,7 @@ function Invoke-ADCDisableNspbr6 {
         Invoke-ADCDisableNspbr6 -name <string>
     .NOTES
         File Name : Invoke-ADCDisableNspbr6
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ns/nspbr6/
         Requires  : PowerShell v5.1 and up
@@ -19086,7 +19086,7 @@ function Invoke-ADCClearNspbr6 {
         Invoke-ADCClearNspbr6 
     .NOTES
         File Name : Invoke-ADCClearNspbr6
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ns/nspbr6/
         Requires  : PowerShell v5.1 and up
@@ -19138,7 +19138,7 @@ function Invoke-ADCApplyNspbr6 {
         Invoke-ADCApplyNspbr6 
     .NOTES
         File Name : Invoke-ADCApplyNspbr6
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ns/nspbr6/
         Requires  : PowerShell v5.1 and up
@@ -19209,7 +19209,7 @@ function Invoke-ADCGetNspbr6 {
         Invoke-ADCGetNspbr6 -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetNspbr6
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ns/nspbr6/
         Requires  : PowerShell v5.1 and up
@@ -19287,7 +19287,7 @@ function Invoke-ADCRenumberNspbrs {
         Invoke-ADCRenumberNspbrs 
     .NOTES
         File Name : Invoke-ADCRenumberNspbrs
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ns/nspbrs/
         Requires  : PowerShell v5.1 and up
@@ -19339,7 +19339,7 @@ function Invoke-ADCClearNspbrs {
         Invoke-ADCClearNspbrs 
     .NOTES
         File Name : Invoke-ADCClearNspbrs
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ns/nspbrs/
         Requires  : PowerShell v5.1 and up
@@ -19391,7 +19391,7 @@ function Invoke-ADCApplyNspbrs {
         Invoke-ADCApplyNspbrs 
     .NOTES
         File Name : Invoke-ADCApplyNspbrs
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ns/nspbrs/
         Requires  : PowerShell v5.1 and up
@@ -19453,7 +19453,7 @@ function Invoke-ADCUpdateNsratecontrol {
         Invoke-ADCUpdateNsratecontrol 
     .NOTES
         File Name : Invoke-ADCUpdateNsratecontrol
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ns/nsratecontrol/
         Requires  : PowerShell v5.1 and up
@@ -19526,7 +19526,7 @@ function Invoke-ADCUnsetNsratecontrol {
         Invoke-ADCUnsetNsratecontrol 
     .NOTES
         File Name : Invoke-ADCUnsetNsratecontrol
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ns/nsratecontrol
         Requires  : PowerShell v5.1 and up
@@ -19603,7 +19603,7 @@ function Invoke-ADCGetNsratecontrol {
         Invoke-ADCGetNsratecontrol -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetNsratecontrol
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ns/nsratecontrol/
         Requires  : PowerShell v5.1 and up
@@ -19689,7 +19689,7 @@ function Invoke-ADCGetNsrollbackcmd {
         Invoke-ADCGetNsrollbackcmd -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetNsrollbackcmd
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ns/nsrollbackcmd/
         Requires  : PowerShell v5.1 and up
@@ -19777,7 +19777,7 @@ function Invoke-ADCUpdateNsrpcnode {
         Invoke-ADCUpdateNsrpcnode -ipaddress <string>
     .NOTES
         File Name : Invoke-ADCUpdateNsrpcnode
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ns/nsrpcnode/
         Requires  : PowerShell v5.1 and up
@@ -19860,7 +19860,7 @@ function Invoke-ADCUnsetNsrpcnode {
         Invoke-ADCUnsetNsrpcnode -ipaddress <string>
     .NOTES
         File Name : Invoke-ADCUnsetNsrpcnode
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ns/nsrpcnode
         Requires  : PowerShell v5.1 and up
@@ -19942,7 +19942,7 @@ function Invoke-ADCGetNsrpcnode {
         Invoke-ADCGetNsrpcnode -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetNsrpcnode
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ns/nsrpcnode/
         Requires  : PowerShell v5.1 and up
@@ -20037,7 +20037,7 @@ function Invoke-ADCGetNsrunningconfig {
         Invoke-ADCGetNsrunningconfig -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetNsrunningconfig
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ns/nsrunningconfig/
         Requires  : PowerShell v5.1 and up
@@ -20122,7 +20122,7 @@ function Invoke-ADCGetNssavedconfig {
         Invoke-ADCGetNssavedconfig -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetNssavedconfig
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ns/nssavedconfig/
         Requires  : PowerShell v5.1 and up
@@ -20197,7 +20197,7 @@ function Invoke-ADCAddNsservicefunction {
         Invoke-ADCAddNsservicefunction -servicefunctionname <string> -ingressvlan <double>
     .NOTES
         File Name : Invoke-ADCAddNsservicefunction
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ns/nsservicefunction/
         Requires  : PowerShell v5.1 and up
@@ -20275,7 +20275,7 @@ function Invoke-ADCUpdateNsservicefunction {
         Invoke-ADCUpdateNsservicefunction -servicefunctionname <string>
     .NOTES
         File Name : Invoke-ADCUpdateNsservicefunction
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ns/nsservicefunction/
         Requires  : PowerShell v5.1 and up
@@ -20345,7 +20345,7 @@ function Invoke-ADCDeleteNsservicefunction {
         Invoke-ADCDeleteNsservicefunction -servicefunctionname <string>
     .NOTES
         File Name : Invoke-ADCDeleteNsservicefunction
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ns/nsservicefunction/
         Requires  : PowerShell v5.1 and up
@@ -20417,7 +20417,7 @@ function Invoke-ADCGetNsservicefunction {
         Invoke-ADCGetNsservicefunction -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetNsservicefunction
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ns/nsservicefunction/
         Requires  : PowerShell v5.1 and up
@@ -20502,7 +20502,7 @@ function Invoke-ADCAddNsservicepath {
         Invoke-ADCAddNsservicepath -servicepathname <string>
     .NOTES
         File Name : Invoke-ADCAddNsservicepath
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ns/nsservicepath/
         Requires  : PowerShell v5.1 and up
@@ -20571,7 +20571,7 @@ function Invoke-ADCDeleteNsservicepath {
         Invoke-ADCDeleteNsservicepath -servicepathname <string>
     .NOTES
         File Name : Invoke-ADCDeleteNsservicepath
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ns/nsservicepath/
         Requires  : PowerShell v5.1 and up
@@ -20645,7 +20645,7 @@ function Invoke-ADCGetNsservicepath {
         Invoke-ADCGetNsservicepath -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetNsservicepath
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ns/nsservicepath/
         Requires  : PowerShell v5.1 and up
@@ -20742,7 +20742,7 @@ function Invoke-ADCGetNsservicepathbinding {
         Invoke-ADCGetNsservicepathbinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetNsservicepathbinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ns/nsservicepath_binding/
         Requires  : PowerShell v5.1 and up
@@ -20825,7 +20825,7 @@ function Invoke-ADCAddNsservicepathnsservicefunctionbinding {
         Invoke-ADCAddNsservicepathnsservicefunctionbinding -servicepathname <string> -servicefunction <string> -index <double>
     .NOTES
         File Name : Invoke-ADCAddNsservicepathnsservicefunctionbinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ns/nsservicepath_nsservicefunction_binding/
         Requires  : PowerShell v5.1 and up
@@ -20904,7 +20904,7 @@ function Invoke-ADCDeleteNsservicepathnsservicefunctionbinding {
         Invoke-ADCDeleteNsservicepathnsservicefunctionbinding -servicepathname <string>
     .NOTES
         File Name : Invoke-ADCDeleteNsservicepathnsservicefunctionbinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ns/nsservicepath_nsservicefunction_binding/
         Requires  : PowerShell v5.1 and up
@@ -20978,7 +20978,7 @@ function Invoke-ADCGetNsservicepathnsservicefunctionbinding {
         Invoke-ADCGetNsservicepathnsservicefunctionbinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetNsservicepathnsservicefunctionbinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ns/nsservicepath_nsservicefunction_binding/
         Requires  : PowerShell v5.1 and up
@@ -21080,7 +21080,7 @@ function Invoke-ADCAddNssimpleacl {
         Invoke-ADCAddNssimpleacl -aclname <string> -aclaction <string> -srcip <string>
     .NOTES
         File Name : Invoke-ADCAddNssimpleacl
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ns/nssimpleacl/
         Requires  : PowerShell v5.1 and up
@@ -21169,7 +21169,7 @@ function Invoke-ADCClearNssimpleacl {
         Invoke-ADCClearNssimpleacl 
     .NOTES
         File Name : Invoke-ADCClearNssimpleacl
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ns/nssimpleacl/
         Requires  : PowerShell v5.1 and up
@@ -21224,7 +21224,7 @@ function Invoke-ADCDeleteNssimpleacl {
         Invoke-ADCDeleteNssimpleacl -aclname <string>
     .NOTES
         File Name : Invoke-ADCDeleteNssimpleacl
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ns/nssimpleacl/
         Requires  : PowerShell v5.1 and up
@@ -21279,7 +21279,7 @@ function Invoke-ADCFlushNssimpleacl {
         Invoke-ADCFlushNssimpleacl -estsessions <boolean>
     .NOTES
         File Name : Invoke-ADCFlushNssimpleacl
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ns/nssimpleacl/
         Requires  : PowerShell v5.1 and up
@@ -21353,7 +21353,7 @@ function Invoke-ADCGetNssimpleacl {
         Invoke-ADCGetNssimpleacl -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetNssimpleacl
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ns/nssimpleacl/
         Requires  : PowerShell v5.1 and up
@@ -21458,7 +21458,7 @@ function Invoke-ADCAddNssimpleacl6 {
         Invoke-ADCAddNssimpleacl6 -aclname <string> -aclaction <string> -srcipv6 <string>
     .NOTES
         File Name : Invoke-ADCAddNssimpleacl6
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ns/nssimpleacl6/
         Requires  : PowerShell v5.1 and up
@@ -21547,7 +21547,7 @@ function Invoke-ADCClearNssimpleacl6 {
         Invoke-ADCClearNssimpleacl6 
     .NOTES
         File Name : Invoke-ADCClearNssimpleacl6
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ns/nssimpleacl6/
         Requires  : PowerShell v5.1 and up
@@ -21601,7 +21601,7 @@ function Invoke-ADCFlushNssimpleacl6 {
         Invoke-ADCFlushNssimpleacl6 -estsessions <boolean>
     .NOTES
         File Name : Invoke-ADCFlushNssimpleacl6
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ns/nssimpleacl6/
         Requires  : PowerShell v5.1 and up
@@ -21659,7 +21659,7 @@ function Invoke-ADCDeleteNssimpleacl6 {
         Invoke-ADCDeleteNssimpleacl6 -aclname <string>
     .NOTES
         File Name : Invoke-ADCDeleteNssimpleacl6
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ns/nssimpleacl6/
         Requires  : PowerShell v5.1 and up
@@ -21731,7 +21731,7 @@ function Invoke-ADCGetNssimpleacl6 {
         Invoke-ADCGetNssimpleacl6 -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetNssimpleacl6
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ns/nssimpleacl6/
         Requires  : PowerShell v5.1 and up
@@ -21810,7 +21810,7 @@ function Invoke-ADCFlushNssourceroutecachetable {
         Invoke-ADCFlushNssourceroutecachetable 
     .NOTES
         File Name : Invoke-ADCFlushNssourceroutecachetable
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ns/nssourceroutecachetable/
         Requires  : PowerShell v5.1 and up
@@ -21879,7 +21879,7 @@ function Invoke-ADCGetNssourceroutecachetable {
         Invoke-ADCGetNssourceroutecachetable -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetNssourceroutecachetable
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ns/nssourceroutecachetable/
         Requires  : PowerShell v5.1 and up
@@ -21961,7 +21961,7 @@ function Invoke-ADCUpdateNsspparams {
         Invoke-ADCUpdateNsspparams 
     .NOTES
         File Name : Invoke-ADCUpdateNsspparams
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ns/nsspparams/
         Requires  : PowerShell v5.1 and up
@@ -22027,7 +22027,7 @@ function Invoke-ADCUnsetNsspparams {
         Invoke-ADCUnsetNsspparams 
     .NOTES
         File Name : Invoke-ADCUnsetNsspparams
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ns/nsspparams
         Requires  : PowerShell v5.1 and up
@@ -22098,7 +22098,7 @@ function Invoke-ADCGetNsspparams {
         Invoke-ADCGetNsspparams -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetNsspparams
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ns/nsspparams/
         Requires  : PowerShell v5.1 and up
@@ -22167,7 +22167,7 @@ function Invoke-ADCClearNsstats {
         Invoke-ADCClearNsstats -cleanuplevel <string>
     .NOTES
         File Name : Invoke-ADCClearNsstats
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ns/nsstats/
         Requires  : PowerShell v5.1 and up
@@ -22230,7 +22230,7 @@ function Invoke-ADCFlushNssurgeq {
         Invoke-ADCFlushNssurgeq 
     .NOTES
         File Name : Invoke-ADCFlushNssurgeq
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ns/nssurgeq/
         Requires  : PowerShell v5.1 and up
@@ -22299,7 +22299,7 @@ function Invoke-ADCUpdateNstcpbufparam {
         Invoke-ADCUpdateNstcpbufparam 
     .NOTES
         File Name : Invoke-ADCUpdateNstcpbufparam
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ns/nstcpbufparam/
         Requires  : PowerShell v5.1 and up
@@ -22363,7 +22363,7 @@ function Invoke-ADCUnsetNstcpbufparam {
         Invoke-ADCUnsetNstcpbufparam 
     .NOTES
         File Name : Invoke-ADCUnsetNstcpbufparam
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ns/nstcpbufparam
         Requires  : PowerShell v5.1 and up
@@ -22434,7 +22434,7 @@ function Invoke-ADCGetNstcpbufparam {
         Invoke-ADCGetNstcpbufparam -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetNstcpbufparam
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ns/nstcpbufparam/
         Requires  : PowerShell v5.1 and up
@@ -22706,7 +22706,7 @@ function Invoke-ADCUpdateNstcpparam {
         Invoke-ADCUpdateNstcpparam 
     .NOTES
         File Name : Invoke-ADCUpdateNstcpparam
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ns/nstcpparam/
         Requires  : PowerShell v5.1 and up
@@ -23041,7 +23041,7 @@ function Invoke-ADCUnsetNstcpparam {
         Invoke-ADCUnsetNstcpparam 
     .NOTES
         File Name : Invoke-ADCUnsetNstcpparam
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ns/nstcpparam
         Requires  : PowerShell v5.1 and up
@@ -23238,7 +23238,7 @@ function Invoke-ADCGetNstcpparam {
         Invoke-ADCGetNstcpparam -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetNstcpparam
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ns/nstcpparam/
         Requires  : PowerShell v5.1 and up
@@ -23545,7 +23545,7 @@ function Invoke-ADCAddNstcpprofile {
         Invoke-ADCAddNstcpprofile -name <string>
     .NOTES
         File Name : Invoke-ADCAddNstcpprofile
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ns/nstcpprofile/
         Requires  : PowerShell v5.1 and up
@@ -23829,7 +23829,7 @@ function Invoke-ADCDeleteNstcpprofile {
         Invoke-ADCDeleteNstcpprofile -name <string>
     .NOTES
         File Name : Invoke-ADCDeleteNstcpprofile
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ns/nstcpprofile/
         Requires  : PowerShell v5.1 and up
@@ -24123,7 +24123,7 @@ function Invoke-ADCUpdateNstcpprofile {
         Invoke-ADCUpdateNstcpprofile -name <string>
     .NOTES
         File Name : Invoke-ADCUpdateNstcpprofile
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ns/nstcpprofile/
         Requires  : PowerShell v5.1 and up
@@ -24547,7 +24547,7 @@ function Invoke-ADCUnsetNstcpprofile {
         Invoke-ADCUnsetNstcpprofile -name <string>
     .NOTES
         File Name : Invoke-ADCUnsetNstcpprofile
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ns/nstcpprofile
         Requires  : PowerShell v5.1 and up
@@ -24783,7 +24783,7 @@ function Invoke-ADCGetNstcpprofile {
         Invoke-ADCGetNstcpprofile -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetNstcpprofile
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ns/nstcpprofile/
         Requires  : PowerShell v5.1 and up
@@ -24941,7 +24941,7 @@ function Invoke-ADCUpdateNstimeout {
         Invoke-ADCUpdateNstimeout 
     .NOTES
         File Name : Invoke-ADCUpdateNstimeout
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ns/nstimeout/
         Requires  : PowerShell v5.1 and up
@@ -25090,7 +25090,7 @@ function Invoke-ADCUnsetNstimeout {
         Invoke-ADCUnsetNstimeout 
     .NOTES
         File Name : Invoke-ADCUnsetNstimeout
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ns/nstimeout
         Requires  : PowerShell v5.1 and up
@@ -25203,7 +25203,7 @@ function Invoke-ADCGetNstimeout {
         Invoke-ADCGetNstimeout -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetNstimeout
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ns/nstimeout/
         Requires  : PowerShell v5.1 and up
@@ -25285,7 +25285,7 @@ function Invoke-ADCAddNstimer {
         Invoke-ADCAddNstimer -name <string> -interval <int>
     .NOTES
         File Name : Invoke-ADCAddNstimer
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ns/nstimer/
         Requires  : PowerShell v5.1 and up
@@ -25363,7 +25363,7 @@ function Invoke-ADCDeleteNstimer {
         Invoke-ADCDeleteNstimer -name <string>
     .NOTES
         File Name : Invoke-ADCDeleteNstimer
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ns/nstimer/
         Requires  : PowerShell v5.1 and up
@@ -25432,7 +25432,7 @@ function Invoke-ADCUpdateNstimer {
         Invoke-ADCUpdateNstimer -name <string>
     .NOTES
         File Name : Invoke-ADCUpdateNstimer
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ns/nstimer/
         Requires  : PowerShell v5.1 and up
@@ -25515,7 +25515,7 @@ function Invoke-ADCUnsetNstimer {
         Invoke-ADCUnsetNstimer -name <string>
     .NOTES
         File Name : Invoke-ADCUnsetNstimer
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ns/nstimer
         Requires  : PowerShell v5.1 and up
@@ -25586,7 +25586,7 @@ function Invoke-ADCRenameNstimer {
         Invoke-ADCRenameNstimer -name <string> -newname <string>
     .NOTES
         File Name : Invoke-ADCRenameNstimer
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ns/nstimer/
         Requires  : PowerShell v5.1 and up
@@ -25674,7 +25674,7 @@ function Invoke-ADCGetNstimer {
         Invoke-ADCGetNstimer -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetNstimer
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ns/nstimer/
         Requires  : PowerShell v5.1 and up
@@ -25775,7 +25775,7 @@ function Invoke-ADCAddNstimerautoscalepolicybinding {
         Invoke-ADCAddNstimerautoscalepolicybinding -name <string> -policyname <string> -priority <double>
     .NOTES
         File Name : Invoke-ADCAddNstimerautoscalepolicybinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ns/nstimer_autoscalepolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -25864,7 +25864,7 @@ function Invoke-ADCDeleteNstimerautoscalepolicybinding {
         Invoke-ADCDeleteNstimerautoscalepolicybinding -name <string>
     .NOTES
         File Name : Invoke-ADCDeleteNstimerautoscalepolicybinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ns/nstimer_autoscalepolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -25938,7 +25938,7 @@ function Invoke-ADCGetNstimerautoscalepolicybinding {
         Invoke-ADCGetNstimerautoscalepolicybinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetNstimerautoscalepolicybinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ns/nstimer_autoscalepolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -26030,7 +26030,7 @@ function Invoke-ADCGetNstimerbinding {
         Invoke-ADCGetNstimerbinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetNstimerbinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ns/nstimer_binding/
         Requires  : PowerShell v5.1 and up
@@ -26121,7 +26121,7 @@ function Invoke-ADCGetNstimezone {
         Invoke-ADCGetNstimezone -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetNstimezone
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ns/nstimezone/
         Requires  : PowerShell v5.1 and up
@@ -26212,7 +26212,7 @@ function Invoke-ADCAddNstrafficdomain {
         Invoke-ADCAddNstrafficdomain -td <double>
     .NOTES
         File Name : Invoke-ADCAddNstrafficdomain
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ns/nstrafficdomain/
         Requires  : PowerShell v5.1 and up
@@ -26287,7 +26287,7 @@ function Invoke-ADCDeleteNstrafficdomain {
         Invoke-ADCDeleteNstrafficdomain -td <double>
     .NOTES
         File Name : Invoke-ADCDeleteNstrafficdomain
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ns/nstrafficdomain/
         Requires  : PowerShell v5.1 and up
@@ -26342,7 +26342,7 @@ function Invoke-ADCClearNstrafficdomain {
         Invoke-ADCClearNstrafficdomain -td <double>
     .NOTES
         File Name : Invoke-ADCClearNstrafficdomain
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ns/nstrafficdomain/
         Requires  : PowerShell v5.1 and up
@@ -26400,7 +26400,7 @@ function Invoke-ADCEnableNstrafficdomain {
         Invoke-ADCEnableNstrafficdomain -td <double>
     .NOTES
         File Name : Invoke-ADCEnableNstrafficdomain
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ns/nstrafficdomain/
         Requires  : PowerShell v5.1 and up
@@ -26458,7 +26458,7 @@ function Invoke-ADCDisableNstrafficdomain {
         Invoke-ADCDisableNstrafficdomain -td <double>
     .NOTES
         File Name : Invoke-ADCDisableNstrafficdomain
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ns/nstrafficdomain/
         Requires  : PowerShell v5.1 and up
@@ -26533,7 +26533,7 @@ function Invoke-ADCGetNstrafficdomain {
         Invoke-ADCGetNstrafficdomain -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetNstrafficdomain
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ns/nstrafficdomain/
         Requires  : PowerShell v5.1 and up
@@ -26628,7 +26628,7 @@ function Invoke-ADCGetNstrafficdomainbinding {
         Invoke-ADCGetNstrafficdomainbinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetNstrafficdomainbinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ns/nstrafficdomain_binding/
         Requires  : PowerShell v5.1 and up
@@ -26710,7 +26710,7 @@ function Invoke-ADCAddNstrafficdomainbridgegroupbinding {
         Invoke-ADCAddNstrafficdomainbridgegroupbinding -td <double>
     .NOTES
         File Name : Invoke-ADCAddNstrafficdomainbridgegroupbinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ns/nstrafficdomain_bridgegroup_binding/
         Requires  : PowerShell v5.1 and up
@@ -26784,7 +26784,7 @@ function Invoke-ADCDeleteNstrafficdomainbridgegroupbinding {
         Invoke-ADCDeleteNstrafficdomainbridgegroupbinding -td <double>
     .NOTES
         File Name : Invoke-ADCDeleteNstrafficdomainbridgegroupbinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ns/nstrafficdomain_bridgegroup_binding/
         Requires  : PowerShell v5.1 and up
@@ -26858,7 +26858,7 @@ function Invoke-ADCGetNstrafficdomainbridgegroupbinding {
         Invoke-ADCGetNstrafficdomainbridgegroupbinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetNstrafficdomainbridgegroupbinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ns/nstrafficdomain_bridgegroup_binding/
         Requires  : PowerShell v5.1 and up
@@ -26943,7 +26943,7 @@ function Invoke-ADCAddNstrafficdomainvlanbinding {
         Invoke-ADCAddNstrafficdomainvlanbinding -td <double>
     .NOTES
         File Name : Invoke-ADCAddNstrafficdomainvlanbinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ns/nstrafficdomain_vlan_binding/
         Requires  : PowerShell v5.1 and up
@@ -27017,7 +27017,7 @@ function Invoke-ADCDeleteNstrafficdomainvlanbinding {
         Invoke-ADCDeleteNstrafficdomainvlanbinding -td <double>
     .NOTES
         File Name : Invoke-ADCDeleteNstrafficdomainvlanbinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ns/nstrafficdomain_vlan_binding/
         Requires  : PowerShell v5.1 and up
@@ -27091,7 +27091,7 @@ function Invoke-ADCGetNstrafficdomainvlanbinding {
         Invoke-ADCGetNstrafficdomainvlanbinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetNstrafficdomainvlanbinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ns/nstrafficdomain_vlan_binding/
         Requires  : PowerShell v5.1 and up
@@ -27176,7 +27176,7 @@ function Invoke-ADCAddNstrafficdomainvxlanbinding {
         Invoke-ADCAddNstrafficdomainvxlanbinding -td <double>
     .NOTES
         File Name : Invoke-ADCAddNstrafficdomainvxlanbinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ns/nstrafficdomain_vxlan_binding/
         Requires  : PowerShell v5.1 and up
@@ -27250,7 +27250,7 @@ function Invoke-ADCDeleteNstrafficdomainvxlanbinding {
         Invoke-ADCDeleteNstrafficdomainvxlanbinding -td <double>
     .NOTES
         File Name : Invoke-ADCDeleteNstrafficdomainvxlanbinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ns/nstrafficdomain_vxlan_binding/
         Requires  : PowerShell v5.1 and up
@@ -27324,7 +27324,7 @@ function Invoke-ADCGetNstrafficdomainvxlanbinding {
         Invoke-ADCGetNstrafficdomainvxlanbinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetNstrafficdomainvxlanbinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ns/nstrafficdomain_vxlan_binding/
         Requires  : PowerShell v5.1 and up
@@ -27461,7 +27461,7 @@ function Invoke-ADCAddNsvariable {
         Invoke-ADCAddNsvariable -name <string> -type <string>
     .NOTES
         File Name : Invoke-ADCAddNsvariable
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ns/nsvariable/
         Requires  : PowerShell v5.1 and up
@@ -27611,7 +27611,7 @@ function Invoke-ADCUpdateNsvariable {
         Invoke-ADCUpdateNsvariable -name <string>
     .NOTES
         File Name : Invoke-ADCUpdateNsvariable
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ns/nsvariable/
         Requires  : PowerShell v5.1 and up
@@ -27731,7 +27731,7 @@ function Invoke-ADCUnsetNsvariable {
         Invoke-ADCUnsetNsvariable -name <string>
     .NOTES
         File Name : Invoke-ADCUnsetNsvariable
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ns/nsvariable
         Requires  : PowerShell v5.1 and up
@@ -27811,7 +27811,7 @@ function Invoke-ADCDeleteNsvariable {
         Invoke-ADCDeleteNsvariable -name <string>
     .NOTES
         File Name : Invoke-ADCDeleteNsvariable
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ns/nsvariable/
         Requires  : PowerShell v5.1 and up
@@ -27888,7 +27888,7 @@ function Invoke-ADCGetNsvariable {
         Invoke-ADCGetNsvariable -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetNsvariable
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ns/nsvariable/
         Requires  : PowerShell v5.1 and up
@@ -27983,7 +27983,7 @@ function Invoke-ADCGetNsversion {
         Invoke-ADCGetNsversion -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetNsversion
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ns/nsversion/
         Requires  : PowerShell v5.1 and up
@@ -28077,7 +28077,7 @@ function Invoke-ADCUpdateNsvpxparam {
         Invoke-ADCUpdateNsvpxparam 
     .NOTES
         File Name : Invoke-ADCUpdateNsvpxparam
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ns/nsvpxparam/
         Requires  : PowerShell v5.1 and up
@@ -28162,7 +28162,7 @@ function Invoke-ADCUnsetNsvpxparam {
         Invoke-ADCUnsetNsvpxparam 
     .NOTES
         File Name : Invoke-ADCUnsetNsvpxparam
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ns/nsvpxparam
         Requires  : PowerShell v5.1 and up
@@ -28238,7 +28238,7 @@ function Invoke-ADCGetNsvpxparam {
         Invoke-ADCGetNsvpxparam -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetNsvpxparam
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ns/nsvpxparam/
         Requires  : PowerShell v5.1 and up
@@ -28322,7 +28322,7 @@ function Invoke-ADCUpdateNsweblogparam {
         Invoke-ADCUpdateNsweblogparam 
     .NOTES
         File Name : Invoke-ADCUpdateNsweblogparam
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ns/nsweblogparam/
         Requires  : PowerShell v5.1 and up
@@ -28393,7 +28393,7 @@ function Invoke-ADCUnsetNsweblogparam {
         Invoke-ADCUnsetNsweblogparam 
     .NOTES
         File Name : Invoke-ADCUnsetNsweblogparam
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ns/nsweblogparam
         Requires  : PowerShell v5.1 and up
@@ -28467,7 +28467,7 @@ function Invoke-ADCGetNsweblogparam {
         Invoke-ADCGetNsweblogparam -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetNsweblogparam
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ns/nsweblogparam/
         Requires  : PowerShell v5.1 and up
@@ -28544,7 +28544,7 @@ function Invoke-ADCAddNsxmlnamespace {
         Invoke-ADCAddNsxmlnamespace -prefix <string> -Namespace <string>
     .NOTES
         File Name : Invoke-ADCAddNsxmlnamespace
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ns/nsxmlnamespace/
         Requires  : PowerShell v5.1 and up
@@ -28619,7 +28619,7 @@ function Invoke-ADCDeleteNsxmlnamespace {
         Invoke-ADCDeleteNsxmlnamespace -prefix <string>
     .NOTES
         File Name : Invoke-ADCDeleteNsxmlnamespace
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ns/nsxmlnamespace/
         Requires  : PowerShell v5.1 and up
@@ -28683,7 +28683,7 @@ function Invoke-ADCUpdateNsxmlnamespace {
         Invoke-ADCUpdateNsxmlnamespace -prefix <string>
     .NOTES
         File Name : Invoke-ADCUpdateNsxmlnamespace
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ns/nsxmlnamespace/
         Requires  : PowerShell v5.1 and up
@@ -28760,7 +28760,7 @@ function Invoke-ADCUnsetNsxmlnamespace {
         Invoke-ADCUnsetNsxmlnamespace -prefix <string>
     .NOTES
         File Name : Invoke-ADCUnsetNsxmlnamespace
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ns/nsxmlnamespace
         Requires  : PowerShell v5.1 and up
@@ -28839,7 +28839,7 @@ function Invoke-ADCGetNsxmlnamespace {
         Invoke-ADCGetNsxmlnamespace -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetNsxmlnamespace
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ns/nsxmlnamespace/
         Requires  : PowerShell v5.1 and up
@@ -28920,7 +28920,7 @@ function Invoke-ADCReboot {
         Invoke-ADCReboot 
     .NOTES
         File Name : Invoke-ADCReboot
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ns/reboot/
         Requires  : PowerShell v5.1 and up
@@ -28974,7 +28974,7 @@ function Invoke-ADCShutdown {
         Invoke-ADCShutdown 
     .NOTES
         File Name : Invoke-ADCShutdown
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ns/shutdown/
         Requires  : PowerShell v5.1 and up

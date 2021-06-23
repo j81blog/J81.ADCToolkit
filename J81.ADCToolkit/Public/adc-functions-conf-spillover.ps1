@@ -15,7 +15,7 @@ function Invoke-ADCAddSpilloveraction {
         Invoke-ADCAddSpilloveraction -name <string> -action <string>
     .NOTES
         File Name : Invoke-ADCAddSpilloveraction
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/spillover/spilloveraction/
         Requires  : PowerShell v5.1 and up
@@ -85,7 +85,7 @@ function Invoke-ADCDeleteSpilloveraction {
         Invoke-ADCDeleteSpilloveraction -name <string>
     .NOTES
         File Name : Invoke-ADCDeleteSpilloveraction
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/spillover/spilloveraction/
         Requires  : PowerShell v5.1 and up
@@ -146,7 +146,7 @@ function Invoke-ADCRenameSpilloveraction {
         Invoke-ADCRenameSpilloveraction -name <string> -newname <string>
     .NOTES
         File Name : Invoke-ADCRenameSpilloveraction
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/spillover/spilloveraction/
         Requires  : PowerShell v5.1 and up
@@ -233,7 +233,7 @@ function Invoke-ADCGetSpilloveraction {
         Invoke-ADCGetSpilloveraction -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetSpilloveraction
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/spillover/spilloveraction/
         Requires  : PowerShell v5.1 and up
@@ -320,7 +320,7 @@ function Invoke-ADCAddSpilloverpolicy {
         Invoke-ADCAddSpilloverpolicy -name <string> -rule <string> -action <string>
     .NOTES
         File Name : Invoke-ADCAddSpilloverpolicy
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/spillover/spilloverpolicy/
         Requires  : PowerShell v5.1 and up
@@ -395,7 +395,7 @@ function Invoke-ADCDeleteSpilloverpolicy {
         Invoke-ADCDeleteSpilloverpolicy -name <string>
     .NOTES
         File Name : Invoke-ADCDeleteSpilloverpolicy
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/spillover/spilloverpolicy/
         Requires  : PowerShell v5.1 and up
@@ -458,7 +458,7 @@ function Invoke-ADCUpdateSpilloverpolicy {
         Invoke-ADCUpdateSpilloverpolicy -name <string>
     .NOTES
         File Name : Invoke-ADCUpdateSpilloverpolicy
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/spillover/spilloverpolicy/
         Requires  : PowerShell v5.1 and up
@@ -533,7 +533,7 @@ function Invoke-ADCUnsetSpilloverpolicy {
         Invoke-ADCUnsetSpilloverpolicy -name <string>
     .NOTES
         File Name : Invoke-ADCUnsetSpilloverpolicy
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/spillover/spilloverpolicy
         Requires  : PowerShell v5.1 and up
@@ -596,7 +596,7 @@ function Invoke-ADCRenameSpilloverpolicy {
         Invoke-ADCRenameSpilloverpolicy -name <string> -newname <string>
     .NOTES
         File Name : Invoke-ADCRenameSpilloverpolicy
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/spillover/spilloverpolicy/
         Requires  : PowerShell v5.1 and up
@@ -684,7 +684,7 @@ function Invoke-ADCGetSpilloverpolicy {
         Invoke-ADCGetSpilloverpolicy -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetSpilloverpolicy
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/spillover/spilloverpolicy/
         Requires  : PowerShell v5.1 and up
@@ -778,7 +778,7 @@ function Invoke-ADCGetSpilloverpolicybinding {
         Invoke-ADCGetSpilloverpolicybinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetSpilloverpolicybinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/spillover/spilloverpolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -868,7 +868,7 @@ function Invoke-ADCGetSpilloverpolicycsvserverbinding {
         Invoke-ADCGetSpilloverpolicycsvserverbinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetSpilloverpolicycsvserverbinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/spillover/spilloverpolicy_csvserver_binding/
         Requires  : PowerShell v5.1 and up
@@ -961,7 +961,7 @@ function Invoke-ADCGetSpilloverpolicygslbvserverbinding {
         Invoke-ADCGetSpilloverpolicygslbvserverbinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetSpilloverpolicygslbvserverbinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/spillover/spilloverpolicy_gslbvserver_binding/
         Requires  : PowerShell v5.1 and up
@@ -1054,7 +1054,7 @@ function Invoke-ADCGetSpilloverpolicylbvserverbinding {
         Invoke-ADCGetSpilloverpolicylbvserverbinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetSpilloverpolicylbvserverbinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/spillover/spilloverpolicy_lbvserver_binding/
         Requires  : PowerShell v5.1 and up

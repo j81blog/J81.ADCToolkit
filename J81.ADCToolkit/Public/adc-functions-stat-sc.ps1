@@ -26,7 +26,7 @@ function Invoke-ADCGetScStats {
         Invoke-ADCGetScStats -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetScStats
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/statistics/sc/sc/
         Requires  : PowerShell v5.1 and up
@@ -118,7 +118,7 @@ function Invoke-ADCGetScpolicyStats {
         Invoke-ADCGetScpolicyStats -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetScpolicyStats
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/statistics/sc/scpolicy/
         Requires  : PowerShell v5.1 and up

@@ -25,7 +25,7 @@ function Invoke-ADCGetStreamidentifierStats {
         Invoke-ADCGetStreamidentifierStats -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetStreamidentifierStats
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/statistics/stream/streamidentifier/
         Requires  : PowerShell v5.1 and up

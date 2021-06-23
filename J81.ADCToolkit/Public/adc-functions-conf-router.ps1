@@ -10,7 +10,7 @@ function Invoke-ADCAddRouterdynamicrouting {
         Invoke-ADCAddRouterdynamicrouting 
     .NOTES
         File Name : Invoke-ADCAddRouterdynamicrouting
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/router/routerdynamicrouting/
         Requires  : PowerShell v5.1 and up
@@ -68,7 +68,7 @@ function Invoke-ADCDeleteRouterdynamicrouting {
         Invoke-ADCDeleteRouterdynamicrouting 
     .NOTES
         File Name : Invoke-ADCDeleteRouterdynamicrouting
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/router/routerdynamicrouting/
         Requires  : PowerShell v5.1 and up
@@ -122,7 +122,7 @@ function Invoke-ADCUpdateRouterdynamicrouting {
         Invoke-ADCUpdateRouterdynamicrouting 
     .NOTES
         File Name : Invoke-ADCUpdateRouterdynamicrouting
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/router/routerdynamicrouting/
         Requires  : PowerShell v5.1 and up
@@ -180,7 +180,7 @@ function Invoke-ADCUnsetRouterdynamicrouting {
         Invoke-ADCUnsetRouterdynamicrouting 
     .NOTES
         File Name : Invoke-ADCUnsetRouterdynamicrouting
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/router/routerdynamicrouting
         Requires  : PowerShell v5.1 and up
@@ -235,7 +235,7 @@ function Invoke-ADCApplyRouterdynamicrouting {
         Invoke-ADCApplyRouterdynamicrouting 
     .NOTES
         File Name : Invoke-ADCApplyRouterdynamicrouting
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/router/routerdynamicrouting/
         Requires  : PowerShell v5.1 and up
@@ -310,7 +310,7 @@ function Invoke-ADCGetRouterdynamicrouting {
         Invoke-ADCGetRouterdynamicrouting -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetRouterdynamicrouting
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/router/routerdynamicrouting/
         Requires  : PowerShell v5.1 and up

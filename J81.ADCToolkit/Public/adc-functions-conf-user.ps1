@@ -20,7 +20,7 @@ function Invoke-ADCAddUserprotocol {
         Invoke-ADCAddUserprotocol -name <string> -transport <string> -extension <string>
     .NOTES
         File Name : Invoke-ADCAddUserprotocol
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/user/userprotocol/
         Requires  : PowerShell v5.1 and up
@@ -99,7 +99,7 @@ function Invoke-ADCDeleteUserprotocol {
         Invoke-ADCDeleteUserprotocol -name <string>
     .NOTES
         File Name : Invoke-ADCDeleteUserprotocol
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/user/userprotocol/
         Requires  : PowerShell v5.1 and up
@@ -159,7 +159,7 @@ function Invoke-ADCUpdateUserprotocol {
         Invoke-ADCUpdateUserprotocol -name <string>
     .NOTES
         File Name : Invoke-ADCUpdateUserprotocol
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/user/userprotocol/
         Requires  : PowerShell v5.1 and up
@@ -230,7 +230,7 @@ function Invoke-ADCUnsetUserprotocol {
         Invoke-ADCUnsetUserprotocol -name <string>
     .NOTES
         File Name : Invoke-ADCUnsetUserprotocol
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/user/userprotocol
         Requires  : PowerShell v5.1 and up
@@ -307,7 +307,7 @@ function Invoke-ADCGetUserprotocol {
         Invoke-ADCGetUserprotocol -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetUserprotocol
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/user/userprotocol/
         Requires  : PowerShell v5.1 and up
@@ -410,7 +410,7 @@ function Invoke-ADCAddUservserver {
         Invoke-ADCAddUservserver -name <string> -userprotocol <string> -ipaddress <string> -port <int> -defaultlb <string>
     .NOTES
         File Name : Invoke-ADCAddUservserver
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/user/uservserver/
         Requires  : PowerShell v5.1 and up
@@ -505,7 +505,7 @@ function Invoke-ADCDeleteUservserver {
         Invoke-ADCDeleteUservserver -name <string>
     .NOTES
         File Name : Invoke-ADCDeleteUservserver
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/user/uservserver/
         Requires  : PowerShell v5.1 and up
@@ -572,7 +572,7 @@ function Invoke-ADCUpdateUservserver {
         Invoke-ADCUpdateUservserver -name <string>
     .NOTES
         File Name : Invoke-ADCUpdateUservserver
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/user/uservserver/
         Requires  : PowerShell v5.1 and up
@@ -655,7 +655,7 @@ function Invoke-ADCUnsetUservserver {
         Invoke-ADCUnsetUservserver -name <string>
     .NOTES
         File Name : Invoke-ADCUnsetUservserver
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/user/uservserver
         Requires  : PowerShell v5.1 and up
@@ -719,7 +719,7 @@ function Invoke-ADCEnableUservserver {
         Invoke-ADCEnableUservserver -name <string>
     .NOTES
         File Name : Invoke-ADCEnableUservserver
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/user/uservserver/
         Requires  : PowerShell v5.1 and up
@@ -779,7 +779,7 @@ function Invoke-ADCDisableUservserver {
         Invoke-ADCDisableUservserver -name <string>
     .NOTES
         File Name : Invoke-ADCDisableUservserver
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/user/uservserver/
         Requires  : PowerShell v5.1 and up
@@ -856,7 +856,7 @@ function Invoke-ADCGetUservserver {
         Invoke-ADCGetUservserver -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetUservserver
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/user/uservserver/
         Requires  : PowerShell v5.1 and up

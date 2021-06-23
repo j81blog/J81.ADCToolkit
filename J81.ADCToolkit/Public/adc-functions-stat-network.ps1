@@ -26,7 +26,7 @@ function Invoke-ADCGetBridgeStats {
         Invoke-ADCGetBridgeStats -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetBridgeStats
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/statistics/network/bridge/
         Requires  : PowerShell v5.1 and up
@@ -118,7 +118,7 @@ function Invoke-ADCGetInatStats {
         Invoke-ADCGetInatStats -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetInatStats
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/statistics/network/inat/
         Requires  : PowerShell v5.1 and up
@@ -205,7 +205,7 @@ function Invoke-ADCGetInatsessionStats {
         Invoke-ADCGetInatsessionStats -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetInatsessionStats
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/statistics/network/inatsession/
         Requires  : PowerShell v5.1 and up
@@ -298,7 +298,7 @@ function Invoke-ADCGetInterfaceStats {
         Invoke-ADCGetInterfaceStats -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetInterfaceStats
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/statistics/network/Interface/
         Requires  : PowerShell v5.1 and up
@@ -384,7 +384,7 @@ function Invoke-ADCGetMapbmrStats {
         Invoke-ADCGetMapbmrStats -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetMapbmrStats
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/statistics/network/mapbmr/
         Requires  : PowerShell v5.1 and up
@@ -471,7 +471,7 @@ function Invoke-ADCGetMapdomainStats {
         Invoke-ADCGetMapdomainStats -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetMapdomainStats
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/statistics/network/mapdomain/
         Requires  : PowerShell v5.1 and up
@@ -559,7 +559,7 @@ function Invoke-ADCGetNat64Stats {
         Invoke-ADCGetNat64Stats -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetNat64Stats
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/statistics/network/nat64/
         Requires  : PowerShell v5.1 and up
@@ -652,7 +652,7 @@ function Invoke-ADCGetRnatStats {
         Invoke-ADCGetRnatStats -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetRnatStats
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/statistics/network/rnat/
         Requires  : PowerShell v5.1 and up
@@ -745,7 +745,7 @@ function Invoke-ADCGetRnat6Stats {
         Invoke-ADCGetRnat6Stats -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetRnat6Stats
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/statistics/network/rnat6/
         Requires  : PowerShell v5.1 and up
@@ -837,7 +837,7 @@ function Invoke-ADCGetRnatipStats {
         Invoke-ADCGetRnatipStats -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetRnatipStats
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/statistics/network/rnatip/
         Requires  : PowerShell v5.1 and up
@@ -924,7 +924,7 @@ function Invoke-ADCGetTunnelipStats {
         Invoke-ADCGetTunnelipStats -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetTunnelipStats
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/statistics/network/tunnelip/
         Requires  : PowerShell v5.1 and up
@@ -1011,7 +1011,7 @@ function Invoke-ADCGetTunnelip6Stats {
         Invoke-ADCGetTunnelip6Stats -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetTunnelip6Stats
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/statistics/network/tunnelip6/
         Requires  : PowerShell v5.1 and up
@@ -1098,7 +1098,7 @@ function Invoke-ADCGetVlanStats {
         Invoke-ADCGetVlanStats -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetVlanStats
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/statistics/network/vlan/
         Requires  : PowerShell v5.1 and up
@@ -1185,7 +1185,7 @@ function Invoke-ADCGetVxlanStats {
         Invoke-ADCGetVxlanStats -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetVxlanStats
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/statistics/network/vxlan/
         Requires  : PowerShell v5.1 and up

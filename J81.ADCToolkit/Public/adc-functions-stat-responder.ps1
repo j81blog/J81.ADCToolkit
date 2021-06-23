@@ -25,7 +25,7 @@ function Invoke-ADCGetResponderpolicyStats {
         Invoke-ADCGetResponderpolicyStats -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetResponderpolicyStats
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/statistics/responder/responderpolicy/
         Requires  : PowerShell v5.1 and up
@@ -112,7 +112,7 @@ function Invoke-ADCGetResponderpolicylabelStats {
         Invoke-ADCGetResponderpolicylabelStats -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetResponderpolicylabelStats
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/statistics/responder/responderpolicylabel/
         Requires  : PowerShell v5.1 and up

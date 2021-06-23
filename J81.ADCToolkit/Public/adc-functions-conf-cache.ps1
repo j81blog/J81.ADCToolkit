@@ -156,7 +156,7 @@ function Invoke-ADCAddCachecontentgroup {
         Invoke-ADCAddCachecontentgroup -name <string>
     .NOTES
         File Name : Invoke-ADCAddCachecontentgroup
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/cache/cachecontentgroup/
         Requires  : PowerShell v5.1 and up
@@ -369,7 +369,7 @@ function Invoke-ADCDeleteCachecontentgroup {
         Invoke-ADCDeleteCachecontentgroup -name <string>
     .NOTES
         File Name : Invoke-ADCDeleteCachecontentgroup
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/cache/cachecontentgroup/
         Requires  : PowerShell v5.1 and up
@@ -566,7 +566,7 @@ function Invoke-ADCUpdateCachecontentgroup {
         Invoke-ADCUpdateCachecontentgroup -name <string>
     .NOTES
         File Name : Invoke-ADCUpdateCachecontentgroup
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/cache/cachecontentgroup/
         Requires  : PowerShell v5.1 and up
@@ -870,7 +870,7 @@ function Invoke-ADCUnsetCachecontentgroup {
         Invoke-ADCUnsetCachecontentgroup -name <string>
     .NOTES
         File Name : Invoke-ADCUnsetCachecontentgroup
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/cache/cachecontentgroup
         Requires  : PowerShell v5.1 and up
@@ -1038,7 +1038,7 @@ function Invoke-ADCExpireCachecontentgroup {
         Invoke-ADCExpireCachecontentgroup -name <string>
     .NOTES
         File Name : Invoke-ADCExpireCachecontentgroup
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/cache/cachecontentgroup/
         Requires  : PowerShell v5.1 and up
@@ -1104,7 +1104,7 @@ function Invoke-ADCFlushCachecontentgroup {
         Invoke-ADCFlushCachecontentgroup -name <string>
     .NOTES
         File Name : Invoke-ADCFlushCachecontentgroup
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/cache/cachecontentgroup/
         Requires  : PowerShell v5.1 and up
@@ -1177,7 +1177,7 @@ function Invoke-ADCSaveCachecontentgroup {
         Invoke-ADCSaveCachecontentgroup -name <string>
     .NOTES
         File Name : Invoke-ADCSaveCachecontentgroup
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/cache/cachecontentgroup/
         Requires  : PowerShell v5.1 and up
@@ -1256,7 +1256,7 @@ function Invoke-ADCGetCachecontentgroup {
         Invoke-ADCGetCachecontentgroup -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetCachecontentgroup
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/cache/cachecontentgroup/
         Requires  : PowerShell v5.1 and up
@@ -1343,7 +1343,7 @@ function Invoke-ADCAddCacheforwardproxy {
         Invoke-ADCAddCacheforwardproxy -ipaddress <string> -port <int>
     .NOTES
         File Name : Invoke-ADCAddCacheforwardproxy
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/cache/cacheforwardproxy/
         Requires  : PowerShell v5.1 and up
@@ -1413,7 +1413,7 @@ function Invoke-ADCDeleteCacheforwardproxy {
         Invoke-ADCDeleteCacheforwardproxy -ipaddress <string>
     .NOTES
         File Name : Invoke-ADCDeleteCacheforwardproxy
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/cache/cacheforwardproxy/
         Requires  : PowerShell v5.1 and up
@@ -1485,7 +1485,7 @@ function Invoke-ADCGetCacheforwardproxy {
         Invoke-ADCGetCacheforwardproxy -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetCacheforwardproxy
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/cache/cacheforwardproxy/
         Requires  : PowerShell v5.1 and up
@@ -1573,7 +1573,7 @@ function Invoke-ADCGetCacheglobalbinding {
         Invoke-ADCGetCacheglobalbinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetCacheglobalbinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/cache/cacheglobal_binding/
         Requires  : PowerShell v5.1 and up
@@ -1663,7 +1663,7 @@ function Invoke-ADCAddCacheglobalcachepolicybinding {
         Invoke-ADCAddCacheglobalcachepolicybinding -policy <string> -priority <double>
     .NOTES
         File Name : Invoke-ADCAddCacheglobalcachepolicybinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/cache/cacheglobal_cachepolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -1755,7 +1755,7 @@ function Invoke-ADCDeleteCacheglobalcachepolicybinding {
         Invoke-ADCDeleteCacheglobalcachepolicybinding 
     .NOTES
         File Name : Invoke-ADCDeleteCacheglobalcachepolicybinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/cache/cacheglobal_cachepolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -1830,7 +1830,7 @@ function Invoke-ADCGetCacheglobalcachepolicybinding {
         Invoke-ADCGetCacheglobalcachepolicybinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetCacheglobalcachepolicybinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/cache/cacheglobal_cachepolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -1915,7 +1915,7 @@ function Invoke-ADCExpireCacheobject {
         Invoke-ADCExpireCacheobject 
     .NOTES
         File Name : Invoke-ADCExpireCacheobject
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/cache/cacheobject/
         Requires  : PowerShell v5.1 and up
@@ -2001,7 +2001,7 @@ function Invoke-ADCFlushCacheobject {
         Invoke-ADCFlushCacheobject 
     .NOTES
         File Name : Invoke-ADCFlushCacheobject
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/cache/cacheobject/
         Requires  : PowerShell v5.1 and up
@@ -2078,7 +2078,7 @@ function Invoke-ADCSaveCacheobject {
         Invoke-ADCSaveCacheobject 
     .NOTES
         File Name : Invoke-ADCSaveCacheobject
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/cache/cacheobject/
         Requires  : PowerShell v5.1 and up
@@ -2179,7 +2179,7 @@ function Invoke-ADCGetCacheobject {
         Invoke-ADCGetCacheobject -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetCacheobject
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/cache/cacheobject/
         Requires  : PowerShell v5.1 and up
@@ -2333,7 +2333,7 @@ function Invoke-ADCUpdateCacheparameter {
         Invoke-ADCUpdateCacheparameter 
     .NOTES
         File Name : Invoke-ADCUpdateCacheparameter
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/cache/cacheparameter/
         Requires  : PowerShell v5.1 and up
@@ -2442,7 +2442,7 @@ function Invoke-ADCUnsetCacheparameter {
         Invoke-ADCUnsetCacheparameter 
     .NOTES
         File Name : Invoke-ADCUnsetCacheparameter
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/cache/cacheparameter
         Requires  : PowerShell v5.1 and up
@@ -2531,7 +2531,7 @@ function Invoke-ADCGetCacheparameter {
         Invoke-ADCGetCacheparameter -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetCacheparameter
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/cache/cacheparameter/
         Requires  : PowerShell v5.1 and up
@@ -2626,7 +2626,7 @@ function Invoke-ADCAddCachepolicy {
         Invoke-ADCAddCachepolicy -policyname <string> -rule <string> -action <string>
     .NOTES
         File Name : Invoke-ADCAddCachepolicy
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/cache/cachepolicy/
         Requires  : PowerShell v5.1 and up
@@ -2718,7 +2718,7 @@ function Invoke-ADCDeleteCachepolicy {
         Invoke-ADCDeleteCachepolicy -policyname <string>
     .NOTES
         File Name : Invoke-ADCDeleteCachepolicy
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/cache/cachepolicy/
         Requires  : PowerShell v5.1 and up
@@ -2800,7 +2800,7 @@ function Invoke-ADCUpdateCachepolicy {
         Invoke-ADCUpdateCachepolicy -policyname <string>
     .NOTES
         File Name : Invoke-ADCUpdateCachepolicy
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/cache/cachepolicy/
         Requires  : PowerShell v5.1 and up
@@ -2898,7 +2898,7 @@ function Invoke-ADCUnsetCachepolicy {
         Invoke-ADCUnsetCachepolicy -policyname <string>
     .NOTES
         File Name : Invoke-ADCUnsetCachepolicy
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/cache/cachepolicy
         Requires  : PowerShell v5.1 and up
@@ -2973,7 +2973,7 @@ function Invoke-ADCRenameCachepolicy {
         Invoke-ADCRenameCachepolicy -policyname <string> -newname <string>
     .NOTES
         File Name : Invoke-ADCRenameCachepolicy
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/cache/cachepolicy/
         Requires  : PowerShell v5.1 and up
@@ -3063,7 +3063,7 @@ function Invoke-ADCGetCachepolicy {
         Invoke-ADCGetCachepolicy -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetCachepolicy
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/cache/cachepolicy/
         Requires  : PowerShell v5.1 and up
@@ -3149,7 +3149,7 @@ function Invoke-ADCAddCachepolicylabel {
         Invoke-ADCAddCachepolicylabel -labelname <string> -evaluates <string>
     .NOTES
         File Name : Invoke-ADCAddCachepolicylabel
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/cache/cachepolicylabel/
         Requires  : PowerShell v5.1 and up
@@ -3220,7 +3220,7 @@ function Invoke-ADCDeleteCachepolicylabel {
         Invoke-ADCDeleteCachepolicylabel -labelname <string>
     .NOTES
         File Name : Invoke-ADCDeleteCachepolicylabel
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/cache/cachepolicylabel/
         Requires  : PowerShell v5.1 and up
@@ -3280,7 +3280,7 @@ function Invoke-ADCRenameCachepolicylabel {
         Invoke-ADCRenameCachepolicylabel -labelname <string> -newname <string>
     .NOTES
         File Name : Invoke-ADCRenameCachepolicylabel
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/cache/cachepolicylabel/
         Requires  : PowerShell v5.1 and up
@@ -3369,7 +3369,7 @@ function Invoke-ADCGetCachepolicylabel {
         Invoke-ADCGetCachepolicylabel -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetCachepolicylabel
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/cache/cachepolicylabel/
         Requires  : PowerShell v5.1 and up
@@ -3464,7 +3464,7 @@ function Invoke-ADCGetCachepolicylabelbinding {
         Invoke-ADCGetCachepolicylabelbinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetCachepolicylabelbinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/cache/cachepolicylabel_binding/
         Requires  : PowerShell v5.1 and up
@@ -3552,7 +3552,7 @@ function Invoke-ADCAddCachepolicylabelcachepolicybinding {
         Invoke-ADCAddCachepolicylabelcachepolicybinding -labelname <string> -policyname <string> -priority <double>
     .NOTES
         File Name : Invoke-ADCAddCachepolicylabelcachepolicybinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/cache/cachepolicylabel_cachepolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -3639,7 +3639,7 @@ function Invoke-ADCDeleteCachepolicylabelcachepolicybinding {
         Invoke-ADCDeleteCachepolicylabelcachepolicybinding -labelname <string>
     .NOTES
         File Name : Invoke-ADCDeleteCachepolicylabelcachepolicybinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/cache/cachepolicylabel_cachepolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -3716,7 +3716,7 @@ function Invoke-ADCGetCachepolicylabelcachepolicybinding {
         Invoke-ADCGetCachepolicylabelcachepolicybinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetCachepolicylabelcachepolicybinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/cache/cachepolicylabel_cachepolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -3809,7 +3809,7 @@ function Invoke-ADCGetCachepolicylabelpolicybindingbinding {
         Invoke-ADCGetCachepolicylabelpolicybindingbinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetCachepolicylabelpolicybindingbinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/cache/cachepolicylabel_policybinding_binding/
         Requires  : PowerShell v5.1 and up
@@ -3900,7 +3900,7 @@ function Invoke-ADCGetCachepolicybinding {
         Invoke-ADCGetCachepolicybinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetCachepolicybinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/cache/cachepolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -3991,7 +3991,7 @@ function Invoke-ADCGetCachepolicycacheglobalbinding {
         Invoke-ADCGetCachepolicycacheglobalbinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetCachepolicycacheglobalbinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/cache/cachepolicy_cacheglobal_binding/
         Requires  : PowerShell v5.1 and up
@@ -4085,7 +4085,7 @@ function Invoke-ADCGetCachepolicycachepolicylabelbinding {
         Invoke-ADCGetCachepolicycachepolicylabelbinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetCachepolicycachepolicylabelbinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/cache/cachepolicy_cachepolicylabel_binding/
         Requires  : PowerShell v5.1 and up
@@ -4179,7 +4179,7 @@ function Invoke-ADCGetCachepolicycsvserverbinding {
         Invoke-ADCGetCachepolicycsvserverbinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetCachepolicycsvserverbinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/cache/cachepolicy_csvserver_binding/
         Requires  : PowerShell v5.1 and up
@@ -4273,7 +4273,7 @@ function Invoke-ADCGetCachepolicylbvserverbinding {
         Invoke-ADCGetCachepolicylbvserverbinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetCachepolicylbvserverbinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/cache/cachepolicy_lbvserver_binding/
         Requires  : PowerShell v5.1 and up
@@ -4355,7 +4355,7 @@ function Invoke-ADCAddCacheselector {
         Invoke-ADCAddCacheselector -selectorname <string> -rule <string[]>
     .NOTES
         File Name : Invoke-ADCAddCacheselector
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/cache/cacheselector/
         Requires  : PowerShell v5.1 and up
@@ -4426,7 +4426,7 @@ function Invoke-ADCDeleteCacheselector {
         Invoke-ADCDeleteCacheselector -selectorname <string>
     .NOTES
         File Name : Invoke-ADCDeleteCacheselector
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/cache/cacheselector/
         Requires  : PowerShell v5.1 and up
@@ -4486,7 +4486,7 @@ function Invoke-ADCUpdateCacheselector {
         Invoke-ADCUpdateCacheselector -selectorname <string> -rule <string[]>
     .NOTES
         File Name : Invoke-ADCUpdateCacheselector
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/cache/cacheselector/
         Requires  : PowerShell v5.1 and up
@@ -4574,7 +4574,7 @@ function Invoke-ADCGetCacheselector {
         Invoke-ADCGetCacheselector -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetCacheselector
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/cache/cacheselector/
         Requires  : PowerShell v5.1 and up

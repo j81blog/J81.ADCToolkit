@@ -30,7 +30,7 @@ function Invoke-ADCAddAutoscaleaction {
         Invoke-ADCAddAutoscaleaction -name <string> -type <string> -profilename <string> -parameters <string> -vserver <string>
     .NOTES
         File Name : Invoke-ADCAddAutoscaleaction
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/autoscale/autoscaleaction/
         Requires  : PowerShell v5.1 and up
@@ -121,7 +121,7 @@ function Invoke-ADCDeleteAutoscaleaction {
         Invoke-ADCDeleteAutoscaleaction -name <string>
     .NOTES
         File Name : Invoke-ADCDeleteAutoscaleaction
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/autoscale/autoscaleaction/
         Requires  : PowerShell v5.1 and up
@@ -193,7 +193,7 @@ function Invoke-ADCUpdateAutoscaleaction {
         Invoke-ADCUpdateAutoscaleaction -name <string>
     .NOTES
         File Name : Invoke-ADCUpdateAutoscaleaction
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/autoscale/autoscaleaction/
         Requires  : PowerShell v5.1 and up
@@ -279,7 +279,7 @@ function Invoke-ADCUnsetAutoscaleaction {
         Invoke-ADCUnsetAutoscaleaction -name <string>
     .NOTES
         File Name : Invoke-ADCUnsetAutoscaleaction
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/autoscale/autoscaleaction
         Requires  : PowerShell v5.1 and up
@@ -358,7 +358,7 @@ function Invoke-ADCGetAutoscaleaction {
         Invoke-ADCGetAutoscaleaction -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetAutoscaleaction
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/autoscale/autoscaleaction/
         Requires  : PowerShell v5.1 and up
@@ -450,7 +450,7 @@ function Invoke-ADCAddAutoscalepolicy {
         Invoke-ADCAddAutoscalepolicy -name <string> -rule <string> -action <string>
     .NOTES
         File Name : Invoke-ADCAddAutoscalepolicy
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/autoscale/autoscalepolicy/
         Requires  : PowerShell v5.1 and up
@@ -531,7 +531,7 @@ function Invoke-ADCDeleteAutoscalepolicy {
         Invoke-ADCDeleteAutoscalepolicy -name <string>
     .NOTES
         File Name : Invoke-ADCDeleteAutoscalepolicy
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/autoscale/autoscalepolicy/
         Requires  : PowerShell v5.1 and up
@@ -598,7 +598,7 @@ function Invoke-ADCUpdateAutoscalepolicy {
         Invoke-ADCUpdateAutoscalepolicy -name <string>
     .NOTES
         File Name : Invoke-ADCUpdateAutoscalepolicy
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/autoscale/autoscalepolicy/
         Requires  : PowerShell v5.1 and up
@@ -684,7 +684,7 @@ function Invoke-ADCUnsetAutoscalepolicy {
         Invoke-ADCUnsetAutoscalepolicy -name <string>
     .NOTES
         File Name : Invoke-ADCUnsetAutoscalepolicy
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/autoscale/autoscalepolicy
         Requires  : PowerShell v5.1 and up
@@ -758,7 +758,7 @@ function Invoke-ADCRenameAutoscalepolicy {
         Invoke-ADCRenameAutoscalepolicy -name <string> -newname <string>
     .NOTES
         File Name : Invoke-ADCRenameAutoscalepolicy
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/autoscale/autoscalepolicy/
         Requires  : PowerShell v5.1 and up
@@ -846,7 +846,7 @@ function Invoke-ADCGetAutoscalepolicy {
         Invoke-ADCGetAutoscalepolicy -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetAutoscalepolicy
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/autoscale/autoscalepolicy/
         Requires  : PowerShell v5.1 and up
@@ -941,7 +941,7 @@ function Invoke-ADCGetAutoscalepolicybinding {
         Invoke-ADCGetAutoscalepolicybinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetAutoscalepolicybinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/autoscale/autoscalepolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -1032,7 +1032,7 @@ function Invoke-ADCGetAutoscalepolicynstimerbinding {
         Invoke-ADCGetAutoscalepolicynstimerbinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetAutoscalepolicynstimerbinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/autoscale/autoscalepolicy_nstimer_binding/
         Requires  : PowerShell v5.1 and up
@@ -1124,7 +1124,7 @@ function Invoke-ADCAddAutoscaleprofile {
         Invoke-ADCAddAutoscaleprofile -name <string> -type <string> -url <string> -apikey <string> -sharedsecret <string>
     .NOTES
         File Name : Invoke-ADCAddAutoscaleprofile
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/autoscale/autoscaleprofile/
         Requires  : PowerShell v5.1 and up
@@ -1211,7 +1211,7 @@ function Invoke-ADCDeleteAutoscaleprofile {
         Invoke-ADCDeleteAutoscaleprofile -name <string>
     .NOTES
         File Name : Invoke-ADCDeleteAutoscaleprofile
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/autoscale/autoscaleprofile/
         Requires  : PowerShell v5.1 and up
@@ -1278,7 +1278,7 @@ function Invoke-ADCUpdateAutoscaleprofile {
         Invoke-ADCUpdateAutoscaleprofile -name <string>
     .NOTES
         File Name : Invoke-ADCUpdateAutoscaleprofile
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/autoscale/autoscaleprofile/
         Requires  : PowerShell v5.1 and up
@@ -1372,7 +1372,7 @@ function Invoke-ADCGetAutoscaleprofile {
         Invoke-ADCGetAutoscaleprofile -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetAutoscaleprofile
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/autoscale/autoscaleprofile/
         Requires  : PowerShell v5.1 and up

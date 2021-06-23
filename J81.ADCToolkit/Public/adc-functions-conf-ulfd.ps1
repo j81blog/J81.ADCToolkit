@@ -13,7 +13,7 @@ function Invoke-ADCAddUlfdserver {
         Invoke-ADCAddUlfdserver -loggerip <string>
     .NOTES
         File Name : Invoke-ADCAddUlfdserver
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ulfd/ulfdserver/
         Requires  : PowerShell v5.1 and up
@@ -80,7 +80,7 @@ function Invoke-ADCDeleteUlfdserver {
         Invoke-ADCDeleteUlfdserver -loggerip <string>
     .NOTES
         File Name : Invoke-ADCDeleteUlfdserver
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ulfd/ulfdserver/
         Requires  : PowerShell v5.1 and up
@@ -152,7 +152,7 @@ function Invoke-ADCGetUlfdserver {
         Invoke-ADCGetUlfdserver -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetUlfdserver
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ulfd/ulfdserver/
         Requires  : PowerShell v5.1 and up

@@ -16,7 +16,7 @@ function Invoke-ADCInstallWipackage {
         Invoke-ADCInstallWipackage 
     .NOTES
         File Name : Invoke-ADCInstallWipackage
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/wi/wipackage/
         Requires  : PowerShell v5.1 and up
@@ -94,7 +94,7 @@ function Invoke-ADCGetWipackage {
         Invoke-ADCGetWipackage -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetWipackage
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/wi/wipackage/
         Requires  : PowerShell v5.1 and up
@@ -308,7 +308,7 @@ function Invoke-ADCAddWisite {
         Invoke-ADCAddWisite -sitepath <string>
     .NOTES
         File Name : Invoke-ADCAddWisite
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/wi/wisite/
         Requires  : PowerShell v5.1 and up
@@ -503,7 +503,7 @@ function Invoke-ADCDeleteWisite {
         Invoke-ADCDeleteWisite -sitepath <string>
     .NOTES
         File Name : Invoke-ADCDeleteWisite
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/wi/wisite/
         Requires  : PowerShell v5.1 and up
@@ -698,7 +698,7 @@ function Invoke-ADCUpdateWisite {
         Invoke-ADCUpdateWisite -sitepath <string>
     .NOTES
         File Name : Invoke-ADCUpdateWisite
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/wi/wisite/
         Requires  : PowerShell v5.1 and up
@@ -907,7 +907,7 @@ function Invoke-ADCUnsetWisite {
         Invoke-ADCUnsetWisite -sitepath <string>
     .NOTES
         File Name : Invoke-ADCUnsetWisite
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/wi/wisite
         Requires  : PowerShell v5.1 and up
@@ -1007,7 +1007,7 @@ function Invoke-ADCGetWisite {
         Invoke-ADCGetWisite -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetWisite
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/wi/wisite/
         Requires  : PowerShell v5.1 and up
@@ -1100,7 +1100,7 @@ function Invoke-ADCAddWisiteaccessmethodbinding {
         Invoke-ADCAddWisiteaccessmethodbinding -sitepath <string>
     .NOTES
         File Name : Invoke-ADCAddWisiteaccessmethodbinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/wi/wisite_accessmethod_binding/
         Requires  : PowerShell v5.1 and up
@@ -1181,7 +1181,7 @@ function Invoke-ADCDeleteWisiteaccessmethodbinding {
         Invoke-ADCDeleteWisiteaccessmethodbinding -sitepath <string>
     .NOTES
         File Name : Invoke-ADCDeleteWisiteaccessmethodbinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/wi/wisite_accessmethod_binding/
         Requires  : PowerShell v5.1 and up
@@ -1258,7 +1258,7 @@ function Invoke-ADCGetWisiteaccessmethodbinding {
         Invoke-ADCGetWisiteaccessmethodbinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetWisiteaccessmethodbinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/wi/wisite_accessmethod_binding/
         Requires  : PowerShell v5.1 and up
@@ -1350,7 +1350,7 @@ function Invoke-ADCGetWisitebinding {
         Invoke-ADCGetWisitebinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetWisitebinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/wi/wisite_binding/
         Requires  : PowerShell v5.1 and up
@@ -1448,7 +1448,7 @@ function Invoke-ADCAddWisitefarmnamebinding {
         Invoke-ADCAddWisitefarmnamebinding -sitepath <string>
     .NOTES
         File Name : Invoke-ADCAddWisitefarmnamebinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/wi/wisite_farmname_binding/
         Requires  : PowerShell v5.1 and up
@@ -1544,7 +1544,7 @@ function Invoke-ADCDeleteWisitefarmnamebinding {
         Invoke-ADCDeleteWisitefarmnamebinding -sitepath <string>
     .NOTES
         File Name : Invoke-ADCDeleteWisitefarmnamebinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/wi/wisite_farmname_binding/
         Requires  : PowerShell v5.1 and up
@@ -1618,7 +1618,7 @@ function Invoke-ADCGetWisitefarmnamebinding {
         Invoke-ADCGetWisitefarmnamebinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetWisitefarmnamebinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/wi/wisite_farmname_binding/
         Requires  : PowerShell v5.1 and up
@@ -1716,7 +1716,7 @@ function Invoke-ADCAddWisitetranslationinternalipbinding {
         Invoke-ADCAddWisitetranslationinternalipbinding -sitepath <string>
     .NOTES
         File Name : Invoke-ADCAddWisitetranslationinternalipbinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/wi/wisite_translationinternalip_binding/
         Requires  : PowerShell v5.1 and up
@@ -1810,7 +1810,7 @@ function Invoke-ADCDeleteWisitetranslationinternalipbinding {
         Invoke-ADCDeleteWisitetranslationinternalipbinding -sitepath <string>
     .NOTES
         File Name : Invoke-ADCDeleteWisitetranslationinternalipbinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/wi/wisite_translationinternalip_binding/
         Requires  : PowerShell v5.1 and up
@@ -1893,7 +1893,7 @@ function Invoke-ADCGetWisitetranslationinternalipbinding {
         Invoke-ADCGetWisitetranslationinternalipbinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetWisitetranslationinternalipbinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/wi/wisite_translationinternalip_binding/
         Requires  : PowerShell v5.1 and up

@@ -27,7 +27,7 @@ function Invoke-ADCGetAuthorizationaction {
         Invoke-ADCGetAuthorizationaction -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetAuthorizationaction
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/authorization/authorizationaction/
         Requires  : PowerShell v5.1 and up
@@ -115,7 +115,7 @@ function Invoke-ADCAddAuthorizationpolicy {
         Invoke-ADCAddAuthorizationpolicy -name <string> -rule <string> -action <string>
     .NOTES
         File Name : Invoke-ADCAddAuthorizationpolicy
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/authorization/authorizationpolicy/
         Requires  : PowerShell v5.1 and up
@@ -191,7 +191,7 @@ function Invoke-ADCDeleteAuthorizationpolicy {
         Invoke-ADCDeleteAuthorizationpolicy -name <string>
     .NOTES
         File Name : Invoke-ADCDeleteAuthorizationpolicy
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/authorization/authorizationpolicy/
         Requires  : PowerShell v5.1 and up
@@ -254,7 +254,7 @@ function Invoke-ADCUpdateAuthorizationpolicy {
         Invoke-ADCUpdateAuthorizationpolicy -name <string>
     .NOTES
         File Name : Invoke-ADCUpdateAuthorizationpolicy
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/authorization/authorizationpolicy/
         Requires  : PowerShell v5.1 and up
@@ -332,7 +332,7 @@ function Invoke-ADCRenameAuthorizationpolicy {
         Invoke-ADCRenameAuthorizationpolicy -name <string> -newname <string>
     .NOTES
         File Name : Invoke-ADCRenameAuthorizationpolicy
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/authorization/authorizationpolicy/
         Requires  : PowerShell v5.1 and up
@@ -421,7 +421,7 @@ function Invoke-ADCGetAuthorizationpolicy {
         Invoke-ADCGetAuthorizationpolicy -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetAuthorizationpolicy
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/authorization/authorizationpolicy/
         Requires  : PowerShell v5.1 and up
@@ -504,7 +504,7 @@ function Invoke-ADCAddAuthorizationpolicylabel {
         Invoke-ADCAddAuthorizationpolicylabel -labelname <string>
     .NOTES
         File Name : Invoke-ADCAddAuthorizationpolicylabel
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/authorization/authorizationpolicylabel/
         Requires  : PowerShell v5.1 and up
@@ -570,7 +570,7 @@ function Invoke-ADCDeleteAuthorizationpolicylabel {
         Invoke-ADCDeleteAuthorizationpolicylabel -labelname <string>
     .NOTES
         File Name : Invoke-ADCDeleteAuthorizationpolicylabel
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/authorization/authorizationpolicylabel/
         Requires  : PowerShell v5.1 and up
@@ -631,7 +631,7 @@ function Invoke-ADCRenameAuthorizationpolicylabel {
         Invoke-ADCRenameAuthorizationpolicylabel -labelname <string> -newname <string>
     .NOTES
         File Name : Invoke-ADCRenameAuthorizationpolicylabel
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/authorization/authorizationpolicylabel/
         Requires  : PowerShell v5.1 and up
@@ -719,7 +719,7 @@ function Invoke-ADCGetAuthorizationpolicylabel {
         Invoke-ADCGetAuthorizationpolicylabel -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetAuthorizationpolicylabel
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/authorization/authorizationpolicylabel/
         Requires  : PowerShell v5.1 and up
@@ -813,7 +813,7 @@ function Invoke-ADCAddAuthorizationpolicylabelauthorizationpolicybinding {
         Invoke-ADCAddAuthorizationpolicylabelauthorizationpolicybinding -labelname <string> -policyname <string> -priority <double>
     .NOTES
         File Name : Invoke-ADCAddAuthorizationpolicylabelauthorizationpolicybinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/authorization/authorizationpolicylabel_authorizationpolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -900,7 +900,7 @@ function Invoke-ADCDeleteAuthorizationpolicylabelauthorizationpolicybinding {
         Invoke-ADCDeleteAuthorizationpolicylabelauthorizationpolicybinding -labelname <string>
     .NOTES
         File Name : Invoke-ADCDeleteAuthorizationpolicylabelauthorizationpolicybinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/authorization/authorizationpolicylabel_authorizationpolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -977,7 +977,7 @@ function Invoke-ADCGetAuthorizationpolicylabelauthorizationpolicybinding {
         Invoke-ADCGetAuthorizationpolicylabelauthorizationpolicybinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetAuthorizationpolicylabelauthorizationpolicybinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/authorization/authorizationpolicylabel_authorizationpolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -1068,7 +1068,7 @@ function Invoke-ADCGetAuthorizationpolicylabelbinding {
         Invoke-ADCGetAuthorizationpolicylabelbinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetAuthorizationpolicylabelbinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/authorization/authorizationpolicylabel_binding/
         Requires  : PowerShell v5.1 and up
@@ -1158,7 +1158,7 @@ function Invoke-ADCGetAuthorizationpolicyaaagroupbinding {
         Invoke-ADCGetAuthorizationpolicyaaagroupbinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetAuthorizationpolicyaaagroupbinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/authorization/authorizationpolicy_aaagroup_binding/
         Requires  : PowerShell v5.1 and up
@@ -1252,7 +1252,7 @@ function Invoke-ADCGetAuthorizationpolicyaaauserbinding {
         Invoke-ADCGetAuthorizationpolicyaaauserbinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetAuthorizationpolicyaaauserbinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/authorization/authorizationpolicy_aaauser_binding/
         Requires  : PowerShell v5.1 and up
@@ -1346,7 +1346,7 @@ function Invoke-ADCGetAuthorizationpolicyauthorizationpolicylabelbinding {
         Invoke-ADCGetAuthorizationpolicyauthorizationpolicylabelbinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetAuthorizationpolicyauthorizationpolicylabelbinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/authorization/authorizationpolicy_authorizationpolicylabel_binding/
         Requires  : PowerShell v5.1 and up
@@ -1438,7 +1438,7 @@ function Invoke-ADCGetAuthorizationpolicybinding {
         Invoke-ADCGetAuthorizationpolicybinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetAuthorizationpolicybinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/authorization/authorizationpolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -1529,7 +1529,7 @@ function Invoke-ADCGetAuthorizationpolicycsvserverbinding {
         Invoke-ADCGetAuthorizationpolicycsvserverbinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetAuthorizationpolicycsvserverbinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/authorization/authorizationpolicy_csvserver_binding/
         Requires  : PowerShell v5.1 and up
@@ -1623,7 +1623,7 @@ function Invoke-ADCGetAuthorizationpolicylbvserverbinding {
         Invoke-ADCGetAuthorizationpolicylbvserverbinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetAuthorizationpolicylbvserverbinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/authorization/authorizationpolicy_lbvserver_binding/
         Requires  : PowerShell v5.1 and up

@@ -14,7 +14,7 @@ function Invoke-ADCImportApplication {
         Invoke-ADCImportApplication -apptemplatefilename <string>
     .NOTES
         File Name : Invoke-ADCImportApplication
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/app/application/
         Requires  : PowerShell v5.1 and up
@@ -80,7 +80,7 @@ function Invoke-ADCExportApplication {
         Invoke-ADCExportApplication -appname <string>
     .NOTES
         File Name : Invoke-ADCExportApplication
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/app/application/
         Requires  : PowerShell v5.1 and up
@@ -142,7 +142,7 @@ function Invoke-ADCDeleteApplication {
         Invoke-ADCDeleteApplication 
     .NOTES
         File Name : Invoke-ADCDeleteApplication
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/app/application/
         Requires  : PowerShell v5.1 and up

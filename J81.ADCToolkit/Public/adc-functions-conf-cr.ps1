@@ -27,7 +27,7 @@ function Invoke-ADCGetCraction {
         Invoke-ADCGetCraction -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetCraction
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/cr/craction/
         Requires  : PowerShell v5.1 and up
@@ -119,7 +119,7 @@ function Invoke-ADCAddCrpolicy {
         Invoke-ADCAddCrpolicy -policyname <string> -rule <string>
     .NOTES
         File Name : Invoke-ADCAddCrpolicy
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/cr/crpolicy/
         Requires  : PowerShell v5.1 and up
@@ -195,7 +195,7 @@ function Invoke-ADCDeleteCrpolicy {
         Invoke-ADCDeleteCrpolicy -policyname <string>
     .NOTES
         File Name : Invoke-ADCDeleteCrpolicy
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/cr/crpolicy/
         Requires  : PowerShell v5.1 and up
@@ -262,7 +262,7 @@ function Invoke-ADCUpdateCrpolicy {
         Invoke-ADCUpdateCrpolicy -policyname <string>
     .NOTES
         File Name : Invoke-ADCUpdateCrpolicy
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/cr/crpolicy/
         Requires  : PowerShell v5.1 and up
@@ -339,7 +339,7 @@ function Invoke-ADCUnsetCrpolicy {
         Invoke-ADCUnsetCrpolicy -policyname <string>
     .NOTES
         File Name : Invoke-ADCUnsetCrpolicy
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/cr/crpolicy
         Requires  : PowerShell v5.1 and up
@@ -404,7 +404,7 @@ function Invoke-ADCRenameCrpolicy {
         Invoke-ADCRenameCrpolicy -policyname <string> -newname <string>
     .NOTES
         File Name : Invoke-ADCRenameCrpolicy
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/cr/crpolicy/
         Requires  : PowerShell v5.1 and up
@@ -493,7 +493,7 @@ function Invoke-ADCGetCrpolicy {
         Invoke-ADCGetCrpolicy -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetCrpolicy
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/cr/crpolicy/
         Requires  : PowerShell v5.1 and up
@@ -589,7 +589,7 @@ function Invoke-ADCGetCrpolicybinding {
         Invoke-ADCGetCrpolicybinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetCrpolicybinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/cr/crpolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -680,7 +680,7 @@ function Invoke-ADCGetCrpolicycrvserverbinding {
         Invoke-ADCGetCrpolicycrvserverbinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetCrpolicycrvserverbinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/cr/crpolicy_crvserver_binding/
         Requires  : PowerShell v5.1 and up
@@ -949,7 +949,7 @@ function Invoke-ADCAddCrvserver {
         Invoke-ADCAddCrvserver -name <string> -servicetype <string>
     .NOTES
         File Name : Invoke-ADCAddCrvserver
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/cr/crvserver/
         Requires  : PowerShell v5.1 and up
@@ -1188,7 +1188,7 @@ function Invoke-ADCDeleteCrvserver {
         Invoke-ADCDeleteCrvserver -name <string>
     .NOTES
         File Name : Invoke-ADCDeleteCrvserver
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/cr/crvserver/
         Requires  : PowerShell v5.1 and up
@@ -1391,7 +1391,7 @@ function Invoke-ADCUpdateCrvserver {
         Invoke-ADCUpdateCrvserver -name <string>
     .NOTES
         File Name : Invoke-ADCUpdateCrvserver
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/cr/crvserver/
         Requires  : PowerShell v5.1 and up
@@ -1691,7 +1691,7 @@ function Invoke-ADCUnsetCrvserver {
         Invoke-ADCUnsetCrvserver -name <string>
     .NOTES
         File Name : Invoke-ADCUnsetCrvserver
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/cr/crvserver
         Requires  : PowerShell v5.1 and up
@@ -1844,7 +1844,7 @@ function Invoke-ADCEnableCrvserver {
         Invoke-ADCEnableCrvserver -name <string>
     .NOTES
         File Name : Invoke-ADCEnableCrvserver
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/cr/crvserver/
         Requires  : PowerShell v5.1 and up
@@ -1903,7 +1903,7 @@ function Invoke-ADCDisableCrvserver {
         Invoke-ADCDisableCrvserver -name <string>
     .NOTES
         File Name : Invoke-ADCDisableCrvserver
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/cr/crvserver/
         Requires  : PowerShell v5.1 and up
@@ -1967,7 +1967,7 @@ function Invoke-ADCRenameCrvserver {
         Invoke-ADCRenameCrvserver -name <string> -newname <string>
     .NOTES
         File Name : Invoke-ADCRenameCrvserver
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/cr/crvserver/
         Requires  : PowerShell v5.1 and up
@@ -2057,7 +2057,7 @@ function Invoke-ADCGetCrvserver {
         Invoke-ADCGetCrvserver -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetCrvserver
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/cr/crvserver/
         Requires  : PowerShell v5.1 and up
@@ -2143,7 +2143,7 @@ function Invoke-ADCAddCrvserveranalyticsprofilebinding {
         Invoke-ADCAddCrvserveranalyticsprofilebinding -name <string>
     .NOTES
         File Name : Invoke-ADCAddCrvserveranalyticsprofilebinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/cr/crvserver_analyticsprofile_binding/
         Requires  : PowerShell v5.1 and up
@@ -2213,7 +2213,7 @@ function Invoke-ADCDeleteCrvserveranalyticsprofilebinding {
         Invoke-ADCDeleteCrvserveranalyticsprofilebinding -name <string>
     .NOTES
         File Name : Invoke-ADCDeleteCrvserveranalyticsprofilebinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/cr/crvserver_analyticsprofile_binding/
         Requires  : PowerShell v5.1 and up
@@ -2287,7 +2287,7 @@ function Invoke-ADCGetCrvserveranalyticsprofilebinding {
         Invoke-ADCGetCrvserveranalyticsprofilebinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetCrvserveranalyticsprofilebinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/cr/crvserver_analyticsprofile_binding/
         Requires  : PowerShell v5.1 and up
@@ -2386,7 +2386,7 @@ function Invoke-ADCAddCrvserverappflowpolicybinding {
         Invoke-ADCAddCrvserverappflowpolicybinding -name <string>
     .NOTES
         File Name : Invoke-ADCAddCrvserverappflowpolicybinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/cr/crvserver_appflowpolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -2483,7 +2483,7 @@ function Invoke-ADCDeleteCrvserverappflowpolicybinding {
         Invoke-ADCDeleteCrvserverappflowpolicybinding -name <string>
     .NOTES
         File Name : Invoke-ADCDeleteCrvserverappflowpolicybinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/cr/crvserver_appflowpolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -2563,7 +2563,7 @@ function Invoke-ADCGetCrvserverappflowpolicybinding {
         Invoke-ADCGetCrvserverappflowpolicybinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetCrvserverappflowpolicybinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/cr/crvserver_appflowpolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -2662,7 +2662,7 @@ function Invoke-ADCAddCrvserverappfwpolicybinding {
         Invoke-ADCAddCrvserverappfwpolicybinding -name <string>
     .NOTES
         File Name : Invoke-ADCAddCrvserverappfwpolicybinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/cr/crvserver_appfwpolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -2759,7 +2759,7 @@ function Invoke-ADCDeleteCrvserverappfwpolicybinding {
         Invoke-ADCDeleteCrvserverappfwpolicybinding -name <string>
     .NOTES
         File Name : Invoke-ADCDeleteCrvserverappfwpolicybinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/cr/crvserver_appfwpolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -2839,7 +2839,7 @@ function Invoke-ADCGetCrvserverappfwpolicybinding {
         Invoke-ADCGetCrvserverappfwpolicybinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetCrvserverappfwpolicybinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/cr/crvserver_appfwpolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -2938,7 +2938,7 @@ function Invoke-ADCAddCrvserverappqoepolicybinding {
         Invoke-ADCAddCrvserverappqoepolicybinding -name <string>
     .NOTES
         File Name : Invoke-ADCAddCrvserverappqoepolicybinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/cr/crvserver_appqoepolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -3035,7 +3035,7 @@ function Invoke-ADCDeleteCrvserverappqoepolicybinding {
         Invoke-ADCDeleteCrvserverappqoepolicybinding -name <string>
     .NOTES
         File Name : Invoke-ADCDeleteCrvserverappqoepolicybinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/cr/crvserver_appqoepolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -3115,7 +3115,7 @@ function Invoke-ADCGetCrvserverappqoepolicybinding {
         Invoke-ADCGetCrvserverappqoepolicybinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetCrvserverappqoepolicybinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/cr/crvserver_appqoepolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -3207,7 +3207,7 @@ function Invoke-ADCGetCrvserverbinding {
         Invoke-ADCGetCrvserverbinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetCrvserverbinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/cr/crvserver_binding/
         Requires  : PowerShell v5.1 and up
@@ -3303,7 +3303,7 @@ function Invoke-ADCAddCrvservercachepolicybinding {
         Invoke-ADCAddCrvservercachepolicybinding -name <string>
     .NOTES
         File Name : Invoke-ADCAddCrvservercachepolicybinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/cr/crvserver_cachepolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -3400,7 +3400,7 @@ function Invoke-ADCDeleteCrvservercachepolicybinding {
         Invoke-ADCDeleteCrvservercachepolicybinding -name <string>
     .NOTES
         File Name : Invoke-ADCDeleteCrvservercachepolicybinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/cr/crvserver_cachepolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -3480,7 +3480,7 @@ function Invoke-ADCGetCrvservercachepolicybinding {
         Invoke-ADCGetCrvservercachepolicybinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetCrvservercachepolicybinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/cr/crvserver_cachepolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -3579,7 +3579,7 @@ function Invoke-ADCAddCrvservercmppolicybinding {
         Invoke-ADCAddCrvservercmppolicybinding -name <string>
     .NOTES
         File Name : Invoke-ADCAddCrvservercmppolicybinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/cr/crvserver_cmppolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -3676,7 +3676,7 @@ function Invoke-ADCDeleteCrvservercmppolicybinding {
         Invoke-ADCDeleteCrvservercmppolicybinding -name <string>
     .NOTES
         File Name : Invoke-ADCDeleteCrvservercmppolicybinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/cr/crvserver_cmppolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -3756,7 +3756,7 @@ function Invoke-ADCGetCrvservercmppolicybinding {
         Invoke-ADCGetCrvservercmppolicybinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetCrvservercmppolicybinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/cr/crvserver_cmppolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -3855,7 +3855,7 @@ function Invoke-ADCAddCrvservercrpolicybinding {
         Invoke-ADCAddCrvservercrpolicybinding -name <string>
     .NOTES
         File Name : Invoke-ADCAddCrvservercrpolicybinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/cr/crvserver_crpolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -3952,7 +3952,7 @@ function Invoke-ADCDeleteCrvservercrpolicybinding {
         Invoke-ADCDeleteCrvservercrpolicybinding -name <string>
     .NOTES
         File Name : Invoke-ADCDeleteCrvservercrpolicybinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/cr/crvserver_crpolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -4032,7 +4032,7 @@ function Invoke-ADCGetCrvservercrpolicybinding {
         Invoke-ADCGetCrvservercrpolicybinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetCrvservercrpolicybinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/cr/crvserver_crpolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -4130,7 +4130,7 @@ function Invoke-ADCAddCrvservercspolicybinding {
         Invoke-ADCAddCrvservercspolicybinding -name <string>
     .NOTES
         File Name : Invoke-ADCAddCrvservercspolicybinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/cr/crvserver_cspolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -4226,7 +4226,7 @@ function Invoke-ADCDeleteCrvservercspolicybinding {
         Invoke-ADCDeleteCrvservercspolicybinding -name <string>
     .NOTES
         File Name : Invoke-ADCDeleteCrvservercspolicybinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/cr/crvserver_cspolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -4306,7 +4306,7 @@ function Invoke-ADCGetCrvservercspolicybinding {
         Invoke-ADCGetCrvservercspolicybinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetCrvservercspolicybinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/cr/crvserver_cspolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -4405,7 +4405,7 @@ function Invoke-ADCAddCrvserverfeopolicybinding {
         Invoke-ADCAddCrvserverfeopolicybinding -name <string>
     .NOTES
         File Name : Invoke-ADCAddCrvserverfeopolicybinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/cr/crvserver_feopolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -4502,7 +4502,7 @@ function Invoke-ADCDeleteCrvserverfeopolicybinding {
         Invoke-ADCDeleteCrvserverfeopolicybinding -name <string>
     .NOTES
         File Name : Invoke-ADCDeleteCrvserverfeopolicybinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/cr/crvserver_feopolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -4582,7 +4582,7 @@ function Invoke-ADCGetCrvserverfeopolicybinding {
         Invoke-ADCGetCrvserverfeopolicybinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetCrvserverfeopolicybinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/cr/crvserver_feopolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -4681,7 +4681,7 @@ function Invoke-ADCAddCrvserverfilterpolicybinding {
         Invoke-ADCAddCrvserverfilterpolicybinding -name <string>
     .NOTES
         File Name : Invoke-ADCAddCrvserverfilterpolicybinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/cr/crvserver_filterpolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -4778,7 +4778,7 @@ function Invoke-ADCDeleteCrvserverfilterpolicybinding {
         Invoke-ADCDeleteCrvserverfilterpolicybinding -name <string>
     .NOTES
         File Name : Invoke-ADCDeleteCrvserverfilterpolicybinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/cr/crvserver_filterpolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -4858,7 +4858,7 @@ function Invoke-ADCGetCrvserverfilterpolicybinding {
         Invoke-ADCGetCrvserverfilterpolicybinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetCrvserverfilterpolicybinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/cr/crvserver_filterpolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -4957,7 +4957,7 @@ function Invoke-ADCAddCrvservericapolicybinding {
         Invoke-ADCAddCrvservericapolicybinding -name <string>
     .NOTES
         File Name : Invoke-ADCAddCrvservericapolicybinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/cr/crvserver_icapolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -5054,7 +5054,7 @@ function Invoke-ADCDeleteCrvservericapolicybinding {
         Invoke-ADCDeleteCrvservericapolicybinding -name <string>
     .NOTES
         File Name : Invoke-ADCDeleteCrvservericapolicybinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/cr/crvserver_icapolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -5134,7 +5134,7 @@ function Invoke-ADCGetCrvservericapolicybinding {
         Invoke-ADCGetCrvservericapolicybinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetCrvservericapolicybinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/cr/crvserver_icapolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -5217,7 +5217,7 @@ function Invoke-ADCAddCrvserverlbvserverbinding {
         Invoke-ADCAddCrvserverlbvserverbinding -name <string>
     .NOTES
         File Name : Invoke-ADCAddCrvserverlbvserverbinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/cr/crvserver_lbvserver_binding/
         Requires  : PowerShell v5.1 and up
@@ -5289,7 +5289,7 @@ function Invoke-ADCDeleteCrvserverlbvserverbinding {
         Invoke-ADCDeleteCrvserverlbvserverbinding -name <string>
     .NOTES
         File Name : Invoke-ADCDeleteCrvserverlbvserverbinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/cr/crvserver_lbvserver_binding/
         Requires  : PowerShell v5.1 and up
@@ -5363,7 +5363,7 @@ function Invoke-ADCGetCrvserverlbvserverbinding {
         Invoke-ADCGetCrvserverlbvserverbinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetCrvserverlbvserverbinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/cr/crvserver_lbvserver_binding/
         Requires  : PowerShell v5.1 and up
@@ -5461,7 +5461,7 @@ function Invoke-ADCAddCrvserverpolicymapbinding {
         Invoke-ADCAddCrvserverpolicymapbinding -name <string>
     .NOTES
         File Name : Invoke-ADCAddCrvserverpolicymapbinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/cr/crvserver_policymap_binding/
         Requires  : PowerShell v5.1 and up
@@ -5557,7 +5557,7 @@ function Invoke-ADCDeleteCrvserverpolicymapbinding {
         Invoke-ADCDeleteCrvserverpolicymapbinding -name <string>
     .NOTES
         File Name : Invoke-ADCDeleteCrvserverpolicymapbinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/cr/crvserver_policymap_binding/
         Requires  : PowerShell v5.1 and up
@@ -5637,7 +5637,7 @@ function Invoke-ADCGetCrvserverpolicymapbinding {
         Invoke-ADCGetCrvserverpolicymapbinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetCrvserverpolicymapbinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/cr/crvserver_policymap_binding/
         Requires  : PowerShell v5.1 and up
@@ -5736,7 +5736,7 @@ function Invoke-ADCAddCrvserverresponderpolicybinding {
         Invoke-ADCAddCrvserverresponderpolicybinding -name <string>
     .NOTES
         File Name : Invoke-ADCAddCrvserverresponderpolicybinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/cr/crvserver_responderpolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -5833,7 +5833,7 @@ function Invoke-ADCDeleteCrvserverresponderpolicybinding {
         Invoke-ADCDeleteCrvserverresponderpolicybinding -name <string>
     .NOTES
         File Name : Invoke-ADCDeleteCrvserverresponderpolicybinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/cr/crvserver_responderpolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -5913,7 +5913,7 @@ function Invoke-ADCGetCrvserverresponderpolicybinding {
         Invoke-ADCGetCrvserverresponderpolicybinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetCrvserverresponderpolicybinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/cr/crvserver_responderpolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -6012,7 +6012,7 @@ function Invoke-ADCAddCrvserverrewritepolicybinding {
         Invoke-ADCAddCrvserverrewritepolicybinding -name <string>
     .NOTES
         File Name : Invoke-ADCAddCrvserverrewritepolicybinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/cr/crvserver_rewritepolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -6109,7 +6109,7 @@ function Invoke-ADCDeleteCrvserverrewritepolicybinding {
         Invoke-ADCDeleteCrvserverrewritepolicybinding -name <string>
     .NOTES
         File Name : Invoke-ADCDeleteCrvserverrewritepolicybinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/cr/crvserver_rewritepolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -6189,7 +6189,7 @@ function Invoke-ADCGetCrvserverrewritepolicybinding {
         Invoke-ADCGetCrvserverrewritepolicybinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetCrvserverrewritepolicybinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/cr/crvserver_rewritepolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -6288,7 +6288,7 @@ function Invoke-ADCAddCrvserverspilloverpolicybinding {
         Invoke-ADCAddCrvserverspilloverpolicybinding -name <string>
     .NOTES
         File Name : Invoke-ADCAddCrvserverspilloverpolicybinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/cr/crvserver_spilloverpolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -6385,7 +6385,7 @@ function Invoke-ADCDeleteCrvserverspilloverpolicybinding {
         Invoke-ADCDeleteCrvserverspilloverpolicybinding -name <string>
     .NOTES
         File Name : Invoke-ADCDeleteCrvserverspilloverpolicybinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/cr/crvserver_spilloverpolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -6465,7 +6465,7 @@ function Invoke-ADCGetCrvserverspilloverpolicybinding {
         Invoke-ADCGetCrvserverspilloverpolicybinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetCrvserverspilloverpolicybinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/cr/crvserver_spilloverpolicy_binding/
         Requires  : PowerShell v5.1 and up

@@ -17,7 +17,7 @@ function Invoke-ADCUpdateScparameter {
         Invoke-ADCUpdateScparameter 
     .NOTES
         File Name : Invoke-ADCUpdateScparameter
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/sc/scparameter/
         Requires  : PowerShell v5.1 and up
@@ -82,7 +82,7 @@ function Invoke-ADCUnsetScparameter {
         Invoke-ADCUnsetScparameter 
     .NOTES
         File Name : Invoke-ADCUnsetScparameter
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/sc/scparameter
         Requires  : PowerShell v5.1 and up
@@ -153,7 +153,7 @@ function Invoke-ADCGetScparameter {
         Invoke-ADCGetScparameter -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetScparameter
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/sc/scparameter/
         Requires  : PowerShell v5.1 and up
@@ -258,7 +258,7 @@ function Invoke-ADCAddScpolicy {
         Invoke-ADCAddScpolicy -name <string>
     .NOTES
         File Name : Invoke-ADCAddScpolicy
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/sc/scpolicy/
         Requires  : PowerShell v5.1 and up
@@ -352,7 +352,7 @@ function Invoke-ADCDeleteScpolicy {
         Invoke-ADCDeleteScpolicy -name <string>
     .NOTES
         File Name : Invoke-ADCDeleteScpolicy
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/sc/scpolicy/
         Requires  : PowerShell v5.1 and up
@@ -444,7 +444,7 @@ function Invoke-ADCUpdateScpolicy {
         Invoke-ADCUpdateScpolicy -name <string>
     .NOTES
         File Name : Invoke-ADCUpdateScpolicy
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/sc/scpolicy/
         Requires  : PowerShell v5.1 and up
@@ -540,7 +540,7 @@ function Invoke-ADCUnsetScpolicy {
         Invoke-ADCUnsetScpolicy -name <string>
     .NOTES
         File Name : Invoke-ADCUnsetScpolicy
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/sc/scpolicy
         Requires  : PowerShell v5.1 and up
@@ -620,7 +620,7 @@ function Invoke-ADCGetScpolicy {
         Invoke-ADCGetScpolicy -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetScpolicy
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/sc/scpolicy/
         Requires  : PowerShell v5.1 and up

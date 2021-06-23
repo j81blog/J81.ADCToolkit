@@ -27,7 +27,7 @@ function Invoke-ADCGetPqbinding {
         Invoke-ADCGetPqbinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetPqbinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/pq/pqbinding/
         Requires  : PowerShell v5.1 and up
@@ -139,7 +139,7 @@ function Invoke-ADCAddPqpolicy {
         Invoke-ADCAddPqpolicy -policyname <string> -rule <string> -priority <double>
     .NOTES
         File Name : Invoke-ADCAddPqpolicy
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/pq/pqpolicy/
         Requires  : PowerShell v5.1 and up
@@ -226,7 +226,7 @@ function Invoke-ADCDeletePqpolicy {
         Invoke-ADCDeletePqpolicy -policyname <string>
     .NOTES
         File Name : Invoke-ADCDeletePqpolicy
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/pq/pqpolicy/
         Requires  : PowerShell v5.1 and up
@@ -305,7 +305,7 @@ function Invoke-ADCUpdatePqpolicy {
         Invoke-ADCUpdatePqpolicy -policyname <string>
     .NOTES
         File Name : Invoke-ADCUpdatePqpolicy
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/pq/pqpolicy/
         Requires  : PowerShell v5.1 and up
@@ -395,7 +395,7 @@ function Invoke-ADCUnsetPqpolicy {
         Invoke-ADCUnsetPqpolicy -policyname <string>
     .NOTES
         File Name : Invoke-ADCUnsetPqpolicy
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/pq/pqpolicy
         Requires  : PowerShell v5.1 and up
@@ -477,7 +477,7 @@ function Invoke-ADCGetPqpolicy {
         Invoke-ADCGetPqpolicy -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetPqpolicy
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/pq/pqpolicy/
         Requires  : PowerShell v5.1 and up

@@ -10,7 +10,7 @@ function Invoke-ADCForceHafailover {
         Invoke-ADCForceHafailover 
     .NOTES
         File Name : Invoke-ADCForceHafailover
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ha/hafailover/
         Requires  : PowerShell v5.1 and up
@@ -74,7 +74,7 @@ function Invoke-ADCSyncHafiles {
         Invoke-ADCSyncHafiles 
     .NOTES
         File Name : Invoke-ADCSyncHafiles
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ha/hafiles/
         Requires  : PowerShell v5.1 and up
@@ -142,7 +142,7 @@ function Invoke-ADCAddHanode {
         Invoke-ADCAddHanode -id <double> -ipaddress <string>
     .NOTES
         File Name : Invoke-ADCAddHanode
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ha/hanode/
         Requires  : PowerShell v5.1 and up
@@ -218,7 +218,7 @@ function Invoke-ADCDeleteHanode {
         Invoke-ADCDeleteHanode -id <double>
     .NOTES
         File Name : Invoke-ADCDeleteHanode
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ha/hanode/
         Requires  : PowerShell v5.1 and up
@@ -322,7 +322,7 @@ function Invoke-ADCUpdateHanode {
         Invoke-ADCUpdateHanode 
     .NOTES
         File Name : Invoke-ADCUpdateHanode
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ha/hanode/
         Requires  : PowerShell v5.1 and up
@@ -456,7 +456,7 @@ function Invoke-ADCUnsetHanode {
         Invoke-ADCUnsetHanode 
     .NOTES
         File Name : Invoke-ADCUnsetHanode
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ha/hanode
         Requires  : PowerShell v5.1 and up
@@ -558,7 +558,7 @@ function Invoke-ADCGetHanode {
         Invoke-ADCGetHanode -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetHanode
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ha/hanode/
         Requires  : PowerShell v5.1 and up
@@ -653,7 +653,7 @@ function Invoke-ADCGetHanodebinding {
         Invoke-ADCGetHanodebinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetHanodebinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ha/hanode_binding/
         Requires  : PowerShell v5.1 and up
@@ -744,7 +744,7 @@ function Invoke-ADCGetHanodecibinding {
         Invoke-ADCGetHanodecibinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetHanodecibinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ha/hanode_ci_binding/
         Requires  : PowerShell v5.1 and up
@@ -838,7 +838,7 @@ function Invoke-ADCGetHanodefisbinding {
         Invoke-ADCGetHanodefisbinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetHanodefisbinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ha/hanode_fis_binding/
         Requires  : PowerShell v5.1 and up
@@ -932,7 +932,7 @@ function Invoke-ADCGetHanodepartialfailureinterfacesbinding {
         Invoke-ADCGetHanodepartialfailureinterfacesbinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetHanodepartialfailureinterfacesbinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ha/hanode_partialfailureinterfaces_binding/
         Requires  : PowerShell v5.1 and up
@@ -1017,7 +1017,7 @@ function Invoke-ADCAddHanoderoutemonitor6binding {
         Invoke-ADCAddHanoderoutemonitor6binding -routemonitor <string>
     .NOTES
         File Name : Invoke-ADCAddHanoderoutemonitor6binding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ha/hanode_routemonitor6_binding/
         Requires  : PowerShell v5.1 and up
@@ -1092,7 +1092,7 @@ function Invoke-ADCDeleteHanoderoutemonitor6binding {
         Invoke-ADCDeleteHanoderoutemonitor6binding -id <double>
     .NOTES
         File Name : Invoke-ADCDeleteHanoderoutemonitor6binding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ha/hanode_routemonitor6_binding/
         Requires  : PowerShell v5.1 and up
@@ -1169,7 +1169,7 @@ function Invoke-ADCGetHanoderoutemonitor6binding {
         Invoke-ADCGetHanoderoutemonitor6binding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetHanoderoutemonitor6binding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ha/hanode_routemonitor6_binding/
         Requires  : PowerShell v5.1 and up
@@ -1254,7 +1254,7 @@ function Invoke-ADCAddHanoderoutemonitorbinding {
         Invoke-ADCAddHanoderoutemonitorbinding -routemonitor <string>
     .NOTES
         File Name : Invoke-ADCAddHanoderoutemonitorbinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ha/hanode_routemonitor_binding/
         Requires  : PowerShell v5.1 and up
@@ -1329,7 +1329,7 @@ function Invoke-ADCDeleteHanoderoutemonitorbinding {
         Invoke-ADCDeleteHanoderoutemonitorbinding -id <double>
     .NOTES
         File Name : Invoke-ADCDeleteHanoderoutemonitorbinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ha/hanode_routemonitor_binding/
         Requires  : PowerShell v5.1 and up
@@ -1406,7 +1406,7 @@ function Invoke-ADCGetHanoderoutemonitorbinding {
         Invoke-ADCGetHanoderoutemonitorbinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetHanoderoutemonitorbinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ha/hanode_routemonitor_binding/
         Requires  : PowerShell v5.1 and up
@@ -1486,7 +1486,7 @@ function Invoke-ADCForceHasync {
         Invoke-ADCForceHasync 
     .NOTES
         File Name : Invoke-ADCForceHasync
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ha/hasync/
         Requires  : PowerShell v5.1 and up
@@ -1559,7 +1559,7 @@ function Invoke-ADCGetHasyncfailures {
         Invoke-ADCGetHasyncfailures -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetHasyncfailures
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ha/hasyncfailures/
         Requires  : PowerShell v5.1 and up

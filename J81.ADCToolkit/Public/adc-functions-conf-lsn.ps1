@@ -23,7 +23,7 @@ function Invoke-ADCAddLsnappsattributes {
         Invoke-ADCAddLsnappsattributes -name <string> -transportprotocol <string>
     .NOTES
         File Name : Invoke-ADCAddLsnappsattributes
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/lsn/lsnappsattributes/
         Requires  : PowerShell v5.1 and up
@@ -103,7 +103,7 @@ function Invoke-ADCDeleteLsnappsattributes {
         Invoke-ADCDeleteLsnappsattributes -name <string>
     .NOTES
         File Name : Invoke-ADCDeleteLsnappsattributes
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/lsn/lsnappsattributes/
         Requires  : PowerShell v5.1 and up
@@ -165,7 +165,7 @@ function Invoke-ADCUpdateLsnappsattributes {
         Invoke-ADCUpdateLsnappsattributes -name <string>
     .NOTES
         File Name : Invoke-ADCUpdateLsnappsattributes
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/lsn/lsnappsattributes/
         Requires  : PowerShell v5.1 and up
@@ -237,7 +237,7 @@ function Invoke-ADCUnsetLsnappsattributes {
         Invoke-ADCUnsetLsnappsattributes -name <string>
     .NOTES
         File Name : Invoke-ADCUnsetLsnappsattributes
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/lsn/lsnappsattributes
         Requires  : PowerShell v5.1 and up
@@ -314,7 +314,7 @@ function Invoke-ADCGetLsnappsattributes {
         Invoke-ADCGetLsnappsattributes -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetLsnappsattributes
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/lsn/lsnappsattributes/
         Requires  : PowerShell v5.1 and up
@@ -438,7 +438,7 @@ function Invoke-ADCAddLsnappsprofile {
         Invoke-ADCAddLsnappsprofile -appsprofilename <string> -transportprotocol <string>
     .NOTES
         File Name : Invoke-ADCAddLsnappsprofile
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/lsn/lsnappsprofile/
         Requires  : PowerShell v5.1 and up
@@ -532,7 +532,7 @@ function Invoke-ADCDeleteLsnappsprofile {
         Invoke-ADCDeleteLsnappsprofile -appsprofilename <string>
     .NOTES
         File Name : Invoke-ADCDeleteLsnappsprofile
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/lsn/lsnappsprofile/
         Requires  : PowerShell v5.1 and up
@@ -627,7 +627,7 @@ function Invoke-ADCUpdateLsnappsprofile {
         Invoke-ADCUpdateLsnappsprofile -appsprofilename <string>
     .NOTES
         File Name : Invoke-ADCUpdateLsnappsprofile
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/lsn/lsnappsprofile/
         Requires  : PowerShell v5.1 and up
@@ -748,7 +748,7 @@ function Invoke-ADCUnsetLsnappsprofile {
         Invoke-ADCUnsetLsnappsprofile -appsprofilename <string>
     .NOTES
         File Name : Invoke-ADCUnsetLsnappsprofile
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/lsn/lsnappsprofile
         Requires  : PowerShell v5.1 and up
@@ -840,7 +840,7 @@ function Invoke-ADCGetLsnappsprofile {
         Invoke-ADCGetLsnappsprofile -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetLsnappsprofile
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/lsn/lsnappsprofile/
         Requires  : PowerShell v5.1 and up
@@ -936,7 +936,7 @@ function Invoke-ADCGetLsnappsprofilebinding {
         Invoke-ADCGetLsnappsprofilebinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetLsnappsprofilebinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/lsn/lsnappsprofile_binding/
         Requires  : PowerShell v5.1 and up
@@ -1015,7 +1015,7 @@ function Invoke-ADCAddLsnappsprofilelsnappsattributesbinding {
         Invoke-ADCAddLsnappsprofilelsnappsattributesbinding -appsprofilename <string>
     .NOTES
         File Name : Invoke-ADCAddLsnappsprofilelsnappsattributesbinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/lsn/lsnappsprofile_lsnappsattributes_binding/
         Requires  : PowerShell v5.1 and up
@@ -1085,7 +1085,7 @@ function Invoke-ADCDeleteLsnappsprofilelsnappsattributesbinding {
         Invoke-ADCDeleteLsnappsprofilelsnappsattributesbinding -appsprofilename <string>
     .NOTES
         File Name : Invoke-ADCDeleteLsnappsprofilelsnappsattributesbinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/lsn/lsnappsprofile_lsnappsattributes_binding/
         Requires  : PowerShell v5.1 and up
@@ -1159,7 +1159,7 @@ function Invoke-ADCGetLsnappsprofilelsnappsattributesbinding {
         Invoke-ADCGetLsnappsprofilelsnappsattributesbinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetLsnappsprofilelsnappsattributesbinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/lsn/lsnappsprofile_lsnappsattributes_binding/
         Requires  : PowerShell v5.1 and up
@@ -1242,7 +1242,7 @@ function Invoke-ADCAddLsnappsprofileportbinding {
         Invoke-ADCAddLsnappsprofileportbinding -appsprofilename <string>
     .NOTES
         File Name : Invoke-ADCAddLsnappsprofileportbinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/lsn/lsnappsprofile_port_binding/
         Requires  : PowerShell v5.1 and up
@@ -1315,7 +1315,7 @@ function Invoke-ADCDeleteLsnappsprofileportbinding {
         Invoke-ADCDeleteLsnappsprofileportbinding -appsprofilename <string>
     .NOTES
         File Name : Invoke-ADCDeleteLsnappsprofileportbinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/lsn/lsnappsprofile_port_binding/
         Requires  : PowerShell v5.1 and up
@@ -1389,7 +1389,7 @@ function Invoke-ADCGetLsnappsprofileportbinding {
         Invoke-ADCGetLsnappsprofileportbinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetLsnappsprofileportbinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/lsn/lsnappsprofile_port_binding/
         Requires  : PowerShell v5.1 and up
@@ -1469,7 +1469,7 @@ function Invoke-ADCAddLsnclient {
         Invoke-ADCAddLsnclient -clientname <string>
     .NOTES
         File Name : Invoke-ADCAddLsnclient
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/lsn/lsnclient/
         Requires  : PowerShell v5.1 and up
@@ -1536,7 +1536,7 @@ function Invoke-ADCDeleteLsnclient {
         Invoke-ADCDeleteLsnclient -clientname <string>
     .NOTES
         File Name : Invoke-ADCDeleteLsnclient
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/lsn/lsnclient/
         Requires  : PowerShell v5.1 and up
@@ -1608,7 +1608,7 @@ function Invoke-ADCGetLsnclient {
         Invoke-ADCGetLsnclient -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetLsnclient
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/lsn/lsnclient/
         Requires  : PowerShell v5.1 and up
@@ -1704,7 +1704,7 @@ function Invoke-ADCGetLsnclientbinding {
         Invoke-ADCGetLsnclientbinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetLsnclientbinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/lsn/lsnclient_binding/
         Requires  : PowerShell v5.1 and up
@@ -1794,7 +1794,7 @@ function Invoke-ADCAddLsnclientnetwork6binding {
         Invoke-ADCAddLsnclientnetwork6binding -clientname <string>
     .NOTES
         File Name : Invoke-ADCAddLsnclientnetwork6binding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/lsn/lsnclient_network6_binding/
         Requires  : PowerShell v5.1 and up
@@ -1884,7 +1884,7 @@ function Invoke-ADCDeleteLsnclientnetwork6binding {
         Invoke-ADCDeleteLsnclientnetwork6binding -clientname <string>
     .NOTES
         File Name : Invoke-ADCDeleteLsnclientnetwork6binding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/lsn/lsnclient_network6_binding/
         Requires  : PowerShell v5.1 and up
@@ -1967,7 +1967,7 @@ function Invoke-ADCGetLsnclientnetwork6binding {
         Invoke-ADCGetLsnclientnetwork6binding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetLsnclientnetwork6binding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/lsn/lsnclient_network6_binding/
         Requires  : PowerShell v5.1 and up
@@ -2057,7 +2057,7 @@ function Invoke-ADCAddLsnclientnetworkbinding {
         Invoke-ADCAddLsnclientnetworkbinding -clientname <string>
     .NOTES
         File Name : Invoke-ADCAddLsnclientnetworkbinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/lsn/lsnclient_network_binding/
         Requires  : PowerShell v5.1 and up
@@ -2141,7 +2141,7 @@ function Invoke-ADCDeleteLsnclientnetworkbinding {
         Invoke-ADCDeleteLsnclientnetworkbinding -clientname <string>
     .NOTES
         File Name : Invoke-ADCDeleteLsnclientnetworkbinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/lsn/lsnclient_network_binding/
         Requires  : PowerShell v5.1 and up
@@ -2221,7 +2221,7 @@ function Invoke-ADCGetLsnclientnetworkbinding {
         Invoke-ADCGetLsnclientnetworkbinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetLsnclientnetworkbinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/lsn/lsnclient_network_binding/
         Requires  : PowerShell v5.1 and up
@@ -2309,7 +2309,7 @@ function Invoke-ADCAddLsnclientnsacl6binding {
         Invoke-ADCAddLsnclientnsacl6binding -clientname <string>
     .NOTES
         File Name : Invoke-ADCAddLsnclientnsacl6binding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/lsn/lsnclient_nsacl6_binding/
         Requires  : PowerShell v5.1 and up
@@ -2389,7 +2389,7 @@ function Invoke-ADCDeleteLsnclientnsacl6binding {
         Invoke-ADCDeleteLsnclientnsacl6binding -clientname <string>
     .NOTES
         File Name : Invoke-ADCDeleteLsnclientnsacl6binding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/lsn/lsnclient_nsacl6_binding/
         Requires  : PowerShell v5.1 and up
@@ -2466,7 +2466,7 @@ function Invoke-ADCGetLsnclientnsacl6binding {
         Invoke-ADCGetLsnclientnsacl6binding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetLsnclientnsacl6binding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/lsn/lsnclient_nsacl6_binding/
         Requires  : PowerShell v5.1 and up
@@ -2554,7 +2554,7 @@ function Invoke-ADCAddLsnclientnsaclbinding {
         Invoke-ADCAddLsnclientnsaclbinding -clientname <string>
     .NOTES
         File Name : Invoke-ADCAddLsnclientnsaclbinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/lsn/lsnclient_nsacl_binding/
         Requires  : PowerShell v5.1 and up
@@ -2634,7 +2634,7 @@ function Invoke-ADCDeleteLsnclientnsaclbinding {
         Invoke-ADCDeleteLsnclientnsaclbinding -clientname <string>
     .NOTES
         File Name : Invoke-ADCDeleteLsnclientnsaclbinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/lsn/lsnclient_nsacl_binding/
         Requires  : PowerShell v5.1 and up
@@ -2711,7 +2711,7 @@ function Invoke-ADCGetLsnclientnsaclbinding {
         Invoke-ADCGetLsnclientnsaclbinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetLsnclientnsaclbinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/lsn/lsnclient_nsacl_binding/
         Requires  : PowerShell v5.1 and up
@@ -2814,7 +2814,7 @@ function Invoke-ADCGetLsndeterministicnat {
         Invoke-ADCGetLsndeterministicnat -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetLsndeterministicnat
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/lsn/lsndeterministicnat/
         Requires  : PowerShell v5.1 and up
@@ -3016,7 +3016,7 @@ function Invoke-ADCAddLsngroup {
         Invoke-ADCAddLsngroup -groupname <string> -clientname <string>
     .NOTES
         File Name : Invoke-ADCAddLsngroup
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/lsn/lsngroup/
         Requires  : PowerShell v5.1 and up
@@ -3138,7 +3138,7 @@ function Invoke-ADCDeleteLsngroup {
         Invoke-ADCDeleteLsngroup -groupname <string>
     .NOTES
         File Name : Invoke-ADCDeleteLsngroup
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/lsn/lsngroup/
         Requires  : PowerShell v5.1 and up
@@ -3264,7 +3264,7 @@ function Invoke-ADCUpdateLsngroup {
         Invoke-ADCUpdateLsngroup -groupname <string>
     .NOTES
         File Name : Invoke-ADCUpdateLsngroup
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/lsn/lsngroup/
         Requires  : PowerShell v5.1 and up
@@ -3425,7 +3425,7 @@ function Invoke-ADCUnsetLsngroup {
         Invoke-ADCUnsetLsngroup -groupname <string>
     .NOTES
         File Name : Invoke-ADCUnsetLsngroup
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/lsn/lsngroup
         Requires  : PowerShell v5.1 and up
@@ -3529,7 +3529,7 @@ function Invoke-ADCGetLsngroup {
         Invoke-ADCGetLsngroup -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetLsngroup
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/lsn/lsngroup/
         Requires  : PowerShell v5.1 and up
@@ -3625,7 +3625,7 @@ function Invoke-ADCGetLsngroupbinding {
         Invoke-ADCGetLsngroupbinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetLsngroupbinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/lsn/lsngroup_binding/
         Requires  : PowerShell v5.1 and up
@@ -3704,7 +3704,7 @@ function Invoke-ADCAddLsngroupipsecalgprofilebinding {
         Invoke-ADCAddLsngroupipsecalgprofilebinding -groupname <string>
     .NOTES
         File Name : Invoke-ADCAddLsngroupipsecalgprofilebinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/lsn/lsngroup_ipsecalgprofile_binding/
         Requires  : PowerShell v5.1 and up
@@ -3774,7 +3774,7 @@ function Invoke-ADCDeleteLsngroupipsecalgprofilebinding {
         Invoke-ADCDeleteLsngroupipsecalgprofilebinding -groupname <string>
     .NOTES
         File Name : Invoke-ADCDeleteLsngroupipsecalgprofilebinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/lsn/lsngroup_ipsecalgprofile_binding/
         Requires  : PowerShell v5.1 and up
@@ -3848,7 +3848,7 @@ function Invoke-ADCGetLsngroupipsecalgprofilebinding {
         Invoke-ADCGetLsngroupipsecalgprofilebinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetLsngroupipsecalgprofilebinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/lsn/lsngroup_ipsecalgprofile_binding/
         Requires  : PowerShell v5.1 and up
@@ -3930,7 +3930,7 @@ function Invoke-ADCAddLsngrouplsnappsprofilebinding {
         Invoke-ADCAddLsngrouplsnappsprofilebinding -groupname <string>
     .NOTES
         File Name : Invoke-ADCAddLsngrouplsnappsprofilebinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/lsn/lsngroup_lsnappsprofile_binding/
         Requires  : PowerShell v5.1 and up
@@ -4000,7 +4000,7 @@ function Invoke-ADCDeleteLsngrouplsnappsprofilebinding {
         Invoke-ADCDeleteLsngrouplsnappsprofilebinding -groupname <string>
     .NOTES
         File Name : Invoke-ADCDeleteLsngrouplsnappsprofilebinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/lsn/lsngroup_lsnappsprofile_binding/
         Requires  : PowerShell v5.1 and up
@@ -4074,7 +4074,7 @@ function Invoke-ADCGetLsngrouplsnappsprofilebinding {
         Invoke-ADCGetLsngrouplsnappsprofilebinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetLsngrouplsnappsprofilebinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/lsn/lsngroup_lsnappsprofile_binding/
         Requires  : PowerShell v5.1 and up
@@ -4156,7 +4156,7 @@ function Invoke-ADCAddLsngrouplsnhttphdrlogprofilebinding {
         Invoke-ADCAddLsngrouplsnhttphdrlogprofilebinding -groupname <string>
     .NOTES
         File Name : Invoke-ADCAddLsngrouplsnhttphdrlogprofilebinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/lsn/lsngroup_lsnhttphdrlogprofile_binding/
         Requires  : PowerShell v5.1 and up
@@ -4226,7 +4226,7 @@ function Invoke-ADCDeleteLsngrouplsnhttphdrlogprofilebinding {
         Invoke-ADCDeleteLsngrouplsnhttphdrlogprofilebinding -groupname <string>
     .NOTES
         File Name : Invoke-ADCDeleteLsngrouplsnhttphdrlogprofilebinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/lsn/lsngroup_lsnhttphdrlogprofile_binding/
         Requires  : PowerShell v5.1 and up
@@ -4300,7 +4300,7 @@ function Invoke-ADCGetLsngrouplsnhttphdrlogprofilebinding {
         Invoke-ADCGetLsngrouplsnhttphdrlogprofilebinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetLsngrouplsnhttphdrlogprofilebinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/lsn/lsngroup_lsnhttphdrlogprofile_binding/
         Requires  : PowerShell v5.1 and up
@@ -4382,7 +4382,7 @@ function Invoke-ADCAddLsngrouplsnlogprofilebinding {
         Invoke-ADCAddLsngrouplsnlogprofilebinding -groupname <string>
     .NOTES
         File Name : Invoke-ADCAddLsngrouplsnlogprofilebinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/lsn/lsngroup_lsnlogprofile_binding/
         Requires  : PowerShell v5.1 and up
@@ -4452,7 +4452,7 @@ function Invoke-ADCDeleteLsngrouplsnlogprofilebinding {
         Invoke-ADCDeleteLsngrouplsnlogprofilebinding -groupname <string>
     .NOTES
         File Name : Invoke-ADCDeleteLsngrouplsnlogprofilebinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/lsn/lsngroup_lsnlogprofile_binding/
         Requires  : PowerShell v5.1 and up
@@ -4526,7 +4526,7 @@ function Invoke-ADCGetLsngrouplsnlogprofilebinding {
         Invoke-ADCGetLsngrouplsnlogprofilebinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetLsngrouplsnlogprofilebinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/lsn/lsngroup_lsnlogprofile_binding/
         Requires  : PowerShell v5.1 and up
@@ -4608,7 +4608,7 @@ function Invoke-ADCAddLsngrouplsnpoolbinding {
         Invoke-ADCAddLsngrouplsnpoolbinding -groupname <string>
     .NOTES
         File Name : Invoke-ADCAddLsngrouplsnpoolbinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/lsn/lsngroup_lsnpool_binding/
         Requires  : PowerShell v5.1 and up
@@ -4678,7 +4678,7 @@ function Invoke-ADCDeleteLsngrouplsnpoolbinding {
         Invoke-ADCDeleteLsngrouplsnpoolbinding -groupname <string>
     .NOTES
         File Name : Invoke-ADCDeleteLsngrouplsnpoolbinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/lsn/lsngroup_lsnpool_binding/
         Requires  : PowerShell v5.1 and up
@@ -4752,7 +4752,7 @@ function Invoke-ADCGetLsngrouplsnpoolbinding {
         Invoke-ADCGetLsngrouplsnpoolbinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetLsngrouplsnpoolbinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/lsn/lsngroup_lsnpool_binding/
         Requires  : PowerShell v5.1 and up
@@ -4834,7 +4834,7 @@ function Invoke-ADCAddLsngrouplsnrtspalgprofilebinding {
         Invoke-ADCAddLsngrouplsnrtspalgprofilebinding -groupname <string>
     .NOTES
         File Name : Invoke-ADCAddLsngrouplsnrtspalgprofilebinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/lsn/lsngroup_lsnrtspalgprofile_binding/
         Requires  : PowerShell v5.1 and up
@@ -4904,7 +4904,7 @@ function Invoke-ADCDeleteLsngrouplsnrtspalgprofilebinding {
         Invoke-ADCDeleteLsngrouplsnrtspalgprofilebinding -groupname <string>
     .NOTES
         File Name : Invoke-ADCDeleteLsngrouplsnrtspalgprofilebinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/lsn/lsngroup_lsnrtspalgprofile_binding/
         Requires  : PowerShell v5.1 and up
@@ -4978,7 +4978,7 @@ function Invoke-ADCGetLsngrouplsnrtspalgprofilebinding {
         Invoke-ADCGetLsngrouplsnrtspalgprofilebinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetLsngrouplsnrtspalgprofilebinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/lsn/lsngroup_lsnrtspalgprofile_binding/
         Requires  : PowerShell v5.1 and up
@@ -5060,7 +5060,7 @@ function Invoke-ADCAddLsngrouplsnsipalgprofilebinding {
         Invoke-ADCAddLsngrouplsnsipalgprofilebinding -groupname <string>
     .NOTES
         File Name : Invoke-ADCAddLsngrouplsnsipalgprofilebinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/lsn/lsngroup_lsnsipalgprofile_binding/
         Requires  : PowerShell v5.1 and up
@@ -5130,7 +5130,7 @@ function Invoke-ADCDeleteLsngrouplsnsipalgprofilebinding {
         Invoke-ADCDeleteLsngrouplsnsipalgprofilebinding -groupname <string>
     .NOTES
         File Name : Invoke-ADCDeleteLsngrouplsnsipalgprofilebinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/lsn/lsngroup_lsnsipalgprofile_binding/
         Requires  : PowerShell v5.1 and up
@@ -5204,7 +5204,7 @@ function Invoke-ADCGetLsngrouplsnsipalgprofilebinding {
         Invoke-ADCGetLsngrouplsnsipalgprofilebinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetLsngrouplsnsipalgprofilebinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/lsn/lsngroup_lsnsipalgprofile_binding/
         Requires  : PowerShell v5.1 and up
@@ -5286,7 +5286,7 @@ function Invoke-ADCAddLsngrouplsntransportprofilebinding {
         Invoke-ADCAddLsngrouplsntransportprofilebinding -groupname <string>
     .NOTES
         File Name : Invoke-ADCAddLsngrouplsntransportprofilebinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/lsn/lsngroup_lsntransportprofile_binding/
         Requires  : PowerShell v5.1 and up
@@ -5356,7 +5356,7 @@ function Invoke-ADCDeleteLsngrouplsntransportprofilebinding {
         Invoke-ADCDeleteLsngrouplsntransportprofilebinding -groupname <string>
     .NOTES
         File Name : Invoke-ADCDeleteLsngrouplsntransportprofilebinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/lsn/lsngroup_lsntransportprofile_binding/
         Requires  : PowerShell v5.1 and up
@@ -5430,7 +5430,7 @@ function Invoke-ADCGetLsngrouplsntransportprofilebinding {
         Invoke-ADCGetLsngrouplsntransportprofilebinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetLsngrouplsntransportprofilebinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/lsn/lsngroup_lsntransportprofile_binding/
         Requires  : PowerShell v5.1 and up
@@ -5512,7 +5512,7 @@ function Invoke-ADCAddLsngrouppcpserverbinding {
         Invoke-ADCAddLsngrouppcpserverbinding -groupname <string>
     .NOTES
         File Name : Invoke-ADCAddLsngrouppcpserverbinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/lsn/lsngroup_pcpserver_binding/
         Requires  : PowerShell v5.1 and up
@@ -5582,7 +5582,7 @@ function Invoke-ADCDeleteLsngrouppcpserverbinding {
         Invoke-ADCDeleteLsngrouppcpserverbinding -groupname <string>
     .NOTES
         File Name : Invoke-ADCDeleteLsngrouppcpserverbinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/lsn/lsngroup_pcpserver_binding/
         Requires  : PowerShell v5.1 and up
@@ -5656,7 +5656,7 @@ function Invoke-ADCGetLsngrouppcpserverbinding {
         Invoke-ADCGetLsngrouppcpserverbinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetLsngrouppcpserverbinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/lsn/lsngroup_pcpserver_binding/
         Requires  : PowerShell v5.1 and up
@@ -5754,7 +5754,7 @@ function Invoke-ADCAddLsnhttphdrlogprofile {
         Invoke-ADCAddLsnhttphdrlogprofile -httphdrlogprofilename <string>
     .NOTES
         File Name : Invoke-ADCAddLsnhttphdrlogprofile
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/lsn/lsnhttphdrlogprofile/
         Requires  : PowerShell v5.1 and up
@@ -5837,7 +5837,7 @@ function Invoke-ADCDeleteLsnhttphdrlogprofile {
         Invoke-ADCDeleteLsnhttphdrlogprofile -httphdrlogprofilename <string>
     .NOTES
         File Name : Invoke-ADCDeleteLsnhttphdrlogprofile
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/lsn/lsnhttphdrlogprofile/
         Requires  : PowerShell v5.1 and up
@@ -5912,7 +5912,7 @@ function Invoke-ADCUpdateLsnhttphdrlogprofile {
         Invoke-ADCUpdateLsnhttphdrlogprofile -httphdrlogprofilename <string>
     .NOTES
         File Name : Invoke-ADCUpdateLsnhttphdrlogprofile
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/lsn/lsnhttphdrlogprofile/
         Requires  : PowerShell v5.1 and up
@@ -6005,7 +6005,7 @@ function Invoke-ADCUnsetLsnhttphdrlogprofile {
         Invoke-ADCUnsetLsnhttphdrlogprofile -httphdrlogprofilename <string>
     .NOTES
         File Name : Invoke-ADCUnsetLsnhttphdrlogprofile
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/lsn/lsnhttphdrlogprofile
         Requires  : PowerShell v5.1 and up
@@ -6090,7 +6090,7 @@ function Invoke-ADCGetLsnhttphdrlogprofile {
         Invoke-ADCGetLsnhttphdrlogprofile -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetLsnhttphdrlogprofile
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/lsn/lsnhttphdrlogprofile/
         Requires  : PowerShell v5.1 and up
@@ -6179,7 +6179,7 @@ function Invoke-ADCAddLsnip6profile {
         Invoke-ADCAddLsnip6profile -name <string> -type <string>
     .NOTES
         File Name : Invoke-ADCAddLsnip6profile
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/lsn/lsnip6profile/
         Requires  : PowerShell v5.1 and up
@@ -6256,7 +6256,7 @@ function Invoke-ADCDeleteLsnip6profile {
         Invoke-ADCDeleteLsnip6profile -name <string>
     .NOTES
         File Name : Invoke-ADCDeleteLsnip6profile
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/lsn/lsnip6profile/
         Requires  : PowerShell v5.1 and up
@@ -6328,7 +6328,7 @@ function Invoke-ADCGetLsnip6profile {
         Invoke-ADCGetLsnip6profile -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetLsnip6profile
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/lsn/lsnip6profile/
         Requires  : PowerShell v5.1 and up
@@ -6431,7 +6431,7 @@ function Invoke-ADCAddLsnlogprofile {
         Invoke-ADCAddLsnlogprofile -logprofilename <string>
     .NOTES
         File Name : Invoke-ADCAddLsnlogprofile
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/lsn/lsnlogprofile/
         Requires  : PowerShell v5.1 and up
@@ -6517,7 +6517,7 @@ function Invoke-ADCDeleteLsnlogprofile {
         Invoke-ADCDeleteLsnlogprofile -logprofilename <string>
     .NOTES
         File Name : Invoke-ADCDeleteLsnlogprofile
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/lsn/lsnlogprofile/
         Requires  : PowerShell v5.1 and up
@@ -6594,7 +6594,7 @@ function Invoke-ADCUpdateLsnlogprofile {
         Invoke-ADCUpdateLsnlogprofile -logprofilename <string>
     .NOTES
         File Name : Invoke-ADCUpdateLsnlogprofile
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/lsn/lsnlogprofile/
         Requires  : PowerShell v5.1 and up
@@ -6692,7 +6692,7 @@ function Invoke-ADCUnsetLsnlogprofile {
         Invoke-ADCUnsetLsnlogprofile -logprofilename <string>
     .NOTES
         File Name : Invoke-ADCUnsetLsnlogprofile
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/lsn/lsnlogprofile
         Requires  : PowerShell v5.1 and up
@@ -6780,7 +6780,7 @@ function Invoke-ADCGetLsnlogprofile {
         Invoke-ADCGetLsnlogprofile -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetLsnlogprofile
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/lsn/lsnlogprofile/
         Requires  : PowerShell v5.1 and up
@@ -6872,7 +6872,7 @@ function Invoke-ADCUpdateLsnparameter {
         Invoke-ADCUpdateLsnparameter 
     .NOTES
         File Name : Invoke-ADCUpdateLsnparameter
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/lsn/lsnparameter/
         Requires  : PowerShell v5.1 and up
@@ -6948,7 +6948,7 @@ function Invoke-ADCUnsetLsnparameter {
         Invoke-ADCUnsetLsnparameter 
     .NOTES
         File Name : Invoke-ADCUnsetLsnparameter
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/lsn/lsnparameter
         Requires  : PowerShell v5.1 and up
@@ -7022,7 +7022,7 @@ function Invoke-ADCGetLsnparameter {
         Invoke-ADCGetLsnparameter -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetLsnparameter
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/lsn/lsnparameter/
         Requires  : PowerShell v5.1 and up
@@ -7121,7 +7121,7 @@ function Invoke-ADCAddLsnpool {
         Invoke-ADCAddLsnpool -poolname <string>
     .NOTES
         File Name : Invoke-ADCAddLsnpool
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/lsn/lsnpool/
         Requires  : PowerShell v5.1 and up
@@ -7203,7 +7203,7 @@ function Invoke-ADCDeleteLsnpool {
         Invoke-ADCDeleteLsnpool -poolname <string>
     .NOTES
         File Name : Invoke-ADCDeleteLsnpool
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/lsn/lsnpool/
         Requires  : PowerShell v5.1 and up
@@ -7275,7 +7275,7 @@ function Invoke-ADCUpdateLsnpool {
         Invoke-ADCUpdateLsnpool -poolname <string>
     .NOTES
         File Name : Invoke-ADCUpdateLsnpool
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/lsn/lsnpool/
         Requires  : PowerShell v5.1 and up
@@ -7358,7 +7358,7 @@ function Invoke-ADCUnsetLsnpool {
         Invoke-ADCUnsetLsnpool -poolname <string>
     .NOTES
         File Name : Invoke-ADCUnsetLsnpool
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/lsn/lsnpool
         Requires  : PowerShell v5.1 and up
@@ -7438,7 +7438,7 @@ function Invoke-ADCGetLsnpool {
         Invoke-ADCGetLsnpool -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetLsnpool
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/lsn/lsnpool/
         Requires  : PowerShell v5.1 and up
@@ -7534,7 +7534,7 @@ function Invoke-ADCGetLsnpoolbinding {
         Invoke-ADCGetLsnpoolbinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetLsnpoolbinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/lsn/lsnpool_binding/
         Requires  : PowerShell v5.1 and up
@@ -7618,7 +7618,7 @@ function Invoke-ADCAddLsnpoollsnipbinding {
         Invoke-ADCAddLsnpoollsnipbinding -poolname <string>
     .NOTES
         File Name : Invoke-ADCAddLsnpoollsnipbinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/lsn/lsnpool_lsnip_binding/
         Requires  : PowerShell v5.1 and up
@@ -7698,7 +7698,7 @@ function Invoke-ADCDeleteLsnpoollsnipbinding {
         Invoke-ADCDeleteLsnpoollsnipbinding -poolname <string>
     .NOTES
         File Name : Invoke-ADCDeleteLsnpoollsnipbinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/lsn/lsnpool_lsnip_binding/
         Requires  : PowerShell v5.1 and up
@@ -7775,7 +7775,7 @@ function Invoke-ADCGetLsnpoollsnipbinding {
         Invoke-ADCGetLsnpoollsnipbinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetLsnpoollsnipbinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/lsn/lsnpool_lsnip_binding/
         Requires  : PowerShell v5.1 and up
@@ -7866,7 +7866,7 @@ function Invoke-ADCAddLsnrtspalgprofile {
         Invoke-ADCAddLsnrtspalgprofile -rtspalgprofilename <string> -rtspportrange <string>
     .NOTES
         File Name : Invoke-ADCAddLsnrtspalgprofile
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/lsn/lsnrtspalgprofile/
         Requires  : PowerShell v5.1 and up
@@ -7955,7 +7955,7 @@ function Invoke-ADCUpdateLsnrtspalgprofile {
         Invoke-ADCUpdateLsnrtspalgprofile -rtspalgprofilename <string>
     .NOTES
         File Name : Invoke-ADCUpdateLsnrtspalgprofile
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/lsn/lsnrtspalgprofile/
         Requires  : PowerShell v5.1 and up
@@ -8037,7 +8037,7 @@ function Invoke-ADCUnsetLsnrtspalgprofile {
         Invoke-ADCUnsetLsnrtspalgprofile -rtspalgprofilename <string>
     .NOTES
         File Name : Invoke-ADCUnsetLsnrtspalgprofile
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/lsn/lsnrtspalgprofile
         Requires  : PowerShell v5.1 and up
@@ -8104,7 +8104,7 @@ function Invoke-ADCDeleteLsnrtspalgprofile {
         Invoke-ADCDeleteLsnrtspalgprofile -rtspalgprofilename <string>
     .NOTES
         File Name : Invoke-ADCDeleteLsnrtspalgprofile
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/lsn/lsnrtspalgprofile/
         Requires  : PowerShell v5.1 and up
@@ -8176,7 +8176,7 @@ function Invoke-ADCGetLsnrtspalgprofile {
         Invoke-ADCGetLsnrtspalgprofile -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetLsnrtspalgprofile
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/lsn/lsnrtspalgprofile/
         Requires  : PowerShell v5.1 and up
@@ -8256,7 +8256,7 @@ function Invoke-ADCFlushLsnrtspalgsession {
         Invoke-ADCFlushLsnrtspalgsession -sessionid <string>
     .NOTES
         File Name : Invoke-ADCFlushLsnrtspalgsession
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/lsn/lsnrtspalgsession/
         Requires  : PowerShell v5.1 and up
@@ -8330,7 +8330,7 @@ function Invoke-ADCGetLsnrtspalgsession {
         Invoke-ADCGetLsnrtspalgsession -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetLsnrtspalgsession
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/lsn/lsnrtspalgsession/
         Requires  : PowerShell v5.1 and up
@@ -8424,7 +8424,7 @@ function Invoke-ADCGetLsnrtspalgsessionbinding {
         Invoke-ADCGetLsnrtspalgsessionbinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetLsnrtspalgsessionbinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/lsn/lsnrtspalgsession_binding/
         Requires  : PowerShell v5.1 and up
@@ -8514,7 +8514,7 @@ function Invoke-ADCGetLsnrtspalgsessiondatachannelbinding {
         Invoke-ADCGetLsnrtspalgsessiondatachannelbinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetLsnrtspalgsessiondatachannelbinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/lsn/lsnrtspalgsession_datachannel_binding/
         Requires  : PowerShell v5.1 and up
@@ -8607,7 +8607,7 @@ function Invoke-ADCFlushLsnsession {
         Invoke-ADCFlushLsnsession 
     .NOTES
         File Name : Invoke-ADCFlushLsnsession
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/lsn/lsnsession/
         Requires  : PowerShell v5.1 and up
@@ -8722,7 +8722,7 @@ function Invoke-ADCGetLsnsession {
         Invoke-ADCGetLsnsession -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetLsnsession
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/lsn/lsnsession/
         Requires  : PowerShell v5.1 and up
@@ -8832,7 +8832,7 @@ function Invoke-ADCFlushLsnsipalgcall {
         Invoke-ADCFlushLsnsipalgcall -callid <string>
     .NOTES
         File Name : Invoke-ADCFlushLsnsipalgcall
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/lsn/lsnsipalgcall/
         Requires  : PowerShell v5.1 and up
@@ -8906,7 +8906,7 @@ function Invoke-ADCGetLsnsipalgcall {
         Invoke-ADCGetLsnsipalgcall -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetLsnsipalgcall
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/lsn/lsnsipalgcall/
         Requires  : PowerShell v5.1 and up
@@ -9000,7 +9000,7 @@ function Invoke-ADCGetLsnsipalgcallbinding {
         Invoke-ADCGetLsnsipalgcallbinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetLsnsipalgcallbinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/lsn/lsnsipalgcall_binding/
         Requires  : PowerShell v5.1 and up
@@ -9090,7 +9090,7 @@ function Invoke-ADCGetLsnsipalgcallcontrolchannelbinding {
         Invoke-ADCGetLsnsipalgcallcontrolchannelbinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetLsnsipalgcallcontrolchannelbinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/lsn/lsnsipalgcall_controlchannel_binding/
         Requires  : PowerShell v5.1 and up
@@ -9183,7 +9183,7 @@ function Invoke-ADCGetLsnsipalgcalldatachannelbinding {
         Invoke-ADCGetLsnsipalgcalldatachannelbinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetLsnsipalgcalldatachannelbinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/lsn/lsnsipalgcall_datachannel_binding/
         Requires  : PowerShell v5.1 and up
@@ -9303,7 +9303,7 @@ function Invoke-ADCAddLsnsipalgprofile {
         Invoke-ADCAddLsnsipalgprofile -sipalgprofilename <string> -siptransportprotocol <string>
     .NOTES
         File Name : Invoke-ADCAddLsnsipalgprofile
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/lsn/lsnsipalgprofile/
         Requires  : PowerShell v5.1 and up
@@ -9456,7 +9456,7 @@ function Invoke-ADCUpdateLsnsipalgprofile {
         Invoke-ADCUpdateLsnsipalgprofile -sipalgprofilename <string>
     .NOTES
         File Name : Invoke-ADCUpdateLsnsipalgprofile
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/lsn/lsnsipalgprofile/
         Requires  : PowerShell v5.1 and up
@@ -9595,7 +9595,7 @@ function Invoke-ADCUnsetLsnsipalgprofile {
         Invoke-ADCUnsetLsnsipalgprofile -sipalgprofilename <string>
     .NOTES
         File Name : Invoke-ADCUnsetLsnsipalgprofile
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/lsn/lsnsipalgprofile
         Requires  : PowerShell v5.1 and up
@@ -9689,7 +9689,7 @@ function Invoke-ADCDeleteLsnsipalgprofile {
         Invoke-ADCDeleteLsnsipalgprofile -sipalgprofilename <string>
     .NOTES
         File Name : Invoke-ADCDeleteLsnsipalgprofile
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/lsn/lsnsipalgprofile/
         Requires  : PowerShell v5.1 and up
@@ -9761,7 +9761,7 @@ function Invoke-ADCGetLsnsipalgprofile {
         Invoke-ADCGetLsnsipalgprofile -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetLsnsipalgprofile
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/lsn/lsnsipalgprofile/
         Requires  : PowerShell v5.1 and up
@@ -9879,7 +9879,7 @@ function Invoke-ADCAddLsnstatic {
         Invoke-ADCAddLsnstatic -name <string> -transportprotocol <string> -subscrip <string> -subscrport <int>
     .NOTES
         File Name : Invoke-ADCAddLsnstatic
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/lsn/lsnstatic/
         Requires  : PowerShell v5.1 and up
@@ -9981,7 +9981,7 @@ function Invoke-ADCDeleteLsnstatic {
         Invoke-ADCDeleteLsnstatic -name <string>
     .NOTES
         File Name : Invoke-ADCDeleteLsnstatic
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/lsn/lsnstatic/
         Requires  : PowerShell v5.1 and up
@@ -10053,7 +10053,7 @@ function Invoke-ADCGetLsnstatic {
         Invoke-ADCGetLsnstatic -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetLsnstatic
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/lsn/lsnstatic/
         Requires  : PowerShell v5.1 and up
@@ -10192,7 +10192,7 @@ function Invoke-ADCAddLsntransportprofile {
         Invoke-ADCAddLsntransportprofile -transportprofilename <string> -transportprotocol <string>
     .NOTES
         File Name : Invoke-ADCAddLsntransportprofile
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/lsn/lsntransportprofile/
         Requires  : PowerShell v5.1 and up
@@ -10301,7 +10301,7 @@ function Invoke-ADCDeleteLsntransportprofile {
         Invoke-ADCDeleteLsntransportprofile -transportprofilename <string>
     .NOTES
         File Name : Invoke-ADCDeleteLsntransportprofile
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/lsn/lsntransportprofile/
         Requires  : PowerShell v5.1 and up
@@ -10411,7 +10411,7 @@ function Invoke-ADCUpdateLsntransportprofile {
         Invoke-ADCUpdateLsntransportprofile -transportprofilename <string>
     .NOTES
         File Name : Invoke-ADCUpdateLsntransportprofile
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/lsn/lsntransportprofile/
         Requires  : PowerShell v5.1 and up
@@ -10549,7 +10549,7 @@ function Invoke-ADCUnsetLsntransportprofile {
         Invoke-ADCUnsetLsntransportprofile -transportprofilename <string>
     .NOTES
         File Name : Invoke-ADCUnsetLsntransportprofile
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/lsn/lsntransportprofile
         Requires  : PowerShell v5.1 and up
@@ -10653,7 +10653,7 @@ function Invoke-ADCGetLsntransportprofile {
         Invoke-ADCGetLsntransportprofile -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetLsntransportprofile
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/lsn/lsntransportprofile/
         Requires  : PowerShell v5.1 and up

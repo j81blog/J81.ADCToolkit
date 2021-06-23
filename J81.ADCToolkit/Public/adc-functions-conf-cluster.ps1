@@ -48,7 +48,7 @@ function Invoke-ADCSyncClusterfiles {
         Invoke-ADCSyncClusterfiles 
     .NOTES
         File Name : Invoke-ADCSyncClusterfiles
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/cluster/clusterfiles/
         Requires  : PowerShell v5.1 and up
@@ -147,7 +147,7 @@ function Invoke-ADCAddClusterinstance {
         Invoke-ADCAddClusterinstance -clid <double>
     .NOTES
         File Name : Invoke-ADCAddClusterinstance
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/cluster/clusterinstance/
         Requires  : PowerShell v5.1 and up
@@ -250,7 +250,7 @@ function Invoke-ADCDeleteClusterinstance {
         Invoke-ADCDeleteClusterinstance -clid <double>
     .NOTES
         File Name : Invoke-ADCDeleteClusterinstance
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/cluster/clusterinstance/
         Requires  : PowerShell v5.1 and up
@@ -349,7 +349,7 @@ function Invoke-ADCUpdateClusterinstance {
         Invoke-ADCUpdateClusterinstance -clid <double>
     .NOTES
         File Name : Invoke-ADCUpdateClusterinstance
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/cluster/clusterinstance/
         Requires  : PowerShell v5.1 and up
@@ -480,7 +480,7 @@ function Invoke-ADCUnsetClusterinstance {
         Invoke-ADCUnsetClusterinstance -clid <double>
     .NOTES
         File Name : Invoke-ADCUnsetClusterinstance
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/cluster/clusterinstance
         Requires  : PowerShell v5.1 and up
@@ -566,7 +566,7 @@ function Invoke-ADCEnableClusterinstance {
         Invoke-ADCEnableClusterinstance -clid <double>
     .NOTES
         File Name : Invoke-ADCEnableClusterinstance
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/cluster/clusterinstance/
         Requires  : PowerShell v5.1 and up
@@ -624,7 +624,7 @@ function Invoke-ADCDisableClusterinstance {
         Invoke-ADCDisableClusterinstance -clid <double>
     .NOTES
         File Name : Invoke-ADCDisableClusterinstance
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/cluster/clusterinstance/
         Requires  : PowerShell v5.1 and up
@@ -699,7 +699,7 @@ function Invoke-ADCGetClusterinstance {
         Invoke-ADCGetClusterinstance -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetClusterinstance
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/cluster/clusterinstance/
         Requires  : PowerShell v5.1 and up
@@ -794,7 +794,7 @@ function Invoke-ADCGetClusterinstancebinding {
         Invoke-ADCGetClusterinstancebinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetClusterinstancebinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/cluster/clusterinstance_binding/
         Requires  : PowerShell v5.1 and up
@@ -885,7 +885,7 @@ function Invoke-ADCGetClusterinstanceclusternodebinding {
         Invoke-ADCGetClusterinstanceclusternodebinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetClusterinstanceclusternodebinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/cluster/clusterinstance_clusternode_binding/
         Requires  : PowerShell v5.1 and up
@@ -999,7 +999,7 @@ function Invoke-ADCAddClusternode {
         Invoke-ADCAddClusternode -nodeid <double> -ipaddress <string>
     .NOTES
         File Name : Invoke-ADCAddClusternode
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/cluster/clusternode/
         Requires  : PowerShell v5.1 and up
@@ -1123,7 +1123,7 @@ function Invoke-ADCUpdateClusternode {
         Invoke-ADCUpdateClusternode -nodeid <double>
     .NOTES
         File Name : Invoke-ADCUpdateClusternode
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/cluster/clusternode/
         Requires  : PowerShell v5.1 and up
@@ -1225,7 +1225,7 @@ function Invoke-ADCUnsetClusternode {
         Invoke-ADCUnsetClusternode -nodeid <double>
     .NOTES
         File Name : Invoke-ADCUnsetClusternode
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/cluster/clusternode
         Requires  : PowerShell v5.1 and up
@@ -1301,7 +1301,7 @@ function Invoke-ADCDeleteClusternode {
         Invoke-ADCDeleteClusternode -nodeid <double>
     .NOTES
         File Name : Invoke-ADCDeleteClusternode
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/cluster/clusternode/
         Requires  : PowerShell v5.1 and up
@@ -1375,7 +1375,7 @@ function Invoke-ADCGetClusternode {
         Invoke-ADCGetClusternode -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetClusternode
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/cluster/clusternode/
         Requires  : PowerShell v5.1 and up
@@ -1477,7 +1477,7 @@ function Invoke-ADCAddClusternodegroup {
         Invoke-ADCAddClusternodegroup -name <string>
     .NOTES
         File Name : Invoke-ADCAddClusternodegroup
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/cluster/clusternodegroup/
         Requires  : PowerShell v5.1 and up
@@ -1574,7 +1574,7 @@ function Invoke-ADCUpdateClusternodegroup {
         Invoke-ADCUpdateClusternodegroup -name <string>
     .NOTES
         File Name : Invoke-ADCUpdateClusternodegroup
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/cluster/clusternodegroup/
         Requires  : PowerShell v5.1 and up
@@ -1656,7 +1656,7 @@ function Invoke-ADCUnsetClusternodegroup {
         Invoke-ADCUnsetClusternodegroup -name <string>
     .NOTES
         File Name : Invoke-ADCUnsetClusternodegroup
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/cluster/clusternodegroup
         Requires  : PowerShell v5.1 and up
@@ -1716,7 +1716,7 @@ function Invoke-ADCDeleteClusternodegroup {
         Invoke-ADCDeleteClusternodegroup -name <string>
     .NOTES
         File Name : Invoke-ADCDeleteClusternodegroup
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/cluster/clusternodegroup/
         Requires  : PowerShell v5.1 and up
@@ -1788,7 +1788,7 @@ function Invoke-ADCGetClusternodegroup {
         Invoke-ADCGetClusternodegroup -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetClusternodegroup
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/cluster/clusternodegroup/
         Requires  : PowerShell v5.1 and up
@@ -1873,7 +1873,7 @@ function Invoke-ADCAddClusternodegroupauthenticationvserverbinding {
         Invoke-ADCAddClusternodegroupauthenticationvserverbinding -name <string>
     .NOTES
         File Name : Invoke-ADCAddClusternodegroupauthenticationvserverbinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/cluster/clusternodegroup_authenticationvserver_binding/
         Requires  : PowerShell v5.1 and up
@@ -1943,7 +1943,7 @@ function Invoke-ADCDeleteClusternodegroupauthenticationvserverbinding {
         Invoke-ADCDeleteClusternodegroupauthenticationvserverbinding 
     .NOTES
         File Name : Invoke-ADCDeleteClusternodegroupauthenticationvserverbinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/cluster/clusternodegroup_authenticationvserver_binding/
         Requires  : PowerShell v5.1 and up
@@ -2015,7 +2015,7 @@ function Invoke-ADCGetClusternodegroupauthenticationvserverbinding {
         Invoke-ADCGetClusternodegroupauthenticationvserverbinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetClusternodegroupauthenticationvserverbinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/cluster/clusternodegroup_authenticationvserver_binding/
         Requires  : PowerShell v5.1 and up
@@ -2100,7 +2100,7 @@ function Invoke-ADCGetClusternodegroupbinding {
         Invoke-ADCGetClusternodegroupbinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetClusternodegroupbinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/cluster/clusternodegroup_binding/
         Requires  : PowerShell v5.1 and up
@@ -2181,7 +2181,7 @@ function Invoke-ADCAddClusternodegroupclusternodebinding {
         Invoke-ADCAddClusternodegroupclusternodebinding -name <string>
     .NOTES
         File Name : Invoke-ADCAddClusternodegroupclusternodebinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/cluster/clusternodegroup_clusternode_binding/
         Requires  : PowerShell v5.1 and up
@@ -2254,7 +2254,7 @@ function Invoke-ADCDeleteClusternodegroupclusternodebinding {
         Invoke-ADCDeleteClusternodegroupclusternodebinding 
     .NOTES
         File Name : Invoke-ADCDeleteClusternodegroupclusternodebinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/cluster/clusternodegroup_clusternode_binding/
         Requires  : PowerShell v5.1 and up
@@ -2326,7 +2326,7 @@ function Invoke-ADCGetClusternodegroupclusternodebinding {
         Invoke-ADCGetClusternodegroupclusternodebinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetClusternodegroupclusternodebinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/cluster/clusternodegroup_clusternode_binding/
         Requires  : PowerShell v5.1 and up
@@ -2401,7 +2401,7 @@ function Invoke-ADCAddClusternodegroupcrvserverbinding {
         Invoke-ADCAddClusternodegroupcrvserverbinding -name <string>
     .NOTES
         File Name : Invoke-ADCAddClusternodegroupcrvserverbinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/cluster/clusternodegroup_crvserver_binding/
         Requires  : PowerShell v5.1 and up
@@ -2471,7 +2471,7 @@ function Invoke-ADCDeleteClusternodegroupcrvserverbinding {
         Invoke-ADCDeleteClusternodegroupcrvserverbinding 
     .NOTES
         File Name : Invoke-ADCDeleteClusternodegroupcrvserverbinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/cluster/clusternodegroup_crvserver_binding/
         Requires  : PowerShell v5.1 and up
@@ -2543,7 +2543,7 @@ function Invoke-ADCGetClusternodegroupcrvserverbinding {
         Invoke-ADCGetClusternodegroupcrvserverbinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetClusternodegroupcrvserverbinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/cluster/clusternodegroup_crvserver_binding/
         Requires  : PowerShell v5.1 and up
@@ -2618,7 +2618,7 @@ function Invoke-ADCAddClusternodegroupcsvserverbinding {
         Invoke-ADCAddClusternodegroupcsvserverbinding -name <string>
     .NOTES
         File Name : Invoke-ADCAddClusternodegroupcsvserverbinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/cluster/clusternodegroup_csvserver_binding/
         Requires  : PowerShell v5.1 and up
@@ -2688,7 +2688,7 @@ function Invoke-ADCDeleteClusternodegroupcsvserverbinding {
         Invoke-ADCDeleteClusternodegroupcsvserverbinding 
     .NOTES
         File Name : Invoke-ADCDeleteClusternodegroupcsvserverbinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/cluster/clusternodegroup_csvserver_binding/
         Requires  : PowerShell v5.1 and up
@@ -2760,7 +2760,7 @@ function Invoke-ADCGetClusternodegroupcsvserverbinding {
         Invoke-ADCGetClusternodegroupcsvserverbinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetClusternodegroupcsvserverbinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/cluster/clusternodegroup_csvserver_binding/
         Requires  : PowerShell v5.1 and up
@@ -2835,7 +2835,7 @@ function Invoke-ADCAddClusternodegroupgslbsitebinding {
         Invoke-ADCAddClusternodegroupgslbsitebinding -name <string>
     .NOTES
         File Name : Invoke-ADCAddClusternodegroupgslbsitebinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/cluster/clusternodegroup_gslbsite_binding/
         Requires  : PowerShell v5.1 and up
@@ -2905,7 +2905,7 @@ function Invoke-ADCDeleteClusternodegroupgslbsitebinding {
         Invoke-ADCDeleteClusternodegroupgslbsitebinding 
     .NOTES
         File Name : Invoke-ADCDeleteClusternodegroupgslbsitebinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/cluster/clusternodegroup_gslbsite_binding/
         Requires  : PowerShell v5.1 and up
@@ -2977,7 +2977,7 @@ function Invoke-ADCGetClusternodegroupgslbsitebinding {
         Invoke-ADCGetClusternodegroupgslbsitebinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetClusternodegroupgslbsitebinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/cluster/clusternodegroup_gslbsite_binding/
         Requires  : PowerShell v5.1 and up
@@ -3052,7 +3052,7 @@ function Invoke-ADCAddClusternodegroupgslbvserverbinding {
         Invoke-ADCAddClusternodegroupgslbvserverbinding -name <string>
     .NOTES
         File Name : Invoke-ADCAddClusternodegroupgslbvserverbinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/cluster/clusternodegroup_gslbvserver_binding/
         Requires  : PowerShell v5.1 and up
@@ -3122,7 +3122,7 @@ function Invoke-ADCDeleteClusternodegroupgslbvserverbinding {
         Invoke-ADCDeleteClusternodegroupgslbvserverbinding 
     .NOTES
         File Name : Invoke-ADCDeleteClusternodegroupgslbvserverbinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/cluster/clusternodegroup_gslbvserver_binding/
         Requires  : PowerShell v5.1 and up
@@ -3194,7 +3194,7 @@ function Invoke-ADCGetClusternodegroupgslbvserverbinding {
         Invoke-ADCGetClusternodegroupgslbvserverbinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetClusternodegroupgslbvserverbinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/cluster/clusternodegroup_gslbvserver_binding/
         Requires  : PowerShell v5.1 and up
@@ -3269,7 +3269,7 @@ function Invoke-ADCAddClusternodegrouplbvserverbinding {
         Invoke-ADCAddClusternodegrouplbvserverbinding -name <string>
     .NOTES
         File Name : Invoke-ADCAddClusternodegrouplbvserverbinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/cluster/clusternodegroup_lbvserver_binding/
         Requires  : PowerShell v5.1 and up
@@ -3339,7 +3339,7 @@ function Invoke-ADCDeleteClusternodegrouplbvserverbinding {
         Invoke-ADCDeleteClusternodegrouplbvserverbinding 
     .NOTES
         File Name : Invoke-ADCDeleteClusternodegrouplbvserverbinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/cluster/clusternodegroup_lbvserver_binding/
         Requires  : PowerShell v5.1 and up
@@ -3411,7 +3411,7 @@ function Invoke-ADCGetClusternodegrouplbvserverbinding {
         Invoke-ADCGetClusternodegrouplbvserverbinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetClusternodegrouplbvserverbinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/cluster/clusternodegroup_lbvserver_binding/
         Requires  : PowerShell v5.1 and up
@@ -3486,7 +3486,7 @@ function Invoke-ADCAddClusternodegroupnslimitidentifierbinding {
         Invoke-ADCAddClusternodegroupnslimitidentifierbinding -name <string>
     .NOTES
         File Name : Invoke-ADCAddClusternodegroupnslimitidentifierbinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/cluster/clusternodegroup_nslimitidentifier_binding/
         Requires  : PowerShell v5.1 and up
@@ -3556,7 +3556,7 @@ function Invoke-ADCDeleteClusternodegroupnslimitidentifierbinding {
         Invoke-ADCDeleteClusternodegroupnslimitidentifierbinding -name <string>
     .NOTES
         File Name : Invoke-ADCDeleteClusternodegroupnslimitidentifierbinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/cluster/clusternodegroup_nslimitidentifier_binding/
         Requires  : PowerShell v5.1 and up
@@ -3630,7 +3630,7 @@ function Invoke-ADCGetClusternodegroupnslimitidentifierbinding {
         Invoke-ADCGetClusternodegroupnslimitidentifierbinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetClusternodegroupnslimitidentifierbinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/cluster/clusternodegroup_nslimitidentifier_binding/
         Requires  : PowerShell v5.1 and up
@@ -3712,7 +3712,7 @@ function Invoke-ADCAddClusternodegroupservicebinding {
         Invoke-ADCAddClusternodegroupservicebinding -name <string>
     .NOTES
         File Name : Invoke-ADCAddClusternodegroupservicebinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/cluster/clusternodegroup_service_binding/
         Requires  : PowerShell v5.1 and up
@@ -3782,7 +3782,7 @@ function Invoke-ADCDeleteClusternodegroupservicebinding {
         Invoke-ADCDeleteClusternodegroupservicebinding 
     .NOTES
         File Name : Invoke-ADCDeleteClusternodegroupservicebinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/cluster/clusternodegroup_service_binding/
         Requires  : PowerShell v5.1 and up
@@ -3854,7 +3854,7 @@ function Invoke-ADCGetClusternodegroupservicebinding {
         Invoke-ADCGetClusternodegroupservicebinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetClusternodegroupservicebinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/cluster/clusternodegroup_service_binding/
         Requires  : PowerShell v5.1 and up
@@ -3929,7 +3929,7 @@ function Invoke-ADCAddClusternodegroupstreamidentifierbinding {
         Invoke-ADCAddClusternodegroupstreamidentifierbinding -name <string>
     .NOTES
         File Name : Invoke-ADCAddClusternodegroupstreamidentifierbinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/cluster/clusternodegroup_streamidentifier_binding/
         Requires  : PowerShell v5.1 and up
@@ -3999,7 +3999,7 @@ function Invoke-ADCDeleteClusternodegroupstreamidentifierbinding {
         Invoke-ADCDeleteClusternodegroupstreamidentifierbinding -name <string>
     .NOTES
         File Name : Invoke-ADCDeleteClusternodegroupstreamidentifierbinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/cluster/clusternodegroup_streamidentifier_binding/
         Requires  : PowerShell v5.1 and up
@@ -4073,7 +4073,7 @@ function Invoke-ADCGetClusternodegroupstreamidentifierbinding {
         Invoke-ADCGetClusternodegroupstreamidentifierbinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetClusternodegroupstreamidentifierbinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/cluster/clusternodegroup_streamidentifier_binding/
         Requires  : PowerShell v5.1 and up
@@ -4155,7 +4155,7 @@ function Invoke-ADCAddClusternodegroupvpnvserverbinding {
         Invoke-ADCAddClusternodegroupvpnvserverbinding -name <string>
     .NOTES
         File Name : Invoke-ADCAddClusternodegroupvpnvserverbinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/cluster/clusternodegroup_vpnvserver_binding/
         Requires  : PowerShell v5.1 and up
@@ -4225,7 +4225,7 @@ function Invoke-ADCDeleteClusternodegroupvpnvserverbinding {
         Invoke-ADCDeleteClusternodegroupvpnvserverbinding 
     .NOTES
         File Name : Invoke-ADCDeleteClusternodegroupvpnvserverbinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/cluster/clusternodegroup_vpnvserver_binding/
         Requires  : PowerShell v5.1 and up
@@ -4297,7 +4297,7 @@ function Invoke-ADCGetClusternodegroupvpnvserverbinding {
         Invoke-ADCGetClusternodegroupvpnvserverbinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetClusternodegroupvpnvserverbinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/cluster/clusternodegroup_vpnvserver_binding/
         Requires  : PowerShell v5.1 and up
@@ -4382,7 +4382,7 @@ function Invoke-ADCGetClusternodebinding {
         Invoke-ADCGetClusternodebinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetClusternodebinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/cluster/clusternode_binding/
         Requires  : PowerShell v5.1 and up
@@ -4464,7 +4464,7 @@ function Invoke-ADCAddClusternoderoutemonitorbinding {
         Invoke-ADCAddClusternoderoutemonitorbinding -nodeid <double> -routemonitor <string>
     .NOTES
         File Name : Invoke-ADCAddClusternoderoutemonitorbinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/cluster/clusternode_routemonitor_binding/
         Requires  : PowerShell v5.1 and up
@@ -4540,7 +4540,7 @@ function Invoke-ADCDeleteClusternoderoutemonitorbinding {
         Invoke-ADCDeleteClusternoderoutemonitorbinding -nodeid <double>
     .NOTES
         File Name : Invoke-ADCDeleteClusternoderoutemonitorbinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/cluster/clusternode_routemonitor_binding/
         Requires  : PowerShell v5.1 and up
@@ -4617,7 +4617,7 @@ function Invoke-ADCGetClusternoderoutemonitorbinding {
         Invoke-ADCGetClusternoderoutemonitorbinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetClusternoderoutemonitorbinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/cluster/clusternode_routemonitor_binding/
         Requires  : PowerShell v5.1 and up
@@ -4692,7 +4692,7 @@ function Invoke-ADCClearClusterpropstatus {
         Invoke-ADCClearClusterpropstatus 
     .NOTES
         File Name : Invoke-ADCClearClusterpropstatus
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/cluster/clusterpropstatus/
         Requires  : PowerShell v5.1 and up
@@ -4763,7 +4763,7 @@ function Invoke-ADCGetClusterpropstatus {
         Invoke-ADCGetClusterpropstatus -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetClusterpropstatus
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/cluster/clusterpropstatus/
         Requires  : PowerShell v5.1 and up
@@ -4841,7 +4841,7 @@ function Invoke-ADCForceClustersync {
         Invoke-ADCForceClustersync 
     .NOTES
         File Name : Invoke-ADCForceClustersync
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/cluster/clustersync/
         Requires  : PowerShell v5.1 and up

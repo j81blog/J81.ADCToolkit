@@ -22,7 +22,7 @@ function Invoke-ADCSyncGslbconfig {
         Invoke-ADCSyncGslbconfig 
     .NOTES
         File Name : Invoke-ADCSyncGslbconfig
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/gslb/gslbconfig/
         Requires  : PowerShell v5.1 and up
@@ -110,7 +110,7 @@ function Invoke-ADCGetGslbdomain {
         Invoke-ADCGetGslbdomain -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetGslbdomain
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/gslb/gslbdomain/
         Requires  : PowerShell v5.1 and up
@@ -205,7 +205,7 @@ function Invoke-ADCGetGslbdomainbinding {
         Invoke-ADCGetGslbdomainbinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetGslbdomainbinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/gslb/gslbdomain_binding/
         Requires  : PowerShell v5.1 and up
@@ -296,7 +296,7 @@ function Invoke-ADCGetGslbdomaingslbservicegroupmemberbinding {
         Invoke-ADCGetGslbdomaingslbservicegroupmemberbinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetGslbdomaingslbservicegroupmemberbinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/gslb/gslbdomain_gslbservicegroupmember_binding/
         Requires  : PowerShell v5.1 and up
@@ -390,7 +390,7 @@ function Invoke-ADCGetGslbdomaingslbservicegroupbinding {
         Invoke-ADCGetGslbdomaingslbservicegroupbinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetGslbdomaingslbservicegroupbinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/gslb/gslbdomain_gslbservicegroup_binding/
         Requires  : PowerShell v5.1 and up
@@ -484,7 +484,7 @@ function Invoke-ADCGetGslbdomaingslbservicebinding {
         Invoke-ADCGetGslbdomaingslbservicebinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetGslbdomaingslbservicebinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/gslb/gslbdomain_gslbservice_binding/
         Requires  : PowerShell v5.1 and up
@@ -578,7 +578,7 @@ function Invoke-ADCGetGslbdomaingslbvserverbinding {
         Invoke-ADCGetGslbdomaingslbvserverbinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetGslbdomaingslbvserverbinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/gslb/gslbdomain_gslbvserver_binding/
         Requires  : PowerShell v5.1 and up
@@ -672,7 +672,7 @@ function Invoke-ADCGetGslbdomainlbmonitorbinding {
         Invoke-ADCGetGslbdomainlbmonitorbinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetGslbdomainlbmonitorbinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/gslb/gslbdomain_lbmonitor_binding/
         Requires  : PowerShell v5.1 and up
@@ -747,7 +747,7 @@ function Invoke-ADCClearGslbldnsentries {
         Invoke-ADCClearGslbldnsentries 
     .NOTES
         File Name : Invoke-ADCClearGslbldnsentries
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/gslb/gslbldnsentries/
         Requires  : PowerShell v5.1 and up
@@ -818,7 +818,7 @@ function Invoke-ADCGetGslbldnsentries {
         Invoke-ADCGetGslbldnsentries -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetGslbldnsentries
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/gslb/gslbldnsentries/
         Requires  : PowerShell v5.1 and up
@@ -899,7 +899,7 @@ function Invoke-ADCDeleteGslbldnsentry {
         Invoke-ADCDeleteGslbldnsentry 
     .NOTES
         File Name : Invoke-ADCDeleteGslbldnsentry
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/gslb/gslbldnsentry/
         Requires  : PowerShell v5.1 and up
@@ -986,7 +986,7 @@ function Invoke-ADCUpdateGslbparameter {
         Invoke-ADCUpdateGslbparameter 
     .NOTES
         File Name : Invoke-ADCUpdateGslbparameter
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/gslb/gslbparameter/
         Requires  : PowerShell v5.1 and up
@@ -1091,7 +1091,7 @@ function Invoke-ADCUnsetGslbparameter {
         Invoke-ADCUnsetGslbparameter 
     .NOTES
         File Name : Invoke-ADCUnsetGslbparameter
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/gslb/gslbparameter
         Requires  : PowerShell v5.1 and up
@@ -1180,7 +1180,7 @@ function Invoke-ADCGetGslbparameter {
         Invoke-ADCGetGslbparameter -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetGslbparameter
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/gslb/gslbparameter/
         Requires  : PowerShell v5.1 and up
@@ -1261,7 +1261,7 @@ function Invoke-ADCGetGslbrunningconfig {
         Invoke-ADCGetGslbrunningconfig -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetGslbrunningconfig
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/gslb/gslbrunningconfig/
         Requires  : PowerShell v5.1 and up
@@ -1436,7 +1436,7 @@ function Invoke-ADCAddGslbservice {
         Invoke-ADCAddGslbservice -servicename <string> -sitename <string>
     .NOTES
         File Name : Invoke-ADCAddGslbservice
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/gslb/gslbservice/
         Requires  : PowerShell v5.1 and up
@@ -1616,7 +1616,7 @@ function Invoke-ADCDeleteGslbservice {
         Invoke-ADCDeleteGslbservice -servicename <string>
     .NOTES
         File Name : Invoke-ADCDeleteGslbservice
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/gslb/gslbservice/
         Requires  : PowerShell v5.1 and up
@@ -1755,7 +1755,7 @@ function Invoke-ADCUpdateGslbservice {
         Invoke-ADCUpdateGslbservice -servicename <string>
     .NOTES
         File Name : Invoke-ADCUpdateGslbservice
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/gslb/gslbservice/
         Requires  : PowerShell v5.1 and up
@@ -1956,7 +1956,7 @@ function Invoke-ADCUnsetGslbservice {
         Invoke-ADCUnsetGslbservice -servicename <string>
     .NOTES
         File Name : Invoke-ADCUnsetGslbservice
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/gslb/gslbservice
         Requires  : PowerShell v5.1 and up
@@ -2080,7 +2080,7 @@ function Invoke-ADCRenameGslbservice {
         Invoke-ADCRenameGslbservice -servicename <string> -newname <string>
     .NOTES
         File Name : Invoke-ADCRenameGslbservice
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/gslb/gslbservice/
         Requires  : PowerShell v5.1 and up
@@ -2170,7 +2170,7 @@ function Invoke-ADCGetGslbservice {
         Invoke-ADCGetGslbservice -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetGslbservice
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/gslb/gslbservice/
         Requires  : PowerShell v5.1 and up
@@ -2313,7 +2313,7 @@ function Invoke-ADCAddGslbservicegroup {
         Invoke-ADCAddGslbservicegroup -servicegroupname <string> -servicetype <string> -sitename <string>
     .NOTES
         File Name : Invoke-ADCAddGslbservicegroup
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/gslb/gslbservicegroup/
         Requires  : PowerShell v5.1 and up
@@ -2445,7 +2445,7 @@ function Invoke-ADCDeleteGslbservicegroup {
         Invoke-ADCDeleteGslbservicegroup -servicegroupname <string>
     .NOTES
         File Name : Invoke-ADCDeleteGslbservicegroup
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/gslb/gslbservicegroup/
         Requires  : PowerShell v5.1 and up
@@ -2576,7 +2576,7 @@ function Invoke-ADCUpdateGslbservicegroup {
         Invoke-ADCUpdateGslbservicegroup -servicegroupname <string>
     .NOTES
         File Name : Invoke-ADCUpdateGslbservicegroup
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/gslb/gslbservicegroup/
         Requires  : PowerShell v5.1 and up
@@ -2771,7 +2771,7 @@ function Invoke-ADCUnsetGslbservicegroup {
         Invoke-ADCUnsetGslbservicegroup -servicegroupname <string>
     .NOTES
         File Name : Invoke-ADCUnsetGslbservicegroup
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/gslb/gslbservicegroup
         Requires  : PowerShell v5.1 and up
@@ -2896,7 +2896,7 @@ function Invoke-ADCEnableGslbservicegroup {
         Invoke-ADCEnableGslbservicegroup -servicegroupname <string>
     .NOTES
         File Name : Invoke-ADCEnableGslbservicegroup
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/gslb/gslbservicegroup/
         Requires  : PowerShell v5.1 and up
@@ -2972,7 +2972,7 @@ function Invoke-ADCDisableGslbservicegroup {
         Invoke-ADCDisableGslbservicegroup -servicegroupname <string>
     .NOTES
         File Name : Invoke-ADCDisableGslbservicegroup
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/gslb/gslbservicegroup/
         Requires  : PowerShell v5.1 and up
@@ -3051,7 +3051,7 @@ function Invoke-ADCRenameGslbservicegroup {
         Invoke-ADCRenameGslbservicegroup -servicegroupname <string> -newname <string>
     .NOTES
         File Name : Invoke-ADCRenameGslbservicegroup
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/gslb/gslbservicegroup/
         Requires  : PowerShell v5.1 and up
@@ -3140,7 +3140,7 @@ function Invoke-ADCGetGslbservicegroup {
         Invoke-ADCGetGslbservicegroup -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetGslbservicegroup
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/gslb/gslbservicegroup/
         Requires  : PowerShell v5.1 and up
@@ -3236,7 +3236,7 @@ function Invoke-ADCGetGslbservicegroupbinding {
         Invoke-ADCGetGslbservicegroupbinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetGslbservicegroupbinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/gslb/gslbservicegroup_binding/
         Requires  : PowerShell v5.1 and up
@@ -3341,7 +3341,7 @@ function Invoke-ADCAddGslbservicegroupgslbservicegroupmemberbinding {
         Invoke-ADCAddGslbservicegroupgslbservicegroupmemberbinding -servicegroupname <string>
     .NOTES
         File Name : Invoke-ADCAddGslbservicegroupgslbservicegroupmemberbinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/gslb/gslbservicegroup_gslbservicegroupmember_binding/
         Requires  : PowerShell v5.1 and up
@@ -3445,7 +3445,7 @@ function Invoke-ADCDeleteGslbservicegroupgslbservicegroupmemberbinding {
         Invoke-ADCDeleteGslbservicegroupgslbservicegroupmemberbinding -servicegroupname <string>
     .NOTES
         File Name : Invoke-ADCDeleteGslbservicegroupgslbservicegroupmemberbinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/gslb/gslbservicegroup_gslbservicegroupmember_binding/
         Requires  : PowerShell v5.1 and up
@@ -3525,7 +3525,7 @@ function Invoke-ADCGetGslbservicegroupgslbservicegroupmemberbinding {
         Invoke-ADCGetGslbservicegroupgslbservicegroupmemberbinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetGslbservicegroupgslbservicegroupmemberbinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/gslb/gslbservicegroup_gslbservicegroupmember_binding/
         Requires  : PowerShell v5.1 and up
@@ -3633,7 +3633,7 @@ function Invoke-ADCAddGslbservicegrouplbmonitorbinding {
         Invoke-ADCAddGslbservicegrouplbmonitorbinding -servicegroupname <string>
     .NOTES
         File Name : Invoke-ADCAddGslbservicegrouplbmonitorbinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/gslb/gslbservicegroup_lbmonitor_binding/
         Requires  : PowerShell v5.1 and up
@@ -3737,7 +3737,7 @@ function Invoke-ADCDeleteGslbservicegrouplbmonitorbinding {
         Invoke-ADCDeleteGslbservicegrouplbmonitorbinding -servicegroupname <string>
     .NOTES
         File Name : Invoke-ADCDeleteGslbservicegrouplbmonitorbinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/gslb/gslbservicegroup_lbmonitor_binding/
         Requires  : PowerShell v5.1 and up
@@ -3814,7 +3814,7 @@ function Invoke-ADCGetGslbservicegrouplbmonitorbinding {
         Invoke-ADCGetGslbservicegrouplbmonitorbinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetGslbservicegrouplbmonitorbinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/gslb/gslbservicegroup_lbmonitor_binding/
         Requires  : PowerShell v5.1 and up
@@ -3908,7 +3908,7 @@ function Invoke-ADCGetGslbservicegroupservicegroupentitymonbindingsbinding {
         Invoke-ADCGetGslbservicegroupservicegroupentitymonbindingsbinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetGslbservicegroupservicegroupentitymonbindingsbinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/gslb/gslbservicegroup_servicegroupentitymonbindings_binding/
         Requires  : PowerShell v5.1 and up
@@ -4000,7 +4000,7 @@ function Invoke-ADCGetGslbservicebinding {
         Invoke-ADCGetGslbservicebinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetGslbservicebinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/gslb/gslbservice_binding/
         Requires  : PowerShell v5.1 and up
@@ -4082,7 +4082,7 @@ function Invoke-ADCAddGslbservicednsviewbinding {
         Invoke-ADCAddGslbservicednsviewbinding -servicename <string>
     .NOTES
         File Name : Invoke-ADCAddGslbservicednsviewbinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/gslb/gslbservice_dnsview_binding/
         Requires  : PowerShell v5.1 and up
@@ -4157,7 +4157,7 @@ function Invoke-ADCDeleteGslbservicednsviewbinding {
         Invoke-ADCDeleteGslbservicednsviewbinding -servicename <string>
     .NOTES
         File Name : Invoke-ADCDeleteGslbservicednsviewbinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/gslb/gslbservice_dnsview_binding/
         Requires  : PowerShell v5.1 and up
@@ -4231,7 +4231,7 @@ function Invoke-ADCGetGslbservicednsviewbinding {
         Invoke-ADCGetGslbservicednsviewbinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetGslbservicednsviewbinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/gslb/gslbservice_dnsview_binding/
         Requires  : PowerShell v5.1 and up
@@ -4320,7 +4320,7 @@ function Invoke-ADCAddGslbservicelbmonitorbinding {
         Invoke-ADCAddGslbservicelbmonitorbinding -servicename <string>
     .NOTES
         File Name : Invoke-ADCAddGslbservicelbmonitorbinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/gslb/gslbservice_lbmonitor_binding/
         Requires  : PowerShell v5.1 and up
@@ -4398,7 +4398,7 @@ function Invoke-ADCDeleteGslbservicelbmonitorbinding {
         Invoke-ADCDeleteGslbservicelbmonitorbinding -servicename <string>
     .NOTES
         File Name : Invoke-ADCDeleteGslbservicelbmonitorbinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/gslb/gslbservice_lbmonitor_binding/
         Requires  : PowerShell v5.1 and up
@@ -4472,7 +4472,7 @@ function Invoke-ADCGetGslbservicelbmonitorbinding {
         Invoke-ADCGetGslbservicelbmonitorbinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetGslbservicelbmonitorbinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/gslb/gslbservice_lbmonitor_binding/
         Requires  : PowerShell v5.1 and up
@@ -4597,7 +4597,7 @@ function Invoke-ADCAddGslbsite {
         Invoke-ADCAddGslbsite -sitename <string> -siteipaddress <string>
     .NOTES
         File Name : Invoke-ADCAddGslbsite
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/gslb/gslbsite/
         Requires  : PowerShell v5.1 and up
@@ -4710,7 +4710,7 @@ function Invoke-ADCDeleteGslbsite {
         Invoke-ADCDeleteGslbsite -sitename <string>
     .NOTES
         File Name : Invoke-ADCDeleteGslbsite
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/gslb/gslbsite/
         Requires  : PowerShell v5.1 and up
@@ -4797,7 +4797,7 @@ function Invoke-ADCUpdateGslbsite {
         Invoke-ADCUpdateGslbsite -sitename <string>
     .NOTES
         File Name : Invoke-ADCUpdateGslbsite
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/gslb/gslbsite/
         Requires  : PowerShell v5.1 and up
@@ -4909,7 +4909,7 @@ function Invoke-ADCUnsetGslbsite {
         Invoke-ADCUnsetGslbsite -sitename <string>
     .NOTES
         File Name : Invoke-ADCUnsetGslbsite
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/gslb/gslbsite
         Requires  : PowerShell v5.1 and up
@@ -5002,7 +5002,7 @@ function Invoke-ADCGetGslbsite {
         Invoke-ADCGetGslbsite -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetGslbsite
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/gslb/gslbsite/
         Requires  : PowerShell v5.1 and up
@@ -5098,7 +5098,7 @@ function Invoke-ADCGetGslbsitebinding {
         Invoke-ADCGetGslbsitebinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetGslbsitebinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/gslb/gslbsite_binding/
         Requires  : PowerShell v5.1 and up
@@ -5189,7 +5189,7 @@ function Invoke-ADCGetGslbsitegslbservicegroupmemberbinding {
         Invoke-ADCGetGslbsitegslbservicegroupmemberbinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetGslbsitegslbservicegroupmemberbinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/gslb/gslbsite_gslbservicegroupmember_binding/
         Requires  : PowerShell v5.1 and up
@@ -5283,7 +5283,7 @@ function Invoke-ADCGetGslbsitegslbservicegroupbinding {
         Invoke-ADCGetGslbsitegslbservicegroupbinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetGslbsitegslbservicegroupbinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/gslb/gslbsite_gslbservicegroup_binding/
         Requires  : PowerShell v5.1 and up
@@ -5377,7 +5377,7 @@ function Invoke-ADCGetGslbsitegslbservicebinding {
         Invoke-ADCGetGslbsitegslbservicebinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetGslbsitegslbservicebinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/gslb/gslbsite_gslbservice_binding/
         Requires  : PowerShell v5.1 and up
@@ -5469,7 +5469,7 @@ function Invoke-ADCGetGslbsyncstatus {
         Invoke-ADCGetGslbsyncstatus -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetGslbsyncstatus
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/gslb/gslbsyncstatus/
         Requires  : PowerShell v5.1 and up
@@ -5672,7 +5672,7 @@ function Invoke-ADCAddGslbvserver {
         Invoke-ADCAddGslbvserver -name <string> -servicetype <string>
     .NOTES
         File Name : Invoke-ADCAddGslbvserver
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/gslb/gslbvserver/
         Requires  : PowerShell v5.1 and up
@@ -5860,7 +5860,7 @@ function Invoke-ADCDeleteGslbvserver {
         Invoke-ADCDeleteGslbvserver -name <string>
     .NOTES
         File Name : Invoke-ADCDeleteGslbvserver
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/gslb/gslbvserver/
         Requires  : PowerShell v5.1 and up
@@ -6068,7 +6068,7 @@ function Invoke-ADCUpdateGslbvserver {
         Invoke-ADCUpdateGslbvserver -name <string>
     .NOTES
         File Name : Invoke-ADCUpdateGslbvserver
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/gslb/gslbvserver/
         Requires  : PowerShell v5.1 and up
@@ -6370,7 +6370,7 @@ function Invoke-ADCUnsetGslbvserver {
         Invoke-ADCUnsetGslbvserver -name <string>
     .NOTES
         File Name : Invoke-ADCUnsetGslbvserver
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/gslb/gslbvserver
         Requires  : PowerShell v5.1 and up
@@ -6522,7 +6522,7 @@ function Invoke-ADCEnableGslbvserver {
         Invoke-ADCEnableGslbvserver -name <string>
     .NOTES
         File Name : Invoke-ADCEnableGslbvserver
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/gslb/gslbvserver/
         Requires  : PowerShell v5.1 and up
@@ -6583,7 +6583,7 @@ function Invoke-ADCDisableGslbvserver {
         Invoke-ADCDisableGslbvserver -name <string>
     .NOTES
         File Name : Invoke-ADCDisableGslbvserver
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/gslb/gslbvserver/
         Requires  : PowerShell v5.1 and up
@@ -6650,7 +6650,7 @@ function Invoke-ADCRenameGslbvserver {
         Invoke-ADCRenameGslbvserver -name <string> -newname <string>
     .NOTES
         File Name : Invoke-ADCRenameGslbvserver
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/gslb/gslbvserver/
         Requires  : PowerShell v5.1 and up
@@ -6741,7 +6741,7 @@ function Invoke-ADCGetGslbvserver {
         Invoke-ADCGetGslbvserver -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetGslbvserver
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/gslb/gslbvserver/
         Requires  : PowerShell v5.1 and up
@@ -6837,7 +6837,7 @@ function Invoke-ADCGetGslbvserverbinding {
         Invoke-ADCGetGslbvserverbinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetGslbvserverbinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/gslb/gslbvserver_binding/
         Requires  : PowerShell v5.1 and up
@@ -6933,7 +6933,7 @@ function Invoke-ADCAddGslbvserverdomainbinding {
         Invoke-ADCAddGslbvserverdomainbinding -name <string>
     .NOTES
         File Name : Invoke-ADCAddGslbvserverdomainbinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/gslb/gslbvserver_domain_binding/
         Requires  : PowerShell v5.1 and up
@@ -7025,7 +7025,7 @@ function Invoke-ADCDeleteGslbvserverdomainbinding {
         Invoke-ADCDeleteGslbvserverdomainbinding -name <string>
     .NOTES
         File Name : Invoke-ADCDeleteGslbvserverdomainbinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/gslb/gslbvserver_domain_binding/
         Requires  : PowerShell v5.1 and up
@@ -7105,7 +7105,7 @@ function Invoke-ADCGetGslbvserverdomainbinding {
         Invoke-ADCGetGslbvserverdomainbinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetGslbvserverdomainbinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/gslb/gslbvserver_domain_binding/
         Requires  : PowerShell v5.1 and up
@@ -7199,7 +7199,7 @@ function Invoke-ADCGetGslbvservergslbservicegroupmemberbinding {
         Invoke-ADCGetGslbvservergslbservicegroupmemberbinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetGslbvservergslbservicegroupmemberbinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/gslb/gslbvserver_gslbservicegroupmember_binding/
         Requires  : PowerShell v5.1 and up
@@ -7281,7 +7281,7 @@ function Invoke-ADCAddGslbvservergslbservicegroupbinding {
         Invoke-ADCAddGslbvservergslbservicegroupbinding -name <string>
     .NOTES
         File Name : Invoke-ADCAddGslbvservergslbservicegroupbinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/gslb/gslbvserver_gslbservicegroup_binding/
         Requires  : PowerShell v5.1 and up
@@ -7351,7 +7351,7 @@ function Invoke-ADCDeleteGslbvservergslbservicegroupbinding {
         Invoke-ADCDeleteGslbvservergslbservicegroupbinding -name <string>
     .NOTES
         File Name : Invoke-ADCDeleteGslbvservergslbservicegroupbinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/gslb/gslbvserver_gslbservicegroup_binding/
         Requires  : PowerShell v5.1 and up
@@ -7425,7 +7425,7 @@ function Invoke-ADCGetGslbvservergslbservicegroupbinding {
         Invoke-ADCGetGslbvservergslbservicegroupbinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetGslbvservergslbservicegroupbinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/gslb/gslbvserver_gslbservicegroup_binding/
         Requires  : PowerShell v5.1 and up
@@ -7515,7 +7515,7 @@ function Invoke-ADCAddGslbvservergslbservicebinding {
         Invoke-ADCAddGslbvservergslbservicebinding -name <string>
     .NOTES
         File Name : Invoke-ADCAddGslbvservergslbservicebinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/gslb/gslbvserver_gslbservice_binding/
         Requires  : PowerShell v5.1 and up
@@ -7597,7 +7597,7 @@ function Invoke-ADCDeleteGslbvservergslbservicebinding {
         Invoke-ADCDeleteGslbvservergslbservicebinding -name <string>
     .NOTES
         File Name : Invoke-ADCDeleteGslbvservergslbservicebinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/gslb/gslbvserver_gslbservice_binding/
         Requires  : PowerShell v5.1 and up
@@ -7674,7 +7674,7 @@ function Invoke-ADCGetGslbvservergslbservicebinding {
         Invoke-ADCGetGslbvservergslbservicebinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetGslbvservergslbservicebinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/gslb/gslbvserver_gslbservice_binding/
         Requires  : PowerShell v5.1 and up
@@ -7765,7 +7765,7 @@ function Invoke-ADCAddGslbvserverspilloverpolicybinding {
         Invoke-ADCAddGslbvserverspilloverpolicybinding -name <string>
     .NOTES
         File Name : Invoke-ADCAddGslbvserverspilloverpolicybinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/gslb/gslbvserver_spilloverpolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -7846,7 +7846,7 @@ function Invoke-ADCDeleteGslbvserverspilloverpolicybinding {
         Invoke-ADCDeleteGslbvserverspilloverpolicybinding -name <string>
     .NOTES
         File Name : Invoke-ADCDeleteGslbvserverspilloverpolicybinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/gslb/gslbvserver_spilloverpolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -7920,7 +7920,7 @@ function Invoke-ADCGetGslbvserverspilloverpolicybinding {
         Invoke-ADCGetGslbvserverspilloverpolicybinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetGslbvserverspilloverpolicybinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/gslb/gslbvserver_spilloverpolicy_binding/
         Requires  : PowerShell v5.1 and up

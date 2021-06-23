@@ -26,7 +26,7 @@ function Invoke-ADCGetSystemStats {
         Invoke-ADCGetSystemStats -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetSystemStats
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/statistics/system/system/
         Requires  : PowerShell v5.1 and up
@@ -119,7 +119,7 @@ function Invoke-ADCGetSystembwStats {
         Invoke-ADCGetSystembwStats -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetSystembwStats
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/statistics/system/systembw/
         Requires  : PowerShell v5.1 and up
@@ -211,7 +211,7 @@ function Invoke-ADCGetSystemcpuStats {
         Invoke-ADCGetSystemcpuStats -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetSystemcpuStats
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/statistics/system/systemcpu/
         Requires  : PowerShell v5.1 and up
@@ -299,7 +299,7 @@ function Invoke-ADCGetSystemmemoryStats {
         Invoke-ADCGetSystemmemoryStats -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetSystemmemoryStats
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/statistics/system/systemmemory/
         Requires  : PowerShell v5.1 and up

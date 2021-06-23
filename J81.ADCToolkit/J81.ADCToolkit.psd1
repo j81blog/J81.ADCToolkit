@@ -9,7 +9,7 @@
     RootModule        = 'J81.ADCToolkit.psm1'
 
     # Version number of this module.
-    ModuleVersion     = '2101.0322'
+    ModuleVersion     = '2106.2309'
 
     # Supported PSEditions
     # CompatiblePSEditions = @()
@@ -3879,4 +3879,3 @@
     # DefaultCommandPrefix = ''
 
 }
-

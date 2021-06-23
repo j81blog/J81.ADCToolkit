@@ -57,7 +57,7 @@ function Invoke-ADCAddLbgroup {
         Invoke-ADCAddLbgroup -name <string>
     .NOTES
         File Name : Invoke-ADCAddLbgroup
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/lb/lbgroup/
         Requires  : PowerShell v5.1 and up
@@ -209,7 +209,7 @@ function Invoke-ADCUpdateLbgroup {
         Invoke-ADCUpdateLbgroup -name <string>
     .NOTES
         File Name : Invoke-ADCUpdateLbgroup
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/lb/lbgroup/
         Requires  : PowerShell v5.1 and up
@@ -348,7 +348,7 @@ function Invoke-ADCUnsetLbgroup {
         Invoke-ADCUnsetLbgroup -name <string>
     .NOTES
         File Name : Invoke-ADCUnsetLbgroup
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/lb/lbgroup
         Requires  : PowerShell v5.1 and up
@@ -438,7 +438,7 @@ function Invoke-ADCDeleteLbgroup {
         Invoke-ADCDeleteLbgroup -name <string>
     .NOTES
         File Name : Invoke-ADCDeleteLbgroup
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/lb/lbgroup/
         Requires  : PowerShell v5.1 and up
@@ -499,7 +499,7 @@ function Invoke-ADCRenameLbgroup {
         Invoke-ADCRenameLbgroup -name <string> -newname <string>
     .NOTES
         File Name : Invoke-ADCRenameLbgroup
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/lb/lbgroup/
         Requires  : PowerShell v5.1 and up
@@ -587,7 +587,7 @@ function Invoke-ADCGetLbgroup {
         Invoke-ADCGetLbgroup -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetLbgroup
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/lb/lbgroup/
         Requires  : PowerShell v5.1 and up
@@ -682,7 +682,7 @@ function Invoke-ADCGetLbgroupbinding {
         Invoke-ADCGetLbgroupbinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetLbgroupbinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/lb/lbgroup_binding/
         Requires  : PowerShell v5.1 and up
@@ -761,7 +761,7 @@ function Invoke-ADCAddLbgrouplbvserverbinding {
         Invoke-ADCAddLbgrouplbvserverbinding -name <string> -vservername <string>
     .NOTES
         File Name : Invoke-ADCAddLbgrouplbvserverbinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/lb/lbgroup_lbvserver_binding/
         Requires  : PowerShell v5.1 and up
@@ -834,7 +834,7 @@ function Invoke-ADCDeleteLbgrouplbvserverbinding {
         Invoke-ADCDeleteLbgrouplbvserverbinding -name <string>
     .NOTES
         File Name : Invoke-ADCDeleteLbgrouplbvserverbinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/lb/lbgroup_lbvserver_binding/
         Requires  : PowerShell v5.1 and up
@@ -908,7 +908,7 @@ function Invoke-ADCGetLbgrouplbvserverbinding {
         Invoke-ADCGetLbgrouplbvserverbinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetLbgrouplbvserverbinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/lb/lbgroup_lbvserver_binding/
         Requires  : PowerShell v5.1 and up
@@ -991,7 +991,7 @@ function Invoke-ADCAddLbmetrictable {
         Invoke-ADCAddLbmetrictable -metrictable <string>
     .NOTES
         File Name : Invoke-ADCAddLbmetrictable
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/lb/lbmetrictable/
         Requires  : PowerShell v5.1 and up
@@ -1061,7 +1061,7 @@ function Invoke-ADCDeleteLbmetrictable {
         Invoke-ADCDeleteLbmetrictable -metrictable <string>
     .NOTES
         File Name : Invoke-ADCDeleteLbmetrictable
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/lb/lbmetrictable/
         Requires  : PowerShell v5.1 and up
@@ -1127,7 +1127,7 @@ function Invoke-ADCUpdateLbmetrictable {
         Invoke-ADCUpdateLbmetrictable -metrictable <string> -metric <string> -Snmpoid <string>
     .NOTES
         File Name : Invoke-ADCUpdateLbmetrictable
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/lb/lbmetrictable/
         Requires  : PowerShell v5.1 and up
@@ -1222,7 +1222,7 @@ function Invoke-ADCGetLbmetrictable {
         Invoke-ADCGetLbmetrictable -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetLbmetrictable
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/lb/lbmetrictable/
         Requires  : PowerShell v5.1 and up
@@ -1318,7 +1318,7 @@ function Invoke-ADCGetLbmetrictablebinding {
         Invoke-ADCGetLbmetrictablebinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetLbmetrictablebinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/lb/lbmetrictable_binding/
         Requires  : PowerShell v5.1 and up
@@ -1402,7 +1402,7 @@ function Invoke-ADCAddLbmetrictablemetricbinding {
         Invoke-ADCAddLbmetrictablemetricbinding -metrictable <string> -metric <string> -Snmpoid <string>
     .NOTES
         File Name : Invoke-ADCAddLbmetrictablemetricbinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/lb/lbmetrictable_metric_binding/
         Requires  : PowerShell v5.1 and up
@@ -1482,7 +1482,7 @@ function Invoke-ADCDeleteLbmetrictablemetricbinding {
         Invoke-ADCDeleteLbmetrictablemetricbinding -metrictable <string>
     .NOTES
         File Name : Invoke-ADCDeleteLbmetrictablemetricbinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/lb/lbmetrictable_metric_binding/
         Requires  : PowerShell v5.1 and up
@@ -1556,7 +1556,7 @@ function Invoke-ADCGetLbmetrictablemetricbinding {
         Invoke-ADCGetLbmetrictablemetricbinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetLbmetrictablemetricbinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/lb/lbmetrictable_metric_binding/
         Requires  : PowerShell v5.1 and up
@@ -1650,7 +1650,7 @@ function Invoke-ADCGetLbmonbindings {
         Invoke-ADCGetLbmonbindings -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetLbmonbindings
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/lb/lbmonbindings/
         Requires  : PowerShell v5.1 and up
@@ -1742,7 +1742,7 @@ function Invoke-ADCGetLbmonbindingsbinding {
         Invoke-ADCGetLbmonbindingsbinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetLbmonbindingsbinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/lb/lbmonbindings_binding/
         Requires  : PowerShell v5.1 and up
@@ -1833,7 +1833,7 @@ function Invoke-ADCGetLbmonbindingsgslbservicegroupbinding {
         Invoke-ADCGetLbmonbindingsgslbservicegroupbinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetLbmonbindingsgslbservicegroupbinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/lb/lbmonbindings_gslbservicegroup_binding/
         Requires  : PowerShell v5.1 and up
@@ -1927,7 +1927,7 @@ function Invoke-ADCGetLbmonbindingsservicegroupbinding {
         Invoke-ADCGetLbmonbindingsservicegroupbinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetLbmonbindingsservicegroupbinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/lb/lbmonbindings_servicegroup_binding/
         Requires  : PowerShell v5.1 and up
@@ -2021,7 +2021,7 @@ function Invoke-ADCGetLbmonbindingsservicebinding {
         Invoke-ADCGetLbmonbindingsservicebinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetLbmonbindingsservicebinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/lb/lbmonbindings_service_binding/
         Requires  : PowerShell v5.1 and up
@@ -2422,7 +2422,7 @@ function Invoke-ADCAddLbmonitor {
         Invoke-ADCAddLbmonitor -monitorname <string> -type <string>
     .NOTES
         File Name : Invoke-ADCAddLbmonitor
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/lb/lbmonitor/
         Requires  : PowerShell v5.1 and up
@@ -2862,7 +2862,7 @@ function Invoke-ADCDeleteLbmonitor {
         Invoke-ADCDeleteLbmonitor -monitorname <string>
     .NOTES
         File Name : Invoke-ADCDeleteLbmonitor
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/lb/lbmonitor/
         Requires  : PowerShell v5.1 and up
@@ -3256,7 +3256,7 @@ function Invoke-ADCUpdateLbmonitor {
         Invoke-ADCUpdateLbmonitor -monitorname <string> -type <string>
     .NOTES
         File Name : Invoke-ADCUpdateLbmonitor
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/lb/lbmonitor/
         Requires  : PowerShell v5.1 and up
@@ -3896,7 +3896,7 @@ function Invoke-ADCUnsetLbmonitor {
         Invoke-ADCUnsetLbmonitor -monitorname <string> -type <string>
     .NOTES
         File Name : Invoke-ADCUnsetLbmonitor
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/lb/lbmonitor
         Requires  : PowerShell v5.1 and up
@@ -4218,7 +4218,7 @@ function Invoke-ADCEnableLbmonitor {
         Invoke-ADCEnableLbmonitor 
     .NOTES
         File Name : Invoke-ADCEnableLbmonitor
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/lb/lbmonitor/
         Requires  : PowerShell v5.1 and up
@@ -4289,7 +4289,7 @@ function Invoke-ADCDisableLbmonitor {
         Invoke-ADCDisableLbmonitor 
     .NOTES
         File Name : Invoke-ADCDisableLbmonitor
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/lb/lbmonitor/
         Requires  : PowerShell v5.1 and up
@@ -4373,7 +4373,7 @@ function Invoke-ADCGetLbmonitor {
         Invoke-ADCGetLbmonitor -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetLbmonitor
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/lb/lbmonitor/
         Requires  : PowerShell v5.1 and up
@@ -4469,7 +4469,7 @@ function Invoke-ADCGetLbmonitorbinding {
         Invoke-ADCGetLbmonitorbinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetLbmonitorbinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/lb/lbmonitor_binding/
         Requires  : PowerShell v5.1 and up
@@ -4556,7 +4556,7 @@ function Invoke-ADCAddLbmonitormetricbinding {
         Invoke-ADCAddLbmonitormetricbinding -monitorname <string>
     .NOTES
         File Name : Invoke-ADCAddLbmonitormetricbinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/lb/lbmonitor_metric_binding/
         Requires  : PowerShell v5.1 and up
@@ -4636,7 +4636,7 @@ function Invoke-ADCDeleteLbmonitormetricbinding {
         Invoke-ADCDeleteLbmonitormetricbinding -monitorname <string>
     .NOTES
         File Name : Invoke-ADCDeleteLbmonitormetricbinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/lb/lbmonitor_metric_binding/
         Requires  : PowerShell v5.1 and up
@@ -4710,7 +4710,7 @@ function Invoke-ADCGetLbmonitormetricbinding {
         Invoke-ADCGetLbmonitormetricbinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetLbmonitormetricbinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/lb/lbmonitor_metric_binding/
         Requires  : PowerShell v5.1 and up
@@ -4811,7 +4811,7 @@ function Invoke-ADCAddLbmonitorservicegroupbinding {
         Invoke-ADCAddLbmonitorservicegroupbinding -monitorname <string>
     .NOTES
         File Name : Invoke-ADCAddLbmonitorservicegroupbinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/lb/lbmonitor_servicegroup_binding/
         Requires  : PowerShell v5.1 and up
@@ -4899,7 +4899,7 @@ function Invoke-ADCDeleteLbmonitorservicegroupbinding {
         Invoke-ADCDeleteLbmonitorservicegroupbinding -monitorname <string>
     .NOTES
         File Name : Invoke-ADCDeleteLbmonitorservicegroupbinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/lb/lbmonitor_servicegroup_binding/
         Requires  : PowerShell v5.1 and up
@@ -4983,7 +4983,7 @@ function Invoke-ADCAddLbmonitorservicebinding {
         Invoke-ADCAddLbmonitorservicebinding -monitorname <string>
     .NOTES
         File Name : Invoke-ADCAddLbmonitorservicebinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/lb/lbmonitor_service_binding/
         Requires  : PowerShell v5.1 and up
@@ -5071,7 +5071,7 @@ function Invoke-ADCDeleteLbmonitorservicebinding {
         Invoke-ADCDeleteLbmonitorservicebinding -monitorname <string>
     .NOTES
         File Name : Invoke-ADCDeleteLbmonitorservicebinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/lb/lbmonitor_service_binding/
         Requires  : PowerShell v5.1 and up
@@ -5144,7 +5144,7 @@ function Invoke-ADCAddLbmonitorsslcertkeybinding {
         Invoke-ADCAddLbmonitorsslcertkeybinding -monitorname <string>
     .NOTES
         File Name : Invoke-ADCAddLbmonitorsslcertkeybinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/lb/lbmonitor_sslcertkey_binding/
         Requires  : PowerShell v5.1 and up
@@ -5226,7 +5226,7 @@ function Invoke-ADCDeleteLbmonitorsslcertkeybinding {
         Invoke-ADCDeleteLbmonitorsslcertkeybinding -monitorname <string>
     .NOTES
         File Name : Invoke-ADCDeleteLbmonitorsslcertkeybinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/lb/lbmonitor_sslcertkey_binding/
         Requires  : PowerShell v5.1 and up
@@ -5303,7 +5303,7 @@ function Invoke-ADCGetLbmonitorsslcertkeybinding {
         Invoke-ADCGetLbmonitorsslcertkeybinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetLbmonitorsslcertkeybinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/lb/lbmonitor_sslcertkey_binding/
         Requires  : PowerShell v5.1 and up
@@ -5453,7 +5453,7 @@ function Invoke-ADCUpdateLbparameter {
         Invoke-ADCUpdateLbparameter 
     .NOTES
         File Name : Invoke-ADCUpdateLbparameter
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/lb/lbparameter/
         Requires  : PowerShell v5.1 and up
@@ -5631,7 +5631,7 @@ function Invoke-ADCUnsetLbparameter {
         Invoke-ADCUnsetLbparameter 
     .NOTES
         File Name : Invoke-ADCUnsetLbparameter
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/lb/lbparameter
         Requires  : PowerShell v5.1 and up
@@ -5747,7 +5747,7 @@ function Invoke-ADCGetLbparameter {
         Invoke-ADCGetLbparameter -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetLbparameter
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/lb/lbparameter/
         Requires  : PowerShell v5.1 and up
@@ -5817,7 +5817,7 @@ function Invoke-ADCClearLbpersistentsessions {
         Invoke-ADCClearLbpersistentsessions 
     .NOTES
         File Name : Invoke-ADCClearLbpersistentsessions
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/lb/lbpersistentsessions/
         Requires  : PowerShell v5.1 and up
@@ -5895,7 +5895,7 @@ function Invoke-ADCGetLbpersistentsessions {
         Invoke-ADCGetLbpersistentsessions -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetLbpersistentsessions
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/lb/lbpersistentsessions/
         Requires  : PowerShell v5.1 and up
@@ -6018,7 +6018,7 @@ function Invoke-ADCAddLbprofile {
         Invoke-ADCAddLbprofile -lbprofilename <string>
     .NOTES
         File Name : Invoke-ADCAddLbprofile
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/lb/lbprofile/
         Requires  : PowerShell v5.1 and up
@@ -6113,7 +6113,7 @@ function Invoke-ADCDeleteLbprofile {
         Invoke-ADCDeleteLbprofile -lbprofilename <string>
     .NOTES
         File Name : Invoke-ADCDeleteLbprofile
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/lb/lbprofile/
         Requires  : PowerShell v5.1 and up
@@ -6207,7 +6207,7 @@ function Invoke-ADCUpdateLbprofile {
         Invoke-ADCUpdateLbprofile -lbprofilename <string>
     .NOTES
         File Name : Invoke-ADCUpdateLbprofile
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/lb/lbprofile/
         Requires  : PowerShell v5.1 and up
@@ -6332,7 +6332,7 @@ function Invoke-ADCUnsetLbprofile {
         Invoke-ADCUnsetLbprofile -lbprofilename <string>
     .NOTES
         File Name : Invoke-ADCUnsetLbprofile
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/lb/lbprofile
         Requires  : PowerShell v5.1 and up
@@ -6429,7 +6429,7 @@ function Invoke-ADCGetLbprofile {
         Invoke-ADCGetLbprofile -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetLbprofile
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/lb/lbprofile/
         Requires  : PowerShell v5.1 and up
@@ -6519,7 +6519,7 @@ function Invoke-ADCAddLbroute {
         Invoke-ADCAddLbroute -network <string> -netmask <string> -gatewayname <string>
     .NOTES
         File Name : Invoke-ADCAddLbroute
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/lb/lbroute/
         Requires  : PowerShell v5.1 and up
@@ -6595,7 +6595,7 @@ function Invoke-ADCDeleteLbroute {
         Invoke-ADCDeleteLbroute -network <string>
     .NOTES
         File Name : Invoke-ADCDeleteLbroute
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/lb/lbroute/
         Requires  : PowerShell v5.1 and up
@@ -6670,7 +6670,7 @@ function Invoke-ADCGetLbroute {
         Invoke-ADCGetLbroute -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetLbroute
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/lb/lbroute/
         Requires  : PowerShell v5.1 and up
@@ -6753,7 +6753,7 @@ function Invoke-ADCAddLbroute6 {
         Invoke-ADCAddLbroute6 -network <string> -gatewayname <string>
     .NOTES
         File Name : Invoke-ADCAddLbroute6
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/lb/lbroute6/
         Requires  : PowerShell v5.1 and up
@@ -6824,7 +6824,7 @@ function Invoke-ADCDeleteLbroute6 {
         Invoke-ADCDeleteLbroute6 -network <string>
     .NOTES
         File Name : Invoke-ADCDeleteLbroute6
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/lb/lbroute6/
         Requires  : PowerShell v5.1 and up
@@ -6896,7 +6896,7 @@ function Invoke-ADCGetLbroute6 {
         Invoke-ADCGetLbroute6 -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetLbroute6
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/lb/lbroute6/
         Requires  : PowerShell v5.1 and up
@@ -6996,7 +6996,7 @@ function Invoke-ADCUpdateLbsipparameters {
         Invoke-ADCUpdateLbsipparameters 
     .NOTES
         File Name : Invoke-ADCUpdateLbsipparameters
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/lb/lbsipparameters/
         Requires  : PowerShell v5.1 and up
@@ -7090,7 +7090,7 @@ function Invoke-ADCUnsetLbsipparameters {
         Invoke-ADCUnsetLbsipparameters 
     .NOTES
         File Name : Invoke-ADCUnsetLbsipparameters
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/lb/lbsipparameters
         Requires  : PowerShell v5.1 and up
@@ -7176,7 +7176,7 @@ function Invoke-ADCGetLbsipparameters {
         Invoke-ADCGetLbsipparameters -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetLbsipparameters
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/lb/lbsipparameters/
         Requires  : PowerShell v5.1 and up
@@ -7663,7 +7663,7 @@ function Invoke-ADCAddLbvserver {
         Invoke-ADCAddLbvserver -name <string> -servicetype <string>
     .NOTES
         File Name : Invoke-ADCAddLbvserver
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/lb/lbvserver/
         Requires  : PowerShell v5.1 and up
@@ -8089,7 +8089,7 @@ function Invoke-ADCDeleteLbvserver {
         Invoke-ADCDeleteLbvserver -name <string>
     .NOTES
         File Name : Invoke-ADCDeleteLbvserver
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/lb/lbvserver/
         Requires  : PowerShell v5.1 and up
@@ -8546,7 +8546,7 @@ function Invoke-ADCUpdateLbvserver {
         Invoke-ADCUpdateLbvserver -name <string>
     .NOTES
         File Name : Invoke-ADCUpdateLbvserver
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/lb/lbvserver/
         Requires  : PowerShell v5.1 and up
@@ -9230,7 +9230,7 @@ function Invoke-ADCUnsetLbvserver {
         Invoke-ADCUnsetLbvserver -name <string>
     .NOTES
         File Name : Invoke-ADCUnsetLbvserver
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/lb/lbvserver
         Requires  : PowerShell v5.1 and up
@@ -9543,7 +9543,7 @@ function Invoke-ADCEnableLbvserver {
         Invoke-ADCEnableLbvserver -name <string>
     .NOTES
         File Name : Invoke-ADCEnableLbvserver
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/lb/lbvserver/
         Requires  : PowerShell v5.1 and up
@@ -9603,7 +9603,7 @@ function Invoke-ADCDisableLbvserver {
         Invoke-ADCDisableLbvserver -name <string>
     .NOTES
         File Name : Invoke-ADCDisableLbvserver
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/lb/lbvserver/
         Requires  : PowerShell v5.1 and up
@@ -9669,7 +9669,7 @@ function Invoke-ADCRenameLbvserver {
         Invoke-ADCRenameLbvserver -name <string> -newname <string>
     .NOTES
         File Name : Invoke-ADCRenameLbvserver
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/lb/lbvserver/
         Requires  : PowerShell v5.1 and up
@@ -9759,7 +9759,7 @@ function Invoke-ADCGetLbvserver {
         Invoke-ADCGetLbvserver -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetLbvserver
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/lb/lbvserver/
         Requires  : PowerShell v5.1 and up
@@ -9845,7 +9845,7 @@ function Invoke-ADCAddLbvserveranalyticsprofilebinding {
         Invoke-ADCAddLbvserveranalyticsprofilebinding -name <string>
     .NOTES
         File Name : Invoke-ADCAddLbvserveranalyticsprofilebinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/lb/lbvserver_analyticsprofile_binding/
         Requires  : PowerShell v5.1 and up
@@ -9916,7 +9916,7 @@ function Invoke-ADCDeleteLbvserveranalyticsprofilebinding {
         Invoke-ADCDeleteLbvserveranalyticsprofilebinding -name <string>
     .NOTES
         File Name : Invoke-ADCDeleteLbvserveranalyticsprofilebinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/lb/lbvserver_analyticsprofile_binding/
         Requires  : PowerShell v5.1 and up
@@ -9990,7 +9990,7 @@ function Invoke-ADCGetLbvserveranalyticsprofilebinding {
         Invoke-ADCGetLbvserveranalyticsprofilebinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetLbvserveranalyticsprofilebinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/lb/lbvserver_analyticsprofile_binding/
         Requires  : PowerShell v5.1 and up
@@ -10087,7 +10087,7 @@ function Invoke-ADCAddLbvserverappflowpolicybinding {
         Invoke-ADCAddLbvserverappflowpolicybinding -name <string>
     .NOTES
         File Name : Invoke-ADCAddLbvserverappflowpolicybinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/lb/lbvserver_appflowpolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -10181,7 +10181,7 @@ function Invoke-ADCDeleteLbvserverappflowpolicybinding {
         Invoke-ADCDeleteLbvserverappflowpolicybinding -name <string>
     .NOTES
         File Name : Invoke-ADCDeleteLbvserverappflowpolicybinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/lb/lbvserver_appflowpolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -10261,7 +10261,7 @@ function Invoke-ADCGetLbvserverappflowpolicybinding {
         Invoke-ADCGetLbvserverappflowpolicybinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetLbvserverappflowpolicybinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/lb/lbvserver_appflowpolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -10358,7 +10358,7 @@ function Invoke-ADCAddLbvserverappfwpolicybinding {
         Invoke-ADCAddLbvserverappfwpolicybinding -name <string>
     .NOTES
         File Name : Invoke-ADCAddLbvserverappfwpolicybinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/lb/lbvserver_appfwpolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -10452,7 +10452,7 @@ function Invoke-ADCDeleteLbvserverappfwpolicybinding {
         Invoke-ADCDeleteLbvserverappfwpolicybinding -name <string>
     .NOTES
         File Name : Invoke-ADCDeleteLbvserverappfwpolicybinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/lb/lbvserver_appfwpolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -10532,7 +10532,7 @@ function Invoke-ADCGetLbvserverappfwpolicybinding {
         Invoke-ADCGetLbvserverappfwpolicybinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetLbvserverappfwpolicybinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/lb/lbvserver_appfwpolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -10629,7 +10629,7 @@ function Invoke-ADCAddLbvserverappqoepolicybinding {
         Invoke-ADCAddLbvserverappqoepolicybinding -name <string>
     .NOTES
         File Name : Invoke-ADCAddLbvserverappqoepolicybinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/lb/lbvserver_appqoepolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -10723,7 +10723,7 @@ function Invoke-ADCDeleteLbvserverappqoepolicybinding {
         Invoke-ADCDeleteLbvserverappqoepolicybinding -name <string>
     .NOTES
         File Name : Invoke-ADCDeleteLbvserverappqoepolicybinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/lb/lbvserver_appqoepolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -10803,7 +10803,7 @@ function Invoke-ADCGetLbvserverappqoepolicybinding {
         Invoke-ADCGetLbvserverappqoepolicybinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetLbvserverappqoepolicybinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/lb/lbvserver_appqoepolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -10900,7 +10900,7 @@ function Invoke-ADCAddLbvserverauditnslogpolicybinding {
         Invoke-ADCAddLbvserverauditnslogpolicybinding -name <string>
     .NOTES
         File Name : Invoke-ADCAddLbvserverauditnslogpolicybinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/lb/lbvserver_auditnslogpolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -10994,7 +10994,7 @@ function Invoke-ADCDeleteLbvserverauditnslogpolicybinding {
         Invoke-ADCDeleteLbvserverauditnslogpolicybinding -name <string>
     .NOTES
         File Name : Invoke-ADCDeleteLbvserverauditnslogpolicybinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/lb/lbvserver_auditnslogpolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -11074,7 +11074,7 @@ function Invoke-ADCGetLbvserverauditnslogpolicybinding {
         Invoke-ADCGetLbvserverauditnslogpolicybinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetLbvserverauditnslogpolicybinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/lb/lbvserver_auditnslogpolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -11171,7 +11171,7 @@ function Invoke-ADCAddLbvserverauditsyslogpolicybinding {
         Invoke-ADCAddLbvserverauditsyslogpolicybinding -name <string>
     .NOTES
         File Name : Invoke-ADCAddLbvserverauditsyslogpolicybinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/lb/lbvserver_auditsyslogpolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -11265,7 +11265,7 @@ function Invoke-ADCDeleteLbvserverauditsyslogpolicybinding {
         Invoke-ADCDeleteLbvserverauditsyslogpolicybinding -name <string>
     .NOTES
         File Name : Invoke-ADCDeleteLbvserverauditsyslogpolicybinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/lb/lbvserver_auditsyslogpolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -11345,7 +11345,7 @@ function Invoke-ADCGetLbvserverauditsyslogpolicybinding {
         Invoke-ADCGetLbvserverauditsyslogpolicybinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetLbvserverauditsyslogpolicybinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/lb/lbvserver_auditsyslogpolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -11442,7 +11442,7 @@ function Invoke-ADCAddLbvserverauthorizationpolicybinding {
         Invoke-ADCAddLbvserverauthorizationpolicybinding -name <string>
     .NOTES
         File Name : Invoke-ADCAddLbvserverauthorizationpolicybinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/lb/lbvserver_authorizationpolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -11536,7 +11536,7 @@ function Invoke-ADCDeleteLbvserverauthorizationpolicybinding {
         Invoke-ADCDeleteLbvserverauthorizationpolicybinding -name <string>
     .NOTES
         File Name : Invoke-ADCDeleteLbvserverauthorizationpolicybinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/lb/lbvserver_authorizationpolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -11616,7 +11616,7 @@ function Invoke-ADCGetLbvserverauthorizationpolicybinding {
         Invoke-ADCGetLbvserverauthorizationpolicybinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetLbvserverauthorizationpolicybinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/lb/lbvserver_authorizationpolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -11709,7 +11709,7 @@ function Invoke-ADCGetLbvserverbinding {
         Invoke-ADCGetLbvserverbinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetLbvserverbinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/lb/lbvserver_binding/
         Requires  : PowerShell v5.1 and up
@@ -11802,7 +11802,7 @@ function Invoke-ADCAddLbvserverbotpolicybinding {
         Invoke-ADCAddLbvserverbotpolicybinding -name <string>
     .NOTES
         File Name : Invoke-ADCAddLbvserverbotpolicybinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/lb/lbvserver_botpolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -11896,7 +11896,7 @@ function Invoke-ADCDeleteLbvserverbotpolicybinding {
         Invoke-ADCDeleteLbvserverbotpolicybinding -name <string>
     .NOTES
         File Name : Invoke-ADCDeleteLbvserverbotpolicybinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/lb/lbvserver_botpolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -11976,7 +11976,7 @@ function Invoke-ADCGetLbvserverbotpolicybinding {
         Invoke-ADCGetLbvserverbotpolicybinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetLbvserverbotpolicybinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/lb/lbvserver_botpolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -12073,7 +12073,7 @@ function Invoke-ADCAddLbvservercachepolicybinding {
         Invoke-ADCAddLbvservercachepolicybinding -name <string>
     .NOTES
         File Name : Invoke-ADCAddLbvservercachepolicybinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/lb/lbvserver_cachepolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -12167,7 +12167,7 @@ function Invoke-ADCDeleteLbvservercachepolicybinding {
         Invoke-ADCDeleteLbvservercachepolicybinding -name <string>
     .NOTES
         File Name : Invoke-ADCDeleteLbvservercachepolicybinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/lb/lbvserver_cachepolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -12247,7 +12247,7 @@ function Invoke-ADCGetLbvservercachepolicybinding {
         Invoke-ADCGetLbvservercachepolicybinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetLbvservercachepolicybinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/lb/lbvserver_cachepolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -12344,7 +12344,7 @@ function Invoke-ADCAddLbvservercmppolicybinding {
         Invoke-ADCAddLbvservercmppolicybinding -name <string>
     .NOTES
         File Name : Invoke-ADCAddLbvservercmppolicybinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/lb/lbvserver_cmppolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -12438,7 +12438,7 @@ function Invoke-ADCDeleteLbvservercmppolicybinding {
         Invoke-ADCDeleteLbvservercmppolicybinding -name <string>
     .NOTES
         File Name : Invoke-ADCDeleteLbvservercmppolicybinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/lb/lbvserver_cmppolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -12518,7 +12518,7 @@ function Invoke-ADCGetLbvservercmppolicybinding {
         Invoke-ADCGetLbvservercmppolicybinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetLbvservercmppolicybinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/lb/lbvserver_cmppolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -12615,7 +12615,7 @@ function Invoke-ADCAddLbvservercontentinspectionpolicybinding {
         Invoke-ADCAddLbvservercontentinspectionpolicybinding -name <string>
     .NOTES
         File Name : Invoke-ADCAddLbvservercontentinspectionpolicybinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/lb/lbvserver_contentinspectionpolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -12709,7 +12709,7 @@ function Invoke-ADCDeleteLbvservercontentinspectionpolicybinding {
         Invoke-ADCDeleteLbvservercontentinspectionpolicybinding -name <string>
     .NOTES
         File Name : Invoke-ADCDeleteLbvservercontentinspectionpolicybinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/lb/lbvserver_contentinspectionpolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -12789,7 +12789,7 @@ function Invoke-ADCGetLbvservercontentinspectionpolicybinding {
         Invoke-ADCGetLbvservercontentinspectionpolicybinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetLbvservercontentinspectionpolicybinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/lb/lbvserver_contentinspectionpolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -12884,7 +12884,7 @@ function Invoke-ADCGetLbvservercsvserverbinding {
         Invoke-ADCGetLbvservercsvserverbinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetLbvservercsvserverbinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/lb/lbvserver_csvserver_binding/
         Requires  : PowerShell v5.1 and up
@@ -12981,7 +12981,7 @@ function Invoke-ADCAddLbvserverdnspolicy64binding {
         Invoke-ADCAddLbvserverdnspolicy64binding -name <string>
     .NOTES
         File Name : Invoke-ADCAddLbvserverdnspolicy64binding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/lb/lbvserver_dnspolicy64_binding/
         Requires  : PowerShell v5.1 and up
@@ -13075,7 +13075,7 @@ function Invoke-ADCDeleteLbvserverdnspolicy64binding {
         Invoke-ADCDeleteLbvserverdnspolicy64binding -name <string>
     .NOTES
         File Name : Invoke-ADCDeleteLbvserverdnspolicy64binding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/lb/lbvserver_dnspolicy64_binding/
         Requires  : PowerShell v5.1 and up
@@ -13155,7 +13155,7 @@ function Invoke-ADCGetLbvserverdnspolicy64binding {
         Invoke-ADCGetLbvserverdnspolicy64binding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetLbvserverdnspolicy64binding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/lb/lbvserver_dnspolicy64_binding/
         Requires  : PowerShell v5.1 and up
@@ -13250,7 +13250,7 @@ function Invoke-ADCGetLbvserverdospolicybinding {
         Invoke-ADCGetLbvserverdospolicybinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetLbvserverdospolicybinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/lb/lbvserver_dospolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -13347,7 +13347,7 @@ function Invoke-ADCAddLbvserverfeopolicybinding {
         Invoke-ADCAddLbvserverfeopolicybinding -name <string>
     .NOTES
         File Name : Invoke-ADCAddLbvserverfeopolicybinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/lb/lbvserver_feopolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -13441,7 +13441,7 @@ function Invoke-ADCDeleteLbvserverfeopolicybinding {
         Invoke-ADCDeleteLbvserverfeopolicybinding -name <string>
     .NOTES
         File Name : Invoke-ADCDeleteLbvserverfeopolicybinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/lb/lbvserver_feopolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -13521,7 +13521,7 @@ function Invoke-ADCGetLbvserverfeopolicybinding {
         Invoke-ADCGetLbvserverfeopolicybinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetLbvserverfeopolicybinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/lb/lbvserver_feopolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -13618,7 +13618,7 @@ function Invoke-ADCAddLbvserverfilterpolicybinding {
         Invoke-ADCAddLbvserverfilterpolicybinding -name <string>
     .NOTES
         File Name : Invoke-ADCAddLbvserverfilterpolicybinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/lb/lbvserver_filterpolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -13712,7 +13712,7 @@ function Invoke-ADCDeleteLbvserverfilterpolicybinding {
         Invoke-ADCDeleteLbvserverfilterpolicybinding -name <string>
     .NOTES
         File Name : Invoke-ADCDeleteLbvserverfilterpolicybinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/lb/lbvserver_filterpolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -13792,7 +13792,7 @@ function Invoke-ADCGetLbvserverfilterpolicybinding {
         Invoke-ADCGetLbvserverfilterpolicybinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetLbvserverfilterpolicybinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/lb/lbvserver_filterpolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -13891,7 +13891,7 @@ function Invoke-ADCAddLbvserverpqpolicybinding {
         Invoke-ADCAddLbvserverpqpolicybinding -name <string>
     .NOTES
         File Name : Invoke-ADCAddLbvserverpqpolicybinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/lb/lbvserver_pqpolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -13988,7 +13988,7 @@ function Invoke-ADCDeleteLbvserverpqpolicybinding {
         Invoke-ADCDeleteLbvserverpqpolicybinding -name <string>
     .NOTES
         File Name : Invoke-ADCDeleteLbvserverpqpolicybinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/lb/lbvserver_pqpolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -14068,7 +14068,7 @@ function Invoke-ADCGetLbvserverpqpolicybinding {
         Invoke-ADCGetLbvserverpqpolicybinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetLbvserverpqpolicybinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/lb/lbvserver_pqpolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -14165,7 +14165,7 @@ function Invoke-ADCAddLbvserverresponderpolicybinding {
         Invoke-ADCAddLbvserverresponderpolicybinding -name <string>
     .NOTES
         File Name : Invoke-ADCAddLbvserverresponderpolicybinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/lb/lbvserver_responderpolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -14259,7 +14259,7 @@ function Invoke-ADCDeleteLbvserverresponderpolicybinding {
         Invoke-ADCDeleteLbvserverresponderpolicybinding -name <string>
     .NOTES
         File Name : Invoke-ADCDeleteLbvserverresponderpolicybinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/lb/lbvserver_responderpolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -14339,7 +14339,7 @@ function Invoke-ADCGetLbvserverresponderpolicybinding {
         Invoke-ADCGetLbvserverresponderpolicybinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetLbvserverresponderpolicybinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/lb/lbvserver_responderpolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -14436,7 +14436,7 @@ function Invoke-ADCAddLbvserverrewritepolicybinding {
         Invoke-ADCAddLbvserverrewritepolicybinding -name <string>
     .NOTES
         File Name : Invoke-ADCAddLbvserverrewritepolicybinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/lb/lbvserver_rewritepolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -14530,7 +14530,7 @@ function Invoke-ADCDeleteLbvserverrewritepolicybinding {
         Invoke-ADCDeleteLbvserverrewritepolicybinding -name <string>
     .NOTES
         File Name : Invoke-ADCDeleteLbvserverrewritepolicybinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/lb/lbvserver_rewritepolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -14610,7 +14610,7 @@ function Invoke-ADCGetLbvserverrewritepolicybinding {
         Invoke-ADCGetLbvserverrewritepolicybinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetLbvserverrewritepolicybinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/lb/lbvserver_rewritepolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -14707,7 +14707,7 @@ function Invoke-ADCAddLbvserverscpolicybinding {
         Invoke-ADCAddLbvserverscpolicybinding -name <string>
     .NOTES
         File Name : Invoke-ADCAddLbvserverscpolicybinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/lb/lbvserver_scpolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -14801,7 +14801,7 @@ function Invoke-ADCDeleteLbvserverscpolicybinding {
         Invoke-ADCDeleteLbvserverscpolicybinding -name <string>
     .NOTES
         File Name : Invoke-ADCDeleteLbvserverscpolicybinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/lb/lbvserver_scpolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -14881,7 +14881,7 @@ function Invoke-ADCGetLbvserverscpolicybinding {
         Invoke-ADCGetLbvserverscpolicybinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetLbvserverscpolicybinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/lb/lbvserver_scpolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -14976,7 +14976,7 @@ function Invoke-ADCGetLbvserverservicegroupmemberbinding {
         Invoke-ADCGetLbvserverservicegroupmemberbinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetLbvserverservicegroupmemberbinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/lb/lbvserver_servicegroupmember_binding/
         Requires  : PowerShell v5.1 and up
@@ -15067,7 +15067,7 @@ function Invoke-ADCAddLbvserverservicegroupbinding {
         Invoke-ADCAddLbvserverservicegroupbinding -name <string>
     .NOTES
         File Name : Invoke-ADCAddLbvserverservicegroupbinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/lb/lbvserver_servicegroup_binding/
         Requires  : PowerShell v5.1 and up
@@ -15148,7 +15148,7 @@ function Invoke-ADCDeleteLbvserverservicegroupbinding {
         Invoke-ADCDeleteLbvserverservicegroupbinding -name <string>
     .NOTES
         File Name : Invoke-ADCDeleteLbvserverservicegroupbinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/lb/lbvserver_servicegroup_binding/
         Requires  : PowerShell v5.1 and up
@@ -15225,7 +15225,7 @@ function Invoke-ADCGetLbvserverservicegroupbinding {
         Invoke-ADCGetLbvserverservicegroupbinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetLbvserverservicegroupbinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/lb/lbvserver_servicegroup_binding/
         Requires  : PowerShell v5.1 and up
@@ -15316,7 +15316,7 @@ function Invoke-ADCAddLbvserverservicebinding {
         Invoke-ADCAddLbvserverservicebinding -name <string>
     .NOTES
         File Name : Invoke-ADCAddLbvserverservicebinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/lb/lbvserver_service_binding/
         Requires  : PowerShell v5.1 and up
@@ -15399,7 +15399,7 @@ function Invoke-ADCDeleteLbvserverservicebinding {
         Invoke-ADCDeleteLbvserverservicebinding -name <string>
     .NOTES
         File Name : Invoke-ADCDeleteLbvserverservicebinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/lb/lbvserver_service_binding/
         Requires  : PowerShell v5.1 and up
@@ -15476,7 +15476,7 @@ function Invoke-ADCGetLbvserverservicebinding {
         Invoke-ADCGetLbvserverservicebinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetLbvserverservicebinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/lb/lbvserver_service_binding/
         Requires  : PowerShell v5.1 and up
@@ -15573,7 +15573,7 @@ function Invoke-ADCAddLbvserverspilloverpolicybinding {
         Invoke-ADCAddLbvserverspilloverpolicybinding -name <string>
     .NOTES
         File Name : Invoke-ADCAddLbvserverspilloverpolicybinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/lb/lbvserver_spilloverpolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -15667,7 +15667,7 @@ function Invoke-ADCDeleteLbvserverspilloverpolicybinding {
         Invoke-ADCDeleteLbvserverspilloverpolicybinding -name <string>
     .NOTES
         File Name : Invoke-ADCDeleteLbvserverspilloverpolicybinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/lb/lbvserver_spilloverpolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -15747,7 +15747,7 @@ function Invoke-ADCGetLbvserverspilloverpolicybinding {
         Invoke-ADCGetLbvserverspilloverpolicybinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetLbvserverspilloverpolicybinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/lb/lbvserver_spilloverpolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -15844,7 +15844,7 @@ function Invoke-ADCAddLbvservertmtrafficpolicybinding {
         Invoke-ADCAddLbvservertmtrafficpolicybinding -name <string>
     .NOTES
         File Name : Invoke-ADCAddLbvservertmtrafficpolicybinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/lb/lbvserver_tmtrafficpolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -15938,7 +15938,7 @@ function Invoke-ADCDeleteLbvservertmtrafficpolicybinding {
         Invoke-ADCDeleteLbvservertmtrafficpolicybinding -name <string>
     .NOTES
         File Name : Invoke-ADCDeleteLbvservertmtrafficpolicybinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/lb/lbvserver_tmtrafficpolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -16018,7 +16018,7 @@ function Invoke-ADCGetLbvservertmtrafficpolicybinding {
         Invoke-ADCGetLbvservertmtrafficpolicybinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetLbvservertmtrafficpolicybinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/lb/lbvserver_tmtrafficpolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -16115,7 +16115,7 @@ function Invoke-ADCAddLbvservertransformpolicybinding {
         Invoke-ADCAddLbvservertransformpolicybinding -name <string>
     .NOTES
         File Name : Invoke-ADCAddLbvservertransformpolicybinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/lb/lbvserver_transformpolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -16209,7 +16209,7 @@ function Invoke-ADCDeleteLbvservertransformpolicybinding {
         Invoke-ADCDeleteLbvservertransformpolicybinding -name <string>
     .NOTES
         File Name : Invoke-ADCDeleteLbvservertransformpolicybinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/lb/lbvserver_transformpolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -16289,7 +16289,7 @@ function Invoke-ADCGetLbvservertransformpolicybinding {
         Invoke-ADCGetLbvservertransformpolicybinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetLbvservertransformpolicybinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/lb/lbvserver_transformpolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -16386,7 +16386,7 @@ function Invoke-ADCAddLbvservervideooptimizationdetectionpolicybinding {
         Invoke-ADCAddLbvservervideooptimizationdetectionpolicybinding -name <string>
     .NOTES
         File Name : Invoke-ADCAddLbvservervideooptimizationdetectionpolicybinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/lb/lbvserver_videooptimizationdetectionpolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -16480,7 +16480,7 @@ function Invoke-ADCDeleteLbvservervideooptimizationdetectionpolicybinding {
         Invoke-ADCDeleteLbvservervideooptimizationdetectionpolicybinding -name <string>
     .NOTES
         File Name : Invoke-ADCDeleteLbvservervideooptimizationdetectionpolicybinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/lb/lbvserver_videooptimizationdetectionpolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -16560,7 +16560,7 @@ function Invoke-ADCGetLbvservervideooptimizationdetectionpolicybinding {
         Invoke-ADCGetLbvservervideooptimizationdetectionpolicybinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetLbvservervideooptimizationdetectionpolicybinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/lb/lbvserver_videooptimizationdetectionpolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -16657,7 +16657,7 @@ function Invoke-ADCAddLbvservervideooptimizationpacingpolicybinding {
         Invoke-ADCAddLbvservervideooptimizationpacingpolicybinding -name <string>
     .NOTES
         File Name : Invoke-ADCAddLbvservervideooptimizationpacingpolicybinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/lb/lbvserver_videooptimizationpacingpolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -16751,7 +16751,7 @@ function Invoke-ADCDeleteLbvservervideooptimizationpacingpolicybinding {
         Invoke-ADCDeleteLbvservervideooptimizationpacingpolicybinding -name <string>
     .NOTES
         File Name : Invoke-ADCDeleteLbvservervideooptimizationpacingpolicybinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/lb/lbvserver_videooptimizationpacingpolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -16831,7 +16831,7 @@ function Invoke-ADCGetLbvservervideooptimizationpacingpolicybinding {
         Invoke-ADCGetLbvservervideooptimizationpacingpolicybinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetLbvservervideooptimizationpacingpolicybinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/lb/lbvserver_videooptimizationpacingpolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -16925,7 +16925,7 @@ function Invoke-ADCAddLbwlm {
         Invoke-ADCAddLbwlm -wlmname <string> -lbuid <string>
     .NOTES
         File Name : Invoke-ADCAddLbwlm
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/lb/lbwlm/
         Requires  : PowerShell v5.1 and up
@@ -17006,7 +17006,7 @@ function Invoke-ADCDeleteLbwlm {
         Invoke-ADCDeleteLbwlm -wlmname <string>
     .NOTES
         File Name : Invoke-ADCDeleteLbwlm
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/lb/lbwlm/
         Requires  : PowerShell v5.1 and up
@@ -17069,7 +17069,7 @@ function Invoke-ADCUpdateLbwlm {
         Invoke-ADCUpdateLbwlm -wlmname <string>
     .NOTES
         File Name : Invoke-ADCUpdateLbwlm
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/lb/lbwlm/
         Requires  : PowerShell v5.1 and up
@@ -17140,7 +17140,7 @@ function Invoke-ADCUnsetLbwlm {
         Invoke-ADCUnsetLbwlm -wlmname <string>
     .NOTES
         File Name : Invoke-ADCUnsetLbwlm
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/lb/lbwlm
         Requires  : PowerShell v5.1 and up
@@ -17216,7 +17216,7 @@ function Invoke-ADCGetLbwlm {
         Invoke-ADCGetLbwlm -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetLbwlm
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/lb/lbwlm/
         Requires  : PowerShell v5.1 and up
@@ -17311,7 +17311,7 @@ function Invoke-ADCGetLbwlmbinding {
         Invoke-ADCGetLbwlmbinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetLbwlmbinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/lb/lbwlm_binding/
         Requires  : PowerShell v5.1 and up
@@ -17390,7 +17390,7 @@ function Invoke-ADCAddLbwlmlbvserverbinding {
         Invoke-ADCAddLbwlmlbvserverbinding -wlmname <string> -vservername <string>
     .NOTES
         File Name : Invoke-ADCAddLbwlmlbvserverbinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/lb/lbwlm_lbvserver_binding/
         Requires  : PowerShell v5.1 and up
@@ -17462,7 +17462,7 @@ function Invoke-ADCDeleteLbwlmlbvserverbinding {
         Invoke-ADCDeleteLbwlmlbvserverbinding -wlmname <string>
     .NOTES
         File Name : Invoke-ADCDeleteLbwlmlbvserverbinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/lb/lbwlm_lbvserver_binding/
         Requires  : PowerShell v5.1 and up
@@ -17536,7 +17536,7 @@ function Invoke-ADCGetLbwlmlbvserverbinding {
         Invoke-ADCGetLbwlmlbvserverbinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetLbwlmlbvserverbinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/lb/lbwlm_lbvserver_binding/
         Requires  : PowerShell v5.1 and up

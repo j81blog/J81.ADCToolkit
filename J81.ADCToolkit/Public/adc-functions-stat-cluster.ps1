@@ -25,7 +25,7 @@ function Invoke-ADCGetClusterinstanceStats {
         Invoke-ADCGetClusterinstanceStats -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetClusterinstanceStats
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/statistics/cluster/clusterinstance/
         Requires  : PowerShell v5.1 and up
@@ -112,7 +112,7 @@ function Invoke-ADCGetClusternodeStats {
         Invoke-ADCGetClusternodeStats -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetClusternodeStats
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/statistics/cluster/clusternode/
         Requires  : PowerShell v5.1 and up
