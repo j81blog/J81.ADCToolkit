@@ -115,7 +115,7 @@ If ($env:APPVEYOR_REPO_BRANCH -ne 'main') {
                 NuGetApiKey = $env:NuGetApiKey
                 ErrorAction = "Stop"
             }
-            #==>Publish-Module @Params
+            Publish-Module @Params
             Write-Host "$module $newVersion published to the PowerShell Gallery." -ForegroundColor "Cyan"
         } Catch {
             # Sad panda; it broke
