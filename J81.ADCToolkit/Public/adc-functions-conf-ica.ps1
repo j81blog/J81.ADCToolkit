@@ -49,7 +49,7 @@ function Invoke-ADCAddIcaaccessprofile {
         Invoke-ADCAddIcaaccessprofile -name <string>
     .NOTES
         File Name : Invoke-ADCAddIcaaccessprofile
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ica/icaaccessprofile/
         Requires  : PowerShell v5.1 and up
@@ -151,7 +151,7 @@ function Invoke-ADCDeleteIcaaccessprofile {
         Invoke-ADCDeleteIcaaccessprofile -name <string>
     .NOTES
         File Name : Invoke-ADCDeleteIcaaccessprofile
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ica/icaaccessprofile/
         Requires  : PowerShell v5.1 and up
@@ -245,7 +245,7 @@ function Invoke-ADCUpdateIcaaccessprofile {
         Invoke-ADCUpdateIcaaccessprofile -name <string>
     .NOTES
         File Name : Invoke-ADCUpdateIcaaccessprofile
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ica/icaaccessprofile/
         Requires  : PowerShell v5.1 and up
@@ -374,7 +374,7 @@ function Invoke-ADCUnsetIcaaccessprofile {
         Invoke-ADCUnsetIcaaccessprofile -name <string>
     .NOTES
         File Name : Invoke-ADCUnsetIcaaccessprofile
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ica/icaaccessprofile
         Requires  : PowerShell v5.1 and up
@@ -475,7 +475,7 @@ function Invoke-ADCGetIcaaccessprofile {
         Invoke-ADCGetIcaaccessprofile -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetIcaaccessprofile
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ica/icaaccessprofile/
         Requires  : PowerShell v5.1 and up
@@ -561,7 +561,7 @@ function Invoke-ADCAddIcaaction {
         Invoke-ADCAddIcaaction -name <string>
     .NOTES
         File Name : Invoke-ADCAddIcaaction
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ica/icaaction/
         Requires  : PowerShell v5.1 and up
@@ -632,7 +632,7 @@ function Invoke-ADCDeleteIcaaction {
         Invoke-ADCDeleteIcaaction -name <string>
     .NOTES
         File Name : Invoke-ADCDeleteIcaaction
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ica/icaaction/
         Requires  : PowerShell v5.1 and up
@@ -693,7 +693,7 @@ function Invoke-ADCUpdateIcaaction {
         Invoke-ADCUpdateIcaaction -name <string>
     .NOTES
         File Name : Invoke-ADCUpdateIcaaction
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ica/icaaction/
         Requires  : PowerShell v5.1 and up
@@ -768,7 +768,7 @@ function Invoke-ADCUnsetIcaaction {
         Invoke-ADCUnsetIcaaction -name <string>
     .NOTES
         File Name : Invoke-ADCUnsetIcaaction
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ica/icaaction
         Requires  : PowerShell v5.1 and up
@@ -834,7 +834,7 @@ function Invoke-ADCRenameIcaaction {
         Invoke-ADCRenameIcaaction -name <string> -newname <string>
     .NOTES
         File Name : Invoke-ADCRenameIcaaction
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ica/icaaction/
         Requires  : PowerShell v5.1 and up
@@ -923,7 +923,7 @@ function Invoke-ADCGetIcaaction {
         Invoke-ADCGetIcaaction -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetIcaaction
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ica/icaaction/
         Requires  : PowerShell v5.1 and up
@@ -1016,7 +1016,7 @@ function Invoke-ADCGetIcaglobalbinding {
         Invoke-ADCGetIcaglobalbinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetIcaglobalbinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ica/icaglobal_binding/
         Requires  : PowerShell v5.1 and up
@@ -1095,7 +1095,7 @@ function Invoke-ADCAddIcaglobalicapolicybinding {
         Invoke-ADCAddIcaglobalicapolicybinding -policyname <string> -priority <double>
     .NOTES
         File Name : Invoke-ADCAddIcaglobalicapolicybinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ica/icaglobal_icapolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -1173,7 +1173,7 @@ function Invoke-ADCDeleteIcaglobalicapolicybinding {
         Invoke-ADCDeleteIcaglobalicapolicybinding 
     .NOTES
         File Name : Invoke-ADCDeleteIcaglobalicapolicybinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ica/icaglobal_icapolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -1248,7 +1248,7 @@ function Invoke-ADCGetIcaglobalicapolicybinding {
         Invoke-ADCGetIcaglobalicapolicybinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetIcaglobalicapolicybinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ica/icaglobal_icapolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -1348,7 +1348,7 @@ function Invoke-ADCAddIcalatencyprofile {
         Invoke-ADCAddIcalatencyprofile -name <string>
     .NOTES
         File Name : Invoke-ADCAddIcalatencyprofile
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ica/icalatencyprofile/
         Requires  : PowerShell v5.1 and up
@@ -1434,7 +1434,7 @@ function Invoke-ADCDeleteIcalatencyprofile {
         Invoke-ADCDeleteIcalatencyprofile -name <string>
     .NOTES
         File Name : Invoke-ADCDeleteIcalatencyprofile
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ica/icalatencyprofile/
         Requires  : PowerShell v5.1 and up
@@ -1516,7 +1516,7 @@ function Invoke-ADCUpdateIcalatencyprofile {
         Invoke-ADCUpdateIcalatencyprofile -name <string>
     .NOTES
         File Name : Invoke-ADCUpdateIcalatencyprofile
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ica/icalatencyprofile/
         Requires  : PowerShell v5.1 and up
@@ -1613,7 +1613,7 @@ function Invoke-ADCUnsetIcalatencyprofile {
         Invoke-ADCUnsetIcalatencyprofile -name <string>
     .NOTES
         File Name : Invoke-ADCUnsetIcalatencyprofile
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ica/icalatencyprofile
         Requires  : PowerShell v5.1 and up
@@ -1702,7 +1702,7 @@ function Invoke-ADCGetIcalatencyprofile {
         Invoke-ADCGetIcalatencyprofile -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetIcalatencyprofile
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ica/icalatencyprofile/
         Requires  : PowerShell v5.1 and up
@@ -1788,7 +1788,7 @@ function Invoke-ADCUpdateIcaparameter {
         Invoke-ADCUpdateIcaparameter 
     .NOTES
         File Name : Invoke-ADCUpdateIcaparameter
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ica/icaparameter/
         Requires  : PowerShell v5.1 and up
@@ -1855,7 +1855,7 @@ function Invoke-ADCUnsetIcaparameter {
         Invoke-ADCUnsetIcaparameter 
     .NOTES
         File Name : Invoke-ADCUnsetIcaparameter
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ica/icaparameter
         Requires  : PowerShell v5.1 and up
@@ -1926,7 +1926,7 @@ function Invoke-ADCGetIcaparameter {
         Invoke-ADCGetIcaparameter -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetIcaparameter
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ica/icaparameter/
         Requires  : PowerShell v5.1 and up
@@ -2008,7 +2008,7 @@ function Invoke-ADCAddIcapolicy {
         Invoke-ADCAddIcapolicy -name <string> -rule <string> -action <string>
     .NOTES
         File Name : Invoke-ADCAddIcapolicy
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ica/icapolicy/
         Requires  : PowerShell v5.1 and up
@@ -2087,7 +2087,7 @@ function Invoke-ADCDeleteIcapolicy {
         Invoke-ADCDeleteIcapolicy -name <string>
     .NOTES
         File Name : Invoke-ADCDeleteIcapolicy
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ica/icapolicy/
         Requires  : PowerShell v5.1 and up
@@ -2156,7 +2156,7 @@ function Invoke-ADCUpdateIcapolicy {
         Invoke-ADCUpdateIcapolicy -name <string>
     .NOTES
         File Name : Invoke-ADCUpdateIcapolicy
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ica/icapolicy/
         Requires  : PowerShell v5.1 and up
@@ -2237,7 +2237,7 @@ function Invoke-ADCUnsetIcapolicy {
         Invoke-ADCUnsetIcapolicy -name <string>
     .NOTES
         File Name : Invoke-ADCUnsetIcapolicy
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ica/icapolicy
         Requires  : PowerShell v5.1 and up
@@ -2304,7 +2304,7 @@ function Invoke-ADCRenameIcapolicy {
         Invoke-ADCRenameIcapolicy -name <string> -newname <string>
     .NOTES
         File Name : Invoke-ADCRenameIcapolicy
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ica/icapolicy/
         Requires  : PowerShell v5.1 and up
@@ -2392,7 +2392,7 @@ function Invoke-ADCGetIcapolicy {
         Invoke-ADCGetIcapolicy -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetIcapolicy
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ica/icapolicy/
         Requires  : PowerShell v5.1 and up
@@ -2487,7 +2487,7 @@ function Invoke-ADCGetIcapolicybinding {
         Invoke-ADCGetIcapolicybinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetIcapolicybinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ica/icapolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -2577,7 +2577,7 @@ function Invoke-ADCGetIcapolicycrvserverbinding {
         Invoke-ADCGetIcapolicycrvserverbinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetIcapolicycrvserverbinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ica/icapolicy_crvserver_binding/
         Requires  : PowerShell v5.1 and up
@@ -2670,7 +2670,7 @@ function Invoke-ADCGetIcapolicyicaglobalbinding {
         Invoke-ADCGetIcapolicyicaglobalbinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetIcapolicyicaglobalbinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ica/icapolicy_icaglobal_binding/
         Requires  : PowerShell v5.1 and up
@@ -2763,7 +2763,7 @@ function Invoke-ADCGetIcapolicyvpnvserverbinding {
         Invoke-ADCGetIcapolicyvpnvserverbinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetIcapolicyvpnvserverbinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ica/icapolicy_vpnvserver_binding/
         Requires  : PowerShell v5.1 and up

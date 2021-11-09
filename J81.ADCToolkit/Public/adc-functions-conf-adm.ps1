@@ -12,7 +12,7 @@ function Invoke-ADCUpdateAdmparameter {
         Invoke-ADCUpdateAdmparameter 
     .NOTES
         File Name : Invoke-ADCUpdateAdmparameter
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/adm/admparameter/
         Requires  : PowerShell v5.1 and up
@@ -72,7 +72,7 @@ function Invoke-ADCUnsetAdmparameter {
         Invoke-ADCUnsetAdmparameter 
     .NOTES
         File Name : Invoke-ADCUnsetAdmparameter
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/adm/admparameter
         Requires  : PowerShell v5.1 and up
@@ -140,7 +140,7 @@ function Invoke-ADCGetAdmparameter {
         Invoke-ADCGetAdmparameter -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetAdmparameter
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/adm/admparameter/
         Requires  : PowerShell v5.1 and up

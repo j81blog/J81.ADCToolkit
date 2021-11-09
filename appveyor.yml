@@ -1,11 +1,29 @@
-skip_commits:
-  files:
-    - "**/*.md"
-
+version: 2111.{build}
+pull_requests:
+  do_not_increment_build_number: true
+skip_tags: true
+image: Visual Studio 2019
+environment:
+  Module: J81.ADCToolkit
+  Source: J81.ADCToolkit
+  GitHubKey:
+    secure: 6Dtz28d/0iiiZMdamhTBoN+wtOQoF2t8BIbLx0jwduyOW1bEe8NNFaDwe9bM89Y3
+  NuGetApiKey:
+    secure: 6DgZM3F2BuyfG68fhIJW/Glym1Ul6SVYB0RhaxiQ6WXB2wN9g7lhlANMDDcKR75c
 install:
-  - cinst pester
-
-build: off
-
+- ps: . .\ci\Install.ps1
+build_script:
+- ps: . .\ci\GitHub.ps1
+- ps: . .\ci\Build.ps1
 test_script:
-  - ps: Invoke-Pester -Path .\Tests
+- ps: . .\ci\Tests.ps1
+- ps: . .\ci\GitHub.ps1
+deploy_script:
+- ps: . .\ci\Deploy.ps1
+
+skip_commits:
+  message: /AppVeyor validate.*|Merge branch 'main' of.*|Update docs.*/
+
+only_commits:
+  files:
+    - J81.ADCToolkit/**/*

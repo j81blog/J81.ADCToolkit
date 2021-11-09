@@ -35,7 +35,7 @@ function Invoke-ADCUpdateCallhome {
         Invoke-ADCUpdateCallhome 
     .NOTES
         File Name : Invoke-ADCUpdateCallhome
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/utility/callhome/
         Requires  : PowerShell v5.1 and up
@@ -131,7 +131,7 @@ function Invoke-ADCUnsetCallhome {
         Invoke-ADCUnsetCallhome 
     .NOTES
         File Name : Invoke-ADCUnsetCallhome
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/utility/callhome
         Requires  : PowerShell v5.1 and up
@@ -219,7 +219,7 @@ function Invoke-ADCGetCallhome {
         Invoke-ADCGetCallhome -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetCallhome
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/utility/callhome/
         Requires  : PowerShell v5.1 and up
@@ -306,7 +306,7 @@ function Invoke-ADCInstall {
         Invoke-ADCInstall -url <string>
     .NOTES
         File Name : Invoke-ADCInstall
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/utility/install/
         Requires  : PowerShell v5.1 and up
@@ -387,7 +387,7 @@ function Invoke-ADCGetRaid {
         Invoke-ADCGetRaid -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetRaid
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/utility/raid/
         Requires  : PowerShell v5.1 and up
@@ -487,7 +487,7 @@ function Invoke-ADCGetTechsupport {
         Invoke-ADCGetTechsupport -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetTechsupport
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/utility/techsupport/
         Requires  : PowerShell v5.1 and up

@@ -8,7 +8,7 @@ function Invoke-ADCRestartDbsmonitors {
         Invoke-ADCRestartDbsmonitors 
     .NOTES
         File Name : Invoke-ADCRestartDbsmonitors
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/basic/dbsmonitors/
         Requires  : PowerShell v5.1 and up
@@ -63,7 +63,7 @@ function Invoke-ADCUpdateExtendedmemoryparam {
         Invoke-ADCUpdateExtendedmemoryparam 
     .NOTES
         File Name : Invoke-ADCUpdateExtendedmemoryparam
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/basic/extendedmemoryparam/
         Requires  : PowerShell v5.1 and up
@@ -122,7 +122,7 @@ function Invoke-ADCUnsetExtendedmemoryparam {
         Invoke-ADCUnsetExtendedmemoryparam 
     .NOTES
         File Name : Invoke-ADCUnsetExtendedmemoryparam
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/basic/extendedmemoryparam
         Requires  : PowerShell v5.1 and up
@@ -190,7 +190,7 @@ function Invoke-ADCGetExtendedmemoryparam {
         Invoke-ADCGetExtendedmemoryparam -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetExtendedmemoryparam
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/basic/extendedmemoryparam/
         Requires  : PowerShell v5.1 and up
@@ -278,7 +278,7 @@ function Invoke-ADCAddLocation {
         Invoke-ADCAddLocation -ipfrom <string> -ipto <string> -preferredlocation <string>
     .NOTES
         File Name : Invoke-ADCAddLocation
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/basic/location/
         Requires  : PowerShell v5.1 and up
@@ -362,7 +362,7 @@ function Invoke-ADCDeleteLocation {
         Invoke-ADCDeleteLocation -ipfrom <string>
     .NOTES
         File Name : Invoke-ADCDeleteLocation
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/basic/location/
         Requires  : PowerShell v5.1 and up
@@ -436,7 +436,7 @@ function Invoke-ADCGetLocation {
         Invoke-ADCGetLocation -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetLocation
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/basic/location/
         Requires  : PowerShell v5.1 and up
@@ -514,7 +514,7 @@ function Invoke-ADCClearLocationdata {
         Invoke-ADCClearLocationdata 
     .NOTES
         File Name : Invoke-ADCClearLocationdata
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/basic/locationdata/
         Requires  : PowerShell v5.1 and up
@@ -573,7 +573,7 @@ function Invoke-ADCAddLocationfile {
         Invoke-ADCAddLocationfile -Locationfile <string>
     .NOTES
         File Name : Invoke-ADCAddLocationfile
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/basic/locationfile/
         Requires  : PowerShell v5.1 and up
@@ -635,7 +635,7 @@ function Invoke-ADCDeleteLocationfile {
         Invoke-ADCDeleteLocationfile 
     .NOTES
         File Name : Invoke-ADCDeleteLocationfile
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/basic/locationfile/
         Requires  : PowerShell v5.1 and up
@@ -690,7 +690,7 @@ function Invoke-ADCImportLocationfile {
         Invoke-ADCImportLocationfile -Locationfile <string> -src <string>
     .NOTES
         File Name : Invoke-ADCImportLocationfile
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/basic/locationfile/
         Requires  : PowerShell v5.1 and up
@@ -766,7 +766,7 @@ function Invoke-ADCGetLocationfile {
         Invoke-ADCGetLocationfile -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetLocationfile
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/basic/locationfile/
         Requires  : PowerShell v5.1 and up
@@ -839,7 +839,7 @@ function Invoke-ADCAddLocationfile6 {
         Invoke-ADCAddLocationfile6 -Locationfile <string>
     .NOTES
         File Name : Invoke-ADCAddLocationfile6
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/basic/locationfile6/
         Requires  : PowerShell v5.1 and up
@@ -901,7 +901,7 @@ function Invoke-ADCDeleteLocationfile6 {
         Invoke-ADCDeleteLocationfile6 
     .NOTES
         File Name : Invoke-ADCDeleteLocationfile6
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/basic/locationfile6/
         Requires  : PowerShell v5.1 and up
@@ -956,7 +956,7 @@ function Invoke-ADCImportLocationfile6 {
         Invoke-ADCImportLocationfile6 -Locationfile <string> -src <string>
     .NOTES
         File Name : Invoke-ADCImportLocationfile6
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/basic/locationfile6/
         Requires  : PowerShell v5.1 and up
@@ -1034,7 +1034,7 @@ function Invoke-ADCGetLocationfile6 {
         Invoke-ADCGetLocationfile6 -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetLocationfile6
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/basic/locationfile6/
         Requires  : PowerShell v5.1 and up
@@ -1142,7 +1142,7 @@ function Invoke-ADCUpdateLocationparameter {
         Invoke-ADCUpdateLocationparameter 
     .NOTES
         File Name : Invoke-ADCUpdateLocationparameter
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/basic/locationparameter/
         Requires  : PowerShell v5.1 and up
@@ -1255,7 +1255,7 @@ function Invoke-ADCUnsetLocationparameter {
         Invoke-ADCUnsetLocationparameter 
     .NOTES
         File Name : Invoke-ADCUnsetLocationparameter
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/basic/locationparameter
         Requires  : PowerShell v5.1 and up
@@ -1344,7 +1344,7 @@ function Invoke-ADCGetLocationparameter {
         Invoke-ADCGetLocationparameter -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetLocationparameter
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/basic/locationparameter/
         Requires  : PowerShell v5.1 and up
@@ -1427,7 +1427,7 @@ function Invoke-ADCGetNstrace {
         Invoke-ADCGetNstrace -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetNstrace
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/basic/nstrace/
         Requires  : PowerShell v5.1 and up
@@ -1505,7 +1505,7 @@ function Invoke-ADCAddRadiusnode {
         Invoke-ADCAddRadiusnode -nodeprefix <string> -radkey <string>
     .NOTES
         File Name : Invoke-ADCAddRadiusnode
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/basic/radiusnode/
         Requires  : PowerShell v5.1 and up
@@ -1579,7 +1579,7 @@ function Invoke-ADCUpdateRadiusnode {
         Invoke-ADCUpdateRadiusnode -nodeprefix <string>
     .NOTES
         File Name : Invoke-ADCUpdateRadiusnode
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/basic/radiusnode/
         Requires  : PowerShell v5.1 and up
@@ -1646,7 +1646,7 @@ function Invoke-ADCDeleteRadiusnode {
         Invoke-ADCDeleteRadiusnode -nodeprefix <string>
     .NOTES
         File Name : Invoke-ADCDeleteRadiusnode
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/basic/radiusnode/
         Requires  : PowerShell v5.1 and up
@@ -1718,7 +1718,7 @@ function Invoke-ADCGetRadiusnode {
         Invoke-ADCGetRadiusnode -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetRadiusnode
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/basic/radiusnode/
         Requires  : PowerShell v5.1 and up
@@ -1795,7 +1795,7 @@ function Invoke-ADCEnableReporting {
         Invoke-ADCEnableReporting 
     .NOTES
         File Name : Invoke-ADCEnableReporting
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/basic/reporting/
         Requires  : PowerShell v5.1 and up
@@ -1847,7 +1847,7 @@ function Invoke-ADCDisableReporting {
         Invoke-ADCDisableReporting 
     .NOTES
         File Name : Invoke-ADCDisableReporting
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/basic/reporting/
         Requires  : PowerShell v5.1 and up
@@ -1914,7 +1914,7 @@ function Invoke-ADCGetReporting {
         Invoke-ADCGetReporting -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetReporting
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/basic/reporting/
         Requires  : PowerShell v5.1 and up
@@ -2019,7 +2019,7 @@ function Invoke-ADCAddServer {
         Invoke-ADCAddServer -name <string>
     .NOTES
         File Name : Invoke-ADCAddServer
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/basic/server/
         Requires  : PowerShell v5.1 and up
@@ -2124,7 +2124,7 @@ function Invoke-ADCDeleteServer {
         Invoke-ADCDeleteServer -name <string>
     .NOTES
         File Name : Invoke-ADCDeleteServer
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/basic/server/
         Requires  : PowerShell v5.1 and up
@@ -2199,7 +2199,7 @@ function Invoke-ADCUpdateServer {
         Invoke-ADCUpdateServer -name <string>
     .NOTES
         File Name : Invoke-ADCUpdateServer
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/basic/server/
         Requires  : PowerShell v5.1 and up
@@ -2288,7 +2288,7 @@ function Invoke-ADCUnsetServer {
         Invoke-ADCUnsetServer -name <string>
     .NOTES
         File Name : Invoke-ADCUnsetServer
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/basic/server
         Requires  : PowerShell v5.1 and up
@@ -2350,7 +2350,7 @@ function Invoke-ADCEnableServer {
         Invoke-ADCEnableServer -name <string>
     .NOTES
         File Name : Invoke-ADCEnableServer
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/basic/server/
         Requires  : PowerShell v5.1 and up
@@ -2416,7 +2416,7 @@ function Invoke-ADCDisableServer {
         Invoke-ADCDisableServer -name <string>
     .NOTES
         File Name : Invoke-ADCDisableServer
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/basic/server/
         Requires  : PowerShell v5.1 and up
@@ -2489,7 +2489,7 @@ function Invoke-ADCRenameServer {
         Invoke-ADCRenameServer -name <string> -newname <string>
     .NOTES
         File Name : Invoke-ADCRenameServer
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/basic/server/
         Requires  : PowerShell v5.1 and up
@@ -2581,7 +2581,7 @@ function Invoke-ADCGetServer {
         Invoke-ADCGetServer -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetServer
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/basic/server/
         Requires  : PowerShell v5.1 and up
@@ -2677,7 +2677,7 @@ function Invoke-ADCGetServerbinding {
         Invoke-ADCGetServerbinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetServerbinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/basic/server_binding/
         Requires  : PowerShell v5.1 and up
@@ -2768,7 +2768,7 @@ function Invoke-ADCGetServergslbservicegroupbinding {
         Invoke-ADCGetServergslbservicegroupbinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetServergslbservicegroupbinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/basic/server_gslbservicegroup_binding/
         Requires  : PowerShell v5.1 and up
@@ -2862,7 +2862,7 @@ function Invoke-ADCGetServergslbservicebinding {
         Invoke-ADCGetServergslbservicebinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetServergslbservicebinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/basic/server_gslbservice_binding/
         Requires  : PowerShell v5.1 and up
@@ -2956,7 +2956,7 @@ function Invoke-ADCGetServerservicegroupbinding {
         Invoke-ADCGetServerservicegroupbinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetServerservicegroupbinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/basic/server_servicegroup_binding/
         Requires  : PowerShell v5.1 and up
@@ -3050,7 +3050,7 @@ function Invoke-ADCGetServerservicebinding {
         Invoke-ADCGetServerservicebinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetServerservicebinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/basic/server_service_binding/
         Requires  : PowerShell v5.1 and up
@@ -3282,7 +3282,7 @@ function Invoke-ADCAddService {
         Invoke-ADCAddService -name <string> -servicetype <string> -port <int>
     .NOTES
         File Name : Invoke-ADCAddService
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/basic/service/
         Requires  : PowerShell v5.1 and up
@@ -3514,7 +3514,7 @@ function Invoke-ADCDeleteService {
         Invoke-ADCDeleteService -name <string>
     .NOTES
         File Name : Invoke-ADCDeleteService
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/basic/service/
         Requires  : PowerShell v5.1 and up
@@ -3706,7 +3706,7 @@ function Invoke-ADCUpdateService {
         Invoke-ADCUpdateService -name <string>
     .NOTES
         File Name : Invoke-ADCUpdateService
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/basic/service/
         Requires  : PowerShell v5.1 and up
@@ -4006,7 +4006,7 @@ function Invoke-ADCUnsetService {
         Invoke-ADCUnsetService -name <string>
     .NOTES
         File Name : Invoke-ADCUnsetService
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/basic/service
         Requires  : PowerShell v5.1 and up
@@ -4165,7 +4165,7 @@ function Invoke-ADCEnableService {
         Invoke-ADCEnableService -name <string>
     .NOTES
         File Name : Invoke-ADCEnableService
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/basic/service/
         Requires  : PowerShell v5.1 and up
@@ -4229,7 +4229,7 @@ function Invoke-ADCDisableService {
         Invoke-ADCDisableService -name <string>
     .NOTES
         File Name : Invoke-ADCDisableService
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/basic/service/
         Requires  : PowerShell v5.1 and up
@@ -4300,7 +4300,7 @@ function Invoke-ADCRenameService {
         Invoke-ADCRenameService -name <string> -newname <string>
     .NOTES
         File Name : Invoke-ADCRenameService
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/basic/service/
         Requires  : PowerShell v5.1 and up
@@ -4390,7 +4390,7 @@ function Invoke-ADCGetService {
         Invoke-ADCGetService -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetService
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/basic/service/
         Requires  : PowerShell v5.1 and up
@@ -4602,7 +4602,7 @@ function Invoke-ADCAddServicegroup {
         Invoke-ADCAddServicegroup -servicegroupname <string> -servicetype <string>
     .NOTES
         File Name : Invoke-ADCAddServicegroup
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/basic/servicegroup/
         Requires  : PowerShell v5.1 and up
@@ -4807,7 +4807,7 @@ function Invoke-ADCDeleteServicegroup {
         Invoke-ADCDeleteServicegroup -servicegroupname <string>
     .NOTES
         File Name : Invoke-ADCDeleteServicegroup
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/basic/servicegroup/
         Requires  : PowerShell v5.1 and up
@@ -5007,7 +5007,7 @@ function Invoke-ADCUpdateServicegroup {
         Invoke-ADCUpdateServicegroup -servicegroupname <string>
     .NOTES
         File Name : Invoke-ADCUpdateServicegroup
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/basic/servicegroup/
         Requires  : PowerShell v5.1 and up
@@ -5326,7 +5326,7 @@ function Invoke-ADCUnsetServicegroup {
         Invoke-ADCUnsetServicegroup -servicegroupname <string>
     .NOTES
         File Name : Invoke-ADCUnsetServicegroup
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/basic/servicegroup
         Requires  : PowerShell v5.1 and up
@@ -5505,7 +5505,7 @@ function Invoke-ADCEnableServicegroup {
         Invoke-ADCEnableServicegroup -servicegroupname <string>
     .NOTES
         File Name : Invoke-ADCEnableServicegroup
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/basic/servicegroup/
         Requires  : PowerShell v5.1 and up
@@ -5581,7 +5581,7 @@ function Invoke-ADCDisableServicegroup {
         Invoke-ADCDisableServicegroup -servicegroupname <string>
     .NOTES
         File Name : Invoke-ADCDisableServicegroup
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/basic/servicegroup/
         Requires  : PowerShell v5.1 and up
@@ -5660,7 +5660,7 @@ function Invoke-ADCRenameServicegroup {
         Invoke-ADCRenameServicegroup -servicegroupname <string> -newname <string>
     .NOTES
         File Name : Invoke-ADCRenameServicegroup
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/basic/servicegroup/
         Requires  : PowerShell v5.1 and up
@@ -5749,7 +5749,7 @@ function Invoke-ADCGetServicegroup {
         Invoke-ADCGetServicegroup -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetServicegroup
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/basic/servicegroup/
         Requires  : PowerShell v5.1 and up
@@ -5847,7 +5847,7 @@ function Invoke-ADCGetServicegroupbindings {
         Invoke-ADCGetServicegroupbindings -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetServicegroupbindings
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/basic/servicegroupbindings/
         Requires  : PowerShell v5.1 and up
@@ -5939,7 +5939,7 @@ function Invoke-ADCGetServicegroupbinding {
         Invoke-ADCGetServicegroupbinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetServicegroupbinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/basic/servicegroup_binding/
         Requires  : PowerShell v5.1 and up
@@ -6048,7 +6048,7 @@ function Invoke-ADCAddServicegrouplbmonitorbinding {
         Invoke-ADCAddServicegrouplbmonitorbinding -servicegroupname <string>
     .NOTES
         File Name : Invoke-ADCAddServicegrouplbmonitorbinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/basic/servicegroup_lbmonitor_binding/
         Requires  : PowerShell v5.1 and up
@@ -6155,7 +6155,7 @@ function Invoke-ADCDeleteServicegrouplbmonitorbinding {
         Invoke-ADCDeleteServicegrouplbmonitorbinding -servicegroupname <string>
     .NOTES
         File Name : Invoke-ADCDeleteServicegrouplbmonitorbinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/basic/servicegroup_lbmonitor_binding/
         Requires  : PowerShell v5.1 and up
@@ -6232,7 +6232,7 @@ function Invoke-ADCGetServicegrouplbmonitorbinding {
         Invoke-ADCGetServicegrouplbmonitorbinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetServicegrouplbmonitorbinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/basic/servicegroup_lbmonitor_binding/
         Requires  : PowerShell v5.1 and up
@@ -6326,7 +6326,7 @@ function Invoke-ADCGetServicegroupservicegroupentitymonbindingsbinding {
         Invoke-ADCGetServicegroupservicegroupentitymonbindingsbinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetServicegroupservicegroupentitymonbindingsbinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/basic/servicegroup_servicegroupentitymonbindings_binding/
         Requires  : PowerShell v5.1 and up
@@ -6406,7 +6406,7 @@ function Invoke-ADCAddServicegroupservicegroupmemberlistbinding {
         Invoke-ADCAddServicegroupservicegroupmemberlistbinding -servicegroupname <string>
     .NOTES
         File Name : Invoke-ADCAddServicegroupservicegroupmemberlistbinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/basic/servicegroup_servicegroupmemberlist_binding/
         Requires  : PowerShell v5.1 and up
@@ -6469,7 +6469,7 @@ function Invoke-ADCDeleteServicegroupservicegroupmemberlistbinding {
         Invoke-ADCDeleteServicegroupservicegroupmemberlistbinding -servicegroupname <string>
     .NOTES
         File Name : Invoke-ADCDeleteServicegroupservicegroupmemberlistbinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/basic/servicegroup_servicegroupmemberlist_binding/
         Requires  : PowerShell v5.1 and up
@@ -6557,7 +6557,7 @@ function Invoke-ADCAddServicegroupservicegroupmemberbinding {
         Invoke-ADCAddServicegroupservicegroupmemberbinding -servicegroupname <string>
     .NOTES
         File Name : Invoke-ADCAddServicegroupservicegroupmemberbinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/basic/servicegroup_servicegroupmember_binding/
         Requires  : PowerShell v5.1 and up
@@ -6663,7 +6663,7 @@ function Invoke-ADCDeleteServicegroupservicegroupmemberbinding {
         Invoke-ADCDeleteServicegroupservicegroupmemberbinding -servicegroupname <string>
     .NOTES
         File Name : Invoke-ADCDeleteServicegroupservicegroupmemberbinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/basic/servicegroup_servicegroupmember_binding/
         Requires  : PowerShell v5.1 and up
@@ -6743,7 +6743,7 @@ function Invoke-ADCGetServicegroupservicegroupmemberbinding {
         Invoke-ADCGetServicegroupservicegroupmemberbinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetServicegroupservicegroupmemberbinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/basic/servicegroup_servicegroupmember_binding/
         Requires  : PowerShell v5.1 and up
@@ -6835,7 +6835,7 @@ function Invoke-ADCGetServicebinding {
         Invoke-ADCGetServicebinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetServicebinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/basic/service_binding/
         Requires  : PowerShell v5.1 and up
@@ -6914,7 +6914,7 @@ function Invoke-ADCAddServicedospolicybinding {
         Invoke-ADCAddServicedospolicybinding -name <string>
     .NOTES
         File Name : Invoke-ADCAddServicedospolicybinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/basic/service_dospolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -6984,7 +6984,7 @@ function Invoke-ADCDeleteServicedospolicybinding {
         Invoke-ADCDeleteServicedospolicybinding -name <string>
     .NOTES
         File Name : Invoke-ADCDeleteServicedospolicybinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/basic/service_dospolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -7058,7 +7058,7 @@ function Invoke-ADCGetServicedospolicybinding {
         Invoke-ADCGetServicedospolicybinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetServicedospolicybinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/basic/service_dospolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -7149,7 +7149,7 @@ function Invoke-ADCAddServicelbmonitorbinding {
         Invoke-ADCAddServicelbmonitorbinding -name <string>
     .NOTES
         File Name : Invoke-ADCAddServicelbmonitorbinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/basic/service_lbmonitor_binding/
         Requires  : PowerShell v5.1 and up
@@ -7230,7 +7230,7 @@ function Invoke-ADCDeleteServicelbmonitorbinding {
         Invoke-ADCDeleteServicelbmonitorbinding -name <string>
     .NOTES
         File Name : Invoke-ADCDeleteServicelbmonitorbinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/basic/service_lbmonitor_binding/
         Requires  : PowerShell v5.1 and up
@@ -7304,7 +7304,7 @@ function Invoke-ADCGetServicelbmonitorbinding {
         Invoke-ADCGetServicelbmonitorbinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetServicelbmonitorbinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/basic/service_lbmonitor_binding/
         Requires  : PowerShell v5.1 and up
@@ -7386,7 +7386,7 @@ function Invoke-ADCAddServicescpolicybinding {
         Invoke-ADCAddServicescpolicybinding -name <string>
     .NOTES
         File Name : Invoke-ADCAddServicescpolicybinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/basic/service_scpolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -7456,7 +7456,7 @@ function Invoke-ADCDeleteServicescpolicybinding {
         Invoke-ADCDeleteServicescpolicybinding -name <string>
     .NOTES
         File Name : Invoke-ADCDeleteServicescpolicybinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/basic/service_scpolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -7530,7 +7530,7 @@ function Invoke-ADCGetServicescpolicybinding {
         Invoke-ADCGetServicescpolicybinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetServicescpolicybinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/basic/service_scpolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -7624,7 +7624,7 @@ function Invoke-ADCGetSvcbindings {
         Invoke-ADCGetSvcbindings -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetSvcbindings
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/basic/svcbindings/
         Requires  : PowerShell v5.1 and up
@@ -7702,7 +7702,7 @@ function Invoke-ADCDeleteVserver {
         Invoke-ADCDeleteVserver -name <string>
     .NOTES
         File Name : Invoke-ADCDeleteVserver
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/basic/vserver/
         Requires  : PowerShell v5.1 and up
@@ -7790,7 +7790,7 @@ function Invoke-ADCUpdateVserver {
         Invoke-ADCUpdateVserver -name <string>
     .NOTES
         File Name : Invoke-ADCUpdateVserver
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/basic/vserver/
         Requires  : PowerShell v5.1 and up
@@ -7885,7 +7885,7 @@ function Invoke-ADCEnableVserver {
         Invoke-ADCEnableVserver -name <string>
     .NOTES
         File Name : Invoke-ADCEnableVserver
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/basic/vserver/
         Requires  : PowerShell v5.1 and up
@@ -7943,7 +7943,7 @@ function Invoke-ADCDisableVserver {
         Invoke-ADCDisableVserver -name <string>
     .NOTES
         File Name : Invoke-ADCDisableVserver
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/basic/vserver/
         Requires  : PowerShell v5.1 and up

@@ -25,7 +25,7 @@ function Invoke-ADCGetTmsessionpolicyStats {
         Invoke-ADCGetTmsessionpolicyStats -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetTmsessionpolicyStats
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/statistics/tm/tmsessionpolicy/
         Requires  : PowerShell v5.1 and up
@@ -112,7 +112,7 @@ function Invoke-ADCGetTmtrafficpolicyStats {
         Invoke-ADCGetTmtrafficpolicyStats -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetTmtrafficpolicyStats
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/statistics/tm/tmtrafficpolicy/
         Requires  : PowerShell v5.1 and up

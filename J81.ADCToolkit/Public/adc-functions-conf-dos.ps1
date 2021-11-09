@@ -20,7 +20,7 @@ function Invoke-ADCAddDospolicy {
         Invoke-ADCAddDospolicy -name <string> -qdepth <double>
     .NOTES
         File Name : Invoke-ADCAddDospolicy
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/dos/dospolicy/
         Requires  : PowerShell v5.1 and up
@@ -94,7 +94,7 @@ function Invoke-ADCDeleteDospolicy {
         Invoke-ADCDeleteDospolicy -name <string>
     .NOTES
         File Name : Invoke-ADCDeleteDospolicy
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/dos/dospolicy/
         Requires  : PowerShell v5.1 and up
@@ -159,7 +159,7 @@ function Invoke-ADCUpdateDospolicy {
         Invoke-ADCUpdateDospolicy -name <string>
     .NOTES
         File Name : Invoke-ADCUpdateDospolicy
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/dos/dospolicy/
         Requires  : PowerShell v5.1 and up
@@ -233,7 +233,7 @@ function Invoke-ADCUnsetDospolicy {
         Invoke-ADCUnsetDospolicy -name <string>
     .NOTES
         File Name : Invoke-ADCUnsetDospolicy
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/dos/dospolicy
         Requires  : PowerShell v5.1 and up
@@ -309,7 +309,7 @@ function Invoke-ADCGetDospolicy {
         Invoke-ADCGetDospolicy -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetDospolicy
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/dos/dospolicy/
         Requires  : PowerShell v5.1 and up

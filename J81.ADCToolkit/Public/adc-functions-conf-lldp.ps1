@@ -8,7 +8,7 @@ function Invoke-ADCClearLldpneighbors {
         Invoke-ADCClearLldpneighbors 
     .NOTES
         File Name : Invoke-ADCClearLldpneighbors
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/lldp/lldpneighbors/
         Requires  : PowerShell v5.1 and up
@@ -79,7 +79,7 @@ function Invoke-ADCGetLldpneighbors {
         Invoke-ADCGetLldpneighbors -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetLldpneighbors
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/lldp/lldpneighbors/
         Requires  : PowerShell v5.1 and up
@@ -169,7 +169,7 @@ function Invoke-ADCUpdateLldpparam {
         Invoke-ADCUpdateLldpparam 
     .NOTES
         File Name : Invoke-ADCUpdateLldpparam
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/lldp/lldpparam/
         Requires  : PowerShell v5.1 and up
@@ -241,7 +241,7 @@ function Invoke-ADCUnsetLldpparam {
         Invoke-ADCUnsetLldpparam 
     .NOTES
         File Name : Invoke-ADCUnsetLldpparam
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/lldp/lldpparam
         Requires  : PowerShell v5.1 and up
@@ -315,7 +315,7 @@ function Invoke-ADCGetLldpparam {
         Invoke-ADCGetLldpparam -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetLldpparam
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/lldp/lldpparam/
         Requires  : PowerShell v5.1 and up

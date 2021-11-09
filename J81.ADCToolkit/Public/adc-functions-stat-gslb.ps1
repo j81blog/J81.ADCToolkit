@@ -26,7 +26,7 @@ function Invoke-ADCGetGslbdomainStats {
         Invoke-ADCGetGslbdomainStats -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetGslbdomainStats
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/statistics/gslb/gslbdomain/
         Requires  : PowerShell v5.1 and up
@@ -113,7 +113,7 @@ function Invoke-ADCGetGslbserviceStats {
         Invoke-ADCGetGslbserviceStats -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetGslbserviceStats
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/statistics/gslb/gslbservice/
         Requires  : PowerShell v5.1 and up
@@ -200,7 +200,7 @@ function Invoke-ADCGetGslbservicegroupStats {
         Invoke-ADCGetGslbservicegroupStats -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetGslbservicegroupStats
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/statistics/gslb/gslbservicegroup/
         Requires  : PowerShell v5.1 and up
@@ -297,7 +297,7 @@ function Invoke-ADCGetGslbservicegroupmemberStats {
         Invoke-ADCGetGslbservicegroupmemberStats -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetGslbservicegroupmemberStats
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/statistics/gslb/gslbservicegroupmember/
         Requires  : PowerShell v5.1 and up
@@ -409,7 +409,7 @@ function Invoke-ADCGetGslbsiteStats {
         Invoke-ADCGetGslbsiteStats -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetGslbsiteStats
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/statistics/gslb/gslbsite/
         Requires  : PowerShell v5.1 and up
@@ -496,7 +496,7 @@ function Invoke-ADCGetGslbvserverStats {
         Invoke-ADCGetGslbvserverStats -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetGslbvserverStats
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/statistics/gslb/gslbvserver/
         Requires  : PowerShell v5.1 and up

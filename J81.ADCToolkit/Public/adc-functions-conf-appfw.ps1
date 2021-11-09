@@ -12,7 +12,7 @@ function Invoke-ADCExportAppfwarchive {
         Invoke-ADCExportAppfwarchive -name <string> -target <string>
     .NOTES
         File Name : Invoke-ADCExportAppfwarchive
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/appfw/appfwarchive/
         Requires  : PowerShell v5.1 and up
@@ -89,7 +89,7 @@ function Invoke-ADCImportAppfwarchive {
         Invoke-ADCImportAppfwarchive -src <string> -name <string>
     .NOTES
         File Name : Invoke-ADCImportAppfwarchive
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/appfw/appfwarchive/
         Requires  : PowerShell v5.1 and up
@@ -156,7 +156,7 @@ function Invoke-ADCDeleteAppfwarchive {
         Invoke-ADCDeleteAppfwarchive -name <string>
     .NOTES
         File Name : Invoke-ADCDeleteAppfwarchive
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/appfw/appfwarchive/
         Requires  : PowerShell v5.1 and up
@@ -224,7 +224,7 @@ function Invoke-ADCGetAppfwarchive {
         Invoke-ADCGetAppfwarchive -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetAppfwarchive
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/appfw/appfwarchive/
         Requires  : PowerShell v5.1 and up
@@ -308,7 +308,7 @@ function Invoke-ADCAddAppfwconfidfield {
         Invoke-ADCAddAppfwconfidfield -fieldname <string> -url <string>
     .NOTES
         File Name : Invoke-ADCAddAppfwconfidfield
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/appfw/appfwconfidfield/
         Requires  : PowerShell v5.1 and up
@@ -386,7 +386,7 @@ function Invoke-ADCDeleteAppfwconfidfield {
         Invoke-ADCDeleteAppfwconfidfield -fieldname <string>
     .NOTES
         File Name : Invoke-ADCDeleteAppfwconfidfield
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/appfw/appfwconfidfield/
         Requires  : PowerShell v5.1 and up
@@ -459,7 +459,7 @@ function Invoke-ADCUpdateAppfwconfidfield {
         Invoke-ADCUpdateAppfwconfidfield -fieldname <string> -url <string>
     .NOTES
         File Name : Invoke-ADCUpdateAppfwconfidfield
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/appfw/appfwconfidfield/
         Requires  : PowerShell v5.1 and up
@@ -546,7 +546,7 @@ function Invoke-ADCUnsetAppfwconfidfield {
         Invoke-ADCUnsetAppfwconfidfield -fieldname <string> -url <string>
     .NOTES
         File Name : Invoke-ADCUnsetAppfwconfidfield
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/appfw/appfwconfidfield
         Requires  : PowerShell v5.1 and up
@@ -631,7 +631,7 @@ function Invoke-ADCGetAppfwconfidfield {
         Invoke-ADCGetAppfwconfidfield -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetAppfwconfidfield
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/appfw/appfwconfidfield/
         Requires  : PowerShell v5.1 and up
@@ -708,7 +708,7 @@ function Invoke-ADCExportAppfwcustomsettings {
         Invoke-ADCExportAppfwcustomsettings -name <string> -target <string>
     .NOTES
         File Name : Invoke-ADCExportAppfwcustomsettings
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/appfw/appfwcustomsettings/
         Requires  : PowerShell v5.1 and up
@@ -783,7 +783,7 @@ function Invoke-ADCAddAppfwfieldtype {
         Invoke-ADCAddAppfwfieldtype -name <string> -regex <string> -priority <double>
     .NOTES
         File Name : Invoke-ADCAddAppfwfieldtype
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/appfw/appfwfieldtype/
         Requires  : PowerShell v5.1 and up
@@ -862,7 +862,7 @@ function Invoke-ADCDeleteAppfwfieldtype {
         Invoke-ADCDeleteAppfwfieldtype -name <string>
     .NOTES
         File Name : Invoke-ADCDeleteAppfwfieldtype
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/appfw/appfwfieldtype/
         Requires  : PowerShell v5.1 and up
@@ -929,7 +929,7 @@ function Invoke-ADCUpdateAppfwfieldtype {
         Invoke-ADCUpdateAppfwfieldtype -name <string> -regex <string> -priority <double>
     .NOTES
         File Name : Invoke-ADCUpdateAppfwfieldtype
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/appfw/appfwfieldtype/
         Requires  : PowerShell v5.1 and up
@@ -1025,7 +1025,7 @@ function Invoke-ADCGetAppfwfieldtype {
         Invoke-ADCGetAppfwfieldtype -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetAppfwfieldtype
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/appfw/appfwfieldtype/
         Requires  : PowerShell v5.1 and up
@@ -1124,7 +1124,7 @@ function Invoke-ADCAddAppfwglobalappfwpolicybinding {
         Invoke-ADCAddAppfwglobalappfwpolicybinding -policyname <string> -priority <double>
     .NOTES
         File Name : Invoke-ADCAddAppfwglobalappfwpolicybinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/appfw/appfwglobal_appfwpolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -1216,7 +1216,7 @@ function Invoke-ADCDeleteAppfwglobalappfwpolicybinding {
         Invoke-ADCDeleteAppfwglobalappfwpolicybinding 
     .NOTES
         File Name : Invoke-ADCDeleteAppfwglobalappfwpolicybinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/appfw/appfwglobal_appfwpolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -1291,7 +1291,7 @@ function Invoke-ADCGetAppfwglobalappfwpolicybinding {
         Invoke-ADCGetAppfwglobalappfwpolicybinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetAppfwglobalappfwpolicybinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/appfw/appfwglobal_appfwpolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -1383,7 +1383,7 @@ function Invoke-ADCAddAppfwglobalauditnslogpolicybinding {
         Invoke-ADCAddAppfwglobalauditnslogpolicybinding -policyname <string> -priority <double>
     .NOTES
         File Name : Invoke-ADCAddAppfwglobalauditnslogpolicybinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/appfw/appfwglobal_auditnslogpolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -1475,7 +1475,7 @@ function Invoke-ADCDeleteAppfwglobalauditnslogpolicybinding {
         Invoke-ADCDeleteAppfwglobalauditnslogpolicybinding 
     .NOTES
         File Name : Invoke-ADCDeleteAppfwglobalauditnslogpolicybinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/appfw/appfwglobal_auditnslogpolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -1550,7 +1550,7 @@ function Invoke-ADCGetAppfwglobalauditnslogpolicybinding {
         Invoke-ADCGetAppfwglobalauditnslogpolicybinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetAppfwglobalauditnslogpolicybinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/appfw/appfwglobal_auditnslogpolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -1642,7 +1642,7 @@ function Invoke-ADCAddAppfwglobalauditsyslogpolicybinding {
         Invoke-ADCAddAppfwglobalauditsyslogpolicybinding -policyname <string> -priority <double>
     .NOTES
         File Name : Invoke-ADCAddAppfwglobalauditsyslogpolicybinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/appfw/appfwglobal_auditsyslogpolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -1734,7 +1734,7 @@ function Invoke-ADCDeleteAppfwglobalauditsyslogpolicybinding {
         Invoke-ADCDeleteAppfwglobalauditsyslogpolicybinding 
     .NOTES
         File Name : Invoke-ADCDeleteAppfwglobalauditsyslogpolicybinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/appfw/appfwglobal_auditsyslogpolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -1809,7 +1809,7 @@ function Invoke-ADCGetAppfwglobalauditsyslogpolicybinding {
         Invoke-ADCGetAppfwglobalauditsyslogpolicybinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetAppfwglobalauditsyslogpolicybinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/appfw/appfwglobal_auditsyslogpolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -1895,7 +1895,7 @@ function Invoke-ADCGetAppfwglobalbinding {
         Invoke-ADCGetAppfwglobalbinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetAppfwglobalbinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/appfw/appfwglobal_binding/
         Requires  : PowerShell v5.1 and up
@@ -1967,7 +1967,7 @@ function Invoke-ADCDeleteAppfwhtmlerrorpage {
         Invoke-ADCDeleteAppfwhtmlerrorpage -name <string>
     .NOTES
         File Name : Invoke-ADCDeleteAppfwhtmlerrorpage
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/appfw/appfwhtmlerrorpage/
         Requires  : PowerShell v5.1 and up
@@ -2029,7 +2029,7 @@ function Invoke-ADCImportAppfwhtmlerrorpage {
         Invoke-ADCImportAppfwhtmlerrorpage -src <string> -name <string>
     .NOTES
         File Name : Invoke-ADCImportAppfwhtmlerrorpage
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/appfw/appfwhtmlerrorpage/
         Requires  : PowerShell v5.1 and up
@@ -2101,7 +2101,7 @@ function Invoke-ADCChangeAppfwhtmlerrorpage {
         Invoke-ADCChangeAppfwhtmlerrorpage -name <string>
     .NOTES
         File Name : Invoke-ADCChangeAppfwhtmlerrorpage
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/appfw/appfwhtmlerrorpage/
         Requires  : PowerShell v5.1 and up
@@ -2182,7 +2182,7 @@ function Invoke-ADCGetAppfwhtmlerrorpage {
         Invoke-ADCGetAppfwhtmlerrorpage -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetAppfwhtmlerrorpage
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/appfw/appfwhtmlerrorpage/
         Requires  : PowerShell v5.1 and up
@@ -2265,7 +2265,7 @@ function Invoke-ADCAddAppfwjsoncontenttype {
         Invoke-ADCAddAppfwjsoncontenttype -jsoncontenttypevalue <string>
     .NOTES
         File Name : Invoke-ADCAddAppfwjsoncontenttype
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/appfw/appfwjsoncontenttype/
         Requires  : PowerShell v5.1 and up
@@ -2335,7 +2335,7 @@ function Invoke-ADCDeleteAppfwjsoncontenttype {
         Invoke-ADCDeleteAppfwjsoncontenttype -jsoncontenttypevalue <string>
     .NOTES
         File Name : Invoke-ADCDeleteAppfwjsoncontenttype
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/appfw/appfwjsoncontenttype/
         Requires  : PowerShell v5.1 and up
@@ -2407,7 +2407,7 @@ function Invoke-ADCGetAppfwjsoncontenttype {
         Invoke-ADCGetAppfwjsoncontenttype -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetAppfwjsoncontenttype
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/appfw/appfwjsoncontenttype/
         Requires  : PowerShell v5.1 and up
@@ -2489,7 +2489,7 @@ function Invoke-ADCDeleteAppfwjsonerrorpage {
         Invoke-ADCDeleteAppfwjsonerrorpage -name <string>
     .NOTES
         File Name : Invoke-ADCDeleteAppfwjsonerrorpage
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/appfw/appfwjsonerrorpage/
         Requires  : PowerShell v5.1 and up
@@ -2551,7 +2551,7 @@ function Invoke-ADCImportAppfwjsonerrorpage {
         Invoke-ADCImportAppfwjsonerrorpage -src <string> -name <string>
     .NOTES
         File Name : Invoke-ADCImportAppfwjsonerrorpage
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/appfw/appfwjsonerrorpage/
         Requires  : PowerShell v5.1 and up
@@ -2623,7 +2623,7 @@ function Invoke-ADCChangeAppfwjsonerrorpage {
         Invoke-ADCChangeAppfwjsonerrorpage -name <string>
     .NOTES
         File Name : Invoke-ADCChangeAppfwjsonerrorpage
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/appfw/appfwjsonerrorpage/
         Requires  : PowerShell v5.1 and up
@@ -2704,7 +2704,7 @@ function Invoke-ADCGetAppfwjsonerrorpage {
         Invoke-ADCGetAppfwjsonerrorpage -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetAppfwjsonerrorpage
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/appfw/appfwjsonerrorpage/
         Requires  : PowerShell v5.1 and up
@@ -2846,7 +2846,7 @@ function Invoke-ADCDeleteAppfwlearningdata {
         Invoke-ADCDeleteAppfwlearningdata 
     .NOTES
         File Name : Invoke-ADCDeleteAppfwlearningdata
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/appfw/appfwlearningdata/
         Requires  : PowerShell v5.1 and up
@@ -2973,7 +2973,7 @@ function Invoke-ADCResetAppfwlearningdata {
         Invoke-ADCResetAppfwlearningdata 
     .NOTES
         File Name : Invoke-ADCResetAppfwlearningdata
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/appfw/appfwlearningdata/
         Requires  : PowerShell v5.1 and up
@@ -3032,7 +3032,7 @@ function Invoke-ADCExportAppfwlearningdata {
         Invoke-ADCExportAppfwlearningdata -profilename <string> -securitycheck <string>
     .NOTES
         File Name : Invoke-ADCExportAppfwlearningdata
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/appfw/appfwlearningdata/
         Requires  : PowerShell v5.1 and up
@@ -3117,7 +3117,7 @@ function Invoke-ADCGetAppfwlearningdata {
         Invoke-ADCGetAppfwlearningdata -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetAppfwlearningdata
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/appfw/appfwlearningdata/
         Requires  : PowerShell v5.1 and up
@@ -3340,7 +3340,7 @@ function Invoke-ADCUpdateAppfwlearningsettings {
         Invoke-ADCUpdateAppfwlearningsettings -profilename <string>
     .NOTES
         File Name : Invoke-ADCUpdateAppfwlearningsettings
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/appfw/appfwlearningsettings/
         Requires  : PowerShell v5.1 and up
@@ -3574,7 +3574,7 @@ function Invoke-ADCUnsetAppfwlearningsettings {
         Invoke-ADCUnsetAppfwlearningsettings -profilename <string>
     .NOTES
         File Name : Invoke-ADCUnsetAppfwlearningsettings
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/appfw/appfwlearningsettings
         Requires  : PowerShell v5.1 and up
@@ -3737,7 +3737,7 @@ function Invoke-ADCGetAppfwlearningsettings {
         Invoke-ADCGetAppfwlearningsettings -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetAppfwlearningsettings
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/appfw/appfwlearningsettings/
         Requires  : PowerShell v5.1 and up
@@ -3824,7 +3824,7 @@ function Invoke-ADCAddAppfwmultipartformcontenttype {
         Invoke-ADCAddAppfwmultipartformcontenttype -multipartformcontenttypevalue <string>
     .NOTES
         File Name : Invoke-ADCAddAppfwmultipartformcontenttype
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/appfw/appfwmultipartformcontenttype/
         Requires  : PowerShell v5.1 and up
@@ -3894,7 +3894,7 @@ function Invoke-ADCDeleteAppfwmultipartformcontenttype {
         Invoke-ADCDeleteAppfwmultipartformcontenttype -multipartformcontenttypevalue <string>
     .NOTES
         File Name : Invoke-ADCDeleteAppfwmultipartformcontenttype
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/appfw/appfwmultipartformcontenttype/
         Requires  : PowerShell v5.1 and up
@@ -3966,7 +3966,7 @@ function Invoke-ADCGetAppfwmultipartformcontenttype {
         Invoke-ADCGetAppfwmultipartformcontenttype -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetAppfwmultipartformcontenttype
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/appfw/appfwmultipartformcontenttype/
         Requires  : PowerShell v5.1 and up
@@ -4058,7 +4058,7 @@ function Invoke-ADCAddAppfwpolicy {
         Invoke-ADCAddAppfwpolicy -name <string> -rule <string> -profilename <string>
     .NOTES
         File Name : Invoke-ADCAddAppfwpolicy
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/appfw/appfwpolicy/
         Requires  : PowerShell v5.1 and up
@@ -4139,7 +4139,7 @@ function Invoke-ADCDeleteAppfwpolicy {
         Invoke-ADCDeleteAppfwpolicy -name <string>
     .NOTES
         File Name : Invoke-ADCDeleteAppfwpolicy
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/appfw/appfwpolicy/
         Requires  : PowerShell v5.1 and up
@@ -4206,7 +4206,7 @@ function Invoke-ADCUpdateAppfwpolicy {
         Invoke-ADCUpdateAppfwpolicy -name <string>
     .NOTES
         File Name : Invoke-ADCUpdateAppfwpolicy
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/appfw/appfwpolicy/
         Requires  : PowerShell v5.1 and up
@@ -4289,7 +4289,7 @@ function Invoke-ADCUnsetAppfwpolicy {
         Invoke-ADCUnsetAppfwpolicy -name <string>
     .NOTES
         File Name : Invoke-ADCUnsetAppfwpolicy
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/appfw/appfwpolicy
         Requires  : PowerShell v5.1 and up
@@ -4356,7 +4356,7 @@ function Invoke-ADCRenameAppfwpolicy {
         Invoke-ADCRenameAppfwpolicy -name <string> -newname <string>
     .NOTES
         File Name : Invoke-ADCRenameAppfwpolicy
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/appfw/appfwpolicy/
         Requires  : PowerShell v5.1 and up
@@ -4445,7 +4445,7 @@ function Invoke-ADCGetAppfwpolicy {
         Invoke-ADCGetAppfwpolicy -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetAppfwpolicy
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/appfw/appfwpolicy/
         Requires  : PowerShell v5.1 and up
@@ -4530,7 +4530,7 @@ function Invoke-ADCAddAppfwpolicylabel {
         Invoke-ADCAddAppfwpolicylabel -labelname <string> -policylabeltype <string>
     .NOTES
         File Name : Invoke-ADCAddAppfwpolicylabel
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/appfw/appfwpolicylabel/
         Requires  : PowerShell v5.1 and up
@@ -4600,7 +4600,7 @@ function Invoke-ADCDeleteAppfwpolicylabel {
         Invoke-ADCDeleteAppfwpolicylabel -labelname <string>
     .NOTES
         File Name : Invoke-ADCDeleteAppfwpolicylabel
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/appfw/appfwpolicylabel/
         Requires  : PowerShell v5.1 and up
@@ -4660,7 +4660,7 @@ function Invoke-ADCRenameAppfwpolicylabel {
         Invoke-ADCRenameAppfwpolicylabel -labelname <string> -newname <string>
     .NOTES
         File Name : Invoke-ADCRenameAppfwpolicylabel
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/appfw/appfwpolicylabel/
         Requires  : PowerShell v5.1 and up
@@ -4747,7 +4747,7 @@ function Invoke-ADCGetAppfwpolicylabel {
         Invoke-ADCGetAppfwpolicylabel -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetAppfwpolicylabel
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/appfw/appfwpolicylabel/
         Requires  : PowerShell v5.1 and up
@@ -4841,7 +4841,7 @@ function Invoke-ADCAddAppfwpolicylabelappfwpolicybinding {
         Invoke-ADCAddAppfwpolicylabelappfwpolicybinding -labelname <string> -policyname <string> -priority <double>
     .NOTES
         File Name : Invoke-ADCAddAppfwpolicylabelappfwpolicybinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/appfw/appfwpolicylabel_appfwpolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -4928,7 +4928,7 @@ function Invoke-ADCDeleteAppfwpolicylabelappfwpolicybinding {
         Invoke-ADCDeleteAppfwpolicylabelappfwpolicybinding -labelname <string>
     .NOTES
         File Name : Invoke-ADCDeleteAppfwpolicylabelappfwpolicybinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/appfw/appfwpolicylabel_appfwpolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -5005,7 +5005,7 @@ function Invoke-ADCGetAppfwpolicylabelappfwpolicybinding {
         Invoke-ADCGetAppfwpolicylabelappfwpolicybinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetAppfwpolicylabelappfwpolicybinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/appfw/appfwpolicylabel_appfwpolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -5096,7 +5096,7 @@ function Invoke-ADCGetAppfwpolicylabelbinding {
         Invoke-ADCGetAppfwpolicylabelbinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetAppfwpolicylabelbinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/appfw/appfwpolicylabel_binding/
         Requires  : PowerShell v5.1 and up
@@ -5186,7 +5186,7 @@ function Invoke-ADCGetAppfwpolicylabelpolicybindingbinding {
         Invoke-ADCGetAppfwpolicylabelpolicybindingbinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetAppfwpolicylabelpolicybindingbinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/appfw/appfwpolicylabel_policybinding_binding/
         Requires  : PowerShell v5.1 and up
@@ -5279,7 +5279,7 @@ function Invoke-ADCGetAppfwpolicyappfwglobalbinding {
         Invoke-ADCGetAppfwpolicyappfwglobalbinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetAppfwpolicyappfwglobalbinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/appfw/appfwpolicy_appfwglobal_binding/
         Requires  : PowerShell v5.1 and up
@@ -5373,7 +5373,7 @@ function Invoke-ADCGetAppfwpolicyappfwpolicylabelbinding {
         Invoke-ADCGetAppfwpolicyappfwpolicylabelbinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetAppfwpolicyappfwpolicylabelbinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/appfw/appfwpolicy_appfwpolicylabel_binding/
         Requires  : PowerShell v5.1 and up
@@ -5465,7 +5465,7 @@ function Invoke-ADCGetAppfwpolicybinding {
         Invoke-ADCGetAppfwpolicybinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetAppfwpolicybinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/appfw/appfwpolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -5556,7 +5556,7 @@ function Invoke-ADCGetAppfwpolicycsvserverbinding {
         Invoke-ADCGetAppfwpolicycsvserverbinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetAppfwpolicycsvserverbinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/appfw/appfwpolicy_csvserver_binding/
         Requires  : PowerShell v5.1 and up
@@ -5650,7 +5650,7 @@ function Invoke-ADCGetAppfwpolicylbvserverbinding {
         Invoke-ADCGetAppfwpolicylbvserverbinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetAppfwpolicylbvserverbinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/appfw/appfwpolicy_lbvserver_binding/
         Requires  : PowerShell v5.1 and up
@@ -6323,7 +6323,7 @@ function Invoke-ADCAddAppfwprofile {
         Invoke-ADCAddAppfwprofile -name <string>
     .NOTES
         File Name : Invoke-ADCAddAppfwprofile
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/appfw/appfwprofile/
         Requires  : PowerShell v5.1 and up
@@ -6777,7 +6777,7 @@ function Invoke-ADCDeleteAppfwprofile {
         Invoke-ADCDeleteAppfwprofile -name <string>
     .NOTES
         File Name : Invoke-ADCDeleteAppfwprofile
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/appfw/appfwprofile/
         Requires  : PowerShell v5.1 and up
@@ -7424,7 +7424,7 @@ function Invoke-ADCUpdateAppfwprofile {
         Invoke-ADCUpdateAppfwprofile -name <string>
     .NOTES
         File Name : Invoke-ADCUpdateAppfwprofile
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/appfw/appfwprofile/
         Requires  : PowerShell v5.1 and up
@@ -8375,7 +8375,7 @@ function Invoke-ADCUnsetAppfwprofile {
         Invoke-ADCUnsetAppfwprofile -name <string>
     .NOTES
         File Name : Invoke-ADCUnsetAppfwprofile
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/appfw/appfwprofile
         Requires  : PowerShell v5.1 and up
@@ -8734,7 +8734,7 @@ function Invoke-ADCRestoreAppfwprofile {
         Invoke-ADCRestoreAppfwprofile -archivename <string>
     .NOTES
         File Name : Invoke-ADCRestoreAppfwprofile
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/appfw/appfwprofile/
         Requires  : PowerShell v5.1 and up
@@ -8826,7 +8826,7 @@ function Invoke-ADCGetAppfwprofile {
         Invoke-ADCGetAppfwprofile -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetAppfwprofile
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/appfw/appfwprofile/
         Requires  : PowerShell v5.1 and up
@@ -8921,7 +8921,7 @@ function Invoke-ADCGetAppfwprofilebinding {
         Invoke-ADCGetAppfwprofilebinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetAppfwprofilebinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/appfw/appfwprofile_binding/
         Requires  : PowerShell v5.1 and up
@@ -9024,7 +9024,7 @@ function Invoke-ADCAddAppfwprofilecmdinjectionbinding {
         Invoke-ADCAddAppfwprofilecmdinjectionbinding -name <string>
     .NOTES
         File Name : Invoke-ADCAddAppfwprofilecmdinjectionbinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/appfw/appfwprofile_cmdinjection_binding/
         Requires  : PowerShell v5.1 and up
@@ -9133,7 +9133,7 @@ function Invoke-ADCDeleteAppfwprofilecmdinjectionbinding {
         Invoke-ADCDeleteAppfwprofilecmdinjectionbinding -name <string>
     .NOTES
         File Name : Invoke-ADCDeleteAppfwprofilecmdinjectionbinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/appfw/appfwprofile_cmdinjection_binding/
         Requires  : PowerShell v5.1 and up
@@ -9219,7 +9219,7 @@ function Invoke-ADCGetAppfwprofilecmdinjectionbinding {
         Invoke-ADCGetAppfwprofilecmdinjectionbinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetAppfwprofilecmdinjectionbinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/appfw/appfwprofile_cmdinjection_binding/
         Requires  : PowerShell v5.1 and up
@@ -9309,7 +9309,7 @@ function Invoke-ADCAddAppfwprofilecontenttypebinding {
         Invoke-ADCAddAppfwprofilecontenttypebinding -name <string>
     .NOTES
         File Name : Invoke-ADCAddAppfwprofilecontenttypebinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/appfw/appfwprofile_contenttype_binding/
         Requires  : PowerShell v5.1 and up
@@ -9390,7 +9390,7 @@ function Invoke-ADCDeleteAppfwprofilecontenttypebinding {
         Invoke-ADCDeleteAppfwprofilecontenttypebinding -name <string>
     .NOTES
         File Name : Invoke-ADCDeleteAppfwprofilecontenttypebinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/appfw/appfwprofile_contenttype_binding/
         Requires  : PowerShell v5.1 and up
@@ -9464,7 +9464,7 @@ function Invoke-ADCGetAppfwprofilecontenttypebinding {
         Invoke-ADCGetAppfwprofilecontenttypebinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetAppfwprofilecontenttypebinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/appfw/appfwprofile_contenttype_binding/
         Requires  : PowerShell v5.1 and up
@@ -9557,7 +9557,7 @@ function Invoke-ADCAddAppfwprofilecookieconsistencybinding {
         Invoke-ADCAddAppfwprofilecookieconsistencybinding -name <string>
     .NOTES
         File Name : Invoke-ADCAddAppfwprofilecookieconsistencybinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/appfw/appfwprofile_cookieconsistency_binding/
         Requires  : PowerShell v5.1 and up
@@ -9642,7 +9642,7 @@ function Invoke-ADCDeleteAppfwprofilecookieconsistencybinding {
         Invoke-ADCDeleteAppfwprofilecookieconsistencybinding -name <string>
     .NOTES
         File Name : Invoke-ADCDeleteAppfwprofilecookieconsistencybinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/appfw/appfwprofile_cookieconsistency_binding/
         Requires  : PowerShell v5.1 and up
@@ -9716,7 +9716,7 @@ function Invoke-ADCGetAppfwprofilecookieconsistencybinding {
         Invoke-ADCGetAppfwprofilecookieconsistencybinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetAppfwprofilecookieconsistencybinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/appfw/appfwprofile_cookieconsistency_binding/
         Requires  : PowerShell v5.1 and up
@@ -9808,7 +9808,7 @@ function Invoke-ADCAddAppfwprofilecreditcardnumberbinding {
         Invoke-ADCAddAppfwprofilecreditcardnumberbinding -name <string>
     .NOTES
         File Name : Invoke-ADCAddAppfwprofilecreditcardnumberbinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/appfw/appfwprofile_creditcardnumber_binding/
         Requires  : PowerShell v5.1 and up
@@ -9893,7 +9893,7 @@ function Invoke-ADCDeleteAppfwprofilecreditcardnumberbinding {
         Invoke-ADCDeleteAppfwprofilecreditcardnumberbinding -name <string>
     .NOTES
         File Name : Invoke-ADCDeleteAppfwprofilecreditcardnumberbinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/appfw/appfwprofile_creditcardnumber_binding/
         Requires  : PowerShell v5.1 and up
@@ -9970,7 +9970,7 @@ function Invoke-ADCGetAppfwprofilecreditcardnumberbinding {
         Invoke-ADCGetAppfwprofilecreditcardnumberbinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetAppfwprofilecreditcardnumberbinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/appfw/appfwprofile_creditcardnumber_binding/
         Requires  : PowerShell v5.1 and up
@@ -10076,7 +10076,7 @@ function Invoke-ADCAddAppfwprofilecrosssitescriptingbinding {
         Invoke-ADCAddAppfwprofilecrosssitescriptingbinding -name <string>
     .NOTES
         File Name : Invoke-ADCAddAppfwprofilecrosssitescriptingbinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/appfw/appfwprofile_crosssitescripting_binding/
         Requires  : PowerShell v5.1 and up
@@ -10185,7 +10185,7 @@ function Invoke-ADCDeleteAppfwprofilecrosssitescriptingbinding {
         Invoke-ADCDeleteAppfwprofilecrosssitescriptingbinding -name <string>
     .NOTES
         File Name : Invoke-ADCDeleteAppfwprofilecrosssitescriptingbinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/appfw/appfwprofile_crosssitescripting_binding/
         Requires  : PowerShell v5.1 and up
@@ -10271,7 +10271,7 @@ function Invoke-ADCGetAppfwprofilecrosssitescriptingbinding {
         Invoke-ADCGetAppfwprofilecrosssitescriptingbinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetAppfwprofilecrosssitescriptingbinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/appfw/appfwprofile_crosssitescripting_binding/
         Requires  : PowerShell v5.1 and up
@@ -10363,7 +10363,7 @@ function Invoke-ADCAddAppfwprofilecsrftagbinding {
         Invoke-ADCAddAppfwprofilecsrftagbinding -name <string>
     .NOTES
         File Name : Invoke-ADCAddAppfwprofilecsrftagbinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/appfw/appfwprofile_csrftag_binding/
         Requires  : PowerShell v5.1 and up
@@ -10448,7 +10448,7 @@ function Invoke-ADCDeleteAppfwprofilecsrftagbinding {
         Invoke-ADCDeleteAppfwprofilecsrftagbinding -name <string>
     .NOTES
         File Name : Invoke-ADCDeleteAppfwprofilecsrftagbinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/appfw/appfwprofile_csrftag_binding/
         Requires  : PowerShell v5.1 and up
@@ -10525,7 +10525,7 @@ function Invoke-ADCGetAppfwprofilecsrftagbinding {
         Invoke-ADCGetAppfwprofilecsrftagbinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetAppfwprofilecsrftagbinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/appfw/appfwprofile_csrftag_binding/
         Requires  : PowerShell v5.1 and up
@@ -10615,7 +10615,7 @@ function Invoke-ADCAddAppfwprofiledenyurlbinding {
         Invoke-ADCAddAppfwprofiledenyurlbinding -name <string>
     .NOTES
         File Name : Invoke-ADCAddAppfwprofiledenyurlbinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/appfw/appfwprofile_denyurl_binding/
         Requires  : PowerShell v5.1 and up
@@ -10696,7 +10696,7 @@ function Invoke-ADCDeleteAppfwprofiledenyurlbinding {
         Invoke-ADCDeleteAppfwprofiledenyurlbinding -name <string>
     .NOTES
         File Name : Invoke-ADCDeleteAppfwprofiledenyurlbinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/appfw/appfwprofile_denyurl_binding/
         Requires  : PowerShell v5.1 and up
@@ -10770,7 +10770,7 @@ function Invoke-ADCGetAppfwprofiledenyurlbinding {
         Invoke-ADCGetAppfwprofiledenyurlbinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetAppfwprofiledenyurlbinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/appfw/appfwprofile_denyurl_binding/
         Requires  : PowerShell v5.1 and up
@@ -10860,7 +10860,7 @@ function Invoke-ADCAddAppfwprofileexcluderescontenttypebinding {
         Invoke-ADCAddAppfwprofileexcluderescontenttypebinding -name <string>
     .NOTES
         File Name : Invoke-ADCAddAppfwprofileexcluderescontenttypebinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/appfw/appfwprofile_excluderescontenttype_binding/
         Requires  : PowerShell v5.1 and up
@@ -10941,7 +10941,7 @@ function Invoke-ADCDeleteAppfwprofileexcluderescontenttypebinding {
         Invoke-ADCDeleteAppfwprofileexcluderescontenttypebinding -name <string>
     .NOTES
         File Name : Invoke-ADCDeleteAppfwprofileexcluderescontenttypebinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/appfw/appfwprofile_excluderescontenttype_binding/
         Requires  : PowerShell v5.1 and up
@@ -11015,7 +11015,7 @@ function Invoke-ADCGetAppfwprofileexcluderescontenttypebinding {
         Invoke-ADCGetAppfwprofileexcluderescontenttypebinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetAppfwprofileexcluderescontenttypebinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/appfw/appfwprofile_excluderescontenttype_binding/
         Requires  : PowerShell v5.1 and up
@@ -11110,7 +11110,7 @@ function Invoke-ADCAddAppfwprofilefieldconsistencybinding {
         Invoke-ADCAddAppfwprofilefieldconsistencybinding -name <string>
     .NOTES
         File Name : Invoke-ADCAddAppfwprofilefieldconsistencybinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/appfw/appfwprofile_fieldconsistency_binding/
         Requires  : PowerShell v5.1 and up
@@ -11199,7 +11199,7 @@ function Invoke-ADCDeleteAppfwprofilefieldconsistencybinding {
         Invoke-ADCDeleteAppfwprofilefieldconsistencybinding -name <string>
     .NOTES
         File Name : Invoke-ADCDeleteAppfwprofilefieldconsistencybinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/appfw/appfwprofile_fieldconsistency_binding/
         Requires  : PowerShell v5.1 and up
@@ -11276,7 +11276,7 @@ function Invoke-ADCGetAppfwprofilefieldconsistencybinding {
         Invoke-ADCGetAppfwprofilefieldconsistencybinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetAppfwprofilefieldconsistencybinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/appfw/appfwprofile_fieldconsistency_binding/
         Requires  : PowerShell v5.1 and up
@@ -11377,7 +11377,7 @@ function Invoke-ADCAddAppfwprofilefieldformatbinding {
         Invoke-ADCAddAppfwprofilefieldformatbinding -name <string>
     .NOTES
         File Name : Invoke-ADCAddAppfwprofilefieldformatbinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/appfw/appfwprofile_fieldformat_binding/
         Requires  : PowerShell v5.1 and up
@@ -11475,7 +11475,7 @@ function Invoke-ADCDeleteAppfwprofilefieldformatbinding {
         Invoke-ADCDeleteAppfwprofilefieldformatbinding -name <string>
     .NOTES
         File Name : Invoke-ADCDeleteAppfwprofilefieldformatbinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/appfw/appfwprofile_fieldformat_binding/
         Requires  : PowerShell v5.1 and up
@@ -11552,7 +11552,7 @@ function Invoke-ADCGetAppfwprofilefieldformatbinding {
         Invoke-ADCGetAppfwprofilefieldformatbinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetAppfwprofilefieldformatbinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/appfw/appfwprofile_fieldformat_binding/
         Requires  : PowerShell v5.1 and up
@@ -11650,7 +11650,7 @@ function Invoke-ADCAddAppfwprofilefileuploadtypebinding {
         Invoke-ADCAddAppfwprofilefileuploadtypebinding -name <string>
     .NOTES
         File Name : Invoke-ADCAddAppfwprofilefileuploadtypebinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/appfw/appfwprofile_fileuploadtype_binding/
         Requires  : PowerShell v5.1 and up
@@ -11745,7 +11745,7 @@ function Invoke-ADCDeleteAppfwprofilefileuploadtypebinding {
         Invoke-ADCDeleteAppfwprofilefileuploadtypebinding -name <string>
     .NOTES
         File Name : Invoke-ADCDeleteAppfwprofilefileuploadtypebinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/appfw/appfwprofile_fileuploadtype_binding/
         Requires  : PowerShell v5.1 and up
@@ -11825,7 +11825,7 @@ function Invoke-ADCGetAppfwprofilefileuploadtypebinding {
         Invoke-ADCGetAppfwprofilefileuploadtypebinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetAppfwprofilefileuploadtypebinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/appfw/appfwprofile_fileuploadtype_binding/
         Requires  : PowerShell v5.1 and up
@@ -11965,7 +11965,7 @@ function Invoke-ADCAddAppfwprofilejsondosurlbinding {
         Invoke-ADCAddAppfwprofilejsondosurlbinding -name <string>
     .NOTES
         File Name : Invoke-ADCAddAppfwprofilejsondosurlbinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/appfw/appfwprofile_jsondosurl_binding/
         Requires  : PowerShell v5.1 and up
@@ -12097,7 +12097,7 @@ function Invoke-ADCDeleteAppfwprofilejsondosurlbinding {
         Invoke-ADCDeleteAppfwprofilejsondosurlbinding -name <string>
     .NOTES
         File Name : Invoke-ADCDeleteAppfwprofilejsondosurlbinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/appfw/appfwprofile_jsondosurl_binding/
         Requires  : PowerShell v5.1 and up
@@ -12171,7 +12171,7 @@ function Invoke-ADCGetAppfwprofilejsondosurlbinding {
         Invoke-ADCGetAppfwprofilejsondosurlbinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetAppfwprofilejsondosurlbinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/appfw/appfwprofile_jsondosurl_binding/
         Requires  : PowerShell v5.1 and up
@@ -12263,7 +12263,7 @@ function Invoke-ADCAddAppfwprofilejsonsqlurlbinding {
         Invoke-ADCAddAppfwprofilejsonsqlurlbinding -name <string>
     .NOTES
         File Name : Invoke-ADCAddAppfwprofilejsonsqlurlbinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/appfw/appfwprofile_jsonsqlurl_binding/
         Requires  : PowerShell v5.1 and up
@@ -12347,7 +12347,7 @@ function Invoke-ADCDeleteAppfwprofilejsonsqlurlbinding {
         Invoke-ADCDeleteAppfwprofilejsonsqlurlbinding -name <string>
     .NOTES
         File Name : Invoke-ADCDeleteAppfwprofilejsonsqlurlbinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/appfw/appfwprofile_jsonsqlurl_binding/
         Requires  : PowerShell v5.1 and up
@@ -12421,7 +12421,7 @@ function Invoke-ADCGetAppfwprofilejsonsqlurlbinding {
         Invoke-ADCGetAppfwprofilejsonsqlurlbinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetAppfwprofilejsonsqlurlbinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/appfw/appfwprofile_jsonsqlurl_binding/
         Requires  : PowerShell v5.1 and up
@@ -12513,7 +12513,7 @@ function Invoke-ADCAddAppfwprofilejsonxssurlbinding {
         Invoke-ADCAddAppfwprofilejsonxssurlbinding -name <string>
     .NOTES
         File Name : Invoke-ADCAddAppfwprofilejsonxssurlbinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/appfw/appfwprofile_jsonxssurl_binding/
         Requires  : PowerShell v5.1 and up
@@ -12597,7 +12597,7 @@ function Invoke-ADCDeleteAppfwprofilejsonxssurlbinding {
         Invoke-ADCDeleteAppfwprofilejsonxssurlbinding -name <string>
     .NOTES
         File Name : Invoke-ADCDeleteAppfwprofilejsonxssurlbinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/appfw/appfwprofile_jsonxssurl_binding/
         Requires  : PowerShell v5.1 and up
@@ -12671,7 +12671,7 @@ function Invoke-ADCGetAppfwprofilejsonxssurlbinding {
         Invoke-ADCGetAppfwprofilejsonxssurlbinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetAppfwprofilejsonxssurlbinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/appfw/appfwprofile_jsonxssurl_binding/
         Requires  : PowerShell v5.1 and up
@@ -12764,7 +12764,7 @@ function Invoke-ADCAddAppfwprofilelogexpressionbinding {
         Invoke-ADCAddAppfwprofilelogexpressionbinding -name <string>
     .NOTES
         File Name : Invoke-ADCAddAppfwprofilelogexpressionbinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/appfw/appfwprofile_logexpression_binding/
         Requires  : PowerShell v5.1 and up
@@ -12848,7 +12848,7 @@ function Invoke-ADCDeleteAppfwprofilelogexpressionbinding {
         Invoke-ADCDeleteAppfwprofilelogexpressionbinding -name <string>
     .NOTES
         File Name : Invoke-ADCDeleteAppfwprofilelogexpressionbinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/appfw/appfwprofile_logexpression_binding/
         Requires  : PowerShell v5.1 and up
@@ -12922,7 +12922,7 @@ function Invoke-ADCGetAppfwprofilelogexpressionbinding {
         Invoke-ADCGetAppfwprofilelogexpressionbinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetAppfwprofilelogexpressionbinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/appfw/appfwprofile_logexpression_binding/
         Requires  : PowerShell v5.1 and up
@@ -13019,7 +13019,7 @@ function Invoke-ADCAddAppfwprofilesafeobjectbinding {
         Invoke-ADCAddAppfwprofilesafeobjectbinding -name <string>
     .NOTES
         File Name : Invoke-ADCAddAppfwprofilesafeobjectbinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/appfw/appfwprofile_safeobject_binding/
         Requires  : PowerShell v5.1 and up
@@ -13110,7 +13110,7 @@ function Invoke-ADCDeleteAppfwprofilesafeobjectbinding {
         Invoke-ADCDeleteAppfwprofilesafeobjectbinding -name <string>
     .NOTES
         File Name : Invoke-ADCDeleteAppfwprofilesafeobjectbinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/appfw/appfwprofile_safeobject_binding/
         Requires  : PowerShell v5.1 and up
@@ -13184,7 +13184,7 @@ function Invoke-ADCGetAppfwprofilesafeobjectbinding {
         Invoke-ADCGetAppfwprofilesafeobjectbinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetAppfwprofilesafeobjectbinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/appfw/appfwprofile_safeobject_binding/
         Requires  : PowerShell v5.1 and up
@@ -13290,7 +13290,7 @@ function Invoke-ADCAddAppfwprofilesqlinjectionbinding {
         Invoke-ADCAddAppfwprofilesqlinjectionbinding -name <string>
     .NOTES
         File Name : Invoke-ADCAddAppfwprofilesqlinjectionbinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/appfw/appfwprofile_sqlinjection_binding/
         Requires  : PowerShell v5.1 and up
@@ -13399,7 +13399,7 @@ function Invoke-ADCDeleteAppfwprofilesqlinjectionbinding {
         Invoke-ADCDeleteAppfwprofilesqlinjectionbinding -name <string>
     .NOTES
         File Name : Invoke-ADCDeleteAppfwprofilesqlinjectionbinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/appfw/appfwprofile_sqlinjection_binding/
         Requires  : PowerShell v5.1 and up
@@ -13485,7 +13485,7 @@ function Invoke-ADCGetAppfwprofilesqlinjectionbinding {
         Invoke-ADCGetAppfwprofilesqlinjectionbinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetAppfwprofilesqlinjectionbinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/appfw/appfwprofile_sqlinjection_binding/
         Requires  : PowerShell v5.1 and up
@@ -13575,7 +13575,7 @@ function Invoke-ADCAddAppfwprofilestarturlbinding {
         Invoke-ADCAddAppfwprofilestarturlbinding -name <string>
     .NOTES
         File Name : Invoke-ADCAddAppfwprofilestarturlbinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/appfw/appfwprofile_starturl_binding/
         Requires  : PowerShell v5.1 and up
@@ -13656,7 +13656,7 @@ function Invoke-ADCDeleteAppfwprofilestarturlbinding {
         Invoke-ADCDeleteAppfwprofilestarturlbinding -name <string>
     .NOTES
         File Name : Invoke-ADCDeleteAppfwprofilestarturlbinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/appfw/appfwprofile_starturl_binding/
         Requires  : PowerShell v5.1 and up
@@ -13730,7 +13730,7 @@ function Invoke-ADCGetAppfwprofilestarturlbinding {
         Invoke-ADCGetAppfwprofilestarturlbinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetAppfwprofilestarturlbinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/appfw/appfwprofile_starturl_binding/
         Requires  : PowerShell v5.1 and up
@@ -13820,7 +13820,7 @@ function Invoke-ADCAddAppfwprofiletrustedlearningclientsbinding {
         Invoke-ADCAddAppfwprofiletrustedlearningclientsbinding -name <string>
     .NOTES
         File Name : Invoke-ADCAddAppfwprofiletrustedlearningclientsbinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/appfw/appfwprofile_trustedlearningclients_binding/
         Requires  : PowerShell v5.1 and up
@@ -13901,7 +13901,7 @@ function Invoke-ADCDeleteAppfwprofiletrustedlearningclientsbinding {
         Invoke-ADCDeleteAppfwprofiletrustedlearningclientsbinding -name <string>
     .NOTES
         File Name : Invoke-ADCDeleteAppfwprofiletrustedlearningclientsbinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/appfw/appfwprofile_trustedlearningclients_binding/
         Requires  : PowerShell v5.1 and up
@@ -13975,7 +13975,7 @@ function Invoke-ADCGetAppfwprofiletrustedlearningclientsbinding {
         Invoke-ADCGetAppfwprofiletrustedlearningclientsbinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetAppfwprofiletrustedlearningclientsbinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/appfw/appfwprofile_trustedlearningclients_binding/
         Requires  : PowerShell v5.1 and up
@@ -14077,7 +14077,7 @@ function Invoke-ADCAddAppfwprofilexmlattachmenturlbinding {
         Invoke-ADCAddAppfwprofilexmlattachmenturlbinding -name <string>
     .NOTES
         File Name : Invoke-ADCAddAppfwprofilexmlattachmenturlbinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/appfw/appfwprofile_xmlattachmenturl_binding/
         Requires  : PowerShell v5.1 and up
@@ -14173,7 +14173,7 @@ function Invoke-ADCDeleteAppfwprofilexmlattachmenturlbinding {
         Invoke-ADCDeleteAppfwprofilexmlattachmenturlbinding -name <string>
     .NOTES
         File Name : Invoke-ADCDeleteAppfwprofilexmlattachmenturlbinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/appfw/appfwprofile_xmlattachmenturl_binding/
         Requires  : PowerShell v5.1 and up
@@ -14247,7 +14247,7 @@ function Invoke-ADCGetAppfwprofilexmlattachmenturlbinding {
         Invoke-ADCGetAppfwprofilexmlattachmenturlbinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetAppfwprofilexmlattachmenturlbinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/appfw/appfwprofile_xmlattachmenturl_binding/
         Requires  : PowerShell v5.1 and up
@@ -14436,7 +14436,7 @@ function Invoke-ADCAddAppfwprofilexmldosurlbinding {
         Invoke-ADCAddAppfwprofilexmldosurlbinding -name <string>
     .NOTES
         File Name : Invoke-ADCAddAppfwprofilexmldosurlbinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/appfw/appfwprofile_xmldosurl_binding/
         Requires  : PowerShell v5.1 and up
@@ -14648,7 +14648,7 @@ function Invoke-ADCDeleteAppfwprofilexmldosurlbinding {
         Invoke-ADCDeleteAppfwprofilexmldosurlbinding -name <string>
     .NOTES
         File Name : Invoke-ADCDeleteAppfwprofilexmldosurlbinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/appfw/appfwprofile_xmldosurl_binding/
         Requires  : PowerShell v5.1 and up
@@ -14722,7 +14722,7 @@ function Invoke-ADCGetAppfwprofilexmldosurlbinding {
         Invoke-ADCGetAppfwprofilexmldosurlbinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetAppfwprofilexmldosurlbinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/appfw/appfwprofile_xmldosurl_binding/
         Requires  : PowerShell v5.1 and up
@@ -14818,7 +14818,7 @@ function Invoke-ADCAddAppfwprofilexmlsqlinjectionbinding {
         Invoke-ADCAddAppfwprofilexmlsqlinjectionbinding -name <string>
     .NOTES
         File Name : Invoke-ADCAddAppfwprofilexmlsqlinjectionbinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/appfw/appfwprofile_xmlsqlinjection_binding/
         Requires  : PowerShell v5.1 and up
@@ -14909,7 +14909,7 @@ function Invoke-ADCDeleteAppfwprofilexmlsqlinjectionbinding {
         Invoke-ADCDeleteAppfwprofilexmlsqlinjectionbinding -name <string>
     .NOTES
         File Name : Invoke-ADCDeleteAppfwprofilexmlsqlinjectionbinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/appfw/appfwprofile_xmlsqlinjection_binding/
         Requires  : PowerShell v5.1 and up
@@ -14986,7 +14986,7 @@ function Invoke-ADCGetAppfwprofilexmlsqlinjectionbinding {
         Invoke-ADCGetAppfwprofilexmlsqlinjectionbinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetAppfwprofilexmlsqlinjectionbinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/appfw/appfwprofile_xmlsqlinjection_binding/
         Requires  : PowerShell v5.1 and up
@@ -15094,7 +15094,7 @@ function Invoke-ADCAddAppfwprofilexmlvalidationurlbinding {
         Invoke-ADCAddAppfwprofilexmlvalidationurlbinding -name <string>
     .NOTES
         File Name : Invoke-ADCAddAppfwprofilexmlvalidationurlbinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/appfw/appfwprofile_xmlvalidationurl_binding/
         Requires  : PowerShell v5.1 and up
@@ -15200,7 +15200,7 @@ function Invoke-ADCDeleteAppfwprofilexmlvalidationurlbinding {
         Invoke-ADCDeleteAppfwprofilexmlvalidationurlbinding -name <string>
     .NOTES
         File Name : Invoke-ADCDeleteAppfwprofilexmlvalidationurlbinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/appfw/appfwprofile_xmlvalidationurl_binding/
         Requires  : PowerShell v5.1 and up
@@ -15274,7 +15274,7 @@ function Invoke-ADCGetAppfwprofilexmlvalidationurlbinding {
         Invoke-ADCGetAppfwprofilexmlvalidationurlbinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetAppfwprofilexmlvalidationurlbinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/appfw/appfwprofile_xmlvalidationurl_binding/
         Requires  : PowerShell v5.1 and up
@@ -15366,7 +15366,7 @@ function Invoke-ADCAddAppfwprofilexmlwsiurlbinding {
         Invoke-ADCAddAppfwprofilexmlwsiurlbinding -name <string>
     .NOTES
         File Name : Invoke-ADCAddAppfwprofilexmlwsiurlbinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/appfw/appfwprofile_xmlwsiurl_binding/
         Requires  : PowerShell v5.1 and up
@@ -15450,7 +15450,7 @@ function Invoke-ADCDeleteAppfwprofilexmlwsiurlbinding {
         Invoke-ADCDeleteAppfwprofilexmlwsiurlbinding -name <string>
     .NOTES
         File Name : Invoke-ADCDeleteAppfwprofilexmlwsiurlbinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/appfw/appfwprofile_xmlwsiurl_binding/
         Requires  : PowerShell v5.1 and up
@@ -15524,7 +15524,7 @@ function Invoke-ADCGetAppfwprofilexmlwsiurlbinding {
         Invoke-ADCGetAppfwprofilexmlwsiurlbinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetAppfwprofilexmlwsiurlbinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/appfw/appfwprofile_xmlwsiurl_binding/
         Requires  : PowerShell v5.1 and up
@@ -15620,7 +15620,7 @@ function Invoke-ADCAddAppfwprofilexmlxssbinding {
         Invoke-ADCAddAppfwprofilexmlxssbinding -name <string>
     .NOTES
         File Name : Invoke-ADCAddAppfwprofilexmlxssbinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/appfw/appfwprofile_xmlxss_binding/
         Requires  : PowerShell v5.1 and up
@@ -15711,7 +15711,7 @@ function Invoke-ADCDeleteAppfwprofilexmlxssbinding {
         Invoke-ADCDeleteAppfwprofilexmlxssbinding -name <string>
     .NOTES
         File Name : Invoke-ADCDeleteAppfwprofilexmlxssbinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/appfw/appfwprofile_xmlxss_binding/
         Requires  : PowerShell v5.1 and up
@@ -15788,7 +15788,7 @@ function Invoke-ADCGetAppfwprofilexmlxssbinding {
         Invoke-ADCGetAppfwprofilexmlxssbinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetAppfwprofilexmlxssbinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/appfw/appfwprofile_xmlxss_binding/
         Requires  : PowerShell v5.1 and up
@@ -15939,7 +15939,7 @@ function Invoke-ADCUpdateAppfwsettings {
         Invoke-ADCUpdateAppfwsettings 
     .NOTES
         File Name : Invoke-ADCUpdateAppfwsettings
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/appfw/appfwsettings/
         Requires  : PowerShell v5.1 and up
@@ -16114,7 +16114,7 @@ function Invoke-ADCUnsetAppfwsettings {
         Invoke-ADCUnsetAppfwsettings 
     .NOTES
         File Name : Invoke-ADCUnsetAppfwsettings
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/appfw/appfwsettings
         Requires  : PowerShell v5.1 and up
@@ -16236,7 +16236,7 @@ function Invoke-ADCGetAppfwsettings {
         Invoke-ADCGetAppfwsettings -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetAppfwsettings
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/appfw/appfwsettings/
         Requires  : PowerShell v5.1 and up
@@ -16306,7 +16306,7 @@ function Invoke-ADCDeleteAppfwsignatures {
         Invoke-ADCDeleteAppfwsignatures -name <string>
     .NOTES
         File Name : Invoke-ADCDeleteAppfwsignatures
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/appfw/appfwsignatures/
         Requires  : PowerShell v5.1 and up
@@ -16379,7 +16379,7 @@ function Invoke-ADCImportAppfwsignatures {
         Invoke-ADCImportAppfwsignatures -src <string> -name <string>
     .NOTES
         File Name : Invoke-ADCImportAppfwsignatures
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/appfw/appfwsignatures/
         Requires  : PowerShell v5.1 and up
@@ -16470,7 +16470,7 @@ function Invoke-ADCChangeAppfwsignatures {
         Invoke-ADCChangeAppfwsignatures -name <string>
     .NOTES
         File Name : Invoke-ADCChangeAppfwsignatures
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/appfw/appfwsignatures/
         Requires  : PowerShell v5.1 and up
@@ -16553,7 +16553,7 @@ function Invoke-ADCGetAppfwsignatures {
         Invoke-ADCGetAppfwsignatures -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetAppfwsignatures
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/appfw/appfwsignatures/
         Requires  : PowerShell v5.1 and up
@@ -16646,7 +16646,7 @@ function Invoke-ADCGetAppfwtransactionrecords {
         Invoke-ADCGetAppfwtransactionrecords -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetAppfwtransactionrecords
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/appfw/appfwtransactionrecords/
         Requires  : PowerShell v5.1 and up
@@ -16733,7 +16733,7 @@ function Invoke-ADCAddAppfwurlencodedformcontenttype {
         Invoke-ADCAddAppfwurlencodedformcontenttype -urlencodedformcontenttypevalue <string>
     .NOTES
         File Name : Invoke-ADCAddAppfwurlencodedformcontenttype
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/appfw/appfwurlencodedformcontenttype/
         Requires  : PowerShell v5.1 and up
@@ -16803,7 +16803,7 @@ function Invoke-ADCDeleteAppfwurlencodedformcontenttype {
         Invoke-ADCDeleteAppfwurlencodedformcontenttype -urlencodedformcontenttypevalue <string>
     .NOTES
         File Name : Invoke-ADCDeleteAppfwurlencodedformcontenttype
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/appfw/appfwurlencodedformcontenttype/
         Requires  : PowerShell v5.1 and up
@@ -16875,7 +16875,7 @@ function Invoke-ADCGetAppfwurlencodedformcontenttype {
         Invoke-ADCGetAppfwurlencodedformcontenttype -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetAppfwurlencodedformcontenttype
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/appfw/appfwurlencodedformcontenttype/
         Requires  : PowerShell v5.1 and up
@@ -16957,7 +16957,7 @@ function Invoke-ADCDeleteAppfwwsdl {
         Invoke-ADCDeleteAppfwwsdl -name <string>
     .NOTES
         File Name : Invoke-ADCDeleteAppfwwsdl
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/appfw/appfwwsdl/
         Requires  : PowerShell v5.1 and up
@@ -17019,7 +17019,7 @@ function Invoke-ADCImportAppfwwsdl {
         Invoke-ADCImportAppfwwsdl -src <string> -name <string>
     .NOTES
         File Name : Invoke-ADCImportAppfwwsdl
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/appfw/appfwwsdl/
         Requires  : PowerShell v5.1 and up
@@ -17102,7 +17102,7 @@ function Invoke-ADCGetAppfwwsdl {
         Invoke-ADCGetAppfwwsdl -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetAppfwwsdl
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/appfw/appfwwsdl/
         Requires  : PowerShell v5.1 and up
@@ -17185,7 +17185,7 @@ function Invoke-ADCAddAppfwxmlcontenttype {
         Invoke-ADCAddAppfwxmlcontenttype -xmlcontenttypevalue <string>
     .NOTES
         File Name : Invoke-ADCAddAppfwxmlcontenttype
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/appfw/appfwxmlcontenttype/
         Requires  : PowerShell v5.1 and up
@@ -17255,7 +17255,7 @@ function Invoke-ADCDeleteAppfwxmlcontenttype {
         Invoke-ADCDeleteAppfwxmlcontenttype -xmlcontenttypevalue <string>
     .NOTES
         File Name : Invoke-ADCDeleteAppfwxmlcontenttype
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/appfw/appfwxmlcontenttype/
         Requires  : PowerShell v5.1 and up
@@ -17327,7 +17327,7 @@ function Invoke-ADCGetAppfwxmlcontenttype {
         Invoke-ADCGetAppfwxmlcontenttype -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetAppfwxmlcontenttype
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/appfw/appfwxmlcontenttype/
         Requires  : PowerShell v5.1 and up
@@ -17409,7 +17409,7 @@ function Invoke-ADCDeleteAppfwxmlerrorpage {
         Invoke-ADCDeleteAppfwxmlerrorpage -name <string>
     .NOTES
         File Name : Invoke-ADCDeleteAppfwxmlerrorpage
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/appfw/appfwxmlerrorpage/
         Requires  : PowerShell v5.1 and up
@@ -17471,7 +17471,7 @@ function Invoke-ADCImportAppfwxmlerrorpage {
         Invoke-ADCImportAppfwxmlerrorpage -src <string> -name <string>
     .NOTES
         File Name : Invoke-ADCImportAppfwxmlerrorpage
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/appfw/appfwxmlerrorpage/
         Requires  : PowerShell v5.1 and up
@@ -17543,7 +17543,7 @@ function Invoke-ADCChangeAppfwxmlerrorpage {
         Invoke-ADCChangeAppfwxmlerrorpage -name <string>
     .NOTES
         File Name : Invoke-ADCChangeAppfwxmlerrorpage
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/appfw/appfwxmlerrorpage/
         Requires  : PowerShell v5.1 and up
@@ -17624,7 +17624,7 @@ function Invoke-ADCGetAppfwxmlerrorpage {
         Invoke-ADCGetAppfwxmlerrorpage -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetAppfwxmlerrorpage
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/appfw/appfwxmlerrorpage/
         Requires  : PowerShell v5.1 and up
@@ -17702,7 +17702,7 @@ function Invoke-ADCDeleteAppfwxmlschema {
         Invoke-ADCDeleteAppfwxmlschema -name <string>
     .NOTES
         File Name : Invoke-ADCDeleteAppfwxmlschema
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/appfw/appfwxmlschema/
         Requires  : PowerShell v5.1 and up
@@ -17764,7 +17764,7 @@ function Invoke-ADCImportAppfwxmlschema {
         Invoke-ADCImportAppfwxmlschema -src <string> -name <string>
     .NOTES
         File Name : Invoke-ADCImportAppfwxmlschema
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/appfw/appfwxmlschema/
         Requires  : PowerShell v5.1 and up
@@ -17847,7 +17847,7 @@ function Invoke-ADCGetAppfwxmlschema {
         Invoke-ADCGetAppfwxmlschema -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetAppfwxmlschema
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/appfw/appfwxmlschema/
         Requires  : PowerShell v5.1 and up

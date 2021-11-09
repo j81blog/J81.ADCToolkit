@@ -8,7 +8,7 @@ function Invoke-ADCEnableSystemautorestorefeature {
         Invoke-ADCEnableSystemautorestorefeature 
     .NOTES
         File Name : Invoke-ADCEnableSystemautorestorefeature
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/system/systemautorestorefeature/
         Requires  : PowerShell v5.1 and up
@@ -60,7 +60,7 @@ function Invoke-ADCDisableSystemautorestorefeature {
         Invoke-ADCDisableSystemautorestorefeature 
     .NOTES
         File Name : Invoke-ADCDisableSystemautorestorefeature
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/system/systemautorestorefeature/
         Requires  : PowerShell v5.1 and up
@@ -124,7 +124,7 @@ function Invoke-ADCCreateSystembackup {
         Invoke-ADCCreateSystembackup 
     .NOTES
         File Name : Invoke-ADCCreateSystembackup
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/system/systembackup/
         Requires  : PowerShell v5.1 and up
@@ -196,7 +196,7 @@ function Invoke-ADCRestoreSystembackup {
         Invoke-ADCRestoreSystembackup -filename <string>
     .NOTES
         File Name : Invoke-ADCRestoreSystembackup
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/system/systembackup/
         Requires  : PowerShell v5.1 and up
@@ -258,7 +258,7 @@ function Invoke-ADCAddSystembackup {
         Invoke-ADCAddSystembackup -filename <string>
     .NOTES
         File Name : Invoke-ADCAddSystembackup
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/system/systembackup/
         Requires  : PowerShell v5.1 and up
@@ -324,7 +324,7 @@ function Invoke-ADCDeleteSystembackup {
         Invoke-ADCDeleteSystembackup -filename <string>
     .NOTES
         File Name : Invoke-ADCDeleteSystembackup
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/system/systembackup/
         Requires  : PowerShell v5.1 and up
@@ -396,7 +396,7 @@ function Invoke-ADCGetSystembackup {
         Invoke-ADCGetSystembackup -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetSystembackup
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/system/systembackup/
         Requires  : PowerShell v5.1 and up
@@ -485,7 +485,7 @@ function Invoke-ADCAddSystemcmdpolicy {
         Invoke-ADCAddSystemcmdpolicy -policyname <string> -action <string> -cmdspec <string>
     .NOTES
         File Name : Invoke-ADCAddSystemcmdpolicy
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/system/systemcmdpolicy/
         Requires  : PowerShell v5.1 and up
@@ -564,7 +564,7 @@ function Invoke-ADCDeleteSystemcmdpolicy {
         Invoke-ADCDeleteSystemcmdpolicy -policyname <string>
     .NOTES
         File Name : Invoke-ADCDeleteSystemcmdpolicy
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/system/systemcmdpolicy/
         Requires  : PowerShell v5.1 and up
@@ -629,7 +629,7 @@ function Invoke-ADCUpdateSystemcmdpolicy {
         Invoke-ADCUpdateSystemcmdpolicy -policyname <string> -action <string> -cmdspec <string>
     .NOTES
         File Name : Invoke-ADCUpdateSystemcmdpolicy
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/system/systemcmdpolicy/
         Requires  : PowerShell v5.1 and up
@@ -724,7 +724,7 @@ function Invoke-ADCGetSystemcmdpolicy {
         Invoke-ADCGetSystemcmdpolicy -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetSystemcmdpolicy
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/system/systemcmdpolicy/
         Requires  : PowerShell v5.1 and up
@@ -811,7 +811,7 @@ function Invoke-ADCUpdateSystemcollectionparam {
         Invoke-ADCUpdateSystemcollectionparam 
     .NOTES
         File Name : Invoke-ADCUpdateSystemcollectionparam
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/system/systemcollectionparam/
         Requires  : PowerShell v5.1 and up
@@ -881,7 +881,7 @@ function Invoke-ADCUnsetSystemcollectionparam {
         Invoke-ADCUnsetSystemcollectionparam 
     .NOTES
         File Name : Invoke-ADCUnsetSystemcollectionparam
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/system/systemcollectionparam
         Requires  : PowerShell v5.1 and up
@@ -955,7 +955,7 @@ function Invoke-ADCGetSystemcollectionparam {
         Invoke-ADCGetSystemcollectionparam -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetSystemcollectionparam
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/system/systemcollectionparam/
         Requires  : PowerShell v5.1 and up
@@ -1038,7 +1038,7 @@ function Invoke-ADCGetSystemcore {
         Invoke-ADCGetSystemcore -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetSystemcore
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/system/systemcore/
         Requires  : PowerShell v5.1 and up
@@ -1125,7 +1125,7 @@ function Invoke-ADCGetSystemcountergroup {
         Invoke-ADCGetSystemcountergroup -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetSystemcountergroup
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/system/systemcountergroup/
         Requires  : PowerShell v5.1 and up
@@ -1214,7 +1214,7 @@ function Invoke-ADCGetSystemcounters {
         Invoke-ADCGetSystemcounters -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetSystemcounters
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/system/systemcounters/
         Requires  : PowerShell v5.1 and up
@@ -1305,7 +1305,7 @@ function Invoke-ADCGetSystemdatasource {
         Invoke-ADCGetSystemdatasource -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetSystemdatasource
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/system/systemdatasource/
         Requires  : PowerShell v5.1 and up
@@ -1396,7 +1396,7 @@ function Invoke-ADCGetSystementity {
         Invoke-ADCGetSystementity -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetSystementity
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/system/systementity/
         Requires  : PowerShell v5.1 and up
@@ -1481,7 +1481,7 @@ function Invoke-ADCDeleteSystementitydata {
         Invoke-ADCDeleteSystementitydata 
     .NOTES
         File Name : Invoke-ADCDeleteSystementitydata
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/system/systementitydata/
         Requires  : PowerShell v5.1 and up
@@ -1582,7 +1582,7 @@ function Invoke-ADCGetSystementitydata {
         Invoke-ADCGetSystementitydata -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetSystementitydata
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/system/systementitydata/
         Requires  : PowerShell v5.1 and up
@@ -1702,7 +1702,7 @@ function Invoke-ADCGetSystementitytype {
         Invoke-ADCGetSystementitytype -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetSystementitytype
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/system/systementitytype/
         Requires  : PowerShell v5.1 and up
@@ -1798,7 +1798,7 @@ function Invoke-ADCGetSystemeventhistory {
         Invoke-ADCGetSystemeventhistory -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetSystemeventhistory
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/system/systemeventhistory/
         Requires  : PowerShell v5.1 and up
@@ -1885,7 +1885,7 @@ function Invoke-ADCEnableSystemextramgmtcpu {
         Invoke-ADCEnableSystemextramgmtcpu 
     .NOTES
         File Name : Invoke-ADCEnableSystemextramgmtcpu
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/system/systemextramgmtcpu/
         Requires  : PowerShell v5.1 and up
@@ -1937,7 +1937,7 @@ function Invoke-ADCDisableSystemextramgmtcpu {
         Invoke-ADCDisableSystemextramgmtcpu 
     .NOTES
         File Name : Invoke-ADCDisableSystemextramgmtcpu
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/system/systemextramgmtcpu/
         Requires  : PowerShell v5.1 and up
@@ -2006,7 +2006,7 @@ function Invoke-ADCGetSystemextramgmtcpu {
         Invoke-ADCGetSystemextramgmtcpu -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetSystemextramgmtcpu
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/system/systemextramgmtcpu/
         Requires  : PowerShell v5.1 and up
@@ -2088,7 +2088,7 @@ function Invoke-ADCAddSystemfile {
         Invoke-ADCAddSystemfile -filename <string> -filecontent <string> -filelocation <string>
     .NOTES
         File Name : Invoke-ADCAddSystemfile
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/system/systemfile/
         Requires  : PowerShell v5.1 and up
@@ -2160,7 +2160,7 @@ function Invoke-ADCDeleteSystemfile {
         Invoke-ADCDeleteSystemfile -filename <string>
     .NOTES
         File Name : Invoke-ADCDeleteSystemfile
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/system/systemfile/
         Requires  : PowerShell v5.1 and up
@@ -2234,7 +2234,7 @@ function Invoke-ADCGetSystemfile {
         Invoke-ADCGetSystemfile -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetSystemfile
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/system/systemfile/
         Requires  : PowerShell v5.1 and up
@@ -2340,7 +2340,7 @@ function Invoke-ADCGetSystemglobaldata {
         Invoke-ADCGetSystemglobaldata -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetSystemglobaldata
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/system/systemglobaldata/
         Requires  : PowerShell v5.1 and up
@@ -2449,7 +2449,7 @@ function Invoke-ADCAddSystemglobalauditnslogpolicybinding {
         Invoke-ADCAddSystemglobalauditnslogpolicybinding 
     .NOTES
         File Name : Invoke-ADCAddSystemglobalauditnslogpolicybinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/system/systemglobal_auditnslogpolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -2522,7 +2522,7 @@ function Invoke-ADCDeleteSystemglobalauditnslogpolicybinding {
         Invoke-ADCDeleteSystemglobalauditnslogpolicybinding 
     .NOTES
         File Name : Invoke-ADCDeleteSystemglobalauditnslogpolicybinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/system/systemglobal_auditnslogpolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -2591,7 +2591,7 @@ function Invoke-ADCGetSystemglobalauditnslogpolicybinding {
         Invoke-ADCGetSystemglobalauditnslogpolicybinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetSystemglobalauditnslogpolicybinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/system/systemglobal_auditnslogpolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -2672,7 +2672,7 @@ function Invoke-ADCAddSystemglobalauditsyslogpolicybinding {
         Invoke-ADCAddSystemglobalauditsyslogpolicybinding 
     .NOTES
         File Name : Invoke-ADCAddSystemglobalauditsyslogpolicybinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/system/systemglobal_auditsyslogpolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -2745,7 +2745,7 @@ function Invoke-ADCDeleteSystemglobalauditsyslogpolicybinding {
         Invoke-ADCDeleteSystemglobalauditsyslogpolicybinding 
     .NOTES
         File Name : Invoke-ADCDeleteSystemglobalauditsyslogpolicybinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/system/systemglobal_auditsyslogpolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -2814,7 +2814,7 @@ function Invoke-ADCGetSystemglobalauditsyslogpolicybinding {
         Invoke-ADCGetSystemglobalauditsyslogpolicybinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetSystemglobalauditsyslogpolicybinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/system/systemglobal_auditsyslogpolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -2895,7 +2895,7 @@ function Invoke-ADCAddSystemglobalauthenticationldappolicybinding {
         Invoke-ADCAddSystemglobalauthenticationldappolicybinding 
     .NOTES
         File Name : Invoke-ADCAddSystemglobalauthenticationldappolicybinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/system/systemglobal_authenticationldappolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -2968,7 +2968,7 @@ function Invoke-ADCDeleteSystemglobalauthenticationldappolicybinding {
         Invoke-ADCDeleteSystemglobalauthenticationldappolicybinding 
     .NOTES
         File Name : Invoke-ADCDeleteSystemglobalauthenticationldappolicybinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/system/systemglobal_authenticationldappolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -3037,7 +3037,7 @@ function Invoke-ADCGetSystemglobalauthenticationldappolicybinding {
         Invoke-ADCGetSystemglobalauthenticationldappolicybinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetSystemglobalauthenticationldappolicybinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/system/systemglobal_authenticationldappolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -3118,7 +3118,7 @@ function Invoke-ADCAddSystemglobalauthenticationlocalpolicybinding {
         Invoke-ADCAddSystemglobalauthenticationlocalpolicybinding 
     .NOTES
         File Name : Invoke-ADCAddSystemglobalauthenticationlocalpolicybinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/system/systemglobal_authenticationlocalpolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -3191,7 +3191,7 @@ function Invoke-ADCDeleteSystemglobalauthenticationlocalpolicybinding {
         Invoke-ADCDeleteSystemglobalauthenticationlocalpolicybinding 
     .NOTES
         File Name : Invoke-ADCDeleteSystemglobalauthenticationlocalpolicybinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/system/systemglobal_authenticationlocalpolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -3260,7 +3260,7 @@ function Invoke-ADCGetSystemglobalauthenticationlocalpolicybinding {
         Invoke-ADCGetSystemglobalauthenticationlocalpolicybinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetSystemglobalauthenticationlocalpolicybinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/system/systemglobal_authenticationlocalpolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -3341,7 +3341,7 @@ function Invoke-ADCAddSystemglobalauthenticationpolicybinding {
         Invoke-ADCAddSystemglobalauthenticationpolicybinding 
     .NOTES
         File Name : Invoke-ADCAddSystemglobalauthenticationpolicybinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/system/systemglobal_authenticationpolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -3414,7 +3414,7 @@ function Invoke-ADCDeleteSystemglobalauthenticationpolicybinding {
         Invoke-ADCDeleteSystemglobalauthenticationpolicybinding 
     .NOTES
         File Name : Invoke-ADCDeleteSystemglobalauthenticationpolicybinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/system/systemglobal_authenticationpolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -3483,7 +3483,7 @@ function Invoke-ADCGetSystemglobalauthenticationpolicybinding {
         Invoke-ADCGetSystemglobalauthenticationpolicybinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetSystemglobalauthenticationpolicybinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/system/systemglobal_authenticationpolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -3564,7 +3564,7 @@ function Invoke-ADCAddSystemglobalauthenticationradiuspolicybinding {
         Invoke-ADCAddSystemglobalauthenticationradiuspolicybinding 
     .NOTES
         File Name : Invoke-ADCAddSystemglobalauthenticationradiuspolicybinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/system/systemglobal_authenticationradiuspolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -3637,7 +3637,7 @@ function Invoke-ADCDeleteSystemglobalauthenticationradiuspolicybinding {
         Invoke-ADCDeleteSystemglobalauthenticationradiuspolicybinding 
     .NOTES
         File Name : Invoke-ADCDeleteSystemglobalauthenticationradiuspolicybinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/system/systemglobal_authenticationradiuspolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -3706,7 +3706,7 @@ function Invoke-ADCGetSystemglobalauthenticationradiuspolicybinding {
         Invoke-ADCGetSystemglobalauthenticationradiuspolicybinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetSystemglobalauthenticationradiuspolicybinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/system/systemglobal_authenticationradiuspolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -3787,7 +3787,7 @@ function Invoke-ADCAddSystemglobalauthenticationtacacspolicybinding {
         Invoke-ADCAddSystemglobalauthenticationtacacspolicybinding 
     .NOTES
         File Name : Invoke-ADCAddSystemglobalauthenticationtacacspolicybinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/system/systemglobal_authenticationtacacspolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -3860,7 +3860,7 @@ function Invoke-ADCDeleteSystemglobalauthenticationtacacspolicybinding {
         Invoke-ADCDeleteSystemglobalauthenticationtacacspolicybinding 
     .NOTES
         File Name : Invoke-ADCDeleteSystemglobalauthenticationtacacspolicybinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/system/systemglobal_authenticationtacacspolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -3929,7 +3929,7 @@ function Invoke-ADCGetSystemglobalauthenticationtacacspolicybinding {
         Invoke-ADCGetSystemglobalauthenticationtacacspolicybinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetSystemglobalauthenticationtacacspolicybinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/system/systemglobal_authenticationtacacspolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -4015,7 +4015,7 @@ function Invoke-ADCGetSystemglobalbinding {
         Invoke-ADCGetSystemglobalbinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetSystemglobalbinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/system/systemglobal_binding/
         Requires  : PowerShell v5.1 and up
@@ -4105,7 +4105,7 @@ function Invoke-ADCAddSystemgroup {
         Invoke-ADCAddSystemgroup -groupname <string>
     .NOTES
         File Name : Invoke-ADCAddSystemgroup
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/system/systemgroup/
         Requires  : PowerShell v5.1 and up
@@ -4185,7 +4185,7 @@ function Invoke-ADCDeleteSystemgroup {
         Invoke-ADCDeleteSystemgroup -groupname <string>
     .NOTES
         File Name : Invoke-ADCDeleteSystemgroup
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/system/systemgroup/
         Requires  : PowerShell v5.1 and up
@@ -4260,7 +4260,7 @@ function Invoke-ADCUpdateSystemgroup {
         Invoke-ADCUpdateSystemgroup -groupname <string>
     .NOTES
         File Name : Invoke-ADCUpdateSystemgroup
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/system/systemgroup/
         Requires  : PowerShell v5.1 and up
@@ -4353,7 +4353,7 @@ function Invoke-ADCUnsetSystemgroup {
         Invoke-ADCUnsetSystemgroup -groupname <string>
     .NOTES
         File Name : Invoke-ADCUnsetSystemgroup
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/system/systemgroup
         Requires  : PowerShell v5.1 and up
@@ -4437,7 +4437,7 @@ function Invoke-ADCGetSystemgroup {
         Invoke-ADCGetSystemgroup -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetSystemgroup
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/system/systemgroup/
         Requires  : PowerShell v5.1 and up
@@ -4533,7 +4533,7 @@ function Invoke-ADCGetSystemgroupbinding {
         Invoke-ADCGetSystemgroupbinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetSystemgroupbinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/system/systemgroup_binding/
         Requires  : PowerShell v5.1 and up
@@ -4613,7 +4613,7 @@ function Invoke-ADCAddSystemgroupnspartitionbinding {
         Invoke-ADCAddSystemgroupnspartitionbinding -groupname <string>
     .NOTES
         File Name : Invoke-ADCAddSystemgroupnspartitionbinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/system/systemgroup_nspartition_binding/
         Requires  : PowerShell v5.1 and up
@@ -4685,7 +4685,7 @@ function Invoke-ADCDeleteSystemgroupnspartitionbinding {
         Invoke-ADCDeleteSystemgroupnspartitionbinding -groupname <string>
     .NOTES
         File Name : Invoke-ADCDeleteSystemgroupnspartitionbinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/system/systemgroup_nspartition_binding/
         Requires  : PowerShell v5.1 and up
@@ -4759,7 +4759,7 @@ function Invoke-ADCGetSystemgroupnspartitionbinding {
         Invoke-ADCGetSystemgroupnspartitionbinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetSystemgroupnspartitionbinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/system/systemgroup_nspartition_binding/
         Requires  : PowerShell v5.1 and up
@@ -4843,7 +4843,7 @@ function Invoke-ADCAddSystemgroupsystemcmdpolicybinding {
         Invoke-ADCAddSystemgroupsystemcmdpolicybinding -groupname <string>
     .NOTES
         File Name : Invoke-ADCAddSystemgroupsystemcmdpolicybinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/system/systemgroup_systemcmdpolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -4916,7 +4916,7 @@ function Invoke-ADCDeleteSystemgroupsystemcmdpolicybinding {
         Invoke-ADCDeleteSystemgroupsystemcmdpolicybinding -groupname <string>
     .NOTES
         File Name : Invoke-ADCDeleteSystemgroupsystemcmdpolicybinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/system/systemgroup_systemcmdpolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -4990,7 +4990,7 @@ function Invoke-ADCGetSystemgroupsystemcmdpolicybinding {
         Invoke-ADCGetSystemgroupsystemcmdpolicybinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetSystemgroupsystemcmdpolicybinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/system/systemgroup_systemcmdpolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -5072,7 +5072,7 @@ function Invoke-ADCAddSystemgroupsystemuserbinding {
         Invoke-ADCAddSystemgroupsystemuserbinding -groupname <string>
     .NOTES
         File Name : Invoke-ADCAddSystemgroupsystemuserbinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/system/systemgroup_systemuser_binding/
         Requires  : PowerShell v5.1 and up
@@ -5142,7 +5142,7 @@ function Invoke-ADCDeleteSystemgroupsystemuserbinding {
         Invoke-ADCDeleteSystemgroupsystemuserbinding -groupname <string>
     .NOTES
         File Name : Invoke-ADCDeleteSystemgroupsystemuserbinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/system/systemgroup_systemuser_binding/
         Requires  : PowerShell v5.1 and up
@@ -5216,7 +5216,7 @@ function Invoke-ADCGetSystemgroupsystemuserbinding {
         Invoke-ADCGetSystemgroupsystemuserbinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetSystemgroupsystemuserbinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/system/systemgroup_systemuser_binding/
         Requires  : PowerShell v5.1 and up
@@ -5293,7 +5293,7 @@ function Invoke-ADCCheckSystemhwerror {
         Invoke-ADCCheckSystemhwerror -diskcheck <boolean>
     .NOTES
         File Name : Invoke-ADCCheckSystemhwerror
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/system/systemhwerror/
         Requires  : PowerShell v5.1 and up
@@ -5350,7 +5350,7 @@ function Invoke-ADCCreateSystemkek {
         Invoke-ADCCreateSystemkek -passphrase <string>
     .NOTES
         File Name : Invoke-ADCCreateSystemkek
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/system/systemkek/
         Requires  : PowerShell v5.1 and up
@@ -5408,7 +5408,7 @@ function Invoke-ADCExportSystemkek {
         Invoke-ADCExportSystemkek 
     .NOTES
         File Name : Invoke-ADCExportSystemkek
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/system/systemkek/
         Requires  : PowerShell v5.1 and up
@@ -5465,7 +5465,7 @@ function Invoke-ADCImportSystemkek {
         Invoke-ADCImportSystemkek 
     .NOTES
         File Name : Invoke-ADCImportSystemkek
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/system/systemkek/
         Requires  : PowerShell v5.1 and up
@@ -5607,7 +5607,7 @@ function Invoke-ADCUpdateSystemparameter {
         Invoke-ADCUpdateSystemparameter 
     .NOTES
         File Name : Invoke-ADCUpdateSystemparameter
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/system/systemparameter/
         Requires  : PowerShell v5.1 and up
@@ -5797,7 +5797,7 @@ function Invoke-ADCUnsetSystemparameter {
         Invoke-ADCUnsetSystemparameter 
     .NOTES
         File Name : Invoke-ADCUnsetSystemparameter
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/system/systemparameter
         Requires  : PowerShell v5.1 and up
@@ -5916,7 +5916,7 @@ function Invoke-ADCGetSystemparameter {
         Invoke-ADCGetSystemparameter -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetSystemparameter
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/system/systemparameter/
         Requires  : PowerShell v5.1 and up
@@ -5984,7 +5984,7 @@ function Invoke-ADCCreateSystemrestorepoint {
         Invoke-ADCCreateSystemrestorepoint -filename <string>
     .NOTES
         File Name : Invoke-ADCCreateSystemrestorepoint
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/system/systemrestorepoint/
         Requires  : PowerShell v5.1 and up
@@ -6044,7 +6044,7 @@ function Invoke-ADCDeleteSystemrestorepoint {
         Invoke-ADCDeleteSystemrestorepoint -filename <string>
     .NOTES
         File Name : Invoke-ADCDeleteSystemrestorepoint
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/system/systemrestorepoint/
         Requires  : PowerShell v5.1 and up
@@ -6116,7 +6116,7 @@ function Invoke-ADCGetSystemrestorepoint {
         Invoke-ADCGetSystemrestorepoint -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetSystemrestorepoint
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/system/systemrestorepoint/
         Requires  : PowerShell v5.1 and up
@@ -6198,7 +6198,7 @@ function Invoke-ADCKillSystemsession {
         Invoke-ADCKillSystemsession 
     .NOTES
         File Name : Invoke-ADCKillSystemsession
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/system/systemsession/
         Requires  : PowerShell v5.1 and up
@@ -6274,7 +6274,7 @@ function Invoke-ADCGetSystemsession {
         Invoke-ADCGetSystemsession -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetSystemsession
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/system/systemsession/
         Requires  : PowerShell v5.1 and up
@@ -6358,7 +6358,7 @@ function Invoke-ADCDeleteSystemsshkey {
         Invoke-ADCDeleteSystemsshkey -name <string>
     .NOTES
         File Name : Invoke-ADCDeleteSystemsshkey
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/system/systemsshkey/
         Requires  : PowerShell v5.1 and up
@@ -6422,7 +6422,7 @@ function Invoke-ADCImportSystemsshkey {
         Invoke-ADCImportSystemsshkey -name <string> -src <string> -sshkeytype <string>
     .NOTES
         File Name : Invoke-ADCImportSystemsshkey
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/system/systemsshkey/
         Requires  : PowerShell v5.1 and up
@@ -6506,7 +6506,7 @@ function Invoke-ADCGetSystemsshkey {
         Invoke-ADCGetSystemsshkey -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetSystemsshkey
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/system/systemsshkey/
         Requires  : PowerShell v5.1 and up
@@ -6615,7 +6615,7 @@ function Invoke-ADCAddSystemuser {
         Invoke-ADCAddSystemuser -username <string> -password <string>
     .NOTES
         File Name : Invoke-ADCAddSystemuser
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/system/systemuser/
         Requires  : PowerShell v5.1 and up
@@ -6712,7 +6712,7 @@ function Invoke-ADCDeleteSystemuser {
         Invoke-ADCDeleteSystemuser -username <string>
     .NOTES
         File Name : Invoke-ADCDeleteSystemuser
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/system/systemuser/
         Requires  : PowerShell v5.1 and up
@@ -6803,7 +6803,7 @@ function Invoke-ADCUpdateSystemuser {
         Invoke-ADCUpdateSystemuser -username <string>
     .NOTES
         File Name : Invoke-ADCUpdateSystemuser
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/system/systemuser/
         Requires  : PowerShell v5.1 and up
@@ -6920,7 +6920,7 @@ function Invoke-ADCUnsetSystemuser {
         Invoke-ADCUnsetSystemuser -username <string>
     .NOTES
         File Name : Invoke-ADCUnsetSystemuser
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/system/systemuser
         Requires  : PowerShell v5.1 and up
@@ -7013,7 +7013,7 @@ function Invoke-ADCGetSystemuser {
         Invoke-ADCGetSystemuser -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetSystemuser
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/system/systemuser/
         Requires  : PowerShell v5.1 and up
@@ -7109,7 +7109,7 @@ function Invoke-ADCGetSystemuserbinding {
         Invoke-ADCGetSystemuserbinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetSystemuserbinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/system/systemuser_binding/
         Requires  : PowerShell v5.1 and up
@@ -7188,7 +7188,7 @@ function Invoke-ADCAddSystemusernspartitionbinding {
         Invoke-ADCAddSystemusernspartitionbinding -username <string>
     .NOTES
         File Name : Invoke-ADCAddSystemusernspartitionbinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/system/systemuser_nspartition_binding/
         Requires  : PowerShell v5.1 and up
@@ -7258,7 +7258,7 @@ function Invoke-ADCDeleteSystemusernspartitionbinding {
         Invoke-ADCDeleteSystemusernspartitionbinding -username <string>
     .NOTES
         File Name : Invoke-ADCDeleteSystemusernspartitionbinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/system/systemuser_nspartition_binding/
         Requires  : PowerShell v5.1 and up
@@ -7332,7 +7332,7 @@ function Invoke-ADCGetSystemusernspartitionbinding {
         Invoke-ADCGetSystemusernspartitionbinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetSystemusernspartitionbinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/system/systemuser_nspartition_binding/
         Requires  : PowerShell v5.1 and up
@@ -7416,7 +7416,7 @@ function Invoke-ADCAddSystemusersystemcmdpolicybinding {
         Invoke-ADCAddSystemusersystemcmdpolicybinding -username <string>
     .NOTES
         File Name : Invoke-ADCAddSystemusersystemcmdpolicybinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/system/systemuser_systemcmdpolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -7489,7 +7489,7 @@ function Invoke-ADCDeleteSystemusersystemcmdpolicybinding {
         Invoke-ADCDeleteSystemusersystemcmdpolicybinding -username <string>
     .NOTES
         File Name : Invoke-ADCDeleteSystemusersystemcmdpolicybinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/system/systemuser_systemcmdpolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -7563,7 +7563,7 @@ function Invoke-ADCGetSystemusersystemcmdpolicybinding {
         Invoke-ADCGetSystemusersystemcmdpolicybinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetSystemusersystemcmdpolicybinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/system/systemuser_systemcmdpolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -7657,7 +7657,7 @@ function Invoke-ADCGetSystemusersystemgroupbinding {
         Invoke-ADCGetSystemusersystemgroupbinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetSystemusersystemgroupbinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/system/systemuser_systemgroup_binding/
         Requires  : PowerShell v5.1 and up

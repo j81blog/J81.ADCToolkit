@@ -35,7 +35,7 @@ function Invoke-ADCAddFilteraction {
         Invoke-ADCAddFilteraction -name <string> -qual <string>
     .NOTES
         File Name : Invoke-ADCAddFilteraction
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/filter/filteraction/
         Requires  : PowerShell v5.1 and up
@@ -122,7 +122,7 @@ function Invoke-ADCDeleteFilteraction {
         Invoke-ADCDeleteFilteraction -name <string>
     .NOTES
         File Name : Invoke-ADCDeleteFilteraction
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/filter/filteraction/
         Requires  : PowerShell v5.1 and up
@@ -193,7 +193,7 @@ function Invoke-ADCUpdateFilteraction {
         Invoke-ADCUpdateFilteraction -name <string>
     .NOTES
         File Name : Invoke-ADCUpdateFilteraction
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/filter/filteraction/
         Requires  : PowerShell v5.1 and up
@@ -276,7 +276,7 @@ function Invoke-ADCUnsetFilteraction {
         Invoke-ADCUnsetFilteraction -name <string>
     .NOTES
         File Name : Invoke-ADCUnsetFilteraction
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/filter/filteraction
         Requires  : PowerShell v5.1 and up
@@ -353,7 +353,7 @@ function Invoke-ADCGetFilteraction {
         Invoke-ADCGetFilteraction -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetFilteraction
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/filter/filteraction/
         Requires  : PowerShell v5.1 and up
@@ -446,7 +446,7 @@ function Invoke-ADCGetFilterglobalbinding {
         Invoke-ADCGetFilterglobalbinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetFilterglobalbinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/filter/filterglobal_binding/
         Requires  : PowerShell v5.1 and up
@@ -523,7 +523,7 @@ function Invoke-ADCAddFilterglobalfilterpolicybinding {
         Invoke-ADCAddFilterglobalfilterpolicybinding -policyname <string>
     .NOTES
         File Name : Invoke-ADCAddFilterglobalfilterpolicybinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/filter/filterglobal_filterpolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -594,7 +594,7 @@ function Invoke-ADCDeleteFilterglobalfilterpolicybinding {
         Invoke-ADCDeleteFilterglobalfilterpolicybinding 
     .NOTES
         File Name : Invoke-ADCDeleteFilterglobalfilterpolicybinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/filter/filterglobal_filterpolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -663,7 +663,7 @@ function Invoke-ADCGetFilterglobalfilterpolicybinding {
         Invoke-ADCGetFilterglobalfilterpolicybinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetFilterglobalfilterpolicybinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/filter/filterglobal_filterpolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -750,7 +750,7 @@ function Invoke-ADCUpdateFilterhtmlinjectionparameter {
         Invoke-ADCUpdateFilterhtmlinjectionparameter 
     .NOTES
         File Name : Invoke-ADCUpdateFilterhtmlinjectionparameter
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/filter/filterhtmlinjectionparameter/
         Requires  : PowerShell v5.1 and up
@@ -825,7 +825,7 @@ function Invoke-ADCUnsetFilterhtmlinjectionparameter {
         Invoke-ADCUnsetFilterhtmlinjectionparameter 
     .NOTES
         File Name : Invoke-ADCUnsetFilterhtmlinjectionparameter
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/filter/filterhtmlinjectionparameter
         Requires  : PowerShell v5.1 and up
@@ -902,7 +902,7 @@ function Invoke-ADCGetFilterhtmlinjectionparameter {
         Invoke-ADCGetFilterhtmlinjectionparameter -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetFilterhtmlinjectionparameter
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/filter/filterhtmlinjectionparameter/
         Requires  : PowerShell v5.1 and up
@@ -978,7 +978,7 @@ function Invoke-ADCAddFilterhtmlinjectionvariable {
         Invoke-ADCAddFilterhtmlinjectionvariable -variable <string>
     .NOTES
         File Name : Invoke-ADCAddFilterhtmlinjectionvariable
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/filter/filterhtmlinjectionvariable/
         Requires  : PowerShell v5.1 and up
@@ -1049,7 +1049,7 @@ function Invoke-ADCDeleteFilterhtmlinjectionvariable {
         Invoke-ADCDeleteFilterhtmlinjectionvariable -variable <string>
     .NOTES
         File Name : Invoke-ADCDeleteFilterhtmlinjectionvariable
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/filter/filterhtmlinjectionvariable/
         Requires  : PowerShell v5.1 and up
@@ -1112,7 +1112,7 @@ function Invoke-ADCUpdateFilterhtmlinjectionvariable {
         Invoke-ADCUpdateFilterhtmlinjectionvariable -variable <string>
     .NOTES
         File Name : Invoke-ADCUpdateFilterhtmlinjectionvariable
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/filter/filterhtmlinjectionvariable/
         Requires  : PowerShell v5.1 and up
@@ -1183,7 +1183,7 @@ function Invoke-ADCUnsetFilterhtmlinjectionvariable {
         Invoke-ADCUnsetFilterhtmlinjectionvariable -variable <string>
     .NOTES
         File Name : Invoke-ADCUnsetFilterhtmlinjectionvariable
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/filter/filterhtmlinjectionvariable
         Requires  : PowerShell v5.1 and up
@@ -1259,7 +1259,7 @@ function Invoke-ADCGetFilterhtmlinjectionvariable {
         Invoke-ADCGetFilterhtmlinjectionvariable -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetFilterhtmlinjectionvariable
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/filter/filterhtmlinjectionvariable/
         Requires  : PowerShell v5.1 and up
@@ -1352,7 +1352,7 @@ function Invoke-ADCAddFilterpolicy {
         Invoke-ADCAddFilterpolicy -name <string> -rule <string>
     .NOTES
         File Name : Invoke-ADCAddFilterpolicy
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/filter/filterpolicy/
         Requires  : PowerShell v5.1 and up
@@ -1432,7 +1432,7 @@ function Invoke-ADCDeleteFilterpolicy {
         Invoke-ADCDeleteFilterpolicy -name <string>
     .NOTES
         File Name : Invoke-ADCDeleteFilterpolicy
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/filter/filterpolicy/
         Requires  : PowerShell v5.1 and up
@@ -1500,7 +1500,7 @@ function Invoke-ADCUpdateFilterpolicy {
         Invoke-ADCUpdateFilterpolicy -name <string>
     .NOTES
         File Name : Invoke-ADCUpdateFilterpolicy
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/filter/filterpolicy/
         Requires  : PowerShell v5.1 and up
@@ -1595,7 +1595,7 @@ function Invoke-ADCGetFilterpolicy {
         Invoke-ADCGetFilterpolicy -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetFilterpolicy
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/filter/filterpolicy/
         Requires  : PowerShell v5.1 and up
@@ -1690,7 +1690,7 @@ function Invoke-ADCGetFilterpolicybinding {
         Invoke-ADCGetFilterpolicybinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetFilterpolicybinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/filter/filterpolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -1781,7 +1781,7 @@ function Invoke-ADCGetFilterpolicycrvserverbinding {
         Invoke-ADCGetFilterpolicycrvserverbinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetFilterpolicycrvserverbinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/filter/filterpolicy_crvserver_binding/
         Requires  : PowerShell v5.1 and up
@@ -1875,7 +1875,7 @@ function Invoke-ADCGetFilterpolicycsvserverbinding {
         Invoke-ADCGetFilterpolicycsvserverbinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetFilterpolicycsvserverbinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/filter/filterpolicy_csvserver_binding/
         Requires  : PowerShell v5.1 and up
@@ -1969,7 +1969,7 @@ function Invoke-ADCGetFilterpolicyfilterglobalbinding {
         Invoke-ADCGetFilterpolicyfilterglobalbinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetFilterpolicyfilterglobalbinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/filter/filterpolicy_filterglobal_binding/
         Requires  : PowerShell v5.1 and up
@@ -2063,7 +2063,7 @@ function Invoke-ADCGetFilterpolicylbvserverbinding {
         Invoke-ADCGetFilterpolicylbvserverbinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetFilterpolicylbvserverbinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/filter/filterpolicy_lbvserver_binding/
         Requires  : PowerShell v5.1 and up
@@ -2141,7 +2141,7 @@ function Invoke-ADCUpdateFilterpostbodyinjection {
         Invoke-ADCUpdateFilterpostbodyinjection -postbody <string>
     .NOTES
         File Name : Invoke-ADCUpdateFilterpostbodyinjection
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/filter/filterpostbodyinjection/
         Requires  : PowerShell v5.1 and up
@@ -2201,7 +2201,7 @@ function Invoke-ADCUnsetFilterpostbodyinjection {
         Invoke-ADCUnsetFilterpostbodyinjection 
     .NOTES
         File Name : Invoke-ADCUnsetFilterpostbodyinjection
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/filter/filterpostbodyinjection
         Requires  : PowerShell v5.1 and up
@@ -2269,7 +2269,7 @@ function Invoke-ADCGetFilterpostbodyinjection {
         Invoke-ADCGetFilterpostbodyinjection -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetFilterpostbodyinjection
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/filter/filterpostbodyinjection/
         Requires  : PowerShell v5.1 and up
@@ -2338,7 +2338,7 @@ function Invoke-ADCUpdateFilterprebodyinjection {
         Invoke-ADCUpdateFilterprebodyinjection -prebody <string>
     .NOTES
         File Name : Invoke-ADCUpdateFilterprebodyinjection
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/filter/filterprebodyinjection/
         Requires  : PowerShell v5.1 and up
@@ -2398,7 +2398,7 @@ function Invoke-ADCUnsetFilterprebodyinjection {
         Invoke-ADCUnsetFilterprebodyinjection 
     .NOTES
         File Name : Invoke-ADCUnsetFilterprebodyinjection
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/filter/filterprebodyinjection
         Requires  : PowerShell v5.1 and up
@@ -2466,7 +2466,7 @@ function Invoke-ADCGetFilterprebodyinjection {
         Invoke-ADCGetFilterprebodyinjection -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetFilterprebodyinjection
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/filter/filterprebodyinjection/
         Requires  : PowerShell v5.1 and up

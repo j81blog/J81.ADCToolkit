@@ -63,7 +63,7 @@ function Invoke-ADCAddRewriteaction {
         Invoke-ADCAddRewriteaction -name <string> -type <string> -target <string>
     .NOTES
         File Name : Invoke-ADCAddRewriteaction
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/rewrite/rewriteaction/
         Requires  : PowerShell v5.1 and up
@@ -156,7 +156,7 @@ function Invoke-ADCDeleteRewriteaction {
         Invoke-ADCDeleteRewriteaction -name <string>
     .NOTES
         File Name : Invoke-ADCDeleteRewriteaction
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/rewrite/rewriteaction/
         Requires  : PowerShell v5.1 and up
@@ -245,7 +245,7 @@ function Invoke-ADCUpdateRewriteaction {
         Invoke-ADCUpdateRewriteaction -name <string>
     .NOTES
         File Name : Invoke-ADCUpdateRewriteaction
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/rewrite/rewriteaction/
         Requires  : PowerShell v5.1 and up
@@ -341,7 +341,7 @@ function Invoke-ADCUnsetRewriteaction {
         Invoke-ADCUnsetRewriteaction -name <string>
     .NOTES
         File Name : Invoke-ADCUnsetRewriteaction
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/rewrite/rewriteaction
         Requires  : PowerShell v5.1 and up
@@ -410,7 +410,7 @@ function Invoke-ADCRenameRewriteaction {
         Invoke-ADCRenameRewriteaction -name <string> -newname <string>
     .NOTES
         File Name : Invoke-ADCRenameRewriteaction
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/rewrite/rewriteaction/
         Requires  : PowerShell v5.1 and up
@@ -497,7 +497,7 @@ function Invoke-ADCGetRewriteaction {
         Invoke-ADCGetRewriteaction -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetRewriteaction
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/rewrite/rewriteaction/
         Requires  : PowerShell v5.1 and up
@@ -589,7 +589,7 @@ function Invoke-ADCGetRewriteglobalbinding {
         Invoke-ADCGetRewriteglobalbinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetRewriteglobalbinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/rewrite/rewriteglobal_binding/
         Requires  : PowerShell v5.1 and up
@@ -675,7 +675,7 @@ function Invoke-ADCAddRewriteglobalrewritepolicybinding {
         Invoke-ADCAddRewriteglobalrewritepolicybinding -policyname <string> -priority <double>
     .NOTES
         File Name : Invoke-ADCAddRewriteglobalrewritepolicybinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/rewrite/rewriteglobal_rewritepolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -763,7 +763,7 @@ function Invoke-ADCDeleteRewriteglobalrewritepolicybinding {
         Invoke-ADCDeleteRewriteglobalrewritepolicybinding 
     .NOTES
         File Name : Invoke-ADCDeleteRewriteglobalrewritepolicybinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/rewrite/rewriteglobal_rewritepolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -838,7 +838,7 @@ function Invoke-ADCGetRewriteglobalrewritepolicybinding {
         Invoke-ADCGetRewriteglobalrewritepolicybinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetRewriteglobalrewritepolicybinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/rewrite/rewriteglobal_rewritepolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -921,7 +921,7 @@ function Invoke-ADCUpdateRewriteparam {
         Invoke-ADCUpdateRewriteparam 
     .NOTES
         File Name : Invoke-ADCUpdateRewriteparam
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/rewrite/rewriteparam/
         Requires  : PowerShell v5.1 and up
@@ -989,7 +989,7 @@ function Invoke-ADCUnsetRewriteparam {
         Invoke-ADCUnsetRewriteparam 
     .NOTES
         File Name : Invoke-ADCUnsetRewriteparam
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/rewrite/rewriteparam
         Requires  : PowerShell v5.1 and up
@@ -1060,7 +1060,7 @@ function Invoke-ADCGetRewriteparam {
         Invoke-ADCGetRewriteparam -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetRewriteparam
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/rewrite/rewriteparam/
         Requires  : PowerShell v5.1 and up
@@ -1148,7 +1148,7 @@ function Invoke-ADCAddRewritepolicy {
         Invoke-ADCAddRewritepolicy -name <string> -rule <string> -action <string>
     .NOTES
         File Name : Invoke-ADCAddRewritepolicy
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/rewrite/rewritepolicy/
         Requires  : PowerShell v5.1 and up
@@ -1229,7 +1229,7 @@ function Invoke-ADCDeleteRewritepolicy {
         Invoke-ADCDeleteRewritepolicy -name <string>
     .NOTES
         File Name : Invoke-ADCDeleteRewritepolicy
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/rewrite/rewritepolicy/
         Requires  : PowerShell v5.1 and up
@@ -1304,7 +1304,7 @@ function Invoke-ADCUpdateRewritepolicy {
         Invoke-ADCUpdateRewritepolicy -name <string>
     .NOTES
         File Name : Invoke-ADCUpdateRewritepolicy
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/rewrite/rewritepolicy/
         Requires  : PowerShell v5.1 and up
@@ -1389,7 +1389,7 @@ function Invoke-ADCUnsetRewritepolicy {
         Invoke-ADCUnsetRewritepolicy -name <string>
     .NOTES
         File Name : Invoke-ADCUnsetRewritepolicy
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/rewrite/rewritepolicy
         Requires  : PowerShell v5.1 and up
@@ -1458,7 +1458,7 @@ function Invoke-ADCRenameRewritepolicy {
         Invoke-ADCRenameRewritepolicy -name <string> -newname <string>
     .NOTES
         File Name : Invoke-ADCRenameRewritepolicy
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/rewrite/rewritepolicy/
         Requires  : PowerShell v5.1 and up
@@ -1545,7 +1545,7 @@ function Invoke-ADCGetRewritepolicy {
         Invoke-ADCGetRewritepolicy -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetRewritepolicy
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/rewrite/rewritepolicy/
         Requires  : PowerShell v5.1 and up
@@ -1647,7 +1647,7 @@ function Invoke-ADCAddRewritepolicylabel {
         Invoke-ADCAddRewritepolicylabel -labelname <string> -transform <string>
     .NOTES
         File Name : Invoke-ADCAddRewritepolicylabel
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/rewrite/rewritepolicylabel/
         Requires  : PowerShell v5.1 and up
@@ -1719,7 +1719,7 @@ function Invoke-ADCDeleteRewritepolicylabel {
         Invoke-ADCDeleteRewritepolicylabel -labelname <string>
     .NOTES
         File Name : Invoke-ADCDeleteRewritepolicylabel
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/rewrite/rewritepolicylabel/
         Requires  : PowerShell v5.1 and up
@@ -1779,7 +1779,7 @@ function Invoke-ADCRenameRewritepolicylabel {
         Invoke-ADCRenameRewritepolicylabel -labelname <string> -newname <string>
     .NOTES
         File Name : Invoke-ADCRenameRewritepolicylabel
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/rewrite/rewritepolicylabel/
         Requires  : PowerShell v5.1 and up
@@ -1866,7 +1866,7 @@ function Invoke-ADCGetRewritepolicylabel {
         Invoke-ADCGetRewritepolicylabel -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetRewritepolicylabel
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/rewrite/rewritepolicylabel/
         Requires  : PowerShell v5.1 and up
@@ -1960,7 +1960,7 @@ function Invoke-ADCGetRewritepolicylabelbinding {
         Invoke-ADCGetRewritepolicylabelbinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetRewritepolicylabelbinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/rewrite/rewritepolicylabel_binding/
         Requires  : PowerShell v5.1 and up
@@ -2050,7 +2050,7 @@ function Invoke-ADCGetRewritepolicylabelpolicybindingbinding {
         Invoke-ADCGetRewritepolicylabelpolicybindingbinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetRewritepolicylabelpolicybindingbinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/rewrite/rewritepolicylabel_policybinding_binding/
         Requires  : PowerShell v5.1 and up
@@ -2141,7 +2141,7 @@ function Invoke-ADCAddRewritepolicylabelrewritepolicybinding {
         Invoke-ADCAddRewritepolicylabelrewritepolicybinding -labelname <string> -policyname <string> -priority <double>
     .NOTES
         File Name : Invoke-ADCAddRewritepolicylabelrewritepolicybinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/rewrite/rewritepolicylabel_rewritepolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -2228,7 +2228,7 @@ function Invoke-ADCDeleteRewritepolicylabelrewritepolicybinding {
         Invoke-ADCDeleteRewritepolicylabelrewritepolicybinding -labelname <string>
     .NOTES
         File Name : Invoke-ADCDeleteRewritepolicylabelrewritepolicybinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/rewrite/rewritepolicylabel_rewritepolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -2305,7 +2305,7 @@ function Invoke-ADCGetRewritepolicylabelrewritepolicybinding {
         Invoke-ADCGetRewritepolicylabelrewritepolicybinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetRewritepolicylabelrewritepolicybinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/rewrite/rewritepolicylabel_rewritepolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -2396,7 +2396,7 @@ function Invoke-ADCGetRewritepolicybinding {
         Invoke-ADCGetRewritepolicybinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetRewritepolicybinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/rewrite/rewritepolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -2486,7 +2486,7 @@ function Invoke-ADCGetRewritepolicycsvserverbinding {
         Invoke-ADCGetRewritepolicycsvserverbinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetRewritepolicycsvserverbinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/rewrite/rewritepolicy_csvserver_binding/
         Requires  : PowerShell v5.1 and up
@@ -2579,7 +2579,7 @@ function Invoke-ADCGetRewritepolicylbvserverbinding {
         Invoke-ADCGetRewritepolicylbvserverbinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetRewritepolicylbvserverbinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/rewrite/rewritepolicy_lbvserver_binding/
         Requires  : PowerShell v5.1 and up
@@ -2672,7 +2672,7 @@ function Invoke-ADCGetRewritepolicyrewriteglobalbinding {
         Invoke-ADCGetRewritepolicyrewriteglobalbinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetRewritepolicyrewriteglobalbinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/rewrite/rewritepolicy_rewriteglobal_binding/
         Requires  : PowerShell v5.1 and up
@@ -2765,7 +2765,7 @@ function Invoke-ADCGetRewritepolicyrewritepolicylabelbinding {
         Invoke-ADCGetRewritepolicyrewritepolicylabelbinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetRewritepolicyrewritepolicylabelbinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/rewrite/rewritepolicy_rewritepolicylabel_binding/
         Requires  : PowerShell v5.1 and up
@@ -2858,7 +2858,7 @@ function Invoke-ADCGetRewritepolicyvpnvserverbinding {
         Invoke-ADCGetRewritepolicyvpnvserverbinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetRewritepolicyvpnvserverbinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/rewrite/rewritepolicy_vpnvserver_binding/
         Requires  : PowerShell v5.1 and up

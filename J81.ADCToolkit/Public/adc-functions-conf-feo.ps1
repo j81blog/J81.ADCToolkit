@@ -60,7 +60,7 @@ function Invoke-ADCAddFeoaction {
         Invoke-ADCAddFeoaction -name <string>
     .NOTES
         File Name : Invoke-ADCAddFeoaction
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/feo/feoaction/
         Requires  : PowerShell v5.1 and up
@@ -242,7 +242,7 @@ function Invoke-ADCUpdateFeoaction {
         Invoke-ADCUpdateFeoaction -name <string>
     .NOTES
         File Name : Invoke-ADCUpdateFeoaction
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/feo/feoaction/
         Requires  : PowerShell v5.1 and up
@@ -414,7 +414,7 @@ function Invoke-ADCUnsetFeoaction {
         Invoke-ADCUnsetFeoaction -name <string>
     .NOTES
         File Name : Invoke-ADCUnsetFeoaction
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/feo/feoaction
         Requires  : PowerShell v5.1 and up
@@ -531,7 +531,7 @@ function Invoke-ADCDeleteFeoaction {
         Invoke-ADCDeleteFeoaction -name <string>
     .NOTES
         File Name : Invoke-ADCDeleteFeoaction
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/feo/feoaction/
         Requires  : PowerShell v5.1 and up
@@ -603,7 +603,7 @@ function Invoke-ADCGetFeoaction {
         Invoke-ADCGetFeoaction -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetFeoaction
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/feo/feoaction/
         Requires  : PowerShell v5.1 and up
@@ -696,7 +696,7 @@ function Invoke-ADCGetFeoglobalbinding {
         Invoke-ADCGetFeoglobalbinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetFeoglobalbinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/feo/feoglobal_binding/
         Requires  : PowerShell v5.1 and up
@@ -775,7 +775,7 @@ function Invoke-ADCAddFeoglobalfeopolicybinding {
         Invoke-ADCAddFeoglobalfeopolicybinding -policyname <string> -priority <double>
     .NOTES
         File Name : Invoke-ADCAddFeoglobalfeopolicybinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/feo/feoglobal_feopolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -853,7 +853,7 @@ function Invoke-ADCDeleteFeoglobalfeopolicybinding {
         Invoke-ADCDeleteFeoglobalfeopolicybinding 
     .NOTES
         File Name : Invoke-ADCDeleteFeoglobalfeopolicybinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/feo/feoglobal_feopolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -928,7 +928,7 @@ function Invoke-ADCGetFeoglobalfeopolicybinding {
         Invoke-ADCGetFeoglobalfeopolicybinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetFeoglobalfeopolicybinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/feo/feoglobal_feopolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -1019,7 +1019,7 @@ function Invoke-ADCUpdateFeoparameter {
         Invoke-ADCUpdateFeoparameter 
     .NOTES
         File Name : Invoke-ADCUpdateFeoparameter
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/feo/feoparameter/
         Requires  : PowerShell v5.1 and up
@@ -1096,7 +1096,7 @@ function Invoke-ADCUnsetFeoparameter {
         Invoke-ADCUnsetFeoparameter 
     .NOTES
         File Name : Invoke-ADCUnsetFeoparameter
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/feo/feoparameter
         Requires  : PowerShell v5.1 and up
@@ -1173,7 +1173,7 @@ function Invoke-ADCGetFeoparameter {
         Invoke-ADCGetFeoparameter -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetFeoparameter
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/feo/feoparameter/
         Requires  : PowerShell v5.1 and up
@@ -1249,7 +1249,7 @@ function Invoke-ADCAddFeopolicy {
         Invoke-ADCAddFeopolicy -name <string> -rule <string> -action <string>
     .NOTES
         File Name : Invoke-ADCAddFeopolicy
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/feo/feopolicy/
         Requires  : PowerShell v5.1 and up
@@ -1325,7 +1325,7 @@ function Invoke-ADCDeleteFeopolicy {
         Invoke-ADCDeleteFeopolicy -name <string>
     .NOTES
         File Name : Invoke-ADCDeleteFeopolicy
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/feo/feopolicy/
         Requires  : PowerShell v5.1 and up
@@ -1388,7 +1388,7 @@ function Invoke-ADCUpdateFeopolicy {
         Invoke-ADCUpdateFeopolicy -name <string>
     .NOTES
         File Name : Invoke-ADCUpdateFeopolicy
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/feo/feopolicy/
         Requires  : PowerShell v5.1 and up
@@ -1464,7 +1464,7 @@ function Invoke-ADCUnsetFeopolicy {
         Invoke-ADCUnsetFeopolicy -name <string>
     .NOTES
         File Name : Invoke-ADCUnsetFeopolicy
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/feo/feopolicy
         Requires  : PowerShell v5.1 and up
@@ -1543,7 +1543,7 @@ function Invoke-ADCGetFeopolicy {
         Invoke-ADCGetFeopolicy -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetFeopolicy
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/feo/feopolicy/
         Requires  : PowerShell v5.1 and up
@@ -1638,7 +1638,7 @@ function Invoke-ADCGetFeopolicybinding {
         Invoke-ADCGetFeopolicybinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetFeopolicybinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/feo/feopolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -1729,7 +1729,7 @@ function Invoke-ADCGetFeopolicycsvserverbinding {
         Invoke-ADCGetFeopolicycsvserverbinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetFeopolicycsvserverbinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/feo/feopolicy_csvserver_binding/
         Requires  : PowerShell v5.1 and up
@@ -1823,7 +1823,7 @@ function Invoke-ADCGetFeopolicyfeoglobalbinding {
         Invoke-ADCGetFeopolicyfeoglobalbinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetFeopolicyfeoglobalbinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/feo/feopolicy_feoglobal_binding/
         Requires  : PowerShell v5.1 and up
@@ -1917,7 +1917,7 @@ function Invoke-ADCGetFeopolicylbvserverbinding {
         Invoke-ADCGetFeopolicylbvserverbinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetFeopolicylbvserverbinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/feo/feopolicy_lbvserver_binding/
         Requires  : PowerShell v5.1 and up

@@ -25,7 +25,7 @@ function Invoke-ADCGetUrlfilteringcategories {
         Invoke-ADCGetUrlfilteringcategories -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetUrlfilteringcategories
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/urlfiltering/urlfilteringcategories/
         Requires  : PowerShell v5.1 and up
@@ -99,7 +99,7 @@ function Invoke-ADCAddUrlfilteringcategorization {
         Invoke-ADCAddUrlfilteringcategorization 
     .NOTES
         File Name : Invoke-ADCAddUrlfilteringcategorization
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/urlfiltering/urlfilteringcategorization/
         Requires  : PowerShell v5.1 and up
@@ -156,7 +156,7 @@ function Invoke-ADCClearUrlfilteringcategorization {
         Invoke-ADCClearUrlfilteringcategorization 
     .NOTES
         File Name : Invoke-ADCClearUrlfilteringcategorization
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/urlfiltering/urlfilteringcategorization/
         Requires  : PowerShell v5.1 and up
@@ -223,7 +223,7 @@ function Invoke-ADCGetUrlfilteringcategorization {
         Invoke-ADCGetUrlfilteringcategorization -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetUrlfilteringcategorization
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/urlfiltering/urlfilteringcategorization/
         Requires  : PowerShell v5.1 and up
@@ -304,7 +304,7 @@ function Invoke-ADCGetUrlfilteringcategorygroups {
         Invoke-ADCGetUrlfilteringcategorygroups -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetUrlfilteringcategorygroups
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/urlfiltering/urlfilteringcategorygroups/
         Requires  : PowerShell v5.1 and up
@@ -384,7 +384,7 @@ function Invoke-ADCUpdateUrlfilteringparameter {
         Invoke-ADCUpdateUrlfilteringparameter 
     .NOTES
         File Name : Invoke-ADCUpdateUrlfilteringparameter
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/urlfiltering/urlfilteringparameter/
         Requires  : PowerShell v5.1 and up
@@ -464,7 +464,7 @@ function Invoke-ADCUnsetUrlfilteringparameter {
         Invoke-ADCUnsetUrlfilteringparameter 
     .NOTES
         File Name : Invoke-ADCUnsetUrlfilteringparameter
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/urlfiltering/urlfilteringparameter
         Requires  : PowerShell v5.1 and up
@@ -544,7 +544,7 @@ function Invoke-ADCGetUrlfilteringparameter {
         Invoke-ADCGetUrlfilteringparameter -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetUrlfilteringparameter
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/urlfiltering/urlfilteringparameter/
         Requires  : PowerShell v5.1 and up

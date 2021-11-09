@@ -26,7 +26,7 @@ function Invoke-ADCGetProtocolhttpStats {
         Invoke-ADCGetProtocolhttpStats -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetProtocolhttpStats
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/statistics/protocol/protocolhttp/
         Requires  : PowerShell v5.1 and up
@@ -119,7 +119,7 @@ function Invoke-ADCGetProtocolhttp2Stats {
         Invoke-ADCGetProtocolhttp2Stats -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetProtocolhttp2Stats
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/statistics/protocol/protocolhttp2/
         Requires  : PowerShell v5.1 and up
@@ -212,7 +212,7 @@ function Invoke-ADCGetProtocolicmpStats {
         Invoke-ADCGetProtocolicmpStats -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetProtocolicmpStats
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/statistics/protocol/protocolicmp/
         Requires  : PowerShell v5.1 and up
@@ -305,7 +305,7 @@ function Invoke-ADCGetProtocolicmpv6Stats {
         Invoke-ADCGetProtocolicmpv6Stats -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetProtocolicmpv6Stats
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/statistics/protocol/protocolicmpv6/
         Requires  : PowerShell v5.1 and up
@@ -398,7 +398,7 @@ function Invoke-ADCGetProtocolipStats {
         Invoke-ADCGetProtocolipStats -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetProtocolipStats
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/statistics/protocol/protocolip/
         Requires  : PowerShell v5.1 and up
@@ -491,7 +491,7 @@ function Invoke-ADCGetProtocolipv6Stats {
         Invoke-ADCGetProtocolipv6Stats -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetProtocolipv6Stats
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/statistics/protocol/protocolipv6/
         Requires  : PowerShell v5.1 and up
@@ -584,7 +584,7 @@ function Invoke-ADCGetProtocolmptcpStats {
         Invoke-ADCGetProtocolmptcpStats -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetProtocolmptcpStats
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/statistics/protocol/protocolmptcp/
         Requires  : PowerShell v5.1 and up
@@ -677,7 +677,7 @@ function Invoke-ADCGetProtocoltcpStats {
         Invoke-ADCGetProtocoltcpStats -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetProtocoltcpStats
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/statistics/protocol/protocoltcp/
         Requires  : PowerShell v5.1 and up
@@ -770,7 +770,7 @@ function Invoke-ADCGetProtocoludpStats {
         Invoke-ADCGetProtocoludpStats -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetProtocoludpStats
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/statistics/protocol/protocoludp/
         Requires  : PowerShell v5.1 and up

@@ -25,7 +25,7 @@ function Invoke-ADCGetRewritepolicyStats {
         Invoke-ADCGetRewritepolicyStats -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetRewritepolicyStats
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/statistics/rewrite/rewritepolicy/
         Requires  : PowerShell v5.1 and up
@@ -112,7 +112,7 @@ function Invoke-ADCGetRewritepolicylabelStats {
         Invoke-ADCGetRewritepolicylabelStats -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetRewritepolicylabelStats
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/statistics/rewrite/rewritepolicylabel/
         Requires  : PowerShell v5.1 and up

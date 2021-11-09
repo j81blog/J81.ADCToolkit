@@ -21,7 +21,7 @@ function Invoke-ADCAddPolicydataset {
         Invoke-ADCAddPolicydataset -name <string> -type <string>
     .NOTES
         File Name : Invoke-ADCAddPolicydataset
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/policy/policydataset/
         Requires  : PowerShell v5.1 and up
@@ -99,7 +99,7 @@ function Invoke-ADCDeletePolicydataset {
         Invoke-ADCDeletePolicydataset -name <string>
     .NOTES
         File Name : Invoke-ADCDeletePolicydataset
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/policy/policydataset/
         Requires  : PowerShell v5.1 and up
@@ -171,7 +171,7 @@ function Invoke-ADCGetPolicydataset {
         Invoke-ADCGetPolicydataset -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetPolicydataset
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/policy/policydataset/
         Requires  : PowerShell v5.1 and up
@@ -266,7 +266,7 @@ function Invoke-ADCGetPolicydatasetbinding {
         Invoke-ADCGetPolicydatasetbinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetPolicydatasetbinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/policy/policydataset_binding/
         Requires  : PowerShell v5.1 and up
@@ -351,7 +351,7 @@ function Invoke-ADCAddPolicydatasetvaluebinding {
         Invoke-ADCAddPolicydatasetvaluebinding -name <string> -value <string>
     .NOTES
         File Name : Invoke-ADCAddPolicydatasetvaluebinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/policy/policydataset_value_binding/
         Requires  : PowerShell v5.1 and up
@@ -432,7 +432,7 @@ function Invoke-ADCDeletePolicydatasetvaluebinding {
         Invoke-ADCDeletePolicydatasetvaluebinding -name <string>
     .NOTES
         File Name : Invoke-ADCDeletePolicydatasetvaluebinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/policy/policydataset_value_binding/
         Requires  : PowerShell v5.1 and up
@@ -509,7 +509,7 @@ function Invoke-ADCGetPolicydatasetvaluebinding {
         Invoke-ADCGetPolicydatasetvaluebinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetPolicydatasetvaluebinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/policy/policydataset_value_binding/
         Requires  : PowerShell v5.1 and up
@@ -621,7 +621,7 @@ function Invoke-ADCGetPolicyevaluation {
         Invoke-ADCGetPolicyevaluation -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetPolicyevaluation
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/policy/policyevaluation/
         Requires  : PowerShell v5.1 and up
@@ -723,7 +723,7 @@ function Invoke-ADCAddPolicyexpression {
         Invoke-ADCAddPolicyexpression -name <string> -value <string>
     .NOTES
         File Name : Invoke-ADCAddPolicyexpression
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/policy/policyexpression/
         Requires  : PowerShell v5.1 and up
@@ -804,7 +804,7 @@ function Invoke-ADCDeletePolicyexpression {
         Invoke-ADCDeletePolicyexpression -name <string>
     .NOTES
         File Name : Invoke-ADCDeletePolicyexpression
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/policy/policyexpression/
         Requires  : PowerShell v5.1 and up
@@ -871,7 +871,7 @@ function Invoke-ADCUpdatePolicyexpression {
         Invoke-ADCUpdatePolicyexpression -name <string>
     .NOTES
         File Name : Invoke-ADCUpdatePolicyexpression
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/policy/policyexpression/
         Requires  : PowerShell v5.1 and up
@@ -956,7 +956,7 @@ function Invoke-ADCUnsetPolicyexpression {
         Invoke-ADCUnsetPolicyexpression -name <string>
     .NOTES
         File Name : Invoke-ADCUnsetPolicyexpression
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/policy/policyexpression
         Requires  : PowerShell v5.1 and up
@@ -1039,7 +1039,7 @@ function Invoke-ADCGetPolicyexpression {
         Invoke-ADCGetPolicyexpression -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetPolicyexpression
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/policy/policyexpression/
         Requires  : PowerShell v5.1 and up
@@ -1174,7 +1174,7 @@ function Invoke-ADCAddPolicyhttpcallout {
         Invoke-ADCAddPolicyhttpcallout -name <string>
     .NOTES
         File Name : Invoke-ADCAddPolicyhttpcallout
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/policy/policyhttpcallout/
         Requires  : PowerShell v5.1 and up
@@ -1296,7 +1296,7 @@ function Invoke-ADCDeletePolicyhttpcallout {
         Invoke-ADCDeletePolicyhttpcallout -name <string>
     .NOTES
         File Name : Invoke-ADCDeletePolicyhttpcallout
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/policy/policyhttpcallout/
         Requires  : PowerShell v5.1 and up
@@ -1405,7 +1405,7 @@ function Invoke-ADCUpdatePolicyhttpcallout {
         Invoke-ADCUpdatePolicyhttpcallout -name <string>
     .NOTES
         File Name : Invoke-ADCUpdatePolicyhttpcallout
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/policy/policyhttpcallout/
         Requires  : PowerShell v5.1 and up
@@ -1557,7 +1557,7 @@ function Invoke-ADCUnsetPolicyhttpcallout {
         Invoke-ADCUnsetPolicyhttpcallout -name <string>
     .NOTES
         File Name : Invoke-ADCUnsetPolicyhttpcallout
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/policy/policyhttpcallout
         Requires  : PowerShell v5.1 and up
@@ -1670,7 +1670,7 @@ function Invoke-ADCGetPolicyhttpcallout {
         Invoke-ADCGetPolicyhttpcallout -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetPolicyhttpcallout
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/policy/policyhttpcallout/
         Requires  : PowerShell v5.1 and up
@@ -1767,7 +1767,7 @@ function Invoke-ADCAddPolicymap {
         Invoke-ADCAddPolicymap -mappolicyname <string> -sd <string>
     .NOTES
         File Name : Invoke-ADCAddPolicymap
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/policy/policymap/
         Requires  : PowerShell v5.1 and up
@@ -1852,7 +1852,7 @@ function Invoke-ADCDeletePolicymap {
         Invoke-ADCDeletePolicymap -mappolicyname <string>
     .NOTES
         File Name : Invoke-ADCDeletePolicymap
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/policy/policymap/
         Requires  : PowerShell v5.1 and up
@@ -1925,7 +1925,7 @@ function Invoke-ADCGetPolicymap {
         Invoke-ADCGetPolicymap -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetPolicymap
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/policy/policymap/
         Requires  : PowerShell v5.1 and up
@@ -2009,7 +2009,7 @@ function Invoke-ADCUpdatePolicyparam {
         Invoke-ADCUpdatePolicyparam 
     .NOTES
         File Name : Invoke-ADCUpdatePolicyparam
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/policy/policyparam/
         Requires  : PowerShell v5.1 and up
@@ -2068,7 +2068,7 @@ function Invoke-ADCUnsetPolicyparam {
         Invoke-ADCUnsetPolicyparam 
     .NOTES
         File Name : Invoke-ADCUnsetPolicyparam
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/policy/policyparam
         Requires  : PowerShell v5.1 and up
@@ -2136,7 +2136,7 @@ function Invoke-ADCGetPolicyparam {
         Invoke-ADCGetPolicyparam -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetPolicyparam
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/policy/policyparam/
         Requires  : PowerShell v5.1 and up
@@ -2212,7 +2212,7 @@ function Invoke-ADCAddPolicypatset {
         Invoke-ADCAddPolicypatset -name <string>
     .NOTES
         File Name : Invoke-ADCAddPolicypatset
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/policy/policypatset/
         Requires  : PowerShell v5.1 and up
@@ -2286,7 +2286,7 @@ function Invoke-ADCDeletePolicypatset {
         Invoke-ADCDeletePolicypatset -name <string>
     .NOTES
         File Name : Invoke-ADCDeletePolicypatset
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/policy/policypatset/
         Requires  : PowerShell v5.1 and up
@@ -2358,7 +2358,7 @@ function Invoke-ADCGetPolicypatset {
         Invoke-ADCGetPolicypatset -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetPolicypatset
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/policy/policypatset/
         Requires  : PowerShell v5.1 and up
@@ -2454,7 +2454,7 @@ function Invoke-ADCGetPolicypatsetbinding {
         Invoke-ADCGetPolicypatsetbinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetPolicypatsetbinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/policy/policypatset_binding/
         Requires  : PowerShell v5.1 and up
@@ -2540,7 +2540,7 @@ function Invoke-ADCAddPolicypatsetpatternbinding {
         Invoke-ADCAddPolicypatsetpatternbinding -name <string> -String <string>
     .NOTES
         File Name : Invoke-ADCAddPolicypatsetpatternbinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/policy/policypatset_pattern_binding/
         Requires  : PowerShell v5.1 and up
@@ -2621,7 +2621,7 @@ function Invoke-ADCDeletePolicypatsetpatternbinding {
         Invoke-ADCDeletePolicypatsetpatternbinding -name <string>
     .NOTES
         File Name : Invoke-ADCDeletePolicypatsetpatternbinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/policy/policypatset_pattern_binding/
         Requires  : PowerShell v5.1 and up
@@ -2695,7 +2695,7 @@ function Invoke-ADCGetPolicypatsetpatternbinding {
         Invoke-ADCGetPolicypatsetpatternbinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetPolicypatsetpatternbinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/policy/policypatset_pattern_binding/
         Requires  : PowerShell v5.1 and up
@@ -2777,7 +2777,7 @@ function Invoke-ADCAddPolicystringmap {
         Invoke-ADCAddPolicystringmap -name <string>
     .NOTES
         File Name : Invoke-ADCAddPolicystringmap
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/policy/policystringmap/
         Requires  : PowerShell v5.1 and up
@@ -2847,7 +2847,7 @@ function Invoke-ADCDeletePolicystringmap {
         Invoke-ADCDeletePolicystringmap -name <string>
     .NOTES
         File Name : Invoke-ADCDeletePolicystringmap
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/policy/policystringmap/
         Requires  : PowerShell v5.1 and up
@@ -2907,7 +2907,7 @@ function Invoke-ADCUpdatePolicystringmap {
         Invoke-ADCUpdatePolicystringmap -name <string>
     .NOTES
         File Name : Invoke-ADCUpdatePolicystringmap
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/policy/policystringmap/
         Requires  : PowerShell v5.1 and up
@@ -2978,7 +2978,7 @@ function Invoke-ADCUnsetPolicystringmap {
         Invoke-ADCUnsetPolicystringmap -name <string>
     .NOTES
         File Name : Invoke-ADCUnsetPolicystringmap
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/policy/policystringmap
         Requires  : PowerShell v5.1 and up
@@ -3055,7 +3055,7 @@ function Invoke-ADCGetPolicystringmap {
         Invoke-ADCGetPolicystringmap -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetPolicystringmap
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/policy/policystringmap/
         Requires  : PowerShell v5.1 and up
@@ -3151,7 +3151,7 @@ function Invoke-ADCGetPolicystringmapbinding {
         Invoke-ADCGetPolicystringmapbinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetPolicystringmapbinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/policy/policystringmap_binding/
         Requires  : PowerShell v5.1 and up
@@ -3236,7 +3236,7 @@ function Invoke-ADCAddPolicystringmappatternbinding {
         Invoke-ADCAddPolicystringmappatternbinding -name <string> -key <string> -value <string>
     .NOTES
         File Name : Invoke-ADCAddPolicystringmappatternbinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/policy/policystringmap_pattern_binding/
         Requires  : PowerShell v5.1 and up
@@ -3317,7 +3317,7 @@ function Invoke-ADCDeletePolicystringmappatternbinding {
         Invoke-ADCDeletePolicystringmappatternbinding -name <string>
     .NOTES
         File Name : Invoke-ADCDeletePolicystringmappatternbinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/policy/policystringmap_pattern_binding/
         Requires  : PowerShell v5.1 and up
@@ -3391,7 +3391,7 @@ function Invoke-ADCGetPolicystringmappatternbinding {
         Invoke-ADCGetPolicystringmappatternbinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetPolicystringmappatternbinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/policy/policystringmap_pattern_binding/
         Requires  : PowerShell v5.1 and up
@@ -3474,7 +3474,7 @@ function Invoke-ADCAddPolicyurlset {
         Invoke-ADCAddPolicyurlset -name <string>
     .NOTES
         File Name : Invoke-ADCAddPolicyurlset
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/policy/policyurlset/
         Requires  : PowerShell v5.1 and up
@@ -3545,7 +3545,7 @@ function Invoke-ADCDeletePolicyurlset {
         Invoke-ADCDeletePolicyurlset -name <string>
     .NOTES
         File Name : Invoke-ADCDeletePolicyurlset
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/policy/policyurlset/
         Requires  : PowerShell v5.1 and up
@@ -3618,7 +3618,7 @@ function Invoke-ADCImportPolicyurlset {
         Invoke-ADCImportPolicyurlset -name <string> -url <string>
     .NOTES
         File Name : Invoke-ADCImportPolicyurlset
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/policy/policyurlset/
         Requires  : PowerShell v5.1 and up
@@ -3712,7 +3712,7 @@ function Invoke-ADCChangePolicyurlset {
         Invoke-ADCChangePolicyurlset -name <string>
     .NOTES
         File Name : Invoke-ADCChangePolicyurlset
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/policy/policyurlset/
         Requires  : PowerShell v5.1 and up
@@ -3781,7 +3781,7 @@ function Invoke-ADCExportPolicyurlset {
         Invoke-ADCExportPolicyurlset -name <string> -url <string>
     .NOTES
         File Name : Invoke-ADCExportPolicyurlset
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/policy/policyurlset/
         Requires  : PowerShell v5.1 and up
@@ -3862,7 +3862,7 @@ function Invoke-ADCGetPolicyurlset {
         Invoke-ADCGetPolicyurlset -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetPolicyurlset
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/policy/policyurlset/
         Requires  : PowerShell v5.1 and up

@@ -29,7 +29,7 @@ function Invoke-ADCGetBfdsession {
         Invoke-ADCGetBfdsession -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetBfdsession
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/bfd/bfdsession/
         Requires  : PowerShell v5.1 and up

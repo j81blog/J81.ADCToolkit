@@ -26,7 +26,7 @@ function Invoke-ADCGetLsnStats {
         Invoke-ADCGetLsnStats -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetLsnStats
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/statistics/lsn/lsn/
         Requires  : PowerShell v5.1 and up
@@ -119,7 +119,7 @@ function Invoke-ADCGetLsndsliteStats {
         Invoke-ADCGetLsndsliteStats -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetLsndsliteStats
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/statistics/lsn/lsndslite/
         Requires  : PowerShell v5.1 and up
@@ -211,7 +211,7 @@ function Invoke-ADCGetLsngroupStats {
         Invoke-ADCGetLsngroupStats -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetLsngroupStats
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/statistics/lsn/lsngroup/
         Requires  : PowerShell v5.1 and up
@@ -299,7 +299,7 @@ function Invoke-ADCGetLsnnat64Stats {
         Invoke-ADCGetLsnnat64Stats -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetLsnnat64Stats
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/statistics/lsn/lsnnat64/
         Requires  : PowerShell v5.1 and up
@@ -391,7 +391,7 @@ function Invoke-ADCGetLsnpoolStats {
         Invoke-ADCGetLsnpoolStats -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetLsnpoolStats
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/statistics/lsn/lsnpool/
         Requires  : PowerShell v5.1 and up

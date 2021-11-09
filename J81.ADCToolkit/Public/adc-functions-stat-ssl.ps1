@@ -26,7 +26,7 @@ function Invoke-ADCGetSslStats {
         Invoke-ADCGetSslStats -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetSslStats
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/statistics/ssl/ssl/
         Requires  : PowerShell v5.1 and up
@@ -118,7 +118,7 @@ function Invoke-ADCGetSslvserverStats {
         Invoke-ADCGetSslvserverStats -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetSslvserverStats
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/statistics/ssl/sslvserver/
         Requires  : PowerShell v5.1 and up

@@ -43,7 +43,7 @@ function Invoke-ADCAddContentinspectionaction {
         Invoke-ADCAddContentinspectionaction -name <string> -type <string>
     .NOTES
         File Name : Invoke-ADCAddContentinspectionaction
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/contentinspection/contentinspectionaction/
         Requires  : PowerShell v5.1 and up
@@ -158,7 +158,7 @@ function Invoke-ADCUpdateContentinspectionaction {
         Invoke-ADCUpdateContentinspectionaction -name <string>
     .NOTES
         File Name : Invoke-ADCUpdateContentinspectionaction
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/contentinspection/contentinspectionaction/
         Requires  : PowerShell v5.1 and up
@@ -251,7 +251,7 @@ function Invoke-ADCUnsetContentinspectionaction {
         Invoke-ADCUnsetContentinspectionaction -name <string>
     .NOTES
         File Name : Invoke-ADCUnsetContentinspectionaction
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/contentinspection/contentinspectionaction
         Requires  : PowerShell v5.1 and up
@@ -313,7 +313,7 @@ function Invoke-ADCDeleteContentinspectionaction {
         Invoke-ADCDeleteContentinspectionaction -name <string>
     .NOTES
         File Name : Invoke-ADCDeleteContentinspectionaction
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/contentinspection/contentinspectionaction/
         Requires  : PowerShell v5.1 and up
@@ -385,7 +385,7 @@ function Invoke-ADCGetContentinspectionaction {
         Invoke-ADCGetContentinspectionaction -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetContentinspectionaction
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/contentinspection/contentinspectionaction/
         Requires  : PowerShell v5.1 and up
@@ -501,7 +501,7 @@ function Invoke-ADCAddContentinspectioncallout {
         Invoke-ADCAddContentinspectioncallout -name <string> -type <string> -returntype <string> -resultexpr <string>
     .NOTES
         File Name : Invoke-ADCAddContentinspectioncallout
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/contentinspection/contentinspectioncallout/
         Requires  : PowerShell v5.1 and up
@@ -602,7 +602,7 @@ function Invoke-ADCDeleteContentinspectioncallout {
         Invoke-ADCDeleteContentinspectioncallout -name <string>
     .NOTES
         File Name : Invoke-ADCDeleteContentinspectioncallout
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/contentinspection/contentinspectioncallout/
         Requires  : PowerShell v5.1 and up
@@ -689,7 +689,7 @@ function Invoke-ADCUpdateContentinspectioncallout {
         Invoke-ADCUpdateContentinspectioncallout -name <string>
     .NOTES
         File Name : Invoke-ADCUpdateContentinspectioncallout
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/contentinspection/contentinspectioncallout/
         Requires  : PowerShell v5.1 and up
@@ -786,7 +786,7 @@ function Invoke-ADCUnsetContentinspectioncallout {
         Invoke-ADCUnsetContentinspectioncallout -name <string>
     .NOTES
         File Name : Invoke-ADCUnsetContentinspectioncallout
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/contentinspection/contentinspectioncallout
         Requires  : PowerShell v5.1 and up
@@ -866,7 +866,7 @@ function Invoke-ADCGetContentinspectioncallout {
         Invoke-ADCGetContentinspectioncallout -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetContentinspectioncallout
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/contentinspection/contentinspectioncallout/
         Requires  : PowerShell v5.1 and up
@@ -960,7 +960,7 @@ function Invoke-ADCGetContentinspectionglobalbinding {
         Invoke-ADCGetContentinspectionglobalbinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetContentinspectionglobalbinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/contentinspection/contentinspectionglobal_binding/
         Requires  : PowerShell v5.1 and up
@@ -1046,7 +1046,7 @@ function Invoke-ADCAddContentinspectionglobalcontentinspectionpolicybinding {
         Invoke-ADCAddContentinspectionglobalcontentinspectionpolicybinding -policyname <string> -priority <double>
     .NOTES
         File Name : Invoke-ADCAddContentinspectionglobalcontentinspectionpolicybinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/contentinspection/contentinspectionglobal_contentinspectionpolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -1134,7 +1134,7 @@ function Invoke-ADCDeleteContentinspectionglobalcontentinspectionpolicybinding {
         Invoke-ADCDeleteContentinspectionglobalcontentinspectionpolicybinding 
     .NOTES
         File Name : Invoke-ADCDeleteContentinspectionglobalcontentinspectionpolicybinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/contentinspection/contentinspectionglobal_contentinspectionpolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -1209,7 +1209,7 @@ function Invoke-ADCGetContentinspectionglobalcontentinspectionpolicybinding {
         Invoke-ADCGetContentinspectionglobalcontentinspectionpolicybinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetContentinspectionglobalcontentinspectionpolicybinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/contentinspection/contentinspectionglobal_contentinspectionpolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -1287,7 +1287,7 @@ function Invoke-ADCUpdateContentinspectionparameter {
         Invoke-ADCUpdateContentinspectionparameter 
     .NOTES
         File Name : Invoke-ADCUpdateContentinspectionparameter
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/contentinspection/contentinspectionparameter/
         Requires  : PowerShell v5.1 and up
@@ -1349,7 +1349,7 @@ function Invoke-ADCUnsetContentinspectionparameter {
         Invoke-ADCUnsetContentinspectionparameter 
     .NOTES
         File Name : Invoke-ADCUnsetContentinspectionparameter
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/contentinspection/contentinspectionparameter
         Requires  : PowerShell v5.1 and up
@@ -1417,7 +1417,7 @@ function Invoke-ADCGetContentinspectionparameter {
         Invoke-ADCGetContentinspectionparameter -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetContentinspectionparameter
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/contentinspection/contentinspectionparameter/
         Requires  : PowerShell v5.1 and up
@@ -1502,7 +1502,7 @@ function Invoke-ADCAddContentinspectionpolicy {
         Invoke-ADCAddContentinspectionpolicy -name <string> -rule <string> -action <string>
     .NOTES
         File Name : Invoke-ADCAddContentinspectionpolicy
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/contentinspection/contentinspectionpolicy/
         Requires  : PowerShell v5.1 and up
@@ -1584,7 +1584,7 @@ function Invoke-ADCDeleteContentinspectionpolicy {
         Invoke-ADCDeleteContentinspectionpolicy -name <string>
     .NOTES
         File Name : Invoke-ADCDeleteContentinspectionpolicy
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/contentinspection/contentinspectionpolicy/
         Requires  : PowerShell v5.1 and up
@@ -1656,7 +1656,7 @@ function Invoke-ADCUpdateContentinspectionpolicy {
         Invoke-ADCUpdateContentinspectionpolicy -name <string>
     .NOTES
         File Name : Invoke-ADCUpdateContentinspectionpolicy
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/contentinspection/contentinspectionpolicy/
         Requires  : PowerShell v5.1 and up
@@ -1742,7 +1742,7 @@ function Invoke-ADCUnsetContentinspectionpolicy {
         Invoke-ADCUnsetContentinspectionpolicy -name <string>
     .NOTES
         File Name : Invoke-ADCUnsetContentinspectionpolicy
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/contentinspection/contentinspectionpolicy
         Requires  : PowerShell v5.1 and up
@@ -1811,7 +1811,7 @@ function Invoke-ADCRenameContentinspectionpolicy {
         Invoke-ADCRenameContentinspectionpolicy -name <string> -newname <string>
     .NOTES
         File Name : Invoke-ADCRenameContentinspectionpolicy
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/contentinspection/contentinspectionpolicy/
         Requires  : PowerShell v5.1 and up
@@ -1899,7 +1899,7 @@ function Invoke-ADCGetContentinspectionpolicy {
         Invoke-ADCGetContentinspectionpolicy -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetContentinspectionpolicy
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/contentinspection/contentinspectionpolicy/
         Requires  : PowerShell v5.1 and up
@@ -1985,7 +1985,7 @@ function Invoke-ADCAddContentinspectionpolicylabel {
         Invoke-ADCAddContentinspectionpolicylabel -labelname <string> -type <string>
     .NOTES
         File Name : Invoke-ADCAddContentinspectionpolicylabel
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/contentinspection/contentinspectionpolicylabel/
         Requires  : PowerShell v5.1 and up
@@ -2057,7 +2057,7 @@ function Invoke-ADCDeleteContentinspectionpolicylabel {
         Invoke-ADCDeleteContentinspectionpolicylabel -labelname <string>
     .NOTES
         File Name : Invoke-ADCDeleteContentinspectionpolicylabel
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/contentinspection/contentinspectionpolicylabel/
         Requires  : PowerShell v5.1 and up
@@ -2117,7 +2117,7 @@ function Invoke-ADCRenameContentinspectionpolicylabel {
         Invoke-ADCRenameContentinspectionpolicylabel -labelname <string> -newname <string>
     .NOTES
         File Name : Invoke-ADCRenameContentinspectionpolicylabel
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/contentinspection/contentinspectionpolicylabel/
         Requires  : PowerShell v5.1 and up
@@ -2204,7 +2204,7 @@ function Invoke-ADCGetContentinspectionpolicylabel {
         Invoke-ADCGetContentinspectionpolicylabel -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetContentinspectionpolicylabel
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/contentinspection/contentinspectionpolicylabel/
         Requires  : PowerShell v5.1 and up
@@ -2298,7 +2298,7 @@ function Invoke-ADCGetContentinspectionpolicylabelbinding {
         Invoke-ADCGetContentinspectionpolicylabelbinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetContentinspectionpolicylabelbinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/contentinspection/contentinspectionpolicylabel_binding/
         Requires  : PowerShell v5.1 and up
@@ -2386,7 +2386,7 @@ function Invoke-ADCAddContentinspectionpolicylabelcontentinspectionpolicybinding
         Invoke-ADCAddContentinspectionpolicylabelcontentinspectionpolicybinding -labelname <string> -policyname <string> -priority <double>
     .NOTES
         File Name : Invoke-ADCAddContentinspectionpolicylabelcontentinspectionpolicybinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/contentinspection/contentinspectionpolicylabel_contentinspectionpolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -2473,7 +2473,7 @@ function Invoke-ADCDeleteContentinspectionpolicylabelcontentinspectionpolicybind
         Invoke-ADCDeleteContentinspectionpolicylabelcontentinspectionpolicybinding -labelname <string>
     .NOTES
         File Name : Invoke-ADCDeleteContentinspectionpolicylabelcontentinspectionpolicybinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/contentinspection/contentinspectionpolicylabel_contentinspectionpolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -2550,7 +2550,7 @@ function Invoke-ADCGetContentinspectionpolicylabelcontentinspectionpolicybinding
         Invoke-ADCGetContentinspectionpolicylabelcontentinspectionpolicybinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetContentinspectionpolicylabelcontentinspectionpolicybinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/contentinspection/contentinspectionpolicylabel_contentinspectionpolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -2643,7 +2643,7 @@ function Invoke-ADCGetContentinspectionpolicylabelpolicybindingbinding {
         Invoke-ADCGetContentinspectionpolicylabelpolicybindingbinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetContentinspectionpolicylabelpolicybindingbinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/contentinspection/contentinspectionpolicylabel_policybinding_binding/
         Requires  : PowerShell v5.1 and up
@@ -2734,7 +2734,7 @@ function Invoke-ADCGetContentinspectionpolicybinding {
         Invoke-ADCGetContentinspectionpolicybinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetContentinspectionpolicybinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/contentinspection/contentinspectionpolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -2824,7 +2824,7 @@ function Invoke-ADCGetContentinspectionpolicycontentinspectionglobalbinding {
         Invoke-ADCGetContentinspectionpolicycontentinspectionglobalbinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetContentinspectionpolicycontentinspectionglobalbinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/contentinspection/contentinspectionpolicy_contentinspectionglobal_binding/
         Requires  : PowerShell v5.1 and up
@@ -2917,7 +2917,7 @@ function Invoke-ADCGetContentinspectionpolicycontentinspectionpolicylabelbinding
         Invoke-ADCGetContentinspectionpolicycontentinspectionpolicylabelbinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetContentinspectionpolicycontentinspectionpolicylabelbinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/contentinspection/contentinspectionpolicy_contentinspectionpolicylabel_binding/
         Requires  : PowerShell v5.1 and up
@@ -3010,7 +3010,7 @@ function Invoke-ADCGetContentinspectionpolicycsvserverbinding {
         Invoke-ADCGetContentinspectionpolicycsvserverbinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetContentinspectionpolicycsvserverbinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/contentinspection/contentinspectionpolicy_csvserver_binding/
         Requires  : PowerShell v5.1 and up
@@ -3103,7 +3103,7 @@ function Invoke-ADCGetContentinspectionpolicylbvserverbinding {
         Invoke-ADCGetContentinspectionpolicylbvserverbinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetContentinspectionpolicylbvserverbinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/contentinspection/contentinspectionpolicy_lbvserver_binding/
         Requires  : PowerShell v5.1 and up
@@ -3201,7 +3201,7 @@ function Invoke-ADCAddContentinspectionprofile {
         Invoke-ADCAddContentinspectionprofile -name <string> -type <string>
     .NOTES
         File Name : Invoke-ADCAddContentinspectionprofile
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/contentinspection/contentinspectionprofile/
         Requires  : PowerShell v5.1 and up
@@ -3290,7 +3290,7 @@ function Invoke-ADCDeleteContentinspectionprofile {
         Invoke-ADCDeleteContentinspectionprofile -name <string>
     .NOTES
         File Name : Invoke-ADCDeleteContentinspectionprofile
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/contentinspection/contentinspectionprofile/
         Requires  : PowerShell v5.1 and up
@@ -3362,7 +3362,7 @@ function Invoke-ADCUpdateContentinspectionprofile {
         Invoke-ADCUpdateContentinspectionprofile -name <string>
     .NOTES
         File Name : Invoke-ADCUpdateContentinspectionprofile
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/contentinspection/contentinspectionprofile/
         Requires  : PowerShell v5.1 and up
@@ -3448,7 +3448,7 @@ function Invoke-ADCUnsetContentinspectionprofile {
         Invoke-ADCUnsetContentinspectionprofile -name <string>
     .NOTES
         File Name : Invoke-ADCUnsetContentinspectionprofile
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/contentinspection/contentinspectionprofile
         Requires  : PowerShell v5.1 and up
@@ -3528,7 +3528,7 @@ function Invoke-ADCGetContentinspectionprofile {
         Invoke-ADCGetContentinspectionprofile -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetContentinspectionprofile
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/contentinspection/contentinspectionprofile/
         Requires  : PowerShell v5.1 and up

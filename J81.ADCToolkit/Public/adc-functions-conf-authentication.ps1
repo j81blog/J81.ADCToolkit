@@ -27,7 +27,7 @@ function Invoke-ADCAddAuthenticationadfsproxyprofile {
         Invoke-ADCAddAuthenticationadfsproxyprofile -name <string> -username <string> -password <string> -serverurl <string> -certkeyname <string>
     .NOTES
         File Name : Invoke-ADCAddAuthenticationadfsproxyprofile
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/authentication/authenticationadfsproxyprofile/
         Requires  : PowerShell v5.1 and up
@@ -117,7 +117,7 @@ function Invoke-ADCDeleteAuthenticationadfsproxyprofile {
         Invoke-ADCDeleteAuthenticationadfsproxyprofile -name <string>
     .NOTES
         File Name : Invoke-ADCDeleteAuthenticationadfsproxyprofile
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/authentication/authenticationadfsproxyprofile/
         Requires  : PowerShell v5.1 and up
@@ -189,7 +189,7 @@ function Invoke-ADCUpdateAuthenticationadfsproxyprofile {
         Invoke-ADCUpdateAuthenticationadfsproxyprofile -name <string>
     .NOTES
         File Name : Invoke-ADCUpdateAuthenticationadfsproxyprofile
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/authentication/authenticationadfsproxyprofile/
         Requires  : PowerShell v5.1 and up
@@ -289,7 +289,7 @@ function Invoke-ADCGetAuthenticationadfsproxyprofile {
         Invoke-ADCGetAuthenticationadfsproxyprofile -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetAuthenticationadfsproxyprofile
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/authentication/authenticationadfsproxyprofile/
         Requires  : PowerShell v5.1 and up
@@ -390,7 +390,7 @@ function Invoke-ADCAddAuthenticationauthnprofile {
         Invoke-ADCAddAuthenticationauthnprofile -name <string> -authnvsname <string>
     .NOTES
         File Name : Invoke-ADCAddAuthenticationauthnprofile
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/authentication/authenticationauthnprofile/
         Requires  : PowerShell v5.1 and up
@@ -474,7 +474,7 @@ function Invoke-ADCDeleteAuthenticationauthnprofile {
         Invoke-ADCDeleteAuthenticationauthnprofile -name <string>
     .NOTES
         File Name : Invoke-ADCDeleteAuthenticationauthnprofile
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/authentication/authenticationauthnprofile/
         Requires  : PowerShell v5.1 and up
@@ -549,7 +549,7 @@ function Invoke-ADCUpdateAuthenticationauthnprofile {
         Invoke-ADCUpdateAuthenticationauthnprofile -name <string>
     .NOTES
         File Name : Invoke-ADCUpdateAuthenticationauthnprofile
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/authentication/authenticationauthnprofile/
         Requires  : PowerShell v5.1 and up
@@ -635,7 +635,7 @@ function Invoke-ADCUnsetAuthenticationauthnprofile {
         Invoke-ADCUnsetAuthenticationauthnprofile -name <string>
     .NOTES
         File Name : Invoke-ADCUnsetAuthenticationauthnprofile
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/authentication/authenticationauthnprofile
         Requires  : PowerShell v5.1 and up
@@ -715,7 +715,7 @@ function Invoke-ADCGetAuthenticationauthnprofile {
         Invoke-ADCGetAuthenticationauthnprofile -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetAuthenticationauthnprofile
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/authentication/authenticationauthnprofile/
         Requires  : PowerShell v5.1 and up
@@ -831,7 +831,7 @@ function Invoke-ADCAddAuthenticationazurekeyvault {
         Invoke-ADCAddAuthenticationazurekeyvault -name <string> -vaultname <string> -clientid <string> -clientsecret <string> -servicekeyname <string>
     .NOTES
         File Name : Invoke-ADCAddAuthenticationazurekeyvault
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/authentication/authenticationazurekeyvault/
         Requires  : PowerShell v5.1 and up
@@ -942,7 +942,7 @@ function Invoke-ADCDeleteAuthenticationazurekeyvault {
         Invoke-ADCDeleteAuthenticationazurekeyvault -name <string>
     .NOTES
         File Name : Invoke-ADCDeleteAuthenticationazurekeyvault
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/authentication/authenticationazurekeyvault/
         Requires  : PowerShell v5.1 and up
@@ -1033,7 +1033,7 @@ function Invoke-ADCUpdateAuthenticationazurekeyvault {
         Invoke-ADCUpdateAuthenticationazurekeyvault -name <string>
     .NOTES
         File Name : Invoke-ADCUpdateAuthenticationazurekeyvault
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/authentication/authenticationazurekeyvault/
         Requires  : PowerShell v5.1 and up
@@ -1152,7 +1152,7 @@ function Invoke-ADCUnsetAuthenticationazurekeyvault {
         Invoke-ADCUnsetAuthenticationazurekeyvault -name <string>
     .NOTES
         File Name : Invoke-ADCUnsetAuthenticationazurekeyvault
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/authentication/authenticationazurekeyvault
         Requires  : PowerShell v5.1 and up
@@ -1241,7 +1241,7 @@ function Invoke-ADCGetAuthenticationazurekeyvault {
         Invoke-ADCGetAuthenticationazurekeyvault -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetAuthenticationazurekeyvault
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/authentication/authenticationazurekeyvault/
         Requires  : PowerShell v5.1 and up
@@ -1335,7 +1335,7 @@ function Invoke-ADCAddAuthenticationcaptchaaction {
         Invoke-ADCAddAuthenticationcaptchaaction -name <string> -secretkey <string> -sitekey <string>
     .NOTES
         File Name : Invoke-ADCAddAuthenticationcaptchaaction
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/authentication/authenticationcaptchaaction/
         Requires  : PowerShell v5.1 and up
@@ -1418,7 +1418,7 @@ function Invoke-ADCDeleteAuthenticationcaptchaaction {
         Invoke-ADCDeleteAuthenticationcaptchaaction -name <string>
     .NOTES
         File Name : Invoke-ADCDeleteAuthenticationcaptchaaction
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/authentication/authenticationcaptchaaction/
         Requires  : PowerShell v5.1 and up
@@ -1486,7 +1486,7 @@ function Invoke-ADCUpdateAuthenticationcaptchaaction {
         Invoke-ADCUpdateAuthenticationcaptchaaction -name <string>
     .NOTES
         File Name : Invoke-ADCUpdateAuthenticationcaptchaaction
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/authentication/authenticationcaptchaaction/
         Requires  : PowerShell v5.1 and up
@@ -1570,7 +1570,7 @@ function Invoke-ADCUnsetAuthenticationcaptchaaction {
         Invoke-ADCUnsetAuthenticationcaptchaaction -name <string>
     .NOTES
         File Name : Invoke-ADCUnsetAuthenticationcaptchaaction
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/authentication/authenticationcaptchaaction
         Requires  : PowerShell v5.1 and up
@@ -1652,7 +1652,7 @@ function Invoke-ADCGetAuthenticationcaptchaaction {
         Invoke-ADCGetAuthenticationcaptchaaction -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetAuthenticationcaptchaaction
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/authentication/authenticationcaptchaaction/
         Requires  : PowerShell v5.1 and up
@@ -1751,7 +1751,7 @@ function Invoke-ADCAddAuthenticationcertaction {
         Invoke-ADCAddAuthenticationcertaction -name <string>
     .NOTES
         File Name : Invoke-ADCAddAuthenticationcertaction
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/authentication/authenticationcertaction/
         Requires  : PowerShell v5.1 and up
@@ -1832,7 +1832,7 @@ function Invoke-ADCDeleteAuthenticationcertaction {
         Invoke-ADCDeleteAuthenticationcertaction -name <string>
     .NOTES
         File Name : Invoke-ADCDeleteAuthenticationcertaction
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/authentication/authenticationcertaction/
         Requires  : PowerShell v5.1 and up
@@ -1905,7 +1905,7 @@ function Invoke-ADCUpdateAuthenticationcertaction {
         Invoke-ADCUpdateAuthenticationcertaction -name <string>
     .NOTES
         File Name : Invoke-ADCUpdateAuthenticationcertaction
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/authentication/authenticationcertaction/
         Requires  : PowerShell v5.1 and up
@@ -1998,7 +1998,7 @@ function Invoke-ADCUnsetAuthenticationcertaction {
         Invoke-ADCUnsetAuthenticationcertaction -name <string>
     .NOTES
         File Name : Invoke-ADCUnsetAuthenticationcertaction
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/authentication/authenticationcertaction
         Requires  : PowerShell v5.1 and up
@@ -2084,7 +2084,7 @@ function Invoke-ADCGetAuthenticationcertaction {
         Invoke-ADCGetAuthenticationcertaction -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetAuthenticationcertaction
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/authentication/authenticationcertaction/
         Requires  : PowerShell v5.1 and up
@@ -2173,7 +2173,7 @@ function Invoke-ADCAddAuthenticationcertpolicy {
         Invoke-ADCAddAuthenticationcertpolicy -name <string> -rule <string>
     .NOTES
         File Name : Invoke-ADCAddAuthenticationcertpolicy
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/authentication/authenticationcertpolicy/
         Requires  : PowerShell v5.1 and up
@@ -2248,7 +2248,7 @@ function Invoke-ADCDeleteAuthenticationcertpolicy {
         Invoke-ADCDeleteAuthenticationcertpolicy -name <string>
     .NOTES
         File Name : Invoke-ADCDeleteAuthenticationcertpolicy
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/authentication/authenticationcertpolicy/
         Requires  : PowerShell v5.1 and up
@@ -2312,7 +2312,7 @@ function Invoke-ADCUpdateAuthenticationcertpolicy {
         Invoke-ADCUpdateAuthenticationcertpolicy -name <string>
     .NOTES
         File Name : Invoke-ADCUpdateAuthenticationcertpolicy
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/authentication/authenticationcertpolicy/
         Requires  : PowerShell v5.1 and up
@@ -2390,7 +2390,7 @@ function Invoke-ADCUnsetAuthenticationcertpolicy {
         Invoke-ADCUnsetAuthenticationcertpolicy -name <string>
     .NOTES
         File Name : Invoke-ADCUnsetAuthenticationcertpolicy
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/authentication/authenticationcertpolicy
         Requires  : PowerShell v5.1 and up
@@ -2470,7 +2470,7 @@ function Invoke-ADCGetAuthenticationcertpolicy {
         Invoke-ADCGetAuthenticationcertpolicy -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetAuthenticationcertpolicy
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/authentication/authenticationcertpolicy/
         Requires  : PowerShell v5.1 and up
@@ -2567,7 +2567,7 @@ function Invoke-ADCGetAuthenticationcertpolicyauthenticationvserverbinding {
         Invoke-ADCGetAuthenticationcertpolicyauthenticationvserverbinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetAuthenticationcertpolicyauthenticationvserverbinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/authentication/authenticationcertpolicy_authenticationvserver_binding/
         Requires  : PowerShell v5.1 and up
@@ -2659,7 +2659,7 @@ function Invoke-ADCGetAuthenticationcertpolicybinding {
         Invoke-ADCGetAuthenticationcertpolicybinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetAuthenticationcertpolicybinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/authentication/authenticationcertpolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -2750,7 +2750,7 @@ function Invoke-ADCGetAuthenticationcertpolicyvpnglobalbinding {
         Invoke-ADCGetAuthenticationcertpolicyvpnglobalbinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetAuthenticationcertpolicyvpnglobalbinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/authentication/authenticationcertpolicy_vpnglobal_binding/
         Requires  : PowerShell v5.1 and up
@@ -2844,7 +2844,7 @@ function Invoke-ADCGetAuthenticationcertpolicyvpnvserverbinding {
         Invoke-ADCGetAuthenticationcertpolicyvpnvserverbinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetAuthenticationcertpolicyvpnvserverbinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/authentication/authenticationcertpolicy_vpnvserver_binding/
         Requires  : PowerShell v5.1 and up
@@ -2934,7 +2934,7 @@ function Invoke-ADCAddAuthenticationcitrixauthaction {
         Invoke-ADCAddAuthenticationcitrixauthaction -name <string>
     .NOTES
         File Name : Invoke-ADCAddAuthenticationcitrixauthaction
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/authentication/authenticationcitrixauthaction/
         Requires  : PowerShell v5.1 and up
@@ -3011,7 +3011,7 @@ function Invoke-ADCDeleteAuthenticationcitrixauthaction {
         Invoke-ADCDeleteAuthenticationcitrixauthaction -name <string>
     .NOTES
         File Name : Invoke-ADCDeleteAuthenticationcitrixauthaction
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/authentication/authenticationcitrixauthaction/
         Requires  : PowerShell v5.1 and up
@@ -3079,7 +3079,7 @@ function Invoke-ADCUpdateAuthenticationcitrixauthaction {
         Invoke-ADCUpdateAuthenticationcitrixauthaction -name <string>
     .NOTES
         File Name : Invoke-ADCUpdateAuthenticationcitrixauthaction
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/authentication/authenticationcitrixauthaction/
         Requires  : PowerShell v5.1 and up
@@ -3161,7 +3161,7 @@ function Invoke-ADCUnsetAuthenticationcitrixauthaction {
         Invoke-ADCUnsetAuthenticationcitrixauthaction -name <string>
     .NOTES
         File Name : Invoke-ADCUnsetAuthenticationcitrixauthaction
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/authentication/authenticationcitrixauthaction
         Requires  : PowerShell v5.1 and up
@@ -3243,7 +3243,7 @@ function Invoke-ADCGetAuthenticationcitrixauthaction {
         Invoke-ADCGetAuthenticationcitrixauthaction -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetAuthenticationcitrixauthaction
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/authentication/authenticationcitrixauthaction/
         Requires  : PowerShell v5.1 and up
@@ -3338,7 +3338,7 @@ function Invoke-ADCAddAuthenticationdfaaction {
         Invoke-ADCAddAuthenticationdfaaction -name <string> -clientid <string> -serverurl <string> -passphrase <string>
     .NOTES
         File Name : Invoke-ADCAddAuthenticationdfaaction
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/authentication/authenticationdfaaction/
         Requires  : PowerShell v5.1 and up
@@ -3421,7 +3421,7 @@ function Invoke-ADCDeleteAuthenticationdfaaction {
         Invoke-ADCDeleteAuthenticationdfaaction -name <string>
     .NOTES
         File Name : Invoke-ADCDeleteAuthenticationdfaaction
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/authentication/authenticationdfaaction/
         Requires  : PowerShell v5.1 and up
@@ -3490,7 +3490,7 @@ function Invoke-ADCUpdateAuthenticationdfaaction {
         Invoke-ADCUpdateAuthenticationdfaaction -name <string>
     .NOTES
         File Name : Invoke-ADCUpdateAuthenticationdfaaction
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/authentication/authenticationdfaaction/
         Requires  : PowerShell v5.1 and up
@@ -3575,7 +3575,7 @@ function Invoke-ADCUnsetAuthenticationdfaaction {
         Invoke-ADCUnsetAuthenticationdfaaction -name <string>
     .NOTES
         File Name : Invoke-ADCUnsetAuthenticationdfaaction
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/authentication/authenticationdfaaction
         Requires  : PowerShell v5.1 and up
@@ -3658,7 +3658,7 @@ function Invoke-ADCGetAuthenticationdfaaction {
         Invoke-ADCGetAuthenticationdfaaction -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetAuthenticationdfaaction
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/authentication/authenticationdfaaction/
         Requires  : PowerShell v5.1 and up
@@ -3747,7 +3747,7 @@ function Invoke-ADCAddAuthenticationdfapolicy {
         Invoke-ADCAddAuthenticationdfapolicy -name <string> -rule <string> -action <string>
     .NOTES
         File Name : Invoke-ADCAddAuthenticationdfapolicy
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/authentication/authenticationdfapolicy/
         Requires  : PowerShell v5.1 and up
@@ -3824,7 +3824,7 @@ function Invoke-ADCDeleteAuthenticationdfapolicy {
         Invoke-ADCDeleteAuthenticationdfapolicy -name <string>
     .NOTES
         File Name : Invoke-ADCDeleteAuthenticationdfapolicy
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/authentication/authenticationdfapolicy/
         Requires  : PowerShell v5.1 and up
@@ -3888,7 +3888,7 @@ function Invoke-ADCUpdateAuthenticationdfapolicy {
         Invoke-ADCUpdateAuthenticationdfapolicy -name <string>
     .NOTES
         File Name : Invoke-ADCUpdateAuthenticationdfapolicy
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/authentication/authenticationdfapolicy/
         Requires  : PowerShell v5.1 and up
@@ -3979,7 +3979,7 @@ function Invoke-ADCGetAuthenticationdfapolicy {
         Invoke-ADCGetAuthenticationdfapolicy -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetAuthenticationdfapolicy
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/authentication/authenticationdfapolicy/
         Requires  : PowerShell v5.1 and up
@@ -4074,7 +4074,7 @@ function Invoke-ADCGetAuthenticationdfapolicybinding {
         Invoke-ADCGetAuthenticationdfapolicybinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetAuthenticationdfapolicybinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/authentication/authenticationdfapolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -4165,7 +4165,7 @@ function Invoke-ADCGetAuthenticationdfapolicyvpnvserverbinding {
         Invoke-ADCGetAuthenticationdfapolicyvpnvserverbinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetAuthenticationdfapolicyvpnvserverbinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/authentication/authenticationdfapolicy_vpnvserver_binding/
         Requires  : PowerShell v5.1 and up
@@ -4266,7 +4266,7 @@ function Invoke-ADCAddAuthenticationemailaction {
         Invoke-ADCAddAuthenticationemailaction -name <string> -username <string> -password <string> -serverurl <string>
     .NOTES
         File Name : Invoke-ADCAddAuthenticationemailaction
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/authentication/authenticationemailaction/
         Requires  : PowerShell v5.1 and up
@@ -4363,7 +4363,7 @@ function Invoke-ADCDeleteAuthenticationemailaction {
         Invoke-ADCDeleteAuthenticationemailaction -name <string>
     .NOTES
         File Name : Invoke-ADCDeleteAuthenticationemailaction
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/authentication/authenticationemailaction/
         Requires  : PowerShell v5.1 and up
@@ -4442,7 +4442,7 @@ function Invoke-ADCUpdateAuthenticationemailaction {
         Invoke-ADCUpdateAuthenticationemailaction -name <string>
     .NOTES
         File Name : Invoke-ADCUpdateAuthenticationemailaction
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/authentication/authenticationemailaction/
         Requires  : PowerShell v5.1 and up
@@ -4547,7 +4547,7 @@ function Invoke-ADCUnsetAuthenticationemailaction {
         Invoke-ADCUnsetAuthenticationemailaction -name <string>
     .NOTES
         File Name : Invoke-ADCUnsetAuthenticationemailaction
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/authentication/authenticationemailaction
         Requires  : PowerShell v5.1 and up
@@ -4636,7 +4636,7 @@ function Invoke-ADCGetAuthenticationemailaction {
         Invoke-ADCGetAuthenticationemailaction -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetAuthenticationemailaction
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/authentication/authenticationemailaction/
         Requires  : PowerShell v5.1 and up
@@ -4736,7 +4736,7 @@ function Invoke-ADCAddAuthenticationepaaction {
         Invoke-ADCAddAuthenticationepaaction -name <string> -csecexpr <string>
     .NOTES
         File Name : Invoke-ADCAddAuthenticationepaaction
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/authentication/authenticationepaaction/
         Requires  : PowerShell v5.1 and up
@@ -4821,7 +4821,7 @@ function Invoke-ADCDeleteAuthenticationepaaction {
         Invoke-ADCDeleteAuthenticationepaaction -name <string>
     .NOTES
         File Name : Invoke-ADCDeleteAuthenticationepaaction
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/authentication/authenticationepaaction/
         Requires  : PowerShell v5.1 and up
@@ -4895,7 +4895,7 @@ function Invoke-ADCUpdateAuthenticationepaaction {
         Invoke-ADCUpdateAuthenticationepaaction -name <string>
     .NOTES
         File Name : Invoke-ADCUpdateAuthenticationepaaction
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/authentication/authenticationepaaction/
         Requires  : PowerShell v5.1 and up
@@ -4988,7 +4988,7 @@ function Invoke-ADCUnsetAuthenticationepaaction {
         Invoke-ADCUnsetAuthenticationepaaction -name <string>
     .NOTES
         File Name : Invoke-ADCUnsetAuthenticationepaaction
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/authentication/authenticationepaaction
         Requires  : PowerShell v5.1 and up
@@ -5077,7 +5077,7 @@ function Invoke-ADCGetAuthenticationepaaction {
         Invoke-ADCGetAuthenticationepaaction -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetAuthenticationepaaction
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/authentication/authenticationepaaction/
         Requires  : PowerShell v5.1 and up
@@ -5320,7 +5320,7 @@ function Invoke-ADCAddAuthenticationldapaction {
         Invoke-ADCAddAuthenticationldapaction -name <string>
     .NOTES
         File Name : Invoke-ADCAddAuthenticationldapaction
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/authentication/authenticationldapaction/
         Requires  : PowerShell v5.1 and up
@@ -5562,7 +5562,7 @@ function Invoke-ADCDeleteAuthenticationldapaction {
         Invoke-ADCDeleteAuthenticationldapaction -name <string>
     .NOTES
         File Name : Invoke-ADCDeleteAuthenticationldapaction
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/authentication/authenticationldapaction/
         Requires  : PowerShell v5.1 and up
@@ -5780,7 +5780,7 @@ function Invoke-ADCUpdateAuthenticationldapaction {
         Invoke-ADCUpdateAuthenticationldapaction -name <string>
     .NOTES
         File Name : Invoke-ADCUpdateAuthenticationldapaction
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/authentication/authenticationldapaction/
         Requires  : PowerShell v5.1 and up
@@ -6147,7 +6147,7 @@ function Invoke-ADCUnsetAuthenticationldapaction {
         Invoke-ADCUnsetAuthenticationldapaction -name <string>
     .NOTES
         File Name : Invoke-ADCUnsetAuthenticationldapaction
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/authentication/authenticationldapaction
         Requires  : PowerShell v5.1 and up
@@ -6371,7 +6371,7 @@ function Invoke-ADCGetAuthenticationldapaction {
         Invoke-ADCGetAuthenticationldapaction -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetAuthenticationldapaction
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/authentication/authenticationldapaction/
         Requires  : PowerShell v5.1 and up
@@ -6460,7 +6460,7 @@ function Invoke-ADCAddAuthenticationldappolicy {
         Invoke-ADCAddAuthenticationldappolicy -name <string> -rule <string>
     .NOTES
         File Name : Invoke-ADCAddAuthenticationldappolicy
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/authentication/authenticationldappolicy/
         Requires  : PowerShell v5.1 and up
@@ -6535,7 +6535,7 @@ function Invoke-ADCDeleteAuthenticationldappolicy {
         Invoke-ADCDeleteAuthenticationldappolicy -name <string>
     .NOTES
         File Name : Invoke-ADCDeleteAuthenticationldappolicy
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/authentication/authenticationldappolicy/
         Requires  : PowerShell v5.1 and up
@@ -6599,7 +6599,7 @@ function Invoke-ADCUpdateAuthenticationldappolicy {
         Invoke-ADCUpdateAuthenticationldappolicy -name <string>
     .NOTES
         File Name : Invoke-ADCUpdateAuthenticationldappolicy
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/authentication/authenticationldappolicy/
         Requires  : PowerShell v5.1 and up
@@ -6677,7 +6677,7 @@ function Invoke-ADCUnsetAuthenticationldappolicy {
         Invoke-ADCUnsetAuthenticationldappolicy -name <string>
     .NOTES
         File Name : Invoke-ADCUnsetAuthenticationldappolicy
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/authentication/authenticationldappolicy
         Requires  : PowerShell v5.1 and up
@@ -6757,7 +6757,7 @@ function Invoke-ADCGetAuthenticationldappolicy {
         Invoke-ADCGetAuthenticationldappolicy -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetAuthenticationldappolicy
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/authentication/authenticationldappolicy/
         Requires  : PowerShell v5.1 and up
@@ -6854,7 +6854,7 @@ function Invoke-ADCGetAuthenticationldappolicyauthenticationvserverbinding {
         Invoke-ADCGetAuthenticationldappolicyauthenticationvserverbinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetAuthenticationldappolicyauthenticationvserverbinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/authentication/authenticationldappolicy_authenticationvserver_binding/
         Requires  : PowerShell v5.1 and up
@@ -6946,7 +6946,7 @@ function Invoke-ADCGetAuthenticationldappolicybinding {
         Invoke-ADCGetAuthenticationldappolicybinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetAuthenticationldappolicybinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/authentication/authenticationldappolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -7037,7 +7037,7 @@ function Invoke-ADCGetAuthenticationldappolicysystemglobalbinding {
         Invoke-ADCGetAuthenticationldappolicysystemglobalbinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetAuthenticationldappolicysystemglobalbinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/authentication/authenticationldappolicy_systemglobal_binding/
         Requires  : PowerShell v5.1 and up
@@ -7131,7 +7131,7 @@ function Invoke-ADCGetAuthenticationldappolicyvpnglobalbinding {
         Invoke-ADCGetAuthenticationldappolicyvpnglobalbinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetAuthenticationldappolicyvpnglobalbinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/authentication/authenticationldappolicy_vpnglobal_binding/
         Requires  : PowerShell v5.1 and up
@@ -7225,7 +7225,7 @@ function Invoke-ADCGetAuthenticationldappolicyvpnvserverbinding {
         Invoke-ADCGetAuthenticationldappolicyvpnvserverbinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetAuthenticationldappolicyvpnvserverbinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/authentication/authenticationldappolicy_vpnvserver_binding/
         Requires  : PowerShell v5.1 and up
@@ -7307,7 +7307,7 @@ function Invoke-ADCAddAuthenticationlocalpolicy {
         Invoke-ADCAddAuthenticationlocalpolicy -name <string> -rule <string>
     .NOTES
         File Name : Invoke-ADCAddAuthenticationlocalpolicy
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/authentication/authenticationlocalpolicy/
         Requires  : PowerShell v5.1 and up
@@ -7377,7 +7377,7 @@ function Invoke-ADCDeleteAuthenticationlocalpolicy {
         Invoke-ADCDeleteAuthenticationlocalpolicy -name <string>
     .NOTES
         File Name : Invoke-ADCDeleteAuthenticationlocalpolicy
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/authentication/authenticationlocalpolicy/
         Requires  : PowerShell v5.1 and up
@@ -7437,7 +7437,7 @@ function Invoke-ADCUpdateAuthenticationlocalpolicy {
         Invoke-ADCUpdateAuthenticationlocalpolicy -name <string>
     .NOTES
         File Name : Invoke-ADCUpdateAuthenticationlocalpolicy
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/authentication/authenticationlocalpolicy/
         Requires  : PowerShell v5.1 and up
@@ -7522,7 +7522,7 @@ function Invoke-ADCGetAuthenticationlocalpolicy {
         Invoke-ADCGetAuthenticationlocalpolicy -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetAuthenticationlocalpolicy
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/authentication/authenticationlocalpolicy/
         Requires  : PowerShell v5.1 and up
@@ -7618,7 +7618,7 @@ function Invoke-ADCGetAuthenticationlocalpolicyauthenticationvserverbinding {
         Invoke-ADCGetAuthenticationlocalpolicyauthenticationvserverbinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetAuthenticationlocalpolicyauthenticationvserverbinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/authentication/authenticationlocalpolicy_authenticationvserver_binding/
         Requires  : PowerShell v5.1 and up
@@ -7709,7 +7709,7 @@ function Invoke-ADCGetAuthenticationlocalpolicybinding {
         Invoke-ADCGetAuthenticationlocalpolicybinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetAuthenticationlocalpolicybinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/authentication/authenticationlocalpolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -7799,7 +7799,7 @@ function Invoke-ADCGetAuthenticationlocalpolicysystemglobalbinding {
         Invoke-ADCGetAuthenticationlocalpolicysystemglobalbinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetAuthenticationlocalpolicysystemglobalbinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/authentication/authenticationlocalpolicy_systemglobal_binding/
         Requires  : PowerShell v5.1 and up
@@ -7892,7 +7892,7 @@ function Invoke-ADCGetAuthenticationlocalpolicyvpnglobalbinding {
         Invoke-ADCGetAuthenticationlocalpolicyvpnglobalbinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetAuthenticationlocalpolicyvpnglobalbinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/authentication/authenticationlocalpolicy_vpnglobal_binding/
         Requires  : PowerShell v5.1 and up
@@ -7985,7 +7985,7 @@ function Invoke-ADCGetAuthenticationlocalpolicyvpnvserverbinding {
         Invoke-ADCGetAuthenticationlocalpolicyvpnvserverbinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetAuthenticationlocalpolicyvpnvserverbinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/authentication/authenticationlocalpolicy_vpnvserver_binding/
         Requires  : PowerShell v5.1 and up
@@ -8088,7 +8088,7 @@ function Invoke-ADCAddAuthenticationloginschema {
         Invoke-ADCAddAuthenticationloginschema -name <string> -authenticationschema <string>
     .NOTES
         File Name : Invoke-ADCAddAuthenticationloginschema
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/authentication/authenticationloginschema/
         Requires  : PowerShell v5.1 and up
@@ -8183,7 +8183,7 @@ function Invoke-ADCDeleteAuthenticationloginschema {
         Invoke-ADCDeleteAuthenticationloginschema -name <string>
     .NOTES
         File Name : Invoke-ADCDeleteAuthenticationloginschema
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/authentication/authenticationloginschema/
         Requires  : PowerShell v5.1 and up
@@ -8265,7 +8265,7 @@ function Invoke-ADCUpdateAuthenticationloginschema {
         Invoke-ADCUpdateAuthenticationloginschema -name <string>
     .NOTES
         File Name : Invoke-ADCUpdateAuthenticationloginschema
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/authentication/authenticationloginschema/
         Requires  : PowerShell v5.1 and up
@@ -8372,7 +8372,7 @@ function Invoke-ADCUnsetAuthenticationloginschema {
         Invoke-ADCUnsetAuthenticationloginschema -name <string>
     .NOTES
         File Name : Invoke-ADCUnsetAuthenticationloginschema
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/authentication/authenticationloginschema
         Requires  : PowerShell v5.1 and up
@@ -8464,7 +8464,7 @@ function Invoke-ADCGetAuthenticationloginschema {
         Invoke-ADCGetAuthenticationloginschema -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetAuthenticationloginschema
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/authentication/authenticationloginschema/
         Requires  : PowerShell v5.1 and up
@@ -8566,7 +8566,7 @@ function Invoke-ADCAddAuthenticationloginschemapolicy {
         Invoke-ADCAddAuthenticationloginschemapolicy -name <string> -rule <string> -action <string>
     .NOTES
         File Name : Invoke-ADCAddAuthenticationloginschemapolicy
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/authentication/authenticationloginschemapolicy/
         Requires  : PowerShell v5.1 and up
@@ -8651,7 +8651,7 @@ function Invoke-ADCDeleteAuthenticationloginschemapolicy {
         Invoke-ADCDeleteAuthenticationloginschemapolicy -name <string>
     .NOTES
         File Name : Invoke-ADCDeleteAuthenticationloginschemapolicy
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/authentication/authenticationloginschemapolicy/
         Requires  : PowerShell v5.1 and up
@@ -8727,7 +8727,7 @@ function Invoke-ADCUpdateAuthenticationloginschemapolicy {
         Invoke-ADCUpdateAuthenticationloginschemapolicy -name <string>
     .NOTES
         File Name : Invoke-ADCUpdateAuthenticationloginschemapolicy
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/authentication/authenticationloginschemapolicy/
         Requires  : PowerShell v5.1 and up
@@ -8816,7 +8816,7 @@ function Invoke-ADCUnsetAuthenticationloginschemapolicy {
         Invoke-ADCUnsetAuthenticationloginschemapolicy -name <string>
     .NOTES
         File Name : Invoke-ADCUnsetAuthenticationloginschemapolicy
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/authentication/authenticationloginschemapolicy
         Requires  : PowerShell v5.1 and up
@@ -8887,7 +8887,7 @@ function Invoke-ADCRenameAuthenticationloginschemapolicy {
         Invoke-ADCRenameAuthenticationloginschemapolicy -name <string> -newname <string>
     .NOTES
         File Name : Invoke-ADCRenameAuthenticationloginschemapolicy
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/authentication/authenticationloginschemapolicy/
         Requires  : PowerShell v5.1 and up
@@ -8976,7 +8976,7 @@ function Invoke-ADCGetAuthenticationloginschemapolicy {
         Invoke-ADCGetAuthenticationloginschemapolicy -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetAuthenticationloginschemapolicy
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/authentication/authenticationloginschemapolicy/
         Requires  : PowerShell v5.1 and up
@@ -9074,7 +9074,7 @@ function Invoke-ADCGetAuthenticationloginschemapolicyauthenticationvserverbindin
         Invoke-ADCGetAuthenticationloginschemapolicyauthenticationvserverbinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetAuthenticationloginschemapolicyauthenticationvserverbinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/authentication/authenticationloginschemapolicy_authenticationvserver_binding/
         Requires  : PowerShell v5.1 and up
@@ -9166,7 +9166,7 @@ function Invoke-ADCGetAuthenticationloginschemapolicybinding {
         Invoke-ADCGetAuthenticationloginschemapolicybinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetAuthenticationloginschemapolicybinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/authentication/authenticationloginschemapolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -9257,7 +9257,7 @@ function Invoke-ADCGetAuthenticationloginschemapolicyvpnvserverbinding {
         Invoke-ADCGetAuthenticationloginschemapolicyvpnvserverbinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetAuthenticationloginschemapolicyvpnvserverbinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/authentication/authenticationloginschemapolicy_vpnvserver_binding/
         Requires  : PowerShell v5.1 and up
@@ -9357,7 +9357,7 @@ function Invoke-ADCAddAuthenticationnegotiateaction {
         Invoke-ADCAddAuthenticationnegotiateaction -name <string>
     .NOTES
         File Name : Invoke-ADCAddAuthenticationnegotiateaction
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/authentication/authenticationnegotiateaction/
         Requires  : PowerShell v5.1 and up
@@ -9450,7 +9450,7 @@ function Invoke-ADCDeleteAuthenticationnegotiateaction {
         Invoke-ADCDeleteAuthenticationnegotiateaction -name <string>
     .NOTES
         File Name : Invoke-ADCDeleteAuthenticationnegotiateaction
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/authentication/authenticationnegotiateaction/
         Requires  : PowerShell v5.1 and up
@@ -9528,7 +9528,7 @@ function Invoke-ADCUpdateAuthenticationnegotiateaction {
         Invoke-ADCUpdateAuthenticationnegotiateaction -name <string>
     .NOTES
         File Name : Invoke-ADCUpdateAuthenticationnegotiateaction
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/authentication/authenticationnegotiateaction/
         Requires  : PowerShell v5.1 and up
@@ -9633,7 +9633,7 @@ function Invoke-ADCUnsetAuthenticationnegotiateaction {
         Invoke-ADCUnsetAuthenticationnegotiateaction -name <string>
     .NOTES
         File Name : Invoke-ADCUnsetAuthenticationnegotiateaction
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/authentication/authenticationnegotiateaction
         Requires  : PowerShell v5.1 and up
@@ -9725,7 +9725,7 @@ function Invoke-ADCGetAuthenticationnegotiateaction {
         Invoke-ADCGetAuthenticationnegotiateaction -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetAuthenticationnegotiateaction
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/authentication/authenticationnegotiateaction/
         Requires  : PowerShell v5.1 and up
@@ -9814,7 +9814,7 @@ function Invoke-ADCAddAuthenticationnegotiatepolicy {
         Invoke-ADCAddAuthenticationnegotiatepolicy -name <string> -rule <string> -reqaction <string>
     .NOTES
         File Name : Invoke-ADCAddAuthenticationnegotiatepolicy
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/authentication/authenticationnegotiatepolicy/
         Requires  : PowerShell v5.1 and up
@@ -9891,7 +9891,7 @@ function Invoke-ADCDeleteAuthenticationnegotiatepolicy {
         Invoke-ADCDeleteAuthenticationnegotiatepolicy -name <string>
     .NOTES
         File Name : Invoke-ADCDeleteAuthenticationnegotiatepolicy
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/authentication/authenticationnegotiatepolicy/
         Requires  : PowerShell v5.1 and up
@@ -9955,7 +9955,7 @@ function Invoke-ADCUpdateAuthenticationnegotiatepolicy {
         Invoke-ADCUpdateAuthenticationnegotiatepolicy -name <string>
     .NOTES
         File Name : Invoke-ADCUpdateAuthenticationnegotiatepolicy
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/authentication/authenticationnegotiatepolicy/
         Requires  : PowerShell v5.1 and up
@@ -10046,7 +10046,7 @@ function Invoke-ADCGetAuthenticationnegotiatepolicy {
         Invoke-ADCGetAuthenticationnegotiatepolicy -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetAuthenticationnegotiatepolicy
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/authentication/authenticationnegotiatepolicy/
         Requires  : PowerShell v5.1 and up
@@ -10143,7 +10143,7 @@ function Invoke-ADCGetAuthenticationnegotiatepolicyauthenticationvserverbinding 
         Invoke-ADCGetAuthenticationnegotiatepolicyauthenticationvserverbinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetAuthenticationnegotiatepolicyauthenticationvserverbinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/authentication/authenticationnegotiatepolicy_authenticationvserver_binding/
         Requires  : PowerShell v5.1 and up
@@ -10235,7 +10235,7 @@ function Invoke-ADCGetAuthenticationnegotiatepolicybinding {
         Invoke-ADCGetAuthenticationnegotiatepolicybinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetAuthenticationnegotiatepolicybinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/authentication/authenticationnegotiatepolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -10326,7 +10326,7 @@ function Invoke-ADCGetAuthenticationnegotiatepolicyvpnglobalbinding {
         Invoke-ADCGetAuthenticationnegotiatepolicyvpnglobalbinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetAuthenticationnegotiatepolicyvpnglobalbinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/authentication/authenticationnegotiatepolicy_vpnglobal_binding/
         Requires  : PowerShell v5.1 and up
@@ -10420,7 +10420,7 @@ function Invoke-ADCGetAuthenticationnegotiatepolicyvpnvserverbinding {
         Invoke-ADCGetAuthenticationnegotiatepolicyvpnvserverbinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetAuthenticationnegotiatepolicyvpnvserverbinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/authentication/authenticationnegotiatepolicy_vpnvserver_binding/
         Requires  : PowerShell v5.1 and up
@@ -10501,7 +10501,7 @@ function Invoke-ADCAddAuthenticationnoauthaction {
         Invoke-ADCAddAuthenticationnoauthaction -name <string>
     .NOTES
         File Name : Invoke-ADCAddAuthenticationnoauthaction
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/authentication/authenticationnoauthaction/
         Requires  : PowerShell v5.1 and up
@@ -10570,7 +10570,7 @@ function Invoke-ADCDeleteAuthenticationnoauthaction {
         Invoke-ADCDeleteAuthenticationnoauthaction -name <string>
     .NOTES
         File Name : Invoke-ADCDeleteAuthenticationnoauthaction
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/authentication/authenticationnoauthaction/
         Requires  : PowerShell v5.1 and up
@@ -10629,7 +10629,7 @@ function Invoke-ADCUpdateAuthenticationnoauthaction {
         Invoke-ADCUpdateAuthenticationnoauthaction -name <string>
     .NOTES
         File Name : Invoke-ADCUpdateAuthenticationnoauthaction
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/authentication/authenticationnoauthaction/
         Requires  : PowerShell v5.1 and up
@@ -10700,7 +10700,7 @@ function Invoke-ADCUnsetAuthenticationnoauthaction {
         Invoke-ADCUnsetAuthenticationnoauthaction -name <string>
     .NOTES
         File Name : Invoke-ADCUnsetAuthenticationnoauthaction
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/authentication/authenticationnoauthaction
         Requires  : PowerShell v5.1 and up
@@ -10777,7 +10777,7 @@ function Invoke-ADCGetAuthenticationnoauthaction {
         Invoke-ADCGetAuthenticationnoauthaction -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetAuthenticationnoauthaction
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/authentication/authenticationnoauthaction/
         Requires  : PowerShell v5.1 and up
@@ -10963,7 +10963,7 @@ function Invoke-ADCAddAuthenticationoauthaction {
         Invoke-ADCAddAuthenticationoauthaction -name <string>
     .NOTES
         File Name : Invoke-ADCAddAuthenticationoauthaction
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/authentication/authenticationoauthaction/
         Requires  : PowerShell v5.1 and up
@@ -11161,7 +11161,7 @@ function Invoke-ADCDeleteAuthenticationoauthaction {
         Invoke-ADCDeleteAuthenticationoauthaction -name <string>
     .NOTES
         File Name : Invoke-ADCDeleteAuthenticationoauthaction
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/authentication/authenticationoauthaction/
         Requires  : PowerShell v5.1 and up
@@ -11321,7 +11321,7 @@ function Invoke-ADCUpdateAuthenticationoauthaction {
         Invoke-ADCUpdateAuthenticationoauthaction -name <string>
     .NOTES
         File Name : Invoke-ADCUpdateAuthenticationoauthaction
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/authentication/authenticationoauthaction/
         Requires  : PowerShell v5.1 and up
@@ -11597,7 +11597,7 @@ function Invoke-ADCUnsetAuthenticationoauthaction {
         Invoke-ADCUnsetAuthenticationoauthaction -name <string>
     .NOTES
         File Name : Invoke-ADCUnsetAuthenticationoauthaction
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/authentication/authenticationoauthaction
         Requires  : PowerShell v5.1 and up
@@ -11776,7 +11776,7 @@ function Invoke-ADCGetAuthenticationoauthaction {
         Invoke-ADCGetAuthenticationoauthaction -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetAuthenticationoauthaction
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/authentication/authenticationoauthaction/
         Requires  : PowerShell v5.1 and up
@@ -11870,7 +11870,7 @@ function Invoke-ADCAddAuthenticationoauthidppolicy {
         Invoke-ADCAddAuthenticationoauthidppolicy -name <string> -rule <string> -action <string>
     .NOTES
         File Name : Invoke-ADCAddAuthenticationoauthidppolicy
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/authentication/authenticationoauthidppolicy/
         Requires  : PowerShell v5.1 and up
@@ -11955,7 +11955,7 @@ function Invoke-ADCDeleteAuthenticationoauthidppolicy {
         Invoke-ADCDeleteAuthenticationoauthidppolicy -name <string>
     .NOTES
         File Name : Invoke-ADCDeleteAuthenticationoauthidppolicy
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/authentication/authenticationoauthidppolicy/
         Requires  : PowerShell v5.1 and up
@@ -12024,7 +12024,7 @@ function Invoke-ADCUpdateAuthenticationoauthidppolicy {
         Invoke-ADCUpdateAuthenticationoauthidppolicy -name <string>
     .NOTES
         File Name : Invoke-ADCUpdateAuthenticationoauthidppolicy
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/authentication/authenticationoauthidppolicy/
         Requires  : PowerShell v5.1 and up
@@ -12113,7 +12113,7 @@ function Invoke-ADCUnsetAuthenticationoauthidppolicy {
         Invoke-ADCUnsetAuthenticationoauthidppolicy -name <string>
     .NOTES
         File Name : Invoke-ADCUnsetAuthenticationoauthidppolicy
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/authentication/authenticationoauthidppolicy
         Requires  : PowerShell v5.1 and up
@@ -12184,7 +12184,7 @@ function Invoke-ADCRenameAuthenticationoauthidppolicy {
         Invoke-ADCRenameAuthenticationoauthidppolicy -name <string> -newname <string>
     .NOTES
         File Name : Invoke-ADCRenameAuthenticationoauthidppolicy
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/authentication/authenticationoauthidppolicy/
         Requires  : PowerShell v5.1 and up
@@ -12273,7 +12273,7 @@ function Invoke-ADCGetAuthenticationoauthidppolicy {
         Invoke-ADCGetAuthenticationoauthidppolicy -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetAuthenticationoauthidppolicy
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/authentication/authenticationoauthidppolicy/
         Requires  : PowerShell v5.1 and up
@@ -12371,7 +12371,7 @@ function Invoke-ADCGetAuthenticationoauthidppolicyauthenticationvserverbinding {
         Invoke-ADCGetAuthenticationoauthidppolicyauthenticationvserverbinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetAuthenticationoauthidppolicyauthenticationvserverbinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/authentication/authenticationoauthidppolicy_authenticationvserver_binding/
         Requires  : PowerShell v5.1 and up
@@ -12463,7 +12463,7 @@ function Invoke-ADCGetAuthenticationoauthidppolicybinding {
         Invoke-ADCGetAuthenticationoauthidppolicybinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetAuthenticationoauthidppolicybinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/authentication/authenticationoauthidppolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -12554,7 +12554,7 @@ function Invoke-ADCGetAuthenticationoauthidppolicyvpnvserverbinding {
         Invoke-ADCGetAuthenticationoauthidppolicyvpnvserverbinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetAuthenticationoauthidppolicyvpnvserverbinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/authentication/authenticationoauthidppolicy_vpnvserver_binding/
         Requires  : PowerShell v5.1 and up
@@ -12679,7 +12679,7 @@ function Invoke-ADCAddAuthenticationoauthidpprofile {
         Invoke-ADCAddAuthenticationoauthidpprofile -name <string>
     .NOTES
         File Name : Invoke-ADCAddAuthenticationoauthidpprofile
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/authentication/authenticationoauthidpprofile/
         Requires  : PowerShell v5.1 and up
@@ -12799,7 +12799,7 @@ function Invoke-ADCDeleteAuthenticationoauthidpprofile {
         Invoke-ADCDeleteAuthenticationoauthidpprofile -name <string>
     .NOTES
         File Name : Invoke-ADCDeleteAuthenticationoauthidpprofile
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/authentication/authenticationoauthidpprofile/
         Requires  : PowerShell v5.1 and up
@@ -12902,7 +12902,7 @@ function Invoke-ADCUpdateAuthenticationoauthidpprofile {
         Invoke-ADCUpdateAuthenticationoauthidpprofile -name <string>
     .NOTES
         File Name : Invoke-ADCUpdateAuthenticationoauthidpprofile
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/authentication/authenticationoauthidpprofile/
         Requires  : PowerShell v5.1 and up
@@ -13051,7 +13051,7 @@ function Invoke-ADCUnsetAuthenticationoauthidpprofile {
         Invoke-ADCUnsetAuthenticationoauthidpprofile -name <string>
     .NOTES
         File Name : Invoke-ADCUnsetAuthenticationoauthidpprofile
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/authentication/authenticationoauthidpprofile
         Requires  : PowerShell v5.1 and up
@@ -13161,7 +13161,7 @@ function Invoke-ADCGetAuthenticationoauthidpprofile {
         Invoke-ADCGetAuthenticationoauthidpprofile -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetAuthenticationoauthidpprofile
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/authentication/authenticationoauthidpprofile/
         Requires  : PowerShell v5.1 and up
@@ -13255,7 +13255,7 @@ function Invoke-ADCAddAuthenticationpolicy {
         Invoke-ADCAddAuthenticationpolicy -name <string> -rule <string> -action <string>
     .NOTES
         File Name : Invoke-ADCAddAuthenticationpolicy
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/authentication/authenticationpolicy/
         Requires  : PowerShell v5.1 and up
@@ -13338,7 +13338,7 @@ function Invoke-ADCDeleteAuthenticationpolicy {
         Invoke-ADCDeleteAuthenticationpolicy -name <string>
     .NOTES
         File Name : Invoke-ADCDeleteAuthenticationpolicy
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/authentication/authenticationpolicy/
         Requires  : PowerShell v5.1 and up
@@ -13406,7 +13406,7 @@ function Invoke-ADCUpdateAuthenticationpolicy {
         Invoke-ADCUpdateAuthenticationpolicy -name <string>
     .NOTES
         File Name : Invoke-ADCUpdateAuthenticationpolicy
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/authentication/authenticationpolicy/
         Requires  : PowerShell v5.1 and up
@@ -13493,7 +13493,7 @@ function Invoke-ADCUnsetAuthenticationpolicy {
         Invoke-ADCUnsetAuthenticationpolicy -name <string>
     .NOTES
         File Name : Invoke-ADCUnsetAuthenticationpolicy
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/authentication/authenticationpolicy
         Requires  : PowerShell v5.1 and up
@@ -13563,7 +13563,7 @@ function Invoke-ADCRenameAuthenticationpolicy {
         Invoke-ADCRenameAuthenticationpolicy -name <string> -newname <string>
     .NOTES
         File Name : Invoke-ADCRenameAuthenticationpolicy
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/authentication/authenticationpolicy/
         Requires  : PowerShell v5.1 and up
@@ -13652,7 +13652,7 @@ function Invoke-ADCGetAuthenticationpolicy {
         Invoke-ADCGetAuthenticationpolicy -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetAuthenticationpolicy
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/authentication/authenticationpolicy/
         Requires  : PowerShell v5.1 and up
@@ -13743,7 +13743,7 @@ function Invoke-ADCAddAuthenticationpolicylabel {
         Invoke-ADCAddAuthenticationpolicylabel -labelname <string>
     .NOTES
         File Name : Invoke-ADCAddAuthenticationpolicylabel
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/authentication/authenticationpolicylabel/
         Requires  : PowerShell v5.1 and up
@@ -13818,7 +13818,7 @@ function Invoke-ADCDeleteAuthenticationpolicylabel {
         Invoke-ADCDeleteAuthenticationpolicylabel -labelname <string>
     .NOTES
         File Name : Invoke-ADCDeleteAuthenticationpolicylabel
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/authentication/authenticationpolicylabel/
         Requires  : PowerShell v5.1 and up
@@ -13879,7 +13879,7 @@ function Invoke-ADCRenameAuthenticationpolicylabel {
         Invoke-ADCRenameAuthenticationpolicylabel -labelname <string> -newname <string>
     .NOTES
         File Name : Invoke-ADCRenameAuthenticationpolicylabel
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/authentication/authenticationpolicylabel/
         Requires  : PowerShell v5.1 and up
@@ -13967,7 +13967,7 @@ function Invoke-ADCGetAuthenticationpolicylabel {
         Invoke-ADCGetAuthenticationpolicylabel -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetAuthenticationpolicylabel
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/authentication/authenticationpolicylabel/
         Requires  : PowerShell v5.1 and up
@@ -14056,7 +14056,7 @@ function Invoke-ADCAddAuthenticationpolicylabelauthenticationpolicybinding {
         Invoke-ADCAddAuthenticationpolicylabelauthenticationpolicybinding -labelname <string> -policyname <string> -priority <double>
     .NOTES
         File Name : Invoke-ADCAddAuthenticationpolicylabelauthenticationpolicybinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/authentication/authenticationpolicylabel_authenticationpolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -14136,7 +14136,7 @@ function Invoke-ADCDeleteAuthenticationpolicylabelauthenticationpolicybinding {
         Invoke-ADCDeleteAuthenticationpolicylabelauthenticationpolicybinding -labelname <string>
     .NOTES
         File Name : Invoke-ADCDeleteAuthenticationpolicylabelauthenticationpolicybinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/authentication/authenticationpolicylabel_authenticationpolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -14213,7 +14213,7 @@ function Invoke-ADCGetAuthenticationpolicylabelauthenticationpolicybinding {
         Invoke-ADCGetAuthenticationpolicylabelauthenticationpolicybinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetAuthenticationpolicylabelauthenticationpolicybinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/authentication/authenticationpolicylabel_authenticationpolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -14304,7 +14304,7 @@ function Invoke-ADCGetAuthenticationpolicylabelbinding {
         Invoke-ADCGetAuthenticationpolicylabelbinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetAuthenticationpolicylabelbinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/authentication/authenticationpolicylabel_binding/
         Requires  : PowerShell v5.1 and up
@@ -14394,7 +14394,7 @@ function Invoke-ADCGetAuthenticationpolicyauthenticationpolicylabelbinding {
         Invoke-ADCGetAuthenticationpolicyauthenticationpolicylabelbinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetAuthenticationpolicyauthenticationpolicylabelbinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/authentication/authenticationpolicy_authenticationpolicylabel_binding/
         Requires  : PowerShell v5.1 and up
@@ -14488,7 +14488,7 @@ function Invoke-ADCGetAuthenticationpolicyauthenticationvserverbinding {
         Invoke-ADCGetAuthenticationpolicyauthenticationvserverbinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetAuthenticationpolicyauthenticationvserverbinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/authentication/authenticationpolicy_authenticationvserver_binding/
         Requires  : PowerShell v5.1 and up
@@ -14580,7 +14580,7 @@ function Invoke-ADCGetAuthenticationpolicybinding {
         Invoke-ADCGetAuthenticationpolicybinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetAuthenticationpolicybinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/authentication/authenticationpolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -14671,7 +14671,7 @@ function Invoke-ADCGetAuthenticationpolicysystemglobalbinding {
         Invoke-ADCGetAuthenticationpolicysystemglobalbinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetAuthenticationpolicysystemglobalbinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/authentication/authenticationpolicy_systemglobal_binding/
         Requires  : PowerShell v5.1 and up
@@ -14765,7 +14765,7 @@ function Invoke-ADCAddAuthenticationpushservice {
         Invoke-ADCAddAuthenticationpushservice -name <string>
     .NOTES
         File Name : Invoke-ADCAddAuthenticationpushservice
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/authentication/authenticationpushservice/
         Requires  : PowerShell v5.1 and up
@@ -14849,7 +14849,7 @@ function Invoke-ADCDeleteAuthenticationpushservice {
         Invoke-ADCDeleteAuthenticationpushservice -name <string>
     .NOTES
         File Name : Invoke-ADCDeleteAuthenticationpushservice
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/authentication/authenticationpushservice/
         Requires  : PowerShell v5.1 and up
@@ -14921,7 +14921,7 @@ function Invoke-ADCUpdateAuthenticationpushservice {
         Invoke-ADCUpdateAuthenticationpushservice -name <string>
     .NOTES
         File Name : Invoke-ADCUpdateAuthenticationpushservice
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/authentication/authenticationpushservice/
         Requires  : PowerShell v5.1 and up
@@ -15005,7 +15005,7 @@ function Invoke-ADCUnsetAuthenticationpushservice {
         Invoke-ADCUnsetAuthenticationpushservice -name <string>
     .NOTES
         File Name : Invoke-ADCUnsetAuthenticationpushservice
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/authentication/authenticationpushservice
         Requires  : PowerShell v5.1 and up
@@ -15083,7 +15083,7 @@ function Invoke-ADCGetAuthenticationpushservice {
         Invoke-ADCGetAuthenticationpushservice -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetAuthenticationpushservice
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/authentication/authenticationpushservice/
         Requires  : PowerShell v5.1 and up
@@ -15241,7 +15241,7 @@ function Invoke-ADCAddAuthenticationradiusaction {
         Invoke-ADCAddAuthenticationradiusaction -name <string> -radkey <string>
     .NOTES
         File Name : Invoke-ADCAddAuthenticationradiusaction
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/authentication/authenticationradiusaction/
         Requires  : PowerShell v5.1 and up
@@ -15385,7 +15385,7 @@ function Invoke-ADCDeleteAuthenticationradiusaction {
         Invoke-ADCDeleteAuthenticationradiusaction -name <string>
     .NOTES
         File Name : Invoke-ADCDeleteAuthenticationradiusaction
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/authentication/authenticationradiusaction/
         Requires  : PowerShell v5.1 and up
@@ -15517,7 +15517,7 @@ function Invoke-ADCUpdateAuthenticationradiusaction {
         Invoke-ADCUpdateAuthenticationradiusaction -name <string>
     .NOTES
         File Name : Invoke-ADCUpdateAuthenticationradiusaction
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/authentication/authenticationradiusaction/
         Requires  : PowerShell v5.1 and up
@@ -15707,7 +15707,7 @@ function Invoke-ADCUnsetAuthenticationradiusaction {
         Invoke-ADCUnsetAuthenticationradiusaction -name <string>
     .NOTES
         File Name : Invoke-ADCUnsetAuthenticationradiusaction
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/authentication/authenticationradiusaction
         Requires  : PowerShell v5.1 and up
@@ -15838,7 +15838,7 @@ function Invoke-ADCGetAuthenticationradiusaction {
         Invoke-ADCGetAuthenticationradiusaction -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetAuthenticationradiusaction
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/authentication/authenticationradiusaction/
         Requires  : PowerShell v5.1 and up
@@ -15926,7 +15926,7 @@ function Invoke-ADCAddAuthenticationradiuspolicy {
         Invoke-ADCAddAuthenticationradiuspolicy -name <string> -rule <string>
     .NOTES
         File Name : Invoke-ADCAddAuthenticationradiuspolicy
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/authentication/authenticationradiuspolicy/
         Requires  : PowerShell v5.1 and up
@@ -16000,7 +16000,7 @@ function Invoke-ADCDeleteAuthenticationradiuspolicy {
         Invoke-ADCDeleteAuthenticationradiuspolicy -name <string>
     .NOTES
         File Name : Invoke-ADCDeleteAuthenticationradiuspolicy
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/authentication/authenticationradiuspolicy/
         Requires  : PowerShell v5.1 and up
@@ -16063,7 +16063,7 @@ function Invoke-ADCUpdateAuthenticationradiuspolicy {
         Invoke-ADCUpdateAuthenticationradiuspolicy -name <string>
     .NOTES
         File Name : Invoke-ADCUpdateAuthenticationradiuspolicy
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/authentication/authenticationradiuspolicy/
         Requires  : PowerShell v5.1 and up
@@ -16140,7 +16140,7 @@ function Invoke-ADCUnsetAuthenticationradiuspolicy {
         Invoke-ADCUnsetAuthenticationradiuspolicy -name <string>
     .NOTES
         File Name : Invoke-ADCUnsetAuthenticationradiuspolicy
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/authentication/authenticationradiuspolicy
         Requires  : PowerShell v5.1 and up
@@ -16220,7 +16220,7 @@ function Invoke-ADCGetAuthenticationradiuspolicy {
         Invoke-ADCGetAuthenticationradiuspolicy -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetAuthenticationradiuspolicy
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/authentication/authenticationradiuspolicy/
         Requires  : PowerShell v5.1 and up
@@ -16317,7 +16317,7 @@ function Invoke-ADCGetAuthenticationradiuspolicyauthenticationvserverbinding {
         Invoke-ADCGetAuthenticationradiuspolicyauthenticationvserverbinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetAuthenticationradiuspolicyauthenticationvserverbinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/authentication/authenticationradiuspolicy_authenticationvserver_binding/
         Requires  : PowerShell v5.1 and up
@@ -16409,7 +16409,7 @@ function Invoke-ADCGetAuthenticationradiuspolicybinding {
         Invoke-ADCGetAuthenticationradiuspolicybinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetAuthenticationradiuspolicybinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/authentication/authenticationradiuspolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -16500,7 +16500,7 @@ function Invoke-ADCGetAuthenticationradiuspolicysystemglobalbinding {
         Invoke-ADCGetAuthenticationradiuspolicysystemglobalbinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetAuthenticationradiuspolicysystemglobalbinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/authentication/authenticationradiuspolicy_systemglobal_binding/
         Requires  : PowerShell v5.1 and up
@@ -16594,7 +16594,7 @@ function Invoke-ADCGetAuthenticationradiuspolicyvpnglobalbinding {
         Invoke-ADCGetAuthenticationradiuspolicyvpnglobalbinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetAuthenticationradiuspolicyvpnglobalbinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/authentication/authenticationradiuspolicy_vpnglobal_binding/
         Requires  : PowerShell v5.1 and up
@@ -16688,7 +16688,7 @@ function Invoke-ADCGetAuthenticationradiuspolicyvpnvserverbinding {
         Invoke-ADCGetAuthenticationradiuspolicyvpnvserverbinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetAuthenticationradiuspolicyvpnvserverbinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/authentication/authenticationradiuspolicy_vpnvserver_binding/
         Requires  : PowerShell v5.1 and up
@@ -16927,7 +16927,7 @@ function Invoke-ADCAddAuthenticationsamlaction {
         Invoke-ADCAddAuthenticationsamlaction -name <string>
     .NOTES
         File Name : Invoke-ADCAddAuthenticationsamlaction
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/authentication/authenticationsamlaction/
         Requires  : PowerShell v5.1 and up
@@ -17147,7 +17147,7 @@ function Invoke-ADCDeleteAuthenticationsamlaction {
         Invoke-ADCDeleteAuthenticationsamlaction -name <string>
     .NOTES
         File Name : Invoke-ADCDeleteAuthenticationsamlaction
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/authentication/authenticationsamlaction/
         Requires  : PowerShell v5.1 and up
@@ -17364,7 +17364,7 @@ function Invoke-ADCUpdateAuthenticationsamlaction {
         Invoke-ADCUpdateAuthenticationsamlaction -name <string>
     .NOTES
         File Name : Invoke-ADCUpdateAuthenticationsamlaction
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/authentication/authenticationsamlaction/
         Requires  : PowerShell v5.1 and up
@@ -17716,7 +17716,7 @@ function Invoke-ADCUnsetAuthenticationsamlaction {
         Invoke-ADCUnsetAuthenticationsamlaction -name <string>
     .NOTES
         File Name : Invoke-ADCUnsetAuthenticationsamlaction
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/authentication/authenticationsamlaction
         Requires  : PowerShell v5.1 and up
@@ -17922,7 +17922,7 @@ function Invoke-ADCGetAuthenticationsamlaction {
         Invoke-ADCGetAuthenticationsamlaction -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetAuthenticationsamlaction
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/authentication/authenticationsamlaction/
         Requires  : PowerShell v5.1 and up
@@ -18020,7 +18020,7 @@ function Invoke-ADCAddAuthenticationsamlidppolicy {
         Invoke-ADCAddAuthenticationsamlidppolicy -name <string> -rule <string> -action <string>
     .NOTES
         File Name : Invoke-ADCAddAuthenticationsamlidppolicy
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/authentication/authenticationsamlidppolicy/
         Requires  : PowerShell v5.1 and up
@@ -18105,7 +18105,7 @@ function Invoke-ADCDeleteAuthenticationsamlidppolicy {
         Invoke-ADCDeleteAuthenticationsamlidppolicy -name <string>
     .NOTES
         File Name : Invoke-ADCDeleteAuthenticationsamlidppolicy
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/authentication/authenticationsamlidppolicy/
         Requires  : PowerShell v5.1 and up
@@ -18178,7 +18178,7 @@ function Invoke-ADCUpdateAuthenticationsamlidppolicy {
         Invoke-ADCUpdateAuthenticationsamlidppolicy -name <string>
     .NOTES
         File Name : Invoke-ADCUpdateAuthenticationsamlidppolicy
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/authentication/authenticationsamlidppolicy/
         Requires  : PowerShell v5.1 and up
@@ -18267,7 +18267,7 @@ function Invoke-ADCUnsetAuthenticationsamlidppolicy {
         Invoke-ADCUnsetAuthenticationsamlidppolicy -name <string>
     .NOTES
         File Name : Invoke-ADCUnsetAuthenticationsamlidppolicy
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/authentication/authenticationsamlidppolicy
         Requires  : PowerShell v5.1 and up
@@ -18338,7 +18338,7 @@ function Invoke-ADCRenameAuthenticationsamlidppolicy {
         Invoke-ADCRenameAuthenticationsamlidppolicy -name <string> -newname <string>
     .NOTES
         File Name : Invoke-ADCRenameAuthenticationsamlidppolicy
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/authentication/authenticationsamlidppolicy/
         Requires  : PowerShell v5.1 and up
@@ -18427,7 +18427,7 @@ function Invoke-ADCGetAuthenticationsamlidppolicy {
         Invoke-ADCGetAuthenticationsamlidppolicy -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetAuthenticationsamlidppolicy
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/authentication/authenticationsamlidppolicy/
         Requires  : PowerShell v5.1 and up
@@ -18525,7 +18525,7 @@ function Invoke-ADCGetAuthenticationsamlidppolicyauthenticationvserverbinding {
         Invoke-ADCGetAuthenticationsamlidppolicyauthenticationvserverbinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetAuthenticationsamlidppolicyauthenticationvserverbinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/authentication/authenticationsamlidppolicy_authenticationvserver_binding/
         Requires  : PowerShell v5.1 and up
@@ -18617,7 +18617,7 @@ function Invoke-ADCGetAuthenticationsamlidppolicybinding {
         Invoke-ADCGetAuthenticationsamlidppolicybinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetAuthenticationsamlidppolicybinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/authentication/authenticationsamlidppolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -18708,7 +18708,7 @@ function Invoke-ADCGetAuthenticationsamlidppolicyvpnvserverbinding {
         Invoke-ADCGetAuthenticationsamlidppolicyvpnvserverbinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetAuthenticationsamlidppolicyvpnvserverbinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/authentication/authenticationsamlidppolicy_vpnvserver_binding/
         Requires  : PowerShell v5.1 and up
@@ -19033,7 +19033,7 @@ function Invoke-ADCAddAuthenticationsamlidpprofile {
         Invoke-ADCAddAuthenticationsamlidpprofile -name <string>
     .NOTES
         File Name : Invoke-ADCAddAuthenticationsamlidpprofile
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/authentication/authenticationsamlidpprofile/
         Requires  : PowerShell v5.1 and up
@@ -19405,7 +19405,7 @@ function Invoke-ADCDeleteAuthenticationsamlidpprofile {
         Invoke-ADCDeleteAuthenticationsamlidpprofile -name <string>
     .NOTES
         File Name : Invoke-ADCDeleteAuthenticationsamlidpprofile
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/authentication/authenticationsamlidpprofile/
         Requires  : PowerShell v5.1 and up
@@ -19708,7 +19708,7 @@ function Invoke-ADCUpdateAuthenticationsamlidpprofile {
         Invoke-ADCUpdateAuthenticationsamlidpprofile -name <string>
     .NOTES
         File Name : Invoke-ADCUpdateAuthenticationsamlidpprofile
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/authentication/authenticationsamlidpprofile/
         Requires  : PowerShell v5.1 and up
@@ -20255,7 +20255,7 @@ function Invoke-ADCUnsetAuthenticationsamlidpprofile {
         Invoke-ADCUnsetAuthenticationsamlidpprofile -name <string>
     .NOTES
         File Name : Invoke-ADCUnsetAuthenticationsamlidpprofile
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/authentication/authenticationsamlidpprofile
         Requires  : PowerShell v5.1 and up
@@ -20551,7 +20551,7 @@ function Invoke-ADCGetAuthenticationsamlidpprofile {
         Invoke-ADCGetAuthenticationsamlidpprofile -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetAuthenticationsamlidpprofile
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/authentication/authenticationsamlidpprofile/
         Requires  : PowerShell v5.1 and up
@@ -20641,7 +20641,7 @@ function Invoke-ADCAddAuthenticationsamlpolicy {
         Invoke-ADCAddAuthenticationsamlpolicy -name <string> -rule <string> -reqaction <string>
     .NOTES
         File Name : Invoke-ADCAddAuthenticationsamlpolicy
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/authentication/authenticationsamlpolicy/
         Requires  : PowerShell v5.1 and up
@@ -20718,7 +20718,7 @@ function Invoke-ADCDeleteAuthenticationsamlpolicy {
         Invoke-ADCDeleteAuthenticationsamlpolicy -name <string>
     .NOTES
         File Name : Invoke-ADCDeleteAuthenticationsamlpolicy
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/authentication/authenticationsamlpolicy/
         Requires  : PowerShell v5.1 and up
@@ -20782,7 +20782,7 @@ function Invoke-ADCUpdateAuthenticationsamlpolicy {
         Invoke-ADCUpdateAuthenticationsamlpolicy -name <string>
     .NOTES
         File Name : Invoke-ADCUpdateAuthenticationsamlpolicy
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/authentication/authenticationsamlpolicy/
         Requires  : PowerShell v5.1 and up
@@ -20860,7 +20860,7 @@ function Invoke-ADCUnsetAuthenticationsamlpolicy {
         Invoke-ADCUnsetAuthenticationsamlpolicy -name <string>
     .NOTES
         File Name : Invoke-ADCUnsetAuthenticationsamlpolicy
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/authentication/authenticationsamlpolicy
         Requires  : PowerShell v5.1 and up
@@ -20940,7 +20940,7 @@ function Invoke-ADCGetAuthenticationsamlpolicy {
         Invoke-ADCGetAuthenticationsamlpolicy -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetAuthenticationsamlpolicy
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/authentication/authenticationsamlpolicy/
         Requires  : PowerShell v5.1 and up
@@ -21037,7 +21037,7 @@ function Invoke-ADCGetAuthenticationsamlpolicyauthenticationvserverbinding {
         Invoke-ADCGetAuthenticationsamlpolicyauthenticationvserverbinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetAuthenticationsamlpolicyauthenticationvserverbinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/authentication/authenticationsamlpolicy_authenticationvserver_binding/
         Requires  : PowerShell v5.1 and up
@@ -21129,7 +21129,7 @@ function Invoke-ADCGetAuthenticationsamlpolicybinding {
         Invoke-ADCGetAuthenticationsamlpolicybinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetAuthenticationsamlpolicybinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/authentication/authenticationsamlpolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -21220,7 +21220,7 @@ function Invoke-ADCGetAuthenticationsamlpolicyvpnglobalbinding {
         Invoke-ADCGetAuthenticationsamlpolicyvpnglobalbinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetAuthenticationsamlpolicyvpnglobalbinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/authentication/authenticationsamlpolicy_vpnglobal_binding/
         Requires  : PowerShell v5.1 and up
@@ -21314,7 +21314,7 @@ function Invoke-ADCGetAuthenticationsamlpolicyvpnvserverbinding {
         Invoke-ADCGetAuthenticationsamlpolicyvpnvserverbinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetAuthenticationsamlpolicyvpnvserverbinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/authentication/authenticationsamlpolicy_vpnvserver_binding/
         Requires  : PowerShell v5.1 and up
@@ -21400,7 +21400,7 @@ function Invoke-ADCAddAuthenticationstorefrontauthaction {
         Invoke-ADCAddAuthenticationstorefrontauthaction -name <string> -serverurl <string>
     .NOTES
         File Name : Invoke-ADCAddAuthenticationstorefrontauthaction
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/authentication/authenticationstorefrontauthaction/
         Requires  : PowerShell v5.1 and up
@@ -21476,7 +21476,7 @@ function Invoke-ADCDeleteAuthenticationstorefrontauthaction {
         Invoke-ADCDeleteAuthenticationstorefrontauthaction -name <string>
     .NOTES
         File Name : Invoke-ADCDeleteAuthenticationstorefrontauthaction
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/authentication/authenticationstorefrontauthaction/
         Requires  : PowerShell v5.1 and up
@@ -21540,7 +21540,7 @@ function Invoke-ADCUpdateAuthenticationstorefrontauthaction {
         Invoke-ADCUpdateAuthenticationstorefrontauthaction -name <string>
     .NOTES
         File Name : Invoke-ADCUpdateAuthenticationstorefrontauthaction
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/authentication/authenticationstorefrontauthaction/
         Requires  : PowerShell v5.1 and up
@@ -21619,7 +21619,7 @@ function Invoke-ADCUnsetAuthenticationstorefrontauthaction {
         Invoke-ADCUnsetAuthenticationstorefrontauthaction -name <string>
     .NOTES
         File Name : Invoke-ADCUnsetAuthenticationstorefrontauthaction
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/authentication/authenticationstorefrontauthaction
         Requires  : PowerShell v5.1 and up
@@ -21699,7 +21699,7 @@ function Invoke-ADCGetAuthenticationstorefrontauthaction {
         Invoke-ADCGetAuthenticationstorefrontauthaction -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetAuthenticationstorefrontauthaction
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/authentication/authenticationstorefrontauthaction/
         Requires  : PowerShell v5.1 and up
@@ -21848,7 +21848,7 @@ function Invoke-ADCAddAuthenticationtacacsaction {
         Invoke-ADCAddAuthenticationtacacsaction -name <string>
     .NOTES
         File Name : Invoke-ADCAddAuthenticationtacacsaction
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/authentication/authenticationtacacsaction/
         Requires  : PowerShell v5.1 and up
@@ -21997,7 +21997,7 @@ function Invoke-ADCDeleteAuthenticationtacacsaction {
         Invoke-ADCDeleteAuthenticationtacacsaction -name <string>
     .NOTES
         File Name : Invoke-ADCDeleteAuthenticationtacacsaction
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/authentication/authenticationtacacsaction/
         Requires  : PowerShell v5.1 and up
@@ -22121,7 +22121,7 @@ function Invoke-ADCUpdateAuthenticationtacacsaction {
         Invoke-ADCUpdateAuthenticationtacacsaction -name <string>
     .NOTES
         File Name : Invoke-ADCUpdateAuthenticationtacacsaction
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/authentication/authenticationtacacsaction/
         Requires  : PowerShell v5.1 and up
@@ -22330,7 +22330,7 @@ function Invoke-ADCUnsetAuthenticationtacacsaction {
         Invoke-ADCUnsetAuthenticationtacacsaction -name <string>
     .NOTES
         File Name : Invoke-ADCUnsetAuthenticationtacacsaction
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/authentication/authenticationtacacsaction
         Requires  : PowerShell v5.1 and up
@@ -22482,7 +22482,7 @@ function Invoke-ADCGetAuthenticationtacacsaction {
         Invoke-ADCGetAuthenticationtacacsaction -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetAuthenticationtacacsaction
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/authentication/authenticationtacacsaction/
         Requires  : PowerShell v5.1 and up
@@ -22571,7 +22571,7 @@ function Invoke-ADCAddAuthenticationtacacspolicy {
         Invoke-ADCAddAuthenticationtacacspolicy -name <string> -rule <string>
     .NOTES
         File Name : Invoke-ADCAddAuthenticationtacacspolicy
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/authentication/authenticationtacacspolicy/
         Requires  : PowerShell v5.1 and up
@@ -22646,7 +22646,7 @@ function Invoke-ADCDeleteAuthenticationtacacspolicy {
         Invoke-ADCDeleteAuthenticationtacacspolicy -name <string>
     .NOTES
         File Name : Invoke-ADCDeleteAuthenticationtacacspolicy
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/authentication/authenticationtacacspolicy/
         Requires  : PowerShell v5.1 and up
@@ -22710,7 +22710,7 @@ function Invoke-ADCUpdateAuthenticationtacacspolicy {
         Invoke-ADCUpdateAuthenticationtacacspolicy -name <string>
     .NOTES
         File Name : Invoke-ADCUpdateAuthenticationtacacspolicy
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/authentication/authenticationtacacspolicy/
         Requires  : PowerShell v5.1 and up
@@ -22788,7 +22788,7 @@ function Invoke-ADCUnsetAuthenticationtacacspolicy {
         Invoke-ADCUnsetAuthenticationtacacspolicy -name <string>
     .NOTES
         File Name : Invoke-ADCUnsetAuthenticationtacacspolicy
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/authentication/authenticationtacacspolicy
         Requires  : PowerShell v5.1 and up
@@ -22868,7 +22868,7 @@ function Invoke-ADCGetAuthenticationtacacspolicy {
         Invoke-ADCGetAuthenticationtacacspolicy -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetAuthenticationtacacspolicy
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/authentication/authenticationtacacspolicy/
         Requires  : PowerShell v5.1 and up
@@ -22965,7 +22965,7 @@ function Invoke-ADCGetAuthenticationtacacspolicyauthenticationvserverbinding {
         Invoke-ADCGetAuthenticationtacacspolicyauthenticationvserverbinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetAuthenticationtacacspolicyauthenticationvserverbinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/authentication/authenticationtacacspolicy_authenticationvserver_binding/
         Requires  : PowerShell v5.1 and up
@@ -23057,7 +23057,7 @@ function Invoke-ADCGetAuthenticationtacacspolicybinding {
         Invoke-ADCGetAuthenticationtacacspolicybinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetAuthenticationtacacspolicybinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/authentication/authenticationtacacspolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -23148,7 +23148,7 @@ function Invoke-ADCGetAuthenticationtacacspolicysystemglobalbinding {
         Invoke-ADCGetAuthenticationtacacspolicysystemglobalbinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetAuthenticationtacacspolicysystemglobalbinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/authentication/authenticationtacacspolicy_systemglobal_binding/
         Requires  : PowerShell v5.1 and up
@@ -23242,7 +23242,7 @@ function Invoke-ADCGetAuthenticationtacacspolicyvpnglobalbinding {
         Invoke-ADCGetAuthenticationtacacspolicyvpnglobalbinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetAuthenticationtacacspolicyvpnglobalbinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/authentication/authenticationtacacspolicy_vpnglobal_binding/
         Requires  : PowerShell v5.1 and up
@@ -23336,7 +23336,7 @@ function Invoke-ADCGetAuthenticationtacacspolicyvpnvserverbinding {
         Invoke-ADCGetAuthenticationtacacspolicyvpnvserverbinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetAuthenticationtacacspolicyvpnvserverbinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/authentication/authenticationtacacspolicy_vpnvserver_binding/
         Requires  : PowerShell v5.1 and up
@@ -23468,7 +23468,7 @@ function Invoke-ADCAddAuthenticationvserver {
         Invoke-ADCAddAuthenticationvserver -name <string> -servicetype <string>
     .NOTES
         File Name : Invoke-ADCAddAuthenticationvserver
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/authentication/authenticationvserver/
         Requires  : PowerShell v5.1 and up
@@ -23588,7 +23588,7 @@ function Invoke-ADCDeleteAuthenticationvserver {
         Invoke-ADCDeleteAuthenticationvserver -name <string>
     .NOTES
         File Name : Invoke-ADCDeleteAuthenticationvserver
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/authentication/authenticationvserver/
         Requires  : PowerShell v5.1 and up
@@ -23677,7 +23677,7 @@ function Invoke-ADCUpdateAuthenticationvserver {
         Invoke-ADCUpdateAuthenticationvserver -name <string>
     .NOTES
         File Name : Invoke-ADCUpdateAuthenticationvserver
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/authentication/authenticationvserver/
         Requires  : PowerShell v5.1 and up
@@ -23796,7 +23796,7 @@ function Invoke-ADCUnsetAuthenticationvserver {
         Invoke-ADCUnsetAuthenticationvserver -name <string>
     .NOTES
         File Name : Invoke-ADCUnsetAuthenticationvserver
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/authentication/authenticationvserver
         Requires  : PowerShell v5.1 and up
@@ -23877,7 +23877,7 @@ function Invoke-ADCEnableAuthenticationvserver {
         Invoke-ADCEnableAuthenticationvserver -name <string>
     .NOTES
         File Name : Invoke-ADCEnableAuthenticationvserver
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/authentication/authenticationvserver/
         Requires  : PowerShell v5.1 and up
@@ -23936,7 +23936,7 @@ function Invoke-ADCDisableAuthenticationvserver {
         Invoke-ADCDisableAuthenticationvserver -name <string>
     .NOTES
         File Name : Invoke-ADCDisableAuthenticationvserver
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/authentication/authenticationvserver/
         Requires  : PowerShell v5.1 and up
@@ -24000,7 +24000,7 @@ function Invoke-ADCRenameAuthenticationvserver {
         Invoke-ADCRenameAuthenticationvserver -name <string> -newname <string>
     .NOTES
         File Name : Invoke-ADCRenameAuthenticationvserver
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/authentication/authenticationvserver/
         Requires  : PowerShell v5.1 and up
@@ -24089,7 +24089,7 @@ function Invoke-ADCGetAuthenticationvserver {
         Invoke-ADCGetAuthenticationvserver -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetAuthenticationvserver
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/authentication/authenticationvserver/
         Requires  : PowerShell v5.1 and up
@@ -24187,7 +24187,7 @@ function Invoke-ADCAddAuthenticationvserverauditnslogpolicybinding {
         Invoke-ADCAddAuthenticationvserverauditnslogpolicybinding -name <string>
     .NOTES
         File Name : Invoke-ADCAddAuthenticationvserverauditnslogpolicybinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/authentication/authenticationvserver_auditnslogpolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -24280,7 +24280,7 @@ function Invoke-ADCDeleteAuthenticationvserverauditnslogpolicybinding {
         Invoke-ADCDeleteAuthenticationvserverauditnslogpolicybinding -name <string>
     .NOTES
         File Name : Invoke-ADCDeleteAuthenticationvserverauditnslogpolicybinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/authentication/authenticationvserver_auditnslogpolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -24363,7 +24363,7 @@ function Invoke-ADCGetAuthenticationvserverauditnslogpolicybinding {
         Invoke-ADCGetAuthenticationvserverauditnslogpolicybinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetAuthenticationvserverauditnslogpolicybinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/authentication/authenticationvserver_auditnslogpolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -24458,7 +24458,7 @@ function Invoke-ADCAddAuthenticationvserverauditsyslogpolicybinding {
         Invoke-ADCAddAuthenticationvserverauditsyslogpolicybinding -name <string>
     .NOTES
         File Name : Invoke-ADCAddAuthenticationvserverauditsyslogpolicybinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/authentication/authenticationvserver_auditsyslogpolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -24551,7 +24551,7 @@ function Invoke-ADCDeleteAuthenticationvserverauditsyslogpolicybinding {
         Invoke-ADCDeleteAuthenticationvserverauditsyslogpolicybinding -name <string>
     .NOTES
         File Name : Invoke-ADCDeleteAuthenticationvserverauditsyslogpolicybinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/authentication/authenticationvserver_auditsyslogpolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -24634,7 +24634,7 @@ function Invoke-ADCGetAuthenticationvserverauditsyslogpolicybinding {
         Invoke-ADCGetAuthenticationvserverauditsyslogpolicybinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetAuthenticationvserverauditsyslogpolicybinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/authentication/authenticationvserver_auditsyslogpolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -24729,7 +24729,7 @@ function Invoke-ADCAddAuthenticationvserverauthenticationcertpolicybinding {
         Invoke-ADCAddAuthenticationvserverauthenticationcertpolicybinding -name <string>
     .NOTES
         File Name : Invoke-ADCAddAuthenticationvserverauthenticationcertpolicybinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/authentication/authenticationvserver_authenticationcertpolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -24822,7 +24822,7 @@ function Invoke-ADCDeleteAuthenticationvserverauthenticationcertpolicybinding {
         Invoke-ADCDeleteAuthenticationvserverauthenticationcertpolicybinding -name <string>
     .NOTES
         File Name : Invoke-ADCDeleteAuthenticationvserverauthenticationcertpolicybinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/authentication/authenticationvserver_authenticationcertpolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -24905,7 +24905,7 @@ function Invoke-ADCGetAuthenticationvserverauthenticationcertpolicybinding {
         Invoke-ADCGetAuthenticationvserverauthenticationcertpolicybinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetAuthenticationvserverauthenticationcertpolicybinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/authentication/authenticationvserver_authenticationcertpolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -25000,7 +25000,7 @@ function Invoke-ADCAddAuthenticationvserverauthenticationldappolicybinding {
         Invoke-ADCAddAuthenticationvserverauthenticationldappolicybinding -name <string>
     .NOTES
         File Name : Invoke-ADCAddAuthenticationvserverauthenticationldappolicybinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/authentication/authenticationvserver_authenticationldappolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -25093,7 +25093,7 @@ function Invoke-ADCDeleteAuthenticationvserverauthenticationldappolicybinding {
         Invoke-ADCDeleteAuthenticationvserverauthenticationldappolicybinding -name <string>
     .NOTES
         File Name : Invoke-ADCDeleteAuthenticationvserverauthenticationldappolicybinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/authentication/authenticationvserver_authenticationldappolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -25176,7 +25176,7 @@ function Invoke-ADCGetAuthenticationvserverauthenticationldappolicybinding {
         Invoke-ADCGetAuthenticationvserverauthenticationldappolicybinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetAuthenticationvserverauthenticationldappolicybinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/authentication/authenticationvserver_authenticationldappolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -25271,7 +25271,7 @@ function Invoke-ADCAddAuthenticationvserverauthenticationlocalpolicybinding {
         Invoke-ADCAddAuthenticationvserverauthenticationlocalpolicybinding -name <string>
     .NOTES
         File Name : Invoke-ADCAddAuthenticationvserverauthenticationlocalpolicybinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/authentication/authenticationvserver_authenticationlocalpolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -25364,7 +25364,7 @@ function Invoke-ADCDeleteAuthenticationvserverauthenticationlocalpolicybinding {
         Invoke-ADCDeleteAuthenticationvserverauthenticationlocalpolicybinding -name <string>
     .NOTES
         File Name : Invoke-ADCDeleteAuthenticationvserverauthenticationlocalpolicybinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/authentication/authenticationvserver_authenticationlocalpolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -25447,7 +25447,7 @@ function Invoke-ADCGetAuthenticationvserverauthenticationlocalpolicybinding {
         Invoke-ADCGetAuthenticationvserverauthenticationlocalpolicybinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetAuthenticationvserverauthenticationlocalpolicybinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/authentication/authenticationvserver_authenticationlocalpolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -25542,7 +25542,7 @@ function Invoke-ADCAddAuthenticationvserverauthenticationloginschemapolicybindin
         Invoke-ADCAddAuthenticationvserverauthenticationloginschemapolicybinding -name <string>
     .NOTES
         File Name : Invoke-ADCAddAuthenticationvserverauthenticationloginschemapolicybinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/authentication/authenticationvserver_authenticationloginschemapolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -25635,7 +25635,7 @@ function Invoke-ADCDeleteAuthenticationvserverauthenticationloginschemapolicybin
         Invoke-ADCDeleteAuthenticationvserverauthenticationloginschemapolicybinding -name <string>
     .NOTES
         File Name : Invoke-ADCDeleteAuthenticationvserverauthenticationloginschemapolicybinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/authentication/authenticationvserver_authenticationloginschemapolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -25718,7 +25718,7 @@ function Invoke-ADCGetAuthenticationvserverauthenticationloginschemapolicybindin
         Invoke-ADCGetAuthenticationvserverauthenticationloginschemapolicybinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetAuthenticationvserverauthenticationloginschemapolicybinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/authentication/authenticationvserver_authenticationloginschemapolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -25813,7 +25813,7 @@ function Invoke-ADCAddAuthenticationvserverauthenticationnegotiatepolicybinding 
         Invoke-ADCAddAuthenticationvserverauthenticationnegotiatepolicybinding -name <string>
     .NOTES
         File Name : Invoke-ADCAddAuthenticationvserverauthenticationnegotiatepolicybinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/authentication/authenticationvserver_authenticationnegotiatepolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -25906,7 +25906,7 @@ function Invoke-ADCDeleteAuthenticationvserverauthenticationnegotiatepolicybindi
         Invoke-ADCDeleteAuthenticationvserverauthenticationnegotiatepolicybinding -name <string>
     .NOTES
         File Name : Invoke-ADCDeleteAuthenticationvserverauthenticationnegotiatepolicybinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/authentication/authenticationvserver_authenticationnegotiatepolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -25989,7 +25989,7 @@ function Invoke-ADCGetAuthenticationvserverauthenticationnegotiatepolicybinding 
         Invoke-ADCGetAuthenticationvserverauthenticationnegotiatepolicybinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetAuthenticationvserverauthenticationnegotiatepolicybinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/authentication/authenticationvserver_authenticationnegotiatepolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -26084,7 +26084,7 @@ function Invoke-ADCAddAuthenticationvserverauthenticationoauthidppolicybinding {
         Invoke-ADCAddAuthenticationvserverauthenticationoauthidppolicybinding -name <string>
     .NOTES
         File Name : Invoke-ADCAddAuthenticationvserverauthenticationoauthidppolicybinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/authentication/authenticationvserver_authenticationoauthidppolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -26177,7 +26177,7 @@ function Invoke-ADCDeleteAuthenticationvserverauthenticationoauthidppolicybindin
         Invoke-ADCDeleteAuthenticationvserverauthenticationoauthidppolicybinding -name <string>
     .NOTES
         File Name : Invoke-ADCDeleteAuthenticationvserverauthenticationoauthidppolicybinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/authentication/authenticationvserver_authenticationoauthidppolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -26260,7 +26260,7 @@ function Invoke-ADCGetAuthenticationvserverauthenticationoauthidppolicybinding {
         Invoke-ADCGetAuthenticationvserverauthenticationoauthidppolicybinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetAuthenticationvserverauthenticationoauthidppolicybinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/authentication/authenticationvserver_authenticationoauthidppolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -26355,7 +26355,7 @@ function Invoke-ADCAddAuthenticationvserverauthenticationpolicybinding {
         Invoke-ADCAddAuthenticationvserverauthenticationpolicybinding -name <string>
     .NOTES
         File Name : Invoke-ADCAddAuthenticationvserverauthenticationpolicybinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/authentication/authenticationvserver_authenticationpolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -26448,7 +26448,7 @@ function Invoke-ADCDeleteAuthenticationvserverauthenticationpolicybinding {
         Invoke-ADCDeleteAuthenticationvserverauthenticationpolicybinding -name <string>
     .NOTES
         File Name : Invoke-ADCDeleteAuthenticationvserverauthenticationpolicybinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/authentication/authenticationvserver_authenticationpolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -26531,7 +26531,7 @@ function Invoke-ADCGetAuthenticationvserverauthenticationpolicybinding {
         Invoke-ADCGetAuthenticationvserverauthenticationpolicybinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetAuthenticationvserverauthenticationpolicybinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/authentication/authenticationvserver_authenticationpolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -26626,7 +26626,7 @@ function Invoke-ADCAddAuthenticationvserverauthenticationradiuspolicybinding {
         Invoke-ADCAddAuthenticationvserverauthenticationradiuspolicybinding -name <string>
     .NOTES
         File Name : Invoke-ADCAddAuthenticationvserverauthenticationradiuspolicybinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/authentication/authenticationvserver_authenticationradiuspolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -26719,7 +26719,7 @@ function Invoke-ADCDeleteAuthenticationvserverauthenticationradiuspolicybinding 
         Invoke-ADCDeleteAuthenticationvserverauthenticationradiuspolicybinding -name <string>
     .NOTES
         File Name : Invoke-ADCDeleteAuthenticationvserverauthenticationradiuspolicybinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/authentication/authenticationvserver_authenticationradiuspolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -26802,7 +26802,7 @@ function Invoke-ADCGetAuthenticationvserverauthenticationradiuspolicybinding {
         Invoke-ADCGetAuthenticationvserverauthenticationradiuspolicybinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetAuthenticationvserverauthenticationradiuspolicybinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/authentication/authenticationvserver_authenticationradiuspolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -26897,7 +26897,7 @@ function Invoke-ADCAddAuthenticationvserverauthenticationsamlidppolicybinding {
         Invoke-ADCAddAuthenticationvserverauthenticationsamlidppolicybinding -name <string>
     .NOTES
         File Name : Invoke-ADCAddAuthenticationvserverauthenticationsamlidppolicybinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/authentication/authenticationvserver_authenticationsamlidppolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -26990,7 +26990,7 @@ function Invoke-ADCDeleteAuthenticationvserverauthenticationsamlidppolicybinding
         Invoke-ADCDeleteAuthenticationvserverauthenticationsamlidppolicybinding -name <string>
     .NOTES
         File Name : Invoke-ADCDeleteAuthenticationvserverauthenticationsamlidppolicybinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/authentication/authenticationvserver_authenticationsamlidppolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -27073,7 +27073,7 @@ function Invoke-ADCGetAuthenticationvserverauthenticationsamlidppolicybinding {
         Invoke-ADCGetAuthenticationvserverauthenticationsamlidppolicybinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetAuthenticationvserverauthenticationsamlidppolicybinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/authentication/authenticationvserver_authenticationsamlidppolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -27168,7 +27168,7 @@ function Invoke-ADCAddAuthenticationvserverauthenticationsamlpolicybinding {
         Invoke-ADCAddAuthenticationvserverauthenticationsamlpolicybinding -name <string>
     .NOTES
         File Name : Invoke-ADCAddAuthenticationvserverauthenticationsamlpolicybinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/authentication/authenticationvserver_authenticationsamlpolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -27261,7 +27261,7 @@ function Invoke-ADCDeleteAuthenticationvserverauthenticationsamlpolicybinding {
         Invoke-ADCDeleteAuthenticationvserverauthenticationsamlpolicybinding -name <string>
     .NOTES
         File Name : Invoke-ADCDeleteAuthenticationvserverauthenticationsamlpolicybinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/authentication/authenticationvserver_authenticationsamlpolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -27344,7 +27344,7 @@ function Invoke-ADCGetAuthenticationvserverauthenticationsamlpolicybinding {
         Invoke-ADCGetAuthenticationvserverauthenticationsamlpolicybinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetAuthenticationvserverauthenticationsamlpolicybinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/authentication/authenticationvserver_authenticationsamlpolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -27439,7 +27439,7 @@ function Invoke-ADCAddAuthenticationvserverauthenticationtacacspolicybinding {
         Invoke-ADCAddAuthenticationvserverauthenticationtacacspolicybinding -name <string>
     .NOTES
         File Name : Invoke-ADCAddAuthenticationvserverauthenticationtacacspolicybinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/authentication/authenticationvserver_authenticationtacacspolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -27532,7 +27532,7 @@ function Invoke-ADCDeleteAuthenticationvserverauthenticationtacacspolicybinding 
         Invoke-ADCDeleteAuthenticationvserverauthenticationtacacspolicybinding -name <string>
     .NOTES
         File Name : Invoke-ADCDeleteAuthenticationvserverauthenticationtacacspolicybinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/authentication/authenticationvserver_authenticationtacacspolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -27615,7 +27615,7 @@ function Invoke-ADCGetAuthenticationvserverauthenticationtacacspolicybinding {
         Invoke-ADCGetAuthenticationvserverauthenticationtacacspolicybinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetAuthenticationvserverauthenticationtacacspolicybinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/authentication/authenticationvserver_authenticationtacacspolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -27710,7 +27710,7 @@ function Invoke-ADCAddAuthenticationvserverauthenticationwebauthpolicybinding {
         Invoke-ADCAddAuthenticationvserverauthenticationwebauthpolicybinding -name <string>
     .NOTES
         File Name : Invoke-ADCAddAuthenticationvserverauthenticationwebauthpolicybinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/authentication/authenticationvserver_authenticationwebauthpolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -27803,7 +27803,7 @@ function Invoke-ADCDeleteAuthenticationvserverauthenticationwebauthpolicybinding
         Invoke-ADCDeleteAuthenticationvserverauthenticationwebauthpolicybinding -name <string>
     .NOTES
         File Name : Invoke-ADCDeleteAuthenticationvserverauthenticationwebauthpolicybinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/authentication/authenticationvserver_authenticationwebauthpolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -27886,7 +27886,7 @@ function Invoke-ADCGetAuthenticationvserverauthenticationwebauthpolicybinding {
         Invoke-ADCGetAuthenticationvserverauthenticationwebauthpolicybinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetAuthenticationvserverauthenticationwebauthpolicybinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/authentication/authenticationvserver_authenticationwebauthpolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -27978,7 +27978,7 @@ function Invoke-ADCGetAuthenticationvserverbinding {
         Invoke-ADCGetAuthenticationvserverbinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetAuthenticationvserverbinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/authentication/authenticationvserver_binding/
         Requires  : PowerShell v5.1 and up
@@ -28070,7 +28070,7 @@ function Invoke-ADCAddAuthenticationvservercachepolicybinding {
         Invoke-ADCAddAuthenticationvservercachepolicybinding -name <string>
     .NOTES
         File Name : Invoke-ADCAddAuthenticationvservercachepolicybinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/authentication/authenticationvserver_cachepolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -28163,7 +28163,7 @@ function Invoke-ADCDeleteAuthenticationvservercachepolicybinding {
         Invoke-ADCDeleteAuthenticationvservercachepolicybinding -name <string>
     .NOTES
         File Name : Invoke-ADCDeleteAuthenticationvservercachepolicybinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/authentication/authenticationvserver_cachepolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -28246,7 +28246,7 @@ function Invoke-ADCGetAuthenticationvservercachepolicybinding {
         Invoke-ADCGetAuthenticationvservercachepolicybinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetAuthenticationvservercachepolicybinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/authentication/authenticationvserver_cachepolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -28341,7 +28341,7 @@ function Invoke-ADCAddAuthenticationvservercspolicybinding {
         Invoke-ADCAddAuthenticationvservercspolicybinding -name <string>
     .NOTES
         File Name : Invoke-ADCAddAuthenticationvservercspolicybinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/authentication/authenticationvserver_cspolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -28434,7 +28434,7 @@ function Invoke-ADCDeleteAuthenticationvservercspolicybinding {
         Invoke-ADCDeleteAuthenticationvservercspolicybinding -name <string>
     .NOTES
         File Name : Invoke-ADCDeleteAuthenticationvservercspolicybinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/authentication/authenticationvserver_cspolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -28517,7 +28517,7 @@ function Invoke-ADCGetAuthenticationvservercspolicybinding {
         Invoke-ADCGetAuthenticationvservercspolicybinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetAuthenticationvservercspolicybinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/authentication/authenticationvserver_cspolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -28612,7 +28612,7 @@ function Invoke-ADCAddAuthenticationvserverresponderpolicybinding {
         Invoke-ADCAddAuthenticationvserverresponderpolicybinding -name <string>
     .NOTES
         File Name : Invoke-ADCAddAuthenticationvserverresponderpolicybinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/authentication/authenticationvserver_responderpolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -28705,7 +28705,7 @@ function Invoke-ADCDeleteAuthenticationvserverresponderpolicybinding {
         Invoke-ADCDeleteAuthenticationvserverresponderpolicybinding -name <string>
     .NOTES
         File Name : Invoke-ADCDeleteAuthenticationvserverresponderpolicybinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/authentication/authenticationvserver_responderpolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -28788,7 +28788,7 @@ function Invoke-ADCGetAuthenticationvserverresponderpolicybinding {
         Invoke-ADCGetAuthenticationvserverresponderpolicybinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetAuthenticationvserverresponderpolicybinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/authentication/authenticationvserver_responderpolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -28883,7 +28883,7 @@ function Invoke-ADCAddAuthenticationvservertmsessionpolicybinding {
         Invoke-ADCAddAuthenticationvservertmsessionpolicybinding -name <string>
     .NOTES
         File Name : Invoke-ADCAddAuthenticationvservertmsessionpolicybinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/authentication/authenticationvserver_tmsessionpolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -28976,7 +28976,7 @@ function Invoke-ADCDeleteAuthenticationvservertmsessionpolicybinding {
         Invoke-ADCDeleteAuthenticationvservertmsessionpolicybinding -name <string>
     .NOTES
         File Name : Invoke-ADCDeleteAuthenticationvservertmsessionpolicybinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/authentication/authenticationvserver_tmsessionpolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -29059,7 +29059,7 @@ function Invoke-ADCGetAuthenticationvservertmsessionpolicybinding {
         Invoke-ADCGetAuthenticationvservertmsessionpolicybinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetAuthenticationvservertmsessionpolicybinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/authentication/authenticationvserver_tmsessionpolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -29141,7 +29141,7 @@ function Invoke-ADCAddAuthenticationvservervpnportalthemebinding {
         Invoke-ADCAddAuthenticationvservervpnportalthemebinding -name <string>
     .NOTES
         File Name : Invoke-ADCAddAuthenticationvservervpnportalthemebinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/authentication/authenticationvserver_vpnportaltheme_binding/
         Requires  : PowerShell v5.1 and up
@@ -29211,7 +29211,7 @@ function Invoke-ADCDeleteAuthenticationvservervpnportalthemebinding {
         Invoke-ADCDeleteAuthenticationvservervpnportalthemebinding -name <string>
     .NOTES
         File Name : Invoke-ADCDeleteAuthenticationvservervpnportalthemebinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/authentication/authenticationvserver_vpnportaltheme_binding/
         Requires  : PowerShell v5.1 and up
@@ -29285,7 +29285,7 @@ function Invoke-ADCGetAuthenticationvservervpnportalthemebinding {
         Invoke-ADCGetAuthenticationvservervpnportalthemebinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetAuthenticationvservervpnportalthemebinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/authentication/authenticationvserver_vpnportaltheme_binding/
         Requires  : PowerShell v5.1 and up
@@ -29431,7 +29431,7 @@ function Invoke-ADCAddAuthenticationwebauthaction {
         Invoke-ADCAddAuthenticationwebauthaction -name <string> -serverip <string> -serverport <int> -scheme <string> -successrule <string>
     .NOTES
         File Name : Invoke-ADCAddAuthenticationwebauthaction
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/authentication/authenticationwebauthaction/
         Requires  : PowerShell v5.1 and up
@@ -29570,7 +29570,7 @@ function Invoke-ADCDeleteAuthenticationwebauthaction {
         Invoke-ADCDeleteAuthenticationwebauthaction -name <string>
     .NOTES
         File Name : Invoke-ADCDeleteAuthenticationwebauthaction
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/authentication/authenticationwebauthaction/
         Requires  : PowerShell v5.1 and up
@@ -29694,7 +29694,7 @@ function Invoke-ADCUpdateAuthenticationwebauthaction {
         Invoke-ADCUpdateAuthenticationwebauthaction -name <string>
     .NOTES
         File Name : Invoke-ADCUpdateAuthenticationwebauthaction
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/authentication/authenticationwebauthaction/
         Requires  : PowerShell v5.1 and up
@@ -29871,7 +29871,7 @@ function Invoke-ADCUnsetAuthenticationwebauthaction {
         Invoke-ADCUnsetAuthenticationwebauthaction -name <string>
     .NOTES
         File Name : Invoke-ADCUnsetAuthenticationwebauthaction
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/authentication/authenticationwebauthaction
         Requires  : PowerShell v5.1 and up
@@ -30005,7 +30005,7 @@ function Invoke-ADCGetAuthenticationwebauthaction {
         Invoke-ADCGetAuthenticationwebauthaction -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetAuthenticationwebauthaction
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/authentication/authenticationwebauthaction/
         Requires  : PowerShell v5.1 and up
@@ -30094,7 +30094,7 @@ function Invoke-ADCAddAuthenticationwebauthpolicy {
         Invoke-ADCAddAuthenticationwebauthpolicy -name <string> -rule <string> -action <string>
     .NOTES
         File Name : Invoke-ADCAddAuthenticationwebauthpolicy
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/authentication/authenticationwebauthpolicy/
         Requires  : PowerShell v5.1 and up
@@ -30171,7 +30171,7 @@ function Invoke-ADCDeleteAuthenticationwebauthpolicy {
         Invoke-ADCDeleteAuthenticationwebauthpolicy -name <string>
     .NOTES
         File Name : Invoke-ADCDeleteAuthenticationwebauthpolicy
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/authentication/authenticationwebauthpolicy/
         Requires  : PowerShell v5.1 and up
@@ -30235,7 +30235,7 @@ function Invoke-ADCUpdateAuthenticationwebauthpolicy {
         Invoke-ADCUpdateAuthenticationwebauthpolicy -name <string>
     .NOTES
         File Name : Invoke-ADCUpdateAuthenticationwebauthpolicy
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/authentication/authenticationwebauthpolicy/
         Requires  : PowerShell v5.1 and up
@@ -30326,7 +30326,7 @@ function Invoke-ADCGetAuthenticationwebauthpolicy {
         Invoke-ADCGetAuthenticationwebauthpolicy -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetAuthenticationwebauthpolicy
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/authentication/authenticationwebauthpolicy/
         Requires  : PowerShell v5.1 and up
@@ -30423,7 +30423,7 @@ function Invoke-ADCGetAuthenticationwebauthpolicyauthenticationvserverbinding {
         Invoke-ADCGetAuthenticationwebauthpolicyauthenticationvserverbinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetAuthenticationwebauthpolicyauthenticationvserverbinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/authentication/authenticationwebauthpolicy_authenticationvserver_binding/
         Requires  : PowerShell v5.1 and up
@@ -30515,7 +30515,7 @@ function Invoke-ADCGetAuthenticationwebauthpolicybinding {
         Invoke-ADCGetAuthenticationwebauthpolicybinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetAuthenticationwebauthpolicybinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/authentication/authenticationwebauthpolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -30606,7 +30606,7 @@ function Invoke-ADCGetAuthenticationwebauthpolicysystemglobalbinding {
         Invoke-ADCGetAuthenticationwebauthpolicysystemglobalbinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetAuthenticationwebauthpolicysystemglobalbinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/authentication/authenticationwebauthpolicy_systemglobal_binding/
         Requires  : PowerShell v5.1 and up
@@ -30700,7 +30700,7 @@ function Invoke-ADCGetAuthenticationwebauthpolicyvpnglobalbinding {
         Invoke-ADCGetAuthenticationwebauthpolicyvpnglobalbinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetAuthenticationwebauthpolicyvpnglobalbinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/authentication/authenticationwebauthpolicy_vpnglobal_binding/
         Requires  : PowerShell v5.1 and up
@@ -30794,7 +30794,7 @@ function Invoke-ADCGetAuthenticationwebauthpolicyvpnvserverbinding {
         Invoke-ADCGetAuthenticationwebauthpolicyvpnvserverbinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetAuthenticationwebauthpolicyvpnvserverbinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/authentication/authenticationwebauthpolicy_vpnvserver_binding/
         Requires  : PowerShell v5.1 and up

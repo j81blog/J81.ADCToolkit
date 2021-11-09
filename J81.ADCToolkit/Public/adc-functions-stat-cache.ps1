@@ -26,7 +26,7 @@ function Invoke-ADCGetCacheStats {
         Invoke-ADCGetCacheStats -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetCacheStats
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/statistics/cache/cache/
         Requires  : PowerShell v5.1 and up
@@ -118,7 +118,7 @@ function Invoke-ADCGetCachecontentgroupStats {
         Invoke-ADCGetCachecontentgroupStats -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetCachecontentgroupStats
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/statistics/cache/cachecontentgroup/
         Requires  : PowerShell v5.1 and up
@@ -205,7 +205,7 @@ function Invoke-ADCGetCachepolicyStats {
         Invoke-ADCGetCachepolicyStats -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetCachepolicyStats
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/statistics/cache/cachepolicy/
         Requires  : PowerShell v5.1 and up
@@ -292,7 +292,7 @@ function Invoke-ADCGetCachepolicylabelStats {
         Invoke-ADCGetCachepolicylabelStats -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetCachepolicylabelStats
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/statistics/cache/cachepolicylabel/
         Requires  : PowerShell v5.1 and up

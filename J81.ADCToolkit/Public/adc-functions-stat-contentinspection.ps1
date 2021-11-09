@@ -26,7 +26,7 @@ function Invoke-ADCGetContentinspectionStats {
         Invoke-ADCGetContentinspectionStats -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetContentinspectionStats
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/statistics/contentinspection/contentinspection/
         Requires  : PowerShell v5.1 and up
@@ -118,7 +118,7 @@ function Invoke-ADCGetContentinspectionpolicyStats {
         Invoke-ADCGetContentinspectionpolicyStats -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetContentinspectionpolicyStats
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/statistics/contentinspection/contentinspectionpolicy/
         Requires  : PowerShell v5.1 and up
@@ -205,7 +205,7 @@ function Invoke-ADCGetContentinspectionpolicylabelStats {
         Invoke-ADCGetContentinspectionpolicylabelStats -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetContentinspectionpolicylabelStats
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/statistics/contentinspection/contentinspectionpolicylabel/
         Requires  : PowerShell v5.1 and up

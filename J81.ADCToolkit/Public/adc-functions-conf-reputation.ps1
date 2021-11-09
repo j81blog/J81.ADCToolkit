@@ -13,7 +13,7 @@ function Invoke-ADCUpdateReputationsettings {
         Invoke-ADCUpdateReputationsettings 
     .NOTES
         File Name : Invoke-ADCUpdateReputationsettings
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/reputation/reputationsettings/
         Requires  : PowerShell v5.1 and up
@@ -77,7 +77,7 @@ function Invoke-ADCUnsetReputationsettings {
         Invoke-ADCUnsetReputationsettings 
     .NOTES
         File Name : Invoke-ADCUnsetReputationsettings
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/reputation/reputationsettings
         Requires  : PowerShell v5.1 and up
@@ -148,7 +148,7 @@ function Invoke-ADCGetReputationsettings {
         Invoke-ADCGetReputationsettings -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetReputationsettings
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/reputation/reputationsettings/
         Requires  : PowerShell v5.1 and up

@@ -27,12 +27,12 @@ Describe "General project validation" {
     It "Script <file> should be valid PowerShell" -TestCases $testCase {
       param($file)
 
-      $file.fullname | Should Exist
+      $file.fullname | Should -Exist
 
       $contents = Get-Content -Path $file.fullname -ErrorAction Stop
       $errors = $null
       $null = [System.Management.Automation.PSParser]::Tokenize($contents, [ref]$errors)
-      $errors.Count | Should Be 0
+      $errors.Count | Should -Be 0
     }
     $scriptAnalyzerRules = Get-ScriptAnalyzerRule
     It "<file> should pass ScriptAnalyzer" -TestCases $testCase {
@@ -52,7 +52,7 @@ Describe "General project validation" {
           $analysis |
           Where-Object RuleName -EQ $rule -outvariable failures |
           Out-Default
-          $failures.Count | Should Be 0
+          $failures.Count | Should -Be 0
         }
       }
     }

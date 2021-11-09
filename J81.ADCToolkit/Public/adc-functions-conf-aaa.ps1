@@ -15,7 +15,7 @@ function Invoke-ADCUpdateAaacertparams {
         Invoke-ADCUpdateAaacertparams 
     .NOTES
         File Name : Invoke-ADCUpdateAaacertparams
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/aaa/aaacertparams/
         Requires  : PowerShell v5.1 and up
@@ -83,7 +83,7 @@ function Invoke-ADCUnsetAaacertparams {
         Invoke-ADCUnsetAaacertparams 
     .NOTES
         File Name : Invoke-ADCUnsetAaacertparams
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/aaa/aaacertparams
         Requires  : PowerShell v5.1 and up
@@ -157,7 +157,7 @@ function Invoke-ADCGetAaacertparams {
         Invoke-ADCGetAaacertparams -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetAaacertparams
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/aaa/aaacertparams/
         Requires  : PowerShell v5.1 and up
@@ -230,7 +230,7 @@ function Invoke-ADCAddAaaglobalaaapreauthenticationpolicybinding {
         Invoke-ADCAddAaaglobalaaapreauthenticationpolicybinding 
     .NOTES
         File Name : Invoke-ADCAddAaaglobalaaapreauthenticationpolicybinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/aaa/aaaglobal_aaapreauthenticationpolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -299,7 +299,7 @@ function Invoke-ADCDeleteAaaglobalaaapreauthenticationpolicybinding {
         Invoke-ADCDeleteAaaglobalaaapreauthenticationpolicybinding 
     .NOTES
         File Name : Invoke-ADCDeleteAaaglobalaaapreauthenticationpolicybinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/aaa/aaaglobal_aaapreauthenticationpolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -368,7 +368,7 @@ function Invoke-ADCGetAaaglobalaaapreauthenticationpolicybinding {
         Invoke-ADCGetAaaglobalaaapreauthenticationpolicybinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetAaaglobalaaapreauthenticationpolicybinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/aaa/aaaglobal_aaapreauthenticationpolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -445,7 +445,7 @@ function Invoke-ADCAddAaaglobalauthenticationnegotiateactionbinding {
         Invoke-ADCAddAaaglobalauthenticationnegotiateactionbinding 
     .NOTES
         File Name : Invoke-ADCAddAaaglobalauthenticationnegotiateactionbinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/aaa/aaaglobal_authenticationnegotiateaction_binding/
         Requires  : PowerShell v5.1 and up
@@ -512,7 +512,7 @@ function Invoke-ADCDeleteAaaglobalauthenticationnegotiateactionbinding {
         Invoke-ADCDeleteAaaglobalauthenticationnegotiateactionbinding 
     .NOTES
         File Name : Invoke-ADCDeleteAaaglobalauthenticationnegotiateactionbinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/aaa/aaaglobal_authenticationnegotiateaction_binding/
         Requires  : PowerShell v5.1 and up
@@ -581,7 +581,7 @@ function Invoke-ADCGetAaaglobalauthenticationnegotiateactionbinding {
         Invoke-ADCGetAaaglobalauthenticationnegotiateactionbinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetAaaglobalauthenticationnegotiateactionbinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/aaa/aaaglobal_authenticationnegotiateaction_binding/
         Requires  : PowerShell v5.1 and up
@@ -667,7 +667,7 @@ function Invoke-ADCGetAaaglobalbinding {
         Invoke-ADCGetAaaglobalbinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetAaaglobalbinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/aaa/aaaglobal_binding/
         Requires  : PowerShell v5.1 and up
@@ -744,7 +744,7 @@ function Invoke-ADCAddAaagroup {
         Invoke-ADCAddAaagroup -groupname <string>
     .NOTES
         File Name : Invoke-ADCAddAaagroup
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/aaa/aaagroup/
         Requires  : PowerShell v5.1 and up
@@ -813,7 +813,7 @@ function Invoke-ADCDeleteAaagroup {
         Invoke-ADCDeleteAaagroup -groupname <string>
     .NOTES
         File Name : Invoke-ADCDeleteAaagroup
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/aaa/aaagroup/
         Requires  : PowerShell v5.1 and up
@@ -885,7 +885,7 @@ function Invoke-ADCGetAaagroup {
         Invoke-ADCGetAaagroup -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetAaagroup
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/aaa/aaagroup/
         Requires  : PowerShell v5.1 and up
@@ -972,7 +972,7 @@ function Invoke-ADCAddAaagroupaaauserbinding {
         Invoke-ADCAddAaagroupaaauserbinding -groupname <string>
     .NOTES
         File Name : Invoke-ADCAddAaagroupaaauserbinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/aaa/aaagroup_aaauser_binding/
         Requires  : PowerShell v5.1 and up
@@ -1045,7 +1045,7 @@ function Invoke-ADCDeleteAaagroupaaauserbinding {
         Invoke-ADCDeleteAaagroupaaauserbinding -groupname <string>
     .NOTES
         File Name : Invoke-ADCDeleteAaagroupaaauserbinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/aaa/aaagroup_aaauser_binding/
         Requires  : PowerShell v5.1 and up
@@ -1119,7 +1119,7 @@ function Invoke-ADCGetAaagroupaaauserbinding {
         Invoke-ADCGetAaagroupaaauserbinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetAaagroupaaauserbinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/aaa/aaagroup_aaauser_binding/
         Requires  : PowerShell v5.1 and up
@@ -1211,7 +1211,7 @@ function Invoke-ADCAddAaagroupauditnslogpolicybinding {
         Invoke-ADCAddAaagroupauditnslogpolicybinding -groupname <string>
     .NOTES
         File Name : Invoke-ADCAddAaagroupauditnslogpolicybinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/aaa/aaagroup_auditnslogpolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -1295,7 +1295,7 @@ function Invoke-ADCDeleteAaagroupauditnslogpolicybinding {
         Invoke-ADCDeleteAaagroupauditnslogpolicybinding -groupname <string>
     .NOTES
         File Name : Invoke-ADCDeleteAaagroupauditnslogpolicybinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/aaa/aaagroup_auditnslogpolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -1372,7 +1372,7 @@ function Invoke-ADCGetAaagroupauditnslogpolicybinding {
         Invoke-ADCGetAaagroupauditnslogpolicybinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetAaagroupauditnslogpolicybinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/aaa/aaagroup_auditnslogpolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -1464,7 +1464,7 @@ function Invoke-ADCAddAaagroupauditsyslogpolicybinding {
         Invoke-ADCAddAaagroupauditsyslogpolicybinding -groupname <string>
     .NOTES
         File Name : Invoke-ADCAddAaagroupauditsyslogpolicybinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/aaa/aaagroup_auditsyslogpolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -1548,7 +1548,7 @@ function Invoke-ADCDeleteAaagroupauditsyslogpolicybinding {
         Invoke-ADCDeleteAaagroupauditsyslogpolicybinding -groupname <string>
     .NOTES
         File Name : Invoke-ADCDeleteAaagroupauditsyslogpolicybinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/aaa/aaagroup_auditsyslogpolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -1625,7 +1625,7 @@ function Invoke-ADCGetAaagroupauditsyslogpolicybinding {
         Invoke-ADCGetAaagroupauditsyslogpolicybinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetAaagroupauditsyslogpolicybinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/aaa/aaagroup_auditsyslogpolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -1717,7 +1717,7 @@ function Invoke-ADCAddAaagroupauthorizationpolicybinding {
         Invoke-ADCAddAaagroupauthorizationpolicybinding -groupname <string>
     .NOTES
         File Name : Invoke-ADCAddAaagroupauthorizationpolicybinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/aaa/aaagroup_authorizationpolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -1801,7 +1801,7 @@ function Invoke-ADCDeleteAaagroupauthorizationpolicybinding {
         Invoke-ADCDeleteAaagroupauthorizationpolicybinding -groupname <string>
     .NOTES
         File Name : Invoke-ADCDeleteAaagroupauthorizationpolicybinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/aaa/aaagroup_authorizationpolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -1878,7 +1878,7 @@ function Invoke-ADCGetAaagroupauthorizationpolicybinding {
         Invoke-ADCGetAaagroupauthorizationpolicybinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetAaagroupauthorizationpolicybinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/aaa/aaagroup_authorizationpolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -1970,7 +1970,7 @@ function Invoke-ADCGetAaagroupbinding {
         Invoke-ADCGetAaagroupbinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetAaagroupbinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/aaa/aaagroup_binding/
         Requires  : PowerShell v5.1 and up
@@ -2053,7 +2053,7 @@ function Invoke-ADCAddAaagroupintranetip6binding {
         Invoke-ADCAddAaagroupintranetip6binding -groupname <string>
     .NOTES
         File Name : Invoke-ADCAddAaagroupintranetip6binding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/aaa/aaagroup_intranetip6_binding/
         Requires  : PowerShell v5.1 and up
@@ -2130,7 +2130,7 @@ function Invoke-ADCDeleteAaagroupintranetip6binding {
         Invoke-ADCDeleteAaagroupintranetip6binding -groupname <string>
     .NOTES
         File Name : Invoke-ADCDeleteAaagroupintranetip6binding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/aaa/aaagroup_intranetip6_binding/
         Requires  : PowerShell v5.1 and up
@@ -2207,7 +2207,7 @@ function Invoke-ADCGetAaagroupintranetip6binding {
         Invoke-ADCGetAaagroupintranetip6binding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetAaagroupintranetip6binding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/aaa/aaagroup_intranetip6_binding/
         Requires  : PowerShell v5.1 and up
@@ -2293,7 +2293,7 @@ function Invoke-ADCAddAaagroupintranetipbinding {
         Invoke-ADCAddAaagroupintranetipbinding -groupname <string>
     .NOTES
         File Name : Invoke-ADCAddAaagroupintranetipbinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/aaa/aaagroup_intranetip_binding/
         Requires  : PowerShell v5.1 and up
@@ -2370,7 +2370,7 @@ function Invoke-ADCDeleteAaagroupintranetipbinding {
         Invoke-ADCDeleteAaagroupintranetipbinding -groupname <string>
     .NOTES
         File Name : Invoke-ADCDeleteAaagroupintranetipbinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/aaa/aaagroup_intranetip_binding/
         Requires  : PowerShell v5.1 and up
@@ -2447,7 +2447,7 @@ function Invoke-ADCGetAaagroupintranetipbinding {
         Invoke-ADCGetAaagroupintranetipbinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetAaagroupintranetipbinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/aaa/aaagroup_intranetip_binding/
         Requires  : PowerShell v5.1 and up
@@ -2539,7 +2539,7 @@ function Invoke-ADCAddAaagrouptmsessionpolicybinding {
         Invoke-ADCAddAaagrouptmsessionpolicybinding -groupname <string>
     .NOTES
         File Name : Invoke-ADCAddAaagrouptmsessionpolicybinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/aaa/aaagroup_tmsessionpolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -2623,7 +2623,7 @@ function Invoke-ADCDeleteAaagrouptmsessionpolicybinding {
         Invoke-ADCDeleteAaagrouptmsessionpolicybinding -groupname <string>
     .NOTES
         File Name : Invoke-ADCDeleteAaagrouptmsessionpolicybinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/aaa/aaagroup_tmsessionpolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -2700,7 +2700,7 @@ function Invoke-ADCGetAaagrouptmsessionpolicybinding {
         Invoke-ADCGetAaagrouptmsessionpolicybinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetAaagrouptmsessionpolicybinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/aaa/aaagroup_tmsessionpolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -2784,7 +2784,7 @@ function Invoke-ADCAddAaagroupvpnintranetapplicationbinding {
         Invoke-ADCAddAaagroupvpnintranetapplicationbinding -groupname <string>
     .NOTES
         File Name : Invoke-ADCAddAaagroupvpnintranetapplicationbinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/aaa/aaagroup_vpnintranetapplication_binding/
         Requires  : PowerShell v5.1 and up
@@ -2857,7 +2857,7 @@ function Invoke-ADCDeleteAaagroupvpnintranetapplicationbinding {
         Invoke-ADCDeleteAaagroupvpnintranetapplicationbinding -groupname <string>
     .NOTES
         File Name : Invoke-ADCDeleteAaagroupvpnintranetapplicationbinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/aaa/aaagroup_vpnintranetapplication_binding/
         Requires  : PowerShell v5.1 and up
@@ -2931,7 +2931,7 @@ function Invoke-ADCGetAaagroupvpnintranetapplicationbinding {
         Invoke-ADCGetAaagroupvpnintranetapplicationbinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetAaagroupvpnintranetapplicationbinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/aaa/aaagroup_vpnintranetapplication_binding/
         Requires  : PowerShell v5.1 and up
@@ -3023,7 +3023,7 @@ function Invoke-ADCAddAaagroupvpnsessionpolicybinding {
         Invoke-ADCAddAaagroupvpnsessionpolicybinding -groupname <string>
     .NOTES
         File Name : Invoke-ADCAddAaagroupvpnsessionpolicybinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/aaa/aaagroup_vpnsessionpolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -3107,7 +3107,7 @@ function Invoke-ADCDeleteAaagroupvpnsessionpolicybinding {
         Invoke-ADCDeleteAaagroupvpnsessionpolicybinding -groupname <string>
     .NOTES
         File Name : Invoke-ADCDeleteAaagroupvpnsessionpolicybinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/aaa/aaagroup_vpnsessionpolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -3184,7 +3184,7 @@ function Invoke-ADCGetAaagroupvpnsessionpolicybinding {
         Invoke-ADCGetAaagroupvpnsessionpolicybinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetAaagroupvpnsessionpolicybinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/aaa/aaagroup_vpnsessionpolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -3276,7 +3276,7 @@ function Invoke-ADCAddAaagroupvpntrafficpolicybinding {
         Invoke-ADCAddAaagroupvpntrafficpolicybinding -groupname <string>
     .NOTES
         File Name : Invoke-ADCAddAaagroupvpntrafficpolicybinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/aaa/aaagroup_vpntrafficpolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -3360,7 +3360,7 @@ function Invoke-ADCDeleteAaagroupvpntrafficpolicybinding {
         Invoke-ADCDeleteAaagroupvpntrafficpolicybinding -groupname <string>
     .NOTES
         File Name : Invoke-ADCDeleteAaagroupvpntrafficpolicybinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/aaa/aaagroup_vpntrafficpolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -3437,7 +3437,7 @@ function Invoke-ADCGetAaagroupvpntrafficpolicybinding {
         Invoke-ADCGetAaagroupvpntrafficpolicybinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetAaagroupvpntrafficpolicybinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/aaa/aaagroup_vpntrafficpolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -3529,7 +3529,7 @@ function Invoke-ADCAddAaagroupvpnurlpolicybinding {
         Invoke-ADCAddAaagroupvpnurlpolicybinding -groupname <string>
     .NOTES
         File Name : Invoke-ADCAddAaagroupvpnurlpolicybinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/aaa/aaagroup_vpnurlpolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -3613,7 +3613,7 @@ function Invoke-ADCDeleteAaagroupvpnurlpolicybinding {
         Invoke-ADCDeleteAaagroupvpnurlpolicybinding -groupname <string>
     .NOTES
         File Name : Invoke-ADCDeleteAaagroupvpnurlpolicybinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/aaa/aaagroup_vpnurlpolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -3690,7 +3690,7 @@ function Invoke-ADCGetAaagroupvpnurlpolicybinding {
         Invoke-ADCGetAaagroupvpnurlpolicybinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetAaagroupvpnurlpolicybinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/aaa/aaagroup_vpnurlpolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -3774,7 +3774,7 @@ function Invoke-ADCAddAaagroupvpnurlbinding {
         Invoke-ADCAddAaagroupvpnurlbinding -groupname <string>
     .NOTES
         File Name : Invoke-ADCAddAaagroupvpnurlbinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/aaa/aaagroup_vpnurl_binding/
         Requires  : PowerShell v5.1 and up
@@ -3847,7 +3847,7 @@ function Invoke-ADCDeleteAaagroupvpnurlbinding {
         Invoke-ADCDeleteAaagroupvpnurlbinding -groupname <string>
     .NOTES
         File Name : Invoke-ADCDeleteAaagroupvpnurlbinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/aaa/aaagroup_vpnurl_binding/
         Requires  : PowerShell v5.1 and up
@@ -3921,7 +3921,7 @@ function Invoke-ADCGetAaagroupvpnurlbinding {
         Invoke-ADCGetAaagroupvpnurlbinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetAaagroupvpnurlbinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/aaa/aaagroup_vpnurl_binding/
         Requires  : PowerShell v5.1 and up
@@ -4019,7 +4019,7 @@ function Invoke-ADCAddAaakcdaccount {
         Invoke-ADCAddAaakcdaccount -kcdaccount <string>
     .NOTES
         File Name : Invoke-ADCAddAaakcdaccount
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/aaa/aaakcdaccount/
         Requires  : PowerShell v5.1 and up
@@ -4112,7 +4112,7 @@ function Invoke-ADCDeleteAaakcdaccount {
         Invoke-ADCDeleteAaakcdaccount -kcdaccount <string>
     .NOTES
         File Name : Invoke-ADCDeleteAaakcdaccount
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/aaa/aaakcdaccount/
         Requires  : PowerShell v5.1 and up
@@ -4188,7 +4188,7 @@ function Invoke-ADCUpdateAaakcdaccount {
         Invoke-ADCUpdateAaakcdaccount -kcdaccount <string>
     .NOTES
         File Name : Invoke-ADCUpdateAaakcdaccount
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/aaa/aaakcdaccount/
         Requires  : PowerShell v5.1 and up
@@ -4292,7 +4292,7 @@ function Invoke-ADCUnsetAaakcdaccount {
         Invoke-ADCUnsetAaakcdaccount -kcdaccount <string>
     .NOTES
         File Name : Invoke-ADCUnsetAaakcdaccount
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/aaa/aaakcdaccount
         Requires  : PowerShell v5.1 and up
@@ -4374,7 +4374,7 @@ function Invoke-ADCCheckAaakcdaccount {
         Invoke-ADCCheckAaakcdaccount -realmstr <string> -delegateduser <string> -kcdpassword <string> -servicespn <string>
     .NOTES
         File Name : Invoke-ADCCheckAaakcdaccount
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/aaa/aaakcdaccount/
         Requires  : PowerShell v5.1 and up
@@ -4462,7 +4462,7 @@ function Invoke-ADCGetAaakcdaccount {
         Invoke-ADCGetAaakcdaccount -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetAaakcdaccount
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/aaa/aaakcdaccount/
         Requires  : PowerShell v5.1 and up
@@ -4606,7 +4606,7 @@ function Invoke-ADCUpdateAaaldapparams {
         Invoke-ADCUpdateAaaldapparams 
     .NOTES
         File Name : Invoke-ADCUpdateAaaldapparams
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/aaa/aaaldapparams/
         Requires  : PowerShell v5.1 and up
@@ -4781,7 +4781,7 @@ function Invoke-ADCUnsetAaaldapparams {
         Invoke-ADCUnsetAaaldapparams 
     .NOTES
         File Name : Invoke-ADCUnsetAaaldapparams
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/aaa/aaaldapparams
         Requires  : PowerShell v5.1 and up
@@ -4909,7 +4909,7 @@ function Invoke-ADCGetAaaldapparams {
         Invoke-ADCGetAaaldapparams -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetAaaldapparams
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/aaa/aaaldapparams/
         Requires  : PowerShell v5.1 and up
@@ -4984,7 +4984,7 @@ function Invoke-ADCUpdateAaaotpparameter {
         Invoke-ADCUpdateAaaotpparameter 
     .NOTES
         File Name : Invoke-ADCUpdateAaaotpparameter
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/aaa/aaaotpparameter/
         Requires  : PowerShell v5.1 and up
@@ -5050,7 +5050,7 @@ function Invoke-ADCUnsetAaaotpparameter {
         Invoke-ADCUnsetAaaotpparameter 
     .NOTES
         File Name : Invoke-ADCUnsetAaaotpparameter
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/aaa/aaaotpparameter
         Requires  : PowerShell v5.1 and up
@@ -5121,7 +5121,7 @@ function Invoke-ADCGetAaaotpparameter {
         Invoke-ADCGetAaaotpparameter -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetAaaotpparameter
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/aaa/aaaotpparameter/
         Requires  : PowerShell v5.1 and up
@@ -5273,7 +5273,7 @@ function Invoke-ADCUpdateAaaparameter {
         Invoke-ADCUpdateAaaparameter 
     .NOTES
         File Name : Invoke-ADCUpdateAaaparameter
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/aaa/aaaparameter/
         Requires  : PowerShell v5.1 and up
@@ -5467,7 +5467,7 @@ function Invoke-ADCUnsetAaaparameter {
         Invoke-ADCUnsetAaaparameter 
     .NOTES
         File Name : Invoke-ADCUnsetAaaparameter
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/aaa/aaaparameter
         Requires  : PowerShell v5.1 and up
@@ -5589,7 +5589,7 @@ function Invoke-ADCGetAaaparameter {
         Invoke-ADCGetAaaparameter -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetAaaparameter
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/aaa/aaaparameter/
         Requires  : PowerShell v5.1 and up
@@ -5669,7 +5669,7 @@ function Invoke-ADCAddAaapreauthenticationaction {
         Invoke-ADCAddAaapreauthenticationaction -name <string>
     .NOTES
         File Name : Invoke-ADCAddAaapreauthenticationaction
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/aaa/aaapreauthenticationaction/
         Requires  : PowerShell v5.1 and up
@@ -5747,7 +5747,7 @@ function Invoke-ADCDeleteAaapreauthenticationaction {
         Invoke-ADCDeleteAaapreauthenticationaction -name <string>
     .NOTES
         File Name : Invoke-ADCDeleteAaapreauthenticationaction
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/aaa/aaapreauthenticationaction/
         Requires  : PowerShell v5.1 and up
@@ -5814,7 +5814,7 @@ function Invoke-ADCUpdateAaapreauthenticationaction {
         Invoke-ADCUpdateAaapreauthenticationaction -name <string>
     .NOTES
         File Name : Invoke-ADCUpdateAaapreauthenticationaction
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/aaa/aaapreauthenticationaction/
         Requires  : PowerShell v5.1 and up
@@ -5898,7 +5898,7 @@ function Invoke-ADCUnsetAaapreauthenticationaction {
         Invoke-ADCUnsetAaapreauthenticationaction -name <string>
     .NOTES
         File Name : Invoke-ADCUnsetAaapreauthenticationaction
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/aaa/aaapreauthenticationaction
         Requires  : PowerShell v5.1 and up
@@ -5980,7 +5980,7 @@ function Invoke-ADCGetAaapreauthenticationaction {
         Invoke-ADCGetAaapreauthenticationaction -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetAaapreauthenticationaction
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/aaa/aaapreauthenticationaction/
         Requires  : PowerShell v5.1 and up
@@ -6067,7 +6067,7 @@ function Invoke-ADCUpdateAaapreauthenticationparameter {
         Invoke-ADCUpdateAaapreauthenticationparameter 
     .NOTES
         File Name : Invoke-ADCUpdateAaapreauthenticationparameter
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/aaa/aaapreauthenticationparameter/
         Requires  : PowerShell v5.1 and up
@@ -6142,7 +6142,7 @@ function Invoke-ADCUnsetAaapreauthenticationparameter {
         Invoke-ADCUnsetAaapreauthenticationparameter 
     .NOTES
         File Name : Invoke-ADCUnsetAaapreauthenticationparameter
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/aaa/aaapreauthenticationparameter
         Requires  : PowerShell v5.1 and up
@@ -6219,7 +6219,7 @@ function Invoke-ADCGetAaapreauthenticationparameter {
         Invoke-ADCGetAaapreauthenticationparameter -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetAaapreauthenticationparameter
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/aaa/aaapreauthenticationparameter/
         Requires  : PowerShell v5.1 and up
@@ -6294,7 +6294,7 @@ function Invoke-ADCAddAaapreauthenticationpolicy {
         Invoke-ADCAddAaapreauthenticationpolicy -name <string> -rule <string>
     .NOTES
         File Name : Invoke-ADCAddAaapreauthenticationpolicy
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/aaa/aaapreauthenticationpolicy/
         Requires  : PowerShell v5.1 and up
@@ -6367,7 +6367,7 @@ function Invoke-ADCDeleteAaapreauthenticationpolicy {
         Invoke-ADCDeleteAaapreauthenticationpolicy -name <string>
     .NOTES
         File Name : Invoke-ADCDeleteAaapreauthenticationpolicy
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/aaa/aaapreauthenticationpolicy/
         Requires  : PowerShell v5.1 and up
@@ -6429,7 +6429,7 @@ function Invoke-ADCUpdateAaapreauthenticationpolicy {
         Invoke-ADCUpdateAaapreauthenticationpolicy -name <string>
     .NOTES
         File Name : Invoke-ADCUpdateAaapreauthenticationpolicy
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/aaa/aaapreauthenticationpolicy/
         Requires  : PowerShell v5.1 and up
@@ -6518,7 +6518,7 @@ function Invoke-ADCGetAaapreauthenticationpolicy {
         Invoke-ADCGetAaapreauthenticationpolicy -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetAaapreauthenticationpolicy
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/aaa/aaapreauthenticationpolicy/
         Requires  : PowerShell v5.1 and up
@@ -6615,7 +6615,7 @@ function Invoke-ADCGetAaapreauthenticationpolicyaaaglobalbinding {
         Invoke-ADCGetAaapreauthenticationpolicyaaaglobalbinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetAaapreauthenticationpolicyaaaglobalbinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/aaa/aaapreauthenticationpolicy_aaaglobal_binding/
         Requires  : PowerShell v5.1 and up
@@ -6707,7 +6707,7 @@ function Invoke-ADCGetAaapreauthenticationpolicybinding {
         Invoke-ADCGetAaapreauthenticationpolicybinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetAaapreauthenticationpolicybinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/aaa/aaapreauthenticationpolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -6798,7 +6798,7 @@ function Invoke-ADCGetAaapreauthenticationpolicyvpnvserverbinding {
         Invoke-ADCGetAaapreauthenticationpolicyvpnvserverbinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetAaapreauthenticationpolicyvpnvserverbinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/aaa/aaapreauthenticationpolicy_vpnvserver_binding/
         Requires  : PowerShell v5.1 and up
@@ -6942,7 +6942,7 @@ function Invoke-ADCUpdateAaaradiusparams {
         Invoke-ADCUpdateAaaradiusparams -radkey <string>
     .NOTES
         File Name : Invoke-ADCUpdateAaaradiusparams
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/aaa/aaaradiusparams/
         Requires  : PowerShell v5.1 and up
@@ -7114,7 +7114,7 @@ function Invoke-ADCUnsetAaaradiusparams {
         Invoke-ADCUnsetAaaradiusparams 
     .NOTES
         File Name : Invoke-ADCUnsetAaaradiusparams
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/aaa/aaaradiusparams
         Requires  : PowerShell v5.1 and up
@@ -7239,7 +7239,7 @@ function Invoke-ADCGetAaaradiusparams {
         Invoke-ADCGetAaaradiusparams -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetAaaradiusparams
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/aaa/aaaradiusparams/
         Requires  : PowerShell v5.1 and up
@@ -7317,7 +7317,7 @@ function Invoke-ADCKillAaasession {
         Invoke-ADCKillAaasession 
     .NOTES
         File Name : Invoke-ADCKillAaasession
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/aaa/aaasession/
         Requires  : PowerShell v5.1 and up
@@ -7420,7 +7420,7 @@ function Invoke-ADCGetAaasession {
         Invoke-ADCGetAaasession -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetAaasession
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/aaa/aaasession/
         Requires  : PowerShell v5.1 and up
@@ -7537,7 +7537,7 @@ function Invoke-ADCAddAaassoprofile {
         Invoke-ADCAddAaassoprofile -name <string> -username <string> -password <string>
     .NOTES
         File Name : Invoke-ADCAddAaassoprofile
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/aaa/aaassoprofile/
         Requires  : PowerShell v5.1 and up
@@ -7618,7 +7618,7 @@ function Invoke-ADCDeleteAaassoprofile {
         Invoke-ADCDeleteAaassoprofile -name <string>
     .NOTES
         File Name : Invoke-ADCDeleteAaassoprofile
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/aaa/aaassoprofile/
         Requires  : PowerShell v5.1 and up
@@ -7685,7 +7685,7 @@ function Invoke-ADCUpdateAaassoprofile {
         Invoke-ADCUpdateAaassoprofile -name <string>
     .NOTES
         File Name : Invoke-ADCUpdateAaassoprofile
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/aaa/aaassoprofile/
         Requires  : PowerShell v5.1 and up
@@ -7779,7 +7779,7 @@ function Invoke-ADCGetAaassoprofile {
         Invoke-ADCGetAaassoprofile -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetAaassoprofile
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/aaa/aaassoprofile/
         Requires  : PowerShell v5.1 and up
@@ -7886,7 +7886,7 @@ function Invoke-ADCUpdateAaatacacsparams {
         Invoke-ADCUpdateAaatacacsparams 
     .NOTES
         File Name : Invoke-ADCUpdateAaatacacsparams
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/aaa/aaatacacsparams/
         Requires  : PowerShell v5.1 and up
@@ -7992,7 +7992,7 @@ function Invoke-ADCUnsetAaatacacsparams {
         Invoke-ADCUnsetAaatacacsparams 
     .NOTES
         File Name : Invoke-ADCUnsetAaatacacsparams
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/aaa/aaatacacsparams
         Requires  : PowerShell v5.1 and up
@@ -8084,7 +8084,7 @@ function Invoke-ADCGetAaatacacsparams {
         Invoke-ADCGetAaatacacsparams -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetAaatacacsparams
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/aaa/aaatacacsparams/
         Requires  : PowerShell v5.1 and up
@@ -8158,7 +8158,7 @@ function Invoke-ADCAddAaauser {
         Invoke-ADCAddAaauser -username <string>
     .NOTES
         File Name : Invoke-ADCAddAaauser
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/aaa/aaauser/
         Requires  : PowerShell v5.1 and up
@@ -8227,7 +8227,7 @@ function Invoke-ADCDeleteAaauser {
         Invoke-ADCDeleteAaauser -username <string>
     .NOTES
         File Name : Invoke-ADCDeleteAaauser
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/aaa/aaauser/
         Requires  : PowerShell v5.1 and up
@@ -8288,7 +8288,7 @@ function Invoke-ADCUpdateAaauser {
         Invoke-ADCUpdateAaauser -username <string> -password <string>
     .NOTES
         File Name : Invoke-ADCUpdateAaauser
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/aaa/aaauser/
         Requires  : PowerShell v5.1 and up
@@ -8359,7 +8359,7 @@ function Invoke-ADCUnlockAaauser {
         Invoke-ADCUnlockAaauser -username <string>
     .NOTES
         File Name : Invoke-ADCUnlockAaauser
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/aaa/aaauser/
         Requires  : PowerShell v5.1 and up
@@ -8434,7 +8434,7 @@ function Invoke-ADCGetAaauser {
         Invoke-ADCGetAaauser -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetAaauser
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/aaa/aaauser/
         Requires  : PowerShell v5.1 and up
@@ -8531,7 +8531,7 @@ function Invoke-ADCGetAaauseraaagroupbinding {
         Invoke-ADCGetAaauseraaagroupbinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetAaauseraaagroupbinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/aaa/aaauser_aaagroup_binding/
         Requires  : PowerShell v5.1 and up
@@ -8623,7 +8623,7 @@ function Invoke-ADCAddAaauserauditnslogpolicybinding {
         Invoke-ADCAddAaauserauditnslogpolicybinding -username <string>
     .NOTES
         File Name : Invoke-ADCAddAaauserauditnslogpolicybinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/aaa/aaauser_auditnslogpolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -8707,7 +8707,7 @@ function Invoke-ADCDeleteAaauserauditnslogpolicybinding {
         Invoke-ADCDeleteAaauserauditnslogpolicybinding -username <string>
     .NOTES
         File Name : Invoke-ADCDeleteAaauserauditnslogpolicybinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/aaa/aaauser_auditnslogpolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -8784,7 +8784,7 @@ function Invoke-ADCGetAaauserauditnslogpolicybinding {
         Invoke-ADCGetAaauserauditnslogpolicybinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetAaauserauditnslogpolicybinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/aaa/aaauser_auditnslogpolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -8876,7 +8876,7 @@ function Invoke-ADCAddAaauserauditsyslogpolicybinding {
         Invoke-ADCAddAaauserauditsyslogpolicybinding -username <string>
     .NOTES
         File Name : Invoke-ADCAddAaauserauditsyslogpolicybinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/aaa/aaauser_auditsyslogpolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -8960,7 +8960,7 @@ function Invoke-ADCDeleteAaauserauditsyslogpolicybinding {
         Invoke-ADCDeleteAaauserauditsyslogpolicybinding -username <string>
     .NOTES
         File Name : Invoke-ADCDeleteAaauserauditsyslogpolicybinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/aaa/aaauser_auditsyslogpolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -9037,7 +9037,7 @@ function Invoke-ADCGetAaauserauditsyslogpolicybinding {
         Invoke-ADCGetAaauserauditsyslogpolicybinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetAaauserauditsyslogpolicybinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/aaa/aaauser_auditsyslogpolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -9129,7 +9129,7 @@ function Invoke-ADCAddAaauserauthorizationpolicybinding {
         Invoke-ADCAddAaauserauthorizationpolicybinding -username <string>
     .NOTES
         File Name : Invoke-ADCAddAaauserauthorizationpolicybinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/aaa/aaauser_authorizationpolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -9213,7 +9213,7 @@ function Invoke-ADCDeleteAaauserauthorizationpolicybinding {
         Invoke-ADCDeleteAaauserauthorizationpolicybinding -username <string>
     .NOTES
         File Name : Invoke-ADCDeleteAaauserauthorizationpolicybinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/aaa/aaauser_authorizationpolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -9290,7 +9290,7 @@ function Invoke-ADCGetAaauserauthorizationpolicybinding {
         Invoke-ADCGetAaauserauthorizationpolicybinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetAaauserauthorizationpolicybinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/aaa/aaauser_authorizationpolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -9382,7 +9382,7 @@ function Invoke-ADCGetAaauserbinding {
         Invoke-ADCGetAaauserbinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetAaauserbinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/aaa/aaauser_binding/
         Requires  : PowerShell v5.1 and up
@@ -9465,7 +9465,7 @@ function Invoke-ADCAddAaauserintranetip6binding {
         Invoke-ADCAddAaauserintranetip6binding -username <string>
     .NOTES
         File Name : Invoke-ADCAddAaauserintranetip6binding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/aaa/aaauser_intranetip6_binding/
         Requires  : PowerShell v5.1 and up
@@ -9542,7 +9542,7 @@ function Invoke-ADCDeleteAaauserintranetip6binding {
         Invoke-ADCDeleteAaauserintranetip6binding -username <string>
     .NOTES
         File Name : Invoke-ADCDeleteAaauserintranetip6binding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/aaa/aaauser_intranetip6_binding/
         Requires  : PowerShell v5.1 and up
@@ -9619,7 +9619,7 @@ function Invoke-ADCGetAaauserintranetip6binding {
         Invoke-ADCGetAaauserintranetip6binding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetAaauserintranetip6binding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/aaa/aaauser_intranetip6_binding/
         Requires  : PowerShell v5.1 and up
@@ -9705,7 +9705,7 @@ function Invoke-ADCAddAaauserintranetipbinding {
         Invoke-ADCAddAaauserintranetipbinding -username <string>
     .NOTES
         File Name : Invoke-ADCAddAaauserintranetipbinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/aaa/aaauser_intranetip_binding/
         Requires  : PowerShell v5.1 and up
@@ -9782,7 +9782,7 @@ function Invoke-ADCDeleteAaauserintranetipbinding {
         Invoke-ADCDeleteAaauserintranetipbinding -username <string>
     .NOTES
         File Name : Invoke-ADCDeleteAaauserintranetipbinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/aaa/aaauser_intranetip_binding/
         Requires  : PowerShell v5.1 and up
@@ -9859,7 +9859,7 @@ function Invoke-ADCGetAaauserintranetipbinding {
         Invoke-ADCGetAaauserintranetipbinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetAaauserintranetipbinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/aaa/aaauser_intranetip_binding/
         Requires  : PowerShell v5.1 and up
@@ -9951,7 +9951,7 @@ function Invoke-ADCAddAaausertmsessionpolicybinding {
         Invoke-ADCAddAaausertmsessionpolicybinding -username <string>
     .NOTES
         File Name : Invoke-ADCAddAaausertmsessionpolicybinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/aaa/aaauser_tmsessionpolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -10035,7 +10035,7 @@ function Invoke-ADCDeleteAaausertmsessionpolicybinding {
         Invoke-ADCDeleteAaausertmsessionpolicybinding -username <string>
     .NOTES
         File Name : Invoke-ADCDeleteAaausertmsessionpolicybinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/aaa/aaauser_tmsessionpolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -10112,7 +10112,7 @@ function Invoke-ADCGetAaausertmsessionpolicybinding {
         Invoke-ADCGetAaausertmsessionpolicybinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetAaausertmsessionpolicybinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/aaa/aaauser_tmsessionpolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -10196,7 +10196,7 @@ function Invoke-ADCAddAaauservpnintranetapplicationbinding {
         Invoke-ADCAddAaauservpnintranetapplicationbinding -username <string>
     .NOTES
         File Name : Invoke-ADCAddAaauservpnintranetapplicationbinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/aaa/aaauser_vpnintranetapplication_binding/
         Requires  : PowerShell v5.1 and up
@@ -10269,7 +10269,7 @@ function Invoke-ADCDeleteAaauservpnintranetapplicationbinding {
         Invoke-ADCDeleteAaauservpnintranetapplicationbinding -username <string>
     .NOTES
         File Name : Invoke-ADCDeleteAaauservpnintranetapplicationbinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/aaa/aaauser_vpnintranetapplication_binding/
         Requires  : PowerShell v5.1 and up
@@ -10343,7 +10343,7 @@ function Invoke-ADCGetAaauservpnintranetapplicationbinding {
         Invoke-ADCGetAaauservpnintranetapplicationbinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetAaauservpnintranetapplicationbinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/aaa/aaauser_vpnintranetapplication_binding/
         Requires  : PowerShell v5.1 and up
@@ -10435,7 +10435,7 @@ function Invoke-ADCAddAaauservpnsessionpolicybinding {
         Invoke-ADCAddAaauservpnsessionpolicybinding -username <string>
     .NOTES
         File Name : Invoke-ADCAddAaauservpnsessionpolicybinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/aaa/aaauser_vpnsessionpolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -10519,7 +10519,7 @@ function Invoke-ADCDeleteAaauservpnsessionpolicybinding {
         Invoke-ADCDeleteAaauservpnsessionpolicybinding -username <string>
     .NOTES
         File Name : Invoke-ADCDeleteAaauservpnsessionpolicybinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/aaa/aaauser_vpnsessionpolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -10596,7 +10596,7 @@ function Invoke-ADCGetAaauservpnsessionpolicybinding {
         Invoke-ADCGetAaauservpnsessionpolicybinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetAaauservpnsessionpolicybinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/aaa/aaauser_vpnsessionpolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -10688,7 +10688,7 @@ function Invoke-ADCAddAaauservpntrafficpolicybinding {
         Invoke-ADCAddAaauservpntrafficpolicybinding -username <string>
     .NOTES
         File Name : Invoke-ADCAddAaauservpntrafficpolicybinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/aaa/aaauser_vpntrafficpolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -10772,7 +10772,7 @@ function Invoke-ADCDeleteAaauservpntrafficpolicybinding {
         Invoke-ADCDeleteAaauservpntrafficpolicybinding -username <string>
     .NOTES
         File Name : Invoke-ADCDeleteAaauservpntrafficpolicybinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/aaa/aaauser_vpntrafficpolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -10849,7 +10849,7 @@ function Invoke-ADCGetAaauservpntrafficpolicybinding {
         Invoke-ADCGetAaauservpntrafficpolicybinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetAaauservpntrafficpolicybinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/aaa/aaauser_vpntrafficpolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -10941,7 +10941,7 @@ function Invoke-ADCAddAaauservpnurlpolicybinding {
         Invoke-ADCAddAaauservpnurlpolicybinding -username <string>
     .NOTES
         File Name : Invoke-ADCAddAaauservpnurlpolicybinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/aaa/aaauser_vpnurlpolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -11025,7 +11025,7 @@ function Invoke-ADCDeleteAaauservpnurlpolicybinding {
         Invoke-ADCDeleteAaauservpnurlpolicybinding -username <string>
     .NOTES
         File Name : Invoke-ADCDeleteAaauservpnurlpolicybinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/aaa/aaauser_vpnurlpolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -11102,7 +11102,7 @@ function Invoke-ADCGetAaauservpnurlpolicybinding {
         Invoke-ADCGetAaauservpnurlpolicybinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetAaauservpnurlpolicybinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/aaa/aaauser_vpnurlpolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -11186,7 +11186,7 @@ function Invoke-ADCAddAaauservpnurlbinding {
         Invoke-ADCAddAaauservpnurlbinding -username <string>
     .NOTES
         File Name : Invoke-ADCAddAaauservpnurlbinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/aaa/aaauser_vpnurl_binding/
         Requires  : PowerShell v5.1 and up
@@ -11259,7 +11259,7 @@ function Invoke-ADCDeleteAaauservpnurlbinding {
         Invoke-ADCDeleteAaauservpnurlbinding -username <string>
     .NOTES
         File Name : Invoke-ADCDeleteAaauservpnurlbinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/aaa/aaauser_vpnurl_binding/
         Requires  : PowerShell v5.1 and up
@@ -11333,7 +11333,7 @@ function Invoke-ADCGetAaauservpnurlbinding {
         Invoke-ADCGetAaauservpnurlbinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetAaauservpnurlbinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/aaa/aaauser_vpnurl_binding/
         Requires  : PowerShell v5.1 and up

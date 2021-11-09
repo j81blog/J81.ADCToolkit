@@ -35,7 +35,7 @@ function Invoke-ADCUpdateSmppparam {
         Invoke-ADCUpdateSmppparam 
     .NOTES
         File Name : Invoke-ADCUpdateSmppparam
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/smpp/smppparam/
         Requires  : PowerShell v5.1 and up
@@ -127,7 +127,7 @@ function Invoke-ADCUnsetSmppparam {
         Invoke-ADCUnsetSmppparam 
     .NOTES
         File Name : Invoke-ADCUnsetSmppparam
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/smpp/smppparam
         Requires  : PowerShell v5.1 and up
@@ -210,7 +210,7 @@ function Invoke-ADCGetSmppparam {
         Invoke-ADCGetSmppparam -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetSmppparam
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/smpp/smppparam/
         Requires  : PowerShell v5.1 and up
@@ -284,7 +284,7 @@ function Invoke-ADCAddSmppuser {
         Invoke-ADCAddSmppuser -username <string>
     .NOTES
         File Name : Invoke-ADCAddSmppuser
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/smpp/smppuser/
         Requires  : PowerShell v5.1 and up
@@ -354,7 +354,7 @@ function Invoke-ADCDeleteSmppuser {
         Invoke-ADCDeleteSmppuser -username <string>
     .NOTES
         File Name : Invoke-ADCDeleteSmppuser
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/smpp/smppuser/
         Requires  : PowerShell v5.1 and up
@@ -415,7 +415,7 @@ function Invoke-ADCUpdateSmppuser {
         Invoke-ADCUpdateSmppuser -username <string>
     .NOTES
         File Name : Invoke-ADCUpdateSmppuser
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/smpp/smppuser/
         Requires  : PowerShell v5.1 and up
@@ -501,7 +501,7 @@ function Invoke-ADCGetSmppuser {
         Invoke-ADCGetSmppuser -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetSmppuser
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/smpp/smppuser/
         Requires  : PowerShell v5.1 and up

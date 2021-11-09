@@ -26,7 +26,7 @@ function Invoke-ADCGetDosStats {
         Invoke-ADCGetDosStats -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetDosStats
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/statistics/dos/dos/
         Requires  : PowerShell v5.1 and up
@@ -118,7 +118,7 @@ function Invoke-ADCGetDospolicyStats {
         Invoke-ADCGetDospolicyStats -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetDospolicyStats
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/statistics/dos/dospolicy/
         Requires  : PowerShell v5.1 and up

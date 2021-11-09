@@ -27,7 +27,7 @@ function Invoke-ADCGetCloudautoscalegroup {
         Invoke-ADCGetCloudautoscalegroup -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetCloudautoscalegroup
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/cloud/cloudautoscalegroup/
         Requires  : PowerShell v5.1 and up
@@ -113,7 +113,7 @@ function Invoke-ADCUpdateCloudcredential {
         Invoke-ADCUpdateCloudcredential -tenantidentifier <string> -applicationid <string> -applicationsecret <string>
     .NOTES
         File Name : Invoke-ADCUpdateCloudcredential
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/cloud/cloudcredential/
         Requires  : PowerShell v5.1 and up
@@ -196,7 +196,7 @@ function Invoke-ADCGetCloudcredential {
         Invoke-ADCGetCloudcredential -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetCloudcredential
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/cloud/cloudcredential/
         Requires  : PowerShell v5.1 and up
@@ -287,7 +287,7 @@ function Invoke-ADCUpdateCloudparameter {
         Invoke-ADCUpdateCloudparameter 
     .NOTES
         File Name : Invoke-ADCUpdateCloudparameter
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/cloud/cloudparameter/
         Requires  : PowerShell v5.1 and up
@@ -377,7 +377,7 @@ function Invoke-ADCUnsetCloudparameter {
         Invoke-ADCUnsetCloudparameter 
     .NOTES
         File Name : Invoke-ADCUnsetCloudparameter
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/cloud/cloudparameter
         Requires  : PowerShell v5.1 and up
@@ -451,7 +451,7 @@ function Invoke-ADCGetCloudparameter {
         Invoke-ADCGetCloudparameter -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetCloudparameter
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/cloud/cloudparameter/
         Requires  : PowerShell v5.1 and up
@@ -520,7 +520,7 @@ function Invoke-ADCUpdateCloudparaminternal {
         Invoke-ADCUpdateCloudparaminternal 
     .NOTES
         File Name : Invoke-ADCUpdateCloudparaminternal
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/cloud/cloudparaminternal/
         Requires  : PowerShell v5.1 and up
@@ -594,7 +594,7 @@ function Invoke-ADCGetCloudparaminternal {
         Invoke-ADCGetCloudparaminternal -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetCloudparaminternal
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/cloud/cloudparaminternal/
         Requires  : PowerShell v5.1 and up
@@ -715,7 +715,7 @@ function Invoke-ADCAddCloudprofile {
         Invoke-ADCAddCloudprofile -name <string> -type <string> -vservername <string> -servicetype <string> -ipaddress <string> -port <int> -servicegroupname <string> -boundservicegroupsvctype <string> -vsvrbindsvcport <int>
     .NOTES
         File Name : Invoke-ADCAddCloudprofile
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/cloud/cloudprofile/
         Requires  : PowerShell v5.1 and up
@@ -839,7 +839,7 @@ function Invoke-ADCDeleteCloudprofile {
         Invoke-ADCDeleteCloudprofile -name <string>
     .NOTES
         File Name : Invoke-ADCDeleteCloudprofile
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/cloud/cloudprofile/
         Requires  : PowerShell v5.1 and up
@@ -911,7 +911,7 @@ function Invoke-ADCGetCloudprofile {
         Invoke-ADCGetCloudprofile -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetCloudprofile
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/cloud/cloudprofile/
         Requires  : PowerShell v5.1 and up
@@ -990,7 +990,7 @@ function Invoke-ADCCheckCloudservice {
         Invoke-ADCCheckCloudservice 
     .NOTES
         File Name : Invoke-ADCCheckCloudservice
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/cloud/cloudservice/
         Requires  : PowerShell v5.1 and up
@@ -1059,7 +1059,7 @@ function Invoke-ADCGetCloudvserverip {
         Invoke-ADCGetCloudvserverip -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetCloudvserverip
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/cloud/cloudvserverip/
         Requires  : PowerShell v5.1 and up

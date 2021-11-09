@@ -87,7 +87,7 @@ function Invoke-ADCAddSslaction {
         Invoke-ADCAddSslaction -name <string>
     .NOTES
         File Name : Invoke-ADCAddSslaction
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ssl/sslaction/
         Requires  : PowerShell v5.1 and up
@@ -251,7 +251,7 @@ function Invoke-ADCDeleteSslaction {
         Invoke-ADCDeleteSslaction -name <string>
     .NOTES
         File Name : Invoke-ADCDeleteSslaction
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ssl/sslaction/
         Requires  : PowerShell v5.1 and up
@@ -323,7 +323,7 @@ function Invoke-ADCGetSslaction {
         Invoke-ADCGetSslaction -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetSslaction
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ssl/sslaction/
         Requires  : PowerShell v5.1 and up
@@ -406,7 +406,7 @@ function Invoke-ADCAddSslcacertgroup {
         Invoke-ADCAddSslcacertgroup -cacertgroupname <string>
     .NOTES
         File Name : Invoke-ADCAddSslcacertgroup
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ssl/sslcacertgroup/
         Requires  : PowerShell v5.1 and up
@@ -473,7 +473,7 @@ function Invoke-ADCDeleteSslcacertgroup {
         Invoke-ADCDeleteSslcacertgroup -cacertgroupname <string>
     .NOTES
         File Name : Invoke-ADCDeleteSslcacertgroup
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ssl/sslcacertgroup/
         Requires  : PowerShell v5.1 and up
@@ -545,7 +545,7 @@ function Invoke-ADCGetSslcacertgroup {
         Invoke-ADCGetSslcacertgroup -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetSslcacertgroup
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ssl/sslcacertgroup/
         Requires  : PowerShell v5.1 and up
@@ -641,7 +641,7 @@ function Invoke-ADCGetSslcacertgroupbinding {
         Invoke-ADCGetSslcacertgroupbinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetSslcacertgroupbinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ssl/sslcacertgroup_binding/
         Requires  : PowerShell v5.1 and up
@@ -725,7 +725,7 @@ function Invoke-ADCAddSslcacertgroupsslcertkeybinding {
         Invoke-ADCAddSslcacertgroupsslcertkeybinding -cacertgroupname <string> -certkeyname <string>
     .NOTES
         File Name : Invoke-ADCAddSslcacertgroupsslcertkeybinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ssl/sslcacertgroup_sslcertkey_binding/
         Requires  : PowerShell v5.1 and up
@@ -806,7 +806,7 @@ function Invoke-ADCDeleteSslcacertgroupsslcertkeybinding {
         Invoke-ADCDeleteSslcacertgroupsslcertkeybinding -cacertgroupname <string>
     .NOTES
         File Name : Invoke-ADCDeleteSslcacertgroupsslcertkeybinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ssl/sslcacertgroup_sslcertkey_binding/
         Requires  : PowerShell v5.1 and up
@@ -880,7 +880,7 @@ function Invoke-ADCGetSslcacertgroupsslcertkeybinding {
         Invoke-ADCGetSslcacertgroupsslcertkeybinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetSslcacertgroupsslcertkeybinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ssl/sslcacertgroup_sslcertkey_binding/
         Requires  : PowerShell v5.1 and up
@@ -999,7 +999,7 @@ function Invoke-ADCCreateSslcert {
         Invoke-ADCCreateSslcert -certfile <string> -reqfile <string> -certtype <string>
     .NOTES
         File Name : Invoke-ADCCreateSslcert
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ssl/sslcert/
         Requires  : PowerShell v5.1 and up
@@ -1107,7 +1107,7 @@ function Invoke-ADCImportSslcertbundle {
         Invoke-ADCImportSslcertbundle -name <string> -src <string>
     .NOTES
         File Name : Invoke-ADCImportSslcertbundle
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ssl/sslcertbundle/
         Requires  : PowerShell v5.1 and up
@@ -1171,7 +1171,7 @@ function Invoke-ADCDeleteSslcertbundle {
         Invoke-ADCDeleteSslcertbundle 
     .NOTES
         File Name : Invoke-ADCDeleteSslcertbundle
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ssl/sslcertbundle/
         Requires  : PowerShell v5.1 and up
@@ -1225,7 +1225,7 @@ function Invoke-ADCApplySslcertbundle {
         Invoke-ADCApplySslcertbundle -name <string>
     .NOTES
         File Name : Invoke-ADCApplySslcertbundle
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ssl/sslcertbundle/
         Requires  : PowerShell v5.1 and up
@@ -1287,7 +1287,7 @@ function Invoke-ADCExportSslcertbundle {
         Invoke-ADCExportSslcertbundle -name <string> -src <string>
     .NOTES
         File Name : Invoke-ADCExportSslcertbundle
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ssl/sslcertbundle/
         Requires  : PowerShell v5.1 and up
@@ -1366,7 +1366,7 @@ function Invoke-ADCGetSslcertbundle {
         Invoke-ADCGetSslcertbundle -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetSslcertbundle
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ssl/sslcertbundle/
         Requires  : PowerShell v5.1 and up
@@ -1458,7 +1458,7 @@ function Invoke-ADCGetSslcertchain {
         Invoke-ADCGetSslcertchain -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetSslcertchain
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ssl/sslcertchain/
         Requires  : PowerShell v5.1 and up
@@ -1553,7 +1553,7 @@ function Invoke-ADCGetSslcertchainbinding {
         Invoke-ADCGetSslcertchainbinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetSslcertchainbinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ssl/sslcertchain_binding/
         Requires  : PowerShell v5.1 and up
@@ -1644,7 +1644,7 @@ function Invoke-ADCGetSslcertchainsslcertkeybinding {
         Invoke-ADCGetSslcertchainsslcertkeybinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetSslcertchainsslcertkeybinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ssl/sslcertchain_sslcertkey_binding/
         Requires  : PowerShell v5.1 and up
@@ -1724,7 +1724,7 @@ function Invoke-ADCImportSslcertfile {
         Invoke-ADCImportSslcertfile -name <string> -src <string>
     .NOTES
         File Name : Invoke-ADCImportSslcertfile
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ssl/sslcertfile/
         Requires  : PowerShell v5.1 and up
@@ -1788,7 +1788,7 @@ function Invoke-ADCDeleteSslcertfile {
         Invoke-ADCDeleteSslcertfile 
     .NOTES
         File Name : Invoke-ADCDeleteSslcertfile
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ssl/sslcertfile/
         Requires  : PowerShell v5.1 and up
@@ -1857,7 +1857,7 @@ function Invoke-ADCGetSslcertfile {
         Invoke-ADCGetSslcertfile -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetSslcertfile
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ssl/sslcertfile/
         Requires  : PowerShell v5.1 and up
@@ -1934,7 +1934,7 @@ function Invoke-ADCAddSslcertificatechain {
         Invoke-ADCAddSslcertificatechain -certkeyname <string>
     .NOTES
         File Name : Invoke-ADCAddSslcertificatechain
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ssl/sslcertificatechain/
         Requires  : PowerShell v5.1 and up
@@ -2016,7 +2016,7 @@ function Invoke-ADCGetSslcertificatechain {
         Invoke-ADCGetSslcertificatechain -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetSslcertificatechain
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ssl/sslcertificatechain/
         Requires  : PowerShell v5.1 and up
@@ -2132,7 +2132,7 @@ function Invoke-ADCAddSslcertkey {
         Invoke-ADCAddSslcertkey -certkey <string> -cert <string>
     .NOTES
         File Name : Invoke-ADCAddSslcertkey
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ssl/sslcertkey/
         Requires  : PowerShell v5.1 and up
@@ -2239,7 +2239,7 @@ function Invoke-ADCDeleteSslcertkey {
         Invoke-ADCDeleteSslcertkey -certkey <string>
     .NOTES
         File Name : Invoke-ADCDeleteSslcertkey
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ssl/sslcertkey/
         Requires  : PowerShell v5.1 and up
@@ -2305,7 +2305,7 @@ function Invoke-ADCUpdateSslcertkey {
         Invoke-ADCUpdateSslcertkey -certkey <string>
     .NOTES
         File Name : Invoke-ADCUpdateSslcertkey
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ssl/sslcertkey/
         Requires  : PowerShell v5.1 and up
@@ -2384,7 +2384,7 @@ function Invoke-ADCUnsetSslcertkey {
         Invoke-ADCUnsetSslcertkey -certkey <string>
     .NOTES
         File Name : Invoke-ADCUnsetSslcertkey
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ssl/sslcertkey
         Requires  : PowerShell v5.1 and up
@@ -2449,7 +2449,7 @@ function Invoke-ADCLinkSslcertkey {
         Invoke-ADCLinkSslcertkey -certkey <string> -linkcertkeyname <string>
     .NOTES
         File Name : Invoke-ADCLinkSslcertkey
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ssl/sslcertkey/
         Requires  : PowerShell v5.1 and up
@@ -2513,7 +2513,7 @@ function Invoke-ADCUnlinkSslcertkey {
         Invoke-ADCUnlinkSslcertkey -certkey <string>
     .NOTES
         File Name : Invoke-ADCUnlinkSslcertkey
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ssl/sslcertkey/
         Requires  : PowerShell v5.1 and up
@@ -2597,7 +2597,7 @@ function Invoke-ADCChangeSslcertkey {
         Invoke-ADCChangeSslcertkey -certkey <string>
     .NOTES
         File Name : Invoke-ADCChangeSslcertkey
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ssl/sslcertkey/
         Requires  : PowerShell v5.1 and up
@@ -2691,7 +2691,7 @@ function Invoke-ADCClearSslcertkey {
         Invoke-ADCClearSslcertkey -certkey <string>
     .NOTES
         File Name : Invoke-ADCClearSslcertkey
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ssl/sslcertkey/
         Requires  : PowerShell v5.1 and up
@@ -2769,7 +2769,7 @@ function Invoke-ADCGetSslcertkey {
         Invoke-ADCGetSslcertkey -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetSslcertkey
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ssl/sslcertkey/
         Requires  : PowerShell v5.1 and up
@@ -2865,7 +2865,7 @@ function Invoke-ADCGetSslcertkeybinding {
         Invoke-ADCGetSslcertkeybinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetSslcertkeybinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ssl/sslcertkey_binding/
         Requires  : PowerShell v5.1 and up
@@ -2956,7 +2956,7 @@ function Invoke-ADCGetSslcertkeycrldistributionbinding {
         Invoke-ADCGetSslcertkeycrldistributionbinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetSslcertkeycrldistributionbinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ssl/sslcertkey_crldistribution_binding/
         Requires  : PowerShell v5.1 and up
@@ -3050,7 +3050,7 @@ function Invoke-ADCGetSslcertkeyservicebinding {
         Invoke-ADCGetSslcertkeyservicebinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetSslcertkeyservicebinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ssl/sslcertkey_service_binding/
         Requires  : PowerShell v5.1 and up
@@ -3134,7 +3134,7 @@ function Invoke-ADCAddSslcertkeysslocspresponderbinding {
         Invoke-ADCAddSslcertkeysslocspresponderbinding 
     .NOTES
         File Name : Invoke-ADCAddSslcertkeysslocspresponderbinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ssl/sslcertkey_sslocspresponder_binding/
         Requires  : PowerShell v5.1 and up
@@ -3208,7 +3208,7 @@ function Invoke-ADCDeleteSslcertkeysslocspresponderbinding {
         Invoke-ADCDeleteSslcertkeysslocspresponderbinding -certkey <string>
     .NOTES
         File Name : Invoke-ADCDeleteSslcertkeysslocspresponderbinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ssl/sslcertkey_sslocspresponder_binding/
         Requires  : PowerShell v5.1 and up
@@ -3285,7 +3285,7 @@ function Invoke-ADCGetSslcertkeysslocspresponderbinding {
         Invoke-ADCGetSslcertkeysslocspresponderbinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetSslcertkeysslocspresponderbinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ssl/sslcertkey_sslocspresponder_binding/
         Requires  : PowerShell v5.1 and up
@@ -3379,7 +3379,7 @@ function Invoke-ADCGetSslcertkeysslprofilebinding {
         Invoke-ADCGetSslcertkeysslprofilebinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetSslcertkeysslprofilebinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ssl/sslcertkey_sslprofile_binding/
         Requires  : PowerShell v5.1 and up
@@ -3473,7 +3473,7 @@ function Invoke-ADCGetSslcertkeysslvserverbinding {
         Invoke-ADCGetSslcertkeysslvserverbinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetSslcertkeysslvserverbinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ssl/sslcertkey_sslvserver_binding/
         Requires  : PowerShell v5.1 and up
@@ -3565,7 +3565,7 @@ function Invoke-ADCGetSslcertlink {
         Invoke-ADCGetSslcertlink -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetSslcertlink
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ssl/sslcertlink/
         Requires  : PowerShell v5.1 and up
@@ -3681,7 +3681,7 @@ function Invoke-ADCCreateSslcertreq {
         Invoke-ADCCreateSslcertreq -reqfile <string> -countryname <string> -statename <string> -organizationname <string>
     .NOTES
         File Name : Invoke-ADCCreateSslcertreq
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ssl/sslcertreq/
         Requires  : PowerShell v5.1 and up
@@ -3805,7 +3805,7 @@ function Invoke-ADCAddSslcipher {
         Invoke-ADCAddSslcipher -ciphergroupname <string>
     .NOTES
         File Name : Invoke-ADCAddSslcipher
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ssl/sslcipher/
         Requires  : PowerShell v5.1 and up
@@ -3882,7 +3882,7 @@ function Invoke-ADCUpdateSslcipher {
         Invoke-ADCUpdateSslcipher -ciphergroupname <string>
     .NOTES
         File Name : Invoke-ADCUpdateSslcipher
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ssl/sslcipher/
         Requires  : PowerShell v5.1 and up
@@ -3958,7 +3958,7 @@ function Invoke-ADCUnsetSslcipher {
         Invoke-ADCUnsetSslcipher -ciphergroupname <string>
     .NOTES
         File Name : Invoke-ADCUnsetSslcipher
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ssl/sslcipher
         Requires  : PowerShell v5.1 and up
@@ -4022,7 +4022,7 @@ function Invoke-ADCDeleteSslcipher {
         Invoke-ADCDeleteSslcipher -ciphergroupname <string>
     .NOTES
         File Name : Invoke-ADCDeleteSslcipher
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ssl/sslcipher/
         Requires  : PowerShell v5.1 and up
@@ -4096,7 +4096,7 @@ function Invoke-ADCGetSslcipher {
         Invoke-ADCGetSslcipher -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetSslcipher
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ssl/sslcipher/
         Requires  : PowerShell v5.1 and up
@@ -4194,7 +4194,7 @@ function Invoke-ADCGetSslciphersuite {
         Invoke-ADCGetSslciphersuite -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetSslciphersuite
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ssl/sslciphersuite/
         Requires  : PowerShell v5.1 and up
@@ -4288,7 +4288,7 @@ function Invoke-ADCGetSslcipherbinding {
         Invoke-ADCGetSslcipherbinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetSslcipherbinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ssl/sslcipher_binding/
         Requires  : PowerShell v5.1 and up
@@ -4379,7 +4379,7 @@ function Invoke-ADCGetSslcipherindividualcipherbinding {
         Invoke-ADCGetSslcipherindividualcipherbinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetSslcipherindividualcipherbinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ssl/sslcipher_individualcipher_binding/
         Requires  : PowerShell v5.1 and up
@@ -4470,7 +4470,7 @@ function Invoke-ADCAddSslciphersslciphersuitebinding {
         Invoke-ADCAddSslciphersslciphersuitebinding 
     .NOTES
         File Name : Invoke-ADCAddSslciphersslciphersuitebinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ssl/sslcipher_sslciphersuite_binding/
         Requires  : PowerShell v5.1 and up
@@ -4551,7 +4551,7 @@ function Invoke-ADCDeleteSslciphersslciphersuitebinding {
         Invoke-ADCDeleteSslciphersslciphersuitebinding 
     .NOTES
         File Name : Invoke-ADCDeleteSslciphersslciphersuitebinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ssl/sslcipher_sslciphersuite_binding/
         Requires  : PowerShell v5.1 and up
@@ -4623,7 +4623,7 @@ function Invoke-ADCGetSslciphersslciphersuitebinding {
         Invoke-ADCGetSslciphersslciphersuitebinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetSslciphersslciphersuitebinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ssl/sslcipher_sslciphersuite_binding/
         Requires  : PowerShell v5.1 and up
@@ -4710,7 +4710,7 @@ function Invoke-ADCGetSslciphersslprofilebinding {
         Invoke-ADCGetSslciphersslprofilebinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetSslciphersslprofilebinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ssl/sslcipher_sslprofile_binding/
         Requires  : PowerShell v5.1 and up
@@ -4843,7 +4843,7 @@ function Invoke-ADCAddSslcrl {
         Invoke-ADCAddSslcrl -crlname <string> -crlpath <string>
     .NOTES
         File Name : Invoke-ADCAddSslcrl
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ssl/sslcrl/
         Requires  : PowerShell v5.1 and up
@@ -4982,7 +4982,7 @@ function Invoke-ADCCreateSslcrl {
         Invoke-ADCCreateSslcrl -cacertfile <string> -cakeyfile <string> -indexfile <string>
     .NOTES
         File Name : Invoke-ADCCreateSslcrl
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ssl/sslcrl/
         Requires  : PowerShell v5.1 and up
@@ -5056,7 +5056,7 @@ function Invoke-ADCDeleteSslcrl {
         Invoke-ADCDeleteSslcrl -crlname <string>
     .NOTES
         File Name : Invoke-ADCDeleteSslcrl
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ssl/sslcrl/
         Requires  : PowerShell v5.1 and up
@@ -5158,7 +5158,7 @@ function Invoke-ADCUpdateSslcrl {
         Invoke-ADCUpdateSslcrl -crlname <string>
     .NOTES
         File Name : Invoke-ADCUpdateSslcrl
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ssl/sslcrl/
         Requires  : PowerShell v5.1 and up
@@ -5312,7 +5312,7 @@ function Invoke-ADCUnsetSslcrl {
         Invoke-ADCUnsetSslcrl -crlname <string>
     .NOTES
         File Name : Invoke-ADCUnsetSslcrl
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ssl/sslcrl
         Requires  : PowerShell v5.1 and up
@@ -5428,7 +5428,7 @@ function Invoke-ADCGetSslcrl {
         Invoke-ADCGetSslcrl -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetSslcrl
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ssl/sslcrl/
         Requires  : PowerShell v5.1 and up
@@ -5512,7 +5512,7 @@ function Invoke-ADCImportSslcrlfile {
         Invoke-ADCImportSslcrlfile -name <string> -src <string>
     .NOTES
         File Name : Invoke-ADCImportSslcrlfile
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ssl/sslcrlfile/
         Requires  : PowerShell v5.1 and up
@@ -5576,7 +5576,7 @@ function Invoke-ADCDeleteSslcrlfile {
         Invoke-ADCDeleteSslcrlfile 
     .NOTES
         File Name : Invoke-ADCDeleteSslcrlfile
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ssl/sslcrlfile/
         Requires  : PowerShell v5.1 and up
@@ -5645,7 +5645,7 @@ function Invoke-ADCGetSslcrlfile {
         Invoke-ADCGetSslcrlfile -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetSslcrlfile
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ssl/sslcrlfile/
         Requires  : PowerShell v5.1 and up
@@ -5735,7 +5735,7 @@ function Invoke-ADCGetSslcrlbinding {
         Invoke-ADCGetSslcrlbinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetSslcrlbinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ssl/sslcrl_binding/
         Requires  : PowerShell v5.1 and up
@@ -5826,7 +5826,7 @@ function Invoke-ADCGetSslcrlserialnumberbinding {
         Invoke-ADCGetSslcrlserialnumberbinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetSslcrlserialnumberbinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ssl/sslcrl_serialnumber_binding/
         Requires  : PowerShell v5.1 and up
@@ -5906,7 +5906,7 @@ function Invoke-ADCImportSsldhfile {
         Invoke-ADCImportSsldhfile -name <string> -src <string>
     .NOTES
         File Name : Invoke-ADCImportSsldhfile
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ssl/ssldhfile/
         Requires  : PowerShell v5.1 and up
@@ -5970,7 +5970,7 @@ function Invoke-ADCDeleteSsldhfile {
         Invoke-ADCDeleteSsldhfile 
     .NOTES
         File Name : Invoke-ADCDeleteSsldhfile
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ssl/ssldhfile/
         Requires  : PowerShell v5.1 and up
@@ -6039,7 +6039,7 @@ function Invoke-ADCGetSsldhfile {
         Invoke-ADCGetSsldhfile -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetSsldhfile
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ssl/ssldhfile/
         Requires  : PowerShell v5.1 and up
@@ -6119,7 +6119,7 @@ function Invoke-ADCCreateSsldhparam {
         Invoke-ADCCreateSsldhparam -dhfile <string>
     .NOTES
         File Name : Invoke-ADCCreateSsldhparam
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ssl/ssldhparam/
         Requires  : PowerShell v5.1 and up
@@ -6198,7 +6198,7 @@ function Invoke-ADCCreateSsldsakey {
         Invoke-ADCCreateSsldsakey -keyfile <string> -bits <double>
     .NOTES
         File Name : Invoke-ADCCreateSsldsakey
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ssl/ssldsakey/
         Requires  : PowerShell v5.1 and up
@@ -6308,7 +6308,7 @@ function Invoke-ADCAddSsldtlsprofile {
         Invoke-ADCAddSsldtlsprofile -name <string>
     .NOTES
         File Name : Invoke-ADCAddSsldtlsprofile
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ssl/ssldtlsprofile/
         Requires  : PowerShell v5.1 and up
@@ -6399,7 +6399,7 @@ function Invoke-ADCDeleteSsldtlsprofile {
         Invoke-ADCDeleteSsldtlsprofile -name <string>
     .NOTES
         File Name : Invoke-ADCDeleteSsldtlsprofile
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ssl/ssldtlsprofile/
         Requires  : PowerShell v5.1 and up
@@ -6483,7 +6483,7 @@ function Invoke-ADCUpdateSsldtlsprofile {
         Invoke-ADCUpdateSsldtlsprofile -name <string>
     .NOTES
         File Name : Invoke-ADCUpdateSsldtlsprofile
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ssl/ssldtlsprofile/
         Requires  : PowerShell v5.1 and up
@@ -6587,7 +6587,7 @@ function Invoke-ADCUnsetSsldtlsprofile {
         Invoke-ADCUnsetSsldtlsprofile -name <string>
     .NOTES
         File Name : Invoke-ADCUnsetSsldtlsprofile
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ssl/ssldtlsprofile
         Requires  : PowerShell v5.1 and up
@@ -6679,7 +6679,7 @@ function Invoke-ADCGetSsldtlsprofile {
         Invoke-ADCGetSsldtlsprofile -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetSsldtlsprofile
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ssl/ssldtlsprofile/
         Requires  : PowerShell v5.1 and up
@@ -6776,7 +6776,7 @@ function Invoke-ADCCreateSslecdsakey {
         Invoke-ADCCreateSslecdsakey -keyfile <string> -curve <string>
     .NOTES
         File Name : Invoke-ADCCreateSslecdsakey
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ssl/sslecdsakey/
         Requires  : PowerShell v5.1 and up
@@ -6870,7 +6870,7 @@ function Invoke-ADCUpdateSslfips {
         Invoke-ADCUpdateSslfips -inithsm <string> -sopassword <string> -oldsopassword <string> -userpassword <string>
     .NOTES
         File Name : Invoke-ADCUpdateSslfips
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ssl/sslfips/
         Requires  : PowerShell v5.1 and up
@@ -6948,7 +6948,7 @@ function Invoke-ADCUnsetSslfips {
         Invoke-ADCUnsetSslfips 
     .NOTES
         File Name : Invoke-ADCUnsetSslfips
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ssl/sslfips
         Requires  : PowerShell v5.1 and up
@@ -7001,7 +7001,7 @@ function Invoke-ADCResetSslfips {
         Invoke-ADCResetSslfips 
     .NOTES
         File Name : Invoke-ADCResetSslfips
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ssl/sslfips/
         Requires  : PowerShell v5.1 and up
@@ -7056,7 +7056,7 @@ function Invoke-ADCChangeSslfips {
         Invoke-ADCChangeSslfips -fipsfw <string>
     .NOTES
         File Name : Invoke-ADCChangeSslfips
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ssl/sslfips/
         Requires  : PowerShell v5.1 and up
@@ -7129,7 +7129,7 @@ function Invoke-ADCGetSslfips {
         Invoke-ADCGetSslfips -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetSslfips
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ssl/sslfips/
         Requires  : PowerShell v5.1 and up
@@ -7210,7 +7210,7 @@ function Invoke-ADCCreateSslfipskey {
         Invoke-ADCCreateSslfipskey -fipskeyname <string> -keytype <string>
     .NOTES
         File Name : Invoke-ADCCreateSslfipskey
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ssl/sslfipskey/
         Requires  : PowerShell v5.1 and up
@@ -7285,7 +7285,7 @@ function Invoke-ADCDeleteSslfipskey {
         Invoke-ADCDeleteSslfipskey -fipskeyname <string>
     .NOTES
         File Name : Invoke-ADCDeleteSslfipskey
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ssl/sslfipskey/
         Requires  : PowerShell v5.1 and up
@@ -7357,7 +7357,7 @@ function Invoke-ADCImportSslfipskey {
         Invoke-ADCImportSslfipskey -fipskeyname <string> -key <string>
     .NOTES
         File Name : Invoke-ADCImportSslfipskey
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ssl/sslfipskey/
         Requires  : PowerShell v5.1 and up
@@ -7439,7 +7439,7 @@ function Invoke-ADCExportSslfipskey {
         Invoke-ADCExportSslfipskey -fipskeyname <string> -key <string>
     .NOTES
         File Name : Invoke-ADCExportSslfipskey
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ssl/sslfipskey/
         Requires  : PowerShell v5.1 and up
@@ -7520,7 +7520,7 @@ function Invoke-ADCGetSslfipskey {
         Invoke-ADCGetSslfipskey -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetSslfipskey
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ssl/sslfipskey/
         Requires  : PowerShell v5.1 and up
@@ -7603,7 +7603,7 @@ function Invoke-ADCEnableSslfipssimsource {
         Invoke-ADCEnableSslfipssimsource -targetsecret <string> -sourcesecret <string>
     .NOTES
         File Name : Invoke-ADCEnableSslfipssimsource
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ssl/sslfipssimsource/
         Requires  : PowerShell v5.1 and up
@@ -7666,7 +7666,7 @@ function Invoke-ADCInitSslfipssimsource {
         Invoke-ADCInitSslfipssimsource -certfile <string>
     .NOTES
         File Name : Invoke-ADCInitSslfipssimsource
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ssl/sslfipssimsource/
         Requires  : PowerShell v5.1 and up
@@ -7726,7 +7726,7 @@ function Invoke-ADCEnableSslfipssimtarget {
         Invoke-ADCEnableSslfipssimtarget -keyvector <string> -sourcesecret <string>
     .NOTES
         File Name : Invoke-ADCEnableSslfipssimtarget
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ssl/sslfipssimtarget/
         Requires  : PowerShell v5.1 and up
@@ -7793,7 +7793,7 @@ function Invoke-ADCInitSslfipssimtarget {
         Invoke-ADCInitSslfipssimtarget -certfile <string> -keyvector <string> -targetsecret <string>
     .NOTES
         File Name : Invoke-ADCInitSslfipssimtarget
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ssl/sslfipssimtarget/
         Requires  : PowerShell v5.1 and up
@@ -7874,7 +7874,7 @@ function Invoke-ADCGetSslglobalbinding {
         Invoke-ADCGetSslglobalbinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetSslglobalbinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ssl/sslglobal_binding/
         Requires  : PowerShell v5.1 and up
@@ -7961,7 +7961,7 @@ function Invoke-ADCAddSslglobalsslpolicybinding {
         Invoke-ADCAddSslglobalsslpolicybinding 
     .NOTES
         File Name : Invoke-ADCAddSslglobalsslpolicybinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ssl/sslglobal_sslpolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -8048,7 +8048,7 @@ function Invoke-ADCDeleteSslglobalsslpolicybinding {
         Invoke-ADCDeleteSslglobalsslpolicybinding 
     .NOTES
         File Name : Invoke-ADCDeleteSslglobalsslpolicybinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ssl/sslglobal_sslpolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -8123,7 +8123,7 @@ function Invoke-ADCGetSslglobalsslpolicybinding {
         Invoke-ADCGetSslglobalsslpolicybinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetSslglobalsslpolicybinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ssl/sslglobal_sslpolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -8215,7 +8215,7 @@ function Invoke-ADCAddSslhsmkey {
         Invoke-ADCAddSslhsmkey -hsmkeyname <string>
     .NOTES
         File Name : Invoke-ADCAddSslhsmkey
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ssl/sslhsmkey/
         Requires  : PowerShell v5.1 and up
@@ -8306,7 +8306,7 @@ function Invoke-ADCDeleteSslhsmkey {
         Invoke-ADCDeleteSslhsmkey -hsmkeyname <string>
     .NOTES
         File Name : Invoke-ADCDeleteSslhsmkey
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ssl/sslhsmkey/
         Requires  : PowerShell v5.1 and up
@@ -8386,7 +8386,7 @@ function Invoke-ADCGetSslhsmkey {
         Invoke-ADCGetSslhsmkey -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetSslhsmkey
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ssl/sslhsmkey/
         Requires  : PowerShell v5.1 and up
@@ -8471,7 +8471,7 @@ function Invoke-ADCImportSslkeyfile {
         Invoke-ADCImportSslkeyfile -name <string> -src <string>
     .NOTES
         File Name : Invoke-ADCImportSslkeyfile
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ssl/sslkeyfile/
         Requires  : PowerShell v5.1 and up
@@ -8537,7 +8537,7 @@ function Invoke-ADCDeleteSslkeyfile {
         Invoke-ADCDeleteSslkeyfile 
     .NOTES
         File Name : Invoke-ADCDeleteSslkeyfile
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ssl/sslkeyfile/
         Requires  : PowerShell v5.1 and up
@@ -8606,7 +8606,7 @@ function Invoke-ADCGetSslkeyfile {
         Invoke-ADCGetSslkeyfile -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetSslkeyfile
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ssl/sslkeyfile/
         Requires  : PowerShell v5.1 and up
@@ -8701,7 +8701,7 @@ function Invoke-ADCAddSsllogprofile {
         Invoke-ADCAddSsllogprofile -name <string>
     .NOTES
         File Name : Invoke-ADCAddSsllogprofile
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ssl/ssllogprofile/
         Requires  : PowerShell v5.1 and up
@@ -8802,7 +8802,7 @@ function Invoke-ADCUpdateSsllogprofile {
         Invoke-ADCUpdateSsllogprofile -name <string>
     .NOTES
         File Name : Invoke-ADCUpdateSsllogprofile
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ssl/ssllogprofile/
         Requires  : PowerShell v5.1 and up
@@ -8895,7 +8895,7 @@ function Invoke-ADCUnsetSsllogprofile {
         Invoke-ADCUnsetSsllogprofile -name <string>
     .NOTES
         File Name : Invoke-ADCUnsetSsllogprofile
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ssl/ssllogprofile
         Requires  : PowerShell v5.1 and up
@@ -8965,7 +8965,7 @@ function Invoke-ADCDeleteSsllogprofile {
         Invoke-ADCDeleteSsllogprofile -name <string>
     .NOTES
         File Name : Invoke-ADCDeleteSsllogprofile
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ssl/ssllogprofile/
         Requires  : PowerShell v5.1 and up
@@ -9037,7 +9037,7 @@ function Invoke-ADCGetSsllogprofile {
         Invoke-ADCGetSsllogprofile -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetSsllogprofile
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ssl/ssllogprofile/
         Requires  : PowerShell v5.1 and up
@@ -9171,7 +9171,7 @@ function Invoke-ADCAddSslocspresponder {
         Invoke-ADCAddSslocspresponder -name <string> -url <string>
     .NOTES
         File Name : Invoke-ADCAddSslocspresponder
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ssl/sslocspresponder/
         Requires  : PowerShell v5.1 and up
@@ -9292,7 +9292,7 @@ function Invoke-ADCDeleteSslocspresponder {
         Invoke-ADCDeleteSslocspresponder -name <string>
     .NOTES
         File Name : Invoke-ADCDeleteSslocspresponder
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ssl/sslocspresponder/
         Requires  : PowerShell v5.1 and up
@@ -9401,7 +9401,7 @@ function Invoke-ADCUpdateSslocspresponder {
         Invoke-ADCUpdateSslocspresponder -name <string>
     .NOTES
         File Name : Invoke-ADCUpdateSslocspresponder
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ssl/sslocspresponder/
         Requires  : PowerShell v5.1 and up
@@ -9551,7 +9551,7 @@ function Invoke-ADCUnsetSslocspresponder {
         Invoke-ADCUnsetSslocspresponder -name <string>
     .NOTES
         File Name : Invoke-ADCUnsetSslocspresponder
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ssl/sslocspresponder
         Requires  : PowerShell v5.1 and up
@@ -9663,7 +9663,7 @@ function Invoke-ADCGetSslocspresponder {
         Invoke-ADCGetSslocspresponder -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetSslocspresponder
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ssl/sslocspresponder/
         Requires  : PowerShell v5.1 and up
@@ -9879,7 +9879,7 @@ function Invoke-ADCUpdateSslparameter {
         Invoke-ADCUpdateSslparameter 
     .NOTES
         File Name : Invoke-ADCUpdateSslparameter
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ssl/sslparameter/
         Requires  : PowerShell v5.1 and up
@@ -10128,7 +10128,7 @@ function Invoke-ADCUnsetSslparameter {
         Invoke-ADCUnsetSslparameter 
     .NOTES
         File Name : Invoke-ADCUnsetSslparameter
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ssl/sslparameter
         Requires  : PowerShell v5.1 and up
@@ -10271,7 +10271,7 @@ function Invoke-ADCGetSslparameter {
         Invoke-ADCGetSslparameter -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetSslparameter
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ssl/sslparameter/
         Requires  : PowerShell v5.1 and up
@@ -10362,7 +10362,7 @@ function Invoke-ADCConvertSslpkcs12 {
         Invoke-ADCConvertSslpkcs12 -outfile <string> -password <string>
     .NOTES
         File Name : Invoke-ADCConvertSslpkcs12
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ssl/sslpkcs12/
         Requires  : PowerShell v5.1 and up
@@ -10458,7 +10458,7 @@ function Invoke-ADCConvertSslpkcs8 {
         Invoke-ADCConvertSslpkcs8 -pkcs8file <string> -keyfile <string>
     .NOTES
         File Name : Invoke-ADCConvertSslpkcs8
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ssl/sslpkcs8/
         Requires  : PowerShell v5.1 and up
@@ -10543,7 +10543,7 @@ function Invoke-ADCAddSslpolicy {
         Invoke-ADCAddSslpolicy -name <string> -rule <string>
     .NOTES
         File Name : Invoke-ADCAddSslpolicy
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ssl/sslpolicy/
         Requires  : PowerShell v5.1 and up
@@ -10626,7 +10626,7 @@ function Invoke-ADCDeleteSslpolicy {
         Invoke-ADCDeleteSslpolicy -name <string>
     .NOTES
         File Name : Invoke-ADCDeleteSslpolicy
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ssl/sslpolicy/
         Requires  : PowerShell v5.1 and up
@@ -10695,7 +10695,7 @@ function Invoke-ADCUpdateSslpolicy {
         Invoke-ADCUpdateSslpolicy -name <string>
     .NOTES
         File Name : Invoke-ADCUpdateSslpolicy
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ssl/sslpolicy/
         Requires  : PowerShell v5.1 and up
@@ -10777,7 +10777,7 @@ function Invoke-ADCUnsetSslpolicy {
         Invoke-ADCUnsetSslpolicy -name <string>
     .NOTES
         File Name : Invoke-ADCUnsetSslpolicy
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ssl/sslpolicy
         Requires  : PowerShell v5.1 and up
@@ -10857,7 +10857,7 @@ function Invoke-ADCGetSslpolicy {
         Invoke-ADCGetSslpolicy -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetSslpolicy
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ssl/sslpolicy/
         Requires  : PowerShell v5.1 and up
@@ -10943,7 +10943,7 @@ function Invoke-ADCAddSslpolicylabel {
         Invoke-ADCAddSslpolicylabel -labelname <string> -type <string>
     .NOTES
         File Name : Invoke-ADCAddSslpolicylabel
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ssl/sslpolicylabel/
         Requires  : PowerShell v5.1 and up
@@ -11014,7 +11014,7 @@ function Invoke-ADCDeleteSslpolicylabel {
         Invoke-ADCDeleteSslpolicylabel -labelname <string>
     .NOTES
         File Name : Invoke-ADCDeleteSslpolicylabel
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ssl/sslpolicylabel/
         Requires  : PowerShell v5.1 and up
@@ -11086,7 +11086,7 @@ function Invoke-ADCGetSslpolicylabel {
         Invoke-ADCGetSslpolicylabel -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetSslpolicylabel
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ssl/sslpolicylabel/
         Requires  : PowerShell v5.1 and up
@@ -11181,7 +11181,7 @@ function Invoke-ADCGetSslpolicylabelbinding {
         Invoke-ADCGetSslpolicylabelbinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetSslpolicylabelbinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ssl/sslpolicylabel_binding/
         Requires  : PowerShell v5.1 and up
@@ -11269,7 +11269,7 @@ function Invoke-ADCAddSslpolicylabelsslpolicybinding {
         Invoke-ADCAddSslpolicylabelsslpolicybinding -labelname <string> -policyname <string> -priority <double>
     .NOTES
         File Name : Invoke-ADCAddSslpolicylabelsslpolicybinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ssl/sslpolicylabel_sslpolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -11356,7 +11356,7 @@ function Invoke-ADCDeleteSslpolicylabelsslpolicybinding {
         Invoke-ADCDeleteSslpolicylabelsslpolicybinding -labelname <string>
     .NOTES
         File Name : Invoke-ADCDeleteSslpolicylabelsslpolicybinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ssl/sslpolicylabel_sslpolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -11433,7 +11433,7 @@ function Invoke-ADCGetSslpolicylabelsslpolicybinding {
         Invoke-ADCGetSslpolicylabelsslpolicybinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetSslpolicylabelsslpolicybinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ssl/sslpolicylabel_sslpolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -11524,7 +11524,7 @@ function Invoke-ADCGetSslpolicybinding {
         Invoke-ADCGetSslpolicybinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetSslpolicybinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ssl/sslpolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -11615,7 +11615,7 @@ function Invoke-ADCGetSslpolicycsvserverbinding {
         Invoke-ADCGetSslpolicycsvserverbinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetSslpolicycsvserverbinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ssl/sslpolicy_csvserver_binding/
         Requires  : PowerShell v5.1 and up
@@ -11709,7 +11709,7 @@ function Invoke-ADCGetSslpolicylbvserverbinding {
         Invoke-ADCGetSslpolicylbvserverbinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetSslpolicylbvserverbinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ssl/sslpolicy_lbvserver_binding/
         Requires  : PowerShell v5.1 and up
@@ -11803,7 +11803,7 @@ function Invoke-ADCGetSslpolicysslglobalbinding {
         Invoke-ADCGetSslpolicysslglobalbinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetSslpolicysslglobalbinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ssl/sslpolicy_sslglobal_binding/
         Requires  : PowerShell v5.1 and up
@@ -11897,7 +11897,7 @@ function Invoke-ADCGetSslpolicysslpolicylabelbinding {
         Invoke-ADCGetSslpolicysslpolicylabelbinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetSslpolicysslpolicylabelbinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ssl/sslpolicy_sslpolicylabel_binding/
         Requires  : PowerShell v5.1 and up
@@ -11991,7 +11991,7 @@ function Invoke-ADCGetSslpolicysslservicebinding {
         Invoke-ADCGetSslpolicysslservicebinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetSslpolicysslservicebinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ssl/sslpolicy_sslservice_binding/
         Requires  : PowerShell v5.1 and up
@@ -12085,7 +12085,7 @@ function Invoke-ADCGetSslpolicysslvserverbinding {
         Invoke-ADCGetSslpolicysslvserverbinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetSslpolicysslvserverbinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ssl/sslpolicy_sslvserver_binding/
         Requires  : PowerShell v5.1 and up
@@ -12449,7 +12449,7 @@ function Invoke-ADCAddSslprofile {
         Invoke-ADCAddSslprofile -name <string>
     .NOTES
         File Name : Invoke-ADCAddSslprofile
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ssl/sslprofile/
         Requires  : PowerShell v5.1 and up
@@ -12751,7 +12751,7 @@ function Invoke-ADCDeleteSslprofile {
         Invoke-ADCDeleteSslprofile -name <string>
     .NOTES
         File Name : Invoke-ADCDeleteSslprofile
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ssl/sslprofile/
         Requires  : PowerShell v5.1 and up
@@ -13098,7 +13098,7 @@ function Invoke-ADCUpdateSslprofile {
         Invoke-ADCUpdateSslprofile -name <string>
     .NOTES
         File Name : Invoke-ADCUpdateSslprofile
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ssl/sslprofile/
         Requires  : PowerShell v5.1 and up
@@ -13613,7 +13613,7 @@ function Invoke-ADCUnsetSslprofile {
         Invoke-ADCUnsetSslprofile -name <string>
     .NOTES
         File Name : Invoke-ADCUnsetSslprofile
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ssl/sslprofile
         Requires  : PowerShell v5.1 and up
@@ -13870,7 +13870,7 @@ function Invoke-ADCGetSslprofile {
         Invoke-ADCGetSslprofile -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetSslprofile
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ssl/sslprofile/
         Requires  : PowerShell v5.1 and up
@@ -13966,7 +13966,7 @@ function Invoke-ADCGetSslprofilebinding {
         Invoke-ADCGetSslprofilebinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetSslprofilebinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ssl/sslprofile_binding/
         Requires  : PowerShell v5.1 and up
@@ -14051,7 +14051,7 @@ function Invoke-ADCAddSslprofileecccurvebinding {
         Invoke-ADCAddSslprofileecccurvebinding -name <string>
     .NOTES
         File Name : Invoke-ADCAddSslprofileecccurvebinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ssl/sslprofile_ecccurve_binding/
         Requires  : PowerShell v5.1 and up
@@ -14128,7 +14128,7 @@ function Invoke-ADCDeleteSslprofileecccurvebinding {
         Invoke-ADCDeleteSslprofileecccurvebinding -name <string>
     .NOTES
         File Name : Invoke-ADCDeleteSslprofileecccurvebinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ssl/sslprofile_ecccurve_binding/
         Requires  : PowerShell v5.1 and up
@@ -14202,7 +14202,7 @@ function Invoke-ADCGetSslprofileecccurvebinding {
         Invoke-ADCGetSslprofileecccurvebinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetSslprofileecccurvebinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ssl/sslprofile_ecccurve_binding/
         Requires  : PowerShell v5.1 and up
@@ -14289,7 +14289,7 @@ function Invoke-ADCAddSslprofilesslcertkeybinding {
         Invoke-ADCAddSslprofilesslcertkeybinding -name <string>
     .NOTES
         File Name : Invoke-ADCAddSslprofilesslcertkeybinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ssl/sslprofile_sslcertkey_binding/
         Requires  : PowerShell v5.1 and up
@@ -14364,7 +14364,7 @@ function Invoke-ADCDeleteSslprofilesslcertkeybinding {
         Invoke-ADCDeleteSslprofilesslcertkeybinding -name <string>
     .NOTES
         File Name : Invoke-ADCDeleteSslprofilesslcertkeybinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ssl/sslprofile_sslcertkey_binding/
         Requires  : PowerShell v5.1 and up
@@ -14438,7 +14438,7 @@ function Invoke-ADCGetSslprofilesslcertkeybinding {
         Invoke-ADCGetSslprofilesslcertkeybinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetSslprofilesslcertkeybinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ssl/sslprofile_sslcertkey_binding/
         Requires  : PowerShell v5.1 and up
@@ -14524,7 +14524,7 @@ function Invoke-ADCAddSslprofilesslciphersuitebinding {
         Invoke-ADCAddSslprofilesslciphersuitebinding -name <string>
     .NOTES
         File Name : Invoke-ADCAddSslprofilesslciphersuitebinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ssl/sslprofile_sslciphersuite_binding/
         Requires  : PowerShell v5.1 and up
@@ -14598,7 +14598,7 @@ function Invoke-ADCDeleteSslprofilesslciphersuitebinding {
         Invoke-ADCDeleteSslprofilesslciphersuitebinding -name <string>
     .NOTES
         File Name : Invoke-ADCDeleteSslprofilesslciphersuitebinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ssl/sslprofile_sslciphersuite_binding/
         Requires  : PowerShell v5.1 and up
@@ -14672,7 +14672,7 @@ function Invoke-ADCGetSslprofilesslciphersuitebinding {
         Invoke-ADCGetSslprofilesslciphersuitebinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetSslprofilesslciphersuitebinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ssl/sslprofile_sslciphersuite_binding/
         Requires  : PowerShell v5.1 and up
@@ -14759,7 +14759,7 @@ function Invoke-ADCAddSslprofilesslcipherbinding {
         Invoke-ADCAddSslprofilesslcipherbinding -name <string>
     .NOTES
         File Name : Invoke-ADCAddSslprofilesslcipherbinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ssl/sslprofile_sslcipher_binding/
         Requires  : PowerShell v5.1 and up
@@ -14835,7 +14835,7 @@ function Invoke-ADCDeleteSslprofilesslcipherbinding {
         Invoke-ADCDeleteSslprofilesslcipherbinding -name <string>
     .NOTES
         File Name : Invoke-ADCDeleteSslprofilesslcipherbinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ssl/sslprofile_sslcipher_binding/
         Requires  : PowerShell v5.1 and up
@@ -14909,7 +14909,7 @@ function Invoke-ADCGetSslprofilesslcipherbinding {
         Invoke-ADCGetSslprofilesslcipherbinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetSslprofilesslcipherbinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ssl/sslprofile_sslcipher_binding/
         Requires  : PowerShell v5.1 and up
@@ -15003,7 +15003,7 @@ function Invoke-ADCGetSslprofilesslvserverbinding {
         Invoke-ADCGetSslprofilesslvserverbinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetSslprofilesslvserverbinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ssl/sslprofile_sslvserver_binding/
         Requires  : PowerShell v5.1 and up
@@ -15098,7 +15098,7 @@ function Invoke-ADCCreateSslrsakey {
         Invoke-ADCCreateSslrsakey -keyfile <string> -bits <double>
     .NOTES
         File Name : Invoke-ADCCreateSslrsakey
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ssl/sslrsakey/
         Requires  : PowerShell v5.1 and up
@@ -15331,7 +15331,7 @@ function Invoke-ADCUpdateSslservice {
         Invoke-ADCUpdateSslservice -servicename <string>
     .NOTES
         File Name : Invoke-ADCUpdateSslservice
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ssl/sslservice/
         Requires  : PowerShell v5.1 and up
@@ -15629,7 +15629,7 @@ function Invoke-ADCUnsetSslservice {
         Invoke-ADCUnsetSslservice -servicename <string>
     .NOTES
         File Name : Invoke-ADCUnsetSslservice
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ssl/sslservice
         Requires  : PowerShell v5.1 and up
@@ -15798,7 +15798,7 @@ function Invoke-ADCGetSslservice {
         Invoke-ADCGetSslservice -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetSslservice
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ssl/sslservice/
         Requires  : PowerShell v5.1 and up
@@ -15940,7 +15940,7 @@ function Invoke-ADCUpdateSslservicegroup {
         Invoke-ADCUpdateSslservicegroup -servicegroupname <string>
     .NOTES
         File Name : Invoke-ADCUpdateSslservicegroup
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ssl/sslservicegroup/
         Requires  : PowerShell v5.1 and up
@@ -16103,7 +16103,7 @@ function Invoke-ADCUnsetSslservicegroup {
         Invoke-ADCUnsetSslservicegroup -servicegroupname <string>
     .NOTES
         File Name : Invoke-ADCUnsetSslservicegroup
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ssl/sslservicegroup
         Requires  : PowerShell v5.1 and up
@@ -16218,7 +16218,7 @@ function Invoke-ADCGetSslservicegroup {
         Invoke-ADCGetSslservicegroup -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetSslservicegroup
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ssl/sslservicegroup/
         Requires  : PowerShell v5.1 and up
@@ -16313,7 +16313,7 @@ function Invoke-ADCGetSslservicegroupbinding {
         Invoke-ADCGetSslservicegroupbinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetSslservicegroupbinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ssl/sslservicegroup_binding/
         Requires  : PowerShell v5.1 and up
@@ -16393,7 +16393,7 @@ function Invoke-ADCAddSslservicegroupecccurvebinding {
         Invoke-ADCAddSslservicegroupecccurvebinding -servicegroupname <string>
     .NOTES
         File Name : Invoke-ADCAddSslservicegroupecccurvebinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ssl/sslservicegroup_ecccurve_binding/
         Requires  : PowerShell v5.1 and up
@@ -16465,7 +16465,7 @@ function Invoke-ADCDeleteSslservicegroupecccurvebinding {
         Invoke-ADCDeleteSslservicegroupecccurvebinding -servicegroupname <string>
     .NOTES
         File Name : Invoke-ADCDeleteSslservicegroupecccurvebinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ssl/sslservicegroup_ecccurve_binding/
         Requires  : PowerShell v5.1 and up
@@ -16539,7 +16539,7 @@ function Invoke-ADCGetSslservicegroupecccurvebinding {
         Invoke-ADCGetSslservicegroupecccurvebinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetSslservicegroupecccurvebinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ssl/sslservicegroup_ecccurve_binding/
         Requires  : PowerShell v5.1 and up
@@ -16631,7 +16631,7 @@ function Invoke-ADCAddSslservicegroupsslcertkeybinding {
         Invoke-ADCAddSslservicegroupsslcertkeybinding -servicegroupname <string>
     .NOTES
         File Name : Invoke-ADCAddSslservicegroupsslcertkeybinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ssl/sslservicegroup_sslcertkey_binding/
         Requires  : PowerShell v5.1 and up
@@ -16719,7 +16719,7 @@ function Invoke-ADCDeleteSslservicegroupsslcertkeybinding {
         Invoke-ADCDeleteSslservicegroupsslcertkeybinding -servicegroupname <string>
     .NOTES
         File Name : Invoke-ADCDeleteSslservicegroupsslcertkeybinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ssl/sslservicegroup_sslcertkey_binding/
         Requires  : PowerShell v5.1 and up
@@ -16802,7 +16802,7 @@ function Invoke-ADCGetSslservicegroupsslcertkeybinding {
         Invoke-ADCGetSslservicegroupsslcertkeybinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetSslservicegroupsslcertkeybinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ssl/sslservicegroup_sslcertkey_binding/
         Requires  : PowerShell v5.1 and up
@@ -16884,7 +16884,7 @@ function Invoke-ADCAddSslservicegroupsslciphersuitebinding {
         Invoke-ADCAddSslservicegroupsslciphersuitebinding -servicegroupname <string>
     .NOTES
         File Name : Invoke-ADCAddSslservicegroupsslciphersuitebinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ssl/sslservicegroup_sslciphersuite_binding/
         Requires  : PowerShell v5.1 and up
@@ -16954,7 +16954,7 @@ function Invoke-ADCDeleteSslservicegroupsslciphersuitebinding {
         Invoke-ADCDeleteSslservicegroupsslciphersuitebinding -servicegroupname <string>
     .NOTES
         File Name : Invoke-ADCDeleteSslservicegroupsslciphersuitebinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ssl/sslservicegroup_sslciphersuite_binding/
         Requires  : PowerShell v5.1 and up
@@ -17028,7 +17028,7 @@ function Invoke-ADCGetSslservicegroupsslciphersuitebinding {
         Invoke-ADCGetSslservicegroupsslciphersuitebinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetSslservicegroupsslciphersuitebinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ssl/sslservicegroup_sslciphersuite_binding/
         Requires  : PowerShell v5.1 and up
@@ -17110,7 +17110,7 @@ function Invoke-ADCAddSslservicegroupsslcipherbinding {
         Invoke-ADCAddSslservicegroupsslcipherbinding -servicegroupname <string>
     .NOTES
         File Name : Invoke-ADCAddSslservicegroupsslcipherbinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ssl/sslservicegroup_sslcipher_binding/
         Requires  : PowerShell v5.1 and up
@@ -17180,7 +17180,7 @@ function Invoke-ADCDeleteSslservicegroupsslcipherbinding {
         Invoke-ADCDeleteSslservicegroupsslcipherbinding -servicegroupname <string>
     .NOTES
         File Name : Invoke-ADCDeleteSslservicegroupsslcipherbinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ssl/sslservicegroup_sslcipher_binding/
         Requires  : PowerShell v5.1 and up
@@ -17254,7 +17254,7 @@ function Invoke-ADCGetSslservicegroupsslcipherbinding {
         Invoke-ADCGetSslservicegroupsslcipherbinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetSslservicegroupsslcipherbinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ssl/sslservicegroup_sslcipher_binding/
         Requires  : PowerShell v5.1 and up
@@ -17346,7 +17346,7 @@ function Invoke-ADCGetSslservicebinding {
         Invoke-ADCGetSslservicebinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetSslservicebinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ssl/sslservice_binding/
         Requires  : PowerShell v5.1 and up
@@ -17426,7 +17426,7 @@ function Invoke-ADCAddSslserviceecccurvebinding {
         Invoke-ADCAddSslserviceecccurvebinding -servicename <string>
     .NOTES
         File Name : Invoke-ADCAddSslserviceecccurvebinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ssl/sslservice_ecccurve_binding/
         Requires  : PowerShell v5.1 and up
@@ -17498,7 +17498,7 @@ function Invoke-ADCDeleteSslserviceecccurvebinding {
         Invoke-ADCDeleteSslserviceecccurvebinding -servicename <string>
     .NOTES
         File Name : Invoke-ADCDeleteSslserviceecccurvebinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ssl/sslservice_ecccurve_binding/
         Requires  : PowerShell v5.1 and up
@@ -17572,7 +17572,7 @@ function Invoke-ADCGetSslserviceecccurvebinding {
         Invoke-ADCGetSslserviceecccurvebinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetSslserviceecccurvebinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ssl/sslservice_ecccurve_binding/
         Requires  : PowerShell v5.1 and up
@@ -17666,7 +17666,7 @@ function Invoke-ADCAddSslservicesslcertkeybinding {
         Invoke-ADCAddSslservicesslcertkeybinding -servicename <string>
     .NOTES
         File Name : Invoke-ADCAddSslservicesslcertkeybinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ssl/sslservice_sslcertkey_binding/
         Requires  : PowerShell v5.1 and up
@@ -17757,7 +17757,7 @@ function Invoke-ADCDeleteSslservicesslcertkeybinding {
         Invoke-ADCDeleteSslservicesslcertkeybinding -servicename <string>
     .NOTES
         File Name : Invoke-ADCDeleteSslservicesslcertkeybinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ssl/sslservice_sslcertkey_binding/
         Requires  : PowerShell v5.1 and up
@@ -17840,7 +17840,7 @@ function Invoke-ADCGetSslservicesslcertkeybinding {
         Invoke-ADCGetSslservicesslcertkeybinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetSslservicesslcertkeybinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ssl/sslservice_sslcertkey_binding/
         Requires  : PowerShell v5.1 and up
@@ -17922,7 +17922,7 @@ function Invoke-ADCAddSslservicesslciphersuitebinding {
         Invoke-ADCAddSslservicesslciphersuitebinding -servicename <string>
     .NOTES
         File Name : Invoke-ADCAddSslservicesslciphersuitebinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ssl/sslservice_sslciphersuite_binding/
         Requires  : PowerShell v5.1 and up
@@ -17992,7 +17992,7 @@ function Invoke-ADCDeleteSslservicesslciphersuitebinding {
         Invoke-ADCDeleteSslservicesslciphersuitebinding -servicename <string>
     .NOTES
         File Name : Invoke-ADCDeleteSslservicesslciphersuitebinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ssl/sslservice_sslciphersuite_binding/
         Requires  : PowerShell v5.1 and up
@@ -18066,7 +18066,7 @@ function Invoke-ADCGetSslservicesslciphersuitebinding {
         Invoke-ADCGetSslservicesslciphersuitebinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetSslservicesslciphersuitebinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ssl/sslservice_sslciphersuite_binding/
         Requires  : PowerShell v5.1 and up
@@ -18148,7 +18148,7 @@ function Invoke-ADCAddSslservicesslcipherbinding {
         Invoke-ADCAddSslservicesslcipherbinding -servicename <string>
     .NOTES
         File Name : Invoke-ADCAddSslservicesslcipherbinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ssl/sslservice_sslcipher_binding/
         Requires  : PowerShell v5.1 and up
@@ -18218,7 +18218,7 @@ function Invoke-ADCDeleteSslservicesslcipherbinding {
         Invoke-ADCDeleteSslservicesslcipherbinding -servicename <string>
     .NOTES
         File Name : Invoke-ADCDeleteSslservicesslcipherbinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ssl/sslservice_sslcipher_binding/
         Requires  : PowerShell v5.1 and up
@@ -18292,7 +18292,7 @@ function Invoke-ADCGetSslservicesslcipherbinding {
         Invoke-ADCGetSslservicesslcipherbinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetSslservicesslcipherbinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ssl/sslservice_sslcipher_binding/
         Requires  : PowerShell v5.1 and up
@@ -18387,7 +18387,7 @@ function Invoke-ADCAddSslservicesslpolicybinding {
         Invoke-ADCAddSslservicesslpolicybinding -servicename <string>
     .NOTES
         File Name : Invoke-ADCAddSslservicesslpolicybinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ssl/sslservice_sslpolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -18477,7 +18477,7 @@ function Invoke-ADCDeleteSslservicesslpolicybinding {
         Invoke-ADCDeleteSslservicesslpolicybinding -servicename <string>
     .NOTES
         File Name : Invoke-ADCDeleteSslservicesslpolicybinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ssl/sslservice_sslpolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -18554,7 +18554,7 @@ function Invoke-ADCGetSslservicesslpolicybinding {
         Invoke-ADCGetSslservicesslpolicybinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetSslservicesslpolicybinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ssl/sslservice_sslpolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -18803,7 +18803,7 @@ function Invoke-ADCUpdateSslvserver {
         Invoke-ADCUpdateSslvserver -vservername <string>
     .NOTES
         File Name : Invoke-ADCUpdateSslvserver
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ssl/sslvserver/
         Requires  : PowerShell v5.1 and up
@@ -19137,7 +19137,7 @@ function Invoke-ADCUnsetSslvserver {
         Invoke-ADCUnsetSslvserver -vservername <string>
     .NOTES
         File Name : Invoke-ADCUnsetSslvserver
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ssl/sslvserver
         Requires  : PowerShell v5.1 and up
@@ -19324,7 +19324,7 @@ function Invoke-ADCGetSslvserver {
         Invoke-ADCGetSslvserver -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetSslvserver
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ssl/sslvserver/
         Requires  : PowerShell v5.1 and up
@@ -19419,7 +19419,7 @@ function Invoke-ADCGetSslvserverbinding {
         Invoke-ADCGetSslvserverbinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetSslvserverbinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ssl/sslvserver_binding/
         Requires  : PowerShell v5.1 and up
@@ -19499,7 +19499,7 @@ function Invoke-ADCAddSslvserverecccurvebinding {
         Invoke-ADCAddSslvserverecccurvebinding -vservername <string>
     .NOTES
         File Name : Invoke-ADCAddSslvserverecccurvebinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ssl/sslvserver_ecccurve_binding/
         Requires  : PowerShell v5.1 and up
@@ -19571,7 +19571,7 @@ function Invoke-ADCDeleteSslvserverecccurvebinding {
         Invoke-ADCDeleteSslvserverecccurvebinding -vservername <string>
     .NOTES
         File Name : Invoke-ADCDeleteSslvserverecccurvebinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ssl/sslvserver_ecccurve_binding/
         Requires  : PowerShell v5.1 and up
@@ -19645,7 +19645,7 @@ function Invoke-ADCGetSslvserverecccurvebinding {
         Invoke-ADCGetSslvserverecccurvebinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetSslvserverecccurvebinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ssl/sslvserver_ecccurve_binding/
         Requires  : PowerShell v5.1 and up
@@ -19739,7 +19739,7 @@ function Invoke-ADCAddSslvserversslcertkeybinding {
         Invoke-ADCAddSslvserversslcertkeybinding -vservername <string>
     .NOTES
         File Name : Invoke-ADCAddSslvserversslcertkeybinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ssl/sslvserver_sslcertkey_binding/
         Requires  : PowerShell v5.1 and up
@@ -19832,7 +19832,7 @@ function Invoke-ADCDeleteSslvserversslcertkeybinding {
         Invoke-ADCDeleteSslvserversslcertkeybinding -vservername <string>
     .NOTES
         File Name : Invoke-ADCDeleteSslvserversslcertkeybinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ssl/sslvserver_sslcertkey_binding/
         Requires  : PowerShell v5.1 and up
@@ -19918,7 +19918,7 @@ function Invoke-ADCGetSslvserversslcertkeybinding {
         Invoke-ADCGetSslvserversslcertkeybinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetSslvserversslcertkeybinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ssl/sslvserver_sslcertkey_binding/
         Requires  : PowerShell v5.1 and up
@@ -20000,7 +20000,7 @@ function Invoke-ADCAddSslvserversslciphersuitebinding {
         Invoke-ADCAddSslvserversslciphersuitebinding -vservername <string>
     .NOTES
         File Name : Invoke-ADCAddSslvserversslciphersuitebinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ssl/sslvserver_sslciphersuite_binding/
         Requires  : PowerShell v5.1 and up
@@ -20070,7 +20070,7 @@ function Invoke-ADCDeleteSslvserversslciphersuitebinding {
         Invoke-ADCDeleteSslvserversslciphersuitebinding -vservername <string>
     .NOTES
         File Name : Invoke-ADCDeleteSslvserversslciphersuitebinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ssl/sslvserver_sslciphersuite_binding/
         Requires  : PowerShell v5.1 and up
@@ -20144,7 +20144,7 @@ function Invoke-ADCGetSslvserversslciphersuitebinding {
         Invoke-ADCGetSslvserversslciphersuitebinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetSslvserversslciphersuitebinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ssl/sslvserver_sslciphersuite_binding/
         Requires  : PowerShell v5.1 and up
@@ -20226,7 +20226,7 @@ function Invoke-ADCAddSslvserversslcipherbinding {
         Invoke-ADCAddSslvserversslcipherbinding -vservername <string>
     .NOTES
         File Name : Invoke-ADCAddSslvserversslcipherbinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ssl/sslvserver_sslcipher_binding/
         Requires  : PowerShell v5.1 and up
@@ -20296,7 +20296,7 @@ function Invoke-ADCDeleteSslvserversslcipherbinding {
         Invoke-ADCDeleteSslvserversslcipherbinding -vservername <string>
     .NOTES
         File Name : Invoke-ADCDeleteSslvserversslcipherbinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ssl/sslvserver_sslcipher_binding/
         Requires  : PowerShell v5.1 and up
@@ -20370,7 +20370,7 @@ function Invoke-ADCGetSslvserversslcipherbinding {
         Invoke-ADCGetSslvserversslcipherbinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetSslvserversslcipherbinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ssl/sslvserver_sslcipher_binding/
         Requires  : PowerShell v5.1 and up
@@ -20469,7 +20469,7 @@ function Invoke-ADCAddSslvserversslpolicybinding {
         Invoke-ADCAddSslvserversslpolicybinding -vservername <string>
     .NOTES
         File Name : Invoke-ADCAddSslvserversslpolicybinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ssl/sslvserver_sslpolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -20566,7 +20566,7 @@ function Invoke-ADCDeleteSslvserversslpolicybinding {
         Invoke-ADCDeleteSslvserversslpolicybinding -vservername <string>
     .NOTES
         File Name : Invoke-ADCDeleteSslvserversslpolicybinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ssl/sslvserver_sslpolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -20646,7 +20646,7 @@ function Invoke-ADCGetSslvserversslpolicybinding {
         Invoke-ADCGetSslvserversslpolicybinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetSslvserversslpolicybinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ssl/sslvserver_sslpolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -20727,7 +20727,7 @@ function Invoke-ADCCreateSslwrapkey {
         Invoke-ADCCreateSslwrapkey -wrapkeyname <string> -password <string> -salt <string>
     .NOTES
         File Name : Invoke-ADCCreateSslwrapkey
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ssl/sslwrapkey/
         Requires  : PowerShell v5.1 and up
@@ -20796,7 +20796,7 @@ function Invoke-ADCDeleteSslwrapkey {
         Invoke-ADCDeleteSslwrapkey -wrapkeyname <string>
     .NOTES
         File Name : Invoke-ADCDeleteSslwrapkey
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ssl/sslwrapkey/
         Requires  : PowerShell v5.1 and up
@@ -20866,7 +20866,7 @@ function Invoke-ADCGetSslwrapkey {
         Invoke-ADCGetSslwrapkey -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetSslwrapkey
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ssl/sslwrapkey/
         Requires  : PowerShell v5.1 and up

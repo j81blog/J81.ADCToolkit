@@ -26,7 +26,7 @@ function Invoke-ADCGetBotStats {
         Invoke-ADCGetBotStats -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetBotStats
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/statistics/bot/bot/
         Requires  : PowerShell v5.1 and up
@@ -118,7 +118,7 @@ function Invoke-ADCGetBotpolicyStats {
         Invoke-ADCGetBotpolicyStats -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetBotpolicyStats
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/statistics/bot/botpolicy/
         Requires  : PowerShell v5.1 and up
@@ -205,7 +205,7 @@ function Invoke-ADCGetBotpolicylabelStats {
         Invoke-ADCGetBotpolicylabelStats -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetBotpolicylabelStats
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/statistics/bot/botpolicylabel/
         Requires  : PowerShell v5.1 and up
@@ -292,7 +292,7 @@ function Invoke-ADCGetBotprofileStats {
         Invoke-ADCGetBotprofileStats -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetBotprofileStats
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/statistics/bot/botprofile/
         Requires  : PowerShell v5.1 and up

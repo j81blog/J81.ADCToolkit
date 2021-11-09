@@ -31,7 +31,7 @@ function Invoke-ADCAddCmpaction {
         Invoke-ADCAddCmpaction -name <string> -cmptype <string>
     .NOTES
         File Name : Invoke-ADCAddCmpaction
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/cmp/cmpaction/
         Requires  : PowerShell v5.1 and up
@@ -114,7 +114,7 @@ function Invoke-ADCDeleteCmpaction {
         Invoke-ADCDeleteCmpaction -name <string>
     .NOTES
         File Name : Invoke-ADCDeleteCmpaction
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/cmp/cmpaction/
         Requires  : PowerShell v5.1 and up
@@ -186,7 +186,7 @@ function Invoke-ADCUpdateCmpaction {
         Invoke-ADCUpdateCmpaction -name <string>
     .NOTES
         File Name : Invoke-ADCUpdateCmpaction
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/cmp/cmpaction/
         Requires  : PowerShell v5.1 and up
@@ -267,7 +267,7 @@ function Invoke-ADCUnsetCmpaction {
         Invoke-ADCUnsetCmpaction -name <string>
     .NOTES
         File Name : Invoke-ADCUnsetCmpaction
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/cmp/cmpaction
         Requires  : PowerShell v5.1 and up
@@ -333,7 +333,7 @@ function Invoke-ADCRenameCmpaction {
         Invoke-ADCRenameCmpaction -name <string> -newname <string>
     .NOTES
         File Name : Invoke-ADCRenameCmpaction
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/cmp/cmpaction/
         Requires  : PowerShell v5.1 and up
@@ -422,7 +422,7 @@ function Invoke-ADCGetCmpaction {
         Invoke-ADCGetCmpaction -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetCmpaction
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/cmp/cmpaction/
         Requires  : PowerShell v5.1 and up
@@ -516,7 +516,7 @@ function Invoke-ADCGetCmpglobalbinding {
         Invoke-ADCGetCmpglobalbinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetCmpglobalbinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/cmp/cmpglobal_binding/
         Requires  : PowerShell v5.1 and up
@@ -605,7 +605,7 @@ function Invoke-ADCAddCmpglobalcmppolicybinding {
         Invoke-ADCAddCmpglobalcmppolicybinding -policyname <string>
     .NOTES
         File Name : Invoke-ADCAddCmpglobalcmppolicybinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/cmp/cmpglobal_cmppolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -696,7 +696,7 @@ function Invoke-ADCDeleteCmpglobalcmppolicybinding {
         Invoke-ADCDeleteCmpglobalcmppolicybinding 
     .NOTES
         File Name : Invoke-ADCDeleteCmpglobalcmppolicybinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/cmp/cmpglobal_cmppolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -771,7 +771,7 @@ function Invoke-ADCGetCmpglobalcmppolicybinding {
         Invoke-ADCGetCmpglobalcmppolicybinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetCmpglobalcmppolicybinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/cmp/cmpglobal_cmppolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -899,7 +899,7 @@ function Invoke-ADCUpdateCmpparameter {
         Invoke-ADCUpdateCmpparameter 
     .NOTES
         File Name : Invoke-ADCUpdateCmpparameter
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/cmp/cmpparameter/
         Requires  : PowerShell v5.1 and up
@@ -1041,7 +1041,7 @@ function Invoke-ADCUnsetCmpparameter {
         Invoke-ADCUnsetCmpparameter 
     .NOTES
         File Name : Invoke-ADCUnsetCmpparameter
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/cmp/cmpparameter
         Requires  : PowerShell v5.1 and up
@@ -1145,7 +1145,7 @@ function Invoke-ADCGetCmpparameter {
         Invoke-ADCGetCmpparameter -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetCmpparameter
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/cmp/cmpparameter/
         Requires  : PowerShell v5.1 and up
@@ -1225,7 +1225,7 @@ function Invoke-ADCAddCmppolicy {
         Invoke-ADCAddCmppolicy -name <string> -rule <string> -resaction <string>
     .NOTES
         File Name : Invoke-ADCAddCmppolicy
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/cmp/cmppolicy/
         Requires  : PowerShell v5.1 and up
@@ -1302,7 +1302,7 @@ function Invoke-ADCDeleteCmppolicy {
         Invoke-ADCDeleteCmppolicy -name <string>
     .NOTES
         File Name : Invoke-ADCDeleteCmppolicy
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/cmp/cmppolicy/
         Requires  : PowerShell v5.1 and up
@@ -1369,7 +1369,7 @@ function Invoke-ADCUpdateCmppolicy {
         Invoke-ADCUpdateCmppolicy -name <string>
     .NOTES
         File Name : Invoke-ADCUpdateCmppolicy
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/cmp/cmppolicy/
         Requires  : PowerShell v5.1 and up
@@ -1448,7 +1448,7 @@ function Invoke-ADCRenameCmppolicy {
         Invoke-ADCRenameCmppolicy -name <string> -newname <string>
     .NOTES
         File Name : Invoke-ADCRenameCmppolicy
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/cmp/cmppolicy/
         Requires  : PowerShell v5.1 and up
@@ -1539,7 +1539,7 @@ function Invoke-ADCGetCmppolicy {
         Invoke-ADCGetCmppolicy -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetCmppolicy
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/cmp/cmppolicy/
         Requires  : PowerShell v5.1 and up
@@ -1625,7 +1625,7 @@ function Invoke-ADCAddCmppolicylabel {
         Invoke-ADCAddCmppolicylabel -labelname <string> -type <string>
     .NOTES
         File Name : Invoke-ADCAddCmppolicylabel
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/cmp/cmppolicylabel/
         Requires  : PowerShell v5.1 and up
@@ -1696,7 +1696,7 @@ function Invoke-ADCDeleteCmppolicylabel {
         Invoke-ADCDeleteCmppolicylabel -labelname <string>
     .NOTES
         File Name : Invoke-ADCDeleteCmppolicylabel
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/cmp/cmppolicylabel/
         Requires  : PowerShell v5.1 and up
@@ -1755,7 +1755,7 @@ function Invoke-ADCRenameCmppolicylabel {
         Invoke-ADCRenameCmppolicylabel -labelname <string> -newname <string>
     .NOTES
         File Name : Invoke-ADCRenameCmppolicylabel
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/cmp/cmppolicylabel/
         Requires  : PowerShell v5.1 and up
@@ -1844,7 +1844,7 @@ function Invoke-ADCGetCmppolicylabel {
         Invoke-ADCGetCmppolicylabel -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetCmppolicylabel
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/cmp/cmppolicylabel/
         Requires  : PowerShell v5.1 and up
@@ -1939,7 +1939,7 @@ function Invoke-ADCGetCmppolicylabelbinding {
         Invoke-ADCGetCmppolicylabelbinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetCmppolicylabelbinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/cmp/cmppolicylabel_binding/
         Requires  : PowerShell v5.1 and up
@@ -2029,7 +2029,7 @@ function Invoke-ADCAddCmppolicylabelcmppolicybinding {
         Invoke-ADCAddCmppolicylabelcmppolicybinding -labelname <string> -policyname <string> -priority <double>
     .NOTES
         File Name : Invoke-ADCAddCmppolicylabelcmppolicybinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/cmp/cmppolicylabel_cmppolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -2118,7 +2118,7 @@ function Invoke-ADCDeleteCmppolicylabelcmppolicybinding {
         Invoke-ADCDeleteCmppolicylabelcmppolicybinding -labelname <string>
     .NOTES
         File Name : Invoke-ADCDeleteCmppolicylabelcmppolicybinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/cmp/cmppolicylabel_cmppolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -2195,7 +2195,7 @@ function Invoke-ADCGetCmppolicylabelcmppolicybinding {
         Invoke-ADCGetCmppolicylabelcmppolicybinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetCmppolicylabelcmppolicybinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/cmp/cmppolicylabel_cmppolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -2289,7 +2289,7 @@ function Invoke-ADCGetCmppolicylabelpolicybindingbinding {
         Invoke-ADCGetCmppolicylabelpolicybindingbinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetCmppolicylabelpolicybindingbinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/cmp/cmppolicylabel_policybinding_binding/
         Requires  : PowerShell v5.1 and up
@@ -2381,7 +2381,7 @@ function Invoke-ADCGetCmppolicybinding {
         Invoke-ADCGetCmppolicybinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetCmppolicybinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/cmp/cmppolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -2472,7 +2472,7 @@ function Invoke-ADCGetCmppolicycmpglobalbinding {
         Invoke-ADCGetCmppolicycmpglobalbinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetCmppolicycmpglobalbinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/cmp/cmppolicy_cmpglobal_binding/
         Requires  : PowerShell v5.1 and up
@@ -2566,7 +2566,7 @@ function Invoke-ADCGetCmppolicycmppolicylabelbinding {
         Invoke-ADCGetCmppolicycmppolicylabelbinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetCmppolicycmppolicylabelbinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/cmp/cmppolicy_cmppolicylabel_binding/
         Requires  : PowerShell v5.1 and up
@@ -2660,7 +2660,7 @@ function Invoke-ADCGetCmppolicycrvserverbinding {
         Invoke-ADCGetCmppolicycrvserverbinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetCmppolicycrvserverbinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/cmp/cmppolicy_crvserver_binding/
         Requires  : PowerShell v5.1 and up
@@ -2754,7 +2754,7 @@ function Invoke-ADCGetCmppolicycsvserverbinding {
         Invoke-ADCGetCmppolicycsvserverbinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetCmppolicycsvserverbinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/cmp/cmppolicy_csvserver_binding/
         Requires  : PowerShell v5.1 and up
@@ -2848,7 +2848,7 @@ function Invoke-ADCGetCmppolicylbvserverbinding {
         Invoke-ADCGetCmppolicylbvserverbinding -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetCmppolicylbvserverbinding
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/cmp/cmppolicy_lbvserver_binding/
         Requires  : PowerShell v5.1 and up

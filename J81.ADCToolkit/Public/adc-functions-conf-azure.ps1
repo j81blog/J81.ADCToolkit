@@ -30,7 +30,7 @@ function Invoke-ADCAddAzureapplication {
         Invoke-ADCAddAzureapplication -name <string> -clientid <string> -clientsecret <string> -tenantid <string> -vaultresource <string>
     .NOTES
         File Name : Invoke-ADCAddAzureapplication
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/azure/azureapplication/
         Requires  : PowerShell v5.1 and up
@@ -122,7 +122,7 @@ function Invoke-ADCDeleteAzureapplication {
         Invoke-ADCDeleteAzureapplication -name <string>
     .NOTES
         File Name : Invoke-ADCDeleteAzureapplication
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/azure/azureapplication/
         Requires  : PowerShell v5.1 and up
@@ -195,7 +195,7 @@ function Invoke-ADCGetAzureapplication {
         Invoke-ADCGetAzureapplication -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetAzureapplication
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/azure/azureapplication/
         Requires  : PowerShell v5.1 and up
@@ -288,7 +288,7 @@ function Invoke-ADCAddAzurekeyvault {
         Invoke-ADCAddAzurekeyvault -name <string> -azureapplication <string>
     .NOTES
         File Name : Invoke-ADCAddAzurekeyvault
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/azure/azurekeyvault/
         Requires  : PowerShell v5.1 and up
@@ -365,7 +365,7 @@ function Invoke-ADCDeleteAzurekeyvault {
         Invoke-ADCDeleteAzurekeyvault -name <string>
     .NOTES
         File Name : Invoke-ADCDeleteAzurekeyvault
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/azure/azurekeyvault/
         Requires  : PowerShell v5.1 and up
@@ -438,7 +438,7 @@ function Invoke-ADCGetAzurekeyvault {
         Invoke-ADCGetAzurekeyvault -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetAzurekeyvault
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/azure/azurekeyvault/
         Requires  : PowerShell v5.1 and up

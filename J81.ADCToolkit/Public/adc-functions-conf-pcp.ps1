@@ -28,7 +28,7 @@ function Invoke-ADCGetPcpmap {
         Invoke-ADCGetPcpmap -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetPcpmap
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/pcp/pcpmap/
         Requires  : PowerShell v5.1 and up
@@ -135,7 +135,7 @@ function Invoke-ADCAddPcpprofile {
         Invoke-ADCAddPcpprofile -name <string>
     .NOTES
         File Name : Invoke-ADCAddPcpprofile
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/pcp/pcpprofile/
         Requires  : PowerShell v5.1 and up
@@ -223,7 +223,7 @@ function Invoke-ADCDeletePcpprofile {
         Invoke-ADCDeletePcpprofile -name <string>
     .NOTES
         File Name : Invoke-ADCDeletePcpprofile
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/pcp/pcpprofile/
         Requires  : PowerShell v5.1 and up
@@ -305,7 +305,7 @@ function Invoke-ADCUpdatePcpprofile {
         Invoke-ADCUpdatePcpprofile -name <string>
     .NOTES
         File Name : Invoke-ADCUpdatePcpprofile
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/pcp/pcpprofile/
         Requires  : PowerShell v5.1 and up
@@ -408,7 +408,7 @@ function Invoke-ADCUnsetPcpprofile {
         Invoke-ADCUnsetPcpprofile -name <string>
     .NOTES
         File Name : Invoke-ADCUnsetPcpprofile
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/pcp/pcpprofile
         Requires  : PowerShell v5.1 and up
@@ -498,7 +498,7 @@ function Invoke-ADCGetPcpprofile {
         Invoke-ADCGetPcpprofile -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetPcpprofile
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/pcp/pcpprofile/
         Requires  : PowerShell v5.1 and up
@@ -588,7 +588,7 @@ function Invoke-ADCAddPcpserver {
         Invoke-ADCAddPcpserver -name <string> -ipaddress <string>
     .NOTES
         File Name : Invoke-ADCAddPcpserver
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/pcp/pcpserver/
         Requires  : PowerShell v5.1 and up
@@ -663,7 +663,7 @@ function Invoke-ADCDeletePcpserver {
         Invoke-ADCDeletePcpserver -name <string>
     .NOTES
         File Name : Invoke-ADCDeletePcpserver
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/pcp/pcpserver/
         Requires  : PowerShell v5.1 and up
@@ -727,7 +727,7 @@ function Invoke-ADCUpdatePcpserver {
         Invoke-ADCUpdatePcpserver -name <string>
     .NOTES
         File Name : Invoke-ADCUpdatePcpserver
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/pcp/pcpserver/
         Requires  : PowerShell v5.1 and up
@@ -803,7 +803,7 @@ function Invoke-ADCUnsetPcpserver {
         Invoke-ADCUnsetPcpserver -name <string>
     .NOTES
         File Name : Invoke-ADCUnsetPcpserver
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/pcp/pcpserver
         Requires  : PowerShell v5.1 and up
@@ -881,7 +881,7 @@ function Invoke-ADCGetPcpserver {
         Invoke-ADCGetPcpserver -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetPcpserver
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/pcp/pcpserver/
         Requires  : PowerShell v5.1 and up

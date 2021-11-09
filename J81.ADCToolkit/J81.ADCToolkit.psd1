@@ -9,7 +9,7 @@
     RootModule        = 'J81.ADCToolkit.psm1'
 
     # Version number of this module.
-    ModuleVersion     = '2101.0322'
+    ModuleVersion     = '2106.2309'
 
     # Supported PSEditions
     # CompatiblePSEditions = @()
@@ -24,7 +24,7 @@
     CompanyName       = 'J81-Blog'
 
     # Copyright statement for this module
-    Copyright         = '(c) 2020 John Billekens. All rights reserved.'
+    Copyright         = '(c) 2021 John Billekens. All rights reserved.'
 
     # Description of the functionality provided by this module
     Description       = 'Citrix ADC PowerShell Toolkit, Modules for managing Citrix ADC from PowerShell'
@@ -3879,4 +3879,3 @@
     # DefaultCommandPrefix = ''
 
 }
-

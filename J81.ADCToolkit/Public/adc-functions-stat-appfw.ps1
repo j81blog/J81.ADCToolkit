@@ -26,7 +26,7 @@ function Invoke-ADCGetAppfwStats {
         Invoke-ADCGetAppfwStats -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetAppfwStats
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/statistics/appfw/appfw/
         Requires  : PowerShell v5.1 and up
@@ -118,7 +118,7 @@ function Invoke-ADCGetAppfwpolicyStats {
         Invoke-ADCGetAppfwpolicyStats -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetAppfwpolicyStats
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/statistics/appfw/appfwpolicy/
         Requires  : PowerShell v5.1 and up
@@ -205,7 +205,7 @@ function Invoke-ADCGetAppfwpolicylabelStats {
         Invoke-ADCGetAppfwpolicylabelStats -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetAppfwpolicylabelStats
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/statistics/appfw/appfwpolicylabel/
         Requires  : PowerShell v5.1 and up
@@ -292,7 +292,7 @@ function Invoke-ADCGetAppfwprofileStats {
         Invoke-ADCGetAppfwprofileStats -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetAppfwprofileStats
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/statistics/appfw/appfwprofile/
         Requires  : PowerShell v5.1 and up

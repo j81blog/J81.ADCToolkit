@@ -35,7 +35,7 @@ function Invoke-ADCAddDbdbprofile {
         Invoke-ADCAddDbdbprofile -name <string>
     .NOTES
         File Name : Invoke-ADCAddDbdbprofile
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/db/dbdbprofile/
         Requires  : PowerShell v5.1 and up
@@ -124,7 +124,7 @@ function Invoke-ADCDeleteDbdbprofile {
         Invoke-ADCDeleteDbdbprofile -name <string>
     .NOTES
         File Name : Invoke-ADCDeleteDbdbprofile
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/db/dbdbprofile/
         Requires  : PowerShell v5.1 and up
@@ -204,7 +204,7 @@ function Invoke-ADCUpdateDbdbprofile {
         Invoke-ADCUpdateDbdbprofile -name <string>
     .NOTES
         File Name : Invoke-ADCUpdateDbdbprofile
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/db/dbdbprofile/
         Requires  : PowerShell v5.1 and up
@@ -305,7 +305,7 @@ function Invoke-ADCUnsetDbdbprofile {
         Invoke-ADCUnsetDbdbprofile -name <string>
     .NOTES
         File Name : Invoke-ADCUnsetDbdbprofile
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/db/dbdbprofile
         Requires  : PowerShell v5.1 and up
@@ -395,7 +395,7 @@ function Invoke-ADCGetDbdbprofile {
         Invoke-ADCGetDbdbprofile -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetDbdbprofile
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/db/dbdbprofile/
         Requires  : PowerShell v5.1 and up
@@ -482,7 +482,7 @@ function Invoke-ADCAddDbuser {
         Invoke-ADCAddDbuser -username <string>
     .NOTES
         File Name : Invoke-ADCAddDbuser
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/db/dbuser/
         Requires  : PowerShell v5.1 and up
@@ -552,7 +552,7 @@ function Invoke-ADCDeleteDbuser {
         Invoke-ADCDeleteDbuser -username <string>
     .NOTES
         File Name : Invoke-ADCDeleteDbuser
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/db/dbuser/
         Requires  : PowerShell v5.1 and up
@@ -613,7 +613,7 @@ function Invoke-ADCUpdateDbuser {
         Invoke-ADCUpdateDbuser -username <string> -password <string>
     .NOTES
         File Name : Invoke-ADCUpdateDbuser
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/db/dbuser/
         Requires  : PowerShell v5.1 and up
@@ -701,7 +701,7 @@ function Invoke-ADCGetDbuser {
         Invoke-ADCGetDbuser -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetDbuser
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/db/dbuser/
         Requires  : PowerShell v5.1 and up

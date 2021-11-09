@@ -22,7 +22,7 @@ function Invoke-ADCUpdateProtocolhttpband {
         Invoke-ADCUpdateProtocolhttpband 
     .NOTES
         File Name : Invoke-ADCUpdateProtocolhttpband
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/protocol/protocolhttpband/
         Requires  : PowerShell v5.1 and up
@@ -91,7 +91,7 @@ function Invoke-ADCUnsetProtocolhttpband {
         Invoke-ADCUnsetProtocolhttpband 
     .NOTES
         File Name : Invoke-ADCUnsetProtocolhttpband
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/protocol/protocolhttpband
         Requires  : PowerShell v5.1 and up
@@ -150,7 +150,7 @@ function Invoke-ADCClearProtocolhttpband {
         Invoke-ADCClearProtocolhttpband -type <string>
     .NOTES
         File Name : Invoke-ADCClearProtocolhttpband
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/protocol/protocolhttpband/
         Requires  : PowerShell v5.1 and up
@@ -226,7 +226,7 @@ function Invoke-ADCGetProtocolhttpband {
         Invoke-ADCGetProtocolhttpband -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetProtocolhttpband
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/protocol/protocolhttpband/
         Requires  : PowerShell v5.1 and up

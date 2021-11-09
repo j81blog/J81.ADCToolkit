@@ -45,7 +45,7 @@ function Invoke-ADCUpdateIpsecparameter {
         Invoke-ADCUpdateIpsecparameter 
     .NOTES
         File Name : Invoke-ADCUpdateIpsecparameter
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ipsec/ipsecparameter/
         Requires  : PowerShell v5.1 and up
@@ -157,7 +157,7 @@ function Invoke-ADCUnsetIpsecparameter {
         Invoke-ADCUnsetIpsecparameter 
     .NOTES
         File Name : Invoke-ADCUnsetIpsecparameter
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ipsec/ipsecparameter
         Requires  : PowerShell v5.1 and up
@@ -249,7 +249,7 @@ function Invoke-ADCGetIpsecparameter {
         Invoke-ADCGetIpsecparameter -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetIpsecparameter
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ipsec/ipsecparameter/
         Requires  : PowerShell v5.1 and up
@@ -361,7 +361,7 @@ function Invoke-ADCAddIpsecprofile {
         Invoke-ADCAddIpsecprofile -name <string>
     .NOTES
         File Name : Invoke-ADCAddIpsecprofile
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ipsec/ipsecprofile/
         Requires  : PowerShell v5.1 and up
@@ -476,7 +476,7 @@ function Invoke-ADCDeleteIpsecprofile {
         Invoke-ADCDeleteIpsecprofile -name <string>
     .NOTES
         File Name : Invoke-ADCDeleteIpsecprofile
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ipsec/ipsecprofile/
         Requires  : PowerShell v5.1 and up
@@ -548,7 +548,7 @@ function Invoke-ADCGetIpsecprofile {
         Invoke-ADCGetIpsecprofile -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetIpsecprofile
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ipsec/ipsecprofile/
         Requires  : PowerShell v5.1 and up

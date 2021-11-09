@@ -25,7 +25,7 @@ function Invoke-ADCGetServiceStats {
         Invoke-ADCGetServiceStats -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetServiceStats
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/statistics/basic/service/
         Requires  : PowerShell v5.1 and up
@@ -112,7 +112,7 @@ function Invoke-ADCGetServicegroupStats {
         Invoke-ADCGetServicegroupStats -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetServicegroupStats
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/statistics/basic/servicegroup/
         Requires  : PowerShell v5.1 and up
@@ -200,7 +200,7 @@ function Invoke-ADCGetServicegroupmemberStats {
         Invoke-ADCGetServicegroupmemberStats -Filter @{ 'name'='<value>' }
     .NOTES
         File Name : Invoke-ADCGetServicegroupmemberStats
-        Version   : v2101.0322
+        Version   : v2106.2309
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/statistics/basic/servicegroupmember/
         Requires  : PowerShell v5.1 and up
