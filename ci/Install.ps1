@@ -6,13 +6,13 @@
 param ()
 
 # Set variables
-if (Test-Path -Path 'env:APPVEYOR_BUILD_FOLDER') {
+if (Test-Path -Path $env:APPVEYOR_BUILD_FOLDER) {
     # AppVeyor Testing
     $workspace = "APPVEYOR"
     $projectRoot = Resolve-Path -Path $env:APPVEYOR_BUILD_FOLDER
     $module = $env:Module
     $source = $env:Source
-} elseif (Test-Path -Path 'env:GITHUB_WORKSPACE') {
+} elseif (Test-Path -Path $env:GITHUB_WORKSPACE) {
     # Github Testing
     $workspace = "GITHUB"
     $projectRoot = Resolve-Path -Path $env:GITHUB_WORKSPACE
@@ -31,6 +31,7 @@ $modulePath = Join-Path -Path $moduleParent -ChildPath "$module.psm1"
 
 # Echo variables
 Write-Host ""
+Write-Host "Workspace:       $workspace."
 Write-Host "ProjectRoot:     $projectRoot."
 Write-Host "Module name:     $module."
 Write-Host "Module parent:   $moduleParent."

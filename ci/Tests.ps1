@@ -53,8 +53,8 @@ if (Get-Variable -Name projectRoot -ErrorAction "SilentlyContinue") {
     }
 
     Write-Host "Environment.....:$environment."
-    Write-Host "Tests path:      $testsPath."
-    Write-Host "Output path:     $testOutput."
+    Write-Host "Tests path......:$testsPath."
+    Write-Host "Output path.....:$testOutput."
 
     # Invoke Pester tests
     $res = Invoke-Pester -Configuration $testConfig
@@ -63,7 +63,7 @@ if (Get-Variable -Name projectRoot -ErrorAction "SilentlyContinue") {
     if ($res.FailedCount -gt 0) { Throw "$($res.FailedCount) tests failed." }
     if ($environment -in $("LOCAL","GITHUB")) {
         #nothing to do
-    } elseif (Test-Path -Path env:APPVEYOR_JOB_ID) {
+    } elseif (Test-Path -Path $env:APPVEYOR_JOB_ID) {
         (New-Object 'System.Net.WebClient').UploadFile("https://ci.appveyor.com/api/testresults/nunit/$($env:APPVEYOR_JOB_ID)", (Resolve-Path -Path $testOutput))
     } else {
         Write-Warning -Message "Cannot find: APPVEYOR_JOB_ID"
