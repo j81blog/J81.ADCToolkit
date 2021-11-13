@@ -56,7 +56,6 @@ if (Get-Variable -Name projectRoot -ErrorAction "SilentlyContinue") {
     Write-Host "Tests path......:$testsPath."
     Write-Host "Output path.....:$testOutput."
     Write-Host "APPVEYOR_JOB_ID.:env:APPVEYOR_JOB_ID"
-
     # Invoke Pester tests
     $res = Invoke-Pester -Configuration $testConfig
 
