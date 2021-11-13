@@ -5,14 +5,22 @@
 [OutputType()]
 param ()
 
-if (Test-Path 'env:APPVEYOR_BUILD_FOLDER') {
+# Set variables
+if (Test-Path -Path 'env:APPVEYOR_BUILD_FOLDER') {
     # AppVeyor Testing
+    $environment = "APPVEYOR"
     $projectRoot = Resolve-Path -Path $env:APPVEYOR_BUILD_FOLDER
     $module = $env:Module
     $source = $env:Source
-} else {
+} elseif (Test-Path -Path 'env:GITHUB_WORKSPACE') {
+    # Github Testing
+    $environment = "GITHUB"
+    $projectRoot = Resolve-Path -Path $env:GITHUB_WORKSPACE
+    $module = Split-Path -Path $projectRoot -Leaf
+    $source = $module
+}else {
     # Local Testing 
-    Import-Module Pester
+    $environment = "LOCAL"
     $projectRoot = $ProjectRoot = ( Resolve-Path -Path ( Split-Path -Parent -Path $PSScriptRoot ) ).Path
     $module = Split-Path -Path $projectRoot -Leaf
     $source = $module
@@ -44,15 +52,19 @@ if (Get-Variable -Name projectRoot -ErrorAction "SilentlyContinue") {
         }
     }
 
-    Write-Host "Tests path:      $testsPath."
-    Write-Host "Output path:     $testOutput."
+    Write-Host "Environment.....:$environment."
+    Write-Host "Tests path......:$testsPath."
+    Write-Host "Output path.....:$testOutput."
+    Write-Host "APPVEYOR_JOB_ID.:env:APPVEYOR_JOB_ID"
 
     # Invoke Pester tests
     $res = Invoke-Pester -Configuration $testConfig
 
     # Upload test results to AppVeyor
     if ($res.FailedCount -gt 0) { Throw "$($res.FailedCount) tests failed." }
-    if (Test-Path -Path env:APPVEYOR_JOB_ID) {
+    if ($environment -in $("LOCAL","GITHUB")) {
+        #nothing to do
+    } elseif (Test-Path -Path 'env:APPVEYOR_JOB_ID') {
         (New-Object 'System.Net.WebClient').UploadFile("https://ci.appveyor.com/api/testresults/nunit/$($env:APPVEYOR_JOB_ID)", (Resolve-Path -Path $testOutput))
     } else {
         Write-Warning -Message "Cannot find: APPVEYOR_JOB_ID"
