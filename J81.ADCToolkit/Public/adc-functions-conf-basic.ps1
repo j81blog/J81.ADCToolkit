@@ -1,103 +1,48 @@
-function Invoke-ADCRestartDbsmonitors {
-<#
-    .SYNOPSIS
-        Restart Basic configuration Object
-    .DESCRIPTION
-        Restart Basic configuration Object 
-    .EXAMPLE
-        Invoke-ADCRestartDbsmonitors 
-    .NOTES
-        File Name : Invoke-ADCRestartDbsmonitors
-        Version   : v2106.2309
-        Author    : John Billekens
-        Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/basic/dbsmonitors/
-        Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
-    .LINK
-        https://blog.j81.nl
-#>
-    [CmdletBinding(SupportsShouldProcess = $true, ConfirmImpact = "Low")]
-    [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
-    [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
-    [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
-    param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession) 
-
-    )
-    begin {
-        Write-Verbose "Invoke-ADCRestartDbsmonitors: Starting"
-    }
-    process {
-        try {
-            $Payload = @{
-
-            }
-
-            if ($PSCmdlet.ShouldProcess($Name, "Restart Basic configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -NitroPath nitro/v1/config -Type dbsmonitors -Action restart -Payload $Payload -GetWarning
-                #HTTP Status Code on Success: 200 OK
-                #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
-                Write-Output $result
-            }
-        } catch {
-            Write-Verbose "ERROR: $($_.Exception.Message)"
-            throw $_
-        }
-    }
-    end {
-        Write-Verbose "Invoke-ADCRestartDbsmonitors: Finished"
-    }
-}
-
 function Invoke-ADCUpdateExtendedmemoryparam {
-<#
+    <#
     .SYNOPSIS
-        Update Basic configuration Object
+        Update Basic configuration Object.
     .DESCRIPTION
-        Update Basic configuration Object 
-    .PARAMETER memlimit 
-        Amount of Citrix ADC memory to reserve for the memory used by LSN and Subscriber Session Store feature, in multiples of 2MB.  
+        Configuration for Parameter for extended memory used by LSN and Subscriber Store resource.
+    .PARAMETER Memlimit 
+        Amount of Citrix ADC memory to reserve for the memory used by LSN and Subscriber Session Store feature, in multiples of 2MB. 
         Note: If you later reduce the value of this parameter, the amount of active memory is not reduced. Changing the configured memory limit can only increase the amount of active memory.
     .EXAMPLE
-        Invoke-ADCUpdateExtendedmemoryparam 
+        PS C:\>Invoke-ADCUpdateExtendedmemoryparam 
+        An example how to update extendedmemoryparam configuration Object(s).
     .NOTES
         File Name : Invoke-ADCUpdateExtendedmemoryparam
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/basic/extendedmemoryparam/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
+    #>
     [CmdletBinding(SupportsShouldProcess = $true, ConfirmImpact = "Low")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
-        [double]$memlimit 
-
+        [double]$Memlimit 
     )
     begin {
         Write-Verbose "Invoke-ADCUpdateExtendedmemoryparam: Starting"
     }
     process {
         try {
-            $Payload = @{
-
-            }
-            if ($PSBoundParameters.ContainsKey('memlimit')) { $Payload.Add('memlimit', $memlimit) }
- 
-            if ($PSCmdlet.ShouldProcess("extendedmemoryparam", "Update Basic configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -NitroPath nitro/v1/config -Type extendedmemoryparam -Payload $Payload -GetWarning
+            $payload = @{ }
+            if ( $PSBoundParameters.ContainsKey('memlimit') ) { $payload.Add('memlimit', $memlimit) }
+            if ( $PSCmdlet.ShouldProcess("extendedmemoryparam", "Update Basic configuration Object") ) {
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -NitroPath nitro/v1/config -Type extendedmemoryparam -Payload $payload -GetWarning
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
-            Write-Output $result
-
+                Write-Output $result
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -110,33 +55,35 @@ function Invoke-ADCUpdateExtendedmemoryparam {
 }
 
 function Invoke-ADCUnsetExtendedmemoryparam {
-<#
+    <#
     .SYNOPSIS
-        Unset Basic configuration Object
+        Unset Basic configuration Object.
     .DESCRIPTION
-        Unset Basic configuration Object 
-   .PARAMETER memlimit 
-       Amount of Citrix ADC memory to reserve for the memory used by LSN and Subscriber Session Store feature, in multiples of 2MB.  
-       Note: If you later reduce the value of this parameter, the amount of active memory is not reduced. Changing the configured memory limit can only increase the amount of active memory.
+        Configuration for Parameter for extended memory used by LSN and Subscriber Store resource.
+    .PARAMETER Memlimit 
+        Amount of Citrix ADC memory to reserve for the memory used by LSN and Subscriber Session Store feature, in multiples of 2MB. 
+        Note: If you later reduce the value of this parameter, the amount of active memory is not reduced. Changing the configured memory limit can only increase the amount of active memory.
     .EXAMPLE
-        Invoke-ADCUnsetExtendedmemoryparam 
+        PS C:\>Invoke-ADCUnsetExtendedmemoryparam 
+        An example how to unset extendedmemoryparam configuration Object(s).
     .NOTES
         File Name : Invoke-ADCUnsetExtendedmemoryparam
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/basic/extendedmemoryparam
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
+    #>
     [CmdletBinding(SupportsShouldProcess = $true, ConfirmImpact = "Low")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
         [Boolean]$memlimit 
     )
@@ -145,12 +92,10 @@ function Invoke-ADCUnsetExtendedmemoryparam {
     }
     process {
         try {
-            $Payload = @{
-
-            }
-            if ($PSBoundParameters.ContainsKey('memlimit')) { $Payload.Add('memlimit', $memlimit) }
-            if ($PSCmdlet.ShouldProcess("extendedmemoryparam", "Unset Basic configuration Object")) {
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -Type extendedmemoryparam -NitroPath nitro/v1/config -Action unset -Payload $Payload -GetWarning
+            $payload = @{ }
+            if ( $PSBoundParameters.ContainsKey('memlimit') ) { $payload.Add('memlimit', $memlimit) }
+            if ( $PSCmdlet.ShouldProcess("extendedmemoryparam", "Unset Basic configuration Object") ) {
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -Type extendedmemoryparam -NitroPath nitro/v1/config -Action unset -Payload $payload -GetWarning
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $response
@@ -166,45 +111,50 @@ function Invoke-ADCUnsetExtendedmemoryparam {
 }
 
 function Invoke-ADCGetExtendedmemoryparam {
-<#
+    <#
     .SYNOPSIS
-        Get Basic configuration object(s)
+        Get Basic configuration object(s).
     .DESCRIPTION
-        Get Basic configuration object(s)
+        Configuration for Parameter for extended memory used by LSN and Subscriber Store resource.
     .PARAMETER GetAll 
-        Retreive all extendedmemoryparam object(s)
+        Retrieve all extendedmemoryparam object(s).
     .PARAMETER Count
-        If specified, the count of the extendedmemoryparam object(s) will be returned
+        If specified, the count of the extendedmemoryparam object(s) will be returned.
     .PARAMETER Filter
-        Specify a filter
+        Specify a filter.
         -Filter @{ 'name'='<value>' }
     .PARAMETER ViewSummary
-        When specified, only a summary of information is returned
+        When specified, only a summary of information is returned.
     .EXAMPLE
-        Invoke-ADCGetExtendedmemoryparam
+        PS C:\>Invoke-ADCGetExtendedmemoryparam
+        Get data.
     .EXAMPLE 
-        Invoke-ADCGetExtendedmemoryparam -GetAll
+        PS C:\>Invoke-ADCGetExtendedmemoryparam -GetAll 
+        Get all extendedmemoryparam data.
     .EXAMPLE
-        Invoke-ADCGetExtendedmemoryparam -name <string>
+        PS C:\>Invoke-ADCGetExtendedmemoryparam -name <string>
+        Get extendedmemoryparam object by specifying for example the name.
     .EXAMPLE
-        Invoke-ADCGetExtendedmemoryparam -Filter @{ 'name'='<value>' }
+        PS C:\>Invoke-ADCGetExtendedmemoryparam -Filter @{ 'name'='<value>' }
+        Get extendedmemoryparam data with a filter.
     .NOTES
         File Name : Invoke-ADCGetExtendedmemoryparam
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/basic/extendedmemoryparam/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
-    [CmdletBinding(DefaultParameterSetName = "Getall")]
+    #>
+    [CmdletBinding(DefaultParameterSetName = "GetAll")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 			
         [hashtable]$Filter = @{ },
 
@@ -216,24 +166,24 @@ function Invoke-ADCGetExtendedmemoryparam {
     }
     process {
         try {
-            if ( $PsCmdlet.ParameterSetName -eq 'Getall' ) {
-                $Query = @{ }
+            if ( $PsCmdlet.ParameterSetName -eq 'GetAll' ) {
+                $query = @{ }
                 Write-Verbose "Retrieving all extendedmemoryparam objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type extendedmemoryparam -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type extendedmemoryparam -NitroPath nitro/v1/config -Query $query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
-                if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
+                if ( $PSBoundParameters.ContainsKey('Count') ) { $query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for extendedmemoryparam objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type extendedmemoryparam -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type extendedmemoryparam -NitroPath nitro/v1/config -Query $query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving extendedmemoryparam objects by arguments"
-                $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type extendedmemoryparam -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
+                $arguments = @{ } 
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type extendedmemoryparam -NitroPath nitro/v1/config -Arguments $arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving extendedmemoryparam configuration for property ''"
 
             } else {
                 Write-Verbose "Retrieving extendedmemoryparam configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type extendedmemoryparam -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type extendedmemoryparam -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -247,95 +197,88 @@ function Invoke-ADCGetExtendedmemoryparam {
 }
 
 function Invoke-ADCAddLocation {
-<#
+    <#
     .SYNOPSIS
-        Add Basic configuration Object
+        Add Basic configuration Object.
     .DESCRIPTION
-        Add Basic configuration Object 
-    .PARAMETER ipfrom 
-        First IP address in the range, in dotted decimal notation.  
-        Minimum length = 1 
-    .PARAMETER ipto 
-        Last IP address in the range, in dotted decimal notation.  
-        Minimum length = 1 
-    .PARAMETER preferredlocation 
-        String of qualifiers, in dotted notation, describing the geographical location of the IP address range. Each qualifier is more specific than the one that precedes it, as in continent.country.region.city.isp.organization. For example, "NA.US.CA.San Jose.ATT.citrix".  
-        Note: A qualifier that includes a dot (.) or space ( ) must be enclosed in double quotation marks.  
-        Minimum length = 1 
-    .PARAMETER longitude 
-        Numerical value, in degrees, specifying the longitude of the geographical location of the IP address-range.  
-        Note: Longitude and latitude parameters are used for selecting a service with the static proximity GSLB method. If they are not specified, selection is based on the qualifiers specified for the location.  
-        Minimum value = -180  
-        Maximum value = 180 
-    .PARAMETER latitude 
-        Numerical value, in degrees, specifying the latitude of the geographical location of the IP address-range.  
-        Note: Longitude and latitude parameters are used for selecting a service with the static proximity GSLB method. If they are not specified, selection is based on the qualifiers specified for the location.  
-        Minimum value = -90  
-        Maximum value = 90 
+        Configuration for location resource.
+    .PARAMETER Ipfrom 
+        First IP address in the range, in dotted decimal notation. 
+    .PARAMETER Ipto 
+        Last IP address in the range, in dotted decimal notation. 
+    .PARAMETER Preferredlocation 
+        String of qualifiers, in dotted notation, describing the geographical location of the IP address range. Each qualifier is more specific than the one that precedes it, as in continent.country.region.city.isp.organization. For example, "NA.US.CA.San Jose.ATT.citrix". 
+        Note: A qualifier that includes a dot (.) or space ( ) must be enclosed in double quotation marks. 
+    .PARAMETER Longitude 
+        Numerical value, in degrees, specifying the longitude of the geographical location of the IP address-range. 
+        Note: Longitude and latitude parameters are used for selecting a service with the static proximity GSLB method. If they are not specified, selection is based on the qualifiers specified for the location. 
+    .PARAMETER Latitude 
+        Numerical value, in degrees, specifying the latitude of the geographical location of the IP address-range. 
+        Note: Longitude and latitude parameters are used for selecting a service with the static proximity GSLB method. If they are not specified, selection is based on the qualifiers specified for the location. 
     .PARAMETER PassThru 
         Return details about the created location item.
     .EXAMPLE
-        Invoke-ADCAddLocation -ipfrom <string> -ipto <string> -preferredlocation <string>
+        PS C:\>Invoke-ADCAddLocation -ipfrom <string> -ipto <string> -preferredlocation <string>
+        An example how to add location configuration Object(s).
     .NOTES
         File Name : Invoke-ADCAddLocation
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/basic/location/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
+    #>
     [CmdletBinding(SupportsShouldProcess = $true, ConfirmImpact = "Low")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
-        [Parameter(Mandatory = $true)]
+        [Parameter(Mandatory)]
         [ValidateScript({ $_.Length -gt 1 })]
-        [string]$ipfrom ,
+        [string]$Ipfrom,
 
-        [Parameter(Mandatory = $true)]
+        [Parameter(Mandatory)]
         [ValidateScript({ $_.Length -gt 1 })]
-        [string]$ipto ,
+        [string]$Ipto,
 
-        [Parameter(Mandatory = $true)]
+        [Parameter(Mandatory)]
         [ValidateScript({ $_.Length -gt 1 })]
-        [string]$preferredlocation ,
+        [string]$Preferredlocation,
 
-        [int]$longitude ,
+        [ValidateRange(-180, 180)]
+        [int]$Longitude,
 
-        [int]$latitude ,
+        [ValidateRange(-90, 90)]
+        [int]$Latitude,
 
         [Switch]$PassThru 
-
     )
     begin {
         Write-Verbose "Invoke-ADCAddLocation: Starting"
     }
     process {
         try {
-            $Payload = @{
-                ipfrom = $ipfrom
-                ipto = $ipto
+            $payload = @{ ipfrom  = $ipfrom
+                ipto              = $ipto
                 preferredlocation = $preferredlocation
             }
-            if ($PSBoundParameters.ContainsKey('longitude')) { $Payload.Add('longitude', $longitude) }
-            if ($PSBoundParameters.ContainsKey('latitude')) { $Payload.Add('latitude', $latitude) }
- 
-            if ($PSCmdlet.ShouldProcess("location", "Add Basic configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -NitroPath nitro/v1/config -Type location -Payload $Payload -GetWarning
+            if ( $PSBoundParameters.ContainsKey('longitude') ) { $payload.Add('longitude', $longitude) }
+            if ( $PSBoundParameters.ContainsKey('latitude') ) { $payload.Add('latitude', $latitude) }
+            if ( $PSCmdlet.ShouldProcess("location", "Add Basic configuration Object") ) {
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -NitroPath nitro/v1/config -Type location -Payload $payload -GetWarning
                 #HTTP Status Code on Success: 201 Created
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
-                if ($PSBoundParameters.ContainsKey('PassThru')) {
-                    Write-Output (Invoke-ADCGetLocation -Filter $Payload)
+                if ( $PSBoundParameters.ContainsKey('PassThru') ) {
+                    Write-Output (Invoke-ADCGetLocation -Filter $payload)
                 } else {
                     Write-Output $result
                 }
-
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -348,51 +291,51 @@ function Invoke-ADCAddLocation {
 }
 
 function Invoke-ADCDeleteLocation {
-<#
+    <#
     .SYNOPSIS
-        Delete Basic configuration Object
+        Delete Basic configuration Object.
     .DESCRIPTION
-        Delete Basic configuration Object
-    .PARAMETER ipfrom 
-       First IP address in the range, in dotted decimal notation.  
-       Minimum length = 1    .PARAMETER ipto 
-       Last IP address in the range, in dotted decimal notation.  
-       Minimum length = 1
+        Configuration for location resource.
+    .PARAMETER Ipfrom 
+        First IP address in the range, in dotted decimal notation. 
+    .PARAMETER Ipto 
+        Last IP address in the range, in dotted decimal notation.
     .EXAMPLE
-        Invoke-ADCDeleteLocation -ipfrom <string>
+        PS C:\>Invoke-ADCDeleteLocation -Ipfrom <string>
+        An example how to delete location configuration Object(s).
     .NOTES
         File Name : Invoke-ADCDeleteLocation
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/basic/location/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
+    #>
     [CmdletBinding(SupportsShouldProcess = $true, ConfirmImpact = "Low")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
-        [Parameter(Mandatory = $true)]
-        [string]$ipfrom ,
+        [Parameter(Mandatory)]
+        [string]$Ipfrom,
 
-        [string]$ipto 
+        [string]$Ipto 
     )
     begin {
         Write-Verbose "Invoke-ADCDeleteLocation: Starting"
     }
     process {
         try {
-            $Arguments = @{ 
-            }
-            if ($PSBoundParameters.ContainsKey('ipto')) { $Arguments.Add('ipto', $ipto) }
-            if ($PSCmdlet.ShouldProcess("$ipfrom", "Delete Basic configuration Object")) {
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type location -NitroPath nitro/v1/config -Resource $ipfrom -Arguments $Arguments
+            $arguments = @{ }
+            if ( $PSBoundParameters.ContainsKey('Ipto') ) { $arguments.Add('ipto', $Ipto) }
+            if ( $PSCmdlet.ShouldProcess("$ipfrom", "Delete Basic configuration Object") ) {
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type location -NitroPath nitro/v1/config -Resource $ipfrom -Arguments $arguments
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $response
@@ -408,55 +351,61 @@ function Invoke-ADCDeleteLocation {
 }
 
 function Invoke-ADCGetLocation {
-<#
+    <#
     .SYNOPSIS
-        Get Basic configuration object(s)
+        Get Basic configuration object(s).
     .DESCRIPTION
-        Get Basic configuration object(s)
-    .PARAMETER ipfrom 
-       First IP address in the range, in dotted decimal notation. 
+        Configuration for location resource.
+    .PARAMETER Ipfrom 
+        First IP address in the range, in dotted decimal notation. 
     .PARAMETER GetAll 
-        Retreive all location object(s)
+        Retrieve all location object(s).
     .PARAMETER Count
-        If specified, the count of the location object(s) will be returned
+        If specified, the count of the location object(s) will be returned.
     .PARAMETER Filter
-        Specify a filter
+        Specify a filter.
         -Filter @{ 'name'='<value>' }
     .PARAMETER ViewSummary
-        When specified, only a summary of information is returned
+        When specified, only a summary of information is returned.
     .EXAMPLE
-        Invoke-ADCGetLocation
+        PS C:\>Invoke-ADCGetLocation
+        Get data.
     .EXAMPLE 
-        Invoke-ADCGetLocation -GetAll 
+        PS C:\>Invoke-ADCGetLocation -GetAll 
+        Get all location data. 
     .EXAMPLE 
-        Invoke-ADCGetLocation -Count
+        PS C:\>Invoke-ADCGetLocation -Count 
+        Get the number of location objects.
     .EXAMPLE
-        Invoke-ADCGetLocation -name <string>
+        PS C:\>Invoke-ADCGetLocation -name <string>
+        Get location object by specifying for example the name.
     .EXAMPLE
-        Invoke-ADCGetLocation -Filter @{ 'name'='<value>' }
+        PS C:\>Invoke-ADCGetLocation -Filter @{ 'name'='<value>' }
+        Get location data with a filter.
     .NOTES
         File Name : Invoke-ADCGetLocation
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/basic/location/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
-    [CmdletBinding(DefaultParameterSetName = "Getall")]
+    #>
+    [CmdletBinding(DefaultParameterSetName = "GetAll")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
         [Parameter(ParameterSetName = 'GetByResource')]
         [ValidateScript({ $_.Length -gt 1 })]
-        [string]$ipfrom,
+        [string]$Ipfrom,
 
-        [Parameter(ParameterSetName = 'Count', Mandatory = $true)]
+        [Parameter(ParameterSetName = 'Count', Mandatory)]
         [Switch]$Count,
 			
         [hashtable]$Filter = @{ },
@@ -474,24 +423,24 @@ function Invoke-ADCGetLocation {
     }
     process {
         try {
-            if ( $PsCmdlet.ParameterSetName -eq 'Getall' ) {
-                $Query = @{ }
+            if ( $PsCmdlet.ParameterSetName -eq 'GetAll' ) {
+                $query = @{ }
                 Write-Verbose "Retrieving all location objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type location -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type location -NitroPath nitro/v1/config -Query $query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
-                if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
+                if ( $PSBoundParameters.ContainsKey('Count') ) { $query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for location objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type location -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type location -NitroPath nitro/v1/config -Query $query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving location objects by arguments"
-                $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type location -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
+                $arguments = @{ } 
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type location -NitroPath nitro/v1/config -Arguments $arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving location configuration for property 'ipfrom'"
                 $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type location -NitroPath nitro/v1/config -Resource $ipfrom -Summary:$ViewSummary -Filter $Filter -GetWarning
             } else {
                 Write-Verbose "Retrieving location configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type location -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type location -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -504,215 +453,46 @@ function Invoke-ADCGetLocation {
     }
 }
 
-function Invoke-ADCClearLocationdata {
-<#
-    .SYNOPSIS
-        Clear Basic configuration Object
-    .DESCRIPTION
-        Clear Basic configuration Object 
-    .EXAMPLE
-        Invoke-ADCClearLocationdata 
-    .NOTES
-        File Name : Invoke-ADCClearLocationdata
-        Version   : v2106.2309
-        Author    : John Billekens
-        Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/basic/locationdata/
-        Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
-    .LINK
-        https://blog.j81.nl
-#>
-    [CmdletBinding(SupportsShouldProcess = $true, ConfirmImpact = "Low")]
-    [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
-    [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
-    [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
-    param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession) 
-
-    )
-    begin {
-        Write-Verbose "Invoke-ADCClearLocationdata: Starting"
-    }
-    process {
-        try {
-            $Payload = @{
-
-            }
-
-            if ($PSCmdlet.ShouldProcess($Name, "Clear Basic configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -NitroPath nitro/v1/config -Type locationdata -Action clear -Payload $Payload -GetWarning
-                #HTTP Status Code on Success: 200 OK
-                #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
-                Write-Output $result
-            }
-        } catch {
-            Write-Verbose "ERROR: $($_.Exception.Message)"
-            throw $_
-        }
-    }
-    end {
-        Write-Verbose "Invoke-ADCClearLocationdata: Finished"
-    }
-}
-
-function Invoke-ADCAddLocationfile {
-<#
-    .SYNOPSIS
-        Add Basic configuration Object
-    .DESCRIPTION
-        Add Basic configuration Object 
-    .PARAMETER Locationfile 
-        Name of the location file, with or without absolute path. If the path is not included, the default path (/var/netscaler/locdb) is assumed. In a high availability setup, the static database must be stored in the same location on both Citrix ADCs.  
-        Minimum length = 1 
-    .PARAMETER format 
-        Format of the location file. Required for the Citrix ADC to identify how to read the location file.  
-        Default value: netscaler  
-        Possible values = netscaler, ip-country, ip-country-isp, ip-country-region-city, ip-country-region-city-isp, geoip-country, geoip-region, geoip-city, geoip-country-org, geoip-country-isp, geoip-city-isp-org
-    .EXAMPLE
-        Invoke-ADCAddLocationfile -Locationfile <string>
-    .NOTES
-        File Name : Invoke-ADCAddLocationfile
-        Version   : v2106.2309
-        Author    : John Billekens
-        Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/basic/locationfile/
-        Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
-    .LINK
-        https://blog.j81.nl
-#>
-    [CmdletBinding(SupportsShouldProcess = $true, ConfirmImpact = "Low")]
-    [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
-    [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
-    [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
-    param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
-
-        [Parameter(Mandatory = $true)]
-        [ValidateScript({ $_.Length -gt 1 })]
-        [string]$Locationfile ,
-
-        [ValidateSet('netscaler', 'ip-country', 'ip-country-isp', 'ip-country-region-city', 'ip-country-region-city-isp', 'geoip-country', 'geoip-region', 'geoip-city', 'geoip-country-org', 'geoip-country-isp', 'geoip-city-isp-org')]
-        [string]$format = 'netscaler' 
-
-    )
-    begin {
-        Write-Verbose "Invoke-ADCAddLocationfile: Starting"
-    }
-    process {
-        try {
-            $Payload = @{
-                Locationfile = $Locationfile
-            }
-            if ($PSBoundParameters.ContainsKey('format')) { $Payload.Add('format', $format) }
- 
-            if ($PSCmdlet.ShouldProcess("locationfile", "Add Basic configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -NitroPath nitro/v1/config -Type locationfile -Payload $Payload -GetWarning
-                #HTTP Status Code on Success: 201 Created
-                #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
-            Write-Output $result
-
-            }
-        } catch {
-            Write-Verbose "ERROR: $($_.Exception.Message)"
-            throw $_
-        }
-    }
-    end {
-        Write-Verbose "Invoke-ADCAddLocationfile: Finished"
-    }
-}
-
-function Invoke-ADCDeleteLocationfile {
-<#
-    .SYNOPSIS
-        Delete Basic configuration Object
-    .DESCRIPTION
-        Delete Basic configuration Object
-  
-    .EXAMPLE
-        Invoke-ADCDeleteLocationfile 
-    .NOTES
-        File Name : Invoke-ADCDeleteLocationfile
-        Version   : v2106.2309
-        Author    : John Billekens
-        Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/basic/locationfile/
-        Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
-    .LINK
-        https://blog.j81.nl
-#>
-    [CmdletBinding(SupportsShouldProcess = $true, ConfirmImpact = "Low")]
-    [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
-    [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
-    [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
-    param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession) 
-    )
-    begin {
-        Write-Verbose "Invoke-ADCDeleteLocationfile: Starting"
-    }
-    process {
-        try {
-            $Arguments = @{ 
-            }
-
-            if ($PSCmdlet.ShouldProcess("locationfile", "Delete Basic configuration Object")) {
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type locationfile -NitroPath nitro/v1/config -Resource $ -Arguments $Arguments
-                #HTTP Status Code on Success: 200 OK
-                #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
-                Write-Output $response
-            }
-        } catch {
-            Write-Verbose "ERROR: $($_.Exception.Message)"
-            throw $_
-        }
-    }
-    end {
-        Write-Verbose "Invoke-ADCDeleteLocationfile: Finished"
-    }
-}
-
 function Invoke-ADCImportLocationfile {
-<#
+    <#
     .SYNOPSIS
-        Import Basic configuration Object
+        Import Basic configuration Object.
     .DESCRIPTION
-        Import Basic configuration Object 
+        Configuration for location file resource.
     .PARAMETER Locationfile 
         Name of the location file, with or without absolute path. If the path is not included, the default path (/var/netscaler/locdb) is assumed. In a high availability setup, the static database must be stored in the same location on both Citrix ADCs. 
-    .PARAMETER src 
-        URL \(protocol, host, path, and file name\) from where the location file will be imported.  
+    .PARAMETER Src 
+        URL \(protocol, host, path, and file name\) from where the location file will be imported. 
         NOTE: The import fails if the object to be imported is on an HTTPS server that requires client certificate authentication for access.
     .EXAMPLE
-        Invoke-ADCImportLocationfile -Locationfile <string> -src <string>
+        PS C:\>Invoke-ADCImportLocationfile -Locationfile <string> -src <string>
+        An example how to import locationfile configuration Object(s).
     .NOTES
         File Name : Invoke-ADCImportLocationfile
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/basic/locationfile/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
+    #>
     [CmdletBinding(SupportsShouldProcess = $true, ConfirmImpact = "Low")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
-        [Parameter(Mandatory = $true)]
+        [Parameter(Mandatory)]
         [ValidateScript({ $_.Length -gt 1 })]
-        [string]$Locationfile ,
+        [string]$Locationfile,
 
-        [Parameter(Mandatory = $true)]
+        [Parameter(Mandatory)]
         [ValidateLength(1, 2047)]
-        [string]$src 
+        [string]$Src 
 
     )
     begin {
@@ -720,13 +500,12 @@ function Invoke-ADCImportLocationfile {
     }
     process {
         try {
-            $Payload = @{
-                Locationfile = $Locationfile
-                src = $src
+            $payload = @{ Locationfile = $Locationfile
+                src                    = $src
             }
 
-            if ($PSCmdlet.ShouldProcess($Name, "Import Basic configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -NitroPath nitro/v1/config -Type locationfile -Action import -Payload $Payload -GetWarning
+            if ( $PSCmdlet.ShouldProcess($Name, "Import Basic configuration Object") ) {
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -NitroPath nitro/v1/config -Type locationfile -Action import -Payload $payload -GetWarning
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $result
@@ -741,46 +520,165 @@ function Invoke-ADCImportLocationfile {
     }
 }
 
-function Invoke-ADCGetLocationfile {
-<#
+function Invoke-ADCAddLocationfile {
+    <#
     .SYNOPSIS
-        Get Basic configuration object(s)
+        Add Basic configuration Object.
     .DESCRIPTION
-        Get Basic configuration object(s)
-    .PARAMETER GetAll 
-        Retreive all locationfile object(s)
-    .PARAMETER Count
-        If specified, the count of the locationfile object(s) will be returned
-    .PARAMETER Filter
-        Specify a filter
-        -Filter @{ 'name'='<value>' }
-    .PARAMETER ViewSummary
-        When specified, only a summary of information is returned
+        Configuration for location file resource.
+    .PARAMETER Locationfile 
+        Name of the location file, with or without absolute path. If the path is not included, the default path (/var/netscaler/locdb) is assumed. In a high availability setup, the static database must be stored in the same location on both Citrix ADCs. 
+    .PARAMETER Format 
+        Format of the location file. Required for the Citrix ADC to identify how to read the location file. 
+        Possible values = netscaler, ip-country, ip-country-isp, ip-country-region-city, ip-country-region-city-isp, geoip-country, geoip-region, geoip-city, geoip-country-org, geoip-country-isp, geoip-city-isp-org
     .EXAMPLE
-        Invoke-ADCGetLocationfile
-    .EXAMPLE 
-        Invoke-ADCGetLocationfile -GetAll
-    .EXAMPLE
-        Invoke-ADCGetLocationfile -name <string>
-    .EXAMPLE
-        Invoke-ADCGetLocationfile -Filter @{ 'name'='<value>' }
+        PS C:\>Invoke-ADCAddLocationfile -Locationfile <string>
+        An example how to add locationfile configuration Object(s).
     .NOTES
-        File Name : Invoke-ADCGetLocationfile
-        Version   : v2106.2309
+        File Name : Invoke-ADCAddLocationfile
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/basic/locationfile/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
-    [CmdletBinding(DefaultParameterSetName = "Getall")]
+    #>
+    [CmdletBinding(SupportsShouldProcess = $true, ConfirmImpact = "Low")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
+
+        [Parameter(Mandatory)]
+        [ValidateScript({ $_.Length -gt 1 })]
+        [string]$Locationfile,
+
+        [ValidateSet('netscaler', 'ip-country', 'ip-country-isp', 'ip-country-region-city', 'ip-country-region-city-isp', 'geoip-country', 'geoip-region', 'geoip-city', 'geoip-country-org', 'geoip-country-isp', 'geoip-city-isp-org')]
+        [string]$Format = 'netscaler' 
+    )
+    begin {
+        Write-Verbose "Invoke-ADCAddLocationfile: Starting"
+    }
+    process {
+        try {
+            $payload = @{ Locationfile = $Locationfile }
+            if ( $PSBoundParameters.ContainsKey('format') ) { $payload.Add('format', $format) }
+            if ( $PSCmdlet.ShouldProcess("locationfile", "Add Basic configuration Object") ) {
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -NitroPath nitro/v1/config -Type locationfile -Payload $payload -GetWarning
+                #HTTP Status Code on Success: 201 Created
+                #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
+                Write-Output $result
+            }
+        } catch {
+            Write-Verbose "ERROR: $($_.Exception.Message)"
+            throw $_
+        }
+    }
+    end {
+        Write-Verbose "Invoke-ADCAddLocationfile: Finished"
+    }
+}
+
+function Invoke-ADCDeleteLocationfile {
+    <#
+    .SYNOPSIS
+        Delete Basic configuration Object.
+    .DESCRIPTION
+        Configuration for location file resource.
+    .EXAMPLE
+        PS C:\>Invoke-ADCDeleteLocationfile 
+        An example how to delete locationfile configuration Object(s).
+    .NOTES
+        File Name : Invoke-ADCDeleteLocationfile
+        Version   : v2111.2111
+        Author    : John Billekens
+        Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/basic/locationfile/
+        Requires  : PowerShell v5.1 and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
+    .LINK
+        https://blog.j81.nl
+    #>
+    [CmdletBinding(SupportsShouldProcess = $true, ConfirmImpact = "Low")]
+    [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
+    [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
+    [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
+    param(
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession) 
+    )
+    begin {
+        Write-Verbose "Invoke-ADCDeleteLocationfile: Starting"
+    }
+    process {
+        try {
+            $arguments = @{ }
+
+            if ( $PSCmdlet.ShouldProcess("locationfile", "Delete Basic configuration Object") ) {
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type locationfile -NitroPath nitro/v1/config -Resource $ -Arguments $arguments
+                #HTTP Status Code on Success: 200 OK
+                #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
+                Write-Output $response
+            }
+        } catch {
+            Write-Verbose "ERROR: $($_.Exception.Message)"
+            throw $_
+        }
+    }
+    end {
+        Write-Verbose "Invoke-ADCDeleteLocationfile: Finished"
+    }
+}
+
+function Invoke-ADCGetLocationfile {
+    <#
+    .SYNOPSIS
+        Get Basic configuration object(s).
+    .DESCRIPTION
+        Configuration for location file resource.
+    .PARAMETER GetAll 
+        Retrieve all locationfile object(s).
+    .PARAMETER Count
+        If specified, the count of the locationfile object(s) will be returned.
+    .PARAMETER Filter
+        Specify a filter.
+        -Filter @{ 'name'='<value>' }
+    .PARAMETER ViewSummary
+        When specified, only a summary of information is returned.
+    .EXAMPLE
+        PS C:\>Invoke-ADCGetLocationfile
+        Get data.
+    .EXAMPLE 
+        PS C:\>Invoke-ADCGetLocationfile -GetAll 
+        Get all locationfile data.
+    .EXAMPLE
+        PS C:\>Invoke-ADCGetLocationfile -name <string>
+        Get locationfile object by specifying for example the name.
+    .EXAMPLE
+        PS C:\>Invoke-ADCGetLocationfile -Filter @{ 'name'='<value>' }
+        Get locationfile data with a filter.
+    .NOTES
+        File Name : Invoke-ADCGetLocationfile
+        Version   : v2111.2111
+        Author    : John Billekens
+        Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/basic/locationfile/
+        Requires  : PowerShell v5.1 and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
+    .LINK
+        https://blog.j81.nl
+    #>
+    [CmdletBinding(DefaultParameterSetName = "GetAll")]
+    [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
+    [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
+    [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
+    param(
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 			
         [hashtable]$Filter = @{ },
 
@@ -792,24 +690,24 @@ function Invoke-ADCGetLocationfile {
     }
     process {
         try {
-            if ( $PsCmdlet.ParameterSetName -eq 'Getall' ) {
-                $Query = @{ }
+            if ( $PsCmdlet.ParameterSetName -eq 'GetAll' ) {
+                $query = @{ }
                 Write-Verbose "Retrieving all locationfile objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type locationfile -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type locationfile -NitroPath nitro/v1/config -Query $query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
-                if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
+                if ( $PSBoundParameters.ContainsKey('Count') ) { $query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for locationfile objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type locationfile -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type locationfile -NitroPath nitro/v1/config -Query $query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving locationfile objects by arguments"
-                $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type locationfile -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
+                $arguments = @{ } 
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type locationfile -NitroPath nitro/v1/config -Arguments $arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving locationfile configuration for property ''"
 
             } else {
                 Write-Verbose "Retrieving locationfile configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type locationfile -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type locationfile -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -822,163 +720,46 @@ function Invoke-ADCGetLocationfile {
     }
 }
 
-function Invoke-ADCAddLocationfile6 {
-<#
-    .SYNOPSIS
-        Add Basic configuration Object
-    .DESCRIPTION
-        Add Basic configuration Object 
-    .PARAMETER Locationfile 
-        Name of the IPv6 location file, with or without absolute path. If the path is not included, the default path (/var/netscaler/locdb) is assumed. In a high availability setup, the static database must be stored in the same location on both Citrix ADCs.  
-        Minimum length = 1 
-    .PARAMETER format 
-        Format of the IPv6 location file. Required for the Citrix ADC to identify how to read the location file.  
-        Default value: netscaler6  
-        Possible values = netscaler6, geoip-country6
-    .EXAMPLE
-        Invoke-ADCAddLocationfile6 -Locationfile <string>
-    .NOTES
-        File Name : Invoke-ADCAddLocationfile6
-        Version   : v2106.2309
-        Author    : John Billekens
-        Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/basic/locationfile6/
-        Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
-    .LINK
-        https://blog.j81.nl
-#>
-    [CmdletBinding(SupportsShouldProcess = $true, ConfirmImpact = "Low")]
-    [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
-    [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
-    [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
-    param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
-
-        [Parameter(Mandatory = $true)]
-        [ValidateScript({ $_.Length -gt 1 })]
-        [string]$Locationfile ,
-
-        [ValidateSet('netscaler6', 'geoip-country6')]
-        [string]$format = 'netscaler6' 
-
-    )
-    begin {
-        Write-Verbose "Invoke-ADCAddLocationfile6: Starting"
-    }
-    process {
-        try {
-            $Payload = @{
-                Locationfile = $Locationfile
-            }
-            if ($PSBoundParameters.ContainsKey('format')) { $Payload.Add('format', $format) }
- 
-            if ($PSCmdlet.ShouldProcess("locationfile6", "Add Basic configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -NitroPath nitro/v1/config -Type locationfile6 -Payload $Payload -GetWarning
-                #HTTP Status Code on Success: 201 Created
-                #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
-            Write-Output $result
-
-            }
-        } catch {
-            Write-Verbose "ERROR: $($_.Exception.Message)"
-            throw $_
-        }
-    }
-    end {
-        Write-Verbose "Invoke-ADCAddLocationfile6: Finished"
-    }
-}
-
-function Invoke-ADCDeleteLocationfile6 {
-<#
-    .SYNOPSIS
-        Delete Basic configuration Object
-    .DESCRIPTION
-        Delete Basic configuration Object
-  
-    .EXAMPLE
-        Invoke-ADCDeleteLocationfile6 
-    .NOTES
-        File Name : Invoke-ADCDeleteLocationfile6
-        Version   : v2106.2309
-        Author    : John Billekens
-        Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/basic/locationfile6/
-        Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
-    .LINK
-        https://blog.j81.nl
-#>
-    [CmdletBinding(SupportsShouldProcess = $true, ConfirmImpact = "Low")]
-    [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
-    [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
-    [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
-    param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession) 
-    )
-    begin {
-        Write-Verbose "Invoke-ADCDeleteLocationfile6: Starting"
-    }
-    process {
-        try {
-            $Arguments = @{ 
-            }
-
-            if ($PSCmdlet.ShouldProcess("locationfile6", "Delete Basic configuration Object")) {
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type locationfile6 -NitroPath nitro/v1/config -Resource $ -Arguments $Arguments
-                #HTTP Status Code on Success: 200 OK
-                #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
-                Write-Output $response
-            }
-        } catch {
-            Write-Verbose "ERROR: $($_.Exception.Message)"
-            throw $_
-        }
-    }
-    end {
-        Write-Verbose "Invoke-ADCDeleteLocationfile6: Finished"
-    }
-}
-
 function Invoke-ADCImportLocationfile6 {
-<#
+    <#
     .SYNOPSIS
-        Import Basic configuration Object
+        Import Basic configuration Object.
     .DESCRIPTION
-        Import Basic configuration Object 
+        Configuration for location file6 resource.
     .PARAMETER Locationfile 
         Name of the IPv6 location file, with or without absolute path. If the path is not included, the default path (/var/netscaler/locdb) is assumed. In a high availability setup, the static database must be stored in the same location on both Citrix ADCs. 
-    .PARAMETER src 
-        URL \(protocol, host, path, and file name\) from where the location file will be imported.  
+    .PARAMETER Src 
+        URL \(protocol, host, path, and file name\) from where the location file will be imported. 
         NOTE: The import fails if the object to be imported is on an HTTPS server that requires client certificate authentication for access.
     .EXAMPLE
-        Invoke-ADCImportLocationfile6 -Locationfile <string> -src <string>
+        PS C:\>Invoke-ADCImportLocationfile6 -Locationfile <string> -src <string>
+        An example how to import locationfile6 configuration Object(s).
     .NOTES
         File Name : Invoke-ADCImportLocationfile6
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/basic/locationfile6/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
+    #>
     [CmdletBinding(SupportsShouldProcess = $true, ConfirmImpact = "Low")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
-        [Parameter(Mandatory = $true)]
+        [Parameter(Mandatory)]
         [ValidateScript({ $_.Length -gt 1 })]
-        [string]$Locationfile ,
+        [string]$Locationfile,
 
-        [Parameter(Mandatory = $true)]
+        [Parameter(Mandatory)]
         [ValidateLength(1, 2047)]
-        [string]$src 
+        [string]$Src 
 
     )
     begin {
@@ -986,13 +767,12 @@ function Invoke-ADCImportLocationfile6 {
     }
     process {
         try {
-            $Payload = @{
-                Locationfile = $Locationfile
-                src = $src
+            $payload = @{ Locationfile = $Locationfile
+                src                    = $src
             }
 
-            if ($PSCmdlet.ShouldProcess($Name, "Import Basic configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -NitroPath nitro/v1/config -Type locationfile6 -Action import -Payload $Payload -GetWarning
+            if ( $PSCmdlet.ShouldProcess($Name, "Import Basic configuration Object") ) {
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -NitroPath nitro/v1/config -Type locationfile6 -Action import -Payload $payload -GetWarning
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $result
@@ -1007,50 +787,170 @@ function Invoke-ADCImportLocationfile6 {
     }
 }
 
-function Invoke-ADCGetLocationfile6 {
-<#
+function Invoke-ADCDeleteLocationfile6 {
+    <#
     .SYNOPSIS
-        Get Basic configuration object(s)
+        Delete Basic configuration Object.
     .DESCRIPTION
-        Get Basic configuration object(s)
-    .PARAMETER GetAll 
-        Retreive all locationfile6 object(s)
-    .PARAMETER Count
-        If specified, the count of the locationfile6 object(s) will be returned
-    .PARAMETER Filter
-        Specify a filter
-        -Filter @{ 'name'='<value>' }
-    .PARAMETER ViewSummary
-        When specified, only a summary of information is returned
+        Configuration for location file6 resource.
     .EXAMPLE
-        Invoke-ADCGetLocationfile6
-    .EXAMPLE 
-        Invoke-ADCGetLocationfile6 -GetAll 
-    .EXAMPLE 
-        Invoke-ADCGetLocationfile6 -Count
-    .EXAMPLE
-        Invoke-ADCGetLocationfile6 -name <string>
-    .EXAMPLE
-        Invoke-ADCGetLocationfile6 -Filter @{ 'name'='<value>' }
+        PS C:\>Invoke-ADCDeleteLocationfile6 
+        An example how to delete locationfile6 configuration Object(s).
     .NOTES
-        File Name : Invoke-ADCGetLocationfile6
-        Version   : v2106.2309
+        File Name : Invoke-ADCDeleteLocationfile6
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/basic/locationfile6/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
-    [CmdletBinding(DefaultParameterSetName = "Getall")]
+    #>
+    [CmdletBinding(SupportsShouldProcess = $true, ConfirmImpact = "Low")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession) 
+    )
+    begin {
+        Write-Verbose "Invoke-ADCDeleteLocationfile6: Starting"
+    }
+    process {
+        try {
+            $arguments = @{ }
 
-        [Parameter(ParameterSetName = 'Count', Mandatory = $true)]
+            if ( $PSCmdlet.ShouldProcess("locationfile6", "Delete Basic configuration Object") ) {
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type locationfile6 -NitroPath nitro/v1/config -Resource $ -Arguments $arguments
+                #HTTP Status Code on Success: 200 OK
+                #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
+                Write-Output $response
+            }
+        } catch {
+            Write-Verbose "ERROR: $($_.Exception.Message)"
+            throw $_
+        }
+    }
+    end {
+        Write-Verbose "Invoke-ADCDeleteLocationfile6: Finished"
+    }
+}
+
+function Invoke-ADCAddLocationfile6 {
+    <#
+    .SYNOPSIS
+        Add Basic configuration Object.
+    .DESCRIPTION
+        Configuration for location file6 resource.
+    .PARAMETER Locationfile 
+        Name of the IPv6 location file, with or without absolute path. If the path is not included, the default path (/var/netscaler/locdb) is assumed. In a high availability setup, the static database must be stored in the same location on both Citrix ADCs. 
+    .PARAMETER Format 
+        Format of the IPv6 location file. Required for the Citrix ADC to identify how to read the location file. 
+        Possible values = netscaler6, geoip-country6
+    .EXAMPLE
+        PS C:\>Invoke-ADCAddLocationfile6 -Locationfile <string>
+        An example how to add locationfile6 configuration Object(s).
+    .NOTES
+        File Name : Invoke-ADCAddLocationfile6
+        Version   : v2111.2111
+        Author    : John Billekens
+        Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/basic/locationfile6/
+        Requires  : PowerShell v5.1 and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
+    .LINK
+        https://blog.j81.nl
+    #>
+    [CmdletBinding(SupportsShouldProcess = $true, ConfirmImpact = "Low")]
+    [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
+    [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
+    [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
+    param(
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
+
+        [Parameter(Mandatory)]
+        [ValidateScript({ $_.Length -gt 1 })]
+        [string]$Locationfile,
+
+        [ValidateSet('netscaler6', 'geoip-country6')]
+        [string]$Format = 'netscaler6' 
+    )
+    begin {
+        Write-Verbose "Invoke-ADCAddLocationfile6: Starting"
+    }
+    process {
+        try {
+            $payload = @{ Locationfile = $Locationfile }
+            if ( $PSBoundParameters.ContainsKey('format') ) { $payload.Add('format', $format) }
+            if ( $PSCmdlet.ShouldProcess("locationfile6", "Add Basic configuration Object") ) {
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -NitroPath nitro/v1/config -Type locationfile6 -Payload $payload -GetWarning
+                #HTTP Status Code on Success: 201 Created
+                #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
+                Write-Output $result
+            }
+        } catch {
+            Write-Verbose "ERROR: $($_.Exception.Message)"
+            throw $_
+        }
+    }
+    end {
+        Write-Verbose "Invoke-ADCAddLocationfile6: Finished"
+    }
+}
+
+function Invoke-ADCGetLocationfile6 {
+    <#
+    .SYNOPSIS
+        Get Basic configuration object(s).
+    .DESCRIPTION
+        Configuration for location file6 resource.
+    .PARAMETER GetAll 
+        Retrieve all locationfile6 object(s).
+    .PARAMETER Count
+        If specified, the count of the locationfile6 object(s) will be returned.
+    .PARAMETER Filter
+        Specify a filter.
+        -Filter @{ 'name'='<value>' }
+    .PARAMETER ViewSummary
+        When specified, only a summary of information is returned.
+    .EXAMPLE
+        PS C:\>Invoke-ADCGetLocationfile6
+        Get data.
+    .EXAMPLE 
+        PS C:\>Invoke-ADCGetLocationfile6 -GetAll 
+        Get all locationfile6 data. 
+    .EXAMPLE 
+        PS C:\>Invoke-ADCGetLocationfile6 -Count 
+        Get the number of locationfile6 objects.
+    .EXAMPLE
+        PS C:\>Invoke-ADCGetLocationfile6 -name <string>
+        Get locationfile6 object by specifying for example the name.
+    .EXAMPLE
+        PS C:\>Invoke-ADCGetLocationfile6 -Filter @{ 'name'='<value>' }
+        Get locationfile6 data with a filter.
+    .NOTES
+        File Name : Invoke-ADCGetLocationfile6
+        Version   : v2111.2111
+        Author    : John Billekens
+        Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/basic/locationfile6/
+        Requires  : PowerShell v5.1 and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
+    .LINK
+        https://blog.j81.nl
+    #>
+    [CmdletBinding(DefaultParameterSetName = "GetAll")]
+    [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
+    [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
+    [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
+    param(
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
+
+        [Parameter(ParameterSetName = 'Count', Mandatory)]
         [Switch]$Count,
 			
         [hashtable]$Filter = @{ },
@@ -1067,24 +967,24 @@ function Invoke-ADCGetLocationfile6 {
     }
     process {
         try {
-            if ( $PsCmdlet.ParameterSetName -eq 'Getall' ) {
-                $Query = @{ }
+            if ( $PsCmdlet.ParameterSetName -eq 'GetAll' ) {
+                $query = @{ }
                 Write-Verbose "Retrieving all locationfile6 objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type locationfile6 -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type locationfile6 -NitroPath nitro/v1/config -Query $query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
-                if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
+                if ( $PSBoundParameters.ContainsKey('Count') ) { $query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for locationfile6 objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type locationfile6 -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type locationfile6 -NitroPath nitro/v1/config -Query $query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving locationfile6 objects by arguments"
-                $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type locationfile6 -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
+                $arguments = @{ } 
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type locationfile6 -NitroPath nitro/v1/config -Arguments $arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving locationfile6 configuration for property ''"
 
             } else {
                 Write-Verbose "Retrieving locationfile6 configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type locationfile6 -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type locationfile6 -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -1097,193 +997,75 @@ function Invoke-ADCGetLocationfile6 {
     }
 }
 
-function Invoke-ADCUpdateLocationparameter {
-<#
+function Invoke-ADCUnsetLocationparameter {
+    <#
     .SYNOPSIS
-        Update Basic configuration Object
+        Unset Basic configuration Object.
     .DESCRIPTION
-        Update Basic configuration Object 
-    .PARAMETER context 
-        Context for describing locations. In geographic context, qualifier labels are assigned by default in the following sequence: Continent.Country.Region.City.ISP.Organization. In custom context, the qualifiers labels can have any meaning that you designate.  
+        Configuration for location parameter resource.
+    .PARAMETER Context 
+        Context for describing locations. In geographic context, qualifier labels are assigned by default in the following sequence: Continent.Country.Region.City.ISP.Organization. In custom context, the qualifiers labels can have any meaning that you designate. 
         Possible values = geographic, custom 
-    .PARAMETER q1label 
-        Label specifying the meaning of the first qualifier. Can be specified for custom context only.  
-        Minimum length = 1 
-    .PARAMETER q2label 
-        Label specifying the meaning of the second qualifier. Can be specified for custom context only.  
-        Minimum length = 1 
-    .PARAMETER q3label 
-        Label specifying the meaning of the third qualifier. Can be specified for custom context only.  
-        Minimum length = 1 
-    .PARAMETER q4label 
-        Label specifying the meaning of the fourth qualifier. Can be specified for custom context only.  
-        Minimum length = 1 
-    .PARAMETER q5label 
-        Label specifying the meaning of the fifth qualifier. Can be specified for custom context only.  
-        Minimum length = 1 
-    .PARAMETER q6label 
-        Label specifying the meaning of the sixth qualifier. Can be specified for custom context only.  
-        Minimum length = 1 
-    .PARAMETER matchwildcardtoany 
-        Indicates whether wildcard qualifiers should match any other  
-        qualifier including non-wildcard while evaluating  
-        location based expressions.  
-        Possible values: Yes, No, Expression.  
-        Yes - Wildcard qualifiers match any other qualifiers.  
-        No - Wildcard qualifiers do not match non-wildcard  
-        qualifiers, but match other wildcard qualifiers.  
-        Expression - Wildcard qualifiers in an expression  
-        match any qualifier in an LDNS location,  
-        wildcard qualifiers in the LDNS location do not match  
-        non-wildcard qualifiers in an expression.  
-        Default value: NO  
+    .PARAMETER Q1label 
+        Label specifying the meaning of the first qualifier. Can be specified for custom context only. 
+    .PARAMETER Q2label 
+        Label specifying the meaning of the second qualifier. Can be specified for custom context only. 
+    .PARAMETER Q3label 
+        Label specifying the meaning of the third qualifier. Can be specified for custom context only. 
+    .PARAMETER Q4label 
+        Label specifying the meaning of the fourth qualifier. Can be specified for custom context only. 
+    .PARAMETER Q5label 
+        Label specifying the meaning of the fifth qualifier. Can be specified for custom context only. 
+    .PARAMETER Q6label 
+        Label specifying the meaning of the sixth qualifier. Can be specified for custom context only. 
+    .PARAMETER Matchwildcardtoany 
+        Indicates whether wildcard qualifiers should match any other 
+        qualifier including non-wildcard while evaluating 
+        location based expressions. 
+        Possible values: Yes, No, Expression. 
+        Yes - Wildcard qualifiers match any other qualifiers. 
+        No - Wildcard qualifiers do not match non-wildcard 
+        qualifiers, but match other wildcard qualifiers. 
+        Expression - Wildcard qualifiers in an expression 
+        match any qualifier in an LDNS location, 
+        wildcard qualifiers in the LDNS location do not match 
+        non-wildcard qualifiers in an expression. 
         Possible values = YES, NO, Expression
     .EXAMPLE
-        Invoke-ADCUpdateLocationparameter 
-    .NOTES
-        File Name : Invoke-ADCUpdateLocationparameter
-        Version   : v2106.2309
-        Author    : John Billekens
-        Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/basic/locationparameter/
-        Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
-    .LINK
-        https://blog.j81.nl
-#>
-    [CmdletBinding(SupportsShouldProcess = $true, ConfirmImpact = "Low")]
-    [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
-    [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
-    [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
-    param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
-
-        [ValidateSet('geographic', 'custom')]
-        [string]$context ,
-
-        [ValidateScript({ $_.Length -gt 1 })]
-        [string]$q1label ,
-
-        [ValidateScript({ $_.Length -gt 1 })]
-        [string]$q2label ,
-
-        [ValidateScript({ $_.Length -gt 1 })]
-        [string]$q3label ,
-
-        [ValidateScript({ $_.Length -gt 1 })]
-        [string]$q4label ,
-
-        [ValidateScript({ $_.Length -gt 1 })]
-        [string]$q5label ,
-
-        [ValidateScript({ $_.Length -gt 1 })]
-        [string]$q6label ,
-
-        [ValidateSet('YES', 'NO', 'Expression')]
-        [string]$matchwildcardtoany 
-
-    )
-    begin {
-        Write-Verbose "Invoke-ADCUpdateLocationparameter: Starting"
-    }
-    process {
-        try {
-            $Payload = @{
-
-            }
-            if ($PSBoundParameters.ContainsKey('context')) { $Payload.Add('context', $context) }
-            if ($PSBoundParameters.ContainsKey('q1label')) { $Payload.Add('q1label', $q1label) }
-            if ($PSBoundParameters.ContainsKey('q2label')) { $Payload.Add('q2label', $q2label) }
-            if ($PSBoundParameters.ContainsKey('q3label')) { $Payload.Add('q3label', $q3label) }
-            if ($PSBoundParameters.ContainsKey('q4label')) { $Payload.Add('q4label', $q4label) }
-            if ($PSBoundParameters.ContainsKey('q5label')) { $Payload.Add('q5label', $q5label) }
-            if ($PSBoundParameters.ContainsKey('q6label')) { $Payload.Add('q6label', $q6label) }
-            if ($PSBoundParameters.ContainsKey('matchwildcardtoany')) { $Payload.Add('matchwildcardtoany', $matchwildcardtoany) }
- 
-            if ($PSCmdlet.ShouldProcess("locationparameter", "Update Basic configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -NitroPath nitro/v1/config -Type locationparameter -Payload $Payload -GetWarning
-                #HTTP Status Code on Success: 200 OK
-                #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
-            Write-Output $result
-
-            }
-        } catch {
-            Write-Verbose "ERROR: $($_.Exception.Message)"
-            throw $_
-        }
-    }
-    end {
-        Write-Verbose "Invoke-ADCUpdateLocationparameter: Finished"
-    }
-}
-
-function Invoke-ADCUnsetLocationparameter {
-<#
-    .SYNOPSIS
-        Unset Basic configuration Object
-    .DESCRIPTION
-        Unset Basic configuration Object 
-   .PARAMETER context 
-       Context for describing locations. In geographic context, qualifier labels are assigned by default in the following sequence: Continent.Country.Region.City.ISP.Organization. In custom context, the qualifiers labels can have any meaning that you designate.  
-       Possible values = geographic, custom 
-   .PARAMETER q1label 
-       Label specifying the meaning of the first qualifier. Can be specified for custom context only. 
-   .PARAMETER q2label 
-       Label specifying the meaning of the second qualifier. Can be specified for custom context only. 
-   .PARAMETER q3label 
-       Label specifying the meaning of the third qualifier. Can be specified for custom context only. 
-   .PARAMETER q4label 
-       Label specifying the meaning of the fourth qualifier. Can be specified for custom context only. 
-   .PARAMETER q5label 
-       Label specifying the meaning of the fifth qualifier. Can be specified for custom context only. 
-   .PARAMETER q6label 
-       Label specifying the meaning of the sixth qualifier. Can be specified for custom context only. 
-   .PARAMETER matchwildcardtoany 
-       Indicates whether wildcard qualifiers should match any other  
-       qualifier including non-wildcard while evaluating  
-       location based expressions.  
-       Possible values: Yes, No, Expression.  
-       Yes - Wildcard qualifiers match any other qualifiers.  
-       No - Wildcard qualifiers do not match non-wildcard  
-       qualifiers, but match other wildcard qualifiers.  
-       Expression - Wildcard qualifiers in an expression  
-       match any qualifier in an LDNS location,  
-       wildcard qualifiers in the LDNS location do not match  
-       non-wildcard qualifiers in an expression.  
-       Possible values = YES, NO, Expression
-    .EXAMPLE
-        Invoke-ADCUnsetLocationparameter 
+        PS C:\>Invoke-ADCUnsetLocationparameter 
+        An example how to unset locationparameter configuration Object(s).
     .NOTES
         File Name : Invoke-ADCUnsetLocationparameter
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/basic/locationparameter
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
+    #>
     [CmdletBinding(SupportsShouldProcess = $true, ConfirmImpact = "Low")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
-        [Boolean]$context ,
+        [Boolean]$context,
 
-        [Boolean]$q1label ,
+        [Boolean]$q1label,
 
-        [Boolean]$q2label ,
+        [Boolean]$q2label,
 
-        [Boolean]$q3label ,
+        [Boolean]$q3label,
 
-        [Boolean]$q4label ,
+        [Boolean]$q4label,
 
-        [Boolean]$q5label ,
+        [Boolean]$q5label,
 
-        [Boolean]$q6label ,
+        [Boolean]$q6label,
 
         [Boolean]$matchwildcardtoany 
     )
@@ -1292,19 +1074,17 @@ function Invoke-ADCUnsetLocationparameter {
     }
     process {
         try {
-            $Payload = @{
-
-            }
-            if ($PSBoundParameters.ContainsKey('context')) { $Payload.Add('context', $context) }
-            if ($PSBoundParameters.ContainsKey('q1label')) { $Payload.Add('q1label', $q1label) }
-            if ($PSBoundParameters.ContainsKey('q2label')) { $Payload.Add('q2label', $q2label) }
-            if ($PSBoundParameters.ContainsKey('q3label')) { $Payload.Add('q3label', $q3label) }
-            if ($PSBoundParameters.ContainsKey('q4label')) { $Payload.Add('q4label', $q4label) }
-            if ($PSBoundParameters.ContainsKey('q5label')) { $Payload.Add('q5label', $q5label) }
-            if ($PSBoundParameters.ContainsKey('q6label')) { $Payload.Add('q6label', $q6label) }
-            if ($PSBoundParameters.ContainsKey('matchwildcardtoany')) { $Payload.Add('matchwildcardtoany', $matchwildcardtoany) }
-            if ($PSCmdlet.ShouldProcess("locationparameter", "Unset Basic configuration Object")) {
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -Type locationparameter -NitroPath nitro/v1/config -Action unset -Payload $Payload -GetWarning
+            $payload = @{ }
+            if ( $PSBoundParameters.ContainsKey('context') ) { $payload.Add('context', $context) }
+            if ( $PSBoundParameters.ContainsKey('q1label') ) { $payload.Add('q1label', $q1label) }
+            if ( $PSBoundParameters.ContainsKey('q2label') ) { $payload.Add('q2label', $q2label) }
+            if ( $PSBoundParameters.ContainsKey('q3label') ) { $payload.Add('q3label', $q3label) }
+            if ( $PSBoundParameters.ContainsKey('q4label') ) { $payload.Add('q4label', $q4label) }
+            if ( $PSBoundParameters.ContainsKey('q5label') ) { $payload.Add('q5label', $q5label) }
+            if ( $PSBoundParameters.ContainsKey('q6label') ) { $payload.Add('q6label', $q6label) }
+            if ( $PSBoundParameters.ContainsKey('matchwildcardtoany') ) { $payload.Add('matchwildcardtoany', $matchwildcardtoany) }
+            if ( $PSCmdlet.ShouldProcess("locationparameter", "Unset Basic configuration Object") ) {
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -Type locationparameter -NitroPath nitro/v1/config -Action unset -Payload $payload -GetWarning
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $response
@@ -1319,46 +1099,161 @@ function Invoke-ADCUnsetLocationparameter {
     }
 }
 
-function Invoke-ADCGetLocationparameter {
-<#
+function Invoke-ADCUpdateLocationparameter {
+    <#
     .SYNOPSIS
-        Get Basic configuration object(s)
+        Update Basic configuration Object.
     .DESCRIPTION
-        Get Basic configuration object(s)
-    .PARAMETER GetAll 
-        Retreive all locationparameter object(s)
-    .PARAMETER Count
-        If specified, the count of the locationparameter object(s) will be returned
-    .PARAMETER Filter
-        Specify a filter
-        -Filter @{ 'name'='<value>' }
-    .PARAMETER ViewSummary
-        When specified, only a summary of information is returned
+        Configuration for location parameter resource.
+    .PARAMETER Context 
+        Context for describing locations. In geographic context, qualifier labels are assigned by default in the following sequence: Continent.Country.Region.City.ISP.Organization. In custom context, the qualifiers labels can have any meaning that you designate. 
+        Possible values = geographic, custom 
+    .PARAMETER Q1label 
+        Label specifying the meaning of the first qualifier. Can be specified for custom context only. 
+    .PARAMETER Q2label 
+        Label specifying the meaning of the second qualifier. Can be specified for custom context only. 
+    .PARAMETER Q3label 
+        Label specifying the meaning of the third qualifier. Can be specified for custom context only. 
+    .PARAMETER Q4label 
+        Label specifying the meaning of the fourth qualifier. Can be specified for custom context only. 
+    .PARAMETER Q5label 
+        Label specifying the meaning of the fifth qualifier. Can be specified for custom context only. 
+    .PARAMETER Q6label 
+        Label specifying the meaning of the sixth qualifier. Can be specified for custom context only. 
+    .PARAMETER Matchwildcardtoany 
+        Indicates whether wildcard qualifiers should match any other 
+        qualifier including non-wildcard while evaluating 
+        location based expressions. 
+        Possible values: Yes, No, Expression. 
+        Yes - Wildcard qualifiers match any other qualifiers. 
+        No - Wildcard qualifiers do not match non-wildcard 
+        qualifiers, but match other wildcard qualifiers. 
+        Expression - Wildcard qualifiers in an expression 
+        match any qualifier in an LDNS location, 
+        wildcard qualifiers in the LDNS location do not match 
+        non-wildcard qualifiers in an expression. 
+        Possible values = YES, NO, Expression
     .EXAMPLE
-        Invoke-ADCGetLocationparameter
-    .EXAMPLE 
-        Invoke-ADCGetLocationparameter -GetAll
-    .EXAMPLE
-        Invoke-ADCGetLocationparameter -name <string>
-    .EXAMPLE
-        Invoke-ADCGetLocationparameter -Filter @{ 'name'='<value>' }
+        PS C:\>Invoke-ADCUpdateLocationparameter 
+        An example how to update locationparameter configuration Object(s).
     .NOTES
-        File Name : Invoke-ADCGetLocationparameter
-        Version   : v2106.2309
+        File Name : Invoke-ADCUpdateLocationparameter
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/basic/locationparameter/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
-    [CmdletBinding(DefaultParameterSetName = "Getall")]
+    #>
+    [CmdletBinding(SupportsShouldProcess = $true, ConfirmImpact = "Low")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
+
+        [ValidateSet('geographic', 'custom')]
+        [string]$Context,
+
+        [ValidateScript({ $_.Length -gt 1 })]
+        [string]$Q1label,
+
+        [ValidateScript({ $_.Length -gt 1 })]
+        [string]$Q2label,
+
+        [ValidateScript({ $_.Length -gt 1 })]
+        [string]$Q3label,
+
+        [ValidateScript({ $_.Length -gt 1 })]
+        [string]$Q4label,
+
+        [ValidateScript({ $_.Length -gt 1 })]
+        [string]$Q5label,
+
+        [ValidateScript({ $_.Length -gt 1 })]
+        [string]$Q6label,
+
+        [ValidateSet('YES', 'NO', 'Expression')]
+        [string]$Matchwildcardtoany 
+    )
+    begin {
+        Write-Verbose "Invoke-ADCUpdateLocationparameter: Starting"
+    }
+    process {
+        try {
+            $payload = @{ }
+            if ( $PSBoundParameters.ContainsKey('context') ) { $payload.Add('context', $context) }
+            if ( $PSBoundParameters.ContainsKey('q1label') ) { $payload.Add('q1label', $q1label) }
+            if ( $PSBoundParameters.ContainsKey('q2label') ) { $payload.Add('q2label', $q2label) }
+            if ( $PSBoundParameters.ContainsKey('q3label') ) { $payload.Add('q3label', $q3label) }
+            if ( $PSBoundParameters.ContainsKey('q4label') ) { $payload.Add('q4label', $q4label) }
+            if ( $PSBoundParameters.ContainsKey('q5label') ) { $payload.Add('q5label', $q5label) }
+            if ( $PSBoundParameters.ContainsKey('q6label') ) { $payload.Add('q6label', $q6label) }
+            if ( $PSBoundParameters.ContainsKey('matchwildcardtoany') ) { $payload.Add('matchwildcardtoany', $matchwildcardtoany) }
+            if ( $PSCmdlet.ShouldProcess("locationparameter", "Update Basic configuration Object") ) {
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -NitroPath nitro/v1/config -Type locationparameter -Payload $payload -GetWarning
+                #HTTP Status Code on Success: 200 OK
+                #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
+                Write-Output $result
+            }
+        } catch {
+            Write-Verbose "ERROR: $($_.Exception.Message)"
+            throw $_
+        }
+    }
+    end {
+        Write-Verbose "Invoke-ADCUpdateLocationparameter: Finished"
+    }
+}
+
+function Invoke-ADCGetLocationparameter {
+    <#
+    .SYNOPSIS
+        Get Basic configuration object(s).
+    .DESCRIPTION
+        Configuration for location parameter resource.
+    .PARAMETER GetAll 
+        Retrieve all locationparameter object(s).
+    .PARAMETER Count
+        If specified, the count of the locationparameter object(s) will be returned.
+    .PARAMETER Filter
+        Specify a filter.
+        -Filter @{ 'name'='<value>' }
+    .PARAMETER ViewSummary
+        When specified, only a summary of information is returned.
+    .EXAMPLE
+        PS C:\>Invoke-ADCGetLocationparameter
+        Get data.
+    .EXAMPLE 
+        PS C:\>Invoke-ADCGetLocationparameter -GetAll 
+        Get all locationparameter data.
+    .EXAMPLE
+        PS C:\>Invoke-ADCGetLocationparameter -name <string>
+        Get locationparameter object by specifying for example the name.
+    .EXAMPLE
+        PS C:\>Invoke-ADCGetLocationparameter -Filter @{ 'name'='<value>' }
+        Get locationparameter data with a filter.
+    .NOTES
+        File Name : Invoke-ADCGetLocationparameter
+        Version   : v2111.2111
+        Author    : John Billekens
+        Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/basic/locationparameter/
+        Requires  : PowerShell v5.1 and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
+    .LINK
+        https://blog.j81.nl
+    #>
+    [CmdletBinding(DefaultParameterSetName = "GetAll")]
+    [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
+    [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
+    [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
+    param(
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 			
         [hashtable]$Filter = @{ },
 
@@ -1370,24 +1265,24 @@ function Invoke-ADCGetLocationparameter {
     }
     process {
         try {
-            if ( $PsCmdlet.ParameterSetName -eq 'Getall' ) {
-                $Query = @{ }
+            if ( $PsCmdlet.ParameterSetName -eq 'GetAll' ) {
+                $query = @{ }
                 Write-Verbose "Retrieving all locationparameter objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type locationparameter -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type locationparameter -NitroPath nitro/v1/config -Query $query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
-                if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
+                if ( $PSBoundParameters.ContainsKey('Count') ) { $query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for locationparameter objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type locationparameter -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type locationparameter -NitroPath nitro/v1/config -Query $query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving locationparameter objects by arguments"
-                $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type locationparameter -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
+                $arguments = @{ } 
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type locationparameter -NitroPath nitro/v1/config -Arguments $arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving locationparameter configuration for property ''"
 
             } else {
                 Write-Verbose "Retrieving locationparameter configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type locationparameter -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type locationparameter -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -1401,51 +1296,56 @@ function Invoke-ADCGetLocationparameter {
 }
 
 function Invoke-ADCGetNstrace {
-<#
+    <#
     .SYNOPSIS
-        Get Basic configuration object(s)
+        Get Basic configuration object(s).
     .DESCRIPTION
-        Get Basic configuration object(s)
-    .PARAMETER nodeid 
-       Unique number that identifies the cluster node. 
+        Configuration for nstrace operations resource.
+    .PARAMETER Nodeid 
+        Unique number that identifies the cluster node. 
     .PARAMETER GetAll 
-        Retreive all nstrace object(s)
+        Retrieve all nstrace object(s).
     .PARAMETER Count
-        If specified, the count of the nstrace object(s) will be returned
+        If specified, the count of the nstrace object(s) will be returned.
     .PARAMETER Filter
-        Specify a filter
+        Specify a filter.
         -Filter @{ 'name'='<value>' }
     .PARAMETER ViewSummary
-        When specified, only a summary of information is returned
+        When specified, only a summary of information is returned.
     .EXAMPLE
-        Invoke-ADCGetNstrace
+        PS C:\>Invoke-ADCGetNstrace
+        Get data.
     .EXAMPLE 
-        Invoke-ADCGetNstrace -GetAll
+        PS C:\>Invoke-ADCGetNstrace -GetAll 
+        Get all nstrace data.
     .EXAMPLE
-        Invoke-ADCGetNstrace -name <string>
+        PS C:\>Invoke-ADCGetNstrace -name <string>
+        Get nstrace object by specifying for example the name.
     .EXAMPLE
-        Invoke-ADCGetNstrace -Filter @{ 'name'='<value>' }
+        PS C:\>Invoke-ADCGetNstrace -Filter @{ 'name'='<value>' }
+        Get nstrace data with a filter.
     .NOTES
         File Name : Invoke-ADCGetNstrace
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/basic/nstrace/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
-    [CmdletBinding(DefaultParameterSetName = "Getall")]
+    #>
+    [CmdletBinding(DefaultParameterSetName = "GetAll")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
         [Parameter(ParameterSetName = 'GetByArgument')]
         [ValidateRange(0, 31)]
-        [double]$nodeid,
+        [double]$Nodeid,
 			
         [hashtable]$Filter = @{ },
 
@@ -1457,25 +1357,25 @@ function Invoke-ADCGetNstrace {
     }
     process {
         try {
-            if ( $PsCmdlet.ParameterSetName -eq 'Getall' ) {
-                $Query = @{ }
+            if ( $PsCmdlet.ParameterSetName -eq 'GetAll' ) {
+                $query = @{ }
                 Write-Verbose "Retrieving all nstrace objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type nstrace -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type nstrace -NitroPath nitro/v1/config -Query $query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
-                if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
+                if ( $PSBoundParameters.ContainsKey('Count') ) { $query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for nstrace objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type nstrace -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type nstrace -NitroPath nitro/v1/config -Query $query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving nstrace objects by arguments"
-                $Arguments = @{ } 
-                if ($PSBoundParameters.ContainsKey('nodeid')) { $Arguments.Add('nodeid', $nodeid) }
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type nstrace -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
+                $arguments = @{ } 
+                if ( $PSBoundParameters.ContainsKey('nodeid') ) { $arguments.Add('nodeid', $nodeid) }
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type nstrace -NitroPath nitro/v1/config -Arguments $arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving nstrace configuration for property ''"
 
             } else {
                 Write-Verbose "Retrieving nstrace configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type nstrace -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type nstrace -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -1488,193 +1388,48 @@ function Invoke-ADCGetNstrace {
     }
 }
 
-function Invoke-ADCAddRadiusnode {
-<#
-    .SYNOPSIS
-        Add Basic configuration Object
-    .DESCRIPTION
-        Add Basic configuration Object 
-    .PARAMETER nodeprefix 
-        IP address/IP prefix of radius node in CIDR format. 
-    .PARAMETER radkey 
-        The key shared between the RADIUS server and clients.  
-        Required for Citrix ADC to communicate with the RADIUS nodes. 
-    .PARAMETER PassThru 
-        Return details about the created radiusnode item.
-    .EXAMPLE
-        Invoke-ADCAddRadiusnode -nodeprefix <string> -radkey <string>
-    .NOTES
-        File Name : Invoke-ADCAddRadiusnode
-        Version   : v2106.2309
-        Author    : John Billekens
-        Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/basic/radiusnode/
-        Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
-    .LINK
-        https://blog.j81.nl
-#>
-    [CmdletBinding(SupportsShouldProcess = $true, ConfirmImpact = "Low")]
-    [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
-    [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
-    [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
-    param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
-
-        [Parameter(Mandatory = $true)]
-        [string]$nodeprefix ,
-
-        [Parameter(Mandatory = $true)]
-        [string]$radkey ,
-
-        [Switch]$PassThru 
-
-    )
-    begin {
-        Write-Verbose "Invoke-ADCAddRadiusnode: Starting"
-    }
-    process {
-        try {
-            $Payload = @{
-                nodeprefix = $nodeprefix
-                radkey = $radkey
-            }
-
- 
-            if ($PSCmdlet.ShouldProcess("radiusnode", "Add Basic configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -NitroPath nitro/v1/config -Type radiusnode -Payload $Payload -GetWarning
-                #HTTP Status Code on Success: 201 Created
-                #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
-                if ($PSBoundParameters.ContainsKey('PassThru')) {
-                    Write-Output (Invoke-ADCGetRadiusnode -Filter $Payload)
-                } else {
-                    Write-Output $result
-                }
-
-            }
-        } catch {
-            Write-Verbose "ERROR: $($_.Exception.Message)"
-            throw $_
-        }
-    }
-    end {
-        Write-Verbose "Invoke-ADCAddRadiusnode: Finished"
-    }
-}
-
-function Invoke-ADCUpdateRadiusnode {
-<#
-    .SYNOPSIS
-        Update Basic configuration Object
-    .DESCRIPTION
-        Update Basic configuration Object 
-    .PARAMETER nodeprefix 
-        IP address/IP prefix of radius node in CIDR format. 
-    .PARAMETER radkey 
-        The key shared between the RADIUS server and clients.  
-        Required for Citrix ADC to communicate with the RADIUS nodes. 
-    .PARAMETER PassThru 
-        Return details about the created radiusnode item.
-    .EXAMPLE
-        Invoke-ADCUpdateRadiusnode -nodeprefix <string>
-    .NOTES
-        File Name : Invoke-ADCUpdateRadiusnode
-        Version   : v2106.2309
-        Author    : John Billekens
-        Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/basic/radiusnode/
-        Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
-    .LINK
-        https://blog.j81.nl
-#>
-    [CmdletBinding(SupportsShouldProcess = $true, ConfirmImpact = "Low")]
-    [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
-    [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
-    [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
-    param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
-
-        [Parameter(Mandatory = $true)]
-        [string]$nodeprefix ,
-
-        [string]$radkey ,
-
-        [Switch]$PassThru 
-
-    )
-    begin {
-        Write-Verbose "Invoke-ADCUpdateRadiusnode: Starting"
-    }
-    process {
-        try {
-            $Payload = @{
-                nodeprefix = $nodeprefix
-            }
-            if ($PSBoundParameters.ContainsKey('radkey')) { $Payload.Add('radkey', $radkey) }
- 
-            if ($PSCmdlet.ShouldProcess("radiusnode", "Update Basic configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -NitroPath nitro/v1/config -Type radiusnode -Payload $Payload -GetWarning
-                #HTTP Status Code on Success: 200 OK
-                #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
-                if ($PSBoundParameters.ContainsKey('PassThru')) {
-                    Write-Output (Invoke-ADCGetRadiusnode -Filter $Payload)
-                } else {
-                    Write-Output $result
-                }
-
-            }
-        } catch {
-            Write-Verbose "ERROR: $($_.Exception.Message)"
-            throw $_
-        }
-    }
-    end {
-        Write-Verbose "Invoke-ADCUpdateRadiusnode: Finished"
-    }
-}
-
 function Invoke-ADCDeleteRadiusnode {
-<#
+    <#
     .SYNOPSIS
-        Delete Basic configuration Object
+        Delete Basic configuration Object.
     .DESCRIPTION
-        Delete Basic configuration Object
-    .PARAMETER nodeprefix 
-       IP address/IP prefix of radius node in CIDR format. 
+        Configuration for RADIUS Node resource.
+    .PARAMETER Nodeprefix 
+        IP address/IP prefix of radius node in CIDR format.
     .EXAMPLE
-        Invoke-ADCDeleteRadiusnode -nodeprefix <string>
+        PS C:\>Invoke-ADCDeleteRadiusnode -Nodeprefix <string>
+        An example how to delete radiusnode configuration Object(s).
     .NOTES
         File Name : Invoke-ADCDeleteRadiusnode
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/basic/radiusnode/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
+    #>
     [CmdletBinding(SupportsShouldProcess = $true, ConfirmImpact = "Low")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
-        [Parameter(Mandatory = $true)]
-        [string]$nodeprefix 
+        [Parameter(Mandatory)]
+        [string]$Nodeprefix 
     )
     begin {
         Write-Verbose "Invoke-ADCDeleteRadiusnode: Starting"
     }
     process {
         try {
-            $Arguments = @{ 
-            }
+            $arguments = @{ }
 
-            if ($PSCmdlet.ShouldProcess("$nodeprefix", "Delete Basic configuration Object")) {
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type radiusnode -NitroPath nitro/v1/config -Resource $nodeprefix -Arguments $Arguments
+            if ( $PSCmdlet.ShouldProcess("$nodeprefix", "Delete Basic configuration Object") ) {
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type radiusnode -NitroPath nitro/v1/config -Resource $nodeprefix -Arguments $arguments
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $response
@@ -1689,55 +1444,202 @@ function Invoke-ADCDeleteRadiusnode {
     }
 }
 
-function Invoke-ADCGetRadiusnode {
-<#
+function Invoke-ADCUpdateRadiusnode {
+    <#
     .SYNOPSIS
-        Get Basic configuration object(s)
+        Update Basic configuration Object.
     .DESCRIPTION
-        Get Basic configuration object(s)
-    .PARAMETER nodeprefix 
-       IP address/IP prefix of radius node in CIDR format. 
-    .PARAMETER GetAll 
-        Retreive all radiusnode object(s)
-    .PARAMETER Count
-        If specified, the count of the radiusnode object(s) will be returned
-    .PARAMETER Filter
-        Specify a filter
-        -Filter @{ 'name'='<value>' }
-    .PARAMETER ViewSummary
-        When specified, only a summary of information is returned
+        Configuration for RADIUS Node resource.
+    .PARAMETER Nodeprefix 
+        IP address/IP prefix of radius node in CIDR format. 
+    .PARAMETER Radkey 
+        The key shared between the RADIUS server and clients. 
+        Required for Citrix ADC to communicate with the RADIUS nodes. 
+    .PARAMETER PassThru 
+        Return details about the created radiusnode item.
     .EXAMPLE
-        Invoke-ADCGetRadiusnode
-    .EXAMPLE 
-        Invoke-ADCGetRadiusnode -GetAll 
-    .EXAMPLE 
-        Invoke-ADCGetRadiusnode -Count
-    .EXAMPLE
-        Invoke-ADCGetRadiusnode -name <string>
-    .EXAMPLE
-        Invoke-ADCGetRadiusnode -Filter @{ 'name'='<value>' }
+        PS C:\>Invoke-ADCUpdateRadiusnode -nodeprefix <string>
+        An example how to update radiusnode configuration Object(s).
     .NOTES
-        File Name : Invoke-ADCGetRadiusnode
-        Version   : v2106.2309
+        File Name : Invoke-ADCUpdateRadiusnode
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/basic/radiusnode/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
-    [CmdletBinding(DefaultParameterSetName = "Getall")]
+    #>
+    [CmdletBinding(SupportsShouldProcess = $true, ConfirmImpact = "Low")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
+
+        [Parameter(Mandatory)]
+        [string]$Nodeprefix,
+
+        [string]$Radkey,
+
+        [Switch]$PassThru 
+    )
+    begin {
+        Write-Verbose "Invoke-ADCUpdateRadiusnode: Starting"
+    }
+    process {
+        try {
+            $payload = @{ nodeprefix = $nodeprefix }
+            if ( $PSBoundParameters.ContainsKey('radkey') ) { $payload.Add('radkey', $radkey) }
+            if ( $PSCmdlet.ShouldProcess("radiusnode", "Update Basic configuration Object") ) {
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -NitroPath nitro/v1/config -Type radiusnode -Payload $payload -GetWarning
+                #HTTP Status Code on Success: 200 OK
+                #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
+                if ( $PSBoundParameters.ContainsKey('PassThru') ) {
+                    Write-Output (Invoke-ADCGetRadiusnode -Filter $payload)
+                } else {
+                    Write-Output $result
+                }
+            }
+        } catch {
+            Write-Verbose "ERROR: $($_.Exception.Message)"
+            throw $_
+        }
+    }
+    end {
+        Write-Verbose "Invoke-ADCUpdateRadiusnode: Finished"
+    }
+}
+
+function Invoke-ADCAddRadiusnode {
+    <#
+    .SYNOPSIS
+        Add Basic configuration Object.
+    .DESCRIPTION
+        Configuration for RADIUS Node resource.
+    .PARAMETER Nodeprefix 
+        IP address/IP prefix of radius node in CIDR format. 
+    .PARAMETER Radkey 
+        The key shared between the RADIUS server and clients. 
+        Required for Citrix ADC to communicate with the RADIUS nodes. 
+    .PARAMETER PassThru 
+        Return details about the created radiusnode item.
+    .EXAMPLE
+        PS C:\>Invoke-ADCAddRadiusnode -nodeprefix <string> -radkey <string>
+        An example how to add radiusnode configuration Object(s).
+    .NOTES
+        File Name : Invoke-ADCAddRadiusnode
+        Version   : v2111.2111
+        Author    : John Billekens
+        Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/basic/radiusnode/
+        Requires  : PowerShell v5.1 and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
+    .LINK
+        https://blog.j81.nl
+    #>
+    [CmdletBinding(SupportsShouldProcess = $true, ConfirmImpact = "Low")]
+    [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
+    [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
+    [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
+    param(
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
+
+        [Parameter(Mandatory)]
+        [string]$Nodeprefix,
+
+        [Parameter(Mandatory)]
+        [string]$Radkey,
+
+        [Switch]$PassThru 
+    )
+    begin {
+        Write-Verbose "Invoke-ADCAddRadiusnode: Starting"
+    }
+    process {
+        try {
+            $payload = @{ nodeprefix = $nodeprefix
+                radkey               = $radkey
+            }
+
+            if ( $PSCmdlet.ShouldProcess("radiusnode", "Add Basic configuration Object") ) {
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -NitroPath nitro/v1/config -Type radiusnode -Payload $payload -GetWarning
+                #HTTP Status Code on Success: 201 Created
+                #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
+                if ( $PSBoundParameters.ContainsKey('PassThru') ) {
+                    Write-Output (Invoke-ADCGetRadiusnode -Filter $payload)
+                } else {
+                    Write-Output $result
+                }
+            }
+        } catch {
+            Write-Verbose "ERROR: $($_.Exception.Message)"
+            throw $_
+        }
+    }
+    end {
+        Write-Verbose "Invoke-ADCAddRadiusnode: Finished"
+    }
+}
+
+function Invoke-ADCGetRadiusnode {
+    <#
+    .SYNOPSIS
+        Get Basic configuration object(s).
+    .DESCRIPTION
+        Configuration for RADIUS Node resource.
+    .PARAMETER Nodeprefix 
+        IP address/IP prefix of radius node in CIDR format. 
+    .PARAMETER GetAll 
+        Retrieve all radiusnode object(s).
+    .PARAMETER Count
+        If specified, the count of the radiusnode object(s) will be returned.
+    .PARAMETER Filter
+        Specify a filter.
+        -Filter @{ 'name'='<value>' }
+    .PARAMETER ViewSummary
+        When specified, only a summary of information is returned.
+    .EXAMPLE
+        PS C:\>Invoke-ADCGetRadiusnode
+        Get data.
+    .EXAMPLE 
+        PS C:\>Invoke-ADCGetRadiusnode -GetAll 
+        Get all radiusnode data. 
+    .EXAMPLE 
+        PS C:\>Invoke-ADCGetRadiusnode -Count 
+        Get the number of radiusnode objects.
+    .EXAMPLE
+        PS C:\>Invoke-ADCGetRadiusnode -name <string>
+        Get radiusnode object by specifying for example the name.
+    .EXAMPLE
+        PS C:\>Invoke-ADCGetRadiusnode -Filter @{ 'name'='<value>' }
+        Get radiusnode data with a filter.
+    .NOTES
+        File Name : Invoke-ADCGetRadiusnode
+        Version   : v2111.2111
+        Author    : John Billekens
+        Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/basic/radiusnode/
+        Requires  : PowerShell v5.1 and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
+    .LINK
+        https://blog.j81.nl
+    #>
+    [CmdletBinding(DefaultParameterSetName = "GetAll")]
+    [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
+    [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
+    [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
+    param(
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
         [Parameter(ParameterSetName = 'GetByResource')]
-        [string]$nodeprefix,
+        [string]$Nodeprefix,
 
-        [Parameter(ParameterSetName = 'Count', Mandatory = $true)]
+        [Parameter(ParameterSetName = 'Count', Mandatory)]
         [Switch]$Count,
 			
         [hashtable]$Filter = @{ },
@@ -1755,24 +1657,24 @@ function Invoke-ADCGetRadiusnode {
     }
     process {
         try {
-            if ( $PsCmdlet.ParameterSetName -eq 'Getall' ) {
-                $Query = @{ }
+            if ( $PsCmdlet.ParameterSetName -eq 'GetAll' ) {
+                $query = @{ }
                 Write-Verbose "Retrieving all radiusnode objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type radiusnode -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type radiusnode -NitroPath nitro/v1/config -Query $query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
-                if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
+                if ( $PSBoundParameters.ContainsKey('Count') ) { $query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for radiusnode objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type radiusnode -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type radiusnode -NitroPath nitro/v1/config -Query $query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving radiusnode objects by arguments"
-                $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type radiusnode -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
+                $arguments = @{ } 
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type radiusnode -NitroPath nitro/v1/config -Arguments $arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving radiusnode configuration for property 'nodeprefix'"
                 $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type radiusnode -NitroPath nitro/v1/config -Resource $nodeprefix -Summary:$ViewSummary -Filter $Filter -GetWarning
             } else {
                 Write-Verbose "Retrieving radiusnode configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type radiusnode -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type radiusnode -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -1785,83 +1687,33 @@ function Invoke-ADCGetRadiusnode {
     }
 }
 
-function Invoke-ADCEnableReporting {
-<#
-    .SYNOPSIS
-        Enable Basic configuration Object
-    .DESCRIPTION
-        Enable Basic configuration Object 
-    .EXAMPLE
-        Invoke-ADCEnableReporting 
-    .NOTES
-        File Name : Invoke-ADCEnableReporting
-        Version   : v2106.2309
-        Author    : John Billekens
-        Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/basic/reporting/
-        Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
-    .LINK
-        https://blog.j81.nl
-#>
-    [CmdletBinding(SupportsShouldProcess = $true, ConfirmImpact = "Low")]
-    [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
-    [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
-    [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
-    param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession) 
-
-    )
-    begin {
-        Write-Verbose "Invoke-ADCEnableReporting: Starting"
-    }
-    process {
-        try {
-            $Payload = @{
-
-            }
-
-            if ($PSCmdlet.ShouldProcess($Name, "Enable Basic configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -NitroPath nitro/v1/config -Type reporting -Action enable -Payload $Payload -GetWarning
-                #HTTP Status Code on Success: 200 OK
-                #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
-                Write-Output $result
-            }
-        } catch {
-            Write-Verbose "ERROR: $($_.Exception.Message)"
-            throw $_
-        }
-    }
-    end {
-        Write-Verbose "Invoke-ADCEnableReporting: Finished"
-    }
-}
-
 function Invoke-ADCDisableReporting {
-<#
+    <#
     .SYNOPSIS
-        Disable Basic configuration Object
+        Disable Basic configuration Object.
     .DESCRIPTION
-        Disable Basic configuration Object 
+        Configuration for reporting resource.
     .EXAMPLE
-        Invoke-ADCDisableReporting 
+        PS C:\>Invoke-ADCDisableReporting 
+        An example how to disable reporting configuration Object(s).
     .NOTES
         File Name : Invoke-ADCDisableReporting
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/basic/reporting/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
+    #>
     [CmdletBinding(SupportsShouldProcess = $true, ConfirmImpact = "Low")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession) 
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession) 
 
     )
     begin {
@@ -1869,12 +1721,10 @@ function Invoke-ADCDisableReporting {
     }
     process {
         try {
-            $Payload = @{
+            $payload = @{ }
 
-            }
-
-            if ($PSCmdlet.ShouldProcess($Name, "Disable Basic configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -NitroPath nitro/v1/config -Type reporting -Action disable -Payload $Payload -GetWarning
+            if ( $PSCmdlet.ShouldProcess($Name, "Disable Basic configuration Object") ) {
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -NitroPath nitro/v1/config -Type reporting -Action disable -Payload $payload -GetWarning
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $result
@@ -1889,46 +1739,103 @@ function Invoke-ADCDisableReporting {
     }
 }
 
-function Invoke-ADCGetReporting {
-<#
+function Invoke-ADCEnableReporting {
+    <#
     .SYNOPSIS
-        Get Basic configuration object(s)
+        Enable Basic configuration Object.
     .DESCRIPTION
-        Get Basic configuration object(s)
-    .PARAMETER GetAll 
-        Retreive all reporting object(s)
-    .PARAMETER Count
-        If specified, the count of the reporting object(s) will be returned
-    .PARAMETER Filter
-        Specify a filter
-        -Filter @{ 'name'='<value>' }
-    .PARAMETER ViewSummary
-        When specified, only a summary of information is returned
+        Configuration for reporting resource.
     .EXAMPLE
-        Invoke-ADCGetReporting
-    .EXAMPLE 
-        Invoke-ADCGetReporting -GetAll
-    .EXAMPLE
-        Invoke-ADCGetReporting -name <string>
-    .EXAMPLE
-        Invoke-ADCGetReporting -Filter @{ 'name'='<value>' }
+        PS C:\>Invoke-ADCEnableReporting 
+        An example how to enable reporting configuration Object(s).
     .NOTES
-        File Name : Invoke-ADCGetReporting
-        Version   : v2106.2309
+        File Name : Invoke-ADCEnableReporting
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/basic/reporting/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
-    [CmdletBinding(DefaultParameterSetName = "Getall")]
+    #>
+    [CmdletBinding(SupportsShouldProcess = $true, ConfirmImpact = "Low")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession) 
+
+    )
+    begin {
+        Write-Verbose "Invoke-ADCEnableReporting: Starting"
+    }
+    process {
+        try {
+            $payload = @{ }
+
+            if ( $PSCmdlet.ShouldProcess($Name, "Enable Basic configuration Object") ) {
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -NitroPath nitro/v1/config -Type reporting -Action enable -Payload $payload -GetWarning
+                #HTTP Status Code on Success: 200 OK
+                #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
+                Write-Output $result
+            }
+        } catch {
+            Write-Verbose "ERROR: $($_.Exception.Message)"
+            throw $_
+        }
+    }
+    end {
+        Write-Verbose "Invoke-ADCEnableReporting: Finished"
+    }
+}
+
+function Invoke-ADCGetReporting {
+    <#
+    .SYNOPSIS
+        Get Basic configuration object(s).
+    .DESCRIPTION
+        Configuration for reporting resource.
+    .PARAMETER GetAll 
+        Retrieve all reporting object(s).
+    .PARAMETER Count
+        If specified, the count of the reporting object(s) will be returned.
+    .PARAMETER Filter
+        Specify a filter.
+        -Filter @{ 'name'='<value>' }
+    .PARAMETER ViewSummary
+        When specified, only a summary of information is returned.
+    .EXAMPLE
+        PS C:\>Invoke-ADCGetReporting
+        Get data.
+    .EXAMPLE 
+        PS C:\>Invoke-ADCGetReporting -GetAll 
+        Get all reporting data.
+    .EXAMPLE
+        PS C:\>Invoke-ADCGetReporting -name <string>
+        Get reporting object by specifying for example the name.
+    .EXAMPLE
+        PS C:\>Invoke-ADCGetReporting -Filter @{ 'name'='<value>' }
+        Get reporting data with a filter.
+    .NOTES
+        File Name : Invoke-ADCGetReporting
+        Version   : v2111.2111
+        Author    : John Billekens
+        Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/basic/reporting/
+        Requires  : PowerShell v5.1 and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
+    .LINK
+        https://blog.j81.nl
+    #>
+    [CmdletBinding(DefaultParameterSetName = "GetAll")]
+    [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
+    [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
+    [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
+    param(
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 			
         [hashtable]$Filter = @{ },
 
@@ -1940,24 +1847,24 @@ function Invoke-ADCGetReporting {
     }
     process {
         try {
-            if ( $PsCmdlet.ParameterSetName -eq 'Getall' ) {
-                $Query = @{ }
+            if ( $PsCmdlet.ParameterSetName -eq 'GetAll' ) {
+                $query = @{ }
                 Write-Verbose "Retrieving all reporting objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type reporting -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type reporting -NitroPath nitro/v1/config -Query $query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
-                if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
+                if ( $PSBoundParameters.ContainsKey('Count') ) { $query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for reporting objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type reporting -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type reporting -NitroPath nitro/v1/config -Query $query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving reporting objects by arguments"
-                $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type reporting -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
+                $arguments = @{ } 
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type reporting -NitroPath nitro/v1/config -Arguments $arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving reporting configuration for property ''"
 
             } else {
                 Write-Verbose "Retrieving reporting configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type reporting -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type reporting -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -1970,134 +1877,72 @@ function Invoke-ADCGetReporting {
     }
 }
 
-function Invoke-ADCAddServer {
-<#
+function Invoke-ADCRenameServer {
+    <#
     .SYNOPSIS
-        Add Basic configuration Object
+        Rename Basic configuration Object.
     .DESCRIPTION
-        Add Basic configuration Object 
-    .PARAMETER name 
-        Name for the server.  
-        Must begin with an ASCII alphabetic or underscore (_) character, and must contain only ASCII alphanumeric, underscore, hash (#), period (.), space, colon (:), at (@), equals (=), and hyphen (-) characters.  
-        Can be changed after the name is created.  
-        Minimum length = 1 
-    .PARAMETER ipaddress 
-        IPv4 or IPv6 address of the server. If you create an IP address based server, you can specify the name of the server, instead of its IP address, when creating a service. Note: If you do not create a server entry, the server IP address that you enter when you create a service becomes the name of the server. 
-    .PARAMETER domain 
-        Domain name of the server. For a domain based configuration, you must create the server first.  
-        Minimum length = 1 
-    .PARAMETER translationip 
-        IP address used to transform the server's DNS-resolved IP address. 
-    .PARAMETER translationmask 
-        The netmask of the translation ip. 
-    .PARAMETER domainresolveretry 
-        Time, in seconds, for which the Citrix ADC must wait, after DNS resolution fails, before sending the next DNS query to resolve the domain name.  
-        Default value: 5  
-        Minimum value = 5  
-        Maximum value = 20939 
-    .PARAMETER state 
-        Initial state of the server.  
-        Default value: ENABLED  
-        Possible values = ENABLED, DISABLED 
-    .PARAMETER ipv6address 
-        Support IPv6 addressing mode. If you configure a server with the IPv6 addressing mode, you cannot use the server in the IPv4 addressing mode.  
-        Default value: NO  
-        Possible values = YES, NO 
-    .PARAMETER comment 
-        Any information about the server. 
-    .PARAMETER td 
-        Integer value that uniquely identifies the traffic domain in which you want to configure the entity. If you do not specify an ID, the entity becomes part of the default traffic domain, which has an ID of 0.  
-        Minimum value = 0  
-        Maximum value = 4094 
-    .PARAMETER querytype 
-        Specify the type of DNS resolution to be done on the configured domain to get the backend services. Valid query types are A, AAAA and SRV with A being the default querytype. The type of DNS resolution done on the domains in SRV records is inherited from ipv6 argument.  
-        Default value: A  
-        Possible values = A, AAAA, SRV 
+        Configuration for server resource.
+    .PARAMETER Name 
+        Name for the server. 
+        Must begin with an ASCII alphabetic or underscore (_) character, and must contain only ASCII alphanumeric, underscore, hash (#), period (.), space, colon (:), at (@), equals (=), and hyphen (-) characters. 
+        Can be changed after the name is created. 
+    .PARAMETER Newname 
+        New name for the server. Must begin with an ASCII alphabetic or underscore (_) character, and must contain only ASCII alphanumeric, underscore, hash (#), period (.), space, colon (:), at (@), equals (=), and hyphen (-) characters. 
     .PARAMETER PassThru 
         Return details about the created server item.
     .EXAMPLE
-        Invoke-ADCAddServer -name <string>
+        PS C:\>Invoke-ADCRenameServer -name <string> -newname <string>
+        An example how to rename server configuration Object(s).
     .NOTES
-        File Name : Invoke-ADCAddServer
-        Version   : v2106.2309
+        File Name : Invoke-ADCRenameServer
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/basic/server/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
+    #>
     [CmdletBinding(SupportsShouldProcess = $true, ConfirmImpact = "Low")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
-        [Parameter(Mandatory = $true)]
+        [Parameter(Mandatory)]
         [ValidateScript({ $_.Length -gt 1 })]
         [ValidatePattern('^(([a-zA-Z0-9]|[_])+([a-zA-Z0-9]|[_])+)$')]
-        [string]$name ,
+        [string]$Name,
 
-        [string]$ipaddress ,
-
+        [Parameter(Mandatory)]
         [ValidateScript({ $_.Length -gt 1 })]
-        [string]$domain ,
-
-        [string]$translationip ,
-
-        [string]$translationmask ,
-
-        [ValidateRange(5, 20939)]
-        [int]$domainresolveretry = '5' ,
-
-        [ValidateSet('ENABLED', 'DISABLED')]
-        [string]$state = 'ENABLED' ,
-
-        [ValidateSet('YES', 'NO')]
-        [string]$ipv6address = 'NO' ,
-
-        [string]$comment ,
-
-        [ValidateRange(0, 4094)]
-        [double]$td ,
-
-        [ValidateSet('A', 'AAAA', 'SRV')]
-        [string]$querytype = 'A' ,
+        [ValidatePattern('^(([a-zA-Z0-9]|[_])+([a-zA-Z0-9]|[_])+)$')]
+        [string]$Newname,
 
         [Switch]$PassThru 
-
     )
     begin {
-        Write-Verbose "Invoke-ADCAddServer: Starting"
+        Write-Verbose "Invoke-ADCRenameServer: Starting"
     }
     process {
         try {
-            $Payload = @{
-                name = $name
+            $payload = @{ name = $name
+                newname        = $newname
             }
-            if ($PSBoundParameters.ContainsKey('ipaddress')) { $Payload.Add('ipaddress', $ipaddress) }
-            if ($PSBoundParameters.ContainsKey('domain')) { $Payload.Add('domain', $domain) }
-            if ($PSBoundParameters.ContainsKey('translationip')) { $Payload.Add('translationip', $translationip) }
-            if ($PSBoundParameters.ContainsKey('translationmask')) { $Payload.Add('translationmask', $translationmask) }
-            if ($PSBoundParameters.ContainsKey('domainresolveretry')) { $Payload.Add('domainresolveretry', $domainresolveretry) }
-            if ($PSBoundParameters.ContainsKey('state')) { $Payload.Add('state', $state) }
-            if ($PSBoundParameters.ContainsKey('ipv6address')) { $Payload.Add('ipv6address', $ipv6address) }
-            if ($PSBoundParameters.ContainsKey('comment')) { $Payload.Add('comment', $comment) }
-            if ($PSBoundParameters.ContainsKey('td')) { $Payload.Add('td', $td) }
-            if ($PSBoundParameters.ContainsKey('querytype')) { $Payload.Add('querytype', $querytype) }
- 
-            if ($PSCmdlet.ShouldProcess("server", "Add Basic configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -NitroPath nitro/v1/config -Type server -Payload $Payload -GetWarning
-                #HTTP Status Code on Success: 201 Created
+
+            if ( $PSCmdlet.ShouldProcess("server", "Rename Basic configuration Object") ) {
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -NitroPath nitro/v1/config -Type server -Action rename -Payload $payload -GetWarning
+                #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
-                if ($PSBoundParameters.ContainsKey('PassThru')) {
-                    Write-Output (Invoke-ADCGetServer -Filter $Payload)
+                if ( $PSBoundParameters.ContainsKey('PassThru') ) {
+                    Write-Output (Invoke-ADCGetServer -Filter $payload)
                 } else {
                     Write-Output $result
                 }
-
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -2105,342 +1950,56 @@ function Invoke-ADCAddServer {
         }
     }
     end {
-        Write-Verbose "Invoke-ADCAddServer: Finished"
-    }
-}
-
-function Invoke-ADCDeleteServer {
-<#
-    .SYNOPSIS
-        Delete Basic configuration Object
-    .DESCRIPTION
-        Delete Basic configuration Object
-    .PARAMETER name 
-       Name for the server.  
-       Must begin with an ASCII alphabetic or underscore (_) character, and must contain only ASCII alphanumeric, underscore, hash (#), period (.), space, colon (:), at (@), equals (=), and hyphen (-) characters.  
-       Can be changed after the name is created.  
-       Minimum length = 1 
-    .EXAMPLE
-        Invoke-ADCDeleteServer -name <string>
-    .NOTES
-        File Name : Invoke-ADCDeleteServer
-        Version   : v2106.2309
-        Author    : John Billekens
-        Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/basic/server/
-        Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
-    .LINK
-        https://blog.j81.nl
-#>
-    [CmdletBinding(SupportsShouldProcess = $true, ConfirmImpact = "Low")]
-    [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
-    [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
-    [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
-    param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
-
-        [Parameter(Mandatory = $true)]
-        [string]$name 
-    )
-    begin {
-        Write-Verbose "Invoke-ADCDeleteServer: Starting"
-    }
-    process {
-        try {
-            $Arguments = @{ 
-            }
-
-            if ($PSCmdlet.ShouldProcess("$name", "Delete Basic configuration Object")) {
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type server -NitroPath nitro/v1/config -Resource $name -Arguments $Arguments
-                #HTTP Status Code on Success: 200 OK
-                #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
-                Write-Output $response
-            }
-        } catch {
-            Write-Verbose "ERROR: $($_.Exception.Message)"
-            throw $_
-        }
-    }
-    end {
-        Write-Verbose "Invoke-ADCDeleteServer: Finished"
-    }
-}
-
-function Invoke-ADCUpdateServer {
-<#
-    .SYNOPSIS
-        Update Basic configuration Object
-    .DESCRIPTION
-        Update Basic configuration Object 
-    .PARAMETER name 
-        Name for the server.  
-        Must begin with an ASCII alphabetic or underscore (_) character, and must contain only ASCII alphanumeric, underscore, hash (#), period (.), space, colon (:), at (@), equals (=), and hyphen (-) characters.  
-        Can be changed after the name is created.  
-        Minimum length = 1 
-    .PARAMETER ipaddress 
-        IPv4 or IPv6 address of the server. If you create an IP address based server, you can specify the name of the server, instead of its IP address, when creating a service. Note: If you do not create a server entry, the server IP address that you enter when you create a service becomes the name of the server. 
-    .PARAMETER domainresolveretry 
-        Time, in seconds, for which the Citrix ADC must wait, after DNS resolution fails, before sending the next DNS query to resolve the domain name.  
-        Default value: 5  
-        Minimum value = 5  
-        Maximum value = 20939 
-    .PARAMETER translationip 
-        IP address used to transform the server's DNS-resolved IP address. 
-    .PARAMETER translationmask 
-        The netmask of the translation ip. 
-    .PARAMETER domainresolvenow 
-        Immediately send a DNS query to resolve the server's domain name. 
-    .PARAMETER comment 
-        Any information about the server. 
-    .PARAMETER PassThru 
-        Return details about the created server item.
-    .EXAMPLE
-        Invoke-ADCUpdateServer -name <string>
-    .NOTES
-        File Name : Invoke-ADCUpdateServer
-        Version   : v2106.2309
-        Author    : John Billekens
-        Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/basic/server/
-        Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
-    .LINK
-        https://blog.j81.nl
-#>
-    [CmdletBinding(SupportsShouldProcess = $true, ConfirmImpact = "Low")]
-    [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
-    [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
-    [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
-    param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
-
-        [Parameter(Mandatory = $true)]
-        [ValidateScript({ $_.Length -gt 1 })]
-        [ValidatePattern('^(([a-zA-Z0-9]|[_])+([a-zA-Z0-9]|[_])+)$')]
-        [string]$name ,
-
-        [string]$ipaddress ,
-
-        [ValidateRange(5, 20939)]
-        [int]$domainresolveretry ,
-
-        [string]$translationip ,
-
-        [string]$translationmask ,
-
-        [boolean]$domainresolvenow ,
-
-        [string]$comment ,
-
-        [Switch]$PassThru 
-
-    )
-    begin {
-        Write-Verbose "Invoke-ADCUpdateServer: Starting"
-    }
-    process {
-        try {
-            $Payload = @{
-                name = $name
-            }
-            if ($PSBoundParameters.ContainsKey('ipaddress')) { $Payload.Add('ipaddress', $ipaddress) }
-            if ($PSBoundParameters.ContainsKey('domainresolveretry')) { $Payload.Add('domainresolveretry', $domainresolveretry) }
-            if ($PSBoundParameters.ContainsKey('translationip')) { $Payload.Add('translationip', $translationip) }
-            if ($PSBoundParameters.ContainsKey('translationmask')) { $Payload.Add('translationmask', $translationmask) }
-            if ($PSBoundParameters.ContainsKey('domainresolvenow')) { $Payload.Add('domainresolvenow', $domainresolvenow) }
-            if ($PSBoundParameters.ContainsKey('comment')) { $Payload.Add('comment', $comment) }
- 
-            if ($PSCmdlet.ShouldProcess("server", "Update Basic configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -NitroPath nitro/v1/config -Type server -Payload $Payload -GetWarning
-                #HTTP Status Code on Success: 200 OK
-                #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
-                if ($PSBoundParameters.ContainsKey('PassThru')) {
-                    Write-Output (Invoke-ADCGetServer -Filter $Payload)
-                } else {
-                    Write-Output $result
-                }
-
-            }
-        } catch {
-            Write-Verbose "ERROR: $($_.Exception.Message)"
-            throw $_
-        }
-    }
-    end {
-        Write-Verbose "Invoke-ADCUpdateServer: Finished"
-    }
-}
-
-function Invoke-ADCUnsetServer {
-<#
-    .SYNOPSIS
-        Unset Basic configuration Object
-    .DESCRIPTION
-        Unset Basic configuration Object 
-   .PARAMETER name 
-       Name for the server.  
-       Must begin with an ASCII alphabetic or underscore (_) character, and must contain only ASCII alphanumeric, underscore, hash (#), period (.), space, colon (:), at (@), equals (=), and hyphen (-) characters.  
-       Can be changed after the name is created. 
-   .PARAMETER comment 
-       Any information about the server.
-    .EXAMPLE
-        Invoke-ADCUnsetServer -name <string>
-    .NOTES
-        File Name : Invoke-ADCUnsetServer
-        Version   : v2106.2309
-        Author    : John Billekens
-        Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/basic/server
-        Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
-    .LINK
-        https://blog.j81.nl
-#>
-    [CmdletBinding(SupportsShouldProcess = $true, ConfirmImpact = "Low")]
-    [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
-    [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
-    [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
-    param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
-
-        [Parameter(Mandatory = $true)]
-        [ValidateScript({ $_.Length -gt 1 })]
-        [ValidatePattern('^(([a-zA-Z0-9]|[_])+([a-zA-Z0-9]|[_])+)$')]
-        [string]$name ,
-
-        [Boolean]$comment 
-    )
-    begin {
-        Write-Verbose "Invoke-ADCUnsetServer: Starting"
-    }
-    process {
-        try {
-            $Payload = @{
-                name = $name
-            }
-            if ($PSBoundParameters.ContainsKey('comment')) { $Payload.Add('comment', $comment) }
-            if ($PSCmdlet.ShouldProcess("$name", "Unset Basic configuration Object")) {
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -Type server -NitroPath nitro/v1/config -Action unset -Payload $Payload -GetWarning
-                #HTTP Status Code on Success: 200 OK
-                #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
-                Write-Output $response
-            }
-        } catch {
-            Write-Verbose "ERROR: $($_.Exception.Message)"
-            throw $_
-        }
-    }
-    end {
-        Write-Verbose "Invoke-ADCUnsetServer: Finished"
-    }
-}
-
-function Invoke-ADCEnableServer {
-<#
-    .SYNOPSIS
-        Enable Basic configuration Object
-    .DESCRIPTION
-        Enable Basic configuration Object 
-    .PARAMETER name 
-        Name for the server.  
-        Must begin with an ASCII alphabetic or underscore (_) character, and must contain only ASCII alphanumeric, underscore, hash (#), period (.), space, colon (:), at (@), equals (=), and hyphen (-) characters.  
-        Can be changed after the name is created.
-    .EXAMPLE
-        Invoke-ADCEnableServer -name <string>
-    .NOTES
-        File Name : Invoke-ADCEnableServer
-        Version   : v2106.2309
-        Author    : John Billekens
-        Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/basic/server/
-        Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
-    .LINK
-        https://blog.j81.nl
-#>
-    [CmdletBinding(SupportsShouldProcess = $true, ConfirmImpact = "Low")]
-    [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
-    [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
-    [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
-    param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
-
-        [Parameter(Mandatory = $true)]
-        [ValidateScript({ $_.Length -gt 1 })]
-        [ValidatePattern('^(([a-zA-Z0-9]|[_])+([a-zA-Z0-9]|[_])+)$')]
-        [string]$name 
-
-    )
-    begin {
-        Write-Verbose "Invoke-ADCEnableServer: Starting"
-    }
-    process {
-        try {
-            $Payload = @{
-                name = $name
-            }
-
-            if ($PSCmdlet.ShouldProcess($Name, "Enable Basic configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -NitroPath nitro/v1/config -Type server -Action enable -Payload $Payload -GetWarning
-                #HTTP Status Code on Success: 200 OK
-                #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
-                Write-Output $result
-            }
-        } catch {
-            Write-Verbose "ERROR: $($_.Exception.Message)"
-            throw $_
-        }
-    }
-    end {
-        Write-Verbose "Invoke-ADCEnableServer: Finished"
+        Write-Verbose "Invoke-ADCRenameServer: Finished"
     }
 }
 
 function Invoke-ADCDisableServer {
-<#
+    <#
     .SYNOPSIS
-        Disable Basic configuration Object
+        Disable Basic configuration Object.
     .DESCRIPTION
-        Disable Basic configuration Object 
-    .PARAMETER name 
-        Name for the server.  
-        Must begin with an ASCII alphabetic or underscore (_) character, and must contain only ASCII alphanumeric, underscore, hash (#), period (.), space, colon (:), at (@), equals (=), and hyphen (-) characters.  
+        Configuration for server resource.
+    .PARAMETER Name 
+        Name for the server. 
+        Must begin with an ASCII alphabetic or underscore (_) character, and must contain only ASCII alphanumeric, underscore, hash (#), period (.), space, colon (:), at (@), equals (=), and hyphen (-) characters. 
         Can be changed after the name is created. 
-    .PARAMETER delay 
+    .PARAMETER Delay 
         Time, in seconds, after which all the services configured on the server are disabled. 
-    .PARAMETER graceful 
-        Shut down gracefully, without accepting any new connections, and disabling each service when all of its connections are closed.  
+    .PARAMETER Graceful 
+        Shut down gracefully, without accepting any new connections, and disabling each service when all of its connections are closed. 
         Possible values = YES, NO
     .EXAMPLE
-        Invoke-ADCDisableServer -name <string>
+        PS C:\>Invoke-ADCDisableServer -name <string>
+        An example how to disable server configuration Object(s).
     .NOTES
         File Name : Invoke-ADCDisableServer
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/basic/server/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
+    #>
     [CmdletBinding(SupportsShouldProcess = $true, ConfirmImpact = "Low")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
-        [Parameter(Mandatory = $true)]
+        [Parameter(Mandatory)]
         [ValidateScript({ $_.Length -gt 1 })]
         [ValidatePattern('^(([a-zA-Z0-9]|[_])+([a-zA-Z0-9]|[_])+)$')]
-        [string]$name ,
+        [string]$Name,
 
-        [double]$delay ,
+        [double]$Delay,
 
         [ValidateSet('YES', 'NO')]
-        [string]$graceful 
+        [string]$Graceful 
 
     )
     begin {
@@ -2448,13 +2007,11 @@ function Invoke-ADCDisableServer {
     }
     process {
         try {
-            $Payload = @{
-                name = $name
-            }
-            if ($PSBoundParameters.ContainsKey('delay')) { $Payload.Add('delay', $delay) }
-            if ($PSBoundParameters.ContainsKey('graceful')) { $Payload.Add('graceful', $graceful) }
-            if ($PSCmdlet.ShouldProcess($Name, "Disable Basic configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -NitroPath nitro/v1/config -Type server -Action disable -Payload $Payload -GetWarning
+            $payload = @{ name = $name }
+            if ( $PSBoundParameters.ContainsKey('delay') ) { $payload.Add('delay', $delay) }
+            if ( $PSBoundParameters.ContainsKey('graceful') ) { $payload.Add('graceful', $graceful) }
+            if ( $PSCmdlet.ShouldProcess($Name, "Disable Basic configuration Object") ) {
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -NitroPath nitro/v1/config -Type server -Action disable -Payload $payload -GetWarning
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $result
@@ -2469,76 +2026,56 @@ function Invoke-ADCDisableServer {
     }
 }
 
-function Invoke-ADCRenameServer {
-<#
+function Invoke-ADCEnableServer {
+    <#
     .SYNOPSIS
-        Rename Basic configuration Object
+        Enable Basic configuration Object.
     .DESCRIPTION
-        Rename Basic configuration Object 
-    .PARAMETER name 
-        Name for the server.  
-        Must begin with an ASCII alphabetic or underscore (_) character, and must contain only ASCII alphanumeric, underscore, hash (#), period (.), space, colon (:), at (@), equals (=), and hyphen (-) characters.  
-        Can be changed after the name is created.  
-        Minimum length = 1 
-    .PARAMETER newname 
-        New name for the server. Must begin with an ASCII alphabetic or underscore (_) character, and must contain only ASCII alphanumeric, underscore, hash (#), period (.), space, colon (:), at (@), equals (=), and hyphen (-) characters.  
-        Minimum length = 1 
-    .PARAMETER PassThru 
-        Return details about the created server item.
+        Configuration for server resource.
+    .PARAMETER Name 
+        Name for the server. 
+        Must begin with an ASCII alphabetic or underscore (_) character, and must contain only ASCII alphanumeric, underscore, hash (#), period (.), space, colon (:), at (@), equals (=), and hyphen (-) characters. 
+        Can be changed after the name is created.
     .EXAMPLE
-        Invoke-ADCRenameServer -name <string> -newname <string>
+        PS C:\>Invoke-ADCEnableServer -name <string>
+        An example how to enable server configuration Object(s).
     .NOTES
-        File Name : Invoke-ADCRenameServer
-        Version   : v2106.2309
+        File Name : Invoke-ADCEnableServer
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/basic/server/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
+    #>
     [CmdletBinding(SupportsShouldProcess = $true, ConfirmImpact = "Low")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
-        [Parameter(Mandatory = $true)]
+        [Parameter(Mandatory)]
         [ValidateScript({ $_.Length -gt 1 })]
         [ValidatePattern('^(([a-zA-Z0-9]|[_])+([a-zA-Z0-9]|[_])+)$')]
-        [string]$name ,
-
-        [Parameter(Mandatory = $true)]
-        [ValidateScript({ $_.Length -gt 1 })]
-        [ValidatePattern('^(([a-zA-Z0-9]|[_])+([a-zA-Z0-9]|[_])+)$')]
-        [string]$newname ,
-
-        [Switch]$PassThru 
+        [string]$Name 
 
     )
     begin {
-        Write-Verbose "Invoke-ADCRenameServer: Starting"
+        Write-Verbose "Invoke-ADCEnableServer: Starting"
     }
     process {
         try {
-            $Payload = @{
-                name = $name
-                newname = $newname
-            }
+            $payload = @{ name = $name }
 
- 
-            if ($PSCmdlet.ShouldProcess("server", "Rename Basic configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -NitroPath nitro/v1/config -Type server -Action rename -Payload $Payload -GetWarning
+            if ( $PSCmdlet.ShouldProcess($Name, "Enable Basic configuration Object") ) {
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -NitroPath nitro/v1/config -Type server -Action enable -Payload $payload -GetWarning
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
-                if ($PSBoundParameters.ContainsKey('PassThru')) {
-                    Write-Output (Invoke-ADCGetServer -Filter $Payload)
-                } else {
-                    Write-Output $result
-                }
-
+                Write-Output $result
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -2546,63 +2083,414 @@ function Invoke-ADCRenameServer {
         }
     }
     end {
-        Write-Verbose "Invoke-ADCRenameServer: Finished"
+        Write-Verbose "Invoke-ADCEnableServer: Finished"
     }
 }
 
-function Invoke-ADCGetServer {
-<#
+function Invoke-ADCUnsetServer {
+    <#
     .SYNOPSIS
-        Get Basic configuration object(s)
+        Unset Basic configuration Object.
     .DESCRIPTION
-        Get Basic configuration object(s)
-    .PARAMETER name 
-       Name for the server.  
-       Must begin with an ASCII alphabetic or underscore (_) character, and must contain only ASCII alphanumeric, underscore, hash (#), period (.), space, colon (:), at (@), equals (=), and hyphen (-) characters.  
-       Can be changed after the name is created. 
-    .PARAMETER GetAll 
-        Retreive all server object(s)
-    .PARAMETER Count
-        If specified, the count of the server object(s) will be returned
-    .PARAMETER Filter
-        Specify a filter
-        -Filter @{ 'name'='<value>' }
-    .PARAMETER ViewSummary
-        When specified, only a summary of information is returned
+        Configuration for server resource.
+    .PARAMETER Name 
+        Name for the server. 
+        Must begin with an ASCII alphabetic or underscore (_) character, and must contain only ASCII alphanumeric, underscore, hash (#), period (.), space, colon (:), at (@), equals (=), and hyphen (-) characters. 
+        Can be changed after the name is created. 
+    .PARAMETER Comment 
+        Any information about the server.
     .EXAMPLE
-        Invoke-ADCGetServer
-    .EXAMPLE 
-        Invoke-ADCGetServer -GetAll 
-    .EXAMPLE 
-        Invoke-ADCGetServer -Count
-    .EXAMPLE
-        Invoke-ADCGetServer -name <string>
-    .EXAMPLE
-        Invoke-ADCGetServer -Filter @{ 'name'='<value>' }
+        PS C:\>Invoke-ADCUnsetServer -name <string>
+        An example how to unset server configuration Object(s).
     .NOTES
-        File Name : Invoke-ADCGetServer
-        Version   : v2106.2309
+        File Name : Invoke-ADCUnsetServer
+        Version   : v2111.2111
         Author    : John Billekens
-        Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/basic/server/
+        Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/basic/server
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
-    [CmdletBinding(DefaultParameterSetName = "Getall")]
+    #>
+    [CmdletBinding(SupportsShouldProcess = $true, ConfirmImpact = "Low")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
+
+        [ValidateScript({ $_.Length -gt 1 })]
+        [ValidatePattern('^(([a-zA-Z0-9]|[_])+([a-zA-Z0-9]|[_])+)$')]
+        [string]$Name,
+
+        [Boolean]$comment 
+    )
+    begin {
+        Write-Verbose "Invoke-ADCUnsetServer: Starting"
+    }
+    process {
+        try {
+            $payload = @{ name = $name }
+            if ( $PSBoundParameters.ContainsKey('comment') ) { $payload.Add('comment', $comment) }
+            if ( $PSCmdlet.ShouldProcess("$name", "Unset Basic configuration Object") ) {
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -Type server -NitroPath nitro/v1/config -Action unset -Payload $payload -GetWarning
+                #HTTP Status Code on Success: 200 OK
+                #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
+                Write-Output $response
+            }
+        } catch {
+            Write-Verbose "ERROR: $($_.Exception.Message)"
+            throw $_
+        }
+    }
+    end {
+        Write-Verbose "Invoke-ADCUnsetServer: Finished"
+    }
+}
+
+function Invoke-ADCUpdateServer {
+    <#
+    .SYNOPSIS
+        Update Basic configuration Object.
+    .DESCRIPTION
+        Configuration for server resource.
+    .PARAMETER Name 
+        Name for the server. 
+        Must begin with an ASCII alphabetic or underscore (_) character, and must contain only ASCII alphanumeric, underscore, hash (#), period (.), space, colon (:), at (@), equals (=), and hyphen (-) characters. 
+        Can be changed after the name is created. 
+    .PARAMETER Ipaddress 
+        IPv4 or IPv6 address of the server. If you create an IP address based server, you can specify the name of the server, instead of its IP address, when creating a service. Note: If you do not create a server entry, the server IP address that you enter when you create a service becomes the name of the server. 
+    .PARAMETER Domainresolveretry 
+        Time, in seconds, for which the Citrix ADC must wait, after DNS resolution fails, before sending the next DNS query to resolve the domain name. 
+    .PARAMETER Translationip 
+        IP address used to transform the server's DNS-resolved IP address. 
+    .PARAMETER Translationmask 
+        The netmask of the translation ip. 
+    .PARAMETER Domainresolvenow 
+        Immediately send a DNS query to resolve the server's domain name. 
+    .PARAMETER Comment 
+        Any information about the server. 
+    .PARAMETER PassThru 
+        Return details about the created server item.
+    .EXAMPLE
+        PS C:\>Invoke-ADCUpdateServer -name <string>
+        An example how to update server configuration Object(s).
+    .NOTES
+        File Name : Invoke-ADCUpdateServer
+        Version   : v2111.2111
+        Author    : John Billekens
+        Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/basic/server/
+        Requires  : PowerShell v5.1 and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
+    .LINK
+        https://blog.j81.nl
+    #>
+    [CmdletBinding(SupportsShouldProcess = $true, ConfirmImpact = "Low")]
+    [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
+    [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
+    [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
+    param(
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
+
+        [Parameter(Mandatory)]
+        [ValidateScript({ $_.Length -gt 1 })]
+        [ValidatePattern('^(([a-zA-Z0-9]|[_])+([a-zA-Z0-9]|[_])+)$')]
+        [string]$Name,
+
+        [string]$Ipaddress,
+
+        [ValidateRange(5, 20939)]
+        [int]$Domainresolveretry,
+
+        [string]$Translationip,
+
+        [string]$Translationmask,
+
+        [boolean]$Domainresolvenow,
+
+        [string]$Comment,
+
+        [Switch]$PassThru 
+    )
+    begin {
+        Write-Verbose "Invoke-ADCUpdateServer: Starting"
+    }
+    process {
+        try {
+            $payload = @{ name = $name }
+            if ( $PSBoundParameters.ContainsKey('ipaddress') ) { $payload.Add('ipaddress', $ipaddress) }
+            if ( $PSBoundParameters.ContainsKey('domainresolveretry') ) { $payload.Add('domainresolveretry', $domainresolveretry) }
+            if ( $PSBoundParameters.ContainsKey('translationip') ) { $payload.Add('translationip', $translationip) }
+            if ( $PSBoundParameters.ContainsKey('translationmask') ) { $payload.Add('translationmask', $translationmask) }
+            if ( $PSBoundParameters.ContainsKey('domainresolvenow') ) { $payload.Add('domainresolvenow', $domainresolvenow) }
+            if ( $PSBoundParameters.ContainsKey('comment') ) { $payload.Add('comment', $comment) }
+            if ( $PSCmdlet.ShouldProcess("server", "Update Basic configuration Object") ) {
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -NitroPath nitro/v1/config -Type server -Payload $payload -GetWarning
+                #HTTP Status Code on Success: 200 OK
+                #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
+                if ( $PSBoundParameters.ContainsKey('PassThru') ) {
+                    Write-Output (Invoke-ADCGetServer -Filter $payload)
+                } else {
+                    Write-Output $result
+                }
+            }
+        } catch {
+            Write-Verbose "ERROR: $($_.Exception.Message)"
+            throw $_
+        }
+    }
+    end {
+        Write-Verbose "Invoke-ADCUpdateServer: Finished"
+    }
+}
+
+function Invoke-ADCAddServer {
+    <#
+    .SYNOPSIS
+        Add Basic configuration Object.
+    .DESCRIPTION
+        Configuration for server resource.
+    .PARAMETER Name 
+        Name for the server. 
+        Must begin with an ASCII alphabetic or underscore (_) character, and must contain only ASCII alphanumeric, underscore, hash (#), period (.), space, colon (:), at (@), equals (=), and hyphen (-) characters. 
+        Can be changed after the name is created. 
+    .PARAMETER Ipaddress 
+        IPv4 or IPv6 address of the server. If you create an IP address based server, you can specify the name of the server, instead of its IP address, when creating a service. Note: If you do not create a server entry, the server IP address that you enter when you create a service becomes the name of the server. 
+    .PARAMETER Domain 
+        Domain name of the server. For a domain based configuration, you must create the server first. 
+    .PARAMETER Translationip 
+        IP address used to transform the server's DNS-resolved IP address. 
+    .PARAMETER Translationmask 
+        The netmask of the translation ip. 
+    .PARAMETER Domainresolveretry 
+        Time, in seconds, for which the Citrix ADC must wait, after DNS resolution fails, before sending the next DNS query to resolve the domain name. 
+    .PARAMETER State 
+        Initial state of the server. 
+        Possible values = ENABLED, DISABLED 
+    .PARAMETER Ipv6address 
+        Support IPv6 addressing mode. If you configure a server with the IPv6 addressing mode, you cannot use the server in the IPv4 addressing mode. 
+        Possible values = YES, NO 
+    .PARAMETER Comment 
+        Any information about the server. 
+    .PARAMETER Td 
+        Integer value that uniquely identifies the traffic domain in which you want to configure the entity. If you do not specify an ID, the entity becomes part of the default traffic domain, which has an ID of 0. 
+    .PARAMETER Querytype 
+        Specify the type of DNS resolution to be done on the configured domain to get the backend services. Valid query types are A, AAAA and SRV with A being the default querytype. The type of DNS resolution done on the domains in SRV records is inherited from ipv6 argument. 
+        Possible values = A, AAAA, SRV 
+    .PARAMETER PassThru 
+        Return details about the created server item.
+    .EXAMPLE
+        PS C:\>Invoke-ADCAddServer -name <string>
+        An example how to add server configuration Object(s).
+    .NOTES
+        File Name : Invoke-ADCAddServer
+        Version   : v2111.2111
+        Author    : John Billekens
+        Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/basic/server/
+        Requires  : PowerShell v5.1 and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
+    .LINK
+        https://blog.j81.nl
+    #>
+    [CmdletBinding(SupportsShouldProcess = $true, ConfirmImpact = "Low")]
+    [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
+    [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
+    [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
+    param(
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
+
+        [Parameter(Mandatory)]
+        [ValidateScript({ $_.Length -gt 1 })]
+        [ValidatePattern('^(([a-zA-Z0-9]|[_])+([a-zA-Z0-9]|[_])+)$')]
+        [string]$Name,
+
+        [string]$Ipaddress,
+
+        [ValidateScript({ $_.Length -gt 1 })]
+        [string]$Domain,
+
+        [string]$Translationip,
+
+        [string]$Translationmask,
+
+        [ValidateRange(5, 20939)]
+        [int]$Domainresolveretry = '5',
+
+        [ValidateSet('ENABLED', 'DISABLED')]
+        [string]$State = 'ENABLED',
+
+        [ValidateSet('YES', 'NO')]
+        [string]$Ipv6address = 'NO',
+
+        [string]$Comment,
+
+        [ValidateRange(0, 4094)]
+        [double]$Td,
+
+        [ValidateSet('A', 'AAAA', 'SRV')]
+        [string]$Querytype = 'A',
+
+        [Switch]$PassThru 
+    )
+    begin {
+        Write-Verbose "Invoke-ADCAddServer: Starting"
+    }
+    process {
+        try {
+            $payload = @{ name = $name }
+            if ( $PSBoundParameters.ContainsKey('ipaddress') ) { $payload.Add('ipaddress', $ipaddress) }
+            if ( $PSBoundParameters.ContainsKey('domain') ) { $payload.Add('domain', $domain) }
+            if ( $PSBoundParameters.ContainsKey('translationip') ) { $payload.Add('translationip', $translationip) }
+            if ( $PSBoundParameters.ContainsKey('translationmask') ) { $payload.Add('translationmask', $translationmask) }
+            if ( $PSBoundParameters.ContainsKey('domainresolveretry') ) { $payload.Add('domainresolveretry', $domainresolveretry) }
+            if ( $PSBoundParameters.ContainsKey('state') ) { $payload.Add('state', $state) }
+            if ( $PSBoundParameters.ContainsKey('ipv6address') ) { $payload.Add('ipv6address', $ipv6address) }
+            if ( $PSBoundParameters.ContainsKey('comment') ) { $payload.Add('comment', $comment) }
+            if ( $PSBoundParameters.ContainsKey('td') ) { $payload.Add('td', $td) }
+            if ( $PSBoundParameters.ContainsKey('querytype') ) { $payload.Add('querytype', $querytype) }
+            if ( $PSCmdlet.ShouldProcess("server", "Add Basic configuration Object") ) {
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -NitroPath nitro/v1/config -Type server -Payload $payload -GetWarning
+                #HTTP Status Code on Success: 201 Created
+                #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
+                if ( $PSBoundParameters.ContainsKey('PassThru') ) {
+                    Write-Output (Invoke-ADCGetServer -Filter $payload)
+                } else {
+                    Write-Output $result
+                }
+            }
+        } catch {
+            Write-Verbose "ERROR: $($_.Exception.Message)"
+            throw $_
+        }
+    }
+    end {
+        Write-Verbose "Invoke-ADCAddServer: Finished"
+    }
+}
+
+function Invoke-ADCDeleteServer {
+    <#
+    .SYNOPSIS
+        Delete Basic configuration Object.
+    .DESCRIPTION
+        Configuration for server resource.
+    .PARAMETER Name 
+        Name for the server. 
+        Must begin with an ASCII alphabetic or underscore (_) character, and must contain only ASCII alphanumeric, underscore, hash (#), period (.), space, colon (:), at (@), equals (=), and hyphen (-) characters. 
+        Can be changed after the name is created.
+    .EXAMPLE
+        PS C:\>Invoke-ADCDeleteServer -Name <string>
+        An example how to delete server configuration Object(s).
+    .NOTES
+        File Name : Invoke-ADCDeleteServer
+        Version   : v2111.2111
+        Author    : John Billekens
+        Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/basic/server/
+        Requires  : PowerShell v5.1 and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
+    .LINK
+        https://blog.j81.nl
+    #>
+    [CmdletBinding(SupportsShouldProcess = $true, ConfirmImpact = "Low")]
+    [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
+    [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
+    [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
+    param(
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
+
+        [Parameter(Mandatory)]
+        [string]$Name 
+    )
+    begin {
+        Write-Verbose "Invoke-ADCDeleteServer: Starting"
+    }
+    process {
+        try {
+            $arguments = @{ }
+
+            if ( $PSCmdlet.ShouldProcess("$name", "Delete Basic configuration Object") ) {
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type server -NitroPath nitro/v1/config -Resource $name -Arguments $arguments
+                #HTTP Status Code on Success: 200 OK
+                #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
+                Write-Output $response
+            }
+        } catch {
+            Write-Verbose "ERROR: $($_.Exception.Message)"
+            throw $_
+        }
+    }
+    end {
+        Write-Verbose "Invoke-ADCDeleteServer: Finished"
+    }
+}
+
+function Invoke-ADCGetServer {
+    <#
+    .SYNOPSIS
+        Get Basic configuration object(s).
+    .DESCRIPTION
+        Configuration for server resource.
+    .PARAMETER Name 
+        Name for the server. 
+        Must begin with an ASCII alphabetic or underscore (_) character, and must contain only ASCII alphanumeric, underscore, hash (#), period (.), space, colon (:), at (@), equals (=), and hyphen (-) characters. 
+        Can be changed after the name is created. 
+    .PARAMETER GetAll 
+        Retrieve all server object(s).
+    .PARAMETER Count
+        If specified, the count of the server object(s) will be returned.
+    .PARAMETER Filter
+        Specify a filter.
+        -Filter @{ 'name'='<value>' }
+    .PARAMETER ViewSummary
+        When specified, only a summary of information is returned.
+    .EXAMPLE
+        PS C:\>Invoke-ADCGetServer
+        Get data.
+    .EXAMPLE 
+        PS C:\>Invoke-ADCGetServer -GetAll 
+        Get all server data. 
+    .EXAMPLE 
+        PS C:\>Invoke-ADCGetServer -Count 
+        Get the number of server objects.
+    .EXAMPLE
+        PS C:\>Invoke-ADCGetServer -name <string>
+        Get server object by specifying for example the name.
+    .EXAMPLE
+        PS C:\>Invoke-ADCGetServer -Filter @{ 'name'='<value>' }
+        Get server data with a filter.
+    .NOTES
+        File Name : Invoke-ADCGetServer
+        Version   : v2111.2111
+        Author    : John Billekens
+        Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/basic/server/
+        Requires  : PowerShell v5.1 and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
+    .LINK
+        https://blog.j81.nl
+    #>
+    [CmdletBinding(DefaultParameterSetName = "GetAll")]
+    [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
+    [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
+    [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
+    param(
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
         [Parameter(ParameterSetName = 'GetByResource')]
         [ValidateScript({ $_.Length -gt 1 })]
         [ValidatePattern('^(([a-zA-Z0-9]|[_])+([a-zA-Z0-9]|[_])+)$')]
-        [string]$name,
+        [string]$Name,
 
-        [Parameter(ParameterSetName = 'Count', Mandatory = $true)]
+        [Parameter(ParameterSetName = 'Count', Mandatory)]
         [Switch]$Count,
 			
         [hashtable]$Filter = @{ },
@@ -2620,24 +2508,24 @@ function Invoke-ADCGetServer {
     }
     process {
         try {
-            if ( $PsCmdlet.ParameterSetName -eq 'Getall' ) {
-                $Query = @{ }
+            if ( $PsCmdlet.ParameterSetName -eq 'GetAll' ) {
+                $query = @{ }
                 Write-Verbose "Retrieving all server objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type server -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type server -NitroPath nitro/v1/config -Query $query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
-                if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
+                if ( $PSBoundParameters.ContainsKey('Count') ) { $query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for server objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type server -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type server -NitroPath nitro/v1/config -Query $query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving server objects by arguments"
-                $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type server -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
+                $arguments = @{ } 
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type server -NitroPath nitro/v1/config -Arguments $arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving server configuration for property 'name'"
                 $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type server -NitroPath nitro/v1/config -Resource $name -Summary:$ViewSummary -Filter $Filter -GetWarning
             } else {
                 Write-Verbose "Retrieving server configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type server -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type server -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -2651,51 +2539,56 @@ function Invoke-ADCGetServer {
 }
 
 function Invoke-ADCGetServerbinding {
-<#
+    <#
     .SYNOPSIS
-        Get Basic configuration object(s)
+        Get Basic configuration object(s).
     .DESCRIPTION
-        Get Basic configuration object(s)
-    .PARAMETER name 
-       Name of the server for which to display parameters. 
+        Binding object which returns the resources bound to server.
+    .PARAMETER Name 
+        Name of the server for which to display parameters. 
     .PARAMETER GetAll 
-        Retreive all server_binding object(s)
+        Retrieve all server_binding object(s).
     .PARAMETER Count
-        If specified, the count of the server_binding object(s) will be returned
+        If specified, the count of the server_binding object(s) will be returned.
     .PARAMETER Filter
-        Specify a filter
+        Specify a filter.
         -Filter @{ 'name'='<value>' }
     .PARAMETER ViewSummary
-        When specified, only a summary of information is returned
+        When specified, only a summary of information is returned.
     .EXAMPLE
-        Invoke-ADCGetServerbinding
+        PS C:\>Invoke-ADCGetServerbinding
+        Get data.
     .EXAMPLE 
-        Invoke-ADCGetServerbinding -GetAll
+        PS C:\>Invoke-ADCGetServerbinding -GetAll 
+        Get all server_binding data.
     .EXAMPLE
-        Invoke-ADCGetServerbinding -name <string>
+        PS C:\>Invoke-ADCGetServerbinding -name <string>
+        Get server_binding object by specifying for example the name.
     .EXAMPLE
-        Invoke-ADCGetServerbinding -Filter @{ 'name'='<value>' }
+        PS C:\>Invoke-ADCGetServerbinding -Filter @{ 'name'='<value>' }
+        Get server_binding data with a filter.
     .NOTES
         File Name : Invoke-ADCGetServerbinding
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/basic/server_binding/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
-    [CmdletBinding(DefaultParameterSetName = "Getall")]
+    #>
+    [CmdletBinding(DefaultParameterSetName = "GetAll")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
         [Parameter(ParameterSetName = 'GetByResource')]
         [ValidateScript({ $_.Length -gt 1 })]
-        [string]$name,
+        [string]$Name,
 			
         [hashtable]$Filter = @{ },
 
@@ -2707,26 +2600,24 @@ function Invoke-ADCGetServerbinding {
     }
     process {
         try {
-            if ( $PsCmdlet.ParameterSetName -eq 'Getall' ) {
-                $Query = @{ 
-                    bulkbindings = 'yes'
-                }
+            if ( $PsCmdlet.ParameterSetName -eq 'GetAll' ) {
+                $query = @{  bulkbindings = 'yes' }
                 Write-Verbose "Retrieving all server_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type server_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type server_binding -NitroPath nitro/v1/config -Query $query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
-                if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
+                if ( $PSBoundParameters.ContainsKey('Count') ) { $query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for server_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type server_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type server_binding -NitroPath nitro/v1/config -Query $query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving server_binding objects by arguments"
-                $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type server_binding -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
+                $arguments = @{ } 
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type server_binding -NitroPath nitro/v1/config -Arguments $arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving server_binding configuration for property 'name'"
                 $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type server_binding -NitroPath nitro/v1/config -Resource $name -Summary:$ViewSummary -Filter $Filter -GetWarning
             } else {
                 Write-Verbose "Retrieving server_binding configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type server_binding -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type server_binding -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -2740,55 +2631,61 @@ function Invoke-ADCGetServerbinding {
 }
 
 function Invoke-ADCGetServergslbservicegroupbinding {
-<#
+    <#
     .SYNOPSIS
-        Get Basic configuration object(s)
+        Get Basic configuration object(s).
     .DESCRIPTION
-        Get Basic configuration object(s)
-    .PARAMETER name 
-       Name of the server for which to display parameters. 
+        Binding object showing the gslbservicegroup that can be bound to server.
+    .PARAMETER Name 
+        Name of the server for which to display parameters. 
     .PARAMETER GetAll 
-        Retreive all server_gslbservicegroup_binding object(s)
+        Retrieve all server_gslbservicegroup_binding object(s).
     .PARAMETER Count
-        If specified, the count of the server_gslbservicegroup_binding object(s) will be returned
+        If specified, the count of the server_gslbservicegroup_binding object(s) will be returned.
     .PARAMETER Filter
-        Specify a filter
+        Specify a filter.
         -Filter @{ 'name'='<value>' }
     .PARAMETER ViewSummary
-        When specified, only a summary of information is returned
+        When specified, only a summary of information is returned.
     .EXAMPLE
-        Invoke-ADCGetServergslbservicegroupbinding
+        PS C:\>Invoke-ADCGetServergslbservicegroupbinding
+        Get data.
     .EXAMPLE 
-        Invoke-ADCGetServergslbservicegroupbinding -GetAll 
+        PS C:\>Invoke-ADCGetServergslbservicegroupbinding -GetAll 
+        Get all server_gslbservicegroup_binding data. 
     .EXAMPLE 
-        Invoke-ADCGetServergslbservicegroupbinding -Count
+        PS C:\>Invoke-ADCGetServergslbservicegroupbinding -Count 
+        Get the number of server_gslbservicegroup_binding objects.
     .EXAMPLE
-        Invoke-ADCGetServergslbservicegroupbinding -name <string>
+        PS C:\>Invoke-ADCGetServergslbservicegroupbinding -name <string>
+        Get server_gslbservicegroup_binding object by specifying for example the name.
     .EXAMPLE
-        Invoke-ADCGetServergslbservicegroupbinding -Filter @{ 'name'='<value>' }
+        PS C:\>Invoke-ADCGetServergslbservicegroupbinding -Filter @{ 'name'='<value>' }
+        Get server_gslbservicegroup_binding data with a filter.
     .NOTES
         File Name : Invoke-ADCGetServergslbservicegroupbinding
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/basic/server_gslbservicegroup_binding/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
-    [CmdletBinding(DefaultParameterSetName = "Getall")]
+    #>
+    [CmdletBinding(DefaultParameterSetName = "GetAll")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
         [Parameter(ParameterSetName = 'GetByResource')]
         [ValidateScript({ $_.Length -gt 1 })]
-        [string]$name,
+        [string]$Name,
 
-        [Parameter(ParameterSetName = 'Count', Mandatory = $true)]
+        [Parameter(ParameterSetName = 'Count', Mandatory)]
         [Switch]$Count,
 			
         [hashtable]$Filter = @{ },
@@ -2801,26 +2698,24 @@ function Invoke-ADCGetServergslbservicegroupbinding {
     }
     process {
         try {
-            if ( $PsCmdlet.ParameterSetName -eq 'Getall' ) {
-                $Query = @{ 
-                    bulkbindings = 'yes'
-                }
+            if ( $PsCmdlet.ParameterSetName -eq 'GetAll' ) {
+                $query = @{  bulkbindings = 'yes' }
                 Write-Verbose "Retrieving all server_gslbservicegroup_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type server_gslbservicegroup_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type server_gslbservicegroup_binding -NitroPath nitro/v1/config -Query $query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
-                if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
+                if ( $PSBoundParameters.ContainsKey('Count') ) { $query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for server_gslbservicegroup_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type server_gslbservicegroup_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type server_gslbservicegroup_binding -NitroPath nitro/v1/config -Query $query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving server_gslbservicegroup_binding objects by arguments"
-                $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type server_gslbservicegroup_binding -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
+                $arguments = @{ } 
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type server_gslbservicegroup_binding -NitroPath nitro/v1/config -Arguments $arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving server_gslbservicegroup_binding configuration for property 'name'"
                 $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type server_gslbservicegroup_binding -NitroPath nitro/v1/config -Resource $name -Summary:$ViewSummary -Filter $Filter -GetWarning
             } else {
                 Write-Verbose "Retrieving server_gslbservicegroup_binding configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type server_gslbservicegroup_binding -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type server_gslbservicegroup_binding -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -2834,55 +2729,61 @@ function Invoke-ADCGetServergslbservicegroupbinding {
 }
 
 function Invoke-ADCGetServergslbservicebinding {
-<#
+    <#
     .SYNOPSIS
-        Get Basic configuration object(s)
+        Get Basic configuration object(s).
     .DESCRIPTION
-        Get Basic configuration object(s)
-    .PARAMETER name 
-       Name of the server for which to display parameters. 
+        Binding object showing the gslbservice that can be bound to server.
+    .PARAMETER Name 
+        Name of the server for which to display parameters. 
     .PARAMETER GetAll 
-        Retreive all server_gslbservice_binding object(s)
+        Retrieve all server_gslbservice_binding object(s).
     .PARAMETER Count
-        If specified, the count of the server_gslbservice_binding object(s) will be returned
+        If specified, the count of the server_gslbservice_binding object(s) will be returned.
     .PARAMETER Filter
-        Specify a filter
+        Specify a filter.
         -Filter @{ 'name'='<value>' }
     .PARAMETER ViewSummary
-        When specified, only a summary of information is returned
+        When specified, only a summary of information is returned.
     .EXAMPLE
-        Invoke-ADCGetServergslbservicebinding
+        PS C:\>Invoke-ADCGetServergslbservicebinding
+        Get data.
     .EXAMPLE 
-        Invoke-ADCGetServergslbservicebinding -GetAll 
+        PS C:\>Invoke-ADCGetServergslbservicebinding -GetAll 
+        Get all server_gslbservice_binding data. 
     .EXAMPLE 
-        Invoke-ADCGetServergslbservicebinding -Count
+        PS C:\>Invoke-ADCGetServergslbservicebinding -Count 
+        Get the number of server_gslbservice_binding objects.
     .EXAMPLE
-        Invoke-ADCGetServergslbservicebinding -name <string>
+        PS C:\>Invoke-ADCGetServergslbservicebinding -name <string>
+        Get server_gslbservice_binding object by specifying for example the name.
     .EXAMPLE
-        Invoke-ADCGetServergslbservicebinding -Filter @{ 'name'='<value>' }
+        PS C:\>Invoke-ADCGetServergslbservicebinding -Filter @{ 'name'='<value>' }
+        Get server_gslbservice_binding data with a filter.
     .NOTES
         File Name : Invoke-ADCGetServergslbservicebinding
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/basic/server_gslbservice_binding/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
-    [CmdletBinding(DefaultParameterSetName = "Getall")]
+    #>
+    [CmdletBinding(DefaultParameterSetName = "GetAll")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
         [Parameter(ParameterSetName = 'GetByResource')]
         [ValidateScript({ $_.Length -gt 1 })]
-        [string]$name,
+        [string]$Name,
 
-        [Parameter(ParameterSetName = 'Count', Mandatory = $true)]
+        [Parameter(ParameterSetName = 'Count', Mandatory)]
         [Switch]$Count,
 			
         [hashtable]$Filter = @{ },
@@ -2895,26 +2796,24 @@ function Invoke-ADCGetServergslbservicebinding {
     }
     process {
         try {
-            if ( $PsCmdlet.ParameterSetName -eq 'Getall' ) {
-                $Query = @{ 
-                    bulkbindings = 'yes'
-                }
+            if ( $PsCmdlet.ParameterSetName -eq 'GetAll' ) {
+                $query = @{  bulkbindings = 'yes' }
                 Write-Verbose "Retrieving all server_gslbservice_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type server_gslbservice_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type server_gslbservice_binding -NitroPath nitro/v1/config -Query $query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
-                if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
+                if ( $PSBoundParameters.ContainsKey('Count') ) { $query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for server_gslbservice_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type server_gslbservice_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type server_gslbservice_binding -NitroPath nitro/v1/config -Query $query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving server_gslbservice_binding objects by arguments"
-                $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type server_gslbservice_binding -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
+                $arguments = @{ } 
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type server_gslbservice_binding -NitroPath nitro/v1/config -Arguments $arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving server_gslbservice_binding configuration for property 'name'"
                 $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type server_gslbservice_binding -NitroPath nitro/v1/config -Resource $name -Summary:$ViewSummary -Filter $Filter -GetWarning
             } else {
                 Write-Verbose "Retrieving server_gslbservice_binding configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type server_gslbservice_binding -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type server_gslbservice_binding -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -2928,55 +2827,61 @@ function Invoke-ADCGetServergslbservicebinding {
 }
 
 function Invoke-ADCGetServerservicegroupbinding {
-<#
+    <#
     .SYNOPSIS
-        Get Basic configuration object(s)
+        Get Basic configuration object(s).
     .DESCRIPTION
-        Get Basic configuration object(s)
-    .PARAMETER name 
-       Name of the server for which to display parameters. 
+        Binding object showing the servicegroup that can be bound to server.
+    .PARAMETER Name 
+        Name of the server for which to display parameters. 
     .PARAMETER GetAll 
-        Retreive all server_servicegroup_binding object(s)
+        Retrieve all server_servicegroup_binding object(s).
     .PARAMETER Count
-        If specified, the count of the server_servicegroup_binding object(s) will be returned
+        If specified, the count of the server_servicegroup_binding object(s) will be returned.
     .PARAMETER Filter
-        Specify a filter
+        Specify a filter.
         -Filter @{ 'name'='<value>' }
     .PARAMETER ViewSummary
-        When specified, only a summary of information is returned
+        When specified, only a summary of information is returned.
     .EXAMPLE
-        Invoke-ADCGetServerservicegroupbinding
+        PS C:\>Invoke-ADCGetServerservicegroupbinding
+        Get data.
     .EXAMPLE 
-        Invoke-ADCGetServerservicegroupbinding -GetAll 
+        PS C:\>Invoke-ADCGetServerservicegroupbinding -GetAll 
+        Get all server_servicegroup_binding data. 
     .EXAMPLE 
-        Invoke-ADCGetServerservicegroupbinding -Count
+        PS C:\>Invoke-ADCGetServerservicegroupbinding -Count 
+        Get the number of server_servicegroup_binding objects.
     .EXAMPLE
-        Invoke-ADCGetServerservicegroupbinding -name <string>
+        PS C:\>Invoke-ADCGetServerservicegroupbinding -name <string>
+        Get server_servicegroup_binding object by specifying for example the name.
     .EXAMPLE
-        Invoke-ADCGetServerservicegroupbinding -Filter @{ 'name'='<value>' }
+        PS C:\>Invoke-ADCGetServerservicegroupbinding -Filter @{ 'name'='<value>' }
+        Get server_servicegroup_binding data with a filter.
     .NOTES
         File Name : Invoke-ADCGetServerservicegroupbinding
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/basic/server_servicegroup_binding/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
-    [CmdletBinding(DefaultParameterSetName = "Getall")]
+    #>
+    [CmdletBinding(DefaultParameterSetName = "GetAll")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
         [Parameter(ParameterSetName = 'GetByResource')]
         [ValidateScript({ $_.Length -gt 1 })]
-        [string]$name,
+        [string]$Name,
 
-        [Parameter(ParameterSetName = 'Count', Mandatory = $true)]
+        [Parameter(ParameterSetName = 'Count', Mandatory)]
         [Switch]$Count,
 			
         [hashtable]$Filter = @{ },
@@ -2989,26 +2894,24 @@ function Invoke-ADCGetServerservicegroupbinding {
     }
     process {
         try {
-            if ( $PsCmdlet.ParameterSetName -eq 'Getall' ) {
-                $Query = @{ 
-                    bulkbindings = 'yes'
-                }
+            if ( $PsCmdlet.ParameterSetName -eq 'GetAll' ) {
+                $query = @{  bulkbindings = 'yes' }
                 Write-Verbose "Retrieving all server_servicegroup_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type server_servicegroup_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type server_servicegroup_binding -NitroPath nitro/v1/config -Query $query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
-                if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
+                if ( $PSBoundParameters.ContainsKey('Count') ) { $query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for server_servicegroup_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type server_servicegroup_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type server_servicegroup_binding -NitroPath nitro/v1/config -Query $query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving server_servicegroup_binding objects by arguments"
-                $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type server_servicegroup_binding -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
+                $arguments = @{ } 
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type server_servicegroup_binding -NitroPath nitro/v1/config -Arguments $arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving server_servicegroup_binding configuration for property 'name'"
                 $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type server_servicegroup_binding -NitroPath nitro/v1/config -Resource $name -Summary:$ViewSummary -Filter $Filter -GetWarning
             } else {
                 Write-Verbose "Retrieving server_servicegroup_binding configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type server_servicegroup_binding -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type server_servicegroup_binding -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -3022,55 +2925,61 @@ function Invoke-ADCGetServerservicegroupbinding {
 }
 
 function Invoke-ADCGetServerservicebinding {
-<#
+    <#
     .SYNOPSIS
-        Get Basic configuration object(s)
+        Get Basic configuration object(s).
     .DESCRIPTION
-        Get Basic configuration object(s)
-    .PARAMETER name 
-       Name of the server for which to display parameters. 
+        Binding object showing the service that can be bound to server.
+    .PARAMETER Name 
+        Name of the server for which to display parameters. 
     .PARAMETER GetAll 
-        Retreive all server_service_binding object(s)
+        Retrieve all server_service_binding object(s).
     .PARAMETER Count
-        If specified, the count of the server_service_binding object(s) will be returned
+        If specified, the count of the server_service_binding object(s) will be returned.
     .PARAMETER Filter
-        Specify a filter
+        Specify a filter.
         -Filter @{ 'name'='<value>' }
     .PARAMETER ViewSummary
-        When specified, only a summary of information is returned
+        When specified, only a summary of information is returned.
     .EXAMPLE
-        Invoke-ADCGetServerservicebinding
+        PS C:\>Invoke-ADCGetServerservicebinding
+        Get data.
     .EXAMPLE 
-        Invoke-ADCGetServerservicebinding -GetAll 
+        PS C:\>Invoke-ADCGetServerservicebinding -GetAll 
+        Get all server_service_binding data. 
     .EXAMPLE 
-        Invoke-ADCGetServerservicebinding -Count
+        PS C:\>Invoke-ADCGetServerservicebinding -Count 
+        Get the number of server_service_binding objects.
     .EXAMPLE
-        Invoke-ADCGetServerservicebinding -name <string>
+        PS C:\>Invoke-ADCGetServerservicebinding -name <string>
+        Get server_service_binding object by specifying for example the name.
     .EXAMPLE
-        Invoke-ADCGetServerservicebinding -Filter @{ 'name'='<value>' }
+        PS C:\>Invoke-ADCGetServerservicebinding -Filter @{ 'name'='<value>' }
+        Get server_service_binding data with a filter.
     .NOTES
         File Name : Invoke-ADCGetServerservicebinding
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/basic/server_service_binding/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
-    [CmdletBinding(DefaultParameterSetName = "Getall")]
+    #>
+    [CmdletBinding(DefaultParameterSetName = "GetAll")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
         [Parameter(ParameterSetName = 'GetByResource')]
         [ValidateScript({ $_.Length -gt 1 })]
-        [string]$name,
+        [string]$Name,
 
-        [Parameter(ParameterSetName = 'Count', Mandatory = $true)]
+        [Parameter(ParameterSetName = 'Count', Mandatory)]
         [Switch]$Count,
 			
         [hashtable]$Filter = @{ },
@@ -3083,26 +2992,24 @@ function Invoke-ADCGetServerservicebinding {
     }
     process {
         try {
-            if ( $PsCmdlet.ParameterSetName -eq 'Getall' ) {
-                $Query = @{ 
-                    bulkbindings = 'yes'
-                }
+            if ( $PsCmdlet.ParameterSetName -eq 'GetAll' ) {
+                $query = @{  bulkbindings = 'yes' }
                 Write-Verbose "Retrieving all server_service_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type server_service_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type server_service_binding -NitroPath nitro/v1/config -Query $query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
-                if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
+                if ( $PSBoundParameters.ContainsKey('Count') ) { $query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for server_service_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type server_service_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type server_service_binding -NitroPath nitro/v1/config -Query $query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving server_service_binding objects by arguments"
-                $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type server_service_binding -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
+                $arguments = @{ } 
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type server_service_binding -NitroPath nitro/v1/config -Arguments $arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving server_service_binding configuration for property 'name'"
                 $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type server_service_binding -NitroPath nitro/v1/config -Resource $name -Summary:$ViewSummary -Filter $Filter -GetWarning
             } else {
                 Write-Verbose "Retrieving server_service_binding configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type server_service_binding -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type server_service_binding -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -3115,381 +3022,70 @@ function Invoke-ADCGetServerservicebinding {
     }
 }
 
-function Invoke-ADCAddService {
-<#
+function Invoke-ADCRenameService {
+    <#
     .SYNOPSIS
-        Add Basic configuration Object
+        Rename Basic configuration Object.
     .DESCRIPTION
-        Add Basic configuration Object 
-    .PARAMETER name 
-        Name for the service. Must begin with an ASCII alphabetic or underscore (_) character, and must contain only ASCII alphanumeric, underscore, hash (#), period (.), space, colon (:), at (@), equals (=), and hyphen (-) characters. Cannot be changed after the service has been created.  
-        Minimum length = 1 
-    .PARAMETER ip 
-        IP to assign to the service.  
-        Minimum length = 1 
-    .PARAMETER servername 
-        Name of the server that hosts the service.  
-        Minimum length = 1 
-    .PARAMETER servicetype 
-        Protocol in which data is exchanged with the service.  
-        Possible values = HTTP, FTP, TCP, UDP, SSL, SSL_BRIDGE, SSL_TCP, DTLS, NNTP, RPCSVR, DNS, ADNS, SNMP, RTSP, DHCPRA, ANY, SIP_UDP, SIP_TCP, SIP_SSL, DNS_TCP, ADNS_TCP, MYSQL, MSSQL, ORACLE, MONGO, MONGO_TLS, RADIUS, RADIUSListener, RDP, DIAMETER, SSL_DIAMETER, TFTP, SMPP, PPTP, GRE, SYSLOGTCP, SYSLOGUDP, FIX, SSL_FIX, USER_TCP, USER_SSL_TCP, QUIC, IPFIX, LOGSTREAM, LOGSTREAM_SSL 
-    .PARAMETER port 
-        Port number of the service.  
-        Range 1 - 65535  
-        * in CLI is represented as 65535 in NITRO API 
-    .PARAMETER cleartextport 
-        Port to which clear text data must be sent after the appliance decrypts incoming SSL traffic. Applicable to transparent SSL services.  
-        Minimum value = 1 
-    .PARAMETER cachetype 
-        Cache type supported by the cache server.  
-        Possible values = TRANSPARENT, REVERSE, FORWARD 
-    .PARAMETER maxclient 
-        Maximum number of simultaneous open connections to the service.  
-        Minimum value = 0  
-        Maximum value = 4294967294 
-    .PARAMETER healthmonitor 
-        Monitor the health of this service. Available settings function as follows:  
-        YES - Send probes to check the health of the service.  
-        NO - Do not send probes to check the health of the service. With the NO option, the appliance shows the service as UP at all times.  
-        Default value: YES  
-        Possible values = YES, NO 
-    .PARAMETER maxreq 
-        Maximum number of requests that can be sent on a persistent connection to the service.  
-        Note: Connection requests beyond this value are rejected.  
-        Minimum value = 0  
-        Maximum value = 65535 
-    .PARAMETER cacheable 
-        Use the transparent cache redirection virtual server to forward requests to the cache server.  
-        Note: Do not specify this parameter if you set the Cache Type parameter.  
-        Default value: NO  
-        Possible values = YES, NO 
-    .PARAMETER cip 
-        Before forwarding a request to the service, insert an HTTP header with the client's IPv4 or IPv6 address as its value. Used if the server needs the client's IP address for security, accounting, or other purposes, and setting the Use Source IP parameter is not a viable option.  
-        Possible values = ENABLED, DISABLED 
-    .PARAMETER cipheader 
-        Name for the HTTP header whose value must be set to the IP address of the client. Used with the Client IP parameter. If you set the Client IP parameter, and you do not specify a name for the header, the appliance uses the header name specified for the global Client IP Header parameter (the cipHeader parameter in the set ns param CLI command or the Client IP Header parameter in the Configure HTTP Parameters dialog box at System > Settings > Change HTTP parameters). If the global Client IP Header parameter is not specified, the appliance inserts a header with the name "client-ip.".  
-        Minimum length = 1 
-    .PARAMETER usip 
-        Use the client's IP address as the source IP address when initiating a connection to the server. When creating a service, if you do not set this parameter, the service inherits the global Use Source IP setting (available in the enable ns mode and disable ns mode CLI commands, or in the System > Settings > Configure modes > Configure Modes dialog box). However, you can override this setting after you create the service.  
-        Possible values = YES, NO 
-    .PARAMETER pathmonitor 
-        Path monitoring for clustering.  
-        Possible values = YES, NO 
-    .PARAMETER pathmonitorindv 
-        Individual Path monitoring decisions.  
-        Possible values = YES, NO 
-    .PARAMETER useproxyport 
-        Use the proxy port as the source port when initiating connections with the server. With the NO setting, the client-side connection port is used as the source port for the server-side connection.  
-        Note: This parameter is available only when the Use Source IP (USIP) parameter is set to YES.  
-        Possible values = YES, NO 
-    .PARAMETER sc 
-        State of SureConnect for the service.  
-        Default value: OFF  
-        Possible values = ON, OFF 
-    .PARAMETER sp 
-        Enable surge protection for the service.  
-        Possible values = ON, OFF 
-    .PARAMETER rtspsessionidremap 
-        Enable RTSP session ID mapping for the service.  
-        Default value: OFF  
-        Possible values = ON, OFF 
-    .PARAMETER clttimeout 
-        Time, in seconds, after which to terminate an idle client connection.  
-        Minimum value = 0  
-        Maximum value = 31536000 
-    .PARAMETER svrtimeout 
-        Time, in seconds, after which to terminate an idle server connection.  
-        Minimum value = 0  
-        Maximum value = 31536000 
-    .PARAMETER customserverid 
-        Unique identifier for the service. Used when the persistency type for the virtual server is set to Custom Server ID.  
-        Default value: "None" 
-    .PARAMETER serverid 
-        The identifier for the service. This is used when the persistency type is set to Custom Server ID. 
-    .PARAMETER cka 
-        Enable client keep-alive for the service.  
-        Possible values = YES, NO 
-    .PARAMETER tcpb 
-        Enable TCP buffering for the service.  
-        Possible values = YES, NO 
-    .PARAMETER cmp 
-        Enable compression for the service.  
-        Possible values = YES, NO 
-    .PARAMETER maxbandwidth 
-        Maximum bandwidth, in Kbps, allocated to the service.  
-        Minimum value = 0  
-        Maximum value = 4294967287 
-    .PARAMETER accessdown 
-        Use Layer 2 mode to bridge the packets sent to this service if it is marked as DOWN. If the service is DOWN, and this parameter is disabled, the packets are dropped.  
-        Default value: NO  
-        Possible values = YES, NO 
-    .PARAMETER monthreshold 
-        Minimum sum of weights of the monitors that are bound to this service. Used to determine whether to mark a service as UP or DOWN.  
-        Minimum value = 0  
-        Maximum value = 65535 
-    .PARAMETER state 
-        Initial state of the service.  
-        Default value: ENABLED  
-        Possible values = ENABLED, DISABLED 
-    .PARAMETER downstateflush 
-        Flush all active transactions associated with a service whose state transitions from UP to DOWN. Do not enable this option for applications that must complete their transactions.  
-        Default value: ENABLED  
-        Possible values = ENABLED, DISABLED 
-    .PARAMETER tcpprofilename 
-        Name of the TCP profile that contains TCP configuration settings for the service.  
-        Minimum length = 1  
-        Maximum length = 127 
-    .PARAMETER httpprofilename 
-        Name of the HTTP profile that contains HTTP configuration settings for the service.  
-        Minimum length = 1  
-        Maximum length = 127 
-    .PARAMETER contentinspectionprofilename 
-        Name of the ContentInspection profile that contains IPS/IDS communication related setting for the service.  
-        Minimum length = 1  
-        Maximum length = 127 
-    .PARAMETER hashid 
-        A numerical identifier that can be used by hash based load balancing methods. Must be unique for each service.  
-        Minimum value = 1 
-    .PARAMETER comment 
-        Any information about the service. 
-    .PARAMETER appflowlog 
-        Enable logging of AppFlow information.  
-        Default value: ENABLED  
-        Possible values = ENABLED, DISABLED 
-    .PARAMETER netprofile 
-        Network profile to use for the service.  
-        Minimum length = 1  
-        Maximum length = 127 
-    .PARAMETER td 
-        Integer value that uniquely identifies the traffic domain in which you want to configure the entity. If you do not specify an ID, the entity becomes part of the default traffic domain, which has an ID of 0.  
-        Minimum value = 0  
-        Maximum value = 4094 
-    .PARAMETER processlocal 
-        By turning on this option packets destined to a service in a cluster will not under go any steering. Turn this option for single packet request response mode or when the upstream device is performing a proper RSS for connection based distribution.  
-        Default value: DISABLED  
-        Possible values = ENABLED, DISABLED 
-    .PARAMETER dnsprofilename 
-        Name of the DNS profile to be associated with the service. DNS profile properties will applied to the transactions processed by a service. This parameter is valid only for ADNS and ADNS-TCP services.  
-        Minimum length = 1  
-        Maximum length = 127 
-    .PARAMETER monconnectionclose 
-        Close monitoring connections by sending the service a connection termination message with the specified bit set.  
-        Default value: NONE  
-        Possible values = RESET, FIN 
+        Configuration for service resource.
+    .PARAMETER Name 
+        Name for the service. Must begin with an ASCII alphabetic or underscore (_) character, and must contain only ASCII alphanumeric, underscore, hash (#), period (.), space, colon (:), at (@), equals (=), and hyphen (-) characters. Cannot be changed after the service has been created. 
+    .PARAMETER Newname 
+        New name for the service. Must begin with an ASCII alphabetic or underscore (_) character, and must contain only ASCII alphanumeric, underscore, hash (#), period (.), space, colon (:), at (@), equals (=), and hyphen (-) characters. 
     .PARAMETER PassThru 
         Return details about the created service item.
     .EXAMPLE
-        Invoke-ADCAddService -name <string> -servicetype <string> -port <int>
+        PS C:\>Invoke-ADCRenameService -name <string> -newname <string>
+        An example how to rename service configuration Object(s).
     .NOTES
-        File Name : Invoke-ADCAddService
-        Version   : v2106.2309
+        File Name : Invoke-ADCRenameService
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/basic/service/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
+    #>
     [CmdletBinding(SupportsShouldProcess = $true, ConfirmImpact = "Low")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
-        [Parameter(Mandatory = $true)]
+        [Parameter(Mandatory)]
         [ValidateScript({ $_.Length -gt 1 })]
         [ValidatePattern('^(([a-zA-Z0-9]|[_])+([a-zA-Z0-9]|[_])+)$')]
-        [string]$name ,
+        [string]$Name,
 
+        [Parameter(Mandatory)]
         [ValidateScript({ $_.Length -gt 1 })]
-        [string]$ip ,
-
-        [ValidateScript({ $_.Length -gt 1 })]
-        [string]$servername ,
-
-        [Parameter(Mandatory = $true)]
-        [ValidateSet('HTTP', 'FTP', 'TCP', 'UDP', 'SSL', 'SSL_BRIDGE', 'SSL_TCP', 'DTLS', 'NNTP', 'RPCSVR', 'DNS', 'ADNS', 'SNMP', 'RTSP', 'DHCPRA', 'ANY', 'SIP_UDP', 'SIP_TCP', 'SIP_SSL', 'DNS_TCP', 'ADNS_TCP', 'MYSQL', 'MSSQL', 'ORACLE', 'MONGO', 'MONGO_TLS', 'RADIUS', 'RADIUSListener', 'RDP', 'DIAMETER', 'SSL_DIAMETER', 'TFTP', 'SMPP', 'PPTP', 'GRE', 'SYSLOGTCP', 'SYSLOGUDP', 'FIX', 'SSL_FIX', 'USER_TCP', 'USER_SSL_TCP', 'QUIC', 'IPFIX', 'LOGSTREAM', 'LOGSTREAM_SSL')]
-        [string]$servicetype ,
-
-        [Parameter(Mandatory = $true)]
-        [ValidateRange(1, 65535)]
-        [int]$port ,
-
-        [int]$cleartextport ,
-
-        [ValidateSet('TRANSPARENT', 'REVERSE', 'FORWARD')]
-        [string]$cachetype ,
-
-        [ValidateRange(0, 4294967294)]
-        [double]$maxclient ,
-
-        [ValidateSet('YES', 'NO')]
-        [string]$healthmonitor = 'YES' ,
-
-        [ValidateRange(0, 65535)]
-        [double]$maxreq ,
-
-        [ValidateSet('YES', 'NO')]
-        [string]$cacheable = 'NO' ,
-
-        [ValidateSet('ENABLED', 'DISABLED')]
-        [string]$cip ,
-
-        [ValidateScript({ $_.Length -gt 1 })]
-        [string]$cipheader ,
-
-        [ValidateSet('YES', 'NO')]
-        [string]$usip ,
-
-        [ValidateSet('YES', 'NO')]
-        [string]$pathmonitor ,
-
-        [ValidateSet('YES', 'NO')]
-        [string]$pathmonitorindv ,
-
-        [ValidateSet('YES', 'NO')]
-        [string]$useproxyport ,
-
-        [ValidateSet('ON', 'OFF')]
-        [string]$sc = 'OFF' ,
-
-        [ValidateSet('ON', 'OFF')]
-        [string]$sp ,
-
-        [ValidateSet('ON', 'OFF')]
-        [string]$rtspsessionidremap = 'OFF' ,
-
-        [ValidateRange(0, 31536000)]
-        [double]$clttimeout ,
-
-        [ValidateRange(0, 31536000)]
-        [double]$svrtimeout ,
-
-        [string]$customserverid = '"None"' ,
-
-        [double]$serverid ,
-
-        [ValidateSet('YES', 'NO')]
-        [string]$cka ,
-
-        [ValidateSet('YES', 'NO')]
-        [string]$tcpb ,
-
-        [ValidateSet('YES', 'NO')]
-        [string]$cmp ,
-
-        [ValidateRange(0, 4294967287)]
-        [double]$maxbandwidth ,
-
-        [ValidateSet('YES', 'NO')]
-        [string]$accessdown = 'NO' ,
-
-        [ValidateRange(0, 65535)]
-        [double]$monthreshold ,
-
-        [ValidateSet('ENABLED', 'DISABLED')]
-        [string]$state = 'ENABLED' ,
-
-        [ValidateSet('ENABLED', 'DISABLED')]
-        [string]$downstateflush = 'ENABLED' ,
-
-        [ValidateLength(1, 127)]
-        [string]$tcpprofilename ,
-
-        [ValidateLength(1, 127)]
-        [string]$httpprofilename ,
-
-        [ValidateLength(1, 127)]
-        [string]$contentinspectionprofilename ,
-
-        [double]$hashid ,
-
-        [string]$comment ,
-
-        [ValidateSet('ENABLED', 'DISABLED')]
-        [string]$appflowlog = 'ENABLED' ,
-
-        [ValidateLength(1, 127)]
-        [string]$netprofile ,
-
-        [ValidateRange(0, 4094)]
-        [double]$td ,
-
-        [ValidateSet('ENABLED', 'DISABLED')]
-        [string]$processlocal = 'DISABLED' ,
-
-        [ValidateLength(1, 127)]
-        [string]$dnsprofilename ,
-
-        [ValidateSet('RESET', 'FIN')]
-        [string]$monconnectionclose = 'NONE' ,
+        [ValidatePattern('^(([a-zA-Z0-9]|[_])+([a-zA-Z0-9]|[_])+)$')]
+        [string]$Newname,
 
         [Switch]$PassThru 
-
     )
     begin {
-        Write-Verbose "Invoke-ADCAddService: Starting"
+        Write-Verbose "Invoke-ADCRenameService: Starting"
     }
     process {
         try {
-            $Payload = @{
-                name = $name
-                servicetype = $servicetype
-                port = $port
+            $payload = @{ name = $name
+                newname        = $newname
             }
-            if ($PSBoundParameters.ContainsKey('ip')) { $Payload.Add('ip', $ip) }
-            if ($PSBoundParameters.ContainsKey('servername')) { $Payload.Add('servername', $servername) }
-            if ($PSBoundParameters.ContainsKey('cleartextport')) { $Payload.Add('cleartextport', $cleartextport) }
-            if ($PSBoundParameters.ContainsKey('cachetype')) { $Payload.Add('cachetype', $cachetype) }
-            if ($PSBoundParameters.ContainsKey('maxclient')) { $Payload.Add('maxclient', $maxclient) }
-            if ($PSBoundParameters.ContainsKey('healthmonitor')) { $Payload.Add('healthmonitor', $healthmonitor) }
-            if ($PSBoundParameters.ContainsKey('maxreq')) { $Payload.Add('maxreq', $maxreq) }
-            if ($PSBoundParameters.ContainsKey('cacheable')) { $Payload.Add('cacheable', $cacheable) }
-            if ($PSBoundParameters.ContainsKey('cip')) { $Payload.Add('cip', $cip) }
-            if ($PSBoundParameters.ContainsKey('cipheader')) { $Payload.Add('cipheader', $cipheader) }
-            if ($PSBoundParameters.ContainsKey('usip')) { $Payload.Add('usip', $usip) }
-            if ($PSBoundParameters.ContainsKey('pathmonitor')) { $Payload.Add('pathmonitor', $pathmonitor) }
-            if ($PSBoundParameters.ContainsKey('pathmonitorindv')) { $Payload.Add('pathmonitorindv', $pathmonitorindv) }
-            if ($PSBoundParameters.ContainsKey('useproxyport')) { $Payload.Add('useproxyport', $useproxyport) }
-            if ($PSBoundParameters.ContainsKey('sc')) { $Payload.Add('sc', $sc) }
-            if ($PSBoundParameters.ContainsKey('sp')) { $Payload.Add('sp', $sp) }
-            if ($PSBoundParameters.ContainsKey('rtspsessionidremap')) { $Payload.Add('rtspsessionidremap', $rtspsessionidremap) }
-            if ($PSBoundParameters.ContainsKey('clttimeout')) { $Payload.Add('clttimeout', $clttimeout) }
-            if ($PSBoundParameters.ContainsKey('svrtimeout')) { $Payload.Add('svrtimeout', $svrtimeout) }
-            if ($PSBoundParameters.ContainsKey('customserverid')) { $Payload.Add('customserverid', $customserverid) }
-            if ($PSBoundParameters.ContainsKey('serverid')) { $Payload.Add('serverid', $serverid) }
-            if ($PSBoundParameters.ContainsKey('cka')) { $Payload.Add('cka', $cka) }
-            if ($PSBoundParameters.ContainsKey('tcpb')) { $Payload.Add('tcpb', $tcpb) }
-            if ($PSBoundParameters.ContainsKey('cmp')) { $Payload.Add('cmp', $cmp) }
-            if ($PSBoundParameters.ContainsKey('maxbandwidth')) { $Payload.Add('maxbandwidth', $maxbandwidth) }
-            if ($PSBoundParameters.ContainsKey('accessdown')) { $Payload.Add('accessdown', $accessdown) }
-            if ($PSBoundParameters.ContainsKey('monthreshold')) { $Payload.Add('monthreshold', $monthreshold) }
-            if ($PSBoundParameters.ContainsKey('state')) { $Payload.Add('state', $state) }
-            if ($PSBoundParameters.ContainsKey('downstateflush')) { $Payload.Add('downstateflush', $downstateflush) }
-            if ($PSBoundParameters.ContainsKey('tcpprofilename')) { $Payload.Add('tcpprofilename', $tcpprofilename) }
-            if ($PSBoundParameters.ContainsKey('httpprofilename')) { $Payload.Add('httpprofilename', $httpprofilename) }
-            if ($PSBoundParameters.ContainsKey('contentinspectionprofilename')) { $Payload.Add('contentinspectionprofilename', $contentinspectionprofilename) }
-            if ($PSBoundParameters.ContainsKey('hashid')) { $Payload.Add('hashid', $hashid) }
-            if ($PSBoundParameters.ContainsKey('comment')) { $Payload.Add('comment', $comment) }
-            if ($PSBoundParameters.ContainsKey('appflowlog')) { $Payload.Add('appflowlog', $appflowlog) }
-            if ($PSBoundParameters.ContainsKey('netprofile')) { $Payload.Add('netprofile', $netprofile) }
-            if ($PSBoundParameters.ContainsKey('td')) { $Payload.Add('td', $td) }
-            if ($PSBoundParameters.ContainsKey('processlocal')) { $Payload.Add('processlocal', $processlocal) }
-            if ($PSBoundParameters.ContainsKey('dnsprofilename')) { $Payload.Add('dnsprofilename', $dnsprofilename) }
-            if ($PSBoundParameters.ContainsKey('monconnectionclose')) { $Payload.Add('monconnectionclose', $monconnectionclose) }
- 
-            if ($PSCmdlet.ShouldProcess("service", "Add Basic configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -NitroPath nitro/v1/config -Type service -Payload $Payload -GetWarning
-                #HTTP Status Code on Success: 201 Created
+
+            if ( $PSCmdlet.ShouldProcess("service", "Rename Basic configuration Object") ) {
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -NitroPath nitro/v1/config -Type service -Action rename -Payload $payload -GetWarning
+                #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
-                if ($PSBoundParameters.ContainsKey('PassThru')) {
-                    Write-Output (Invoke-ADCGetService -Filter $Payload)
+                if ( $PSBoundParameters.ContainsKey('PassThru') ) {
+                    Write-Output (Invoke-ADCGetService -Filter $payload)
                 } else {
                     Write-Output $result
                 }
-
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -3497,694 +3093,44 @@ function Invoke-ADCAddService {
         }
     }
     end {
-        Write-Verbose "Invoke-ADCAddService: Finished"
-    }
-}
-
-function Invoke-ADCDeleteService {
-<#
-    .SYNOPSIS
-        Delete Basic configuration Object
-    .DESCRIPTION
-        Delete Basic configuration Object
-    .PARAMETER name 
-       Name for the service. Must begin with an ASCII alphabetic or underscore (_) character, and must contain only ASCII alphanumeric, underscore, hash (#), period (.), space, colon (:), at (@), equals (=), and hyphen (-) characters. Cannot be changed after the service has been created.  
-       Minimum length = 1 
-    .EXAMPLE
-        Invoke-ADCDeleteService -name <string>
-    .NOTES
-        File Name : Invoke-ADCDeleteService
-        Version   : v2106.2309
-        Author    : John Billekens
-        Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/basic/service/
-        Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
-    .LINK
-        https://blog.j81.nl
-#>
-    [CmdletBinding(SupportsShouldProcess = $true, ConfirmImpact = "Low")]
-    [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
-    [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
-    [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
-    param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
-
-        [Parameter(Mandatory = $true)]
-        [string]$name 
-    )
-    begin {
-        Write-Verbose "Invoke-ADCDeleteService: Starting"
-    }
-    process {
-        try {
-            $Arguments = @{ 
-            }
-
-            if ($PSCmdlet.ShouldProcess("$name", "Delete Basic configuration Object")) {
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type service -NitroPath nitro/v1/config -Resource $name -Arguments $Arguments
-                #HTTP Status Code on Success: 200 OK
-                #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
-                Write-Output $response
-            }
-        } catch {
-            Write-Verbose "ERROR: $($_.Exception.Message)"
-            throw $_
-        }
-    }
-    end {
-        Write-Verbose "Invoke-ADCDeleteService: Finished"
-    }
-}
-
-function Invoke-ADCUpdateService {
-<#
-    .SYNOPSIS
-        Update Basic configuration Object
-    .DESCRIPTION
-        Update Basic configuration Object 
-    .PARAMETER name 
-        Name for the service. Must begin with an ASCII alphabetic or underscore (_) character, and must contain only ASCII alphanumeric, underscore, hash (#), period (.), space, colon (:), at (@), equals (=), and hyphen (-) characters. Cannot be changed after the service has been created.  
-        Minimum length = 1 
-    .PARAMETER ipaddress 
-        The new IP address of the service. 
-    .PARAMETER maxclient 
-        Maximum number of simultaneous open connections to the service.  
-        Minimum value = 0  
-        Maximum value = 4294967294 
-    .PARAMETER maxreq 
-        Maximum number of requests that can be sent on a persistent connection to the service.  
-        Note: Connection requests beyond this value are rejected.  
-        Minimum value = 0  
-        Maximum value = 65535 
-    .PARAMETER cacheable 
-        Use the transparent cache redirection virtual server to forward requests to the cache server.  
-        Note: Do not specify this parameter if you set the Cache Type parameter.  
-        Default value: NO  
-        Possible values = YES, NO 
-    .PARAMETER cip 
-        Before forwarding a request to the service, insert an HTTP header with the client's IPv4 or IPv6 address as its value. Used if the server needs the client's IP address for security, accounting, or other purposes, and setting the Use Source IP parameter is not a viable option.  
-        Possible values = ENABLED, DISABLED 
-    .PARAMETER cipheader 
-        Name for the HTTP header whose value must be set to the IP address of the client. Used with the Client IP parameter. If you set the Client IP parameter, and you do not specify a name for the header, the appliance uses the header name specified for the global Client IP Header parameter (the cipHeader parameter in the set ns param CLI command or the Client IP Header parameter in the Configure HTTP Parameters dialog box at System > Settings > Change HTTP parameters). If the global Client IP Header parameter is not specified, the appliance inserts a header with the name "client-ip.".  
-        Minimum length = 1 
-    .PARAMETER usip 
-        Use the client's IP address as the source IP address when initiating a connection to the server. When creating a service, if you do not set this parameter, the service inherits the global Use Source IP setting (available in the enable ns mode and disable ns mode CLI commands, or in the System > Settings > Configure modes > Configure Modes dialog box). However, you can override this setting after you create the service.  
-        Possible values = YES, NO 
-    .PARAMETER pathmonitor 
-        Path monitoring for clustering.  
-        Possible values = YES, NO 
-    .PARAMETER pathmonitorindv 
-        Individual Path monitoring decisions.  
-        Possible values = YES, NO 
-    .PARAMETER useproxyport 
-        Use the proxy port as the source port when initiating connections with the server. With the NO setting, the client-side connection port is used as the source port for the server-side connection.  
-        Note: This parameter is available only when the Use Source IP (USIP) parameter is set to YES.  
-        Possible values = YES, NO 
-    .PARAMETER sc 
-        State of SureConnect for the service.  
-        Default value: OFF  
-        Possible values = ON, OFF 
-    .PARAMETER sp 
-        Enable surge protection for the service.  
-        Possible values = ON, OFF 
-    .PARAMETER rtspsessionidremap 
-        Enable RTSP session ID mapping for the service.  
-        Default value: OFF  
-        Possible values = ON, OFF 
-    .PARAMETER healthmonitor 
-        Monitor the health of this service. Available settings function as follows:  
-        YES - Send probes to check the health of the service.  
-        NO - Do not send probes to check the health of the service. With the NO option, the appliance shows the service as UP at all times.  
-        Default value: YES  
-        Possible values = YES, NO 
-    .PARAMETER clttimeout 
-        Time, in seconds, after which to terminate an idle client connection.  
-        Minimum value = 0  
-        Maximum value = 31536000 
-    .PARAMETER svrtimeout 
-        Time, in seconds, after which to terminate an idle server connection.  
-        Minimum value = 0  
-        Maximum value = 31536000 
-    .PARAMETER customserverid 
-        Unique identifier for the service. Used when the persistency type for the virtual server is set to Custom Server ID.  
-        Default value: "None" 
-    .PARAMETER serverid 
-        The identifier for the service. This is used when the persistency type is set to Custom Server ID. 
-    .PARAMETER cka 
-        Enable client keep-alive for the service.  
-        Possible values = YES, NO 
-    .PARAMETER tcpb 
-        Enable TCP buffering for the service.  
-        Possible values = YES, NO 
-    .PARAMETER cmp 
-        Enable compression for the service.  
-        Possible values = YES, NO 
-    .PARAMETER maxbandwidth 
-        Maximum bandwidth, in Kbps, allocated to the service.  
-        Minimum value = 0  
-        Maximum value = 4294967287 
-    .PARAMETER accessdown 
-        Use Layer 2 mode to bridge the packets sent to this service if it is marked as DOWN. If the service is DOWN, and this parameter is disabled, the packets are dropped.  
-        Default value: NO  
-        Possible values = YES, NO 
-    .PARAMETER monthreshold 
-        Minimum sum of weights of the monitors that are bound to this service. Used to determine whether to mark a service as UP or DOWN.  
-        Minimum value = 0  
-        Maximum value = 65535 
-    .PARAMETER weight 
-        Weight to assign to the monitor-service binding. When a monitor is UP, the weight assigned to its binding with the service determines how much the monitor contributes toward keeping the health of the service above the value configured for the Monitor Threshold parameter.  
-        Minimum value = 1  
-        Maximum value = 100 
-    .PARAMETER monitor_name_svc 
-        Name of the monitor bound to the specified service.  
-        Minimum length = 1 
-    .PARAMETER downstateflush 
-        Flush all active transactions associated with a service whose state transitions from UP to DOWN. Do not enable this option for applications that must complete their transactions.  
-        Default value: ENABLED  
-        Possible values = ENABLED, DISABLED 
-    .PARAMETER tcpprofilename 
-        Name of the TCP profile that contains TCP configuration settings for the service.  
-        Minimum length = 1  
-        Maximum length = 127 
-    .PARAMETER httpprofilename 
-        Name of the HTTP profile that contains HTTP configuration settings for the service.  
-        Minimum length = 1  
-        Maximum length = 127 
-    .PARAMETER contentinspectionprofilename 
-        Name of the ContentInspection profile that contains IPS/IDS communication related setting for the service.  
-        Minimum length = 1  
-        Maximum length = 127 
-    .PARAMETER hashid 
-        A numerical identifier that can be used by hash based load balancing methods. Must be unique for each service.  
-        Minimum value = 1 
-    .PARAMETER comment 
-        Any information about the service. 
-    .PARAMETER appflowlog 
-        Enable logging of AppFlow information.  
-        Default value: ENABLED  
-        Possible values = ENABLED, DISABLED 
-    .PARAMETER netprofile 
-        Network profile to use for the service.  
-        Minimum length = 1  
-        Maximum length = 127 
-    .PARAMETER processlocal 
-        By turning on this option packets destined to a service in a cluster will not under go any steering. Turn this option for single packet request response mode or when the upstream device is performing a proper RSS for connection based distribution.  
-        Default value: DISABLED  
-        Possible values = ENABLED, DISABLED 
-    .PARAMETER dnsprofilename 
-        Name of the DNS profile to be associated with the service. DNS profile properties will applied to the transactions processed by a service. This parameter is valid only for ADNS and ADNS-TCP services.  
-        Minimum length = 1  
-        Maximum length = 127 
-    .PARAMETER monconnectionclose 
-        Close monitoring connections by sending the service a connection termination message with the specified bit set.  
-        Default value: NONE  
-        Possible values = RESET, FIN 
-    .PARAMETER PassThru 
-        Return details about the created service item.
-    .EXAMPLE
-        Invoke-ADCUpdateService -name <string>
-    .NOTES
-        File Name : Invoke-ADCUpdateService
-        Version   : v2106.2309
-        Author    : John Billekens
-        Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/basic/service/
-        Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
-    .LINK
-        https://blog.j81.nl
-#>
-    [CmdletBinding(SupportsShouldProcess = $true, ConfirmImpact = "Low")]
-    [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
-    [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
-    [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
-    param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
-
-        [Parameter(Mandatory = $true)]
-        [ValidateScript({ $_.Length -gt 1 })]
-        [ValidatePattern('^(([a-zA-Z0-9]|[_])+([a-zA-Z0-9]|[_])+)$')]
-        [string]$name ,
-
-        [string]$ipaddress ,
-
-        [ValidateRange(0, 4294967294)]
-        [double]$maxclient ,
-
-        [ValidateRange(0, 65535)]
-        [double]$maxreq ,
-
-        [ValidateSet('YES', 'NO')]
-        [string]$cacheable ,
-
-        [ValidateSet('ENABLED', 'DISABLED')]
-        [string]$cip ,
-
-        [ValidateScript({ $_.Length -gt 1 })]
-        [string]$cipheader ,
-
-        [ValidateSet('YES', 'NO')]
-        [string]$usip ,
-
-        [ValidateSet('YES', 'NO')]
-        [string]$pathmonitor ,
-
-        [ValidateSet('YES', 'NO')]
-        [string]$pathmonitorindv ,
-
-        [ValidateSet('YES', 'NO')]
-        [string]$useproxyport ,
-
-        [ValidateSet('ON', 'OFF')]
-        [string]$sc ,
-
-        [ValidateSet('ON', 'OFF')]
-        [string]$sp ,
-
-        [ValidateSet('ON', 'OFF')]
-        [string]$rtspsessionidremap ,
-
-        [ValidateSet('YES', 'NO')]
-        [string]$healthmonitor ,
-
-        [ValidateRange(0, 31536000)]
-        [double]$clttimeout ,
-
-        [ValidateRange(0, 31536000)]
-        [double]$svrtimeout ,
-
-        [string]$customserverid ,
-
-        [double]$serverid ,
-
-        [ValidateSet('YES', 'NO')]
-        [string]$cka ,
-
-        [ValidateSet('YES', 'NO')]
-        [string]$tcpb ,
-
-        [ValidateSet('YES', 'NO')]
-        [string]$cmp ,
-
-        [ValidateRange(0, 4294967287)]
-        [double]$maxbandwidth ,
-
-        [ValidateSet('YES', 'NO')]
-        [string]$accessdown ,
-
-        [ValidateRange(0, 65535)]
-        [double]$monthreshold ,
-
-        [ValidateRange(1, 100)]
-        [double]$weight ,
-
-        [ValidateScript({ $_.Length -gt 1 })]
-        [string]$monitor_name_svc ,
-
-        [ValidateSet('ENABLED', 'DISABLED')]
-        [string]$downstateflush ,
-
-        [ValidateLength(1, 127)]
-        [string]$tcpprofilename ,
-
-        [ValidateLength(1, 127)]
-        [string]$httpprofilename ,
-
-        [ValidateLength(1, 127)]
-        [string]$contentinspectionprofilename ,
-
-        [double]$hashid ,
-
-        [string]$comment ,
-
-        [ValidateSet('ENABLED', 'DISABLED')]
-        [string]$appflowlog ,
-
-        [ValidateLength(1, 127)]
-        [string]$netprofile ,
-
-        [ValidateSet('ENABLED', 'DISABLED')]
-        [string]$processlocal ,
-
-        [ValidateLength(1, 127)]
-        [string]$dnsprofilename ,
-
-        [ValidateSet('RESET', 'FIN')]
-        [string]$monconnectionclose ,
-
-        [Switch]$PassThru 
-
-    )
-    begin {
-        Write-Verbose "Invoke-ADCUpdateService: Starting"
-    }
-    process {
-        try {
-            $Payload = @{
-                name = $name
-            }
-            if ($PSBoundParameters.ContainsKey('ipaddress')) { $Payload.Add('ipaddress', $ipaddress) }
-            if ($PSBoundParameters.ContainsKey('maxclient')) { $Payload.Add('maxclient', $maxclient) }
-            if ($PSBoundParameters.ContainsKey('maxreq')) { $Payload.Add('maxreq', $maxreq) }
-            if ($PSBoundParameters.ContainsKey('cacheable')) { $Payload.Add('cacheable', $cacheable) }
-            if ($PSBoundParameters.ContainsKey('cip')) { $Payload.Add('cip', $cip) }
-            if ($PSBoundParameters.ContainsKey('cipheader')) { $Payload.Add('cipheader', $cipheader) }
-            if ($PSBoundParameters.ContainsKey('usip')) { $Payload.Add('usip', $usip) }
-            if ($PSBoundParameters.ContainsKey('pathmonitor')) { $Payload.Add('pathmonitor', $pathmonitor) }
-            if ($PSBoundParameters.ContainsKey('pathmonitorindv')) { $Payload.Add('pathmonitorindv', $pathmonitorindv) }
-            if ($PSBoundParameters.ContainsKey('useproxyport')) { $Payload.Add('useproxyport', $useproxyport) }
-            if ($PSBoundParameters.ContainsKey('sc')) { $Payload.Add('sc', $sc) }
-            if ($PSBoundParameters.ContainsKey('sp')) { $Payload.Add('sp', $sp) }
-            if ($PSBoundParameters.ContainsKey('rtspsessionidremap')) { $Payload.Add('rtspsessionidremap', $rtspsessionidremap) }
-            if ($PSBoundParameters.ContainsKey('healthmonitor')) { $Payload.Add('healthmonitor', $healthmonitor) }
-            if ($PSBoundParameters.ContainsKey('clttimeout')) { $Payload.Add('clttimeout', $clttimeout) }
-            if ($PSBoundParameters.ContainsKey('svrtimeout')) { $Payload.Add('svrtimeout', $svrtimeout) }
-            if ($PSBoundParameters.ContainsKey('customserverid')) { $Payload.Add('customserverid', $customserverid) }
-            if ($PSBoundParameters.ContainsKey('serverid')) { $Payload.Add('serverid', $serverid) }
-            if ($PSBoundParameters.ContainsKey('cka')) { $Payload.Add('cka', $cka) }
-            if ($PSBoundParameters.ContainsKey('tcpb')) { $Payload.Add('tcpb', $tcpb) }
-            if ($PSBoundParameters.ContainsKey('cmp')) { $Payload.Add('cmp', $cmp) }
-            if ($PSBoundParameters.ContainsKey('maxbandwidth')) { $Payload.Add('maxbandwidth', $maxbandwidth) }
-            if ($PSBoundParameters.ContainsKey('accessdown')) { $Payload.Add('accessdown', $accessdown) }
-            if ($PSBoundParameters.ContainsKey('monthreshold')) { $Payload.Add('monthreshold', $monthreshold) }
-            if ($PSBoundParameters.ContainsKey('weight')) { $Payload.Add('weight', $weight) }
-            if ($PSBoundParameters.ContainsKey('monitor_name_svc')) { $Payload.Add('monitor_name_svc', $monitor_name_svc) }
-            if ($PSBoundParameters.ContainsKey('downstateflush')) { $Payload.Add('downstateflush', $downstateflush) }
-            if ($PSBoundParameters.ContainsKey('tcpprofilename')) { $Payload.Add('tcpprofilename', $tcpprofilename) }
-            if ($PSBoundParameters.ContainsKey('httpprofilename')) { $Payload.Add('httpprofilename', $httpprofilename) }
-            if ($PSBoundParameters.ContainsKey('contentinspectionprofilename')) { $Payload.Add('contentinspectionprofilename', $contentinspectionprofilename) }
-            if ($PSBoundParameters.ContainsKey('hashid')) { $Payload.Add('hashid', $hashid) }
-            if ($PSBoundParameters.ContainsKey('comment')) { $Payload.Add('comment', $comment) }
-            if ($PSBoundParameters.ContainsKey('appflowlog')) { $Payload.Add('appflowlog', $appflowlog) }
-            if ($PSBoundParameters.ContainsKey('netprofile')) { $Payload.Add('netprofile', $netprofile) }
-            if ($PSBoundParameters.ContainsKey('processlocal')) { $Payload.Add('processlocal', $processlocal) }
-            if ($PSBoundParameters.ContainsKey('dnsprofilename')) { $Payload.Add('dnsprofilename', $dnsprofilename) }
-            if ($PSBoundParameters.ContainsKey('monconnectionclose')) { $Payload.Add('monconnectionclose', $monconnectionclose) }
- 
-            if ($PSCmdlet.ShouldProcess("service", "Update Basic configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -NitroPath nitro/v1/config -Type service -Payload $Payload -GetWarning
-                #HTTP Status Code on Success: 200 OK
-                #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
-                if ($PSBoundParameters.ContainsKey('PassThru')) {
-                    Write-Output (Invoke-ADCGetService -Filter $Payload)
-                } else {
-                    Write-Output $result
-                }
-
-            }
-        } catch {
-            Write-Verbose "ERROR: $($_.Exception.Message)"
-            throw $_
-        }
-    }
-    end {
-        Write-Verbose "Invoke-ADCUpdateService: Finished"
-    }
-}
-
-function Invoke-ADCUnsetService {
-<#
-    .SYNOPSIS
-        Unset Basic configuration Object
-    .DESCRIPTION
-        Unset Basic configuration Object 
-   .PARAMETER name 
-       Name for the service. Must begin with an ASCII alphabetic or underscore (_) character, and must contain only ASCII alphanumeric, underscore, hash (#), period (.), space, colon (:), at (@), equals (=), and hyphen (-) characters. Cannot be changed after the service has been created. 
-   .PARAMETER maxclient 
-       Maximum number of simultaneous open connections to the service. 
-   .PARAMETER maxreq 
-       Maximum number of requests that can be sent on a persistent connection to the service.  
-       Note: Connection requests beyond this value are rejected. 
-   .PARAMETER cacheable 
-       Use the transparent cache redirection virtual server to forward requests to the cache server.  
-       Note: Do not specify this parameter if you set the Cache Type parameter.  
-       Possible values = YES, NO 
-   .PARAMETER cip 
-       Before forwarding a request to the service, insert an HTTP header with the client's IPv4 or IPv6 address as its value. Used if the server needs the client's IP address for security, accounting, or other purposes, and setting the Use Source IP parameter is not a viable option.  
-       Possible values = ENABLED, DISABLED 
-   .PARAMETER usip 
-       Use the client's IP address as the source IP address when initiating a connection to the server. When creating a service, if you do not set this parameter, the service inherits the global Use Source IP setting (available in the enable ns mode and disable ns mode CLI commands, or in the System > Settings > Configure modes > Configure Modes dialog box). However, you can override this setting after you create the service.  
-       Possible values = YES, NO 
-   .PARAMETER pathmonitor 
-       Path monitoring for clustering.  
-       Possible values = YES, NO 
-   .PARAMETER pathmonitorindv 
-       Individual Path monitoring decisions.  
-       Possible values = YES, NO 
-   .PARAMETER useproxyport 
-       Use the proxy port as the source port when initiating connections with the server. With the NO setting, the client-side connection port is used as the source port for the server-side connection.  
-       Note: This parameter is available only when the Use Source IP (USIP) parameter is set to YES.  
-       Possible values = YES, NO 
-   .PARAMETER sc 
-       State of SureConnect for the service.  
-       Possible values = ON, OFF 
-   .PARAMETER sp 
-       Enable surge protection for the service.  
-       Possible values = ON, OFF 
-   .PARAMETER rtspsessionidremap 
-       Enable RTSP session ID mapping for the service.  
-       Possible values = ON, OFF 
-   .PARAMETER customserverid 
-       Unique identifier for the service. Used when the persistency type for the virtual server is set to Custom Server ID. 
-   .PARAMETER serverid 
-       The identifier for the service. This is used when the persistency type is set to Custom Server ID. 
-   .PARAMETER cka 
-       Enable client keep-alive for the service.  
-       Possible values = YES, NO 
-   .PARAMETER tcpb 
-       Enable TCP buffering for the service.  
-       Possible values = YES, NO 
-   .PARAMETER cmp 
-       Enable compression for the service.  
-       Possible values = YES, NO 
-   .PARAMETER maxbandwidth 
-       Maximum bandwidth, in Kbps, allocated to the service. 
-   .PARAMETER accessdown 
-       Use Layer 2 mode to bridge the packets sent to this service if it is marked as DOWN. If the service is DOWN, and this parameter is disabled, the packets are dropped.  
-       Possible values = YES, NO 
-   .PARAMETER monthreshold 
-       Minimum sum of weights of the monitors that are bound to this service. Used to determine whether to mark a service as UP or DOWN. 
-   .PARAMETER clttimeout 
-       Time, in seconds, after which to terminate an idle client connection. 
-   .PARAMETER svrtimeout 
-       Time, in seconds, after which to terminate an idle server connection. 
-   .PARAMETER tcpprofilename 
-       Name of the TCP profile that contains TCP configuration settings for the service. 
-   .PARAMETER httpprofilename 
-       Name of the HTTP profile that contains HTTP configuration settings for the service. 
-   .PARAMETER contentinspectionprofilename 
-       Name of the ContentInspection profile that contains IPS/IDS communication related setting for the service. 
-   .PARAMETER hashid 
-       A numerical identifier that can be used by hash based load balancing methods. Must be unique for each service. 
-   .PARAMETER appflowlog 
-       Enable logging of AppFlow information.  
-       Possible values = ENABLED, DISABLED 
-   .PARAMETER netprofile 
-       Network profile to use for the service. 
-   .PARAMETER processlocal 
-       By turning on this option packets destined to a service in a cluster will not under go any steering. Turn this option for single packet request response mode or when the upstream device is performing a proper RSS for connection based distribution.  
-       Possible values = ENABLED, DISABLED 
-   .PARAMETER dnsprofilename 
-       Name of the DNS profile to be associated with the service. DNS profile properties will applied to the transactions processed by a service. This parameter is valid only for ADNS and ADNS-TCP services. 
-   .PARAMETER monconnectionclose 
-       Close monitoring connections by sending the service a connection termination message with the specified bit set.  
-       Possible values = RESET, FIN 
-   .PARAMETER cipheader 
-       Name for the HTTP header whose value must be set to the IP address of the client. Used with the Client IP parameter. If you set the Client IP parameter, and you do not specify a name for the header, the appliance uses the header name specified for the global Client IP Header parameter (the cipHeader parameter in the set ns param CLI command or the Client IP Header parameter in the Configure HTTP Parameters dialog box at System > Settings > Change HTTP parameters). If the global Client IP Header parameter is not specified, the appliance inserts a header with the name "client-ip.". 
-   .PARAMETER healthmonitor 
-       Monitor the health of this service. Available settings function as follows:  
-       YES - Send probes to check the health of the service.  
-       NO - Do not send probes to check the health of the service. With the NO option, the appliance shows the service as UP at all times.  
-       Possible values = YES, NO 
-   .PARAMETER downstateflush 
-       Flush all active transactions associated with a service whose state transitions from UP to DOWN. Do not enable this option for applications that must complete their transactions.  
-       Possible values = ENABLED, DISABLED 
-   .PARAMETER comment 
-       Any information about the service.
-    .EXAMPLE
-        Invoke-ADCUnsetService -name <string>
-    .NOTES
-        File Name : Invoke-ADCUnsetService
-        Version   : v2106.2309
-        Author    : John Billekens
-        Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/basic/service
-        Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
-    .LINK
-        https://blog.j81.nl
-#>
-    [CmdletBinding(SupportsShouldProcess = $true, ConfirmImpact = "Low")]
-    [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
-    [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
-    [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
-    param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
-
-        [Parameter(Mandatory = $true)]
-        [ValidateScript({ $_.Length -gt 1 })]
-        [ValidatePattern('^(([a-zA-Z0-9]|[_])+([a-zA-Z0-9]|[_])+)$')]
-        [string]$name ,
-
-        [Boolean]$maxclient ,
-
-        [Boolean]$maxreq ,
-
-        [Boolean]$cacheable ,
-
-        [Boolean]$cip ,
-
-        [Boolean]$usip ,
-
-        [Boolean]$pathmonitor ,
-
-        [Boolean]$pathmonitorindv ,
-
-        [Boolean]$useproxyport ,
-
-        [Boolean]$sc ,
-
-        [Boolean]$sp ,
-
-        [Boolean]$rtspsessionidremap ,
-
-        [Boolean]$customserverid ,
-
-        [Boolean]$serverid ,
-
-        [Boolean]$cka ,
-
-        [Boolean]$tcpb ,
-
-        [Boolean]$cmp ,
-
-        [Boolean]$maxbandwidth ,
-
-        [Boolean]$accessdown ,
-
-        [Boolean]$monthreshold ,
-
-        [Boolean]$clttimeout ,
-
-        [Boolean]$svrtimeout ,
-
-        [Boolean]$tcpprofilename ,
-
-        [Boolean]$httpprofilename ,
-
-        [Boolean]$contentinspectionprofilename ,
-
-        [Boolean]$hashid ,
-
-        [Boolean]$appflowlog ,
-
-        [Boolean]$netprofile ,
-
-        [Boolean]$processlocal ,
-
-        [Boolean]$dnsprofilename ,
-
-        [Boolean]$monconnectionclose ,
-
-        [Boolean]$cipheader ,
-
-        [Boolean]$healthmonitor ,
-
-        [Boolean]$downstateflush ,
-
-        [Boolean]$comment 
-    )
-    begin {
-        Write-Verbose "Invoke-ADCUnsetService: Starting"
-    }
-    process {
-        try {
-            $Payload = @{
-                name = $name
-            }
-            if ($PSBoundParameters.ContainsKey('maxclient')) { $Payload.Add('maxclient', $maxclient) }
-            if ($PSBoundParameters.ContainsKey('maxreq')) { $Payload.Add('maxreq', $maxreq) }
-            if ($PSBoundParameters.ContainsKey('cacheable')) { $Payload.Add('cacheable', $cacheable) }
-            if ($PSBoundParameters.ContainsKey('cip')) { $Payload.Add('cip', $cip) }
-            if ($PSBoundParameters.ContainsKey('usip')) { $Payload.Add('usip', $usip) }
-            if ($PSBoundParameters.ContainsKey('pathmonitor')) { $Payload.Add('pathmonitor', $pathmonitor) }
-            if ($PSBoundParameters.ContainsKey('pathmonitorindv')) { $Payload.Add('pathmonitorindv', $pathmonitorindv) }
-            if ($PSBoundParameters.ContainsKey('useproxyport')) { $Payload.Add('useproxyport', $useproxyport) }
-            if ($PSBoundParameters.ContainsKey('sc')) { $Payload.Add('sc', $sc) }
-            if ($PSBoundParameters.ContainsKey('sp')) { $Payload.Add('sp', $sp) }
-            if ($PSBoundParameters.ContainsKey('rtspsessionidremap')) { $Payload.Add('rtspsessionidremap', $rtspsessionidremap) }
-            if ($PSBoundParameters.ContainsKey('customserverid')) { $Payload.Add('customserverid', $customserverid) }
-            if ($PSBoundParameters.ContainsKey('serverid')) { $Payload.Add('serverid', $serverid) }
-            if ($PSBoundParameters.ContainsKey('cka')) { $Payload.Add('cka', $cka) }
-            if ($PSBoundParameters.ContainsKey('tcpb')) { $Payload.Add('tcpb', $tcpb) }
-            if ($PSBoundParameters.ContainsKey('cmp')) { $Payload.Add('cmp', $cmp) }
-            if ($PSBoundParameters.ContainsKey('maxbandwidth')) { $Payload.Add('maxbandwidth', $maxbandwidth) }
-            if ($PSBoundParameters.ContainsKey('accessdown')) { $Payload.Add('accessdown', $accessdown) }
-            if ($PSBoundParameters.ContainsKey('monthreshold')) { $Payload.Add('monthreshold', $monthreshold) }
-            if ($PSBoundParameters.ContainsKey('clttimeout')) { $Payload.Add('clttimeout', $clttimeout) }
-            if ($PSBoundParameters.ContainsKey('svrtimeout')) { $Payload.Add('svrtimeout', $svrtimeout) }
-            if ($PSBoundParameters.ContainsKey('tcpprofilename')) { $Payload.Add('tcpprofilename', $tcpprofilename) }
-            if ($PSBoundParameters.ContainsKey('httpprofilename')) { $Payload.Add('httpprofilename', $httpprofilename) }
-            if ($PSBoundParameters.ContainsKey('contentinspectionprofilename')) { $Payload.Add('contentinspectionprofilename', $contentinspectionprofilename) }
-            if ($PSBoundParameters.ContainsKey('hashid')) { $Payload.Add('hashid', $hashid) }
-            if ($PSBoundParameters.ContainsKey('appflowlog')) { $Payload.Add('appflowlog', $appflowlog) }
-            if ($PSBoundParameters.ContainsKey('netprofile')) { $Payload.Add('netprofile', $netprofile) }
-            if ($PSBoundParameters.ContainsKey('processlocal')) { $Payload.Add('processlocal', $processlocal) }
-            if ($PSBoundParameters.ContainsKey('dnsprofilename')) { $Payload.Add('dnsprofilename', $dnsprofilename) }
-            if ($PSBoundParameters.ContainsKey('monconnectionclose')) { $Payload.Add('monconnectionclose', $monconnectionclose) }
-            if ($PSBoundParameters.ContainsKey('cipheader')) { $Payload.Add('cipheader', $cipheader) }
-            if ($PSBoundParameters.ContainsKey('healthmonitor')) { $Payload.Add('healthmonitor', $healthmonitor) }
-            if ($PSBoundParameters.ContainsKey('downstateflush')) { $Payload.Add('downstateflush', $downstateflush) }
-            if ($PSBoundParameters.ContainsKey('comment')) { $Payload.Add('comment', $comment) }
-            if ($PSCmdlet.ShouldProcess("$name", "Unset Basic configuration Object")) {
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -Type service -NitroPath nitro/v1/config -Action unset -Payload $Payload -GetWarning
-                #HTTP Status Code on Success: 200 OK
-                #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
-                Write-Output $response
-            }
-        } catch {
-            Write-Verbose "ERROR: $($_.Exception.Message)"
-            throw $_
-        }
-    }
-    end {
-        Write-Verbose "Invoke-ADCUnsetService: Finished"
+        Write-Verbose "Invoke-ADCRenameService: Finished"
     }
 }
 
 function Invoke-ADCEnableService {
-<#
+    <#
     .SYNOPSIS
-        Enable Basic configuration Object
+        Enable Basic configuration Object.
     .DESCRIPTION
-        Enable Basic configuration Object 
-    .PARAMETER name 
+        Configuration for service resource.
+    .PARAMETER Name 
         Name for the service. Must begin with an ASCII alphabetic or underscore (_) character, and must contain only ASCII alphanumeric, underscore, hash (#), period (.), space, colon (:), at (@), equals (=), and hyphen (-) characters. Cannot be changed after the service has been created.
     .EXAMPLE
-        Invoke-ADCEnableService -name <string>
+        PS C:\>Invoke-ADCEnableService -name <string>
+        An example how to enable service configuration Object(s).
     .NOTES
         File Name : Invoke-ADCEnableService
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/basic/service/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
+    #>
     [CmdletBinding(SupportsShouldProcess = $true, ConfirmImpact = "Low")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
-        [Parameter(Mandatory = $true)]
+        [Parameter(Mandatory)]
         [ValidateScript({ $_.Length -gt 1 })]
         [ValidatePattern('^(([a-zA-Z0-9]|[_])+([a-zA-Z0-9]|[_])+)$')]
-        [string]$name 
+        [string]$Name 
 
     )
     begin {
@@ -4192,12 +3138,10 @@ function Invoke-ADCEnableService {
     }
     process {
         try {
-            $Payload = @{
-                name = $name
-            }
+            $payload = @{ name = $name }
 
-            if ($PSCmdlet.ShouldProcess($Name, "Enable Basic configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -NitroPath nitro/v1/config -Type service -Action enable -Payload $Payload -GetWarning
+            if ( $PSCmdlet.ShouldProcess($Name, "Enable Basic configuration Object") ) {
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -NitroPath nitro/v1/config -Type service -Action enable -Payload $payload -GetWarning
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $result
@@ -4213,47 +3157,49 @@ function Invoke-ADCEnableService {
 }
 
 function Invoke-ADCDisableService {
-<#
+    <#
     .SYNOPSIS
-        Disable Basic configuration Object
+        Disable Basic configuration Object.
     .DESCRIPTION
-        Disable Basic configuration Object 
-    .PARAMETER name 
+        Configuration for service resource.
+    .PARAMETER Name 
         Name for the service. Must begin with an ASCII alphabetic or underscore (_) character, and must contain only ASCII alphanumeric, underscore, hash (#), period (.), space, colon (:), at (@), equals (=), and hyphen (-) characters. Cannot be changed after the service has been created. 
-    .PARAMETER delay 
+    .PARAMETER Delay 
         Time, in seconds, allocated to the Citrix ADC for a graceful shutdown of the service. During this period, new requests are sent to the service only for clients who already have persistent sessions on the appliance. Requests from new clients are load balanced among other available services. After the delay time expires, no requests are sent to the service, and the service is marked as unavailable (OUT OF SERVICE). 
-    .PARAMETER graceful 
-        Shut down gracefully, not accepting any new connections, and disabling the service when all of its connections are closed.  
+    .PARAMETER Graceful 
+        Shut down gracefully, not accepting any new connections, and disabling the service when all of its connections are closed. 
         Possible values = YES, NO
     .EXAMPLE
-        Invoke-ADCDisableService -name <string>
+        PS C:\>Invoke-ADCDisableService -name <string>
+        An example how to disable service configuration Object(s).
     .NOTES
         File Name : Invoke-ADCDisableService
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/basic/service/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
+    #>
     [CmdletBinding(SupportsShouldProcess = $true, ConfirmImpact = "Low")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
-        [Parameter(Mandatory = $true)]
+        [Parameter(Mandatory)]
         [ValidateScript({ $_.Length -gt 1 })]
         [ValidatePattern('^(([a-zA-Z0-9]|[_])+([a-zA-Z0-9]|[_])+)$')]
-        [string]$name ,
+        [string]$Name,
 
-        [double]$delay ,
+        [double]$Delay,
 
         [ValidateSet('YES', 'NO')]
-        [string]$graceful 
+        [string]$Graceful 
 
     )
     begin {
@@ -4261,13 +3207,11 @@ function Invoke-ADCDisableService {
     }
     process {
         try {
-            $Payload = @{
-                name = $name
-            }
-            if ($PSBoundParameters.ContainsKey('delay')) { $Payload.Add('delay', $delay) }
-            if ($PSBoundParameters.ContainsKey('graceful')) { $Payload.Add('graceful', $graceful) }
-            if ($PSCmdlet.ShouldProcess($Name, "Disable Basic configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -NitroPath nitro/v1/config -Type service -Action disable -Payload $Payload -GetWarning
+            $payload = @{ name = $name }
+            if ( $PSBoundParameters.ContainsKey('delay') ) { $payload.Add('delay', $delay) }
+            if ( $PSBoundParameters.ContainsKey('graceful') ) { $payload.Add('graceful', $graceful) }
+            if ( $PSCmdlet.ShouldProcess($Name, "Disable Basic configuration Object") ) {
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -NitroPath nitro/v1/config -Type service -Action disable -Payload $payload -GetWarning
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $result
@@ -4282,74 +3226,238 @@ function Invoke-ADCDisableService {
     }
 }
 
-function Invoke-ADCRenameService {
-<#
+function Invoke-ADCUnsetService {
+    <#
     .SYNOPSIS
-        Rename Basic configuration Object
+        Unset Basic configuration Object.
     .DESCRIPTION
-        Rename Basic configuration Object 
-    .PARAMETER name 
-        Name for the service. Must begin with an ASCII alphabetic or underscore (_) character, and must contain only ASCII alphanumeric, underscore, hash (#), period (.), space, colon (:), at (@), equals (=), and hyphen (-) characters. Cannot be changed after the service has been created.  
-        Minimum length = 1 
-    .PARAMETER newname 
-        New name for the service. Must begin with an ASCII alphabetic or underscore (_) character, and must contain only ASCII alphanumeric, underscore, hash (#), period (.), space, colon (:), at (@), equals (=), and hyphen (-) characters.  
-        Minimum length = 1 
-    .PARAMETER PassThru 
-        Return details about the created service item.
+        Configuration for service resource.
+    .PARAMETER Name 
+        Name for the service. Must begin with an ASCII alphabetic or underscore (_) character, and must contain only ASCII alphanumeric, underscore, hash (#), period (.), space, colon (:), at (@), equals (=), and hyphen (-) characters. Cannot be changed after the service has been created. 
+    .PARAMETER Maxclient 
+        Maximum number of simultaneous open connections to the service. 
+    .PARAMETER Maxreq 
+        Maximum number of requests that can be sent on a persistent connection to the service. 
+        Note: Connection requests beyond this value are rejected. 
+    .PARAMETER Cacheable 
+        Use the transparent cache redirection virtual server to forward requests to the cache server. 
+        Note: Do not specify this parameter if you set the Cache Type parameter. 
+        Possible values = YES, NO 
+    .PARAMETER Cip 
+        Before forwarding a request to the service, insert an HTTP header with the client's IPv4 or IPv6 address as its value. Used if the server needs the client's IP address for security, accounting, or other purposes, and setting the Use Source IP parameter is not a viable option. 
+        Possible values = ENABLED, DISABLED 
+    .PARAMETER Usip 
+        Use the client's IP address as the source IP address when initiating a connection to the server. When creating a service, if you do not set this parameter, the service inherits the global Use Source IP setting (available in the enable ns mode and disable ns mode CLI commands, or in the System > Settings > Configure modes > Configure Modes dialog box). However, you can override this setting after you create the service. 
+        Possible values = YES, NO 
+    .PARAMETER Pathmonitor 
+        Path monitoring for clustering. 
+        Possible values = YES, NO 
+    .PARAMETER Pathmonitorindv 
+        Individual Path monitoring decisions. 
+        Possible values = YES, NO 
+    .PARAMETER Useproxyport 
+        Use the proxy port as the source port when initiating connections with the server. With the NO setting, the client-side connection port is used as the source port for the server-side connection. 
+        Note: This parameter is available only when the Use Source IP (USIP) parameter is set to YES. 
+        Possible values = YES, NO 
+    .PARAMETER Sp 
+        Enable surge protection for the service. 
+        Possible values = ON, OFF 
+    .PARAMETER Rtspsessionidremap 
+        Enable RTSP session ID mapping for the service. 
+        Possible values = ON, OFF 
+    .PARAMETER Customserverid 
+        Unique identifier for the service. Used when the persistency type for the virtual server is set to Custom Server ID. 
+    .PARAMETER Serverid 
+        The identifier for the service. This is used when the persistency type is set to Custom Server ID. 
+    .PARAMETER Cka 
+        Enable client keep-alive for the service. 
+        Possible values = YES, NO 
+    .PARAMETER Tcpb 
+        Enable TCP buffering for the service. 
+        Possible values = YES, NO 
+    .PARAMETER Cmp 
+        Enable compression for the service. 
+        Possible values = YES, NO 
+    .PARAMETER Maxbandwidth 
+        Maximum bandwidth, in Kbps, allocated to the service. 
+    .PARAMETER Accessdown 
+        Use Layer 2 mode to bridge the packets sent to this service if it is marked as DOWN. If the service is DOWN, and this parameter is disabled, the packets are dropped. 
+        Possible values = YES, NO 
+    .PARAMETER Monthreshold 
+        Minimum sum of weights of the monitors that are bound to this service. Used to determine whether to mark a service as UP or DOWN. 
+    .PARAMETER Clttimeout 
+        Time, in seconds, after which to terminate an idle client connection. 
+    .PARAMETER Svrtimeout 
+        Time, in seconds, after which to terminate an idle server connection. 
+    .PARAMETER Tcpprofilename 
+        Name of the TCP profile that contains TCP configuration settings for the service. 
+    .PARAMETER Httpprofilename 
+        Name of the HTTP profile that contains HTTP configuration settings for the service. 
+    .PARAMETER Contentinspectionprofilename 
+        Name of the ContentInspection profile that contains IPS/IDS communication related setting for the service. 
+    .PARAMETER Hashid 
+        A numerical identifier that can be used by hash based load balancing methods. Must be unique for each service. 
+    .PARAMETER Appflowlog 
+        Enable logging of AppFlow information. 
+        Possible values = ENABLED, DISABLED 
+    .PARAMETER Netprofile 
+        Network profile to use for the service. 
+    .PARAMETER Processlocal 
+        By turning on this option packets destined to a service in a cluster will not under go any steering. Turn this option for single packet request response mode or when the upstream device is performing a proper RSS for connection based distribution. 
+        Possible values = ENABLED, DISABLED 
+    .PARAMETER Dnsprofilename 
+        Name of the DNS profile to be associated with the service. DNS profile properties will applied to the transactions processed by a service. This parameter is valid only for ADNS and ADNS-TCP services. 
+    .PARAMETER Monconnectionclose 
+        Close monitoring connections by sending the service a connection termination message with the specified bit set. 
+        Possible values = RESET, FIN 
+    .PARAMETER Cipheader 
+        Name for the HTTP header whose value must be set to the IP address of the client. Used with the Client IP parameter. If you set the Client IP parameter, and you do not specify a name for the header, the appliance uses the header name specified for the global Client IP Header parameter (the cipHeader parameter in the set ns param CLI command or the Client IP Header parameter in the Configure HTTP Parameters dialog box at System > Settings > Change HTTP parameters). If the global Client IP Header parameter is not specified, the appliance inserts a header with the name "client-ip.". 
+    .PARAMETER Healthmonitor 
+        Monitor the health of this service. Available settings function as follows: 
+        YES - Send probes to check the health of the service. 
+        NO - Do not send probes to check the health of the service. With the NO option, the appliance shows the service as UP at all times. 
+        Possible values = YES, NO 
+    .PARAMETER Downstateflush 
+        Flush all active transactions associated with a service whose state transitions from UP to DOWN. Do not enable this option for applications that must complete their transactions. 
+        Possible values = ENABLED, DISABLED 
+    .PARAMETER Comment 
+        Any information about the service.
     .EXAMPLE
-        Invoke-ADCRenameService -name <string> -newname <string>
+        PS C:\>Invoke-ADCUnsetService -name <string>
+        An example how to unset service configuration Object(s).
     .NOTES
-        File Name : Invoke-ADCRenameService
-        Version   : v2106.2309
+        File Name : Invoke-ADCUnsetService
+        Version   : v2111.2111
         Author    : John Billekens
-        Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/basic/service/
+        Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/basic/service
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
+    #>
     [CmdletBinding(SupportsShouldProcess = $true, ConfirmImpact = "Low")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
-        [Parameter(Mandatory = $true)]
         [ValidateScript({ $_.Length -gt 1 })]
         [ValidatePattern('^(([a-zA-Z0-9]|[_])+([a-zA-Z0-9]|[_])+)$')]
-        [string]$name ,
+        [string]$Name,
 
-        [Parameter(Mandatory = $true)]
-        [ValidateScript({ $_.Length -gt 1 })]
-        [ValidatePattern('^(([a-zA-Z0-9]|[_])+([a-zA-Z0-9]|[_])+)$')]
-        [string]$newname ,
+        [Boolean]$maxclient,
 
-        [Switch]$PassThru 
+        [Boolean]$maxreq,
 
+        [Boolean]$cacheable,
+
+        [Boolean]$cip,
+
+        [Boolean]$usip,
+
+        [Boolean]$pathmonitor,
+
+        [Boolean]$pathmonitorindv,
+
+        [Boolean]$useproxyport,
+
+        [Boolean]$sp,
+
+        [Boolean]$rtspsessionidremap,
+
+        [Boolean]$customserverid,
+
+        [Boolean]$serverid,
+
+        [Boolean]$cka,
+
+        [Boolean]$tcpb,
+
+        [Boolean]$cmp,
+
+        [Boolean]$maxbandwidth,
+
+        [Boolean]$accessdown,
+
+        [Boolean]$monthreshold,
+
+        [Boolean]$clttimeout,
+
+        [Boolean]$svrtimeout,
+
+        [Boolean]$tcpprofilename,
+
+        [Boolean]$httpprofilename,
+
+        [Boolean]$contentinspectionprofilename,
+
+        [Boolean]$hashid,
+
+        [Boolean]$appflowlog,
+
+        [Boolean]$netprofile,
+
+        [Boolean]$processlocal,
+
+        [Boolean]$dnsprofilename,
+
+        [Boolean]$monconnectionclose,
+
+        [Boolean]$cipheader,
+
+        [Boolean]$healthmonitor,
+
+        [Boolean]$downstateflush,
+
+        [Boolean]$comment 
     )
     begin {
-        Write-Verbose "Invoke-ADCRenameService: Starting"
+        Write-Verbose "Invoke-ADCUnsetService: Starting"
     }
     process {
         try {
-            $Payload = @{
-                name = $name
-                newname = $newname
-            }
-
- 
-            if ($PSCmdlet.ShouldProcess("service", "Rename Basic configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -NitroPath nitro/v1/config -Type service -Action rename -Payload $Payload -GetWarning
+            $payload = @{ name = $name }
+            if ( $PSBoundParameters.ContainsKey('maxclient') ) { $payload.Add('maxclient', $maxclient) }
+            if ( $PSBoundParameters.ContainsKey('maxreq') ) { $payload.Add('maxreq', $maxreq) }
+            if ( $PSBoundParameters.ContainsKey('cacheable') ) { $payload.Add('cacheable', $cacheable) }
+            if ( $PSBoundParameters.ContainsKey('cip') ) { $payload.Add('cip', $cip) }
+            if ( $PSBoundParameters.ContainsKey('usip') ) { $payload.Add('usip', $usip) }
+            if ( $PSBoundParameters.ContainsKey('pathmonitor') ) { $payload.Add('pathmonitor', $pathmonitor) }
+            if ( $PSBoundParameters.ContainsKey('pathmonitorindv') ) { $payload.Add('pathmonitorindv', $pathmonitorindv) }
+            if ( $PSBoundParameters.ContainsKey('useproxyport') ) { $payload.Add('useproxyport', $useproxyport) }
+            if ( $PSBoundParameters.ContainsKey('sp') ) { $payload.Add('sp', $sp) }
+            if ( $PSBoundParameters.ContainsKey('rtspsessionidremap') ) { $payload.Add('rtspsessionidremap', $rtspsessionidremap) }
+            if ( $PSBoundParameters.ContainsKey('customserverid') ) { $payload.Add('customserverid', $customserverid) }
+            if ( $PSBoundParameters.ContainsKey('serverid') ) { $payload.Add('serverid', $serverid) }
+            if ( $PSBoundParameters.ContainsKey('cka') ) { $payload.Add('cka', $cka) }
+            if ( $PSBoundParameters.ContainsKey('tcpb') ) { $payload.Add('tcpb', $tcpb) }
+            if ( $PSBoundParameters.ContainsKey('cmp') ) { $payload.Add('cmp', $cmp) }
+            if ( $PSBoundParameters.ContainsKey('maxbandwidth') ) { $payload.Add('maxbandwidth', $maxbandwidth) }
+            if ( $PSBoundParameters.ContainsKey('accessdown') ) { $payload.Add('accessdown', $accessdown) }
+            if ( $PSBoundParameters.ContainsKey('monthreshold') ) { $payload.Add('monthreshold', $monthreshold) }
+            if ( $PSBoundParameters.ContainsKey('clttimeout') ) { $payload.Add('clttimeout', $clttimeout) }
+            if ( $PSBoundParameters.ContainsKey('svrtimeout') ) { $payload.Add('svrtimeout', $svrtimeout) }
+            if ( $PSBoundParameters.ContainsKey('tcpprofilename') ) { $payload.Add('tcpprofilename', $tcpprofilename) }
+            if ( $PSBoundParameters.ContainsKey('httpprofilename') ) { $payload.Add('httpprofilename', $httpprofilename) }
+            if ( $PSBoundParameters.ContainsKey('contentinspectionprofilename') ) { $payload.Add('contentinspectionprofilename', $contentinspectionprofilename) }
+            if ( $PSBoundParameters.ContainsKey('hashid') ) { $payload.Add('hashid', $hashid) }
+            if ( $PSBoundParameters.ContainsKey('appflowlog') ) { $payload.Add('appflowlog', $appflowlog) }
+            if ( $PSBoundParameters.ContainsKey('netprofile') ) { $payload.Add('netprofile', $netprofile) }
+            if ( $PSBoundParameters.ContainsKey('processlocal') ) { $payload.Add('processlocal', $processlocal) }
+            if ( $PSBoundParameters.ContainsKey('dnsprofilename') ) { $payload.Add('dnsprofilename', $dnsprofilename) }
+            if ( $PSBoundParameters.ContainsKey('monconnectionclose') ) { $payload.Add('monconnectionclose', $monconnectionclose) }
+            if ( $PSBoundParameters.ContainsKey('cipheader') ) { $payload.Add('cipheader', $cipheader) }
+            if ( $PSBoundParameters.ContainsKey('healthmonitor') ) { $payload.Add('healthmonitor', $healthmonitor) }
+            if ( $PSBoundParameters.ContainsKey('downstateflush') ) { $payload.Add('downstateflush', $downstateflush) }
+            if ( $PSBoundParameters.ContainsKey('comment') ) { $payload.Add('comment', $comment) }
+            if ( $PSCmdlet.ShouldProcess("$name", "Unset Basic configuration Object") ) {
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -Type service -NitroPath nitro/v1/config -Action unset -Payload $payload -GetWarning
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
-                if ($PSBoundParameters.ContainsKey('PassThru')) {
-                    Write-Output (Invoke-ADCGetService -Filter $Payload)
-                } else {
-                    Write-Output $result
-                }
-
+                Write-Output $response
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -4357,61 +3465,756 @@ function Invoke-ADCRenameService {
         }
     }
     end {
-        Write-Verbose "Invoke-ADCRenameService: Finished"
+        Write-Verbose "Invoke-ADCUnsetService: Finished"
     }
 }
 
-function Invoke-ADCGetService {
-<#
+function Invoke-ADCDeleteService {
+    <#
     .SYNOPSIS
-        Get Basic configuration object(s)
+        Delete Basic configuration Object.
     .DESCRIPTION
-        Get Basic configuration object(s)
-    .PARAMETER name 
-       Name for the service. Must begin with an ASCII alphabetic or underscore (_) character, and must contain only ASCII alphanumeric, underscore, hash (#), period (.), space, colon (:), at (@), equals (=), and hyphen (-) characters. Cannot be changed after the service has been created. 
-    .PARAMETER GetAll 
-        Retreive all service object(s)
-    .PARAMETER Count
-        If specified, the count of the service object(s) will be returned
-    .PARAMETER Filter
-        Specify a filter
-        -Filter @{ 'name'='<value>' }
-    .PARAMETER ViewSummary
-        When specified, only a summary of information is returned
+        Configuration for service resource.
+    .PARAMETER Name 
+        Name for the service. Must begin with an ASCII alphabetic or underscore (_) character, and must contain only ASCII alphanumeric, underscore, hash (#), period (.), space, colon (:), at (@), equals (=), and hyphen (-) characters. Cannot be changed after the service has been created.
     .EXAMPLE
-        Invoke-ADCGetService
-    .EXAMPLE 
-        Invoke-ADCGetService -GetAll 
-    .EXAMPLE 
-        Invoke-ADCGetService -Count
-    .EXAMPLE
-        Invoke-ADCGetService -name <string>
-    .EXAMPLE
-        Invoke-ADCGetService -Filter @{ 'name'='<value>' }
+        PS C:\>Invoke-ADCDeleteService -Name <string>
+        An example how to delete service configuration Object(s).
     .NOTES
-        File Name : Invoke-ADCGetService
-        Version   : v2106.2309
+        File Name : Invoke-ADCDeleteService
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/basic/service/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
-    [CmdletBinding(DefaultParameterSetName = "Getall")]
+    #>
+    [CmdletBinding(SupportsShouldProcess = $true, ConfirmImpact = "Low")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
+
+        [Parameter(Mandatory)]
+        [string]$Name 
+    )
+    begin {
+        Write-Verbose "Invoke-ADCDeleteService: Starting"
+    }
+    process {
+        try {
+            $arguments = @{ }
+
+            if ( $PSCmdlet.ShouldProcess("$name", "Delete Basic configuration Object") ) {
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type service -NitroPath nitro/v1/config -Resource $name -Arguments $arguments
+                #HTTP Status Code on Success: 200 OK
+                #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
+                Write-Output $response
+            }
+        } catch {
+            Write-Verbose "ERROR: $($_.Exception.Message)"
+            throw $_
+        }
+    }
+    end {
+        Write-Verbose "Invoke-ADCDeleteService: Finished"
+    }
+}
+
+function Invoke-ADCUpdateService {
+    <#
+    .SYNOPSIS
+        Update Basic configuration Object.
+    .DESCRIPTION
+        Configuration for service resource.
+    .PARAMETER Name 
+        Name for the service. Must begin with an ASCII alphabetic or underscore (_) character, and must contain only ASCII alphanumeric, underscore, hash (#), period (.), space, colon (:), at (@), equals (=), and hyphen (-) characters. Cannot be changed after the service has been created. 
+    .PARAMETER Ipaddress 
+        The new IP address of the service. 
+    .PARAMETER Maxclient 
+        Maximum number of simultaneous open connections to the service. 
+    .PARAMETER Maxreq 
+        Maximum number of requests that can be sent on a persistent connection to the service. 
+        Note: Connection requests beyond this value are rejected. 
+    .PARAMETER Cacheable 
+        Use the transparent cache redirection virtual server to forward requests to the cache server. 
+        Note: Do not specify this parameter if you set the Cache Type parameter. 
+        Possible values = YES, NO 
+    .PARAMETER Cip 
+        Before forwarding a request to the service, insert an HTTP header with the client's IPv4 or IPv6 address as its value. Used if the server needs the client's IP address for security, accounting, or other purposes, and setting the Use Source IP parameter is not a viable option. 
+        Possible values = ENABLED, DISABLED 
+    .PARAMETER Cipheader 
+        Name for the HTTP header whose value must be set to the IP address of the client. Used with the Client IP parameter. If you set the Client IP parameter, and you do not specify a name for the header, the appliance uses the header name specified for the global Client IP Header parameter (the cipHeader parameter in the set ns param CLI command or the Client IP Header parameter in the Configure HTTP Parameters dialog box at System > Settings > Change HTTP parameters). If the global Client IP Header parameter is not specified, the appliance inserts a header with the name "client-ip.". 
+    .PARAMETER Usip 
+        Use the client's IP address as the source IP address when initiating a connection to the server. When creating a service, if you do not set this parameter, the service inherits the global Use Source IP setting (available in the enable ns mode and disable ns mode CLI commands, or in the System > Settings > Configure modes > Configure Modes dialog box). However, you can override this setting after you create the service. 
+        Possible values = YES, NO 
+    .PARAMETER Pathmonitor 
+        Path monitoring for clustering. 
+        Possible values = YES, NO 
+    .PARAMETER Pathmonitorindv 
+        Individual Path monitoring decisions. 
+        Possible values = YES, NO 
+    .PARAMETER Useproxyport 
+        Use the proxy port as the source port when initiating connections with the server. With the NO setting, the client-side connection port is used as the source port for the server-side connection. 
+        Note: This parameter is available only when the Use Source IP (USIP) parameter is set to YES. 
+        Possible values = YES, NO 
+    .PARAMETER Sp 
+        Enable surge protection for the service. 
+        Possible values = ON, OFF 
+    .PARAMETER Rtspsessionidremap 
+        Enable RTSP session ID mapping for the service. 
+        Possible values = ON, OFF 
+    .PARAMETER Healthmonitor 
+        Monitor the health of this service. Available settings function as follows: 
+        YES - Send probes to check the health of the service. 
+        NO - Do not send probes to check the health of the service. With the NO option, the appliance shows the service as UP at all times. 
+        Possible values = YES, NO 
+    .PARAMETER Clttimeout 
+        Time, in seconds, after which to terminate an idle client connection. 
+    .PARAMETER Svrtimeout 
+        Time, in seconds, after which to terminate an idle server connection. 
+    .PARAMETER Customserverid 
+        Unique identifier for the service. Used when the persistency type for the virtual server is set to Custom Server ID. 
+    .PARAMETER Serverid 
+        The identifier for the service. This is used when the persistency type is set to Custom Server ID. 
+    .PARAMETER Cka 
+        Enable client keep-alive for the service. 
+        Possible values = YES, NO 
+    .PARAMETER Tcpb 
+        Enable TCP buffering for the service. 
+        Possible values = YES, NO 
+    .PARAMETER Cmp 
+        Enable compression for the service. 
+        Possible values = YES, NO 
+    .PARAMETER Maxbandwidth 
+        Maximum bandwidth, in Kbps, allocated to the service. 
+    .PARAMETER Accessdown 
+        Use Layer 2 mode to bridge the packets sent to this service if it is marked as DOWN. If the service is DOWN, and this parameter is disabled, the packets are dropped. 
+        Possible values = YES, NO 
+    .PARAMETER Monthreshold 
+        Minimum sum of weights of the monitors that are bound to this service. Used to determine whether to mark a service as UP or DOWN. 
+    .PARAMETER Weight 
+        Weight to assign to the monitor-service binding. When a monitor is UP, the weight assigned to its binding with the service determines how much the monitor contributes toward keeping the health of the service above the value configured for the Monitor Threshold parameter. 
+    .PARAMETER Monitor_name_svc 
+        Name of the monitor bound to the specified service. 
+    .PARAMETER Downstateflush 
+        Flush all active transactions associated with a service whose state transitions from UP to DOWN. Do not enable this option for applications that must complete their transactions. 
+        Possible values = ENABLED, DISABLED 
+    .PARAMETER Tcpprofilename 
+        Name of the TCP profile that contains TCP configuration settings for the service. 
+    .PARAMETER Httpprofilename 
+        Name of the HTTP profile that contains HTTP configuration settings for the service. 
+    .PARAMETER Contentinspectionprofilename 
+        Name of the ContentInspection profile that contains IPS/IDS communication related setting for the service. 
+    .PARAMETER Hashid 
+        A numerical identifier that can be used by hash based load balancing methods. Must be unique for each service. 
+    .PARAMETER Comment 
+        Any information about the service. 
+    .PARAMETER Appflowlog 
+        Enable logging of AppFlow information. 
+        Possible values = ENABLED, DISABLED 
+    .PARAMETER Netprofile 
+        Network profile to use for the service. 
+    .PARAMETER Processlocal 
+        By turning on this option packets destined to a service in a cluster will not under go any steering. Turn this option for single packet request response mode or when the upstream device is performing a proper RSS for connection based distribution. 
+        Possible values = ENABLED, DISABLED 
+    .PARAMETER Dnsprofilename 
+        Name of the DNS profile to be associated with the service. DNS profile properties will applied to the transactions processed by a service. This parameter is valid only for ADNS and ADNS-TCP services. 
+    .PARAMETER Monconnectionclose 
+        Close monitoring connections by sending the service a connection termination message with the specified bit set. 
+        Possible values = RESET, FIN 
+    .PARAMETER PassThru 
+        Return details about the created service item.
+    .EXAMPLE
+        PS C:\>Invoke-ADCUpdateService -name <string>
+        An example how to update service configuration Object(s).
+    .NOTES
+        File Name : Invoke-ADCUpdateService
+        Version   : v2111.2111
+        Author    : John Billekens
+        Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/basic/service/
+        Requires  : PowerShell v5.1 and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
+    .LINK
+        https://blog.j81.nl
+    #>
+    [CmdletBinding(SupportsShouldProcess = $true, ConfirmImpact = "Low")]
+    [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
+    [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
+    [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
+    param(
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
+
+        [Parameter(Mandatory)]
+        [ValidateScript({ $_.Length -gt 1 })]
+        [ValidatePattern('^(([a-zA-Z0-9]|[_])+([a-zA-Z0-9]|[_])+)$')]
+        [string]$Name,
+
+        [string]$Ipaddress,
+
+        [ValidateRange(0, 4294967294)]
+        [double]$Maxclient,
+
+        [ValidateRange(0, 65535)]
+        [double]$Maxreq,
+
+        [ValidateSet('YES', 'NO')]
+        [string]$Cacheable,
+
+        [ValidateSet('ENABLED', 'DISABLED')]
+        [string]$Cip,
+
+        [ValidateScript({ $_.Length -gt 1 })]
+        [string]$Cipheader,
+
+        [ValidateSet('YES', 'NO')]
+        [string]$Usip,
+
+        [ValidateSet('YES', 'NO')]
+        [string]$Pathmonitor,
+
+        [ValidateSet('YES', 'NO')]
+        [string]$Pathmonitorindv,
+
+        [ValidateSet('YES', 'NO')]
+        [string]$Useproxyport,
+
+        [ValidateSet('ON', 'OFF')]
+        [string]$Sp,
+
+        [ValidateSet('ON', 'OFF')]
+        [string]$Rtspsessionidremap,
+
+        [ValidateSet('YES', 'NO')]
+        [string]$Healthmonitor,
+
+        [ValidateRange(0, 31536000)]
+        [double]$Clttimeout,
+
+        [ValidateRange(0, 31536000)]
+        [double]$Svrtimeout,
+
+        [string]$Customserverid,
+
+        [double]$Serverid,
+
+        [ValidateSet('YES', 'NO')]
+        [string]$Cka,
+
+        [ValidateSet('YES', 'NO')]
+        [string]$Tcpb,
+
+        [ValidateSet('YES', 'NO')]
+        [string]$Cmp,
+
+        [ValidateRange(0, 4294967287)]
+        [double]$Maxbandwidth,
+
+        [ValidateSet('YES', 'NO')]
+        [string]$Accessdown,
+
+        [ValidateRange(0, 65535)]
+        [double]$Monthreshold,
+
+        [ValidateRange(1, 100)]
+        [double]$Weight,
+
+        [ValidateScript({ $_.Length -gt 1 })]
+        [string]$Monitor_name_svc,
+
+        [ValidateSet('ENABLED', 'DISABLED')]
+        [string]$Downstateflush,
+
+        [ValidateLength(1, 127)]
+        [string]$Tcpprofilename,
+
+        [ValidateLength(1, 127)]
+        [string]$Httpprofilename,
+
+        [ValidateLength(1, 127)]
+        [string]$Contentinspectionprofilename,
+
+        [double]$Hashid,
+
+        [string]$Comment,
+
+        [ValidateSet('ENABLED', 'DISABLED')]
+        [string]$Appflowlog,
+
+        [ValidateLength(1, 127)]
+        [string]$Netprofile,
+
+        [ValidateSet('ENABLED', 'DISABLED')]
+        [string]$Processlocal,
+
+        [ValidateLength(1, 127)]
+        [string]$Dnsprofilename,
+
+        [ValidateSet('RESET', 'FIN')]
+        [string]$Monconnectionclose,
+
+        [Switch]$PassThru 
+    )
+    begin {
+        Write-Verbose "Invoke-ADCUpdateService: Starting"
+    }
+    process {
+        try {
+            $payload = @{ name = $name }
+            if ( $PSBoundParameters.ContainsKey('ipaddress') ) { $payload.Add('ipaddress', $ipaddress) }
+            if ( $PSBoundParameters.ContainsKey('maxclient') ) { $payload.Add('maxclient', $maxclient) }
+            if ( $PSBoundParameters.ContainsKey('maxreq') ) { $payload.Add('maxreq', $maxreq) }
+            if ( $PSBoundParameters.ContainsKey('cacheable') ) { $payload.Add('cacheable', $cacheable) }
+            if ( $PSBoundParameters.ContainsKey('cip') ) { $payload.Add('cip', $cip) }
+            if ( $PSBoundParameters.ContainsKey('cipheader') ) { $payload.Add('cipheader', $cipheader) }
+            if ( $PSBoundParameters.ContainsKey('usip') ) { $payload.Add('usip', $usip) }
+            if ( $PSBoundParameters.ContainsKey('pathmonitor') ) { $payload.Add('pathmonitor', $pathmonitor) }
+            if ( $PSBoundParameters.ContainsKey('pathmonitorindv') ) { $payload.Add('pathmonitorindv', $pathmonitorindv) }
+            if ( $PSBoundParameters.ContainsKey('useproxyport') ) { $payload.Add('useproxyport', $useproxyport) }
+            if ( $PSBoundParameters.ContainsKey('sp') ) { $payload.Add('sp', $sp) }
+            if ( $PSBoundParameters.ContainsKey('rtspsessionidremap') ) { $payload.Add('rtspsessionidremap', $rtspsessionidremap) }
+            if ( $PSBoundParameters.ContainsKey('healthmonitor') ) { $payload.Add('healthmonitor', $healthmonitor) }
+            if ( $PSBoundParameters.ContainsKey('clttimeout') ) { $payload.Add('clttimeout', $clttimeout) }
+            if ( $PSBoundParameters.ContainsKey('svrtimeout') ) { $payload.Add('svrtimeout', $svrtimeout) }
+            if ( $PSBoundParameters.ContainsKey('customserverid') ) { $payload.Add('customserverid', $customserverid) }
+            if ( $PSBoundParameters.ContainsKey('serverid') ) { $payload.Add('serverid', $serverid) }
+            if ( $PSBoundParameters.ContainsKey('cka') ) { $payload.Add('cka', $cka) }
+            if ( $PSBoundParameters.ContainsKey('tcpb') ) { $payload.Add('tcpb', $tcpb) }
+            if ( $PSBoundParameters.ContainsKey('cmp') ) { $payload.Add('cmp', $cmp) }
+            if ( $PSBoundParameters.ContainsKey('maxbandwidth') ) { $payload.Add('maxbandwidth', $maxbandwidth) }
+            if ( $PSBoundParameters.ContainsKey('accessdown') ) { $payload.Add('accessdown', $accessdown) }
+            if ( $PSBoundParameters.ContainsKey('monthreshold') ) { $payload.Add('monthreshold', $monthreshold) }
+            if ( $PSBoundParameters.ContainsKey('weight') ) { $payload.Add('weight', $weight) }
+            if ( $PSBoundParameters.ContainsKey('monitor_name_svc') ) { $payload.Add('monitor_name_svc', $monitor_name_svc) }
+            if ( $PSBoundParameters.ContainsKey('downstateflush') ) { $payload.Add('downstateflush', $downstateflush) }
+            if ( $PSBoundParameters.ContainsKey('tcpprofilename') ) { $payload.Add('tcpprofilename', $tcpprofilename) }
+            if ( $PSBoundParameters.ContainsKey('httpprofilename') ) { $payload.Add('httpprofilename', $httpprofilename) }
+            if ( $PSBoundParameters.ContainsKey('contentinspectionprofilename') ) { $payload.Add('contentinspectionprofilename', $contentinspectionprofilename) }
+            if ( $PSBoundParameters.ContainsKey('hashid') ) { $payload.Add('hashid', $hashid) }
+            if ( $PSBoundParameters.ContainsKey('comment') ) { $payload.Add('comment', $comment) }
+            if ( $PSBoundParameters.ContainsKey('appflowlog') ) { $payload.Add('appflowlog', $appflowlog) }
+            if ( $PSBoundParameters.ContainsKey('netprofile') ) { $payload.Add('netprofile', $netprofile) }
+            if ( $PSBoundParameters.ContainsKey('processlocal') ) { $payload.Add('processlocal', $processlocal) }
+            if ( $PSBoundParameters.ContainsKey('dnsprofilename') ) { $payload.Add('dnsprofilename', $dnsprofilename) }
+            if ( $PSBoundParameters.ContainsKey('monconnectionclose') ) { $payload.Add('monconnectionclose', $monconnectionclose) }
+            if ( $PSCmdlet.ShouldProcess("service", "Update Basic configuration Object") ) {
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -NitroPath nitro/v1/config -Type service -Payload $payload -GetWarning
+                #HTTP Status Code on Success: 200 OK
+                #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
+                if ( $PSBoundParameters.ContainsKey('PassThru') ) {
+                    Write-Output (Invoke-ADCGetService -Filter $payload)
+                } else {
+                    Write-Output $result
+                }
+            }
+        } catch {
+            Write-Verbose "ERROR: $($_.Exception.Message)"
+            throw $_
+        }
+    }
+    end {
+        Write-Verbose "Invoke-ADCUpdateService: Finished"
+    }
+}
+
+function Invoke-ADCAddService {
+    <#
+    .SYNOPSIS
+        Add Basic configuration Object.
+    .DESCRIPTION
+        Configuration for service resource.
+    .PARAMETER Name 
+        Name for the service. Must begin with an ASCII alphabetic or underscore (_) character, and must contain only ASCII alphanumeric, underscore, hash (#), period (.), space, colon (:), at (@), equals (=), and hyphen (-) characters. Cannot be changed after the service has been created. 
+    .PARAMETER Ip 
+        IP to assign to the service. 
+    .PARAMETER Servername 
+        Name of the server that hosts the service. 
+    .PARAMETER Servicetype 
+        Protocol in which data is exchanged with the service. 
+        Possible values = HTTP, FTP, TCP, UDP, SSL, SSL_BRIDGE, SSL_TCP, DTLS, NNTP, RPCSVR, DNS, ADNS, SNMP, RTSP, DHCPRA, ANY, SIP_UDP, SIP_TCP, SIP_SSL, DNS_TCP, ADNS_TCP, MYSQL, MSSQL, ORACLE, MONGO, MONGO_TLS, RADIUS, RADIUSListener, RDP, DIAMETER, SSL_DIAMETER, TFTP, SMPP, PPTP, GRE, SYSLOGTCP, SYSLOGUDP, FIX, SSL_FIX, USER_TCP, USER_SSL_TCP, QUIC, IPFIX, LOGSTREAM, LOGSTREAM_SSL, MQTT, MQTT_TLS, QUIC_BRIDGE 
+    .PARAMETER Port 
+        Port number of the service. 
+        * in CLI is represented as 65535 in NITRO API 
+    .PARAMETER Cleartextport 
+        Port to which clear text data must be sent after the appliance decrypts incoming SSL traffic. Applicable to transparent SSL services. 
+    .PARAMETER Cachetype 
+        Cache type supported by the cache server. 
+        Possible values = TRANSPARENT, REVERSE, FORWARD 
+    .PARAMETER Maxclient 
+        Maximum number of simultaneous open connections to the service. 
+    .PARAMETER Healthmonitor 
+        Monitor the health of this service. Available settings function as follows: 
+        YES - Send probes to check the health of the service. 
+        NO - Do not send probes to check the health of the service. With the NO option, the appliance shows the service as UP at all times. 
+        Possible values = YES, NO 
+    .PARAMETER Maxreq 
+        Maximum number of requests that can be sent on a persistent connection to the service. 
+        Note: Connection requests beyond this value are rejected. 
+    .PARAMETER Cacheable 
+        Use the transparent cache redirection virtual server to forward requests to the cache server. 
+        Note: Do not specify this parameter if you set the Cache Type parameter. 
+        Possible values = YES, NO 
+    .PARAMETER Cip 
+        Before forwarding a request to the service, insert an HTTP header with the client's IPv4 or IPv6 address as its value. Used if the server needs the client's IP address for security, accounting, or other purposes, and setting the Use Source IP parameter is not a viable option. 
+        Possible values = ENABLED, DISABLED 
+    .PARAMETER Cipheader 
+        Name for the HTTP header whose value must be set to the IP address of the client. Used with the Client IP parameter. If you set the Client IP parameter, and you do not specify a name for the header, the appliance uses the header name specified for the global Client IP Header parameter (the cipHeader parameter in the set ns param CLI command or the Client IP Header parameter in the Configure HTTP Parameters dialog box at System > Settings > Change HTTP parameters). If the global Client IP Header parameter is not specified, the appliance inserts a header with the name "client-ip.". 
+    .PARAMETER Usip 
+        Use the client's IP address as the source IP address when initiating a connection to the server. When creating a service, if you do not set this parameter, the service inherits the global Use Source IP setting (available in the enable ns mode and disable ns mode CLI commands, or in the System > Settings > Configure modes > Configure Modes dialog box). However, you can override this setting after you create the service. 
+        Possible values = YES, NO 
+    .PARAMETER Pathmonitor 
+        Path monitoring for clustering. 
+        Possible values = YES, NO 
+    .PARAMETER Pathmonitorindv 
+        Individual Path monitoring decisions. 
+        Possible values = YES, NO 
+    .PARAMETER Useproxyport 
+        Use the proxy port as the source port when initiating connections with the server. With the NO setting, the client-side connection port is used as the source port for the server-side connection. 
+        Note: This parameter is available only when the Use Source IP (USIP) parameter is set to YES. 
+        Possible values = YES, NO 
+    .PARAMETER Sp 
+        Enable surge protection for the service. 
+        Possible values = ON, OFF 
+    .PARAMETER Rtspsessionidremap 
+        Enable RTSP session ID mapping for the service. 
+        Possible values = ON, OFF 
+    .PARAMETER Clttimeout 
+        Time, in seconds, after which to terminate an idle client connection. 
+    .PARAMETER Svrtimeout 
+        Time, in seconds, after which to terminate an idle server connection. 
+    .PARAMETER Customserverid 
+        Unique identifier for the service. Used when the persistency type for the virtual server is set to Custom Server ID. 
+    .PARAMETER Serverid 
+        The identifier for the service. This is used when the persistency type is set to Custom Server ID. 
+    .PARAMETER Cka 
+        Enable client keep-alive for the service. 
+        Possible values = YES, NO 
+    .PARAMETER Tcpb 
+        Enable TCP buffering for the service. 
+        Possible values = YES, NO 
+    .PARAMETER Cmp 
+        Enable compression for the service. 
+        Possible values = YES, NO 
+    .PARAMETER Maxbandwidth 
+        Maximum bandwidth, in Kbps, allocated to the service. 
+    .PARAMETER Accessdown 
+        Use Layer 2 mode to bridge the packets sent to this service if it is marked as DOWN. If the service is DOWN, and this parameter is disabled, the packets are dropped. 
+        Possible values = YES, NO 
+    .PARAMETER Monthreshold 
+        Minimum sum of weights of the monitors that are bound to this service. Used to determine whether to mark a service as UP or DOWN. 
+    .PARAMETER State 
+        Initial state of the service. 
+        Possible values = ENABLED, DISABLED 
+    .PARAMETER Downstateflush 
+        Flush all active transactions associated with a service whose state transitions from UP to DOWN. Do not enable this option for applications that must complete their transactions. 
+        Possible values = ENABLED, DISABLED 
+    .PARAMETER Tcpprofilename 
+        Name of the TCP profile that contains TCP configuration settings for the service. 
+    .PARAMETER Httpprofilename 
+        Name of the HTTP profile that contains HTTP configuration settings for the service. 
+    .PARAMETER Contentinspectionprofilename 
+        Name of the ContentInspection profile that contains IPS/IDS communication related setting for the service. 
+    .PARAMETER Hashid 
+        A numerical identifier that can be used by hash based load balancing methods. Must be unique for each service. 
+    .PARAMETER Comment 
+        Any information about the service. 
+    .PARAMETER Appflowlog 
+        Enable logging of AppFlow information. 
+        Possible values = ENABLED, DISABLED 
+    .PARAMETER Netprofile 
+        Network profile to use for the service. 
+    .PARAMETER Td 
+        Integer value that uniquely identifies the traffic domain in which you want to configure the entity. If you do not specify an ID, the entity becomes part of the default traffic domain, which has an ID of 0. 
+    .PARAMETER Processlocal 
+        By turning on this option packets destined to a service in a cluster will not under go any steering. Turn this option for single packet request response mode or when the upstream device is performing a proper RSS for connection based distribution. 
+        Possible values = ENABLED, DISABLED 
+    .PARAMETER Dnsprofilename 
+        Name of the DNS profile to be associated with the service. DNS profile properties will applied to the transactions processed by a service. This parameter is valid only for ADNS and ADNS-TCP services. 
+    .PARAMETER Monconnectionclose 
+        Close monitoring connections by sending the service a connection termination message with the specified bit set. 
+        Possible values = RESET, FIN 
+    .PARAMETER PassThru 
+        Return details about the created service item.
+    .EXAMPLE
+        PS C:\>Invoke-ADCAddService -name <string> -servicetype <string> -port <int>
+        An example how to add service configuration Object(s).
+    .NOTES
+        File Name : Invoke-ADCAddService
+        Version   : v2111.2111
+        Author    : John Billekens
+        Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/basic/service/
+        Requires  : PowerShell v5.1 and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
+    .LINK
+        https://blog.j81.nl
+    #>
+    [CmdletBinding(SupportsShouldProcess = $true, ConfirmImpact = "Low")]
+    [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
+    [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
+    [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
+    param(
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
+
+        [Parameter(Mandatory)]
+        [ValidateScript({ $_.Length -gt 1 })]
+        [ValidatePattern('^(([a-zA-Z0-9]|[_])+([a-zA-Z0-9]|[_])+)$')]
+        [string]$Name,
+
+        [ValidateScript({ $_.Length -gt 1 })]
+        [string]$Ip,
+
+        [ValidateScript({ $_.Length -gt 1 })]
+        [string]$Servername,
+
+        [Parameter(Mandatory)]
+        [ValidateSet('HTTP', 'FTP', 'TCP', 'UDP', 'SSL', 'SSL_BRIDGE', 'SSL_TCP', 'DTLS', 'NNTP', 'RPCSVR', 'DNS', 'ADNS', 'SNMP', 'RTSP', 'DHCPRA', 'ANY', 'SIP_UDP', 'SIP_TCP', 'SIP_SSL', 'DNS_TCP', 'ADNS_TCP', 'MYSQL', 'MSSQL', 'ORACLE', 'MONGO', 'MONGO_TLS', 'RADIUS', 'RADIUSListener', 'RDP', 'DIAMETER', 'SSL_DIAMETER', 'TFTP', 'SMPP', 'PPTP', 'GRE', 'SYSLOGTCP', 'SYSLOGUDP', 'FIX', 'SSL_FIX', 'USER_TCP', 'USER_SSL_TCP', 'QUIC', 'IPFIX', 'LOGSTREAM', 'LOGSTREAM_SSL', 'MQTT', 'MQTT_TLS', 'QUIC_BRIDGE')]
+        [string]$Servicetype,
+
+        [Parameter(Mandatory)]
+        [ValidateRange(1, 65535)]
+        [int]$Port,
+
+        [int]$Cleartextport,
+
+        [ValidateSet('TRANSPARENT', 'REVERSE', 'FORWARD')]
+        [string]$Cachetype,
+
+        [ValidateRange(0, 4294967294)]
+        [double]$Maxclient,
+
+        [ValidateSet('YES', 'NO')]
+        [string]$Healthmonitor = 'YES',
+
+        [ValidateRange(0, 65535)]
+        [double]$Maxreq,
+
+        [ValidateSet('YES', 'NO')]
+        [string]$Cacheable = 'NO',
+
+        [ValidateSet('ENABLED', 'DISABLED')]
+        [string]$Cip,
+
+        [ValidateScript({ $_.Length -gt 1 })]
+        [string]$Cipheader,
+
+        [ValidateSet('YES', 'NO')]
+        [string]$Usip,
+
+        [ValidateSet('YES', 'NO')]
+        [string]$Pathmonitor,
+
+        [ValidateSet('YES', 'NO')]
+        [string]$Pathmonitorindv,
+
+        [ValidateSet('YES', 'NO')]
+        [string]$Useproxyport,
+
+        [ValidateSet('ON', 'OFF')]
+        [string]$Sp,
+
+        [ValidateSet('ON', 'OFF')]
+        [string]$Rtspsessionidremap = 'OFF',
+
+        [ValidateRange(0, 31536000)]
+        [double]$Clttimeout,
+
+        [ValidateRange(0, 31536000)]
+        [double]$Svrtimeout,
+
+        [string]$Customserverid = '"None"',
+
+        [double]$Serverid,
+
+        [ValidateSet('YES', 'NO')]
+        [string]$Cka,
+
+        [ValidateSet('YES', 'NO')]
+        [string]$Tcpb,
+
+        [ValidateSet('YES', 'NO')]
+        [string]$Cmp,
+
+        [ValidateRange(0, 4294967287)]
+        [double]$Maxbandwidth,
+
+        [ValidateSet('YES', 'NO')]
+        [string]$Accessdown = 'NO',
+
+        [ValidateRange(0, 65535)]
+        [double]$Monthreshold,
+
+        [ValidateSet('ENABLED', 'DISABLED')]
+        [string]$State = 'ENABLED',
+
+        [ValidateSet('ENABLED', 'DISABLED')]
+        [string]$Downstateflush = 'ENABLED',
+
+        [ValidateLength(1, 127)]
+        [string]$Tcpprofilename,
+
+        [ValidateLength(1, 127)]
+        [string]$Httpprofilename,
+
+        [ValidateLength(1, 127)]
+        [string]$Contentinspectionprofilename,
+
+        [double]$Hashid,
+
+        [string]$Comment,
+
+        [ValidateSet('ENABLED', 'DISABLED')]
+        [string]$Appflowlog = 'ENABLED',
+
+        [ValidateLength(1, 127)]
+        [string]$Netprofile,
+
+        [ValidateRange(0, 4094)]
+        [double]$Td,
+
+        [ValidateSet('ENABLED', 'DISABLED')]
+        [string]$Processlocal = 'DISABLED',
+
+        [ValidateLength(1, 127)]
+        [string]$Dnsprofilename,
+
+        [ValidateSet('RESET', 'FIN')]
+        [string]$Monconnectionclose = 'NONE',
+
+        [Switch]$PassThru 
+    )
+    begin {
+        Write-Verbose "Invoke-ADCAddService: Starting"
+    }
+    process {
+        try {
+            $payload = @{ name = $name
+                servicetype    = $servicetype
+                port           = $port
+            }
+            if ( $PSBoundParameters.ContainsKey('ip') ) { $payload.Add('ip', $ip) }
+            if ( $PSBoundParameters.ContainsKey('servername') ) { $payload.Add('servername', $servername) }
+            if ( $PSBoundParameters.ContainsKey('cleartextport') ) { $payload.Add('cleartextport', $cleartextport) }
+            if ( $PSBoundParameters.ContainsKey('cachetype') ) { $payload.Add('cachetype', $cachetype) }
+            if ( $PSBoundParameters.ContainsKey('maxclient') ) { $payload.Add('maxclient', $maxclient) }
+            if ( $PSBoundParameters.ContainsKey('healthmonitor') ) { $payload.Add('healthmonitor', $healthmonitor) }
+            if ( $PSBoundParameters.ContainsKey('maxreq') ) { $payload.Add('maxreq', $maxreq) }
+            if ( $PSBoundParameters.ContainsKey('cacheable') ) { $payload.Add('cacheable', $cacheable) }
+            if ( $PSBoundParameters.ContainsKey('cip') ) { $payload.Add('cip', $cip) }
+            if ( $PSBoundParameters.ContainsKey('cipheader') ) { $payload.Add('cipheader', $cipheader) }
+            if ( $PSBoundParameters.ContainsKey('usip') ) { $payload.Add('usip', $usip) }
+            if ( $PSBoundParameters.ContainsKey('pathmonitor') ) { $payload.Add('pathmonitor', $pathmonitor) }
+            if ( $PSBoundParameters.ContainsKey('pathmonitorindv') ) { $payload.Add('pathmonitorindv', $pathmonitorindv) }
+            if ( $PSBoundParameters.ContainsKey('useproxyport') ) { $payload.Add('useproxyport', $useproxyport) }
+            if ( $PSBoundParameters.ContainsKey('sp') ) { $payload.Add('sp', $sp) }
+            if ( $PSBoundParameters.ContainsKey('rtspsessionidremap') ) { $payload.Add('rtspsessionidremap', $rtspsessionidremap) }
+            if ( $PSBoundParameters.ContainsKey('clttimeout') ) { $payload.Add('clttimeout', $clttimeout) }
+            if ( $PSBoundParameters.ContainsKey('svrtimeout') ) { $payload.Add('svrtimeout', $svrtimeout) }
+            if ( $PSBoundParameters.ContainsKey('customserverid') ) { $payload.Add('customserverid', $customserverid) }
+            if ( $PSBoundParameters.ContainsKey('serverid') ) { $payload.Add('serverid', $serverid) }
+            if ( $PSBoundParameters.ContainsKey('cka') ) { $payload.Add('cka', $cka) }
+            if ( $PSBoundParameters.ContainsKey('tcpb') ) { $payload.Add('tcpb', $tcpb) }
+            if ( $PSBoundParameters.ContainsKey('cmp') ) { $payload.Add('cmp', $cmp) }
+            if ( $PSBoundParameters.ContainsKey('maxbandwidth') ) { $payload.Add('maxbandwidth', $maxbandwidth) }
+            if ( $PSBoundParameters.ContainsKey('accessdown') ) { $payload.Add('accessdown', $accessdown) }
+            if ( $PSBoundParameters.ContainsKey('monthreshold') ) { $payload.Add('monthreshold', $monthreshold) }
+            if ( $PSBoundParameters.ContainsKey('state') ) { $payload.Add('state', $state) }
+            if ( $PSBoundParameters.ContainsKey('downstateflush') ) { $payload.Add('downstateflush', $downstateflush) }
+            if ( $PSBoundParameters.ContainsKey('tcpprofilename') ) { $payload.Add('tcpprofilename', $tcpprofilename) }
+            if ( $PSBoundParameters.ContainsKey('httpprofilename') ) { $payload.Add('httpprofilename', $httpprofilename) }
+            if ( $PSBoundParameters.ContainsKey('contentinspectionprofilename') ) { $payload.Add('contentinspectionprofilename', $contentinspectionprofilename) }
+            if ( $PSBoundParameters.ContainsKey('hashid') ) { $payload.Add('hashid', $hashid) }
+            if ( $PSBoundParameters.ContainsKey('comment') ) { $payload.Add('comment', $comment) }
+            if ( $PSBoundParameters.ContainsKey('appflowlog') ) { $payload.Add('appflowlog', $appflowlog) }
+            if ( $PSBoundParameters.ContainsKey('netprofile') ) { $payload.Add('netprofile', $netprofile) }
+            if ( $PSBoundParameters.ContainsKey('td') ) { $payload.Add('td', $td) }
+            if ( $PSBoundParameters.ContainsKey('processlocal') ) { $payload.Add('processlocal', $processlocal) }
+            if ( $PSBoundParameters.ContainsKey('dnsprofilename') ) { $payload.Add('dnsprofilename', $dnsprofilename) }
+            if ( $PSBoundParameters.ContainsKey('monconnectionclose') ) { $payload.Add('monconnectionclose', $monconnectionclose) }
+            if ( $PSCmdlet.ShouldProcess("service", "Add Basic configuration Object") ) {
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -NitroPath nitro/v1/config -Type service -Payload $payload -GetWarning
+                #HTTP Status Code on Success: 201 Created
+                #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
+                if ( $PSBoundParameters.ContainsKey('PassThru') ) {
+                    Write-Output (Invoke-ADCGetService -Filter $payload)
+                } else {
+                    Write-Output $result
+                }
+            }
+        } catch {
+            Write-Verbose "ERROR: $($_.Exception.Message)"
+            throw $_
+        }
+    }
+    end {
+        Write-Verbose "Invoke-ADCAddService: Finished"
+    }
+}
+
+function Invoke-ADCGetService {
+    <#
+    .SYNOPSIS
+        Get Basic configuration object(s).
+    .DESCRIPTION
+        Configuration for service resource.
+    .PARAMETER Name 
+        Name for the service. Must begin with an ASCII alphabetic or underscore (_) character, and must contain only ASCII alphanumeric, underscore, hash (#), period (.), space, colon (:), at (@), equals (=), and hyphen (-) characters. Cannot be changed after the service has been created. 
+    .PARAMETER GetAll 
+        Retrieve all service object(s).
+    .PARAMETER Count
+        If specified, the count of the service object(s) will be returned.
+    .PARAMETER Filter
+        Specify a filter.
+        -Filter @{ 'name'='<value>' }
+    .PARAMETER ViewSummary
+        When specified, only a summary of information is returned.
+    .EXAMPLE
+        PS C:\>Invoke-ADCGetService
+        Get data.
+    .EXAMPLE 
+        PS C:\>Invoke-ADCGetService -GetAll 
+        Get all service data. 
+    .EXAMPLE 
+        PS C:\>Invoke-ADCGetService -Count 
+        Get the number of service objects.
+    .EXAMPLE
+        PS C:\>Invoke-ADCGetService -name <string>
+        Get service object by specifying for example the name.
+    .EXAMPLE
+        PS C:\>Invoke-ADCGetService -Filter @{ 'name'='<value>' }
+        Get service data with a filter.
+    .NOTES
+        File Name : Invoke-ADCGetService
+        Version   : v2111.2111
+        Author    : John Billekens
+        Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/basic/service/
+        Requires  : PowerShell v5.1 and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
+    .LINK
+        https://blog.j81.nl
+    #>
+    [CmdletBinding(DefaultParameterSetName = "GetAll")]
+    [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
+    [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
+    [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
+    param(
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
         [Parameter(ParameterSetName = 'GetByResource')]
         [ValidateScript({ $_.Length -gt 1 })]
         [ValidatePattern('^(([a-zA-Z0-9]|[_])+([a-zA-Z0-9]|[_])+)$')]
-        [string]$name,
+        [string]$Name,
 
-        [Parameter(ParameterSetName = 'Count', Mandatory = $true)]
+        [Parameter(ParameterSetName = 'Count', Mandatory)]
         [Switch]$Count,
 			
         [hashtable]$Filter = @{ },
@@ -4429,24 +4232,24 @@ function Invoke-ADCGetService {
     }
     process {
         try {
-            if ( $PsCmdlet.ParameterSetName -eq 'Getall' ) {
-                $Query = @{ }
+            if ( $PsCmdlet.ParameterSetName -eq 'GetAll' ) {
+                $query = @{ }
                 Write-Verbose "Retrieving all service objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type service -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type service -NitroPath nitro/v1/config -Query $query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
-                if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
+                if ( $PSBoundParameters.ContainsKey('Count') ) { $query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for service objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type service -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type service -NitroPath nitro/v1/config -Query $query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving service objects by arguments"
-                $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type service -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
+                $arguments = @{ } 
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type service -NitroPath nitro/v1/config -Arguments $arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving service configuration for property 'name'"
                 $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type service -NitroPath nitro/v1/config -Resource $name -Summary:$ViewSummary -Filter $Filter -GetWarning
             } else {
                 Write-Verbose "Retrieving service configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type service -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type service -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -4459,330 +4262,69 @@ function Invoke-ADCGetService {
     }
 }
 
-function Invoke-ADCAddServicegroup {
-<#
+function Invoke-ADCRenameServicegroup {
+    <#
     .SYNOPSIS
-        Add Basic configuration Object
+        Rename Basic configuration Object.
     .DESCRIPTION
-        Add Basic configuration Object 
-    .PARAMETER servicegroupname 
-        Name of the service group. Must begin with an ASCII alphabetic or underscore (_) character, and must contain only ASCII alphanumeric, underscore, hash (#), period (.), space, colon (:), at (@), equals (=), and hyphen (-) characters. Can be changed after the name is created.  
-        Minimum length = 1 
-    .PARAMETER servicetype 
-        Protocol used to exchange data with the service.  
-        Possible values = HTTP, FTP, TCP, UDP, SSL, SSL_BRIDGE, SSL_TCP, DTLS, NNTP, RPCSVR, DNS, ADNS, SNMP, RTSP, DHCPRA, ANY, SIP_UDP, SIP_TCP, SIP_SSL, DNS_TCP, ADNS_TCP, MYSQL, MSSQL, ORACLE, MONGO, MONGO_TLS, RADIUS, RADIUSListener, RDP, DIAMETER, SSL_DIAMETER, TFTP, SMPP, PPTP, GRE, SYSLOGTCP, SYSLOGUDP, FIX, SSL_FIX, USER_TCP, USER_SSL_TCP, QUIC, IPFIX, LOGSTREAM, LOGSTREAM_SSL 
-    .PARAMETER cachetype 
-        Cache type supported by the cache server.  
-        Possible values = TRANSPARENT, REVERSE, FORWARD 
-    .PARAMETER td 
-        Integer value that uniquely identifies the traffic domain in which you want to configure the entity. If you do not specify an ID, the entity becomes part of the default traffic domain, which has an ID of 0.  
-        Minimum value = 0  
-        Maximum value = 4094 
-    .PARAMETER maxclient 
-        Maximum number of simultaneous open connections for the service group.  
-        Minimum value = 0  
-        Maximum value = 4294967294 
-    .PARAMETER maxreq 
-        Maximum number of requests that can be sent on a persistent connection to the service group.  
-        Note: Connection requests beyond this value are rejected.  
-        Minimum value = 0  
-        Maximum value = 65535 
-    .PARAMETER cacheable 
-        Use the transparent cache redirection virtual server to forward the request to the cache server.  
-        Note: Do not set this parameter if you set the Cache Type.  
-        Default value: NO  
-        Possible values = YES, NO 
-    .PARAMETER cip 
-        Insert the Client IP header in requests forwarded to the service.  
-        Possible values = ENABLED, DISABLED 
-    .PARAMETER cipheader 
-        Name of the HTTP header whose value must be set to the IP address of the client. Used with the Client IP parameter. If client IP insertion is enabled, and the client IP header is not specified, the value of Client IP Header parameter or the value set by the set ns config command is used as client's IP header name.  
-        Minimum length = 1 
-    .PARAMETER usip 
-        Use client's IP address as the source IP address when initiating connection to the server. With the NO setting, which is the default, a mapped IP (MIP) address or subnet IP (SNIP) address is used as the source IP address to initiate server side connections.  
-        Possible values = YES, NO 
-    .PARAMETER pathmonitor 
-        Path monitoring for clustering.  
-        Possible values = YES, NO 
-    .PARAMETER pathmonitorindv 
-        Individual Path monitoring decisions.  
-        Possible values = YES, NO 
-    .PARAMETER useproxyport 
-        Use the proxy port as the source port when initiating connections with the server. With the NO setting, the client-side connection port is used as the source port for the server-side connection.  
-        Note: This parameter is available only when the Use Source IP (USIP) parameter is set to YES.  
-        Possible values = YES, NO 
-    .PARAMETER healthmonitor 
-        Monitor the health of this service. Available settings function as follows:  
-        YES - Send probes to check the health of the service.  
-        NO - Do not send probes to check the health of the service. With the NO option, the appliance shows the service as UP at all times.  
-        Default value: YES  
-        Possible values = YES, NO 
-    .PARAMETER sc 
-        State of the SureConnect feature for the service group.  
-        Default value: OFF  
-        Possible values = ON, OFF 
-    .PARAMETER sp 
-        Enable surge protection for the service group.  
-        Default value: OFF  
-        Possible values = ON, OFF 
-    .PARAMETER rtspsessionidremap 
-        Enable RTSP session ID mapping for the service group.  
-        Default value: OFF  
-        Possible values = ON, OFF 
-    .PARAMETER clttimeout 
-        Time, in seconds, after which to terminate an idle client connection.  
-        Minimum value = 0  
-        Maximum value = 31536000 
-    .PARAMETER svrtimeout 
-        Time, in seconds, after which to terminate an idle server connection.  
-        Minimum value = 0  
-        Maximum value = 31536000 
-    .PARAMETER cka 
-        Enable client keep-alive for the service group.  
-        Possible values = YES, NO 
-    .PARAMETER tcpb 
-        Enable TCP buffering for the service group.  
-        Possible values = YES, NO 
-    .PARAMETER cmp 
-        Enable compression for the specified service.  
-        Possible values = YES, NO 
-    .PARAMETER maxbandwidth 
-        Maximum bandwidth, in Kbps, allocated for all the services in the service group.  
-        Minimum value = 0  
-        Maximum value = 4294967287 
-    .PARAMETER monthreshold 
-        Minimum sum of weights of the monitors that are bound to this service. Used to determine whether to mark a service as UP or DOWN.  
-        Minimum value = 0  
-        Maximum value = 65535 
-    .PARAMETER state 
-        Initial state of the service group.  
-        Default value: ENABLED  
-        Possible values = ENABLED, DISABLED 
-    .PARAMETER downstateflush 
-        Flush all active transactions associated with all the services in the service group whose state transitions from UP to DOWN. Do not enable this option for applications that must complete their transactions.  
-        Default value: ENABLED  
-        Possible values = ENABLED, DISABLED 
-    .PARAMETER tcpprofilename 
-        Name of the TCP profile that contains TCP configuration settings for the service group.  
-        Minimum length = 1  
-        Maximum length = 127 
-    .PARAMETER httpprofilename 
-        Name of the HTTP profile that contains HTTP configuration settings for the service group.  
-        Minimum length = 1  
-        Maximum length = 127 
-    .PARAMETER comment 
-        Any information about the service group. 
-    .PARAMETER appflowlog 
-        Enable logging of AppFlow information for the specified service group.  
-        Default value: ENABLED  
-        Possible values = ENABLED, DISABLED 
-    .PARAMETER netprofile 
-        Network profile for the service group.  
-        Minimum length = 1  
-        Maximum length = 127 
-    .PARAMETER autoscale 
-        Auto scale option for a servicegroup.  
-        Default value: DISABLED  
-        Possible values = DISABLED, DNS, POLICY, CLOUD, API 
-    .PARAMETER memberport 
-        member port. 
-    .PARAMETER autodisablegraceful 
-        Indicates graceful shutdown of the service. System will wait for all outstanding connections to this service to be closed before disabling the service.  
-        Default value: NO  
-        Possible values = YES, NO 
-    .PARAMETER autodisabledelay 
-        The time allowed (in seconds) for a graceful shutdown. During this period, new connections or requests will continue to be sent to this service for clients who already have a persistent session on the system. Connections or requests from fresh or new clients who do not yet have a persistence sessions on the system will not be sent to the service. Instead, they will be load balanced among other available services. After the delay time expires, no new requests or connections will be sent to the service. 
-    .PARAMETER monconnectionclose 
-        Close monitoring connections by sending the service a connection termination message with the specified bit set.  
-        Default value: NONE  
-        Possible values = RESET, FIN 
+        Configuration for service group resource.
+    .PARAMETER Servicegroupname 
+        Name of the service group. Must begin with an ASCII alphabetic or underscore (_) character, and must contain only ASCII alphanumeric, underscore, hash (#), period (.), space, colon (:), at (@), equals (=), and hyphen (-) characters. Can be changed after the name is created. 
+    .PARAMETER Newname 
+        New name for the service group. 
     .PARAMETER PassThru 
         Return details about the created servicegroup item.
     .EXAMPLE
-        Invoke-ADCAddServicegroup -servicegroupname <string> -servicetype <string>
+        PS C:\>Invoke-ADCRenameServicegroup -servicegroupname <string> -newname <string>
+        An example how to rename servicegroup configuration Object(s).
     .NOTES
-        File Name : Invoke-ADCAddServicegroup
-        Version   : v2106.2309
+        File Name : Invoke-ADCRenameServicegroup
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/basic/servicegroup/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
+    #>
     [CmdletBinding(SupportsShouldProcess = $true, ConfirmImpact = "Low")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
-        [Parameter(Mandatory = $true)]
+        [Parameter(Mandatory)]
         [ValidateScript({ $_.Length -gt 1 })]
         [ValidatePattern('^(([a-zA-Z0-9]|[_])+([a-zA-Z0-9]|[_])+)$')]
-        [string]$servicegroupname ,
+        [string]$Servicegroupname,
 
-        [Parameter(Mandatory = $true)]
-        [ValidateSet('HTTP', 'FTP', 'TCP', 'UDP', 'SSL', 'SSL_BRIDGE', 'SSL_TCP', 'DTLS', 'NNTP', 'RPCSVR', 'DNS', 'ADNS', 'SNMP', 'RTSP', 'DHCPRA', 'ANY', 'SIP_UDP', 'SIP_TCP', 'SIP_SSL', 'DNS_TCP', 'ADNS_TCP', 'MYSQL', 'MSSQL', 'ORACLE', 'MONGO', 'MONGO_TLS', 'RADIUS', 'RADIUSListener', 'RDP', 'DIAMETER', 'SSL_DIAMETER', 'TFTP', 'SMPP', 'PPTP', 'GRE', 'SYSLOGTCP', 'SYSLOGUDP', 'FIX', 'SSL_FIX', 'USER_TCP', 'USER_SSL_TCP', 'QUIC', 'IPFIX', 'LOGSTREAM', 'LOGSTREAM_SSL')]
-        [string]$servicetype ,
-
-        [ValidateSet('TRANSPARENT', 'REVERSE', 'FORWARD')]
-        [string]$cachetype ,
-
-        [ValidateRange(0, 4094)]
-        [double]$td ,
-
-        [ValidateRange(0, 4294967294)]
-        [double]$maxclient ,
-
-        [ValidateRange(0, 65535)]
-        [double]$maxreq ,
-
-        [ValidateSet('YES', 'NO')]
-        [string]$cacheable = 'NO' ,
-
-        [ValidateSet('ENABLED', 'DISABLED')]
-        [string]$cip ,
-
+        [Parameter(Mandatory)]
         [ValidateScript({ $_.Length -gt 1 })]
-        [string]$cipheader ,
-
-        [ValidateSet('YES', 'NO')]
-        [string]$usip ,
-
-        [ValidateSet('YES', 'NO')]
-        [string]$pathmonitor ,
-
-        [ValidateSet('YES', 'NO')]
-        [string]$pathmonitorindv ,
-
-        [ValidateSet('YES', 'NO')]
-        [string]$useproxyport ,
-
-        [ValidateSet('YES', 'NO')]
-        [string]$healthmonitor = 'YES' ,
-
-        [ValidateSet('ON', 'OFF')]
-        [string]$sc = 'OFF' ,
-
-        [ValidateSet('ON', 'OFF')]
-        [string]$sp = 'OFF' ,
-
-        [ValidateSet('ON', 'OFF')]
-        [string]$rtspsessionidremap = 'OFF' ,
-
-        [ValidateRange(0, 31536000)]
-        [double]$clttimeout ,
-
-        [ValidateRange(0, 31536000)]
-        [double]$svrtimeout ,
-
-        [ValidateSet('YES', 'NO')]
-        [string]$cka ,
-
-        [ValidateSet('YES', 'NO')]
-        [string]$tcpb ,
-
-        [ValidateSet('YES', 'NO')]
-        [string]$cmp ,
-
-        [ValidateRange(0, 4294967287)]
-        [double]$maxbandwidth ,
-
-        [ValidateRange(0, 65535)]
-        [double]$monthreshold ,
-
-        [ValidateSet('ENABLED', 'DISABLED')]
-        [string]$state = 'ENABLED' ,
-
-        [ValidateSet('ENABLED', 'DISABLED')]
-        [string]$downstateflush = 'ENABLED' ,
-
-        [ValidateLength(1, 127)]
-        [string]$tcpprofilename ,
-
-        [ValidateLength(1, 127)]
-        [string]$httpprofilename ,
-
-        [string]$comment ,
-
-        [ValidateSet('ENABLED', 'DISABLED')]
-        [string]$appflowlog = 'ENABLED' ,
-
-        [ValidateLength(1, 127)]
-        [string]$netprofile ,
-
-        [ValidateSet('DISABLED', 'DNS', 'POLICY', 'CLOUD', 'API')]
-        [string]$autoscale = 'DISABLED' ,
-
-        [int]$memberport ,
-
-        [ValidateSet('YES', 'NO')]
-        [string]$autodisablegraceful = 'NO' ,
-
-        [double]$autodisabledelay ,
-
-        [ValidateSet('RESET', 'FIN')]
-        [string]$monconnectionclose = 'NONE' ,
+        [string]$Newname,
 
         [Switch]$PassThru 
-
     )
     begin {
-        Write-Verbose "Invoke-ADCAddServicegroup: Starting"
+        Write-Verbose "Invoke-ADCRenameServicegroup: Starting"
     }
     process {
         try {
-            $Payload = @{
-                servicegroupname = $servicegroupname
-                servicetype = $servicetype
+            $payload = @{ servicegroupname = $servicegroupname
+                newname                    = $newname
             }
-            if ($PSBoundParameters.ContainsKey('cachetype')) { $Payload.Add('cachetype', $cachetype) }
-            if ($PSBoundParameters.ContainsKey('td')) { $Payload.Add('td', $td) }
-            if ($PSBoundParameters.ContainsKey('maxclient')) { $Payload.Add('maxclient', $maxclient) }
-            if ($PSBoundParameters.ContainsKey('maxreq')) { $Payload.Add('maxreq', $maxreq) }
-            if ($PSBoundParameters.ContainsKey('cacheable')) { $Payload.Add('cacheable', $cacheable) }
-            if ($PSBoundParameters.ContainsKey('cip')) { $Payload.Add('cip', $cip) }
-            if ($PSBoundParameters.ContainsKey('cipheader')) { $Payload.Add('cipheader', $cipheader) }
-            if ($PSBoundParameters.ContainsKey('usip')) { $Payload.Add('usip', $usip) }
-            if ($PSBoundParameters.ContainsKey('pathmonitor')) { $Payload.Add('pathmonitor', $pathmonitor) }
-            if ($PSBoundParameters.ContainsKey('pathmonitorindv')) { $Payload.Add('pathmonitorindv', $pathmonitorindv) }
-            if ($PSBoundParameters.ContainsKey('useproxyport')) { $Payload.Add('useproxyport', $useproxyport) }
-            if ($PSBoundParameters.ContainsKey('healthmonitor')) { $Payload.Add('healthmonitor', $healthmonitor) }
-            if ($PSBoundParameters.ContainsKey('sc')) { $Payload.Add('sc', $sc) }
-            if ($PSBoundParameters.ContainsKey('sp')) { $Payload.Add('sp', $sp) }
-            if ($PSBoundParameters.ContainsKey('rtspsessionidremap')) { $Payload.Add('rtspsessionidremap', $rtspsessionidremap) }
-            if ($PSBoundParameters.ContainsKey('clttimeout')) { $Payload.Add('clttimeout', $clttimeout) }
-            if ($PSBoundParameters.ContainsKey('svrtimeout')) { $Payload.Add('svrtimeout', $svrtimeout) }
-            if ($PSBoundParameters.ContainsKey('cka')) { $Payload.Add('cka', $cka) }
-            if ($PSBoundParameters.ContainsKey('tcpb')) { $Payload.Add('tcpb', $tcpb) }
-            if ($PSBoundParameters.ContainsKey('cmp')) { $Payload.Add('cmp', $cmp) }
-            if ($PSBoundParameters.ContainsKey('maxbandwidth')) { $Payload.Add('maxbandwidth', $maxbandwidth) }
-            if ($PSBoundParameters.ContainsKey('monthreshold')) { $Payload.Add('monthreshold', $monthreshold) }
-            if ($PSBoundParameters.ContainsKey('state')) { $Payload.Add('state', $state) }
-            if ($PSBoundParameters.ContainsKey('downstateflush')) { $Payload.Add('downstateflush', $downstateflush) }
-            if ($PSBoundParameters.ContainsKey('tcpprofilename')) { $Payload.Add('tcpprofilename', $tcpprofilename) }
-            if ($PSBoundParameters.ContainsKey('httpprofilename')) { $Payload.Add('httpprofilename', $httpprofilename) }
-            if ($PSBoundParameters.ContainsKey('comment')) { $Payload.Add('comment', $comment) }
-            if ($PSBoundParameters.ContainsKey('appflowlog')) { $Payload.Add('appflowlog', $appflowlog) }
-            if ($PSBoundParameters.ContainsKey('netprofile')) { $Payload.Add('netprofile', $netprofile) }
-            if ($PSBoundParameters.ContainsKey('autoscale')) { $Payload.Add('autoscale', $autoscale) }
-            if ($PSBoundParameters.ContainsKey('memberport')) { $Payload.Add('memberport', $memberport) }
-            if ($PSBoundParameters.ContainsKey('autodisablegraceful')) { $Payload.Add('autodisablegraceful', $autodisablegraceful) }
-            if ($PSBoundParameters.ContainsKey('autodisabledelay')) { $Payload.Add('autodisabledelay', $autodisabledelay) }
-            if ($PSBoundParameters.ContainsKey('monconnectionclose')) { $Payload.Add('monconnectionclose', $monconnectionclose) }
- 
-            if ($PSCmdlet.ShouldProcess("servicegroup", "Add Basic configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -NitroPath nitro/v1/config -Type servicegroup -Payload $Payload -GetWarning
-                #HTTP Status Code on Success: 201 Created
+
+            if ( $PSCmdlet.ShouldProcess("servicegroup", "Rename Basic configuration Object") ) {
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -NitroPath nitro/v1/config -Type servicegroup -Action rename -Payload $payload -GetWarning
+                #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
-                if ($PSBoundParameters.ContainsKey('PassThru')) {
-                    Write-Output (Invoke-ADCGetServicegroup -Filter $Payload)
+                if ( $PSBoundParameters.ContainsKey('PassThru') ) {
+                    Write-Output (Invoke-ADCGetServicegroup -Filter $payload)
                 } else {
                     Write-Output $result
                 }
-
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -4790,747 +4332,55 @@ function Invoke-ADCAddServicegroup {
         }
     }
     end {
-        Write-Verbose "Invoke-ADCAddServicegroup: Finished"
-    }
-}
-
-function Invoke-ADCDeleteServicegroup {
-<#
-    .SYNOPSIS
-        Delete Basic configuration Object
-    .DESCRIPTION
-        Delete Basic configuration Object
-    .PARAMETER servicegroupname 
-       Name of the service group. Must begin with an ASCII alphabetic or underscore (_) character, and must contain only ASCII alphanumeric, underscore, hash (#), period (.), space, colon (:), at (@), equals (=), and hyphen (-) characters. Can be changed after the name is created.  
-       Minimum length = 1 
-    .EXAMPLE
-        Invoke-ADCDeleteServicegroup -servicegroupname <string>
-    .NOTES
-        File Name : Invoke-ADCDeleteServicegroup
-        Version   : v2106.2309
-        Author    : John Billekens
-        Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/basic/servicegroup/
-        Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
-    .LINK
-        https://blog.j81.nl
-#>
-    [CmdletBinding(SupportsShouldProcess = $true, ConfirmImpact = "Low")]
-    [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
-    [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
-    [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
-    param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
-
-        [Parameter(Mandatory = $true)]
-        [string]$servicegroupname 
-    )
-    begin {
-        Write-Verbose "Invoke-ADCDeleteServicegroup: Starting"
-    }
-    process {
-        try {
-            $Arguments = @{ 
-            }
-
-            if ($PSCmdlet.ShouldProcess("$servicegroupname", "Delete Basic configuration Object")) {
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type servicegroup -NitroPath nitro/v1/config -Resource $servicegroupname -Arguments $Arguments
-                #HTTP Status Code on Success: 200 OK
-                #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
-                Write-Output $response
-            }
-        } catch {
-            Write-Verbose "ERROR: $($_.Exception.Message)"
-            throw $_
-        }
-    }
-    end {
-        Write-Verbose "Invoke-ADCDeleteServicegroup: Finished"
-    }
-}
-
-function Invoke-ADCUpdateServicegroup {
-<#
-    .SYNOPSIS
-        Update Basic configuration Object
-    .DESCRIPTION
-        Update Basic configuration Object 
-    .PARAMETER servicegroupname 
-        Name of the service group. Must begin with an ASCII alphabetic or underscore (_) character, and must contain only ASCII alphanumeric, underscore, hash (#), period (.), space, colon (:), at (@), equals (=), and hyphen (-) characters. Can be changed after the name is created.  
-        Minimum length = 1 
-    .PARAMETER servername 
-        Name of the server to which to bind the service group.  
-        Minimum length = 1 
-    .PARAMETER port 
-        Server port number.  
-        Range 1 - 65535  
-        * in CLI is represented as 65535 in NITRO API 
-    .PARAMETER weight 
-        Weight to assign to the servers in the service group. Specifies the capacity of the servers relative to the other servers in the load balancing configuration. The higher the weight, the higher the percentage of requests sent to the service.  
-        Minimum value = 1  
-        Maximum value = 100 
-    .PARAMETER customserverid 
-        The identifier for this IP:Port pair. Used when the persistency type is set to Custom Server ID.  
-        Default value: "None" 
-    .PARAMETER serverid 
-        The identifier for the service. This is used when the persistency type is set to Custom Server ID. 
-    .PARAMETER hashid 
-        The hash identifier for the service. This must be unique for each service. This parameter is used by hash based load balancing methods.  
-        Minimum value = 1 
-    .PARAMETER nameserver 
-        Specify the nameserver to which the query for bound domain needs to be sent. If not specified, use the global nameserver. 
-    .PARAMETER dbsttl 
-        Specify the TTL for DNS record for domain based service.The default value of ttl is 0 which indicates to use the TTL received in DNS response for monitors.  
-        Default value: 0 
-    .PARAMETER monitor_name_svc 
-        Name of the monitor bound to the service group. Used to assign a weight to the monitor.  
-        Minimum length = 1 
-    .PARAMETER dup_weight 
-        weight of the monitor that is bound to servicegroup.  
-        Minimum value = 1 
-    .PARAMETER maxclient 
-        Maximum number of simultaneous open connections for the service group.  
-        Minimum value = 0  
-        Maximum value = 4294967294 
-    .PARAMETER maxreq 
-        Maximum number of requests that can be sent on a persistent connection to the service group.  
-        Note: Connection requests beyond this value are rejected.  
-        Minimum value = 0  
-        Maximum value = 65535 
-    .PARAMETER healthmonitor 
-        Monitor the health of this service. Available settings function as follows:  
-        YES - Send probes to check the health of the service.  
-        NO - Do not send probes to check the health of the service. With the NO option, the appliance shows the service as UP at all times.  
-        Default value: YES  
-        Possible values = YES, NO 
-    .PARAMETER cacheable 
-        Use the transparent cache redirection virtual server to forward the request to the cache server.  
-        Note: Do not set this parameter if you set the Cache Type.  
-        Default value: NO  
-        Possible values = YES, NO 
-    .PARAMETER cip 
-        Insert the Client IP header in requests forwarded to the service.  
-        Possible values = ENABLED, DISABLED 
-    .PARAMETER cipheader 
-        Name of the HTTP header whose value must be set to the IP address of the client. Used with the Client IP parameter. If client IP insertion is enabled, and the client IP header is not specified, the value of Client IP Header parameter or the value set by the set ns config command is used as client's IP header name.  
-        Minimum length = 1 
-    .PARAMETER usip 
-        Use client's IP address as the source IP address when initiating connection to the server. With the NO setting, which is the default, a mapped IP (MIP) address or subnet IP (SNIP) address is used as the source IP address to initiate server side connections.  
-        Possible values = YES, NO 
-    .PARAMETER pathmonitor 
-        Path monitoring for clustering.  
-        Possible values = YES, NO 
-    .PARAMETER pathmonitorindv 
-        Individual Path monitoring decisions.  
-        Possible values = YES, NO 
-    .PARAMETER useproxyport 
-        Use the proxy port as the source port when initiating connections with the server. With the NO setting, the client-side connection port is used as the source port for the server-side connection.  
-        Note: This parameter is available only when the Use Source IP (USIP) parameter is set to YES.  
-        Possible values = YES, NO 
-    .PARAMETER sc 
-        State of the SureConnect feature for the service group.  
-        Default value: OFF  
-        Possible values = ON, OFF 
-    .PARAMETER sp 
-        Enable surge protection for the service group.  
-        Default value: OFF  
-        Possible values = ON, OFF 
-    .PARAMETER rtspsessionidremap 
-        Enable RTSP session ID mapping for the service group.  
-        Default value: OFF  
-        Possible values = ON, OFF 
-    .PARAMETER clttimeout 
-        Time, in seconds, after which to terminate an idle client connection.  
-        Minimum value = 0  
-        Maximum value = 31536000 
-    .PARAMETER svrtimeout 
-        Time, in seconds, after which to terminate an idle server connection.  
-        Minimum value = 0  
-        Maximum value = 31536000 
-    .PARAMETER cka 
-        Enable client keep-alive for the service group.  
-        Possible values = YES, NO 
-    .PARAMETER tcpb 
-        Enable TCP buffering for the service group.  
-        Possible values = YES, NO 
-    .PARAMETER cmp 
-        Enable compression for the specified service.  
-        Possible values = YES, NO 
-    .PARAMETER maxbandwidth 
-        Maximum bandwidth, in Kbps, allocated for all the services in the service group.  
-        Minimum value = 0  
-        Maximum value = 4294967287 
-    .PARAMETER monthreshold 
-        Minimum sum of weights of the monitors that are bound to this service. Used to determine whether to mark a service as UP or DOWN.  
-        Minimum value = 0  
-        Maximum value = 65535 
-    .PARAMETER downstateflush 
-        Flush all active transactions associated with all the services in the service group whose state transitions from UP to DOWN. Do not enable this option for applications that must complete their transactions.  
-        Default value: ENABLED  
-        Possible values = ENABLED, DISABLED 
-    .PARAMETER tcpprofilename 
-        Name of the TCP profile that contains TCP configuration settings for the service group.  
-        Minimum length = 1  
-        Maximum length = 127 
-    .PARAMETER httpprofilename 
-        Name of the HTTP profile that contains HTTP configuration settings for the service group.  
-        Minimum length = 1  
-        Maximum length = 127 
-    .PARAMETER comment 
-        Any information about the service group. 
-    .PARAMETER appflowlog 
-        Enable logging of AppFlow information for the specified service group.  
-        Default value: ENABLED  
-        Possible values = ENABLED, DISABLED 
-    .PARAMETER netprofile 
-        Network profile for the service group.  
-        Minimum length = 1  
-        Maximum length = 127 
-    .PARAMETER autodisablegraceful 
-        Indicates graceful shutdown of the service. System will wait for all outstanding connections to this service to be closed before disabling the service.  
-        Default value: NO  
-        Possible values = YES, NO 
-    .PARAMETER autodisabledelay 
-        The time allowed (in seconds) for a graceful shutdown. During this period, new connections or requests will continue to be sent to this service for clients who already have a persistent session on the system. Connections or requests from fresh or new clients who do not yet have a persistence sessions on the system will not be sent to the service. Instead, they will be load balanced among other available services. After the delay time expires, no new requests or connections will be sent to the service. 
-    .PARAMETER monconnectionclose 
-        Close monitoring connections by sending the service a connection termination message with the specified bit set.  
-        Default value: NONE  
-        Possible values = RESET, FIN 
-    .PARAMETER autoscale 
-        Auto scale option for a servicegroup.  
-        Default value: DISABLED  
-        Possible values = DISABLED, DNS, POLICY, CLOUD, API 
-    .PARAMETER PassThru 
-        Return details about the created servicegroup item.
-    .EXAMPLE
-        Invoke-ADCUpdateServicegroup -servicegroupname <string>
-    .NOTES
-        File Name : Invoke-ADCUpdateServicegroup
-        Version   : v2106.2309
-        Author    : John Billekens
-        Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/basic/servicegroup/
-        Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
-    .LINK
-        https://blog.j81.nl
-#>
-    [CmdletBinding(SupportsShouldProcess = $true, ConfirmImpact = "Low")]
-    [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
-    [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
-    [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
-    param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
-
-        [Parameter(Mandatory = $true)]
-        [ValidateScript({ $_.Length -gt 1 })]
-        [ValidatePattern('^(([a-zA-Z0-9]|[_])+([a-zA-Z0-9]|[_])+)$')]
-        [string]$servicegroupname ,
-
-        [ValidateScript({ $_.Length -gt 1 })]
-        [string]$servername ,
-
-        [ValidateRange(1, 65535)]
-        [int]$port ,
-
-        [ValidateRange(1, 100)]
-        [double]$weight ,
-
-        [string]$customserverid ,
-
-        [double]$serverid ,
-
-        [double]$hashid ,
-
-        [string]$nameserver ,
-
-        [double]$dbsttl ,
-
-        [ValidateScript({ $_.Length -gt 1 })]
-        [string]$monitor_name_svc ,
-
-        [double]$dup_weight ,
-
-        [ValidateRange(0, 4294967294)]
-        [double]$maxclient ,
-
-        [ValidateRange(0, 65535)]
-        [double]$maxreq ,
-
-        [ValidateSet('YES', 'NO')]
-        [string]$healthmonitor ,
-
-        [ValidateSet('YES', 'NO')]
-        [string]$cacheable ,
-
-        [ValidateSet('ENABLED', 'DISABLED')]
-        [string]$cip ,
-
-        [ValidateScript({ $_.Length -gt 1 })]
-        [string]$cipheader ,
-
-        [ValidateSet('YES', 'NO')]
-        [string]$usip ,
-
-        [ValidateSet('YES', 'NO')]
-        [string]$pathmonitor ,
-
-        [ValidateSet('YES', 'NO')]
-        [string]$pathmonitorindv ,
-
-        [ValidateSet('YES', 'NO')]
-        [string]$useproxyport ,
-
-        [ValidateSet('ON', 'OFF')]
-        [string]$sc ,
-
-        [ValidateSet('ON', 'OFF')]
-        [string]$sp ,
-
-        [ValidateSet('ON', 'OFF')]
-        [string]$rtspsessionidremap ,
-
-        [ValidateRange(0, 31536000)]
-        [double]$clttimeout ,
-
-        [ValidateRange(0, 31536000)]
-        [double]$svrtimeout ,
-
-        [ValidateSet('YES', 'NO')]
-        [string]$cka ,
-
-        [ValidateSet('YES', 'NO')]
-        [string]$tcpb ,
-
-        [ValidateSet('YES', 'NO')]
-        [string]$cmp ,
-
-        [ValidateRange(0, 4294967287)]
-        [double]$maxbandwidth ,
-
-        [ValidateRange(0, 65535)]
-        [double]$monthreshold ,
-
-        [ValidateSet('ENABLED', 'DISABLED')]
-        [string]$downstateflush ,
-
-        [ValidateLength(1, 127)]
-        [string]$tcpprofilename ,
-
-        [ValidateLength(1, 127)]
-        [string]$httpprofilename ,
-
-        [string]$comment ,
-
-        [ValidateSet('ENABLED', 'DISABLED')]
-        [string]$appflowlog ,
-
-        [ValidateLength(1, 127)]
-        [string]$netprofile ,
-
-        [ValidateSet('YES', 'NO')]
-        [string]$autodisablegraceful ,
-
-        [double]$autodisabledelay ,
-
-        [ValidateSet('RESET', 'FIN')]
-        [string]$monconnectionclose ,
-
-        [ValidateSet('DISABLED', 'DNS', 'POLICY', 'CLOUD', 'API')]
-        [string]$autoscale ,
-
-        [Switch]$PassThru 
-
-    )
-    begin {
-        Write-Verbose "Invoke-ADCUpdateServicegroup: Starting"
-    }
-    process {
-        try {
-            $Payload = @{
-                servicegroupname = $servicegroupname
-            }
-            if ($PSBoundParameters.ContainsKey('servername')) { $Payload.Add('servername', $servername) }
-            if ($PSBoundParameters.ContainsKey('port')) { $Payload.Add('port', $port) }
-            if ($PSBoundParameters.ContainsKey('weight')) { $Payload.Add('weight', $weight) }
-            if ($PSBoundParameters.ContainsKey('customserverid')) { $Payload.Add('customserverid', $customserverid) }
-            if ($PSBoundParameters.ContainsKey('serverid')) { $Payload.Add('serverid', $serverid) }
-            if ($PSBoundParameters.ContainsKey('hashid')) { $Payload.Add('hashid', $hashid) }
-            if ($PSBoundParameters.ContainsKey('nameserver')) { $Payload.Add('nameserver', $nameserver) }
-            if ($PSBoundParameters.ContainsKey('dbsttl')) { $Payload.Add('dbsttl', $dbsttl) }
-            if ($PSBoundParameters.ContainsKey('monitor_name_svc')) { $Payload.Add('monitor_name_svc', $monitor_name_svc) }
-            if ($PSBoundParameters.ContainsKey('dup_weight')) { $Payload.Add('dup_weight', $dup_weight) }
-            if ($PSBoundParameters.ContainsKey('maxclient')) { $Payload.Add('maxclient', $maxclient) }
-            if ($PSBoundParameters.ContainsKey('maxreq')) { $Payload.Add('maxreq', $maxreq) }
-            if ($PSBoundParameters.ContainsKey('healthmonitor')) { $Payload.Add('healthmonitor', $healthmonitor) }
-            if ($PSBoundParameters.ContainsKey('cacheable')) { $Payload.Add('cacheable', $cacheable) }
-            if ($PSBoundParameters.ContainsKey('cip')) { $Payload.Add('cip', $cip) }
-            if ($PSBoundParameters.ContainsKey('cipheader')) { $Payload.Add('cipheader', $cipheader) }
-            if ($PSBoundParameters.ContainsKey('usip')) { $Payload.Add('usip', $usip) }
-            if ($PSBoundParameters.ContainsKey('pathmonitor')) { $Payload.Add('pathmonitor', $pathmonitor) }
-            if ($PSBoundParameters.ContainsKey('pathmonitorindv')) { $Payload.Add('pathmonitorindv', $pathmonitorindv) }
-            if ($PSBoundParameters.ContainsKey('useproxyport')) { $Payload.Add('useproxyport', $useproxyport) }
-            if ($PSBoundParameters.ContainsKey('sc')) { $Payload.Add('sc', $sc) }
-            if ($PSBoundParameters.ContainsKey('sp')) { $Payload.Add('sp', $sp) }
-            if ($PSBoundParameters.ContainsKey('rtspsessionidremap')) { $Payload.Add('rtspsessionidremap', $rtspsessionidremap) }
-            if ($PSBoundParameters.ContainsKey('clttimeout')) { $Payload.Add('clttimeout', $clttimeout) }
-            if ($PSBoundParameters.ContainsKey('svrtimeout')) { $Payload.Add('svrtimeout', $svrtimeout) }
-            if ($PSBoundParameters.ContainsKey('cka')) { $Payload.Add('cka', $cka) }
-            if ($PSBoundParameters.ContainsKey('tcpb')) { $Payload.Add('tcpb', $tcpb) }
-            if ($PSBoundParameters.ContainsKey('cmp')) { $Payload.Add('cmp', $cmp) }
-            if ($PSBoundParameters.ContainsKey('maxbandwidth')) { $Payload.Add('maxbandwidth', $maxbandwidth) }
-            if ($PSBoundParameters.ContainsKey('monthreshold')) { $Payload.Add('monthreshold', $monthreshold) }
-            if ($PSBoundParameters.ContainsKey('downstateflush')) { $Payload.Add('downstateflush', $downstateflush) }
-            if ($PSBoundParameters.ContainsKey('tcpprofilename')) { $Payload.Add('tcpprofilename', $tcpprofilename) }
-            if ($PSBoundParameters.ContainsKey('httpprofilename')) { $Payload.Add('httpprofilename', $httpprofilename) }
-            if ($PSBoundParameters.ContainsKey('comment')) { $Payload.Add('comment', $comment) }
-            if ($PSBoundParameters.ContainsKey('appflowlog')) { $Payload.Add('appflowlog', $appflowlog) }
-            if ($PSBoundParameters.ContainsKey('netprofile')) { $Payload.Add('netprofile', $netprofile) }
-            if ($PSBoundParameters.ContainsKey('autodisablegraceful')) { $Payload.Add('autodisablegraceful', $autodisablegraceful) }
-            if ($PSBoundParameters.ContainsKey('autodisabledelay')) { $Payload.Add('autodisabledelay', $autodisabledelay) }
-            if ($PSBoundParameters.ContainsKey('monconnectionclose')) { $Payload.Add('monconnectionclose', $monconnectionclose) }
-            if ($PSBoundParameters.ContainsKey('autoscale')) { $Payload.Add('autoscale', $autoscale) }
- 
-            if ($PSCmdlet.ShouldProcess("servicegroup", "Update Basic configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -NitroPath nitro/v1/config -Type servicegroup -Payload $Payload -GetWarning
-                #HTTP Status Code on Success: 200 OK
-                #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
-                if ($PSBoundParameters.ContainsKey('PassThru')) {
-                    Write-Output (Invoke-ADCGetServicegroup -Filter $Payload)
-                } else {
-                    Write-Output $result
-                }
-
-            }
-        } catch {
-            Write-Verbose "ERROR: $($_.Exception.Message)"
-            throw $_
-        }
-    }
-    end {
-        Write-Verbose "Invoke-ADCUpdateServicegroup: Finished"
-    }
-}
-
-function Invoke-ADCUnsetServicegroup {
-<#
-    .SYNOPSIS
-        Unset Basic configuration Object
-    .DESCRIPTION
-        Unset Basic configuration Object 
-   .PARAMETER servicegroupname 
-       Name of the service group. Must begin with an ASCII alphabetic or underscore (_) character, and must contain only ASCII alphanumeric, underscore, hash (#), period (.), space, colon (:), at (@), equals (=), and hyphen (-) characters. Can be changed after the name is created. 
-   .PARAMETER servername 
-       Name of the server to which to bind the service group. 
-   .PARAMETER port 
-       Server port number.  
-       * in CLI is represented as 65535 in NITRO API 
-   .PARAMETER weight 
-       Weight to assign to the servers in the service group. Specifies the capacity of the servers relative to the other servers in the load balancing configuration. The higher the weight, the higher the percentage of requests sent to the service. 
-   .PARAMETER customserverid 
-       The identifier for this IP:Port pair. Used when the persistency type is set to Custom Server ID. 
-   .PARAMETER serverid 
-       The identifier for the service. This is used when the persistency type is set to Custom Server ID. 
-   .PARAMETER hashid 
-       The hash identifier for the service. This must be unique for each service. This parameter is used by hash based load balancing methods. 
-   .PARAMETER nameserver 
-       Specify the nameserver to which the query for bound domain needs to be sent. If not specified, use the global nameserver. 
-   .PARAMETER dbsttl 
-       Specify the TTL for DNS record for domain based service.The default value of ttl is 0 which indicates to use the TTL received in DNS response for monitors. 
-   .PARAMETER maxclient 
-       Maximum number of simultaneous open connections for the service group. 
-   .PARAMETER maxreq 
-       Maximum number of requests that can be sent on a persistent connection to the service group.  
-       Note: Connection requests beyond this value are rejected. 
-   .PARAMETER cacheable 
-       Use the transparent cache redirection virtual server to forward the request to the cache server.  
-       Note: Do not set this parameter if you set the Cache Type.  
-       Possible values = YES, NO 
-   .PARAMETER cip 
-       Insert the Client IP header in requests forwarded to the service.  
-       Possible values = ENABLED, DISABLED 
-   .PARAMETER usip 
-       Use client's IP address as the source IP address when initiating connection to the server. With the NO setting, which is the default, a mapped IP (MIP) address or subnet IP (SNIP) address is used as the source IP address to initiate server side connections.  
-       Possible values = YES, NO 
-   .PARAMETER useproxyport 
-       Use the proxy port as the source port when initiating connections with the server. With the NO setting, the client-side connection port is used as the source port for the server-side connection.  
-       Note: This parameter is available only when the Use Source IP (USIP) parameter is set to YES.  
-       Possible values = YES, NO 
-   .PARAMETER sc 
-       State of the SureConnect feature for the service group.  
-       Possible values = ON, OFF 
-   .PARAMETER sp 
-       Enable surge protection for the service group.  
-       Possible values = ON, OFF 
-   .PARAMETER rtspsessionidremap 
-       Enable RTSP session ID mapping for the service group.  
-       Possible values = ON, OFF 
-   .PARAMETER clttimeout 
-       Time, in seconds, after which to terminate an idle client connection. 
-   .PARAMETER svrtimeout 
-       Time, in seconds, after which to terminate an idle server connection. 
-   .PARAMETER cka 
-       Enable client keep-alive for the service group.  
-       Possible values = YES, NO 
-   .PARAMETER tcpb 
-       Enable TCP buffering for the service group.  
-       Possible values = YES, NO 
-   .PARAMETER cmp 
-       Enable compression for the specified service.  
-       Possible values = YES, NO 
-   .PARAMETER maxbandwidth 
-       Maximum bandwidth, in Kbps, allocated for all the services in the service group. 
-   .PARAMETER monthreshold 
-       Minimum sum of weights of the monitors that are bound to this service. Used to determine whether to mark a service as UP or DOWN. 
-   .PARAMETER tcpprofilename 
-       Name of the TCP profile that contains TCP configuration settings for the service group. 
-   .PARAMETER httpprofilename 
-       Name of the HTTP profile that contains HTTP configuration settings for the service group. 
-   .PARAMETER appflowlog 
-       Enable logging of AppFlow information for the specified service group.  
-       Possible values = ENABLED, DISABLED 
-   .PARAMETER netprofile 
-       Network profile for the service group. 
-   .PARAMETER autodisablegraceful 
-       Indicates graceful shutdown of the service. System will wait for all outstanding connections to this service to be closed before disabling the service.  
-       Possible values = YES, NO 
-   .PARAMETER autodisabledelay 
-       The time allowed (in seconds) for a graceful shutdown. During this period, new connections or requests will continue to be sent to this service for clients who already have a persistent session on the system. Connections or requests from fresh or new clients who do not yet have a persistence sessions on the system will not be sent to the service. Instead, they will be load balanced among other available services. After the delay time expires, no new requests or connections will be sent to the service. 
-   .PARAMETER monitor_name_svc 
-       Name of the monitor bound to the service group. Used to assign a weight to the monitor. 
-   .PARAMETER dup_weight 
-       weight of the monitor that is bound to servicegroup. 
-   .PARAMETER healthmonitor 
-       Monitor the health of this service. Available settings function as follows:  
-       YES - Send probes to check the health of the service.  
-       NO - Do not send probes to check the health of the service. With the NO option, the appliance shows the service as UP at all times.  
-       Possible values = YES, NO 
-   .PARAMETER cipheader 
-       Name of the HTTP header whose value must be set to the IP address of the client. Used with the Client IP parameter. If client IP insertion is enabled, and the client IP header is not specified, the value of Client IP Header parameter or the value set by the set ns config command is used as client's IP header name. 
-   .PARAMETER pathmonitor 
-       Path monitoring for clustering.  
-       Possible values = YES, NO 
-   .PARAMETER pathmonitorindv 
-       Individual Path monitoring decisions.  
-       Possible values = YES, NO 
-   .PARAMETER downstateflush 
-       Flush all active transactions associated with all the services in the service group whose state transitions from UP to DOWN. Do not enable this option for applications that must complete their transactions.  
-       Possible values = ENABLED, DISABLED 
-   .PARAMETER comment 
-       Any information about the service group. 
-   .PARAMETER monconnectionclose 
-       Close monitoring connections by sending the service a connection termination message with the specified bit set.  
-       Possible values = RESET, FIN
-    .EXAMPLE
-        Invoke-ADCUnsetServicegroup -servicegroupname <string>
-    .NOTES
-        File Name : Invoke-ADCUnsetServicegroup
-        Version   : v2106.2309
-        Author    : John Billekens
-        Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/basic/servicegroup
-        Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
-    .LINK
-        https://blog.j81.nl
-#>
-    [CmdletBinding(SupportsShouldProcess = $true, ConfirmImpact = "Low")]
-    [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
-    [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
-    [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
-    param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
-
-        [Parameter(Mandatory = $true)]
-        [ValidateScript({ $_.Length -gt 1 })]
-        [ValidatePattern('^(([a-zA-Z0-9]|[_])+([a-zA-Z0-9]|[_])+)$')]
-        [string]$servicegroupname ,
-
-        [Boolean]$servername ,
-
-        [Boolean]$port ,
-
-        [Boolean]$weight ,
-
-        [Boolean]$customserverid ,
-
-        [Boolean]$serverid ,
-
-        [Boolean]$hashid ,
-
-        [Boolean]$nameserver ,
-
-        [Boolean]$dbsttl ,
-
-        [Boolean]$maxclient ,
-
-        [Boolean]$maxreq ,
-
-        [Boolean]$cacheable ,
-
-        [Boolean]$cip ,
-
-        [Boolean]$usip ,
-
-        [Boolean]$useproxyport ,
-
-        [Boolean]$sc ,
-
-        [Boolean]$sp ,
-
-        [Boolean]$rtspsessionidremap ,
-
-        [Boolean]$clttimeout ,
-
-        [Boolean]$svrtimeout ,
-
-        [Boolean]$cka ,
-
-        [Boolean]$tcpb ,
-
-        [Boolean]$cmp ,
-
-        [Boolean]$maxbandwidth ,
-
-        [Boolean]$monthreshold ,
-
-        [Boolean]$tcpprofilename ,
-
-        [Boolean]$httpprofilename ,
-
-        [Boolean]$appflowlog ,
-
-        [Boolean]$netprofile ,
-
-        [Boolean]$autodisablegraceful ,
-
-        [Boolean]$autodisabledelay ,
-
-        [Boolean]$monitor_name_svc ,
-
-        [Boolean]$dup_weight ,
-
-        [Boolean]$healthmonitor ,
-
-        [Boolean]$cipheader ,
-
-        [Boolean]$pathmonitor ,
-
-        [Boolean]$pathmonitorindv ,
-
-        [Boolean]$downstateflush ,
-
-        [Boolean]$comment ,
-
-        [Boolean]$monconnectionclose 
-    )
-    begin {
-        Write-Verbose "Invoke-ADCUnsetServicegroup: Starting"
-    }
-    process {
-        try {
-            $Payload = @{
-                servicegroupname = $servicegroupname
-            }
-            if ($PSBoundParameters.ContainsKey('servername')) { $Payload.Add('servername', $servername) }
-            if ($PSBoundParameters.ContainsKey('port')) { $Payload.Add('port', $port) }
-            if ($PSBoundParameters.ContainsKey('weight')) { $Payload.Add('weight', $weight) }
-            if ($PSBoundParameters.ContainsKey('customserverid')) { $Payload.Add('customserverid', $customserverid) }
-            if ($PSBoundParameters.ContainsKey('serverid')) { $Payload.Add('serverid', $serverid) }
-            if ($PSBoundParameters.ContainsKey('hashid')) { $Payload.Add('hashid', $hashid) }
-            if ($PSBoundParameters.ContainsKey('nameserver')) { $Payload.Add('nameserver', $nameserver) }
-            if ($PSBoundParameters.ContainsKey('dbsttl')) { $Payload.Add('dbsttl', $dbsttl) }
-            if ($PSBoundParameters.ContainsKey('maxclient')) { $Payload.Add('maxclient', $maxclient) }
-            if ($PSBoundParameters.ContainsKey('maxreq')) { $Payload.Add('maxreq', $maxreq) }
-            if ($PSBoundParameters.ContainsKey('cacheable')) { $Payload.Add('cacheable', $cacheable) }
-            if ($PSBoundParameters.ContainsKey('cip')) { $Payload.Add('cip', $cip) }
-            if ($PSBoundParameters.ContainsKey('usip')) { $Payload.Add('usip', $usip) }
-            if ($PSBoundParameters.ContainsKey('useproxyport')) { $Payload.Add('useproxyport', $useproxyport) }
-            if ($PSBoundParameters.ContainsKey('sc')) { $Payload.Add('sc', $sc) }
-            if ($PSBoundParameters.ContainsKey('sp')) { $Payload.Add('sp', $sp) }
-            if ($PSBoundParameters.ContainsKey('rtspsessionidremap')) { $Payload.Add('rtspsessionidremap', $rtspsessionidremap) }
-            if ($PSBoundParameters.ContainsKey('clttimeout')) { $Payload.Add('clttimeout', $clttimeout) }
-            if ($PSBoundParameters.ContainsKey('svrtimeout')) { $Payload.Add('svrtimeout', $svrtimeout) }
-            if ($PSBoundParameters.ContainsKey('cka')) { $Payload.Add('cka', $cka) }
-            if ($PSBoundParameters.ContainsKey('tcpb')) { $Payload.Add('tcpb', $tcpb) }
-            if ($PSBoundParameters.ContainsKey('cmp')) { $Payload.Add('cmp', $cmp) }
-            if ($PSBoundParameters.ContainsKey('maxbandwidth')) { $Payload.Add('maxbandwidth', $maxbandwidth) }
-            if ($PSBoundParameters.ContainsKey('monthreshold')) { $Payload.Add('monthreshold', $monthreshold) }
-            if ($PSBoundParameters.ContainsKey('tcpprofilename')) { $Payload.Add('tcpprofilename', $tcpprofilename) }
-            if ($PSBoundParameters.ContainsKey('httpprofilename')) { $Payload.Add('httpprofilename', $httpprofilename) }
-            if ($PSBoundParameters.ContainsKey('appflowlog')) { $Payload.Add('appflowlog', $appflowlog) }
-            if ($PSBoundParameters.ContainsKey('netprofile')) { $Payload.Add('netprofile', $netprofile) }
-            if ($PSBoundParameters.ContainsKey('autodisablegraceful')) { $Payload.Add('autodisablegraceful', $autodisablegraceful) }
-            if ($PSBoundParameters.ContainsKey('autodisabledelay')) { $Payload.Add('autodisabledelay', $autodisabledelay) }
-            if ($PSBoundParameters.ContainsKey('monitor_name_svc')) { $Payload.Add('monitor_name_svc', $monitor_name_svc) }
-            if ($PSBoundParameters.ContainsKey('dup_weight')) { $Payload.Add('dup_weight', $dup_weight) }
-            if ($PSBoundParameters.ContainsKey('healthmonitor')) { $Payload.Add('healthmonitor', $healthmonitor) }
-            if ($PSBoundParameters.ContainsKey('cipheader')) { $Payload.Add('cipheader', $cipheader) }
-            if ($PSBoundParameters.ContainsKey('pathmonitor')) { $Payload.Add('pathmonitor', $pathmonitor) }
-            if ($PSBoundParameters.ContainsKey('pathmonitorindv')) { $Payload.Add('pathmonitorindv', $pathmonitorindv) }
-            if ($PSBoundParameters.ContainsKey('downstateflush')) { $Payload.Add('downstateflush', $downstateflush) }
-            if ($PSBoundParameters.ContainsKey('comment')) { $Payload.Add('comment', $comment) }
-            if ($PSBoundParameters.ContainsKey('monconnectionclose')) { $Payload.Add('monconnectionclose', $monconnectionclose) }
-            if ($PSCmdlet.ShouldProcess("$servicegroupname", "Unset Basic configuration Object")) {
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -Type servicegroup -NitroPath nitro/v1/config -Action unset -Payload $Payload -GetWarning
-                #HTTP Status Code on Success: 200 OK
-                #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
-                Write-Output $response
-            }
-        } catch {
-            Write-Verbose "ERROR: $($_.Exception.Message)"
-            throw $_
-        }
-    }
-    end {
-        Write-Verbose "Invoke-ADCUnsetServicegroup: Finished"
+        Write-Verbose "Invoke-ADCRenameServicegroup: Finished"
     }
 }
 
 function Invoke-ADCEnableServicegroup {
-<#
+    <#
     .SYNOPSIS
-        Enable Basic configuration Object
+        Enable Basic configuration Object.
     .DESCRIPTION
-        Enable Basic configuration Object 
-    .PARAMETER servicegroupname 
+        Configuration for service group resource.
+    .PARAMETER Servicegroupname 
         Name of the service group. Must begin with an ASCII alphabetic or underscore (_) character, and must contain only ASCII alphanumeric, underscore, hash (#), period (.), space, colon (:), at (@), equals (=), and hyphen (-) characters. Can be changed after the name is created. 
-    .PARAMETER servername 
+    .PARAMETER Servername 
         Name of the server to which to bind the service group. 
-    .PARAMETER port 
-        Server port number.  
+    .PARAMETER Port 
+        Server port number. 
         * in CLI is represented as 65535 in NITRO API
     .EXAMPLE
-        Invoke-ADCEnableServicegroup -servicegroupname <string>
+        PS C:\>Invoke-ADCEnableServicegroup -servicegroupname <string>
+        An example how to enable servicegroup configuration Object(s).
     .NOTES
         File Name : Invoke-ADCEnableServicegroup
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/basic/servicegroup/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
+    #>
     [CmdletBinding(SupportsShouldProcess = $true, ConfirmImpact = "Low")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
-        [Parameter(Mandatory = $true)]
+        [Parameter(Mandatory)]
         [ValidateScript({ $_.Length -gt 1 })]
         [ValidatePattern('^(([a-zA-Z0-9]|[_])+([a-zA-Z0-9]|[_])+)$')]
-        [string]$servicegroupname ,
+        [string]$Servicegroupname,
 
         [ValidateScript({ $_.Length -gt 1 })]
-        [string]$servername ,
+        [string]$Servername,
 
         [ValidateRange(1, 65535)]
-        [int]$port 
+        [int]$Port 
 
     )
     begin {
@@ -5538,13 +4388,11 @@ function Invoke-ADCEnableServicegroup {
     }
     process {
         try {
-            $Payload = @{
-                servicegroupname = $servicegroupname
-            }
-            if ($PSBoundParameters.ContainsKey('servername')) { $Payload.Add('servername', $servername) }
-            if ($PSBoundParameters.ContainsKey('port')) { $Payload.Add('port', $port) }
-            if ($PSCmdlet.ShouldProcess($Name, "Enable Basic configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -NitroPath nitro/v1/config -Type servicegroup -Action enable -Payload $Payload -GetWarning
+            $payload = @{ servicegroupname = $servicegroupname }
+            if ( $PSBoundParameters.ContainsKey('servername') ) { $payload.Add('servername', $servername) }
+            if ( $PSBoundParameters.ContainsKey('port') ) { $payload.Add('port', $port) }
+            if ( $PSCmdlet.ShouldProcess($Name, "Enable Basic configuration Object") ) {
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -NitroPath nitro/v1/config -Type servicegroup -Action enable -Payload $payload -GetWarning
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $result
@@ -5560,58 +4408,60 @@ function Invoke-ADCEnableServicegroup {
 }
 
 function Invoke-ADCDisableServicegroup {
-<#
+    <#
     .SYNOPSIS
-        Disable Basic configuration Object
+        Disable Basic configuration Object.
     .DESCRIPTION
-        Disable Basic configuration Object 
-    .PARAMETER servicegroupname 
+        Configuration for service group resource.
+    .PARAMETER Servicegroupname 
         Name of the service group. Must begin with an ASCII alphabetic or underscore (_) character, and must contain only ASCII alphanumeric, underscore, hash (#), period (.), space, colon (:), at (@), equals (=), and hyphen (-) characters. Can be changed after the name is created. 
-    .PARAMETER servername 
+    .PARAMETER Servername 
         Name of the server to which to bind the service group. 
-    .PARAMETER port 
-        Server port number.  
+    .PARAMETER Port 
+        Server port number. 
         * in CLI is represented as 65535 in NITRO API 
-    .PARAMETER delay 
+    .PARAMETER Delay 
         Time, in seconds, allocated for a shutdown of the services in the service group. During this period, new requests are sent to the service only for clients who already have persistent sessions on the appliance. Requests from new clients are load balanced among other available services. After the delay time expires, no requests are sent to the service, and the service is marked as unavailable (OUT OF SERVICE). 
-    .PARAMETER graceful 
-        Wait for all existing connections to the service to terminate before shutting down the service.  
+    .PARAMETER Graceful 
+        Wait for all existing connections to the service to terminate before shutting down the service. 
         Possible values = YES, NO
     .EXAMPLE
-        Invoke-ADCDisableServicegroup -servicegroupname <string>
+        PS C:\>Invoke-ADCDisableServicegroup -servicegroupname <string>
+        An example how to disable servicegroup configuration Object(s).
     .NOTES
         File Name : Invoke-ADCDisableServicegroup
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/basic/servicegroup/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
+    #>
     [CmdletBinding(SupportsShouldProcess = $true, ConfirmImpact = "Low")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
-        [Parameter(Mandatory = $true)]
+        [Parameter(Mandatory)]
         [ValidateScript({ $_.Length -gt 1 })]
         [ValidatePattern('^(([a-zA-Z0-9]|[_])+([a-zA-Z0-9]|[_])+)$')]
-        [string]$servicegroupname ,
+        [string]$Servicegroupname,
 
         [ValidateScript({ $_.Length -gt 1 })]
-        [string]$servername ,
+        [string]$Servername,
 
         [ValidateRange(1, 65535)]
-        [int]$port ,
+        [int]$Port,
 
-        [double]$delay ,
+        [double]$Delay,
 
         [ValidateSet('YES', 'NO')]
-        [string]$graceful 
+        [string]$Graceful 
 
     )
     begin {
@@ -5619,15 +4469,13 @@ function Invoke-ADCDisableServicegroup {
     }
     process {
         try {
-            $Payload = @{
-                servicegroupname = $servicegroupname
-            }
-            if ($PSBoundParameters.ContainsKey('servername')) { $Payload.Add('servername', $servername) }
-            if ($PSBoundParameters.ContainsKey('port')) { $Payload.Add('port', $port) }
-            if ($PSBoundParameters.ContainsKey('delay')) { $Payload.Add('delay', $delay) }
-            if ($PSBoundParameters.ContainsKey('graceful')) { $Payload.Add('graceful', $graceful) }
-            if ($PSCmdlet.ShouldProcess($Name, "Disable Basic configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -NitroPath nitro/v1/config -Type servicegroup -Action disable -Payload $Payload -GetWarning
+            $payload = @{ servicegroupname = $servicegroupname }
+            if ( $PSBoundParameters.ContainsKey('servername') ) { $payload.Add('servername', $servername) }
+            if ( $PSBoundParameters.ContainsKey('port') ) { $payload.Add('port', $port) }
+            if ( $PSBoundParameters.ContainsKey('delay') ) { $payload.Add('delay', $delay) }
+            if ( $PSBoundParameters.ContainsKey('graceful') ) { $payload.Add('graceful', $graceful) }
+            if ( $PSCmdlet.ShouldProcess($Name, "Disable Basic configuration Object") ) {
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -NitroPath nitro/v1/config -Type servicegroup -Action disable -Payload $payload -GetWarning
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $result
@@ -5642,73 +4490,263 @@ function Invoke-ADCDisableServicegroup {
     }
 }
 
-function Invoke-ADCRenameServicegroup {
-<#
+function Invoke-ADCUnsetServicegroup {
+    <#
     .SYNOPSIS
-        Rename Basic configuration Object
+        Unset Basic configuration Object.
     .DESCRIPTION
-        Rename Basic configuration Object 
-    .PARAMETER servicegroupname 
-        Name of the service group. Must begin with an ASCII alphabetic or underscore (_) character, and must contain only ASCII alphanumeric, underscore, hash (#), period (.), space, colon (:), at (@), equals (=), and hyphen (-) characters. Can be changed after the name is created.  
-        Minimum length = 1 
-    .PARAMETER newname 
-        New name for the service group.  
-        Minimum length = 1 
-    .PARAMETER PassThru 
-        Return details about the created servicegroup item.
+        Configuration for service group resource.
+    .PARAMETER Servicegroupname 
+        Name of the service group. Must begin with an ASCII alphabetic or underscore (_) character, and must contain only ASCII alphanumeric, underscore, hash (#), period (.), space, colon (:), at (@), equals (=), and hyphen (-) characters. Can be changed after the name is created. 
+    .PARAMETER Servername 
+        Name of the server to which to bind the service group. 
+    .PARAMETER Port 
+        Server port number. 
+        * in CLI is represented as 65535 in NITRO API 
+    .PARAMETER Weight 
+        Weight to assign to the servers in the service group. Specifies the capacity of the servers relative to the other servers in the load balancing configuration. The higher the weight, the higher the percentage of requests sent to the service. 
+    .PARAMETER Customserverid 
+        The identifier for this IP:Port pair. Used when the persistency type is set to Custom Server ID. 
+    .PARAMETER Serverid 
+        The identifier for the service. This is used when the persistency type is set to Custom Server ID. 
+    .PARAMETER Hashid 
+        The hash identifier for the service. This must be unique for each service. This parameter is used by hash based load balancing methods. 
+    .PARAMETER Nameserver 
+        Specify the nameserver to which the query for bound domain needs to be sent. If not specified, use the global nameserver. 
+    .PARAMETER Dbsttl 
+        Specify the TTL for DNS record for domain based service.The default value of ttl is 0 which indicates to use the TTL received in DNS response for monitors. 
+    .PARAMETER Maxclient 
+        Maximum number of simultaneous open connections for the service group. 
+    .PARAMETER Maxreq 
+        Maximum number of requests that can be sent on a persistent connection to the service group. 
+        Note: Connection requests beyond this value are rejected. 
+    .PARAMETER Cacheable 
+        Use the transparent cache redirection virtual server to forward the request to the cache server. 
+        Note: Do not set this parameter if you set the Cache Type. 
+        Possible values = YES, NO 
+    .PARAMETER Cip 
+        Insert the Client IP header in requests forwarded to the service. 
+        Possible values = ENABLED, DISABLED 
+    .PARAMETER Usip 
+        Use client's IP address as the source IP address when initiating connection to the server. With the NO setting, which is the default, a mapped IP (MIP) address or subnet IP (SNIP) address is used as the source IP address to initiate server side connections. 
+        Possible values = YES, NO 
+    .PARAMETER Useproxyport 
+        Use the proxy port as the source port when initiating connections with the server. With the NO setting, the client-side connection port is used as the source port for the server-side connection. 
+        Note: This parameter is available only when the Use Source IP (USIP) parameter is set to YES. 
+        Possible values = YES, NO 
+    .PARAMETER Sp 
+        Enable surge protection for the service group. 
+        Possible values = ON, OFF 
+    .PARAMETER Rtspsessionidremap 
+        Enable RTSP session ID mapping for the service group. 
+        Possible values = ON, OFF 
+    .PARAMETER Clttimeout 
+        Time, in seconds, after which to terminate an idle client connection. 
+    .PARAMETER Svrtimeout 
+        Time, in seconds, after which to terminate an idle server connection. 
+    .PARAMETER Cka 
+        Enable client keep-alive for the service group. 
+        Possible values = YES, NO 
+    .PARAMETER Tcpb 
+        Enable TCP buffering for the service group. 
+        Possible values = YES, NO 
+    .PARAMETER Cmp 
+        Enable compression for the specified service. 
+        Possible values = YES, NO 
+    .PARAMETER Maxbandwidth 
+        Maximum bandwidth, in Kbps, allocated for all the services in the service group. 
+    .PARAMETER Monthreshold 
+        Minimum sum of weights of the monitors that are bound to this service. Used to determine whether to mark a service as UP or DOWN. 
+    .PARAMETER Tcpprofilename 
+        Name of the TCP profile that contains TCP configuration settings for the service group. 
+    .PARAMETER Httpprofilename 
+        Name of the HTTP profile that contains HTTP configuration settings for the service group. 
+    .PARAMETER Appflowlog 
+        Enable logging of AppFlow information for the specified service group. 
+        Possible values = ENABLED, DISABLED 
+    .PARAMETER Netprofile 
+        Network profile for the service group. 
+    .PARAMETER Autodisablegraceful 
+        Indicates graceful shutdown of the service. System will wait for all outstanding connections to this service to be closed before disabling the service. 
+        Possible values = YES, NO 
+    .PARAMETER Autodisabledelay 
+        The time allowed (in seconds) for a graceful shutdown. During this period, new connections or requests will continue to be sent to this service for clients who already have a persistent session on the system. Connections or requests from fresh or new clients who do not yet have a persistence sessions on the system will not be sent to the service. Instead, they will be load balanced among other available services. After the delay time expires, no new requests or connections will be sent to the service. 
+    .PARAMETER Monitor_name_svc 
+        Name of the monitor bound to the service group. Used to assign a weight to the monitor. 
+    .PARAMETER Dup_weight 
+        weight of the monitor that is bound to servicegroup. 
+    .PARAMETER Healthmonitor 
+        Monitor the health of this service. Available settings function as follows: 
+        YES - Send probes to check the health of the service. 
+        NO - Do not send probes to check the health of the service. With the NO option, the appliance shows the service as UP at all times. 
+        Possible values = YES, NO 
+    .PARAMETER Cipheader 
+        Name of the HTTP header whose value must be set to the IP address of the client. Used with the Client IP parameter. If client IP insertion is enabled, and the client IP header is not specified, the value of Client IP Header parameter or the value set by the set ns config command is used as client's IP header name. 
+    .PARAMETER Pathmonitor 
+        Path monitoring for clustering. 
+        Possible values = YES, NO 
+    .PARAMETER Pathmonitorindv 
+        Individual Path monitoring decisions. 
+        Possible values = YES, NO 
+    .PARAMETER Downstateflush 
+        Flush all active transactions associated with all the services in the service group whose state transitions from UP to DOWN. Do not enable this option for applications that must complete their transactions. 
+        Possible values = ENABLED, DISABLED 
+    .PARAMETER Comment 
+        Any information about the service group. 
+    .PARAMETER Monconnectionclose 
+        Close monitoring connections by sending the service a connection termination message with the specified bit set. 
+        Possible values = RESET, FIN
     .EXAMPLE
-        Invoke-ADCRenameServicegroup -servicegroupname <string> -newname <string>
+        PS C:\>Invoke-ADCUnsetServicegroup -servicegroupname <string>
+        An example how to unset servicegroup configuration Object(s).
     .NOTES
-        File Name : Invoke-ADCRenameServicegroup
-        Version   : v2106.2309
+        File Name : Invoke-ADCUnsetServicegroup
+        Version   : v2111.2111
         Author    : John Billekens
-        Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/basic/servicegroup/
+        Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/basic/servicegroup
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
+    #>
     [CmdletBinding(SupportsShouldProcess = $true, ConfirmImpact = "Low")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
-        [Parameter(Mandatory = $true)]
         [ValidateScript({ $_.Length -gt 1 })]
         [ValidatePattern('^(([a-zA-Z0-9]|[_])+([a-zA-Z0-9]|[_])+)$')]
-        [string]$servicegroupname ,
+        [string]$Servicegroupname,
 
-        [Parameter(Mandatory = $true)]
-        [ValidateScript({ $_.Length -gt 1 })]
-        [string]$newname ,
+        [Boolean]$servername,
 
-        [Switch]$PassThru 
+        [Boolean]$port,
 
+        [Boolean]$weight,
+
+        [Boolean]$customserverid,
+
+        [Boolean]$serverid,
+
+        [Boolean]$hashid,
+
+        [Boolean]$nameserver,
+
+        [Boolean]$dbsttl,
+
+        [Boolean]$maxclient,
+
+        [Boolean]$maxreq,
+
+        [Boolean]$cacheable,
+
+        [Boolean]$cip,
+
+        [Boolean]$usip,
+
+        [Boolean]$useproxyport,
+
+        [Boolean]$sp,
+
+        [Boolean]$rtspsessionidremap,
+
+        [Boolean]$clttimeout,
+
+        [Boolean]$svrtimeout,
+
+        [Boolean]$cka,
+
+        [Boolean]$tcpb,
+
+        [Boolean]$cmp,
+
+        [Boolean]$maxbandwidth,
+
+        [Boolean]$monthreshold,
+
+        [Boolean]$tcpprofilename,
+
+        [Boolean]$httpprofilename,
+
+        [Boolean]$appflowlog,
+
+        [Boolean]$netprofile,
+
+        [Boolean]$autodisablegraceful,
+
+        [Boolean]$autodisabledelay,
+
+        [Boolean]$monitor_name_svc,
+
+        [Boolean]$dup_weight,
+
+        [Boolean]$healthmonitor,
+
+        [Boolean]$cipheader,
+
+        [Boolean]$pathmonitor,
+
+        [Boolean]$pathmonitorindv,
+
+        [Boolean]$downstateflush,
+
+        [Boolean]$comment,
+
+        [Boolean]$monconnectionclose 
     )
     begin {
-        Write-Verbose "Invoke-ADCRenameServicegroup: Starting"
+        Write-Verbose "Invoke-ADCUnsetServicegroup: Starting"
     }
     process {
         try {
-            $Payload = @{
-                servicegroupname = $servicegroupname
-                newname = $newname
-            }
-
- 
-            if ($PSCmdlet.ShouldProcess("servicegroup", "Rename Basic configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -NitroPath nitro/v1/config -Type servicegroup -Action rename -Payload $Payload -GetWarning
+            $payload = @{ servicegroupname = $servicegroupname }
+            if ( $PSBoundParameters.ContainsKey('servername') ) { $payload.Add('servername', $servername) }
+            if ( $PSBoundParameters.ContainsKey('port') ) { $payload.Add('port', $port) }
+            if ( $PSBoundParameters.ContainsKey('weight') ) { $payload.Add('weight', $weight) }
+            if ( $PSBoundParameters.ContainsKey('customserverid') ) { $payload.Add('customserverid', $customserverid) }
+            if ( $PSBoundParameters.ContainsKey('serverid') ) { $payload.Add('serverid', $serverid) }
+            if ( $PSBoundParameters.ContainsKey('hashid') ) { $payload.Add('hashid', $hashid) }
+            if ( $PSBoundParameters.ContainsKey('nameserver') ) { $payload.Add('nameserver', $nameserver) }
+            if ( $PSBoundParameters.ContainsKey('dbsttl') ) { $payload.Add('dbsttl', $dbsttl) }
+            if ( $PSBoundParameters.ContainsKey('maxclient') ) { $payload.Add('maxclient', $maxclient) }
+            if ( $PSBoundParameters.ContainsKey('maxreq') ) { $payload.Add('maxreq', $maxreq) }
+            if ( $PSBoundParameters.ContainsKey('cacheable') ) { $payload.Add('cacheable', $cacheable) }
+            if ( $PSBoundParameters.ContainsKey('cip') ) { $payload.Add('cip', $cip) }
+            if ( $PSBoundParameters.ContainsKey('usip') ) { $payload.Add('usip', $usip) }
+            if ( $PSBoundParameters.ContainsKey('useproxyport') ) { $payload.Add('useproxyport', $useproxyport) }
+            if ( $PSBoundParameters.ContainsKey('sp') ) { $payload.Add('sp', $sp) }
+            if ( $PSBoundParameters.ContainsKey('rtspsessionidremap') ) { $payload.Add('rtspsessionidremap', $rtspsessionidremap) }
+            if ( $PSBoundParameters.ContainsKey('clttimeout') ) { $payload.Add('clttimeout', $clttimeout) }
+            if ( $PSBoundParameters.ContainsKey('svrtimeout') ) { $payload.Add('svrtimeout', $svrtimeout) }
+            if ( $PSBoundParameters.ContainsKey('cka') ) { $payload.Add('cka', $cka) }
+            if ( $PSBoundParameters.ContainsKey('tcpb') ) { $payload.Add('tcpb', $tcpb) }
+            if ( $PSBoundParameters.ContainsKey('cmp') ) { $payload.Add('cmp', $cmp) }
+            if ( $PSBoundParameters.ContainsKey('maxbandwidth') ) { $payload.Add('maxbandwidth', $maxbandwidth) }
+            if ( $PSBoundParameters.ContainsKey('monthreshold') ) { $payload.Add('monthreshold', $monthreshold) }
+            if ( $PSBoundParameters.ContainsKey('tcpprofilename') ) { $payload.Add('tcpprofilename', $tcpprofilename) }
+            if ( $PSBoundParameters.ContainsKey('httpprofilename') ) { $payload.Add('httpprofilename', $httpprofilename) }
+            if ( $PSBoundParameters.ContainsKey('appflowlog') ) { $payload.Add('appflowlog', $appflowlog) }
+            if ( $PSBoundParameters.ContainsKey('netprofile') ) { $payload.Add('netprofile', $netprofile) }
+            if ( $PSBoundParameters.ContainsKey('autodisablegraceful') ) { $payload.Add('autodisablegraceful', $autodisablegraceful) }
+            if ( $PSBoundParameters.ContainsKey('autodisabledelay') ) { $payload.Add('autodisabledelay', $autodisabledelay) }
+            if ( $PSBoundParameters.ContainsKey('monitor_name_svc') ) { $payload.Add('monitor_name_svc', $monitor_name_svc) }
+            if ( $PSBoundParameters.ContainsKey('dup_weight') ) { $payload.Add('dup_weight', $dup_weight) }
+            if ( $PSBoundParameters.ContainsKey('healthmonitor') ) { $payload.Add('healthmonitor', $healthmonitor) }
+            if ( $PSBoundParameters.ContainsKey('cipheader') ) { $payload.Add('cipheader', $cipheader) }
+            if ( $PSBoundParameters.ContainsKey('pathmonitor') ) { $payload.Add('pathmonitor', $pathmonitor) }
+            if ( $PSBoundParameters.ContainsKey('pathmonitorindv') ) { $payload.Add('pathmonitorindv', $pathmonitorindv) }
+            if ( $PSBoundParameters.ContainsKey('downstateflush') ) { $payload.Add('downstateflush', $downstateflush) }
+            if ( $PSBoundParameters.ContainsKey('comment') ) { $payload.Add('comment', $comment) }
+            if ( $PSBoundParameters.ContainsKey('monconnectionclose') ) { $payload.Add('monconnectionclose', $monconnectionclose) }
+            if ( $PSCmdlet.ShouldProcess("$servicegroupname", "Unset Basic configuration Object") ) {
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -Type servicegroup -NitroPath nitro/v1/config -Action unset -Payload $payload -GetWarning
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
-                if ($PSBoundParameters.ContainsKey('PassThru')) {
-                    Write-Output (Invoke-ADCGetServicegroup -Filter $Payload)
-                } else {
-                    Write-Output $result
-                }
-
+                Write-Output $response
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -5716,61 +4754,730 @@ function Invoke-ADCRenameServicegroup {
         }
     }
     end {
-        Write-Verbose "Invoke-ADCRenameServicegroup: Finished"
+        Write-Verbose "Invoke-ADCUnsetServicegroup: Finished"
     }
 }
 
-function Invoke-ADCGetServicegroup {
-<#
+function Invoke-ADCDeleteServicegroup {
+    <#
     .SYNOPSIS
-        Get Basic configuration object(s)
+        Delete Basic configuration Object.
     .DESCRIPTION
-        Get Basic configuration object(s)
-    .PARAMETER servicegroupname 
-       Name of the service group. Must begin with an ASCII alphabetic or underscore (_) character, and must contain only ASCII alphanumeric, underscore, hash (#), period (.), space, colon (:), at (@), equals (=), and hyphen (-) characters. Can be changed after the name is created. 
-    .PARAMETER GetAll 
-        Retreive all servicegroup object(s)
-    .PARAMETER Count
-        If specified, the count of the servicegroup object(s) will be returned
-    .PARAMETER Filter
-        Specify a filter
-        -Filter @{ 'name'='<value>' }
-    .PARAMETER ViewSummary
-        When specified, only a summary of information is returned
+        Configuration for service group resource.
+    .PARAMETER Servicegroupname 
+        Name of the service group. Must begin with an ASCII alphabetic or underscore (_) character, and must contain only ASCII alphanumeric, underscore, hash (#), period (.), space, colon (:), at (@), equals (=), and hyphen (-) characters. Can be changed after the name is created.
     .EXAMPLE
-        Invoke-ADCGetServicegroup
-    .EXAMPLE 
-        Invoke-ADCGetServicegroup -GetAll 
-    .EXAMPLE 
-        Invoke-ADCGetServicegroup -Count
-    .EXAMPLE
-        Invoke-ADCGetServicegroup -name <string>
-    .EXAMPLE
-        Invoke-ADCGetServicegroup -Filter @{ 'name'='<value>' }
+        PS C:\>Invoke-ADCDeleteServicegroup -Servicegroupname <string>
+        An example how to delete servicegroup configuration Object(s).
     .NOTES
-        File Name : Invoke-ADCGetServicegroup
-        Version   : v2106.2309
+        File Name : Invoke-ADCDeleteServicegroup
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/basic/servicegroup/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
-    [CmdletBinding(DefaultParameterSetName = "Getall")]
+    #>
+    [CmdletBinding(SupportsShouldProcess = $true, ConfirmImpact = "Low")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
+
+        [Parameter(Mandatory)]
+        [string]$Servicegroupname 
+    )
+    begin {
+        Write-Verbose "Invoke-ADCDeleteServicegroup: Starting"
+    }
+    process {
+        try {
+            $arguments = @{ }
+
+            if ( $PSCmdlet.ShouldProcess("$servicegroupname", "Delete Basic configuration Object") ) {
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type servicegroup -NitroPath nitro/v1/config -Resource $servicegroupname -Arguments $arguments
+                #HTTP Status Code on Success: 200 OK
+                #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
+                Write-Output $response
+            }
+        } catch {
+            Write-Verbose "ERROR: $($_.Exception.Message)"
+            throw $_
+        }
+    }
+    end {
+        Write-Verbose "Invoke-ADCDeleteServicegroup: Finished"
+    }
+}
+
+function Invoke-ADCUpdateServicegroup {
+    <#
+    .SYNOPSIS
+        Update Basic configuration Object.
+    .DESCRIPTION
+        Configuration for service group resource.
+    .PARAMETER Servicegroupname 
+        Name of the service group. Must begin with an ASCII alphabetic or underscore (_) character, and must contain only ASCII alphanumeric, underscore, hash (#), period (.), space, colon (:), at (@), equals (=), and hyphen (-) characters. Can be changed after the name is created. 
+    .PARAMETER Servername 
+        Name of the server to which to bind the service group. 
+    .PARAMETER Port 
+        Server port number. 
+        * in CLI is represented as 65535 in NITRO API 
+    .PARAMETER Weight 
+        Weight to assign to the servers in the service group. Specifies the capacity of the servers relative to the other servers in the load balancing configuration. The higher the weight, the higher the percentage of requests sent to the service. 
+    .PARAMETER Customserverid 
+        The identifier for this IP:Port pair. Used when the persistency type is set to Custom Server ID. 
+    .PARAMETER Serverid 
+        The identifier for the service. This is used when the persistency type is set to Custom Server ID. 
+    .PARAMETER Hashid 
+        The hash identifier for the service. This must be unique for each service. This parameter is used by hash based load balancing methods. 
+    .PARAMETER Nameserver 
+        Specify the nameserver to which the query for bound domain needs to be sent. If not specified, use the global nameserver. 
+    .PARAMETER Dbsttl 
+        Specify the TTL for DNS record for domain based service.The default value of ttl is 0 which indicates to use the TTL received in DNS response for monitors. 
+    .PARAMETER Monitor_name_svc 
+        Name of the monitor bound to the service group. Used to assign a weight to the monitor. 
+    .PARAMETER Dup_weight 
+        weight of the monitor that is bound to servicegroup. 
+    .PARAMETER Maxclient 
+        Maximum number of simultaneous open connections for the service group. 
+    .PARAMETER Maxreq 
+        Maximum number of requests that can be sent on a persistent connection to the service group. 
+        Note: Connection requests beyond this value are rejected. 
+    .PARAMETER Healthmonitor 
+        Monitor the health of this service. Available settings function as follows: 
+        YES - Send probes to check the health of the service. 
+        NO - Do not send probes to check the health of the service. With the NO option, the appliance shows the service as UP at all times. 
+        Possible values = YES, NO 
+    .PARAMETER Cacheable 
+        Use the transparent cache redirection virtual server to forward the request to the cache server. 
+        Note: Do not set this parameter if you set the Cache Type. 
+        Possible values = YES, NO 
+    .PARAMETER Cip 
+        Insert the Client IP header in requests forwarded to the service. 
+        Possible values = ENABLED, DISABLED 
+    .PARAMETER Cipheader 
+        Name of the HTTP header whose value must be set to the IP address of the client. Used with the Client IP parameter. If client IP insertion is enabled, and the client IP header is not specified, the value of Client IP Header parameter or the value set by the set ns config command is used as client's IP header name. 
+    .PARAMETER Usip 
+        Use client's IP address as the source IP address when initiating connection to the server. With the NO setting, which is the default, a mapped IP (MIP) address or subnet IP (SNIP) address is used as the source IP address to initiate server side connections. 
+        Possible values = YES, NO 
+    .PARAMETER Pathmonitor 
+        Path monitoring for clustering. 
+        Possible values = YES, NO 
+    .PARAMETER Pathmonitorindv 
+        Individual Path monitoring decisions. 
+        Possible values = YES, NO 
+    .PARAMETER Useproxyport 
+        Use the proxy port as the source port when initiating connections with the server. With the NO setting, the client-side connection port is used as the source port for the server-side connection. 
+        Note: This parameter is available only when the Use Source IP (USIP) parameter is set to YES. 
+        Possible values = YES, NO 
+    .PARAMETER Sp 
+        Enable surge protection for the service group. 
+        Possible values = ON, OFF 
+    .PARAMETER Rtspsessionidremap 
+        Enable RTSP session ID mapping for the service group. 
+        Possible values = ON, OFF 
+    .PARAMETER Clttimeout 
+        Time, in seconds, after which to terminate an idle client connection. 
+    .PARAMETER Svrtimeout 
+        Time, in seconds, after which to terminate an idle server connection. 
+    .PARAMETER Cka 
+        Enable client keep-alive for the service group. 
+        Possible values = YES, NO 
+    .PARAMETER Tcpb 
+        Enable TCP buffering for the service group. 
+        Possible values = YES, NO 
+    .PARAMETER Cmp 
+        Enable compression for the specified service. 
+        Possible values = YES, NO 
+    .PARAMETER Maxbandwidth 
+        Maximum bandwidth, in Kbps, allocated for all the services in the service group. 
+    .PARAMETER Monthreshold 
+        Minimum sum of weights of the monitors that are bound to this service. Used to determine whether to mark a service as UP or DOWN. 
+    .PARAMETER Downstateflush 
+        Flush all active transactions associated with all the services in the service group whose state transitions from UP to DOWN. Do not enable this option for applications that must complete their transactions. 
+        Possible values = ENABLED, DISABLED 
+    .PARAMETER Tcpprofilename 
+        Name of the TCP profile that contains TCP configuration settings for the service group. 
+    .PARAMETER Httpprofilename 
+        Name of the HTTP profile that contains HTTP configuration settings for the service group. 
+    .PARAMETER Comment 
+        Any information about the service group. 
+    .PARAMETER Appflowlog 
+        Enable logging of AppFlow information for the specified service group. 
+        Possible values = ENABLED, DISABLED 
+    .PARAMETER Netprofile 
+        Network profile for the service group. 
+    .PARAMETER Autodisablegraceful 
+        Indicates graceful shutdown of the service. System will wait for all outstanding connections to this service to be closed before disabling the service. 
+        Possible values = YES, NO 
+    .PARAMETER Autodisabledelay 
+        The time allowed (in seconds) for a graceful shutdown. During this period, new connections or requests will continue to be sent to this service for clients who already have a persistent session on the system. Connections or requests from fresh or new clients who do not yet have a persistence sessions on the system will not be sent to the service. Instead, they will be load balanced among other available services. After the delay time expires, no new requests or connections will be sent to the service. 
+    .PARAMETER Monconnectionclose 
+        Close monitoring connections by sending the service a connection termination message with the specified bit set. 
+        Possible values = RESET, FIN 
+    .PARAMETER Autoscale 
+        Auto scale option for a servicegroup. 
+        Possible values = DISABLED, DNS, POLICY, CLOUD, API 
+    .PARAMETER PassThru 
+        Return details about the created servicegroup item.
+    .EXAMPLE
+        PS C:\>Invoke-ADCUpdateServicegroup -servicegroupname <string>
+        An example how to update servicegroup configuration Object(s).
+    .NOTES
+        File Name : Invoke-ADCUpdateServicegroup
+        Version   : v2111.2111
+        Author    : John Billekens
+        Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/basic/servicegroup/
+        Requires  : PowerShell v5.1 and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
+    .LINK
+        https://blog.j81.nl
+    #>
+    [CmdletBinding(SupportsShouldProcess = $true, ConfirmImpact = "Low")]
+    [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
+    [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
+    [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
+    param(
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
+
+        [Parameter(Mandatory)]
+        [ValidateScript({ $_.Length -gt 1 })]
+        [ValidatePattern('^(([a-zA-Z0-9]|[_])+([a-zA-Z0-9]|[_])+)$')]
+        [string]$Servicegroupname,
+
+        [ValidateScript({ $_.Length -gt 1 })]
+        [string]$Servername,
+
+        [ValidateRange(1, 65535)]
+        [int]$Port,
+
+        [ValidateRange(1, 100)]
+        [double]$Weight,
+
+        [string]$Customserverid,
+
+        [double]$Serverid,
+
+        [double]$Hashid,
+
+        [string]$Nameserver,
+
+        [double]$Dbsttl,
+
+        [ValidateScript({ $_.Length -gt 1 })]
+        [string]$Monitor_name_svc,
+
+        [double]$Dup_weight,
+
+        [ValidateRange(0, 4294967294)]
+        [double]$Maxclient,
+
+        [ValidateRange(0, 65535)]
+        [double]$Maxreq,
+
+        [ValidateSet('YES', 'NO')]
+        [string]$Healthmonitor,
+
+        [ValidateSet('YES', 'NO')]
+        [string]$Cacheable,
+
+        [ValidateSet('ENABLED', 'DISABLED')]
+        [string]$Cip,
+
+        [ValidateScript({ $_.Length -gt 1 })]
+        [string]$Cipheader,
+
+        [ValidateSet('YES', 'NO')]
+        [string]$Usip,
+
+        [ValidateSet('YES', 'NO')]
+        [string]$Pathmonitor,
+
+        [ValidateSet('YES', 'NO')]
+        [string]$Pathmonitorindv,
+
+        [ValidateSet('YES', 'NO')]
+        [string]$Useproxyport,
+
+        [ValidateSet('ON', 'OFF')]
+        [string]$Sp,
+
+        [ValidateSet('ON', 'OFF')]
+        [string]$Rtspsessionidremap,
+
+        [ValidateRange(0, 31536000)]
+        [double]$Clttimeout,
+
+        [ValidateRange(0, 31536000)]
+        [double]$Svrtimeout,
+
+        [ValidateSet('YES', 'NO')]
+        [string]$Cka,
+
+        [ValidateSet('YES', 'NO')]
+        [string]$Tcpb,
+
+        [ValidateSet('YES', 'NO')]
+        [string]$Cmp,
+
+        [ValidateRange(0, 4294967287)]
+        [double]$Maxbandwidth,
+
+        [ValidateRange(0, 65535)]
+        [double]$Monthreshold,
+
+        [ValidateSet('ENABLED', 'DISABLED')]
+        [string]$Downstateflush,
+
+        [ValidateLength(1, 127)]
+        [string]$Tcpprofilename,
+
+        [ValidateLength(1, 127)]
+        [string]$Httpprofilename,
+
+        [string]$Comment,
+
+        [ValidateSet('ENABLED', 'DISABLED')]
+        [string]$Appflowlog,
+
+        [ValidateLength(1, 127)]
+        [string]$Netprofile,
+
+        [ValidateSet('YES', 'NO')]
+        [string]$Autodisablegraceful,
+
+        [double]$Autodisabledelay,
+
+        [ValidateSet('RESET', 'FIN')]
+        [string]$Monconnectionclose,
+
+        [ValidateSet('DISABLED', 'DNS', 'POLICY', 'CLOUD', 'API')]
+        [string]$Autoscale,
+
+        [Switch]$PassThru 
+    )
+    begin {
+        Write-Verbose "Invoke-ADCUpdateServicegroup: Starting"
+    }
+    process {
+        try {
+            $payload = @{ servicegroupname = $servicegroupname }
+            if ( $PSBoundParameters.ContainsKey('servername') ) { $payload.Add('servername', $servername) }
+            if ( $PSBoundParameters.ContainsKey('port') ) { $payload.Add('port', $port) }
+            if ( $PSBoundParameters.ContainsKey('weight') ) { $payload.Add('weight', $weight) }
+            if ( $PSBoundParameters.ContainsKey('customserverid') ) { $payload.Add('customserverid', $customserverid) }
+            if ( $PSBoundParameters.ContainsKey('serverid') ) { $payload.Add('serverid', $serverid) }
+            if ( $PSBoundParameters.ContainsKey('hashid') ) { $payload.Add('hashid', $hashid) }
+            if ( $PSBoundParameters.ContainsKey('nameserver') ) { $payload.Add('nameserver', $nameserver) }
+            if ( $PSBoundParameters.ContainsKey('dbsttl') ) { $payload.Add('dbsttl', $dbsttl) }
+            if ( $PSBoundParameters.ContainsKey('monitor_name_svc') ) { $payload.Add('monitor_name_svc', $monitor_name_svc) }
+            if ( $PSBoundParameters.ContainsKey('dup_weight') ) { $payload.Add('dup_weight', $dup_weight) }
+            if ( $PSBoundParameters.ContainsKey('maxclient') ) { $payload.Add('maxclient', $maxclient) }
+            if ( $PSBoundParameters.ContainsKey('maxreq') ) { $payload.Add('maxreq', $maxreq) }
+            if ( $PSBoundParameters.ContainsKey('healthmonitor') ) { $payload.Add('healthmonitor', $healthmonitor) }
+            if ( $PSBoundParameters.ContainsKey('cacheable') ) { $payload.Add('cacheable', $cacheable) }
+            if ( $PSBoundParameters.ContainsKey('cip') ) { $payload.Add('cip', $cip) }
+            if ( $PSBoundParameters.ContainsKey('cipheader') ) { $payload.Add('cipheader', $cipheader) }
+            if ( $PSBoundParameters.ContainsKey('usip') ) { $payload.Add('usip', $usip) }
+            if ( $PSBoundParameters.ContainsKey('pathmonitor') ) { $payload.Add('pathmonitor', $pathmonitor) }
+            if ( $PSBoundParameters.ContainsKey('pathmonitorindv') ) { $payload.Add('pathmonitorindv', $pathmonitorindv) }
+            if ( $PSBoundParameters.ContainsKey('useproxyport') ) { $payload.Add('useproxyport', $useproxyport) }
+            if ( $PSBoundParameters.ContainsKey('sp') ) { $payload.Add('sp', $sp) }
+            if ( $PSBoundParameters.ContainsKey('rtspsessionidremap') ) { $payload.Add('rtspsessionidremap', $rtspsessionidremap) }
+            if ( $PSBoundParameters.ContainsKey('clttimeout') ) { $payload.Add('clttimeout', $clttimeout) }
+            if ( $PSBoundParameters.ContainsKey('svrtimeout') ) { $payload.Add('svrtimeout', $svrtimeout) }
+            if ( $PSBoundParameters.ContainsKey('cka') ) { $payload.Add('cka', $cka) }
+            if ( $PSBoundParameters.ContainsKey('tcpb') ) { $payload.Add('tcpb', $tcpb) }
+            if ( $PSBoundParameters.ContainsKey('cmp') ) { $payload.Add('cmp', $cmp) }
+            if ( $PSBoundParameters.ContainsKey('maxbandwidth') ) { $payload.Add('maxbandwidth', $maxbandwidth) }
+            if ( $PSBoundParameters.ContainsKey('monthreshold') ) { $payload.Add('monthreshold', $monthreshold) }
+            if ( $PSBoundParameters.ContainsKey('downstateflush') ) { $payload.Add('downstateflush', $downstateflush) }
+            if ( $PSBoundParameters.ContainsKey('tcpprofilename') ) { $payload.Add('tcpprofilename', $tcpprofilename) }
+            if ( $PSBoundParameters.ContainsKey('httpprofilename') ) { $payload.Add('httpprofilename', $httpprofilename) }
+            if ( $PSBoundParameters.ContainsKey('comment') ) { $payload.Add('comment', $comment) }
+            if ( $PSBoundParameters.ContainsKey('appflowlog') ) { $payload.Add('appflowlog', $appflowlog) }
+            if ( $PSBoundParameters.ContainsKey('netprofile') ) { $payload.Add('netprofile', $netprofile) }
+            if ( $PSBoundParameters.ContainsKey('autodisablegraceful') ) { $payload.Add('autodisablegraceful', $autodisablegraceful) }
+            if ( $PSBoundParameters.ContainsKey('autodisabledelay') ) { $payload.Add('autodisabledelay', $autodisabledelay) }
+            if ( $PSBoundParameters.ContainsKey('monconnectionclose') ) { $payload.Add('monconnectionclose', $monconnectionclose) }
+            if ( $PSBoundParameters.ContainsKey('autoscale') ) { $payload.Add('autoscale', $autoscale) }
+            if ( $PSCmdlet.ShouldProcess("servicegroup", "Update Basic configuration Object") ) {
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -NitroPath nitro/v1/config -Type servicegroup -Payload $payload -GetWarning
+                #HTTP Status Code on Success: 200 OK
+                #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
+                if ( $PSBoundParameters.ContainsKey('PassThru') ) {
+                    Write-Output (Invoke-ADCGetServicegroup -Filter $payload)
+                } else {
+                    Write-Output $result
+                }
+            }
+        } catch {
+            Write-Verbose "ERROR: $($_.Exception.Message)"
+            throw $_
+        }
+    }
+    end {
+        Write-Verbose "Invoke-ADCUpdateServicegroup: Finished"
+    }
+}
+
+function Invoke-ADCAddServicegroup {
+    <#
+    .SYNOPSIS
+        Add Basic configuration Object.
+    .DESCRIPTION
+        Configuration for service group resource.
+    .PARAMETER Servicegroupname 
+        Name of the service group. Must begin with an ASCII alphabetic or underscore (_) character, and must contain only ASCII alphanumeric, underscore, hash (#), period (.), space, colon (:), at (@), equals (=), and hyphen (-) characters. Can be changed after the name is created. 
+    .PARAMETER Servicetype 
+        Protocol used to exchange data with the service. 
+        Possible values = HTTP, FTP, TCP, UDP, SSL, SSL_BRIDGE, SSL_TCP, DTLS, NNTP, RPCSVR, DNS, ADNS, SNMP, RTSP, DHCPRA, ANY, SIP_UDP, SIP_TCP, SIP_SSL, DNS_TCP, ADNS_TCP, MYSQL, MSSQL, ORACLE, MONGO, MONGO_TLS, RADIUS, RADIUSListener, RDP, DIAMETER, SSL_DIAMETER, TFTP, SMPP, PPTP, GRE, SYSLOGTCP, SYSLOGUDP, FIX, SSL_FIX, USER_TCP, USER_SSL_TCP, QUIC, IPFIX, LOGSTREAM, LOGSTREAM_SSL, MQTT, MQTT_TLS, QUIC_BRIDGE 
+    .PARAMETER Cachetype 
+        Cache type supported by the cache server. 
+        Possible values = TRANSPARENT, REVERSE, FORWARD 
+    .PARAMETER Td 
+        Integer value that uniquely identifies the traffic domain in which you want to configure the entity. If you do not specify an ID, the entity becomes part of the default traffic domain, which has an ID of 0. 
+    .PARAMETER Maxclient 
+        Maximum number of simultaneous open connections for the service group. 
+    .PARAMETER Maxreq 
+        Maximum number of requests that can be sent on a persistent connection to the service group. 
+        Note: Connection requests beyond this value are rejected. 
+    .PARAMETER Cacheable 
+        Use the transparent cache redirection virtual server to forward the request to the cache server. 
+        Note: Do not set this parameter if you set the Cache Type. 
+        Possible values = YES, NO 
+    .PARAMETER Cip 
+        Insert the Client IP header in requests forwarded to the service. 
+        Possible values = ENABLED, DISABLED 
+    .PARAMETER Cipheader 
+        Name of the HTTP header whose value must be set to the IP address of the client. Used with the Client IP parameter. If client IP insertion is enabled, and the client IP header is not specified, the value of Client IP Header parameter or the value set by the set ns config command is used as client's IP header name. 
+    .PARAMETER Usip 
+        Use client's IP address as the source IP address when initiating connection to the server. With the NO setting, which is the default, a mapped IP (MIP) address or subnet IP (SNIP) address is used as the source IP address to initiate server side connections. 
+        Possible values = YES, NO 
+    .PARAMETER Pathmonitor 
+        Path monitoring for clustering. 
+        Possible values = YES, NO 
+    .PARAMETER Pathmonitorindv 
+        Individual Path monitoring decisions. 
+        Possible values = YES, NO 
+    .PARAMETER Useproxyport 
+        Use the proxy port as the source port when initiating connections with the server. With the NO setting, the client-side connection port is used as the source port for the server-side connection. 
+        Note: This parameter is available only when the Use Source IP (USIP) parameter is set to YES. 
+        Possible values = YES, NO 
+    .PARAMETER Healthmonitor 
+        Monitor the health of this service. Available settings function as follows: 
+        YES - Send probes to check the health of the service. 
+        NO - Do not send probes to check the health of the service. With the NO option, the appliance shows the service as UP at all times. 
+        Possible values = YES, NO 
+    .PARAMETER Sp 
+        Enable surge protection for the service group. 
+        Possible values = ON, OFF 
+    .PARAMETER Rtspsessionidremap 
+        Enable RTSP session ID mapping for the service group. 
+        Possible values = ON, OFF 
+    .PARAMETER Clttimeout 
+        Time, in seconds, after which to terminate an idle client connection. 
+    .PARAMETER Svrtimeout 
+        Time, in seconds, after which to terminate an idle server connection. 
+    .PARAMETER Cka 
+        Enable client keep-alive for the service group. 
+        Possible values = YES, NO 
+    .PARAMETER Tcpb 
+        Enable TCP buffering for the service group. 
+        Possible values = YES, NO 
+    .PARAMETER Cmp 
+        Enable compression for the specified service. 
+        Possible values = YES, NO 
+    .PARAMETER Maxbandwidth 
+        Maximum bandwidth, in Kbps, allocated for all the services in the service group. 
+    .PARAMETER Monthreshold 
+        Minimum sum of weights of the monitors that are bound to this service. Used to determine whether to mark a service as UP or DOWN. 
+    .PARAMETER State 
+        Initial state of the service group. 
+        Possible values = ENABLED, DISABLED 
+    .PARAMETER Downstateflush 
+        Flush all active transactions associated with all the services in the service group whose state transitions from UP to DOWN. Do not enable this option for applications that must complete their transactions. 
+        Possible values = ENABLED, DISABLED 
+    .PARAMETER Tcpprofilename 
+        Name of the TCP profile that contains TCP configuration settings for the service group. 
+    .PARAMETER Httpprofilename 
+        Name of the HTTP profile that contains HTTP configuration settings for the service group. 
+    .PARAMETER Comment 
+        Any information about the service group. 
+    .PARAMETER Appflowlog 
+        Enable logging of AppFlow information for the specified service group. 
+        Possible values = ENABLED, DISABLED 
+    .PARAMETER Netprofile 
+        Network profile for the service group. 
+    .PARAMETER Autoscale 
+        Auto scale option for a servicegroup. 
+        Possible values = DISABLED, DNS, POLICY, CLOUD, API 
+    .PARAMETER Memberport 
+        member port. 
+    .PARAMETER Autodisablegraceful 
+        Indicates graceful shutdown of the service. System will wait for all outstanding connections to this service to be closed before disabling the service. 
+        Possible values = YES, NO 
+    .PARAMETER Autodisabledelay 
+        The time allowed (in seconds) for a graceful shutdown. During this period, new connections or requests will continue to be sent to this service for clients who already have a persistent session on the system. Connections or requests from fresh or new clients who do not yet have a persistence sessions on the system will not be sent to the service. Instead, they will be load balanced among other available services. After the delay time expires, no new requests or connections will be sent to the service. 
+    .PARAMETER Monconnectionclose 
+        Close monitoring connections by sending the service a connection termination message with the specified bit set. 
+        Possible values = RESET, FIN 
+    .PARAMETER PassThru 
+        Return details about the created servicegroup item.
+    .EXAMPLE
+        PS C:\>Invoke-ADCAddServicegroup -servicegroupname <string> -servicetype <string>
+        An example how to add servicegroup configuration Object(s).
+    .NOTES
+        File Name : Invoke-ADCAddServicegroup
+        Version   : v2111.2111
+        Author    : John Billekens
+        Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/basic/servicegroup/
+        Requires  : PowerShell v5.1 and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
+    .LINK
+        https://blog.j81.nl
+    #>
+    [CmdletBinding(SupportsShouldProcess = $true, ConfirmImpact = "Low")]
+    [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
+    [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
+    [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
+    param(
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
+
+        [Parameter(Mandatory)]
+        [ValidateScript({ $_.Length -gt 1 })]
+        [ValidatePattern('^(([a-zA-Z0-9]|[_])+([a-zA-Z0-9]|[_])+)$')]
+        [string]$Servicegroupname,
+
+        [Parameter(Mandatory)]
+        [ValidateSet('HTTP', 'FTP', 'TCP', 'UDP', 'SSL', 'SSL_BRIDGE', 'SSL_TCP', 'DTLS', 'NNTP', 'RPCSVR', 'DNS', 'ADNS', 'SNMP', 'RTSP', 'DHCPRA', 'ANY', 'SIP_UDP', 'SIP_TCP', 'SIP_SSL', 'DNS_TCP', 'ADNS_TCP', 'MYSQL', 'MSSQL', 'ORACLE', 'MONGO', 'MONGO_TLS', 'RADIUS', 'RADIUSListener', 'RDP', 'DIAMETER', 'SSL_DIAMETER', 'TFTP', 'SMPP', 'PPTP', 'GRE', 'SYSLOGTCP', 'SYSLOGUDP', 'FIX', 'SSL_FIX', 'USER_TCP', 'USER_SSL_TCP', 'QUIC', 'IPFIX', 'LOGSTREAM', 'LOGSTREAM_SSL', 'MQTT', 'MQTT_TLS', 'QUIC_BRIDGE')]
+        [string]$Servicetype,
+
+        [ValidateSet('TRANSPARENT', 'REVERSE', 'FORWARD')]
+        [string]$Cachetype,
+
+        [ValidateRange(0, 4094)]
+        [double]$Td,
+
+        [ValidateRange(0, 4294967294)]
+        [double]$Maxclient,
+
+        [ValidateRange(0, 65535)]
+        [double]$Maxreq,
+
+        [ValidateSet('YES', 'NO')]
+        [string]$Cacheable = 'NO',
+
+        [ValidateSet('ENABLED', 'DISABLED')]
+        [string]$Cip,
+
+        [ValidateScript({ $_.Length -gt 1 })]
+        [string]$Cipheader,
+
+        [ValidateSet('YES', 'NO')]
+        [string]$Usip,
+
+        [ValidateSet('YES', 'NO')]
+        [string]$Pathmonitor,
+
+        [ValidateSet('YES', 'NO')]
+        [string]$Pathmonitorindv,
+
+        [ValidateSet('YES', 'NO')]
+        [string]$Useproxyport,
+
+        [ValidateSet('YES', 'NO')]
+        [string]$Healthmonitor = 'YES',
+
+        [ValidateSet('ON', 'OFF')]
+        [string]$Sp = 'OFF',
+
+        [ValidateSet('ON', 'OFF')]
+        [string]$Rtspsessionidremap = 'OFF',
+
+        [ValidateRange(0, 31536000)]
+        [double]$Clttimeout,
+
+        [ValidateRange(0, 31536000)]
+        [double]$Svrtimeout,
+
+        [ValidateSet('YES', 'NO')]
+        [string]$Cka,
+
+        [ValidateSet('YES', 'NO')]
+        [string]$Tcpb,
+
+        [ValidateSet('YES', 'NO')]
+        [string]$Cmp,
+
+        [ValidateRange(0, 4294967287)]
+        [double]$Maxbandwidth,
+
+        [ValidateRange(0, 65535)]
+        [double]$Monthreshold,
+
+        [ValidateSet('ENABLED', 'DISABLED')]
+        [string]$State = 'ENABLED',
+
+        [ValidateSet('ENABLED', 'DISABLED')]
+        [string]$Downstateflush = 'ENABLED',
+
+        [ValidateLength(1, 127)]
+        [string]$Tcpprofilename,
+
+        [ValidateLength(1, 127)]
+        [string]$Httpprofilename,
+
+        [string]$Comment,
+
+        [ValidateSet('ENABLED', 'DISABLED')]
+        [string]$Appflowlog = 'ENABLED',
+
+        [ValidateLength(1, 127)]
+        [string]$Netprofile,
+
+        [ValidateSet('DISABLED', 'DNS', 'POLICY', 'CLOUD', 'API')]
+        [string]$Autoscale = 'DISABLED',
+
+        [int]$Memberport,
+
+        [ValidateSet('YES', 'NO')]
+        [string]$Autodisablegraceful = 'NO',
+
+        [double]$Autodisabledelay,
+
+        [ValidateSet('RESET', 'FIN')]
+        [string]$Monconnectionclose = 'NONE',
+
+        [Switch]$PassThru 
+    )
+    begin {
+        Write-Verbose "Invoke-ADCAddServicegroup: Starting"
+    }
+    process {
+        try {
+            $payload = @{ servicegroupname = $servicegroupname
+                servicetype                = $servicetype
+            }
+            if ( $PSBoundParameters.ContainsKey('cachetype') ) { $payload.Add('cachetype', $cachetype) }
+            if ( $PSBoundParameters.ContainsKey('td') ) { $payload.Add('td', $td) }
+            if ( $PSBoundParameters.ContainsKey('maxclient') ) { $payload.Add('maxclient', $maxclient) }
+            if ( $PSBoundParameters.ContainsKey('maxreq') ) { $payload.Add('maxreq', $maxreq) }
+            if ( $PSBoundParameters.ContainsKey('cacheable') ) { $payload.Add('cacheable', $cacheable) }
+            if ( $PSBoundParameters.ContainsKey('cip') ) { $payload.Add('cip', $cip) }
+            if ( $PSBoundParameters.ContainsKey('cipheader') ) { $payload.Add('cipheader', $cipheader) }
+            if ( $PSBoundParameters.ContainsKey('usip') ) { $payload.Add('usip', $usip) }
+            if ( $PSBoundParameters.ContainsKey('pathmonitor') ) { $payload.Add('pathmonitor', $pathmonitor) }
+            if ( $PSBoundParameters.ContainsKey('pathmonitorindv') ) { $payload.Add('pathmonitorindv', $pathmonitorindv) }
+            if ( $PSBoundParameters.ContainsKey('useproxyport') ) { $payload.Add('useproxyport', $useproxyport) }
+            if ( $PSBoundParameters.ContainsKey('healthmonitor') ) { $payload.Add('healthmonitor', $healthmonitor) }
+            if ( $PSBoundParameters.ContainsKey('sp') ) { $payload.Add('sp', $sp) }
+            if ( $PSBoundParameters.ContainsKey('rtspsessionidremap') ) { $payload.Add('rtspsessionidremap', $rtspsessionidremap) }
+            if ( $PSBoundParameters.ContainsKey('clttimeout') ) { $payload.Add('clttimeout', $clttimeout) }
+            if ( $PSBoundParameters.ContainsKey('svrtimeout') ) { $payload.Add('svrtimeout', $svrtimeout) }
+            if ( $PSBoundParameters.ContainsKey('cka') ) { $payload.Add('cka', $cka) }
+            if ( $PSBoundParameters.ContainsKey('tcpb') ) { $payload.Add('tcpb', $tcpb) }
+            if ( $PSBoundParameters.ContainsKey('cmp') ) { $payload.Add('cmp', $cmp) }
+            if ( $PSBoundParameters.ContainsKey('maxbandwidth') ) { $payload.Add('maxbandwidth', $maxbandwidth) }
+            if ( $PSBoundParameters.ContainsKey('monthreshold') ) { $payload.Add('monthreshold', $monthreshold) }
+            if ( $PSBoundParameters.ContainsKey('state') ) { $payload.Add('state', $state) }
+            if ( $PSBoundParameters.ContainsKey('downstateflush') ) { $payload.Add('downstateflush', $downstateflush) }
+            if ( $PSBoundParameters.ContainsKey('tcpprofilename') ) { $payload.Add('tcpprofilename', $tcpprofilename) }
+            if ( $PSBoundParameters.ContainsKey('httpprofilename') ) { $payload.Add('httpprofilename', $httpprofilename) }
+            if ( $PSBoundParameters.ContainsKey('comment') ) { $payload.Add('comment', $comment) }
+            if ( $PSBoundParameters.ContainsKey('appflowlog') ) { $payload.Add('appflowlog', $appflowlog) }
+            if ( $PSBoundParameters.ContainsKey('netprofile') ) { $payload.Add('netprofile', $netprofile) }
+            if ( $PSBoundParameters.ContainsKey('autoscale') ) { $payload.Add('autoscale', $autoscale) }
+            if ( $PSBoundParameters.ContainsKey('memberport') ) { $payload.Add('memberport', $memberport) }
+            if ( $PSBoundParameters.ContainsKey('autodisablegraceful') ) { $payload.Add('autodisablegraceful', $autodisablegraceful) }
+            if ( $PSBoundParameters.ContainsKey('autodisabledelay') ) { $payload.Add('autodisabledelay', $autodisabledelay) }
+            if ( $PSBoundParameters.ContainsKey('monconnectionclose') ) { $payload.Add('monconnectionclose', $monconnectionclose) }
+            if ( $PSCmdlet.ShouldProcess("servicegroup", "Add Basic configuration Object") ) {
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -NitroPath nitro/v1/config -Type servicegroup -Payload $payload -GetWarning
+                #HTTP Status Code on Success: 201 Created
+                #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
+                if ( $PSBoundParameters.ContainsKey('PassThru') ) {
+                    Write-Output (Invoke-ADCGetServicegroup -Filter $payload)
+                } else {
+                    Write-Output $result
+                }
+            }
+        } catch {
+            Write-Verbose "ERROR: $($_.Exception.Message)"
+            throw $_
+        }
+    }
+    end {
+        Write-Verbose "Invoke-ADCAddServicegroup: Finished"
+    }
+}
+
+function Invoke-ADCGetServicegroup {
+    <#
+    .SYNOPSIS
+        Get Basic configuration object(s).
+    .DESCRIPTION
+        Configuration for service group resource.
+    .PARAMETER Servicegroupname 
+        Name of the service group. Must begin with an ASCII alphabetic or underscore (_) character, and must contain only ASCII alphanumeric, underscore, hash (#), period (.), space, colon (:), at (@), equals (=), and hyphen (-) characters. Can be changed after the name is created. 
+    .PARAMETER GetAll 
+        Retrieve all servicegroup object(s).
+    .PARAMETER Count
+        If specified, the count of the servicegroup object(s) will be returned.
+    .PARAMETER Filter
+        Specify a filter.
+        -Filter @{ 'name'='<value>' }
+    .PARAMETER ViewSummary
+        When specified, only a summary of information is returned.
+    .EXAMPLE
+        PS C:\>Invoke-ADCGetServicegroup
+        Get data.
+    .EXAMPLE 
+        PS C:\>Invoke-ADCGetServicegroup -GetAll 
+        Get all servicegroup data. 
+    .EXAMPLE 
+        PS C:\>Invoke-ADCGetServicegroup -Count 
+        Get the number of servicegroup objects.
+    .EXAMPLE
+        PS C:\>Invoke-ADCGetServicegroup -name <string>
+        Get servicegroup object by specifying for example the name.
+    .EXAMPLE
+        PS C:\>Invoke-ADCGetServicegroup -Filter @{ 'name'='<value>' }
+        Get servicegroup data with a filter.
+    .NOTES
+        File Name : Invoke-ADCGetServicegroup
+        Version   : v2111.2111
+        Author    : John Billekens
+        Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/basic/servicegroup/
+        Requires  : PowerShell v5.1 and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
+    .LINK
+        https://blog.j81.nl
+    #>
+    [CmdletBinding(DefaultParameterSetName = "GetAll")]
+    [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
+    [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
+    [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
+    param(
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
         [Parameter(ParameterSetName = 'GetByResource')]
         [ValidateScript({ $_.Length -gt 1 })]
         [ValidatePattern('^(([a-zA-Z0-9]|[_])+([a-zA-Z0-9]|[_])+)$')]
-        [string]$servicegroupname,
+        [string]$Servicegroupname,
 
-        [Parameter(ParameterSetName = 'Count', Mandatory = $true)]
+        [Parameter(ParameterSetName = 'Count', Mandatory)]
         [Switch]$Count,
 			
         [hashtable]$Filter = @{ },
@@ -5788,24 +5495,24 @@ function Invoke-ADCGetServicegroup {
     }
     process {
         try {
-            if ( $PsCmdlet.ParameterSetName -eq 'Getall' ) {
-                $Query = @{ }
+            if ( $PsCmdlet.ParameterSetName -eq 'GetAll' ) {
+                $query = @{ }
                 Write-Verbose "Retrieving all servicegroup objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type servicegroup -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type servicegroup -NitroPath nitro/v1/config -Query $query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
-                if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
+                if ( $PSBoundParameters.ContainsKey('Count') ) { $query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for servicegroup objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type servicegroup -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type servicegroup -NitroPath nitro/v1/config -Query $query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving servicegroup objects by arguments"
-                $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type servicegroup -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
+                $arguments = @{ } 
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type servicegroup -NitroPath nitro/v1/config -Arguments $arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving servicegroup configuration for property 'servicegroupname'"
                 $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type servicegroup -NitroPath nitro/v1/config -Resource $servicegroupname -Summary:$ViewSummary -Filter $Filter -GetWarning
             } else {
                 Write-Verbose "Retrieving servicegroup configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type servicegroup -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type servicegroup -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -5819,53 +5526,59 @@ function Invoke-ADCGetServicegroup {
 }
 
 function Invoke-ADCGetServicegroupbindings {
-<#
+    <#
     .SYNOPSIS
-        Get Basic configuration object(s)
+        Get Basic configuration object(s).
     .DESCRIPTION
-        Get Basic configuration object(s)
-    .PARAMETER servicegroupname 
-       The name of the service. 
+        Configuration for servicegroupbind resource.
+    .PARAMETER Servicegroupname 
+        The name of the service. 
     .PARAMETER GetAll 
-        Retreive all servicegroupbindings object(s)
+        Retrieve all servicegroupbindings object(s).
     .PARAMETER Count
-        If specified, the count of the servicegroupbindings object(s) will be returned
+        If specified, the count of the servicegroupbindings object(s) will be returned.
     .PARAMETER Filter
-        Specify a filter
+        Specify a filter.
         -Filter @{ 'name'='<value>' }
     .PARAMETER ViewSummary
-        When specified, only a summary of information is returned
+        When specified, only a summary of information is returned.
     .EXAMPLE
-        Invoke-ADCGetServicegroupbindings
+        PS C:\>Invoke-ADCGetServicegroupbindings
+        Get data.
     .EXAMPLE 
-        Invoke-ADCGetServicegroupbindings -GetAll 
+        PS C:\>Invoke-ADCGetServicegroupbindings -GetAll 
+        Get all servicegroupbindings data. 
     .EXAMPLE 
-        Invoke-ADCGetServicegroupbindings -Count
+        PS C:\>Invoke-ADCGetServicegroupbindings -Count 
+        Get the number of servicegroupbindings objects.
     .EXAMPLE
-        Invoke-ADCGetServicegroupbindings -name <string>
+        PS C:\>Invoke-ADCGetServicegroupbindings -name <string>
+        Get servicegroupbindings object by specifying for example the name.
     .EXAMPLE
-        Invoke-ADCGetServicegroupbindings -Filter @{ 'name'='<value>' }
+        PS C:\>Invoke-ADCGetServicegroupbindings -Filter @{ 'name'='<value>' }
+        Get servicegroupbindings data with a filter.
     .NOTES
         File Name : Invoke-ADCGetServicegroupbindings
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/basic/servicegroupbindings/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
-    [CmdletBinding(DefaultParameterSetName = "Getall")]
+    #>
+    [CmdletBinding(DefaultParameterSetName = "GetAll")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
         [Parameter(ParameterSetName = 'GetByResource')]
         [ValidateScript({ $_.Length -gt 1 })]
-        [string]$servicegroupname,
+        [string]$Servicegroupname,
 			
         [hashtable]$Filter = @{ },
 
@@ -5882,24 +5595,24 @@ function Invoke-ADCGetServicegroupbindings {
     }
     process {
         try {
-            if ( $PsCmdlet.ParameterSetName -eq 'Getall' ) {
-                $Query = @{ }
+            if ( $PsCmdlet.ParameterSetName -eq 'GetAll' ) {
+                $query = @{ }
                 Write-Verbose "Retrieving all servicegroupbindings objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type servicegroupbindings -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type servicegroupbindings -NitroPath nitro/v1/config -Query $query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
-                if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
+                if ( $PSBoundParameters.ContainsKey('Count') ) { $query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for servicegroupbindings objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type servicegroupbindings -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type servicegroupbindings -NitroPath nitro/v1/config -Query $query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving servicegroupbindings objects by arguments"
-                $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type servicegroupbindings -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
+                $arguments = @{ } 
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type servicegroupbindings -NitroPath nitro/v1/config -Arguments $arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving servicegroupbindings configuration for property 'servicegroupname'"
                 $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type servicegroupbindings -NitroPath nitro/v1/config -Resource $servicegroupname -Summary:$ViewSummary -Filter $Filter -GetWarning
             } else {
                 Write-Verbose "Retrieving servicegroupbindings configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type servicegroupbindings -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type servicegroupbindings -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -5913,51 +5626,56 @@ function Invoke-ADCGetServicegroupbindings {
 }
 
 function Invoke-ADCGetServicegroupbinding {
-<#
+    <#
     .SYNOPSIS
-        Get Basic configuration object(s)
+        Get Basic configuration object(s).
     .DESCRIPTION
-        Get Basic configuration object(s)
-    .PARAMETER servicegroupname 
-       Name of the service group. 
+        Binding object which returns the resources bound to servicegroup.
+    .PARAMETER Servicegroupname 
+        Name of the service group. 
     .PARAMETER GetAll 
-        Retreive all servicegroup_binding object(s)
+        Retrieve all servicegroup_binding object(s).
     .PARAMETER Count
-        If specified, the count of the servicegroup_binding object(s) will be returned
+        If specified, the count of the servicegroup_binding object(s) will be returned.
     .PARAMETER Filter
-        Specify a filter
+        Specify a filter.
         -Filter @{ 'name'='<value>' }
     .PARAMETER ViewSummary
-        When specified, only a summary of information is returned
+        When specified, only a summary of information is returned.
     .EXAMPLE
-        Invoke-ADCGetServicegroupbinding
+        PS C:\>Invoke-ADCGetServicegroupbinding
+        Get data.
     .EXAMPLE 
-        Invoke-ADCGetServicegroupbinding -GetAll
+        PS C:\>Invoke-ADCGetServicegroupbinding -GetAll 
+        Get all servicegroup_binding data.
     .EXAMPLE
-        Invoke-ADCGetServicegroupbinding -name <string>
+        PS C:\>Invoke-ADCGetServicegroupbinding -name <string>
+        Get servicegroup_binding object by specifying for example the name.
     .EXAMPLE
-        Invoke-ADCGetServicegroupbinding -Filter @{ 'name'='<value>' }
+        PS C:\>Invoke-ADCGetServicegroupbinding -Filter @{ 'name'='<value>' }
+        Get servicegroup_binding data with a filter.
     .NOTES
         File Name : Invoke-ADCGetServicegroupbinding
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/basic/servicegroup_binding/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
-    [CmdletBinding(DefaultParameterSetName = "Getall")]
+    #>
+    [CmdletBinding(DefaultParameterSetName = "GetAll")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
         [Parameter(ParameterSetName = 'GetByResource')]
         [ValidateScript({ $_.Length -gt 1 })]
-        [string]$servicegroupname,
+        [string]$Servicegroupname,
 			
         [hashtable]$Filter = @{ },
 
@@ -5969,26 +5687,24 @@ function Invoke-ADCGetServicegroupbinding {
     }
     process {
         try {
-            if ( $PsCmdlet.ParameterSetName -eq 'Getall' ) {
-                $Query = @{ 
-                    bulkbindings = 'yes'
-                }
+            if ( $PsCmdlet.ParameterSetName -eq 'GetAll' ) {
+                $query = @{  bulkbindings = 'yes' }
                 Write-Verbose "Retrieving all servicegroup_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type servicegroup_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type servicegroup_binding -NitroPath nitro/v1/config -Query $query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
-                if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
+                if ( $PSBoundParameters.ContainsKey('Count') ) { $query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for servicegroup_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type servicegroup_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type servicegroup_binding -NitroPath nitro/v1/config -Query $query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving servicegroup_binding objects by arguments"
-                $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type servicegroup_binding -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
+                $arguments = @{ } 
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type servicegroup_binding -NitroPath nitro/v1/config -Arguments $arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving servicegroup_binding configuration for property 'servicegroupname'"
                 $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type servicegroup_binding -NitroPath nitro/v1/config -Resource $servicegroupname -Summary:$ViewSummary -Filter $Filter -GetWarning
             } else {
                 Write-Verbose "Retrieving servicegroup_binding configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type servicegroup_binding -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type servicegroup_binding -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -6002,131 +5718,120 @@ function Invoke-ADCGetServicegroupbinding {
 }
 
 function Invoke-ADCAddServicegrouplbmonitorbinding {
-<#
+    <#
     .SYNOPSIS
-        Add Basic configuration Object
+        Add Basic configuration Object.
     .DESCRIPTION
-        Add Basic configuration Object 
-    .PARAMETER servicegroupname 
-        Name of the service group.  
-        Minimum length = 1 
-    .PARAMETER port 
-        Port number of the service. Each service must have a unique port number.  
-        Range 1 - 65535  
+        Binding object showing the lbmonitor that can be bound to servicegroup.
+    .PARAMETER Servicegroupname 
+        Name of the service group. 
+    .PARAMETER Port 
+        Port number of the service. Each service must have a unique port number. 
         * in CLI is represented as 65535 in NITRO API 
-    .PARAMETER monitor_name 
+    .PARAMETER Monitor_name 
         Monitor name. 
-    .PARAMETER monstate 
-        Monitor state.  
+    .PARAMETER Monstate 
+        Monitor state. 
         Possible values = ENABLED, DISABLED 
-    .PARAMETER passive 
+    .PARAMETER Passive 
         Indicates if load monitor is passive. A passive load monitor does not remove service from LB decision when threshold is breached. 
-    .PARAMETER weight 
-        Weight to assign to the servers in the service group. Specifies the capacity of the servers relative to the other servers in the load balancing configuration. The higher the weight, the higher the percentage of requests sent to the service.  
-        Minimum value = 1  
-        Maximum value = 100 
-    .PARAMETER customserverid 
-        Unique service identifier. Used when the persistency type for the virtual server is set to Custom Server ID.  
-        Default value: "None" 
-    .PARAMETER serverid 
+    .PARAMETER Weight 
+        Weight to assign to the servers in the service group. Specifies the capacity of the servers relative to the other servers in the load balancing configuration. The higher the weight, the higher the percentage of requests sent to the service. 
+    .PARAMETER Customserverid 
+        Unique service identifier. Used when the persistency type for the virtual server is set to Custom Server ID. 
+    .PARAMETER Serverid 
         The identifier for the service. This is used when the persistency type is set to Custom Server ID. 
-    .PARAMETER state 
-        Initial state of the service after binding.  
-        Default value: ENABLED  
+    .PARAMETER State 
+        Initial state of the service after binding. 
         Possible values = ENABLED, DISABLED 
-    .PARAMETER hashid 
-        Unique numerical identifier used by hash based load balancing methods to identify a service.  
-        Minimum value = 1 
-    .PARAMETER nameserver 
+    .PARAMETER Hashid 
+        Unique numerical identifier used by hash based load balancing methods to identify a service. 
+    .PARAMETER Nameserver 
         Specify the nameserver to which the query for bound domain needs to be sent. If not specified, use the global nameserver. 
-    .PARAMETER dbsttl 
-        Specify the TTL for DNS record for domain based service.The default value of ttl is 0 which indicates to use the TTL received in DNS response for monitors.  
-        Default value: 0 
+    .PARAMETER Dbsttl 
+        Specify the TTL for DNS record for domain based service.The default value of ttl is 0 which indicates to use the TTL received in DNS response for monitors. 
     .PARAMETER PassThru 
         Return details about the created servicegroup_lbmonitor_binding item.
     .EXAMPLE
-        Invoke-ADCAddServicegrouplbmonitorbinding -servicegroupname <string>
+        PS C:\>Invoke-ADCAddServicegrouplbmonitorbinding -servicegroupname <string>
+        An example how to add servicegroup_lbmonitor_binding configuration Object(s).
     .NOTES
         File Name : Invoke-ADCAddServicegrouplbmonitorbinding
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/basic/servicegroup_lbmonitor_binding/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
+    #>
     [CmdletBinding(SupportsShouldProcess = $true, ConfirmImpact = "Low")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
-        [Parameter(Mandatory = $true)]
+        [Parameter(Mandatory)]
         [ValidateScript({ $_.Length -gt 1 })]
-        [string]$servicegroupname ,
+        [string]$Servicegroupname,
 
         [ValidateRange(1, 65535)]
-        [int]$port ,
+        [int]$Port,
 
-        [string]$monitor_name ,
+        [string]$Monitor_name,
 
         [ValidateSet('ENABLED', 'DISABLED')]
-        [string]$monstate ,
+        [string]$Monstate,
 
-        [boolean]$passive ,
+        [boolean]$Passive,
 
         [ValidateRange(1, 100)]
-        [double]$weight ,
+        [double]$Weight,
 
-        [string]$customserverid = '"None"' ,
+        [string]$Customserverid = '"None"',
 
-        [double]$serverid ,
+        [double]$Serverid,
 
         [ValidateSet('ENABLED', 'DISABLED')]
-        [string]$state = 'ENABLED' ,
+        [string]$State = 'ENABLED',
 
-        [double]$hashid ,
+        [double]$Hashid,
 
-        [string]$nameserver ,
+        [string]$Nameserver,
 
-        [double]$dbsttl = '0' ,
+        [double]$Dbsttl = '0',
 
         [Switch]$PassThru 
-
     )
     begin {
         Write-Verbose "Invoke-ADCAddServicegrouplbmonitorbinding: Starting"
     }
     process {
         try {
-            $Payload = @{
-                servicegroupname = $servicegroupname
-            }
-            if ($PSBoundParameters.ContainsKey('port')) { $Payload.Add('port', $port) }
-            if ($PSBoundParameters.ContainsKey('monitor_name')) { $Payload.Add('monitor_name', $monitor_name) }
-            if ($PSBoundParameters.ContainsKey('monstate')) { $Payload.Add('monstate', $monstate) }
-            if ($PSBoundParameters.ContainsKey('passive')) { $Payload.Add('passive', $passive) }
-            if ($PSBoundParameters.ContainsKey('weight')) { $Payload.Add('weight', $weight) }
-            if ($PSBoundParameters.ContainsKey('customserverid')) { $Payload.Add('customserverid', $customserverid) }
-            if ($PSBoundParameters.ContainsKey('serverid')) { $Payload.Add('serverid', $serverid) }
-            if ($PSBoundParameters.ContainsKey('state')) { $Payload.Add('state', $state) }
-            if ($PSBoundParameters.ContainsKey('hashid')) { $Payload.Add('hashid', $hashid) }
-            if ($PSBoundParameters.ContainsKey('nameserver')) { $Payload.Add('nameserver', $nameserver) }
-            if ($PSBoundParameters.ContainsKey('dbsttl')) { $Payload.Add('dbsttl', $dbsttl) }
- 
-            if ($PSCmdlet.ShouldProcess("servicegroup_lbmonitor_binding", "Add Basic configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -NitroPath nitro/v1/config -Type servicegroup_lbmonitor_binding -Payload $Payload -GetWarning
+            $payload = @{ servicegroupname = $servicegroupname }
+            if ( $PSBoundParameters.ContainsKey('port') ) { $payload.Add('port', $port) }
+            if ( $PSBoundParameters.ContainsKey('monitor_name') ) { $payload.Add('monitor_name', $monitor_name) }
+            if ( $PSBoundParameters.ContainsKey('monstate') ) { $payload.Add('monstate', $monstate) }
+            if ( $PSBoundParameters.ContainsKey('passive') ) { $payload.Add('passive', $passive) }
+            if ( $PSBoundParameters.ContainsKey('weight') ) { $payload.Add('weight', $weight) }
+            if ( $PSBoundParameters.ContainsKey('customserverid') ) { $payload.Add('customserverid', $customserverid) }
+            if ( $PSBoundParameters.ContainsKey('serverid') ) { $payload.Add('serverid', $serverid) }
+            if ( $PSBoundParameters.ContainsKey('state') ) { $payload.Add('state', $state) }
+            if ( $PSBoundParameters.ContainsKey('hashid') ) { $payload.Add('hashid', $hashid) }
+            if ( $PSBoundParameters.ContainsKey('nameserver') ) { $payload.Add('nameserver', $nameserver) }
+            if ( $PSBoundParameters.ContainsKey('dbsttl') ) { $payload.Add('dbsttl', $dbsttl) }
+            if ( $PSCmdlet.ShouldProcess("servicegroup_lbmonitor_binding", "Add Basic configuration Object") ) {
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -NitroPath nitro/v1/config -Type servicegroup_lbmonitor_binding -Payload $payload -GetWarning
                 #HTTP Status Code on Success: 201 Created
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
-                if ($PSBoundParameters.ContainsKey('PassThru')) {
-                    Write-Output (Invoke-ADCGetServicegrouplbmonitorbinding -Filter $Payload)
+                if ( $PSBoundParameters.ContainsKey('PassThru') ) {
+                    Write-Output (Invoke-ADCGetServicegrouplbmonitorbinding -Filter $payload)
                 } else {
                     Write-Output $result
                 }
-
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -6139,56 +5844,57 @@ function Invoke-ADCAddServicegrouplbmonitorbinding {
 }
 
 function Invoke-ADCDeleteServicegrouplbmonitorbinding {
-<#
+    <#
     .SYNOPSIS
-        Delete Basic configuration Object
+        Delete Basic configuration Object.
     .DESCRIPTION
-        Delete Basic configuration Object
-    .PARAMETER servicegroupname 
-       Name of the service group.  
-       Minimum length = 1    .PARAMETER port 
-       Port number of the service. Each service must have a unique port number.  
-       Range 1 - 65535  
-       * in CLI is represented as 65535 in NITRO API    .PARAMETER monitor_name 
-       Monitor name.
+        Binding object showing the lbmonitor that can be bound to servicegroup.
+    .PARAMETER Servicegroupname 
+        Name of the service group. 
+    .PARAMETER Port 
+        Port number of the service. Each service must have a unique port number. 
+        * in CLI is represented as 65535 in NITRO API 
+    .PARAMETER Monitor_name 
+        Monitor name.
     .EXAMPLE
-        Invoke-ADCDeleteServicegrouplbmonitorbinding -servicegroupname <string>
+        PS C:\>Invoke-ADCDeleteServicegrouplbmonitorbinding -Servicegroupname <string>
+        An example how to delete servicegroup_lbmonitor_binding configuration Object(s).
     .NOTES
         File Name : Invoke-ADCDeleteServicegrouplbmonitorbinding
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/basic/servicegroup_lbmonitor_binding/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
+    #>
     [CmdletBinding(SupportsShouldProcess = $true, ConfirmImpact = "Low")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
-        [Parameter(Mandatory = $true)]
-        [string]$servicegroupname ,
+        [Parameter(Mandatory)]
+        [string]$Servicegroupname,
 
-        [int]$port ,
+        [int]$Port,
 
-        [string]$monitor_name 
+        [string]$Monitor_name 
     )
     begin {
         Write-Verbose "Invoke-ADCDeleteServicegrouplbmonitorbinding: Starting"
     }
     process {
         try {
-            $Arguments = @{ 
-            }
-            if ($PSBoundParameters.ContainsKey('port')) { $Arguments.Add('port', $port) }
-            if ($PSBoundParameters.ContainsKey('monitor_name')) { $Arguments.Add('monitor_name', $monitor_name) }
-            if ($PSCmdlet.ShouldProcess("$servicegroupname", "Delete Basic configuration Object")) {
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type servicegroup_lbmonitor_binding -NitroPath nitro/v1/config -Resource $servicegroupname -Arguments $Arguments
+            $arguments = @{ }
+            if ( $PSBoundParameters.ContainsKey('Port') ) { $arguments.Add('port', $Port) }
+            if ( $PSBoundParameters.ContainsKey('Monitor_name') ) { $arguments.Add('monitor_name', $Monitor_name) }
+            if ( $PSCmdlet.ShouldProcess("$servicegroupname", "Delete Basic configuration Object") ) {
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type servicegroup_lbmonitor_binding -NitroPath nitro/v1/config -Resource $servicegroupname -Arguments $arguments
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $response
@@ -6204,55 +5910,61 @@ function Invoke-ADCDeleteServicegrouplbmonitorbinding {
 }
 
 function Invoke-ADCGetServicegrouplbmonitorbinding {
-<#
+    <#
     .SYNOPSIS
-        Get Basic configuration object(s)
+        Get Basic configuration object(s).
     .DESCRIPTION
-        Get Basic configuration object(s)
-    .PARAMETER servicegroupname 
-       Name of the service group. 
+        Binding object showing the lbmonitor that can be bound to servicegroup.
+    .PARAMETER Servicegroupname 
+        Name of the service group. 
     .PARAMETER GetAll 
-        Retreive all servicegroup_lbmonitor_binding object(s)
+        Retrieve all servicegroup_lbmonitor_binding object(s).
     .PARAMETER Count
-        If specified, the count of the servicegroup_lbmonitor_binding object(s) will be returned
+        If specified, the count of the servicegroup_lbmonitor_binding object(s) will be returned.
     .PARAMETER Filter
-        Specify a filter
+        Specify a filter.
         -Filter @{ 'name'='<value>' }
     .PARAMETER ViewSummary
-        When specified, only a summary of information is returned
+        When specified, only a summary of information is returned.
     .EXAMPLE
-        Invoke-ADCGetServicegrouplbmonitorbinding
+        PS C:\>Invoke-ADCGetServicegrouplbmonitorbinding
+        Get data.
     .EXAMPLE 
-        Invoke-ADCGetServicegrouplbmonitorbinding -GetAll 
+        PS C:\>Invoke-ADCGetServicegrouplbmonitorbinding -GetAll 
+        Get all servicegroup_lbmonitor_binding data. 
     .EXAMPLE 
-        Invoke-ADCGetServicegrouplbmonitorbinding -Count
+        PS C:\>Invoke-ADCGetServicegrouplbmonitorbinding -Count 
+        Get the number of servicegroup_lbmonitor_binding objects.
     .EXAMPLE
-        Invoke-ADCGetServicegrouplbmonitorbinding -name <string>
+        PS C:\>Invoke-ADCGetServicegrouplbmonitorbinding -name <string>
+        Get servicegroup_lbmonitor_binding object by specifying for example the name.
     .EXAMPLE
-        Invoke-ADCGetServicegrouplbmonitorbinding -Filter @{ 'name'='<value>' }
+        PS C:\>Invoke-ADCGetServicegrouplbmonitorbinding -Filter @{ 'name'='<value>' }
+        Get servicegroup_lbmonitor_binding data with a filter.
     .NOTES
         File Name : Invoke-ADCGetServicegrouplbmonitorbinding
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/basic/servicegroup_lbmonitor_binding/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
-    [CmdletBinding(DefaultParameterSetName = "Getall")]
+    #>
+    [CmdletBinding(DefaultParameterSetName = "GetAll")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
         [Parameter(ParameterSetName = 'GetByResource')]
         [ValidateScript({ $_.Length -gt 1 })]
-        [string]$servicegroupname,
+        [string]$Servicegroupname,
 
-        [Parameter(ParameterSetName = 'Count', Mandatory = $true)]
+        [Parameter(ParameterSetName = 'Count', Mandatory)]
         [Switch]$Count,
 			
         [hashtable]$Filter = @{ },
@@ -6265,26 +5977,24 @@ function Invoke-ADCGetServicegrouplbmonitorbinding {
     }
     process {
         try {
-            if ( $PsCmdlet.ParameterSetName -eq 'Getall' ) {
-                $Query = @{ 
-                    bulkbindings = 'yes'
-                }
+            if ( $PsCmdlet.ParameterSetName -eq 'GetAll' ) {
+                $query = @{  bulkbindings = 'yes' }
                 Write-Verbose "Retrieving all servicegroup_lbmonitor_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type servicegroup_lbmonitor_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type servicegroup_lbmonitor_binding -NitroPath nitro/v1/config -Query $query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
-                if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
+                if ( $PSBoundParameters.ContainsKey('Count') ) { $query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for servicegroup_lbmonitor_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type servicegroup_lbmonitor_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type servicegroup_lbmonitor_binding -NitroPath nitro/v1/config -Query $query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving servicegroup_lbmonitor_binding objects by arguments"
-                $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type servicegroup_lbmonitor_binding -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
+                $arguments = @{ } 
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type servicegroup_lbmonitor_binding -NitroPath nitro/v1/config -Arguments $arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving servicegroup_lbmonitor_binding configuration for property 'servicegroupname'"
                 $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type servicegroup_lbmonitor_binding -NitroPath nitro/v1/config -Resource $servicegroupname -Summary:$ViewSummary -Filter $Filter -GetWarning
             } else {
                 Write-Verbose "Retrieving servicegroup_lbmonitor_binding configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type servicegroup_lbmonitor_binding -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type servicegroup_lbmonitor_binding -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -6298,55 +6008,61 @@ function Invoke-ADCGetServicegrouplbmonitorbinding {
 }
 
 function Invoke-ADCGetServicegroupservicegroupentitymonbindingsbinding {
-<#
+    <#
     .SYNOPSIS
-        Get Basic configuration object(s)
+        Get Basic configuration object(s).
     .DESCRIPTION
-        Get Basic configuration object(s)
-    .PARAMETER servicegroupname 
-       Name of the service group. 
+        Binding object showing the servicegroupentitymonbindings that can be bound to servicegroup.
+    .PARAMETER Servicegroupname 
+        Name of the service group. 
     .PARAMETER GetAll 
-        Retreive all servicegroup_servicegroupentitymonbindings_binding object(s)
+        Retrieve all servicegroup_servicegroupentitymonbindings_binding object(s).
     .PARAMETER Count
-        If specified, the count of the servicegroup_servicegroupentitymonbindings_binding object(s) will be returned
+        If specified, the count of the servicegroup_servicegroupentitymonbindings_binding object(s) will be returned.
     .PARAMETER Filter
-        Specify a filter
+        Specify a filter.
         -Filter @{ 'name'='<value>' }
     .PARAMETER ViewSummary
-        When specified, only a summary of information is returned
+        When specified, only a summary of information is returned.
     .EXAMPLE
-        Invoke-ADCGetServicegroupservicegroupentitymonbindingsbinding
+        PS C:\>Invoke-ADCGetServicegroupservicegroupentitymonbindingsbinding
+        Get data.
     .EXAMPLE 
-        Invoke-ADCGetServicegroupservicegroupentitymonbindingsbinding -GetAll 
+        PS C:\>Invoke-ADCGetServicegroupservicegroupentitymonbindingsbinding -GetAll 
+        Get all servicegroup_servicegroupentitymonbindings_binding data. 
     .EXAMPLE 
-        Invoke-ADCGetServicegroupservicegroupentitymonbindingsbinding -Count
+        PS C:\>Invoke-ADCGetServicegroupservicegroupentitymonbindingsbinding -Count 
+        Get the number of servicegroup_servicegroupentitymonbindings_binding objects.
     .EXAMPLE
-        Invoke-ADCGetServicegroupservicegroupentitymonbindingsbinding -name <string>
+        PS C:\>Invoke-ADCGetServicegroupservicegroupentitymonbindingsbinding -name <string>
+        Get servicegroup_servicegroupentitymonbindings_binding object by specifying for example the name.
     .EXAMPLE
-        Invoke-ADCGetServicegroupservicegroupentitymonbindingsbinding -Filter @{ 'name'='<value>' }
+        PS C:\>Invoke-ADCGetServicegroupservicegroupentitymonbindingsbinding -Filter @{ 'name'='<value>' }
+        Get servicegroup_servicegroupentitymonbindings_binding data with a filter.
     .NOTES
         File Name : Invoke-ADCGetServicegroupservicegroupentitymonbindingsbinding
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/basic/servicegroup_servicegroupentitymonbindings_binding/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
-    [CmdletBinding(DefaultParameterSetName = "Getall")]
+    #>
+    [CmdletBinding(DefaultParameterSetName = "GetAll")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
         [Parameter(ParameterSetName = 'GetByResource')]
         [ValidateScript({ $_.Length -gt 1 })]
-        [string]$servicegroupname,
+        [string]$Servicegroupname,
 
-        [Parameter(ParameterSetName = 'Count', Mandatory = $true)]
+        [Parameter(ParameterSetName = 'Count', Mandatory)]
         [Switch]$Count,
 			
         [hashtable]$Filter = @{ },
@@ -6359,26 +6075,24 @@ function Invoke-ADCGetServicegroupservicegroupentitymonbindingsbinding {
     }
     process {
         try {
-            if ( $PsCmdlet.ParameterSetName -eq 'Getall' ) {
-                $Query = @{ 
-                    bulkbindings = 'yes'
-                }
+            if ( $PsCmdlet.ParameterSetName -eq 'GetAll' ) {
+                $query = @{  bulkbindings = 'yes' }
                 Write-Verbose "Retrieving all servicegroup_servicegroupentitymonbindings_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type servicegroup_servicegroupentitymonbindings_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type servicegroup_servicegroupentitymonbindings_binding -NitroPath nitro/v1/config -Query $query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
-                if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
+                if ( $PSBoundParameters.ContainsKey('Count') ) { $query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for servicegroup_servicegroupentitymonbindings_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type servicegroup_servicegroupentitymonbindings_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type servicegroup_servicegroupentitymonbindings_binding -NitroPath nitro/v1/config -Query $query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving servicegroup_servicegroupentitymonbindings_binding objects by arguments"
-                $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type servicegroup_servicegroupentitymonbindings_binding -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
+                $arguments = @{ } 
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type servicegroup_servicegroupentitymonbindings_binding -NitroPath nitro/v1/config -Arguments $arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving servicegroup_servicegroupentitymonbindings_binding configuration for property 'servicegroupname'"
                 $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type servicegroup_servicegroupentitymonbindings_binding -NitroPath nitro/v1/config -Resource $servicegroupname -Summary:$ViewSummary -Filter $Filter -GetWarning
             } else {
                 Write-Verbose "Retrieving servicegroup_servicegroupentitymonbindings_binding configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type servicegroup_servicegroupentitymonbindings_binding -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type servicegroup_servicegroupentitymonbindings_binding -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -6392,59 +6106,55 @@ function Invoke-ADCGetServicegroupservicegroupentitymonbindingsbinding {
 }
 
 function Invoke-ADCAddServicegroupservicegroupmemberlistbinding {
-<#
+    <#
     .SYNOPSIS
-        Add Basic configuration Object
+        Add Basic configuration Object.
     .DESCRIPTION
-        Add Basic configuration Object 
-    .PARAMETER servicegroupname 
-        Name of the service group.  
-        Minimum length = 1 
-    .PARAMETER members 
+        Binding object showing the servicegroupmemberlist that can be bound to servicegroup.
+    .PARAMETER Servicegroupname 
+        Name of the service group. 
+    .PARAMETER Members 
         Desired servicegroupmember binding set. Any existing servicegroupmember which is not part of the input will be deleted or disabled based on graceful setting on servicegroup.
     .EXAMPLE
-        Invoke-ADCAddServicegroupservicegroupmemberlistbinding -servicegroupname <string>
+        PS C:\>Invoke-ADCAddServicegroupservicegroupmemberlistbinding -servicegroupname <string>
+        An example how to add servicegroup_servicegroupmemberlist_binding configuration Object(s).
     .NOTES
         File Name : Invoke-ADCAddServicegroupservicegroupmemberlistbinding
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/basic/servicegroup_servicegroupmemberlist_binding/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
+    #>
     [CmdletBinding(SupportsShouldProcess = $true, ConfirmImpact = "Low")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
-        [Parameter(Mandatory = $true)]
+        [Parameter(Mandatory)]
         [ValidateScript({ $_.Length -gt 1 })]
-        [string]$servicegroupname ,
+        [string]$Servicegroupname,
 
-        [object[]]$members 
-
+        [object[]]$Members 
     )
     begin {
         Write-Verbose "Invoke-ADCAddServicegroupservicegroupmemberlistbinding: Starting"
     }
     process {
         try {
-            $Payload = @{
-                servicegroupname = $servicegroupname
-            }
-            if ($PSBoundParameters.ContainsKey('members')) { $Payload.Add('members', $members) }
- 
-            if ($PSCmdlet.ShouldProcess("servicegroup_servicegroupmemberlist_binding", "Add Basic configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -NitroPath nitro/v1/config -Type servicegroup_servicegroupmemberlist_binding -Payload $Payload -GetWarning
+            $payload = @{ servicegroupname = $servicegroupname }
+            if ( $PSBoundParameters.ContainsKey('members') ) { $payload.Add('members', $members) }
+            if ( $PSCmdlet.ShouldProcess("servicegroup_servicegroupmemberlist_binding", "Add Basic configuration Object") ) {
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -NitroPath nitro/v1/config -Type servicegroup_servicegroupmemberlist_binding -Payload $payload -GetWarning
                 #HTTP Status Code on Success: 201 Created
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
-            Write-Output $result
-
+                Write-Output $result
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -6457,47 +6167,47 @@ function Invoke-ADCAddServicegroupservicegroupmemberlistbinding {
 }
 
 function Invoke-ADCDeleteServicegroupservicegroupmemberlistbinding {
-<#
+    <#
     .SYNOPSIS
-        Delete Basic configuration Object
+        Delete Basic configuration Object.
     .DESCRIPTION
-        Delete Basic configuration Object
-    .PARAMETER servicegroupname 
-       Name of the service group.  
-       Minimum length = 1 
+        Binding object showing the servicegroupmemberlist that can be bound to servicegroup.
+    .PARAMETER Servicegroupname 
+        Name of the service group.
     .EXAMPLE
-        Invoke-ADCDeleteServicegroupservicegroupmemberlistbinding -servicegroupname <string>
+        PS C:\>Invoke-ADCDeleteServicegroupservicegroupmemberlistbinding -Servicegroupname <string>
+        An example how to delete servicegroup_servicegroupmemberlist_binding configuration Object(s).
     .NOTES
         File Name : Invoke-ADCDeleteServicegroupservicegroupmemberlistbinding
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/basic/servicegroup_servicegroupmemberlist_binding/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
+    #>
     [CmdletBinding(SupportsShouldProcess = $true, ConfirmImpact = "Low")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
-        [Parameter(Mandatory = $true)]
-        [string]$servicegroupname 
+        [Parameter(Mandatory)]
+        [string]$Servicegroupname 
     )
     begin {
         Write-Verbose "Invoke-ADCDeleteServicegroupservicegroupmemberlistbinding: Starting"
     }
     process {
         try {
-            $Arguments = @{ 
-            }
+            $arguments = @{ }
 
-            if ($PSCmdlet.ShouldProcess("$servicegroupname", "Delete Basic configuration Object")) {
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type servicegroup_servicegroupmemberlist_binding -NitroPath nitro/v1/config -Resource $servicegroupname -Arguments $Arguments
+            if ( $PSCmdlet.ShouldProcess("$servicegroupname", "Delete Basic configuration Object") ) {
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type servicegroup_servicegroupmemberlist_binding -NitroPath nitro/v1/config -Resource $servicegroupname -Arguments $arguments
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $response
@@ -6513,126 +6223,114 @@ function Invoke-ADCDeleteServicegroupservicegroupmemberlistbinding {
 }
 
 function Invoke-ADCAddServicegroupservicegroupmemberbinding {
-<#
+    <#
     .SYNOPSIS
-        Add Basic configuration Object
+        Add Basic configuration Object.
     .DESCRIPTION
-        Add Basic configuration Object 
-    .PARAMETER servicegroupname 
-        Name of the service group.  
-        Minimum length = 1 
-    .PARAMETER ip 
+        Binding object showing the servicegroupmember that can be bound to servicegroup.
+    .PARAMETER Servicegroupname 
+        Name of the service group. 
+    .PARAMETER Ip 
         IP Address. 
-    .PARAMETER servername 
-        Name of the server to which to bind the service group.  
-        Minimum length = 1 
-    .PARAMETER port 
-        Server port number.  
-        Range 1 - 65535  
+    .PARAMETER Servername 
+        Name of the server to which to bind the service group. 
+    .PARAMETER Port 
+        Server port number. 
         * in CLI is represented as 65535 in NITRO API 
-    .PARAMETER weight 
-        Weight to assign to the servers in the service group. Specifies the capacity of the servers relative to the other servers in the load balancing configuration. The higher the weight, the higher the percentage of requests sent to the service.  
-        Minimum value = 1  
-        Maximum value = 100 
-    .PARAMETER customserverid 
-        The identifier for this IP:Port pair. Used when the persistency type is set to Custom Server ID.  
-        Default value: "None" 
-    .PARAMETER serverid 
+    .PARAMETER Weight 
+        Weight to assign to the servers in the service group. Specifies the capacity of the servers relative to the other servers in the load balancing configuration. The higher the weight, the higher the percentage of requests sent to the service. 
+    .PARAMETER Customserverid 
+        The identifier for this IP:Port pair. Used when the persistency type is set to Custom Server ID. 
+    .PARAMETER Serverid 
         The identifier for the service. This is used when the persistency type is set to Custom Server ID. 
-    .PARAMETER state 
-        Initial state of the service group.  
-        Default value: ENABLED  
+    .PARAMETER State 
+        Initial state of the service group. 
         Possible values = ENABLED, DISABLED 
-    .PARAMETER hashid 
-        The hash identifier for the service. This must be unique for each service. This parameter is used by hash based load balancing methods.  
-        Minimum value = 1 
-    .PARAMETER nameserver 
+    .PARAMETER Hashid 
+        The hash identifier for the service. This must be unique for each service. This parameter is used by hash based load balancing methods. 
+    .PARAMETER Nameserver 
         Specify the nameserver to which the query for bound domain needs to be sent. If not specified, use the global nameserver. 
-    .PARAMETER dbsttl 
-        Specify the TTL for DNS record for domain based service.The default value of ttl is 0 which indicates to use the TTL received in DNS response for monitors.  
-        Default value: 0 
+    .PARAMETER Dbsttl 
+        Specify the TTL for DNS record for domain based service.The default value of ttl is 0 which indicates to use the TTL received in DNS response for monitors. 
     .PARAMETER PassThru 
         Return details about the created servicegroup_servicegroupmember_binding item.
     .EXAMPLE
-        Invoke-ADCAddServicegroupservicegroupmemberbinding -servicegroupname <string>
+        PS C:\>Invoke-ADCAddServicegroupservicegroupmemberbinding -servicegroupname <string>
+        An example how to add servicegroup_servicegroupmember_binding configuration Object(s).
     .NOTES
         File Name : Invoke-ADCAddServicegroupservicegroupmemberbinding
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/basic/servicegroup_servicegroupmember_binding/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
+    #>
     [CmdletBinding(SupportsShouldProcess = $true, ConfirmImpact = "Low")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
-        [Parameter(Mandatory = $true)]
+        [Parameter(Mandatory)]
         [ValidateScript({ $_.Length -gt 1 })]
-        [string]$servicegroupname ,
+        [string]$Servicegroupname,
 
-        [string]$ip ,
+        [string]$Ip,
 
         [ValidateScript({ $_.Length -gt 1 })]
-        [string]$servername ,
+        [string]$Servername,
 
         [ValidateRange(1, 65535)]
-        [int]$port ,
+        [int]$Port,
 
         [ValidateRange(1, 100)]
-        [double]$weight ,
+        [double]$Weight,
 
-        [string]$customserverid = '"None"' ,
+        [string]$Customserverid = '"None"',
 
-        [double]$serverid ,
+        [double]$Serverid,
 
         [ValidateSet('ENABLED', 'DISABLED')]
-        [string]$state = 'ENABLED' ,
+        [string]$State = 'ENABLED',
 
-        [double]$hashid ,
+        [double]$Hashid,
 
-        [string]$nameserver ,
+        [string]$Nameserver,
 
-        [double]$dbsttl = '0' ,
+        [double]$Dbsttl = '0',
 
         [Switch]$PassThru 
-
     )
     begin {
         Write-Verbose "Invoke-ADCAddServicegroupservicegroupmemberbinding: Starting"
     }
     process {
         try {
-            $Payload = @{
-                servicegroupname = $servicegroupname
-            }
-            if ($PSBoundParameters.ContainsKey('ip')) { $Payload.Add('ip', $ip) }
-            if ($PSBoundParameters.ContainsKey('servername')) { $Payload.Add('servername', $servername) }
-            if ($PSBoundParameters.ContainsKey('port')) { $Payload.Add('port', $port) }
-            if ($PSBoundParameters.ContainsKey('weight')) { $Payload.Add('weight', $weight) }
-            if ($PSBoundParameters.ContainsKey('customserverid')) { $Payload.Add('customserverid', $customserverid) }
-            if ($PSBoundParameters.ContainsKey('serverid')) { $Payload.Add('serverid', $serverid) }
-            if ($PSBoundParameters.ContainsKey('state')) { $Payload.Add('state', $state) }
-            if ($PSBoundParameters.ContainsKey('hashid')) { $Payload.Add('hashid', $hashid) }
-            if ($PSBoundParameters.ContainsKey('nameserver')) { $Payload.Add('nameserver', $nameserver) }
-            if ($PSBoundParameters.ContainsKey('dbsttl')) { $Payload.Add('dbsttl', $dbsttl) }
- 
-            if ($PSCmdlet.ShouldProcess("servicegroup_servicegroupmember_binding", "Add Basic configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -NitroPath nitro/v1/config -Type servicegroup_servicegroupmember_binding -Payload $Payload -GetWarning
+            $payload = @{ servicegroupname = $servicegroupname }
+            if ( $PSBoundParameters.ContainsKey('ip') ) { $payload.Add('ip', $ip) }
+            if ( $PSBoundParameters.ContainsKey('servername') ) { $payload.Add('servername', $servername) }
+            if ( $PSBoundParameters.ContainsKey('port') ) { $payload.Add('port', $port) }
+            if ( $PSBoundParameters.ContainsKey('weight') ) { $payload.Add('weight', $weight) }
+            if ( $PSBoundParameters.ContainsKey('customserverid') ) { $payload.Add('customserverid', $customserverid) }
+            if ( $PSBoundParameters.ContainsKey('serverid') ) { $payload.Add('serverid', $serverid) }
+            if ( $PSBoundParameters.ContainsKey('state') ) { $payload.Add('state', $state) }
+            if ( $PSBoundParameters.ContainsKey('hashid') ) { $payload.Add('hashid', $hashid) }
+            if ( $PSBoundParameters.ContainsKey('nameserver') ) { $payload.Add('nameserver', $nameserver) }
+            if ( $PSBoundParameters.ContainsKey('dbsttl') ) { $payload.Add('dbsttl', $dbsttl) }
+            if ( $PSCmdlet.ShouldProcess("servicegroup_servicegroupmember_binding", "Add Basic configuration Object") ) {
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -NitroPath nitro/v1/config -Type servicegroup_servicegroupmember_binding -Payload $payload -GetWarning
                 #HTTP Status Code on Success: 201 Created
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
-                if ($PSBoundParameters.ContainsKey('PassThru')) {
-                    Write-Output (Invoke-ADCGetServicegroupservicegroupmemberbinding -Filter $Payload)
+                if ( $PSBoundParameters.ContainsKey('PassThru') ) {
+                    Write-Output (Invoke-ADCGetServicegroupservicegroupmemberbinding -Filter $payload)
                 } else {
                     Write-Output $result
                 }
-
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -6645,61 +6343,62 @@ function Invoke-ADCAddServicegroupservicegroupmemberbinding {
 }
 
 function Invoke-ADCDeleteServicegroupservicegroupmemberbinding {
-<#
+    <#
     .SYNOPSIS
-        Delete Basic configuration Object
+        Delete Basic configuration Object.
     .DESCRIPTION
-        Delete Basic configuration Object
-    .PARAMETER servicegroupname 
-       Name of the service group.  
-       Minimum length = 1    .PARAMETER ip 
-       IP Address.    .PARAMETER servername 
-       Name of the server to which to bind the service group.  
-       Minimum length = 1    .PARAMETER port 
-       Server port number.  
-       Range 1 - 65535  
-       * in CLI is represented as 65535 in NITRO API
+        Binding object showing the servicegroupmember that can be bound to servicegroup.
+    .PARAMETER Servicegroupname 
+        Name of the service group. 
+    .PARAMETER Ip 
+        IP Address. 
+    .PARAMETER Servername 
+        Name of the server to which to bind the service group. 
+    .PARAMETER Port 
+        Server port number. 
+        * in CLI is represented as 65535 in NITRO API
     .EXAMPLE
-        Invoke-ADCDeleteServicegroupservicegroupmemberbinding -servicegroupname <string>
+        PS C:\>Invoke-ADCDeleteServicegroupservicegroupmemberbinding -Servicegroupname <string>
+        An example how to delete servicegroup_servicegroupmember_binding configuration Object(s).
     .NOTES
         File Name : Invoke-ADCDeleteServicegroupservicegroupmemberbinding
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/basic/servicegroup_servicegroupmember_binding/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
+    #>
     [CmdletBinding(SupportsShouldProcess = $true, ConfirmImpact = "Low")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
-        [Parameter(Mandatory = $true)]
-        [string]$servicegroupname ,
+        [Parameter(Mandatory)]
+        [string]$Servicegroupname,
 
-        [string]$ip ,
+        [string]$Ip,
 
-        [string]$servername ,
+        [string]$Servername,
 
-        [int]$port 
+        [int]$Port 
     )
     begin {
         Write-Verbose "Invoke-ADCDeleteServicegroupservicegroupmemberbinding: Starting"
     }
     process {
         try {
-            $Arguments = @{ 
-            }
-            if ($PSBoundParameters.ContainsKey('ip')) { $Arguments.Add('ip', $ip) }
-            if ($PSBoundParameters.ContainsKey('servername')) { $Arguments.Add('servername', $servername) }
-            if ($PSBoundParameters.ContainsKey('port')) { $Arguments.Add('port', $port) }
-            if ($PSCmdlet.ShouldProcess("$servicegroupname", "Delete Basic configuration Object")) {
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type servicegroup_servicegroupmember_binding -NitroPath nitro/v1/config -Resource $servicegroupname -Arguments $Arguments
+            $arguments = @{ }
+            if ( $PSBoundParameters.ContainsKey('Ip') ) { $arguments.Add('ip', $Ip) }
+            if ( $PSBoundParameters.ContainsKey('Servername') ) { $arguments.Add('servername', $Servername) }
+            if ( $PSBoundParameters.ContainsKey('Port') ) { $arguments.Add('port', $Port) }
+            if ( $PSCmdlet.ShouldProcess("$servicegroupname", "Delete Basic configuration Object") ) {
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type servicegroup_servicegroupmember_binding -NitroPath nitro/v1/config -Resource $servicegroupname -Arguments $arguments
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $response
@@ -6715,55 +6414,61 @@ function Invoke-ADCDeleteServicegroupservicegroupmemberbinding {
 }
 
 function Invoke-ADCGetServicegroupservicegroupmemberbinding {
-<#
+    <#
     .SYNOPSIS
-        Get Basic configuration object(s)
+        Get Basic configuration object(s).
     .DESCRIPTION
-        Get Basic configuration object(s)
-    .PARAMETER servicegroupname 
-       Name of the service group. 
+        Binding object showing the servicegroupmember that can be bound to servicegroup.
+    .PARAMETER Servicegroupname 
+        Name of the service group. 
     .PARAMETER GetAll 
-        Retreive all servicegroup_servicegroupmember_binding object(s)
+        Retrieve all servicegroup_servicegroupmember_binding object(s).
     .PARAMETER Count
-        If specified, the count of the servicegroup_servicegroupmember_binding object(s) will be returned
+        If specified, the count of the servicegroup_servicegroupmember_binding object(s) will be returned.
     .PARAMETER Filter
-        Specify a filter
+        Specify a filter.
         -Filter @{ 'name'='<value>' }
     .PARAMETER ViewSummary
-        When specified, only a summary of information is returned
+        When specified, only a summary of information is returned.
     .EXAMPLE
-        Invoke-ADCGetServicegroupservicegroupmemberbinding
+        PS C:\>Invoke-ADCGetServicegroupservicegroupmemberbinding
+        Get data.
     .EXAMPLE 
-        Invoke-ADCGetServicegroupservicegroupmemberbinding -GetAll 
+        PS C:\>Invoke-ADCGetServicegroupservicegroupmemberbinding -GetAll 
+        Get all servicegroup_servicegroupmember_binding data. 
     .EXAMPLE 
-        Invoke-ADCGetServicegroupservicegroupmemberbinding -Count
+        PS C:\>Invoke-ADCGetServicegroupservicegroupmemberbinding -Count 
+        Get the number of servicegroup_servicegroupmember_binding objects.
     .EXAMPLE
-        Invoke-ADCGetServicegroupservicegroupmemberbinding -name <string>
+        PS C:\>Invoke-ADCGetServicegroupservicegroupmemberbinding -name <string>
+        Get servicegroup_servicegroupmember_binding object by specifying for example the name.
     .EXAMPLE
-        Invoke-ADCGetServicegroupservicegroupmemberbinding -Filter @{ 'name'='<value>' }
+        PS C:\>Invoke-ADCGetServicegroupservicegroupmemberbinding -Filter @{ 'name'='<value>' }
+        Get servicegroup_servicegroupmember_binding data with a filter.
     .NOTES
         File Name : Invoke-ADCGetServicegroupservicegroupmemberbinding
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/basic/servicegroup_servicegroupmember_binding/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
-    [CmdletBinding(DefaultParameterSetName = "Getall")]
+    #>
+    [CmdletBinding(DefaultParameterSetName = "GetAll")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
         [Parameter(ParameterSetName = 'GetByResource')]
         [ValidateScript({ $_.Length -gt 1 })]
-        [string]$servicegroupname,
+        [string]$Servicegroupname,
 
-        [Parameter(ParameterSetName = 'Count', Mandatory = $true)]
+        [Parameter(ParameterSetName = 'Count', Mandatory)]
         [Switch]$Count,
 			
         [hashtable]$Filter = @{ },
@@ -6776,26 +6481,24 @@ function Invoke-ADCGetServicegroupservicegroupmemberbinding {
     }
     process {
         try {
-            if ( $PsCmdlet.ParameterSetName -eq 'Getall' ) {
-                $Query = @{ 
-                    bulkbindings = 'yes'
-                }
+            if ( $PsCmdlet.ParameterSetName -eq 'GetAll' ) {
+                $query = @{  bulkbindings = 'yes' }
                 Write-Verbose "Retrieving all servicegroup_servicegroupmember_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type servicegroup_servicegroupmember_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type servicegroup_servicegroupmember_binding -NitroPath nitro/v1/config -Query $query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
-                if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
+                if ( $PSBoundParameters.ContainsKey('Count') ) { $query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for servicegroup_servicegroupmember_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type servicegroup_servicegroupmember_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type servicegroup_servicegroupmember_binding -NitroPath nitro/v1/config -Query $query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving servicegroup_servicegroupmember_binding objects by arguments"
-                $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type servicegroup_servicegroupmember_binding -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
+                $arguments = @{ } 
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type servicegroup_servicegroupmember_binding -NitroPath nitro/v1/config -Arguments $arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving servicegroup_servicegroupmember_binding configuration for property 'servicegroupname'"
                 $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type servicegroup_servicegroupmember_binding -NitroPath nitro/v1/config -Resource $servicegroupname -Summary:$ViewSummary -Filter $Filter -GetWarning
             } else {
                 Write-Verbose "Retrieving servicegroup_servicegroupmember_binding configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type servicegroup_servicegroupmember_binding -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type servicegroup_servicegroupmember_binding -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -6809,51 +6512,56 @@ function Invoke-ADCGetServicegroupservicegroupmemberbinding {
 }
 
 function Invoke-ADCGetServicebinding {
-<#
+    <#
     .SYNOPSIS
-        Get Basic configuration object(s)
+        Get Basic configuration object(s).
     .DESCRIPTION
-        Get Basic configuration object(s)
-    .PARAMETER name 
-       Name of the service for which to display configuration details. 
+        Binding object which returns the resources bound to service.
+    .PARAMETER Name 
+        Name of the service for which to display configuration details. 
     .PARAMETER GetAll 
-        Retreive all service_binding object(s)
+        Retrieve all service_binding object(s).
     .PARAMETER Count
-        If specified, the count of the service_binding object(s) will be returned
+        If specified, the count of the service_binding object(s) will be returned.
     .PARAMETER Filter
-        Specify a filter
+        Specify a filter.
         -Filter @{ 'name'='<value>' }
     .PARAMETER ViewSummary
-        When specified, only a summary of information is returned
+        When specified, only a summary of information is returned.
     .EXAMPLE
-        Invoke-ADCGetServicebinding
+        PS C:\>Invoke-ADCGetServicebinding
+        Get data.
     .EXAMPLE 
-        Invoke-ADCGetServicebinding -GetAll
+        PS C:\>Invoke-ADCGetServicebinding -GetAll 
+        Get all service_binding data.
     .EXAMPLE
-        Invoke-ADCGetServicebinding -name <string>
+        PS C:\>Invoke-ADCGetServicebinding -name <string>
+        Get service_binding object by specifying for example the name.
     .EXAMPLE
-        Invoke-ADCGetServicebinding -Filter @{ 'name'='<value>' }
+        PS C:\>Invoke-ADCGetServicebinding -Filter @{ 'name'='<value>' }
+        Get service_binding data with a filter.
     .NOTES
         File Name : Invoke-ADCGetServicebinding
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/basic/service_binding/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
-    [CmdletBinding(DefaultParameterSetName = "Getall")]
+    #>
+    [CmdletBinding(DefaultParameterSetName = "GetAll")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
         [Parameter(ParameterSetName = 'GetByResource')]
         [ValidateScript({ $_.Length -gt 1 })]
-        [string]$name,
+        [string]$Name,
 			
         [hashtable]$Filter = @{ },
 
@@ -6865,26 +6573,24 @@ function Invoke-ADCGetServicebinding {
     }
     process {
         try {
-            if ( $PsCmdlet.ParameterSetName -eq 'Getall' ) {
-                $Query = @{ 
-                    bulkbindings = 'yes'
-                }
+            if ( $PsCmdlet.ParameterSetName -eq 'GetAll' ) {
+                $query = @{  bulkbindings = 'yes' }
                 Write-Verbose "Retrieving all service_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type service_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type service_binding -NitroPath nitro/v1/config -Query $query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
-                if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
+                if ( $PSBoundParameters.ContainsKey('Count') ) { $query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for service_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type service_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type service_binding -NitroPath nitro/v1/config -Query $query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving service_binding objects by arguments"
-                $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type service_binding -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
+                $arguments = @{ } 
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type service_binding -NitroPath nitro/v1/config -Arguments $arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving service_binding configuration for property 'name'"
                 $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type service_binding -NitroPath nitro/v1/config -Resource $name -Summary:$ViewSummary -Filter $Filter -GetWarning
             } else {
                 Write-Verbose "Retrieving service_binding configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type service_binding -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type service_binding -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -6898,67 +6604,63 @@ function Invoke-ADCGetServicebinding {
 }
 
 function Invoke-ADCAddServicedospolicybinding {
-<#
+    <#
     .SYNOPSIS
-        Add Basic configuration Object
+        Add Basic configuration Object.
     .DESCRIPTION
-        Add Basic configuration Object 
-    .PARAMETER name 
-        Name of the service to which to bind a policy or monitor.  
-        Minimum length = 1 
-    .PARAMETER policyname 
+        Binding object showing the dospolicy that can be bound to service.
+    .PARAMETER Name 
+        Name of the service to which to bind a policy or monitor. 
+    .PARAMETER Policyname 
         The name of the policyname for which this service is bound. 
     .PARAMETER PassThru 
         Return details about the created service_dospolicy_binding item.
     .EXAMPLE
-        Invoke-ADCAddServicedospolicybinding -name <string>
+        PS C:\>Invoke-ADCAddServicedospolicybinding -name <string>
+        An example how to add service_dospolicy_binding configuration Object(s).
     .NOTES
         File Name : Invoke-ADCAddServicedospolicybinding
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
-        Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/basic/service_dospolicy_binding/
+        Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/basic/service_dospolicy_binding.md/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
+    #>
     [CmdletBinding(SupportsShouldProcess = $true, ConfirmImpact = "Low")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
-        [Parameter(Mandatory = $true)]
+        [Parameter(Mandatory)]
         [ValidateScript({ $_.Length -gt 1 })]
-        [string]$name ,
+        [string]$Name,
 
-        [string]$policyname ,
+        [string]$Policyname,
 
         [Switch]$PassThru 
-
     )
     begin {
         Write-Verbose "Invoke-ADCAddServicedospolicybinding: Starting"
     }
     process {
         try {
-            $Payload = @{
-                name = $name
-            }
-            if ($PSBoundParameters.ContainsKey('policyname')) { $Payload.Add('policyname', $policyname) }
- 
-            if ($PSCmdlet.ShouldProcess("service_dospolicy_binding", "Add Basic configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -NitroPath nitro/v1/config -Type service_dospolicy_binding -Payload $Payload -GetWarning
+            $payload = @{ name = $name }
+            if ( $PSBoundParameters.ContainsKey('policyname') ) { $payload.Add('policyname', $policyname) }
+            if ( $PSCmdlet.ShouldProcess("service_dospolicy_binding", "Add Basic configuration Object") ) {
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -NitroPath nitro/v1/config -Type service_dospolicy_binding -Payload $payload -GetWarning
                 #HTTP Status Code on Success: 201 Created
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
-                if ($PSBoundParameters.ContainsKey('PassThru')) {
-                    Write-Output (Invoke-ADCGetServicedospolicybinding -Filter $Payload)
+                if ( $PSBoundParameters.ContainsKey('PassThru') ) {
+                    Write-Output (Invoke-ADCGetServicedospolicybinding -Filter $payload)
                 } else {
                     Write-Output $result
                 }
-
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -6971,50 +6673,51 @@ function Invoke-ADCAddServicedospolicybinding {
 }
 
 function Invoke-ADCDeleteServicedospolicybinding {
-<#
+    <#
     .SYNOPSIS
-        Delete Basic configuration Object
+        Delete Basic configuration Object.
     .DESCRIPTION
-        Delete Basic configuration Object
-    .PARAMETER name 
-       Name of the service to which to bind a policy or monitor.  
-       Minimum length = 1    .PARAMETER policyname 
-       The name of the policyname for which this service is bound.
+        Binding object showing the dospolicy that can be bound to service.
+    .PARAMETER Name 
+        Name of the service to which to bind a policy or monitor. 
+    .PARAMETER Policyname 
+        The name of the policyname for which this service is bound.
     .EXAMPLE
-        Invoke-ADCDeleteServicedospolicybinding -name <string>
+        PS C:\>Invoke-ADCDeleteServicedospolicybinding -Name <string>
+        An example how to delete service_dospolicy_binding configuration Object(s).
     .NOTES
         File Name : Invoke-ADCDeleteServicedospolicybinding
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
-        Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/basic/service_dospolicy_binding/
+        Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/basic/service_dospolicy_binding.md/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
+    #>
     [CmdletBinding(SupportsShouldProcess = $true, ConfirmImpact = "Low")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
-        [Parameter(Mandatory = $true)]
-        [string]$name ,
+        [Parameter(Mandatory)]
+        [string]$Name,
 
-        [string]$policyname 
+        [string]$Policyname 
     )
     begin {
         Write-Verbose "Invoke-ADCDeleteServicedospolicybinding: Starting"
     }
     process {
         try {
-            $Arguments = @{ 
-            }
-            if ($PSBoundParameters.ContainsKey('policyname')) { $Arguments.Add('policyname', $policyname) }
-            if ($PSCmdlet.ShouldProcess("$name", "Delete Basic configuration Object")) {
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type service_dospolicy_binding -NitroPath nitro/v1/config -Resource $name -Arguments $Arguments
+            $arguments = @{ }
+            if ( $PSBoundParameters.ContainsKey('Policyname') ) { $arguments.Add('policyname', $Policyname) }
+            if ( $PSCmdlet.ShouldProcess("$name", "Delete Basic configuration Object") ) {
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type service_dospolicy_binding -NitroPath nitro/v1/config -Resource $name -Arguments $arguments
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $response
@@ -7030,55 +6733,61 @@ function Invoke-ADCDeleteServicedospolicybinding {
 }
 
 function Invoke-ADCGetServicedospolicybinding {
-<#
+    <#
     .SYNOPSIS
-        Get Basic configuration object(s)
+        Get Basic configuration object(s).
     .DESCRIPTION
-        Get Basic configuration object(s)
-    .PARAMETER name 
-       Name of the service to which to bind a policy or monitor. 
+        Binding object showing the dospolicy that can be bound to service.
+    .PARAMETER Name 
+        Name of the service to which to bind a policy or monitor. 
     .PARAMETER GetAll 
-        Retreive all service_dospolicy_binding object(s)
+        Retrieve all service_dospolicy_binding object(s).
     .PARAMETER Count
-        If specified, the count of the service_dospolicy_binding object(s) will be returned
+        If specified, the count of the service_dospolicy_binding object(s) will be returned.
     .PARAMETER Filter
-        Specify a filter
+        Specify a filter.
         -Filter @{ 'name'='<value>' }
     .PARAMETER ViewSummary
-        When specified, only a summary of information is returned
+        When specified, only a summary of information is returned.
     .EXAMPLE
-        Invoke-ADCGetServicedospolicybinding
+        PS C:\>Invoke-ADCGetServicedospolicybinding
+        Get data.
     .EXAMPLE 
-        Invoke-ADCGetServicedospolicybinding -GetAll 
+        PS C:\>Invoke-ADCGetServicedospolicybinding -GetAll 
+        Get all service_dospolicy_binding data. 
     .EXAMPLE 
-        Invoke-ADCGetServicedospolicybinding -Count
+        PS C:\>Invoke-ADCGetServicedospolicybinding -Count 
+        Get the number of service_dospolicy_binding objects.
     .EXAMPLE
-        Invoke-ADCGetServicedospolicybinding -name <string>
+        PS C:\>Invoke-ADCGetServicedospolicybinding -name <string>
+        Get service_dospolicy_binding object by specifying for example the name.
     .EXAMPLE
-        Invoke-ADCGetServicedospolicybinding -Filter @{ 'name'='<value>' }
+        PS C:\>Invoke-ADCGetServicedospolicybinding -Filter @{ 'name'='<value>' }
+        Get service_dospolicy_binding data with a filter.
     .NOTES
         File Name : Invoke-ADCGetServicedospolicybinding
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
-        Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/basic/service_dospolicy_binding/
+        Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/basic/service_dospolicy_binding.md/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
-    [CmdletBinding(DefaultParameterSetName = "Getall")]
+    #>
+    [CmdletBinding(DefaultParameterSetName = "GetAll")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
         [Parameter(ParameterSetName = 'GetByResource')]
         [ValidateScript({ $_.Length -gt 1 })]
-        [string]$name,
+        [string]$Name,
 
-        [Parameter(ParameterSetName = 'Count', Mandatory = $true)]
+        [Parameter(ParameterSetName = 'Count', Mandatory)]
         [Switch]$Count,
 			
         [hashtable]$Filter = @{ },
@@ -7091,26 +6800,24 @@ function Invoke-ADCGetServicedospolicybinding {
     }
     process {
         try {
-            if ( $PsCmdlet.ParameterSetName -eq 'Getall' ) {
-                $Query = @{ 
-                    bulkbindings = 'yes'
-                }
+            if ( $PsCmdlet.ParameterSetName -eq 'GetAll' ) {
+                $query = @{  bulkbindings = 'yes' }
                 Write-Verbose "Retrieving all service_dospolicy_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type service_dospolicy_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type service_dospolicy_binding -NitroPath nitro/v1/config -Query $query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
-                if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
+                if ( $PSBoundParameters.ContainsKey('Count') ) { $query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for service_dospolicy_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type service_dospolicy_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type service_dospolicy_binding -NitroPath nitro/v1/config -Query $query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving service_dospolicy_binding objects by arguments"
-                $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type service_dospolicy_binding -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
+                $arguments = @{ } 
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type service_dospolicy_binding -NitroPath nitro/v1/config -Arguments $arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving service_dospolicy_binding configuration for property 'name'"
                 $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type service_dospolicy_binding -NitroPath nitro/v1/config -Resource $name -Summary:$ViewSummary -Filter $Filter -GetWarning
             } else {
                 Write-Verbose "Retrieving service_dospolicy_binding configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type service_dospolicy_binding -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type service_dospolicy_binding -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -7124,87 +6831,81 @@ function Invoke-ADCGetServicedospolicybinding {
 }
 
 function Invoke-ADCAddServicelbmonitorbinding {
-<#
+    <#
     .SYNOPSIS
-        Add Basic configuration Object
+        Add Basic configuration Object.
     .DESCRIPTION
-        Add Basic configuration Object 
-    .PARAMETER name 
-        Name of the service to which to bind a policy or monitor.  
-        Minimum length = 1 
-    .PARAMETER monitor_name 
+        Binding object showing the lbmonitor that can be bound to service.
+    .PARAMETER Name 
+        Name of the service to which to bind a monitor. 
+    .PARAMETER Monitor_name 
         The monitor Names. 
-    .PARAMETER monstate 
-        The configured state (enable/disable) of the monitor on this server.  
+    .PARAMETER Monstate 
+        The configured state (enable/disable) of the monitor on this server. 
         Possible values = ENABLED, DISABLED 
-    .PARAMETER weight 
-        Weight to assign to the monitor-service binding. When a monitor is UP, the weight assigned to its binding with the service determines how much the monitor contributes toward keeping the health of the service above the value configured for the Monitor Threshold parameter.  
-        Minimum value = 1  
-        Maximum value = 100 
-    .PARAMETER passive 
+    .PARAMETER Weight 
+        Weight to assign to the monitor-service binding. When a monitor is UP, the weight assigned to its binding with the service determines how much the monitor contributes toward keeping the health of the service above the value configured for the Monitor Threshold parameter. 
+    .PARAMETER Passive 
         Indicates if load monitor is passive. A passive load monitor does not remove service from LB decision when threshold is breached. 
     .PARAMETER PassThru 
         Return details about the created service_lbmonitor_binding item.
     .EXAMPLE
-        Invoke-ADCAddServicelbmonitorbinding -name <string>
+        PS C:\>Invoke-ADCAddServicelbmonitorbinding -name <string>
+        An example how to add service_lbmonitor_binding configuration Object(s).
     .NOTES
         File Name : Invoke-ADCAddServicelbmonitorbinding
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/basic/service_lbmonitor_binding/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
+    #>
     [CmdletBinding(SupportsShouldProcess = $true, ConfirmImpact = "Low")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
-        [Parameter(Mandatory = $true)]
+        [Parameter(Mandatory)]
         [ValidateScript({ $_.Length -gt 1 })]
-        [string]$name ,
+        [string]$Name,
 
-        [string]$monitor_name ,
+        [string]$Monitor_name,
 
         [ValidateSet('ENABLED', 'DISABLED')]
-        [string]$monstate ,
+        [string]$Monstate,
 
         [ValidateRange(1, 100)]
-        [double]$weight ,
+        [double]$Weight,
 
-        [boolean]$passive ,
+        [boolean]$Passive,
 
         [Switch]$PassThru 
-
     )
     begin {
         Write-Verbose "Invoke-ADCAddServicelbmonitorbinding: Starting"
     }
     process {
         try {
-            $Payload = @{
-                name = $name
-            }
-            if ($PSBoundParameters.ContainsKey('monitor_name')) { $Payload.Add('monitor_name', $monitor_name) }
-            if ($PSBoundParameters.ContainsKey('monstate')) { $Payload.Add('monstate', $monstate) }
-            if ($PSBoundParameters.ContainsKey('weight')) { $Payload.Add('weight', $weight) }
-            if ($PSBoundParameters.ContainsKey('passive')) { $Payload.Add('passive', $passive) }
- 
-            if ($PSCmdlet.ShouldProcess("service_lbmonitor_binding", "Add Basic configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -NitroPath nitro/v1/config -Type service_lbmonitor_binding -Payload $Payload -GetWarning
+            $payload = @{ name = $name }
+            if ( $PSBoundParameters.ContainsKey('monitor_name') ) { $payload.Add('monitor_name', $monitor_name) }
+            if ( $PSBoundParameters.ContainsKey('monstate') ) { $payload.Add('monstate', $monstate) }
+            if ( $PSBoundParameters.ContainsKey('weight') ) { $payload.Add('weight', $weight) }
+            if ( $PSBoundParameters.ContainsKey('passive') ) { $payload.Add('passive', $passive) }
+            if ( $PSCmdlet.ShouldProcess("service_lbmonitor_binding", "Add Basic configuration Object") ) {
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -NitroPath nitro/v1/config -Type service_lbmonitor_binding -Payload $payload -GetWarning
                 #HTTP Status Code on Success: 201 Created
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
-                if ($PSBoundParameters.ContainsKey('PassThru')) {
-                    Write-Output (Invoke-ADCGetServicelbmonitorbinding -Filter $Payload)
+                if ( $PSBoundParameters.ContainsKey('PassThru') ) {
+                    Write-Output (Invoke-ADCGetServicelbmonitorbinding -Filter $payload)
                 } else {
                     Write-Output $result
                 }
-
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -7217,50 +6918,51 @@ function Invoke-ADCAddServicelbmonitorbinding {
 }
 
 function Invoke-ADCDeleteServicelbmonitorbinding {
-<#
+    <#
     .SYNOPSIS
-        Delete Basic configuration Object
+        Delete Basic configuration Object.
     .DESCRIPTION
-        Delete Basic configuration Object
-    .PARAMETER name 
-       Name of the service to which to bind a policy or monitor.  
-       Minimum length = 1    .PARAMETER monitor_name 
-       The monitor Names.
+        Binding object showing the lbmonitor that can be bound to service.
+    .PARAMETER Name 
+        Name of the service to which to bind a monitor. 
+    .PARAMETER Monitor_name 
+        The monitor Names.
     .EXAMPLE
-        Invoke-ADCDeleteServicelbmonitorbinding -name <string>
+        PS C:\>Invoke-ADCDeleteServicelbmonitorbinding -Name <string>
+        An example how to delete service_lbmonitor_binding configuration Object(s).
     .NOTES
         File Name : Invoke-ADCDeleteServicelbmonitorbinding
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/basic/service_lbmonitor_binding/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
+    #>
     [CmdletBinding(SupportsShouldProcess = $true, ConfirmImpact = "Low")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
-        [Parameter(Mandatory = $true)]
-        [string]$name ,
+        [Parameter(Mandatory)]
+        [string]$Name,
 
-        [string]$monitor_name 
+        [string]$Monitor_name 
     )
     begin {
         Write-Verbose "Invoke-ADCDeleteServicelbmonitorbinding: Starting"
     }
     process {
         try {
-            $Arguments = @{ 
-            }
-            if ($PSBoundParameters.ContainsKey('monitor_name')) { $Arguments.Add('monitor_name', $monitor_name) }
-            if ($PSCmdlet.ShouldProcess("$name", "Delete Basic configuration Object")) {
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type service_lbmonitor_binding -NitroPath nitro/v1/config -Resource $name -Arguments $Arguments
+            $arguments = @{ }
+            if ( $PSBoundParameters.ContainsKey('Monitor_name') ) { $arguments.Add('monitor_name', $Monitor_name) }
+            if ( $PSCmdlet.ShouldProcess("$name", "Delete Basic configuration Object") ) {
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type service_lbmonitor_binding -NitroPath nitro/v1/config -Resource $name -Arguments $arguments
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $response
@@ -7276,55 +6978,61 @@ function Invoke-ADCDeleteServicelbmonitorbinding {
 }
 
 function Invoke-ADCGetServicelbmonitorbinding {
-<#
+    <#
     .SYNOPSIS
-        Get Basic configuration object(s)
+        Get Basic configuration object(s).
     .DESCRIPTION
-        Get Basic configuration object(s)
-    .PARAMETER name 
-       Name of the service to which to bind a policy or monitor. 
+        Binding object showing the lbmonitor that can be bound to service.
+    .PARAMETER Name 
+        Name of the service to which to bind a monitor. 
     .PARAMETER GetAll 
-        Retreive all service_lbmonitor_binding object(s)
+        Retrieve all service_lbmonitor_binding object(s).
     .PARAMETER Count
-        If specified, the count of the service_lbmonitor_binding object(s) will be returned
+        If specified, the count of the service_lbmonitor_binding object(s) will be returned.
     .PARAMETER Filter
-        Specify a filter
+        Specify a filter.
         -Filter @{ 'name'='<value>' }
     .PARAMETER ViewSummary
-        When specified, only a summary of information is returned
+        When specified, only a summary of information is returned.
     .EXAMPLE
-        Invoke-ADCGetServicelbmonitorbinding
+        PS C:\>Invoke-ADCGetServicelbmonitorbinding
+        Get data.
     .EXAMPLE 
-        Invoke-ADCGetServicelbmonitorbinding -GetAll 
+        PS C:\>Invoke-ADCGetServicelbmonitorbinding -GetAll 
+        Get all service_lbmonitor_binding data. 
     .EXAMPLE 
-        Invoke-ADCGetServicelbmonitorbinding -Count
+        PS C:\>Invoke-ADCGetServicelbmonitorbinding -Count 
+        Get the number of service_lbmonitor_binding objects.
     .EXAMPLE
-        Invoke-ADCGetServicelbmonitorbinding -name <string>
+        PS C:\>Invoke-ADCGetServicelbmonitorbinding -name <string>
+        Get service_lbmonitor_binding object by specifying for example the name.
     .EXAMPLE
-        Invoke-ADCGetServicelbmonitorbinding -Filter @{ 'name'='<value>' }
+        PS C:\>Invoke-ADCGetServicelbmonitorbinding -Filter @{ 'name'='<value>' }
+        Get service_lbmonitor_binding data with a filter.
     .NOTES
         File Name : Invoke-ADCGetServicelbmonitorbinding
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/basic/service_lbmonitor_binding/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
-    [CmdletBinding(DefaultParameterSetName = "Getall")]
+    #>
+    [CmdletBinding(DefaultParameterSetName = "GetAll")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
         [Parameter(ParameterSetName = 'GetByResource')]
         [ValidateScript({ $_.Length -gt 1 })]
-        [string]$name,
+        [string]$Name,
 
-        [Parameter(ParameterSetName = 'Count', Mandatory = $true)]
+        [Parameter(ParameterSetName = 'Count', Mandatory)]
         [Switch]$Count,
 			
         [hashtable]$Filter = @{ },
@@ -7337,26 +7045,24 @@ function Invoke-ADCGetServicelbmonitorbinding {
     }
     process {
         try {
-            if ( $PsCmdlet.ParameterSetName -eq 'Getall' ) {
-                $Query = @{ 
-                    bulkbindings = 'yes'
-                }
+            if ( $PsCmdlet.ParameterSetName -eq 'GetAll' ) {
+                $query = @{  bulkbindings = 'yes' }
                 Write-Verbose "Retrieving all service_lbmonitor_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type service_lbmonitor_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type service_lbmonitor_binding -NitroPath nitro/v1/config -Query $query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
-                if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
+                if ( $PSBoundParameters.ContainsKey('Count') ) { $query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for service_lbmonitor_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type service_lbmonitor_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type service_lbmonitor_binding -NitroPath nitro/v1/config -Query $query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving service_lbmonitor_binding objects by arguments"
-                $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type service_lbmonitor_binding -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
+                $arguments = @{ } 
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type service_lbmonitor_binding -NitroPath nitro/v1/config -Arguments $arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving service_lbmonitor_binding configuration for property 'name'"
                 $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type service_lbmonitor_binding -NitroPath nitro/v1/config -Resource $name -Summary:$ViewSummary -Filter $Filter -GetWarning
             } else {
                 Write-Verbose "Retrieving service_lbmonitor_binding configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type service_lbmonitor_binding -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type service_lbmonitor_binding -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -7370,67 +7076,63 @@ function Invoke-ADCGetServicelbmonitorbinding {
 }
 
 function Invoke-ADCAddServicescpolicybinding {
-<#
+    <#
     .SYNOPSIS
-        Add Basic configuration Object
+        Add Basic configuration Object.
     .DESCRIPTION
-        Add Basic configuration Object 
-    .PARAMETER name 
-        Name of the service to which to bind a policy or monitor.  
-        Minimum length = 1 
-    .PARAMETER policyname 
+        Binding object showing the scpolicy that can be bound to service.
+    .PARAMETER Name 
+        Name of the service to which to bind a policy or monitor. 
+    .PARAMETER Policyname 
         The name of the policyname for which this service is bound. 
     .PARAMETER PassThru 
         Return details about the created service_scpolicy_binding item.
     .EXAMPLE
-        Invoke-ADCAddServicescpolicybinding -name <string>
+        PS C:\>Invoke-ADCAddServicescpolicybinding -name <string>
+        An example how to add service_scpolicy_binding configuration Object(s).
     .NOTES
         File Name : Invoke-ADCAddServicescpolicybinding
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
-        Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/basic/service_scpolicy_binding/
+        Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/basic/service_scpolicy_binding.md/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
+    #>
     [CmdletBinding(SupportsShouldProcess = $true, ConfirmImpact = "Low")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
-        [Parameter(Mandatory = $true)]
+        [Parameter(Mandatory)]
         [ValidateScript({ $_.Length -gt 1 })]
-        [string]$name ,
+        [string]$Name,
 
-        [string]$policyname ,
+        [string]$Policyname,
 
         [Switch]$PassThru 
-
     )
     begin {
         Write-Verbose "Invoke-ADCAddServicescpolicybinding: Starting"
     }
     process {
         try {
-            $Payload = @{
-                name = $name
-            }
-            if ($PSBoundParameters.ContainsKey('policyname')) { $Payload.Add('policyname', $policyname) }
- 
-            if ($PSCmdlet.ShouldProcess("service_scpolicy_binding", "Add Basic configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -NitroPath nitro/v1/config -Type service_scpolicy_binding -Payload $Payload -GetWarning
+            $payload = @{ name = $name }
+            if ( $PSBoundParameters.ContainsKey('policyname') ) { $payload.Add('policyname', $policyname) }
+            if ( $PSCmdlet.ShouldProcess("service_scpolicy_binding", "Add Basic configuration Object") ) {
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -NitroPath nitro/v1/config -Type service_scpolicy_binding -Payload $payload -GetWarning
                 #HTTP Status Code on Success: 201 Created
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
-                if ($PSBoundParameters.ContainsKey('PassThru')) {
-                    Write-Output (Invoke-ADCGetServicescpolicybinding -Filter $Payload)
+                if ( $PSBoundParameters.ContainsKey('PassThru') ) {
+                    Write-Output (Invoke-ADCGetServicescpolicybinding -Filter $payload)
                 } else {
                     Write-Output $result
                 }
-
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -7443,50 +7145,51 @@ function Invoke-ADCAddServicescpolicybinding {
 }
 
 function Invoke-ADCDeleteServicescpolicybinding {
-<#
+    <#
     .SYNOPSIS
-        Delete Basic configuration Object
+        Delete Basic configuration Object.
     .DESCRIPTION
-        Delete Basic configuration Object
-    .PARAMETER name 
-       Name of the service to which to bind a policy or monitor.  
-       Minimum length = 1    .PARAMETER policyname 
-       The name of the policyname for which this service is bound.
+        Binding object showing the scpolicy that can be bound to service.
+    .PARAMETER Name 
+        Name of the service to which to bind a policy or monitor. 
+    .PARAMETER Policyname 
+        The name of the policyname for which this service is bound.
     .EXAMPLE
-        Invoke-ADCDeleteServicescpolicybinding -name <string>
+        PS C:\>Invoke-ADCDeleteServicescpolicybinding -Name <string>
+        An example how to delete service_scpolicy_binding configuration Object(s).
     .NOTES
         File Name : Invoke-ADCDeleteServicescpolicybinding
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
-        Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/basic/service_scpolicy_binding/
+        Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/basic/service_scpolicy_binding.md/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
+    #>
     [CmdletBinding(SupportsShouldProcess = $true, ConfirmImpact = "Low")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
-        [Parameter(Mandatory = $true)]
-        [string]$name ,
+        [Parameter(Mandatory)]
+        [string]$Name,
 
-        [string]$policyname 
+        [string]$Policyname 
     )
     begin {
         Write-Verbose "Invoke-ADCDeleteServicescpolicybinding: Starting"
     }
     process {
         try {
-            $Arguments = @{ 
-            }
-            if ($PSBoundParameters.ContainsKey('policyname')) { $Arguments.Add('policyname', $policyname) }
-            if ($PSCmdlet.ShouldProcess("$name", "Delete Basic configuration Object")) {
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type service_scpolicy_binding -NitroPath nitro/v1/config -Resource $name -Arguments $Arguments
+            $arguments = @{ }
+            if ( $PSBoundParameters.ContainsKey('Policyname') ) { $arguments.Add('policyname', $Policyname) }
+            if ( $PSCmdlet.ShouldProcess("$name", "Delete Basic configuration Object") ) {
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type service_scpolicy_binding -NitroPath nitro/v1/config -Resource $name -Arguments $arguments
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $response
@@ -7502,55 +7205,61 @@ function Invoke-ADCDeleteServicescpolicybinding {
 }
 
 function Invoke-ADCGetServicescpolicybinding {
-<#
+    <#
     .SYNOPSIS
-        Get Basic configuration object(s)
+        Get Basic configuration object(s).
     .DESCRIPTION
-        Get Basic configuration object(s)
-    .PARAMETER name 
-       Name of the service to which to bind a policy or monitor. 
+        Binding object showing the scpolicy that can be bound to service.
+    .PARAMETER Name 
+        Name of the service to which to bind a policy or monitor. 
     .PARAMETER GetAll 
-        Retreive all service_scpolicy_binding object(s)
+        Retrieve all service_scpolicy_binding object(s).
     .PARAMETER Count
-        If specified, the count of the service_scpolicy_binding object(s) will be returned
+        If specified, the count of the service_scpolicy_binding object(s) will be returned.
     .PARAMETER Filter
-        Specify a filter
+        Specify a filter.
         -Filter @{ 'name'='<value>' }
     .PARAMETER ViewSummary
-        When specified, only a summary of information is returned
+        When specified, only a summary of information is returned.
     .EXAMPLE
-        Invoke-ADCGetServicescpolicybinding
+        PS C:\>Invoke-ADCGetServicescpolicybinding
+        Get data.
     .EXAMPLE 
-        Invoke-ADCGetServicescpolicybinding -GetAll 
+        PS C:\>Invoke-ADCGetServicescpolicybinding -GetAll 
+        Get all service_scpolicy_binding data. 
     .EXAMPLE 
-        Invoke-ADCGetServicescpolicybinding -Count
+        PS C:\>Invoke-ADCGetServicescpolicybinding -Count 
+        Get the number of service_scpolicy_binding objects.
     .EXAMPLE
-        Invoke-ADCGetServicescpolicybinding -name <string>
+        PS C:\>Invoke-ADCGetServicescpolicybinding -name <string>
+        Get service_scpolicy_binding object by specifying for example the name.
     .EXAMPLE
-        Invoke-ADCGetServicescpolicybinding -Filter @{ 'name'='<value>' }
+        PS C:\>Invoke-ADCGetServicescpolicybinding -Filter @{ 'name'='<value>' }
+        Get service_scpolicy_binding data with a filter.
     .NOTES
         File Name : Invoke-ADCGetServicescpolicybinding
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
-        Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/basic/service_scpolicy_binding/
+        Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/basic/service_scpolicy_binding.md/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
-    [CmdletBinding(DefaultParameterSetName = "Getall")]
+    #>
+    [CmdletBinding(DefaultParameterSetName = "GetAll")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
         [Parameter(ParameterSetName = 'GetByResource')]
         [ValidateScript({ $_.Length -gt 1 })]
-        [string]$name,
+        [string]$Name,
 
-        [Parameter(ParameterSetName = 'Count', Mandatory = $true)]
+        [Parameter(ParameterSetName = 'Count', Mandatory)]
         [Switch]$Count,
 			
         [hashtable]$Filter = @{ },
@@ -7563,26 +7272,24 @@ function Invoke-ADCGetServicescpolicybinding {
     }
     process {
         try {
-            if ( $PsCmdlet.ParameterSetName -eq 'Getall' ) {
-                $Query = @{ 
-                    bulkbindings = 'yes'
-                }
+            if ( $PsCmdlet.ParameterSetName -eq 'GetAll' ) {
+                $query = @{  bulkbindings = 'yes' }
                 Write-Verbose "Retrieving all service_scpolicy_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type service_scpolicy_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type service_scpolicy_binding -NitroPath nitro/v1/config -Query $query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
-                if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
+                if ( $PSBoundParameters.ContainsKey('Count') ) { $query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for service_scpolicy_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type service_scpolicy_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type service_scpolicy_binding -NitroPath nitro/v1/config -Query $query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving service_scpolicy_binding objects by arguments"
-                $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type service_scpolicy_binding -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
+                $arguments = @{ } 
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type service_scpolicy_binding -NitroPath nitro/v1/config -Arguments $arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving service_scpolicy_binding configuration for property 'name'"
                 $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type service_scpolicy_binding -NitroPath nitro/v1/config -Resource $name -Summary:$ViewSummary -Filter $Filter -GetWarning
             } else {
                 Write-Verbose "Retrieving service_scpolicy_binding configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type service_scpolicy_binding -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type service_scpolicy_binding -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -7596,53 +7303,59 @@ function Invoke-ADCGetServicescpolicybinding {
 }
 
 function Invoke-ADCGetSvcbindings {
-<#
+    <#
     .SYNOPSIS
-        Get Basic configuration object(s)
+        Get Basic configuration object(s).
     .DESCRIPTION
-        Get Basic configuration object(s)
-    .PARAMETER servicename 
-       The name of the service. 
+        Configuration for service bindings resource.
+    .PARAMETER Servicename 
+        The name of the service. 
     .PARAMETER GetAll 
-        Retreive all svcbindings object(s)
+        Retrieve all svcbindings object(s).
     .PARAMETER Count
-        If specified, the count of the svcbindings object(s) will be returned
+        If specified, the count of the svcbindings object(s) will be returned.
     .PARAMETER Filter
-        Specify a filter
+        Specify a filter.
         -Filter @{ 'name'='<value>' }
     .PARAMETER ViewSummary
-        When specified, only a summary of information is returned
+        When specified, only a summary of information is returned.
     .EXAMPLE
-        Invoke-ADCGetSvcbindings
+        PS C:\>Invoke-ADCGetSvcbindings
+        Get data.
     .EXAMPLE 
-        Invoke-ADCGetSvcbindings -GetAll 
+        PS C:\>Invoke-ADCGetSvcbindings -GetAll 
+        Get all svcbindings data. 
     .EXAMPLE 
-        Invoke-ADCGetSvcbindings -Count
+        PS C:\>Invoke-ADCGetSvcbindings -Count 
+        Get the number of svcbindings objects.
     .EXAMPLE
-        Invoke-ADCGetSvcbindings -name <string>
+        PS C:\>Invoke-ADCGetSvcbindings -name <string>
+        Get svcbindings object by specifying for example the name.
     .EXAMPLE
-        Invoke-ADCGetSvcbindings -Filter @{ 'name'='<value>' }
+        PS C:\>Invoke-ADCGetSvcbindings -Filter @{ 'name'='<value>' }
+        Get svcbindings data with a filter.
     .NOTES
         File Name : Invoke-ADCGetSvcbindings
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/basic/svcbindings/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
-    [CmdletBinding(DefaultParameterSetName = "Getall")]
+    #>
+    [CmdletBinding(DefaultParameterSetName = "GetAll")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
         [Parameter(ParameterSetName = 'GetByResource')]
         [ValidateScript({ $_.Length -gt 1 })]
-        [string]$servicename,
+        [string]$Servicename,
 			
         [hashtable]$Filter = @{ },
 
@@ -7659,24 +7372,24 @@ function Invoke-ADCGetSvcbindings {
     }
     process {
         try {
-            if ( $PsCmdlet.ParameterSetName -eq 'Getall' ) {
-                $Query = @{ }
+            if ( $PsCmdlet.ParameterSetName -eq 'GetAll' ) {
+                $query = @{ }
                 Write-Verbose "Retrieving all svcbindings objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type svcbindings -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type svcbindings -NitroPath nitro/v1/config -Query $query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
-                if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
+                if ( $PSBoundParameters.ContainsKey('Count') ) { $query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for svcbindings objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type svcbindings -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type svcbindings -NitroPath nitro/v1/config -Query $query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving svcbindings objects by arguments"
-                $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type svcbindings -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
+                $arguments = @{ } 
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type svcbindings -NitroPath nitro/v1/config -Arguments $arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving svcbindings configuration for property 'servicename'"
                 $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type svcbindings -NitroPath nitro/v1/config -Resource $servicename -Summary:$ViewSummary -Filter $Filter -GetWarning
             } else {
                 Write-Verbose "Retrieving svcbindings configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type svcbindings -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type svcbindings -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -7689,221 +7402,39 @@ function Invoke-ADCGetSvcbindings {
     }
 }
 
-function Invoke-ADCDeleteVserver {
-<#
-    .SYNOPSIS
-        Delete Basic configuration Object
-    .DESCRIPTION
-        Delete Basic configuration Object
-    .PARAMETER name 
-       The name of the virtual server to be removed.  
-       Minimum length = 1 
-    .EXAMPLE
-        Invoke-ADCDeleteVserver -name <string>
-    .NOTES
-        File Name : Invoke-ADCDeleteVserver
-        Version   : v2106.2309
-        Author    : John Billekens
-        Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/basic/vserver/
-        Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
-    .LINK
-        https://blog.j81.nl
-#>
-    [CmdletBinding(SupportsShouldProcess = $true, ConfirmImpact = "Low")]
-    [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
-    [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
-    [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
-    param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
-
-        [Parameter(Mandatory = $true)]
-        [string]$name 
-    )
-    begin {
-        Write-Verbose "Invoke-ADCDeleteVserver: Starting"
-    }
-    process {
-        try {
-            $Arguments = @{ 
-            }
-
-            if ($PSCmdlet.ShouldProcess("$name", "Delete Basic configuration Object")) {
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type vserver -NitroPath nitro/v1/config -Resource $name -Arguments $Arguments
-                #HTTP Status Code on Success: 200 OK
-                #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
-                Write-Output $response
-            }
-        } catch {
-            Write-Verbose "ERROR: $($_.Exception.Message)"
-            throw $_
-        }
-    }
-    end {
-        Write-Verbose "Invoke-ADCDeleteVserver: Finished"
-    }
-}
-
-function Invoke-ADCUpdateVserver {
-<#
-    .SYNOPSIS
-        Update Basic configuration Object
-    .DESCRIPTION
-        Update Basic configuration Object 
-    .PARAMETER name 
-        The name of the virtual server to be removed.  
-        Minimum length = 1 
-    .PARAMETER backupvserver 
-        The name of the backup virtual server for this virtual server.  
-        Minimum length = 1 
-    .PARAMETER redirecturl 
-        The URL where traffic is redirected if the virtual server in the system becomes unavailable.  
-        Minimum length = 1 
-    .PARAMETER cacheable 
-        Use this option to specify whether a virtual server (used for load balancing or content switching) routes requests to the cache redirection virtual server before sending it to the configured servers.  
-        Possible values = YES, NO 
-    .PARAMETER clttimeout 
-        The timeout value in seconds for idle client connection.  
-        Minimum value = 0  
-        Maximum value = 31536000 
-    .PARAMETER somethod 
-        The spillover factor. The system will use this value to determine if it should send traffic to the backupvserver when the main virtual server reaches the spillover threshold.  
-        Possible values = CONNECTION, DYNAMICCONNECTION, BANDWIDTH, HEALTH, NONE 
-    .PARAMETER sopersistence 
-        The state of the spillover persistence.  
-        Default value: DISABLED  
-        Possible values = ENABLED, DISABLED 
-    .PARAMETER sopersistencetimeout 
-        The spillover persistence entry timeout.  
-        Default value: 2  
-        Minimum value = 2  
-        Maximum value = 1440 
-    .PARAMETER sothreshold 
-        The spillver threshold value.  
-        Minimum value = 1  
-        Maximum value = 4294967294 
-    .PARAMETER pushvserver 
-        The lb vserver of type PUSH/SSL_PUSH to which server pushes the updates received on the client facing non-push lb vserver.  
-        Minimum length = 1
-    .EXAMPLE
-        Invoke-ADCUpdateVserver -name <string>
-    .NOTES
-        File Name : Invoke-ADCUpdateVserver
-        Version   : v2106.2309
-        Author    : John Billekens
-        Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/basic/vserver/
-        Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
-    .LINK
-        https://blog.j81.nl
-#>
-    [CmdletBinding(SupportsShouldProcess = $true, ConfirmImpact = "Low")]
-    [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
-    [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
-    [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
-    param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
-
-        [Parameter(Mandatory = $true)]
-        [ValidateScript({ $_.Length -gt 1 })]
-        [string]$name ,
-
-        [ValidateScript({ $_.Length -gt 1 })]
-        [string]$backupvserver ,
-
-        [ValidateScript({ $_.Length -gt 1 })]
-        [string]$redirecturl ,
-
-        [ValidateSet('YES', 'NO')]
-        [string]$cacheable ,
-
-        [ValidateRange(0, 31536000)]
-        [double]$clttimeout ,
-
-        [ValidateSet('CONNECTION', 'DYNAMICCONNECTION', 'BANDWIDTH', 'HEALTH', 'NONE')]
-        [string]$somethod ,
-
-        [ValidateSet('ENABLED', 'DISABLED')]
-        [string]$sopersistence ,
-
-        [ValidateRange(2, 1440)]
-        [double]$sopersistencetimeout ,
-
-        [ValidateRange(1, 4294967294)]
-        [double]$sothreshold ,
-
-        [ValidateScript({ $_.Length -gt 1 })]
-        [string]$pushvserver 
-
-    )
-    begin {
-        Write-Verbose "Invoke-ADCUpdateVserver: Starting"
-    }
-    process {
-        try {
-            $Payload = @{
-                name = $name
-            }
-            if ($PSBoundParameters.ContainsKey('backupvserver')) { $Payload.Add('backupvserver', $backupvserver) }
-            if ($PSBoundParameters.ContainsKey('redirecturl')) { $Payload.Add('redirecturl', $redirecturl) }
-            if ($PSBoundParameters.ContainsKey('cacheable')) { $Payload.Add('cacheable', $cacheable) }
-            if ($PSBoundParameters.ContainsKey('clttimeout')) { $Payload.Add('clttimeout', $clttimeout) }
-            if ($PSBoundParameters.ContainsKey('somethod')) { $Payload.Add('somethod', $somethod) }
-            if ($PSBoundParameters.ContainsKey('sopersistence')) { $Payload.Add('sopersistence', $sopersistence) }
-            if ($PSBoundParameters.ContainsKey('sopersistencetimeout')) { $Payload.Add('sopersistencetimeout', $sopersistencetimeout) }
-            if ($PSBoundParameters.ContainsKey('sothreshold')) { $Payload.Add('sothreshold', $sothreshold) }
-            if ($PSBoundParameters.ContainsKey('pushvserver')) { $Payload.Add('pushvserver', $pushvserver) }
- 
-            if ($PSCmdlet.ShouldProcess("vserver", "Update Basic configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -NitroPath nitro/v1/config -Type vserver -Payload $Payload -GetWarning
-                #HTTP Status Code on Success: 200 OK
-                #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
-            Write-Output $result
-
-            }
-        } catch {
-            Write-Verbose "ERROR: $($_.Exception.Message)"
-            throw $_
-        }
-    }
-    end {
-        Write-Verbose "Invoke-ADCUpdateVserver: Finished"
-    }
-}
-
 function Invoke-ADCEnableVserver {
-<#
+    <#
     .SYNOPSIS
-        Enable Basic configuration Object
+        Enable Basic configuration Object.
     .DESCRIPTION
-        Enable Basic configuration Object 
-    .PARAMETER name 
+        Configuration for virtual server resource.
+    .PARAMETER Name 
         The name of the virtual server to be removed.
     .EXAMPLE
-        Invoke-ADCEnableVserver -name <string>
+        PS C:\>Invoke-ADCEnableVserver -name <string>
+        An example how to enable vserver configuration Object(s).
     .NOTES
         File Name : Invoke-ADCEnableVserver
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/basic/vserver/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
+    #>
     [CmdletBinding(SupportsShouldProcess = $true, ConfirmImpact = "Low")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
-        [Parameter(Mandatory = $true)]
+        [Parameter(Mandatory)]
         [ValidateScript({ $_.Length -gt 1 })]
-        [string]$name 
+        [string]$Name 
 
     )
     begin {
@@ -7911,12 +7442,10 @@ function Invoke-ADCEnableVserver {
     }
     process {
         try {
-            $Payload = @{
-                name = $name
-            }
+            $payload = @{ name = $name }
 
-            if ($PSCmdlet.ShouldProcess($Name, "Enable Basic configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -NitroPath nitro/v1/config -Type vserver -Action enable -Payload $Payload -GetWarning
+            if ( $PSCmdlet.ShouldProcess($Name, "Enable Basic configuration Object") ) {
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -NitroPath nitro/v1/config -Type vserver -Action enable -Payload $payload -GetWarning
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $result
@@ -7932,36 +7461,38 @@ function Invoke-ADCEnableVserver {
 }
 
 function Invoke-ADCDisableVserver {
-<#
+    <#
     .SYNOPSIS
-        Disable Basic configuration Object
+        Disable Basic configuration Object.
     .DESCRIPTION
-        Disable Basic configuration Object 
-    .PARAMETER name 
+        Configuration for virtual server resource.
+    .PARAMETER Name 
         The name of the virtual server to be removed.
     .EXAMPLE
-        Invoke-ADCDisableVserver -name <string>
+        PS C:\>Invoke-ADCDisableVserver -name <string>
+        An example how to disable vserver configuration Object(s).
     .NOTES
         File Name : Invoke-ADCDisableVserver
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/basic/vserver/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
+    #>
     [CmdletBinding(SupportsShouldProcess = $true, ConfirmImpact = "Low")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
-        [Parameter(Mandatory = $true)]
+        [Parameter(Mandatory)]
         [ValidateScript({ $_.Length -gt 1 })]
-        [string]$name 
+        [string]$Name 
 
     )
     begin {
@@ -7969,12 +7500,10 @@ function Invoke-ADCDisableVserver {
     }
     process {
         try {
-            $Payload = @{
-                name = $name
-            }
+            $payload = @{ name = $name }
 
-            if ($PSCmdlet.ShouldProcess($Name, "Disable Basic configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -NitroPath nitro/v1/config -Type vserver -Action disable -Payload $Payload -GetWarning
+            if ( $PSCmdlet.ShouldProcess($Name, "Disable Basic configuration Object") ) {
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -NitroPath nitro/v1/config -Type vserver -Action disable -Payload $payload -GetWarning
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $result
@@ -7986,6 +7515,175 @@ function Invoke-ADCDisableVserver {
     }
     end {
         Write-Verbose "Invoke-ADCDisableVserver: Finished"
+    }
+}
+
+function Invoke-ADCDeleteVserver {
+    <#
+    .SYNOPSIS
+        Delete Basic configuration Object.
+    .DESCRIPTION
+        Configuration for virtual server resource.
+    .PARAMETER Name 
+        The name of the virtual server to be removed.
+    .EXAMPLE
+        PS C:\>Invoke-ADCDeleteVserver -Name <string>
+        An example how to delete vserver configuration Object(s).
+    .NOTES
+        File Name : Invoke-ADCDeleteVserver
+        Version   : v2111.2111
+        Author    : John Billekens
+        Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/basic/vserver/
+        Requires  : PowerShell v5.1 and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
+    .LINK
+        https://blog.j81.nl
+    #>
+    [CmdletBinding(SupportsShouldProcess = $true, ConfirmImpact = "Low")]
+    [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
+    [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
+    [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
+    param(
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
+
+        [Parameter(Mandatory)]
+        [string]$Name 
+    )
+    begin {
+        Write-Verbose "Invoke-ADCDeleteVserver: Starting"
+    }
+    process {
+        try {
+            $arguments = @{ }
+
+            if ( $PSCmdlet.ShouldProcess("$name", "Delete Basic configuration Object") ) {
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type vserver -NitroPath nitro/v1/config -Resource $name -Arguments $arguments
+                #HTTP Status Code on Success: 200 OK
+                #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
+                Write-Output $response
+            }
+        } catch {
+            Write-Verbose "ERROR: $($_.Exception.Message)"
+            throw $_
+        }
+    }
+    end {
+        Write-Verbose "Invoke-ADCDeleteVserver: Finished"
+    }
+}
+
+function Invoke-ADCUpdateVserver {
+    <#
+    .SYNOPSIS
+        Update Basic configuration Object.
+    .DESCRIPTION
+        Configuration for virtual server resource.
+    .PARAMETER Name 
+        The name of the virtual server to be removed. 
+    .PARAMETER Backupvserver 
+        The name of the backup virtual server for this virtual server. 
+    .PARAMETER Redirecturl 
+        The URL where traffic is redirected if the virtual server in the system becomes unavailable. 
+    .PARAMETER Cacheable 
+        Use this option to specify whether a virtual server (used for load balancing or content switching) routes requests to the cache redirection virtual server before sending it to the configured servers. 
+        Possible values = YES, NO 
+    .PARAMETER Clttimeout 
+        The timeout value in seconds for idle client connection. 
+    .PARAMETER Somethod 
+        The spillover factor. The system will use this value to determine if it should send traffic to the backupvserver when the main virtual server reaches the spillover threshold. 
+        Possible values = CONNECTION, DYNAMICCONNECTION, BANDWIDTH, HEALTH, NONE 
+    .PARAMETER Sopersistence 
+        The state of the spillover persistence. 
+        Possible values = ENABLED, DISABLED 
+    .PARAMETER Sopersistencetimeout 
+        The spillover persistence entry timeout. 
+    .PARAMETER Sothreshold 
+        The spillver threshold value. 
+    .PARAMETER Pushvserver 
+        The lb vserver of type PUSH/SSL_PUSH to which server pushes the updates received on the client facing non-push lb vserver.
+    .EXAMPLE
+        PS C:\>Invoke-ADCUpdateVserver -name <string>
+        An example how to update vserver configuration Object(s).
+    .NOTES
+        File Name : Invoke-ADCUpdateVserver
+        Version   : v2111.2111
+        Author    : John Billekens
+        Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/basic/vserver/
+        Requires  : PowerShell v5.1 and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
+    .LINK
+        https://blog.j81.nl
+    #>
+    [CmdletBinding(SupportsShouldProcess = $true, ConfirmImpact = "Low")]
+    [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
+    [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
+    [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
+    param(
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
+
+        [Parameter(Mandatory)]
+        [ValidateScript({ $_.Length -gt 1 })]
+        [string]$Name,
+
+        [ValidateScript({ $_.Length -gt 1 })]
+        [string]$Backupvserver,
+
+        [ValidateScript({ $_.Length -gt 1 })]
+        [string]$Redirecturl,
+
+        [ValidateSet('YES', 'NO')]
+        [string]$Cacheable,
+
+        [ValidateRange(0, 31536000)]
+        [double]$Clttimeout,
+
+        [ValidateSet('CONNECTION', 'DYNAMICCONNECTION', 'BANDWIDTH', 'HEALTH', 'NONE')]
+        [string]$Somethod,
+
+        [ValidateSet('ENABLED', 'DISABLED')]
+        [string]$Sopersistence,
+
+        [ValidateRange(2, 1440)]
+        [double]$Sopersistencetimeout,
+
+        [ValidateRange(1, 4294967294)]
+        [double]$Sothreshold,
+
+        [ValidateScript({ $_.Length -gt 1 })]
+        [string]$Pushvserver 
+    )
+    begin {
+        Write-Verbose "Invoke-ADCUpdateVserver: Starting"
+    }
+    process {
+        try {
+            $payload = @{ name = $name }
+            if ( $PSBoundParameters.ContainsKey('backupvserver') ) { $payload.Add('backupvserver', $backupvserver) }
+            if ( $PSBoundParameters.ContainsKey('redirecturl') ) { $payload.Add('redirecturl', $redirecturl) }
+            if ( $PSBoundParameters.ContainsKey('cacheable') ) { $payload.Add('cacheable', $cacheable) }
+            if ( $PSBoundParameters.ContainsKey('clttimeout') ) { $payload.Add('clttimeout', $clttimeout) }
+            if ( $PSBoundParameters.ContainsKey('somethod') ) { $payload.Add('somethod', $somethod) }
+            if ( $PSBoundParameters.ContainsKey('sopersistence') ) { $payload.Add('sopersistence', $sopersistence) }
+            if ( $PSBoundParameters.ContainsKey('sopersistencetimeout') ) { $payload.Add('sopersistencetimeout', $sopersistencetimeout) }
+            if ( $PSBoundParameters.ContainsKey('sothreshold') ) { $payload.Add('sothreshold', $sothreshold) }
+            if ( $PSBoundParameters.ContainsKey('pushvserver') ) { $payload.Add('pushvserver', $pushvserver) }
+            if ( $PSCmdlet.ShouldProcess("vserver", "Update Basic configuration Object") ) {
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -NitroPath nitro/v1/config -Type vserver -Payload $payload -GetWarning
+                #HTTP Status Code on Success: 200 OK
+                #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
+                Write-Output $result
+            }
+        } catch {
+            Write-Verbose "ERROR: $($_.Exception.Message)"
+            throw $_
+        }
+    }
+    end {
+        Write-Verbose "Invoke-ADCUpdateVserver: Finished"
     }
 }
 

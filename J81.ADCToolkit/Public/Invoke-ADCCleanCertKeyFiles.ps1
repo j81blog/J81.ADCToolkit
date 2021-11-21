@@ -3,32 +3,32 @@ function Invoke-ADCCleanCertKeyFiles {
     .SYNOPSIS
         Cleanup old/unused certificates on a Citrix ADC.
     .DESCRIPTION
-        Remotely cleanup old/unused certificates on a Citrix ADC.
+        With the Invoke-ADCCleanCertKeyFiles function you can cleanup old (unused) CertKey files on your Citrix ADC. It will validate if a file is in use somewhere in the configuration, if not it will be marked for deletion. Then it will try to delete the marked files.
+        By default the script will NOT make a full backup. Best practice is to specify the -Backup parameter. If anything might go wrong you will have a (full) backup (including the certificates).
     .PARAMETER ManagementURL
         The URI/URL to connect to, E.g. "https://citrixadc.domain.local".
     .PARAMETER Credential
         The credential to authenticate to the NetScaler with.
     .PARAMETER Backup
         Backup the configuration first (full) before any changes are made.
-    .PARAMETER noSaveConfig
+    .PARAMETER NoSaveConfig
         The configuration will be saved by default after all changes are made.
         Specify "-NoSaveConfig" to disable saving the configuration.
+    .PARAMETER Attempts
+        By default 2 attempts will be taken trying to delete cert-files.
+        Specify a number between 2-4.
     .PARAMETER ExpirationDays
         If you have soon to be expired certificates (within 30 days) you will receive a warning message.
         By specifying this parameter you can change the nr of days.
     .EXAMPLE
-        $Credential = Get-Credential -UserName "nsroot" -Message "Citrix ADC account"
-        Invoke-ADCCleanCertKeyFiles -ManagementURL = "https://citrixadc.domain.local" -Credential $Credential
+        PS C:\>Invoke-ADCCleanCertKeyFiles -ManagementURL = "https://citrixadc.domain.local" -Credential $(Get-Credential -UserName "nsroot" -Message "Citrix ADC account")
+        An example with only the required parameters, this will scan and delete unused certificates.
     .EXAMPLE
-        $Params = @{
-            ManagementURL = "https://citrixadc.domain.local"
-            Credential = (Get-Credential -UserName "nsroot" -Message "Citrix ADC account")
-            Backup = $true
-        }
-        Invoke-ADCCleanCertKeyFiles @Params
+        PS C:\>Invoke-ADCCleanCertKeyFiles -ManagementURL = "https://citrixadc.domain.local" -Credential $(Get-Credential -UserName "nsroot" -Message "Citrix ADC account") -Backup
+        This example will first make a backup and then clean the ADC.
     .NOTES
         File Name : Invoke-ADCCleanCertKeyFiles.ps1
-        Version   : v2101.0322
+        Version   : v2111.1520
         Author    : John Billekens
         Requires  : PowerShell v5.1 and up
                     ADC 11.x and up
@@ -47,6 +47,7 @@ function Invoke-ADCCleanCertKeyFiles {
         
         [Switch]$NoSaveConfig,
         
+        [ValidateRange(2, 4)]
         [Int]$Attempts = 2,
         
         [Int]$ExpirationDays = 30
@@ -90,7 +91,7 @@ function Invoke-ADCCleanCertKeyFiles {
                             Write-ConsoleText -Line "CertKey"
                             Write-ConsoleText "$($_.certData.certkey)"
                             Write-ConsoleText -Line "Removing"
-                            $Response = Invoke-ADCDeleteSslCertkey -ADCSession $ADCSession["PrimarySession"].Session -certkey $_.certData.certkey -ErrorAction SilentlyContinue | Write-ADCText
+                            $Response = Invoke-ADCDeleteSslcertkey -ADCSession $ADCSession["PrimarySession"].Session -certkey $_.certData.certkey -ErrorAction SilentlyContinue | Write-ADCText
                             Write-Verbose "Response: $Response"
                         }
                         if ($_.keyData.certkey -ne $_.certData.certkey) {
@@ -98,7 +99,7 @@ function Invoke-ADCCleanCertKeyFiles {
                                 Write-ConsoleText -Line "CertKey"
                                 Write-ConsoleText "$($_.keyData.certkey)"
                                 Write-ConsoleText -Line "Removing"
-                                $Response = Invoke-ADCDeleteSslCertkey -ADCSession $ADCSession["PrimarySession"].Session -certkey $_.keyData.certkey -ErrorAction  SilentlyContinue | Write-ADCText
+                                $Response = Invoke-ADCDeleteSslcertkey -ADCSession $ADCSession["PrimarySession"].Session -certkey $_.keyData.certkey -ErrorAction  SilentlyContinue | Write-ADCText
                                 Write-Verbose "Response: $Response"
                             }
                         }
@@ -118,20 +119,18 @@ function Invoke-ADCCleanCertKeyFiles {
                     foreach ($Session in $ADCSessions) {
                         Write-ConsoleText -Line "Deleting"
                         Write-ConsoleText -NoNewLine -ForeGroundColor Cyan "[$($Session.State)] "
-                        $Response = Invoke-ADCDeleteSystemFile -ADCSession $Session.Session -filename $_.fileName -filelocation $_.filelocation | Write-ADCText
+                        $Response = Invoke-ADCDeleteSystemfile -ADCSession $Session.Session -filename $_.fileName -filelocation $_.filelocation | Write-ADCText
                         Write-Verbose "Response: $Response"
                     }
                 }
             } else {
                 Write-ConsoleText "Nothing to remove (anymore), the location `"/nsconfig/ssl/`" is tidy!" -PreBlank
             }
-
             $Certs = Invoke-ADCRetrieveCertificateRemoveInfo -ADCSession $ADCSession["PrimarySession"].Session
             if ($($Certs | Where-Object { $_.certData.status -eq "Expired" }).count -gt 0) {
                 Write-ConsoleText -Blank
                 Write-Warning "You still have EXPIRED certificates bound/active in the configuration!"
             }
-
             $ExpiringCerts = @($Certs | Where-Object { ($_.certData.daystoexpiration -in 0..$ExpirationDays) -and (-Not [String]::IsNullOrEmpty( $($_.certData.daystoexpiration) ) -and (-Not [String]::IsNullOrEmpty( $($_.certData.certkey) ) )) })
             if ($ExpiringCerts.Count -gt 0) {
                 Write-ConsoleText -Blank

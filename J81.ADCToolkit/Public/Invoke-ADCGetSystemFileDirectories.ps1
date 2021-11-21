@@ -23,7 +23,7 @@ function Invoke-ADCGetSystemFileDirectories {
     [cmdletbinding()]
     param(
         [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Object]$ADCSession = (Get-ADCSession),
             
         [Parameter(Mandatory = $true)]
         [alias("FilePath")]
@@ -36,7 +36,7 @@ function Invoke-ADCGetSystemFileDirectories {
         Write-Output "$FileLocation"
         try {
             Write-Verbose "Checking `"$FileLocation`" for sub directories."
-            $dirs = Invoke-ADCGetSystemFile -filelocation $FileLocation -ADCSession $ADCSession | Expand-ADCResult | Where-Object { $_.filemode -eq "DIRECTORY" } | Foreach-Object { "$($_.filelocation)/$($_.filename)" }
+            $dirs = Invoke-ADCGetSystemfile -filelocation $FileLocation -ADCSession $ADCSession | Expand-ADCResult | Where-Object { $_.filemode -eq "DIRECTORY" } | ForEach-Object { "$($_.filelocation)/$($_.filename)" }
         } catch { 
             $dirs = $null 
         }

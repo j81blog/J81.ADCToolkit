@@ -1,67 +1,58 @@
 function Invoke-ADCUpdateProtocolhttpband {
-<#
+    <#
     .SYNOPSIS
-        Update Protocol configuration Object
+        Update Protocol configuration Object.
     .DESCRIPTION
-        Update Protocol configuration Object 
-    .PARAMETER reqbandsize 
-        Band size, in bytes, for HTTP request band statistics. For example, if you specify a band size of 100 bytes, statistics will be maintained and displayed for the following size ranges:  
-        0 - 99 bytes  
-        100 - 199 bytes  
-        200 - 299 bytes and so on.  
-        Default value: 100  
-        Minimum value = 50 
-    .PARAMETER respbandsize 
-        Band size, in bytes, for HTTP response band statistics. For example, if you specify a band size of 100 bytes, statistics will be maintained and displayed for the following size ranges:  
-        0 - 99 bytes  
-        100 - 199 bytes  
-        200 - 299 bytes and so on.  
-        Default value: 1024  
-        Minimum value = 50
+        Configuration for HTTP request/response band resource.
+    .PARAMETER Reqbandsize 
+        Band size, in bytes, for HTTP request band statistics. For example, if you specify a band size of 100 bytes, statistics will be maintained and displayed for the following size ranges: 
+        0 - 99 bytes 
+        100 - 199 bytes 
+        200 - 299 bytes and so on. 
+    .PARAMETER Respbandsize 
+        Band size, in bytes, for HTTP response band statistics. For example, if you specify a band size of 100 bytes, statistics will be maintained and displayed for the following size ranges: 
+        0 - 99 bytes 
+        100 - 199 bytes 
+        200 - 299 bytes and so on.
     .EXAMPLE
-        Invoke-ADCUpdateProtocolhttpband 
+        PS C:\>Invoke-ADCUpdateProtocolhttpband 
+        An example how to update protocolhttpband configuration Object(s).
     .NOTES
         File Name : Invoke-ADCUpdateProtocolhttpband
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/protocol/protocolhttpband/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
+    #>
     [CmdletBinding(SupportsShouldProcess = $true, ConfirmImpact = "Low")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
-        [ValidateRange(0, 99)]
-        [int]$reqbandsize ,
+        [int]$Reqbandsize,
 
-        [ValidateRange(0, 99)]
-        [int]$respbandsize 
-
+        [int]$Respbandsize 
     )
     begin {
         Write-Verbose "Invoke-ADCUpdateProtocolhttpband: Starting"
     }
     process {
         try {
-            $Payload = @{
-
-            }
-            if ($PSBoundParameters.ContainsKey('reqbandsize')) { $Payload.Add('reqbandsize', $reqbandsize) }
-            if ($PSBoundParameters.ContainsKey('respbandsize')) { $Payload.Add('respbandsize', $respbandsize) }
- 
-            if ($PSCmdlet.ShouldProcess("protocolhttpband", "Update Protocol configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -NitroPath nitro/v1/config -Type protocolhttpband -Payload $Payload -GetWarning
+            $payload = @{ }
+            if ( $PSBoundParameters.ContainsKey('reqbandsize') ) { $payload.Add('reqbandsize', $reqbandsize) }
+            if ( $PSBoundParameters.ContainsKey('respbandsize') ) { $payload.Add('respbandsize', $respbandsize) }
+            if ( $PSCmdlet.ShouldProcess("protocolhttpband", "Update Protocol configuration Object") ) {
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -NitroPath nitro/v1/config -Type protocolhttpband -Payload $payload -GetWarning
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
-            Write-Output $result
-
+                Write-Output $result
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -74,40 +65,44 @@ function Invoke-ADCUpdateProtocolhttpband {
 }
 
 function Invoke-ADCUnsetProtocolhttpband {
-<#
+    <#
     .SYNOPSIS
-        Unset Protocol configuration Object
+        Unset Protocol configuration Object.
     .DESCRIPTION
-        Unset Protocol configuration Object 
-   .PARAMETER reqbandsize 
-       Band size, in bytes, for HTTP request band statistics. For example, if you specify a band size of 100 bytes, statistics will be maintained and displayed for the following size  bytes  
-       100 - 199 bytes  
-       200 - 299 bytes and so on. 
-   .PARAMETER respbandsize 
-       Band size, in bytes, for HTTP response band statistics. For example, if you specify a band size of 100 bytes, statistics will be maintained and displayed for the following size  bytes  
-       100 - 199 bytes  
-       200 - 299 bytes and so on.
+        Configuration for HTTP request/response band resource.
+    .PARAMETER Reqbandsize 
+        Band size, in bytes, for HTTP request band statistics. For example, if you specify a band size of 100 bytes, statistics will be maintained and displayed for the following size ranges: 
+        0 - 99 bytes 
+        100 - 199 bytes 
+        200 - 299 bytes and so on. 
+    .PARAMETER Respbandsize 
+        Band size, in bytes, for HTTP response band statistics. For example, if you specify a band size of 100 bytes, statistics will be maintained and displayed for the following size ranges: 
+        0 - 99 bytes 
+        100 - 199 bytes 
+        200 - 299 bytes and so on.
     .EXAMPLE
-        Invoke-ADCUnsetProtocolhttpband 
+        PS C:\>Invoke-ADCUnsetProtocolhttpband 
+        An example how to unset protocolhttpband configuration Object(s).
     .NOTES
         File Name : Invoke-ADCUnsetProtocolhttpband
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/protocol/protocolhttpband
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
+    #>
     [CmdletBinding(SupportsShouldProcess = $true, ConfirmImpact = "Low")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
-        [Boolean]$reqbandsize ,
+        [Boolean]$reqbandsize,
 
         [Boolean]$respbandsize 
     )
@@ -116,13 +111,11 @@ function Invoke-ADCUnsetProtocolhttpband {
     }
     process {
         try {
-            $Payload = @{
-
-            }
-            if ($PSBoundParameters.ContainsKey('reqbandsize')) { $Payload.Add('reqbandsize', $reqbandsize) }
-            if ($PSBoundParameters.ContainsKey('respbandsize')) { $Payload.Add('respbandsize', $respbandsize) }
-            if ($PSCmdlet.ShouldProcess("protocolhttpband", "Unset Protocol configuration Object")) {
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -Type protocolhttpband -NitroPath nitro/v1/config -Action unset -Payload $Payload -GetWarning
+            $payload = @{ }
+            if ( $PSBoundParameters.ContainsKey('reqbandsize') ) { $payload.Add('reqbandsize', $reqbandsize) }
+            if ( $PSBoundParameters.ContainsKey('respbandsize') ) { $payload.Add('respbandsize', $respbandsize) }
+            if ( $PSCmdlet.ShouldProcess("protocolhttpband", "Unset Protocol configuration Object") ) {
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -Type protocolhttpband -NitroPath nitro/v1/config -Action unset -Payload $payload -GetWarning
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $response
@@ -138,37 +131,39 @@ function Invoke-ADCUnsetProtocolhttpband {
 }
 
 function Invoke-ADCClearProtocolhttpband {
-<#
+    <#
     .SYNOPSIS
-        Clear Protocol configuration Object
+        Clear Protocol configuration Object.
     .DESCRIPTION
-        Clear Protocol configuration Object 
-    .PARAMETER type 
-        Type of statistics to display.  
-        Possible values = REQUEST, RESPONSE
+        Configuration for HTTP request/response band resource.
+    .PARAMETER Type 
+        Type of statistics to display. 
+        Possible values = REQUEST, RESPONSE, MQTT_JUMBO_REQ
     .EXAMPLE
-        Invoke-ADCClearProtocolhttpband -type <string>
+        PS C:\>Invoke-ADCClearProtocolhttpband -type <string>
+        An example how to clear protocolhttpband configuration Object(s).
     .NOTES
         File Name : Invoke-ADCClearProtocolhttpband
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/protocol/protocolhttpband/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
+    #>
     [CmdletBinding(SupportsShouldProcess = $true, ConfirmImpact = "Low")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
-        [Parameter(Mandatory = $true)]
-        [ValidateSet('REQUEST', 'RESPONSE')]
-        [string]$type 
+        [Parameter(Mandatory)]
+        [ValidateSet('REQUEST', 'RESPONSE', 'MQTT_JUMBO_REQ')]
+        [string]$Type 
 
     )
     begin {
@@ -176,12 +171,10 @@ function Invoke-ADCClearProtocolhttpband {
     }
     process {
         try {
-            $Payload = @{
-                type = $type
-            }
+            $payload = @{ type = $type }
 
-            if ($PSCmdlet.ShouldProcess($Name, "Clear Protocol configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -NitroPath nitro/v1/config -Type protocolhttpband -Action clear -Payload $Payload -GetWarning
+            if ( $PSCmdlet.ShouldProcess($Name, "Clear Protocol configuration Object") ) {
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -NitroPath nitro/v1/config -Type protocolhttpband -Action clear -Payload $payload -GetWarning
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $result
@@ -197,58 +190,63 @@ function Invoke-ADCClearProtocolhttpband {
 }
 
 function Invoke-ADCGetProtocolhttpband {
-<#
+    <#
     .SYNOPSIS
-        Get Protocol configuration object(s)
+        Get Protocol configuration object(s).
     .DESCRIPTION
-        Get Protocol configuration object(s)
-    .PARAMETER type 
-       Type of statistics to display.  
-       Possible values = REQUEST, RESPONSE 
-    .PARAMETER nodeid 
-       Unique number that identifies the cluster node. 
+        Configuration for HTTP request/response band resource.
+    .PARAMETER Type 
+        Type of statistics to display. 
+        Possible values = REQUEST, RESPONSE, MQTT_JUMBO_REQ 
+    .PARAMETER Nodeid 
+        Unique number that identifies the cluster node. 
     .PARAMETER GetAll 
-        Retreive all protocolhttpband object(s)
+        Retrieve all protocolhttpband object(s).
     .PARAMETER Count
-        If specified, the count of the protocolhttpband object(s) will be returned
+        If specified, the count of the protocolhttpband object(s) will be returned.
     .PARAMETER Filter
-        Specify a filter
+        Specify a filter.
         -Filter @{ 'name'='<value>' }
     .PARAMETER ViewSummary
-        When specified, only a summary of information is returned
+        When specified, only a summary of information is returned.
     .EXAMPLE
-        Invoke-ADCGetProtocolhttpband
+        PS C:\>Invoke-ADCGetProtocolhttpband
+        Get data.
     .EXAMPLE 
-        Invoke-ADCGetProtocolhttpband -GetAll
+        PS C:\>Invoke-ADCGetProtocolhttpband -GetAll 
+        Get all protocolhttpband data.
     .EXAMPLE
-        Invoke-ADCGetProtocolhttpband -name <string>
+        PS C:\>Invoke-ADCGetProtocolhttpband -name <string>
+        Get protocolhttpband object by specifying for example the name.
     .EXAMPLE
-        Invoke-ADCGetProtocolhttpband -Filter @{ 'name'='<value>' }
+        PS C:\>Invoke-ADCGetProtocolhttpband -Filter @{ 'name'='<value>' }
+        Get protocolhttpband data with a filter.
     .NOTES
         File Name : Invoke-ADCGetProtocolhttpband
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/protocol/protocolhttpband/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
-    [CmdletBinding(DefaultParameterSetName = "Getall")]
+    #>
+    [CmdletBinding(DefaultParameterSetName = "GetAll")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
         [Parameter(ParameterSetName = 'GetByArgument')]
-        [ValidateSet('REQUEST', 'RESPONSE')]
-        [string]$type ,
+        [ValidateSet('REQUEST', 'RESPONSE', 'MQTT_JUMBO_REQ')]
+        [string]$Type,
 
         [Parameter(ParameterSetName = 'GetByArgument')]
         [ValidateRange(0, 31)]
-        [double]$nodeid,
+        [double]$Nodeid,
 			
         [hashtable]$Filter = @{ },
 
@@ -260,26 +258,26 @@ function Invoke-ADCGetProtocolhttpband {
     }
     process {
         try {
-            if ( $PsCmdlet.ParameterSetName -eq 'Getall' ) {
-                $Query = @{ }
+            if ( $PsCmdlet.ParameterSetName -eq 'GetAll' ) {
+                $query = @{ }
                 Write-Verbose "Retrieving all protocolhttpband objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type protocolhttpband -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type protocolhttpband -NitroPath nitro/v1/config -Query $query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
-                if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
+                if ( $PSBoundParameters.ContainsKey('Count') ) { $query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for protocolhttpband objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type protocolhttpband -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type protocolhttpband -NitroPath nitro/v1/config -Query $query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving protocolhttpband objects by arguments"
-                $Arguments = @{ } 
-                if ($PSBoundParameters.ContainsKey('type')) { $Arguments.Add('type', $type) } 
-                if ($PSBoundParameters.ContainsKey('nodeid')) { $Arguments.Add('nodeid', $nodeid) }
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type protocolhttpband -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
+                $arguments = @{ } 
+                if ( $PSBoundParameters.ContainsKey('type') ) { $arguments.Add('type', $type) } 
+                if ( $PSBoundParameters.ContainsKey('nodeid') ) { $arguments.Add('nodeid', $nodeid) }
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type protocolhttpband -NitroPath nitro/v1/config -Arguments $arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving protocolhttpband configuration for property ''"
 
             } else {
                 Write-Verbose "Retrieving protocolhttpband configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type protocolhttpband -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type protocolhttpband -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"

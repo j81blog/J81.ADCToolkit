@@ -1,43 +1,48 @@
 function Invoke-ADCGetBotglobalbinding {
-<#
+    <#
     .SYNOPSIS
-        Get Bot configuration object(s)
+        Get Bot configuration object(s).
     .DESCRIPTION
-        Get Bot configuration object(s)
+        Binding object which returns the resources bound to botglobal.
     .PARAMETER GetAll 
-        Retreive all botglobal_binding object(s)
+        Retrieve all botglobal_binding object(s).
     .PARAMETER Count
-        If specified, the count of the botglobal_binding object(s) will be returned
+        If specified, the count of the botglobal_binding object(s) will be returned.
     .PARAMETER Filter
-        Specify a filter
+        Specify a filter.
         -Filter @{ 'name'='<value>' }
     .PARAMETER ViewSummary
-        When specified, only a summary of information is returned
+        When specified, only a summary of information is returned.
     .EXAMPLE
-        Invoke-ADCGetBotglobalbinding
+        PS C:\>Invoke-ADCGetBotglobalbinding
+        Get data.
     .EXAMPLE 
-        Invoke-ADCGetBotglobalbinding -GetAll
+        PS C:\>Invoke-ADCGetBotglobalbinding -GetAll 
+        Get all botglobal_binding data.
     .EXAMPLE
-        Invoke-ADCGetBotglobalbinding -name <string>
+        PS C:\>Invoke-ADCGetBotglobalbinding -name <string>
+        Get botglobal_binding object by specifying for example the name.
     .EXAMPLE
-        Invoke-ADCGetBotglobalbinding -Filter @{ 'name'='<value>' }
+        PS C:\>Invoke-ADCGetBotglobalbinding -Filter @{ 'name'='<value>' }
+        Get botglobal_binding data with a filter.
     .NOTES
         File Name : Invoke-ADCGetBotglobalbinding
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/bot/botglobal_binding/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
-    [CmdletBinding(DefaultParameterSetName = "Getall")]
+    #>
+    [CmdletBinding(DefaultParameterSetName = "GetAll")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 			
         [hashtable]$Filter = @{ },
 
@@ -49,26 +54,24 @@ function Invoke-ADCGetBotglobalbinding {
     }
     process {
         try {
-            if ( $PsCmdlet.ParameterSetName -eq 'Getall' ) {
-                $Query = @{ 
-                    bulkbindings = 'yes'
-                }
+            if ( $PsCmdlet.ParameterSetName -eq 'GetAll' ) {
+                $query = @{  bulkbindings = 'yes' }
                 Write-Verbose "Retrieving all botglobal_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type botglobal_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type botglobal_binding -NitroPath nitro/v1/config -Query $query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
-                if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
+                if ( $PSBoundParameters.ContainsKey('Count') ) { $query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for botglobal_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type botglobal_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type botglobal_binding -NitroPath nitro/v1/config -Query $query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving botglobal_binding objects by arguments"
-                $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type botglobal_binding -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
+                $arguments = @{ } 
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type botglobal_binding -NitroPath nitro/v1/config -Arguments $arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving botglobal_binding configuration for property ''"
 
             } else {
                 Write-Verbose "Retrieving botglobal_binding configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type botglobal_binding -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type botglobal_binding -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -82,95 +85,93 @@ function Invoke-ADCGetBotglobalbinding {
 }
 
 function Invoke-ADCAddBotglobalbotpolicybinding {
-<#
+    <#
     .SYNOPSIS
-        Add Bot configuration Object
+        Add Bot configuration Object.
     .DESCRIPTION
-        Add Bot configuration Object 
-    .PARAMETER policyname 
+        Binding object showing the botpolicy that can be bound to botglobal.
+    .PARAMETER Policyname 
         Name of the bot policy. 
-    .PARAMETER priority 
+    .PARAMETER Priority 
         Specifies the priority of the policy. 
-    .PARAMETER gotopriorityexpression 
+    .PARAMETER Gotopriorityexpression 
         Expression specifying the priority of the next policy which will get evaluated if the current policy rule evaluates to TRUE. 
-    .PARAMETER type 
-        Specifies the bind point whose policies you want to display. Available settings function as follows: * REQ_OVERRIDE - Request override. Binds the policy to the priority request queue. * REQ_DEFAULT - Binds the policy to the default request queue.  
+    .PARAMETER Type 
+        Specifies the bind point whose policies you want to display. Available settings function as follows: * REQ_OVERRIDE - Request override. Binds the policy to the priority request queue. * REQ_DEFAULT - Binds the policy to the default request queue. 
         Possible values = REQ_OVERRIDE, REQ_DEFAULT 
-    .PARAMETER invoke 
+    .PARAMETER Invoke 
         If the current policy evaluates to TRUE, terminate evaluation of policies bound to the current policy label, and then forward the request to the specified virtual server. 
-    .PARAMETER labeltype 
-        Type of invocation, Available settings function as follows: * vserver - Forward the request to the specified virtual server. * policylabel - Invoke the specified policy label.  
+    .PARAMETER Labeltype 
+        Type of invocation, Available settings function as follows: * vserver - Forward the request to the specified virtual server. * policylabel - Invoke the specified policy label. 
         Possible values = vserver, policylabel 
-    .PARAMETER labelname 
+    .PARAMETER Labelname 
         Name of the policy label to invoke. If the current policy evaluates to TRUE, the invoke parameter is set, and Label Type is policylabel. 
     .PARAMETER PassThru 
         Return details about the created botglobal_botpolicy_binding item.
     .EXAMPLE
-        Invoke-ADCAddBotglobalbotpolicybinding -policyname <string> -priority <double>
+        PS C:\>Invoke-ADCAddBotglobalbotpolicybinding -policyname <string> -priority <double>
+        An example how to add botglobal_botpolicy_binding configuration Object(s).
     .NOTES
         File Name : Invoke-ADCAddBotglobalbotpolicybinding
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/bot/botglobal_botpolicy_binding/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
+    #>
     [CmdletBinding(SupportsShouldProcess = $true, ConfirmImpact = "Low")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
-        [Parameter(Mandatory = $true)]
-        [string]$policyname ,
+        [Parameter(Mandatory)]
+        [string]$Policyname,
 
-        [Parameter(Mandatory = $true)]
-        [double]$priority ,
+        [Parameter(Mandatory)]
+        [double]$Priority,
 
-        [string]$gotopriorityexpression ,
+        [string]$Gotopriorityexpression,
 
         [ValidateSet('REQ_OVERRIDE', 'REQ_DEFAULT')]
-        [string]$type ,
+        [string]$Type,
 
-        [boolean]$invoke ,
+        [boolean]$Invoke,
 
         [ValidateSet('vserver', 'policylabel')]
-        [string]$labeltype ,
+        [string]$Labeltype,
 
-        [string]$labelname ,
+        [string]$Labelname,
 
         [Switch]$PassThru 
-
     )
     begin {
         Write-Verbose "Invoke-ADCAddBotglobalbotpolicybinding: Starting"
     }
     process {
         try {
-            $Payload = @{
-                policyname = $policyname
-                priority = $priority
+            $payload = @{ policyname = $policyname
+                priority             = $priority
             }
-            if ($PSBoundParameters.ContainsKey('gotopriorityexpression')) { $Payload.Add('gotopriorityexpression', $gotopriorityexpression) }
-            if ($PSBoundParameters.ContainsKey('type')) { $Payload.Add('type', $type) }
-            if ($PSBoundParameters.ContainsKey('invoke')) { $Payload.Add('invoke', $invoke) }
-            if ($PSBoundParameters.ContainsKey('labeltype')) { $Payload.Add('labeltype', $labeltype) }
-            if ($PSBoundParameters.ContainsKey('labelname')) { $Payload.Add('labelname', $labelname) }
- 
-            if ($PSCmdlet.ShouldProcess("botglobal_botpolicy_binding", "Add Bot configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -NitroPath nitro/v1/config -Type botglobal_botpolicy_binding -Payload $Payload -GetWarning
+            if ( $PSBoundParameters.ContainsKey('gotopriorityexpression') ) { $payload.Add('gotopriorityexpression', $gotopriorityexpression) }
+            if ( $PSBoundParameters.ContainsKey('type') ) { $payload.Add('type', $type) }
+            if ( $PSBoundParameters.ContainsKey('invoke') ) { $payload.Add('invoke', $invoke) }
+            if ( $PSBoundParameters.ContainsKey('labeltype') ) { $payload.Add('labeltype', $labeltype) }
+            if ( $PSBoundParameters.ContainsKey('labelname') ) { $payload.Add('labelname', $labelname) }
+            if ( $PSCmdlet.ShouldProcess("botglobal_botpolicy_binding", "Add Bot configuration Object") ) {
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -NitroPath nitro/v1/config -Type botglobal_botpolicy_binding -Payload $payload -GetWarning
                 #HTTP Status Code on Success: 201 Created
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
-                if ($PSBoundParameters.ContainsKey('PassThru')) {
-                    Write-Output (Invoke-ADCGetBotglobalbotpolicybinding -Filter $Payload)
+                if ( $PSBoundParameters.ContainsKey('PassThru') ) {
+                    Write-Output (Invoke-ADCGetBotglobalbotpolicybinding -Filter $payload)
                 } else {
                     Write-Output $result
                 }
-
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -183,54 +184,57 @@ function Invoke-ADCAddBotglobalbotpolicybinding {
 }
 
 function Invoke-ADCDeleteBotglobalbotpolicybinding {
-<#
+    <#
     .SYNOPSIS
-        Delete Bot configuration Object
+        Delete Bot configuration Object.
     .DESCRIPTION
-        Delete Bot configuration Object
-     .PARAMETER policyname 
-       Name of the bot policy.    .PARAMETER type 
-       Specifies the bind point whose policies you want to display. Available settings function as follows: * REQ_OVERRIDE - Request override. Binds the policy to the priority request queue. * REQ_DEFAULT - Binds the policy to the default request queue.  
-       Possible values = REQ_OVERRIDE, REQ_DEFAULT    .PARAMETER priority 
-       Specifies the priority of the policy.
+        Binding object showing the botpolicy that can be bound to botglobal.
+    .PARAMETER Policyname 
+        Name of the bot policy. 
+    .PARAMETER Type 
+        Specifies the bind point whose policies you want to display. Available settings function as follows: * REQ_OVERRIDE - Request override. Binds the policy to the priority request queue. * REQ_DEFAULT - Binds the policy to the default request queue. 
+        Possible values = REQ_OVERRIDE, REQ_DEFAULT 
+    .PARAMETER Priority 
+        Specifies the priority of the policy.
     .EXAMPLE
-        Invoke-ADCDeleteBotglobalbotpolicybinding 
+        PS C:\>Invoke-ADCDeleteBotglobalbotpolicybinding 
+        An example how to delete botglobal_botpolicy_binding configuration Object(s).
     .NOTES
         File Name : Invoke-ADCDeleteBotglobalbotpolicybinding
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/bot/botglobal_botpolicy_binding/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
+    #>
     [CmdletBinding(SupportsShouldProcess = $true, ConfirmImpact = "Low")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
-        [string]$policyname ,
+        [string]$Policyname,
 
-        [string]$type ,
+        [string]$Type,
 
-        [double]$priority 
+        [double]$Priority 
     )
     begin {
         Write-Verbose "Invoke-ADCDeleteBotglobalbotpolicybinding: Starting"
     }
     process {
         try {
-            $Arguments = @{ 
-            }
-            if ($PSBoundParameters.ContainsKey('policyname')) { $Arguments.Add('policyname', $policyname) }
-            if ($PSBoundParameters.ContainsKey('type')) { $Arguments.Add('type', $type) }
-            if ($PSBoundParameters.ContainsKey('priority')) { $Arguments.Add('priority', $priority) }
-            if ($PSCmdlet.ShouldProcess("botglobal_botpolicy_binding", "Delete Bot configuration Object")) {
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type botglobal_botpolicy_binding -NitroPath nitro/v1/config -Resource $ -Arguments $Arguments
+            $arguments = @{ }
+            if ( $PSBoundParameters.ContainsKey('Policyname') ) { $arguments.Add('policyname', $Policyname) }
+            if ( $PSBoundParameters.ContainsKey('Type') ) { $arguments.Add('type', $Type) }
+            if ( $PSBoundParameters.ContainsKey('Priority') ) { $arguments.Add('priority', $Priority) }
+            if ( $PSCmdlet.ShouldProcess("botglobal_botpolicy_binding", "Delete Bot configuration Object") ) {
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type botglobal_botpolicy_binding -NitroPath nitro/v1/config -Resource $ -Arguments $arguments
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $response
@@ -246,49 +250,55 @@ function Invoke-ADCDeleteBotglobalbotpolicybinding {
 }
 
 function Invoke-ADCGetBotglobalbotpolicybinding {
-<#
+    <#
     .SYNOPSIS
-        Get Bot configuration object(s)
+        Get Bot configuration object(s).
     .DESCRIPTION
-        Get Bot configuration object(s)
+        Binding object showing the botpolicy that can be bound to botglobal.
     .PARAMETER GetAll 
-        Retreive all botglobal_botpolicy_binding object(s)
+        Retrieve all botglobal_botpolicy_binding object(s).
     .PARAMETER Count
-        If specified, the count of the botglobal_botpolicy_binding object(s) will be returned
+        If specified, the count of the botglobal_botpolicy_binding object(s) will be returned.
     .PARAMETER Filter
-        Specify a filter
+        Specify a filter.
         -Filter @{ 'name'='<value>' }
     .PARAMETER ViewSummary
-        When specified, only a summary of information is returned
+        When specified, only a summary of information is returned.
     .EXAMPLE
-        Invoke-ADCGetBotglobalbotpolicybinding
+        PS C:\>Invoke-ADCGetBotglobalbotpolicybinding
+        Get data.
     .EXAMPLE 
-        Invoke-ADCGetBotglobalbotpolicybinding -GetAll 
+        PS C:\>Invoke-ADCGetBotglobalbotpolicybinding -GetAll 
+        Get all botglobal_botpolicy_binding data. 
     .EXAMPLE 
-        Invoke-ADCGetBotglobalbotpolicybinding -Count
+        PS C:\>Invoke-ADCGetBotglobalbotpolicybinding -Count 
+        Get the number of botglobal_botpolicy_binding objects.
     .EXAMPLE
-        Invoke-ADCGetBotglobalbotpolicybinding -name <string>
+        PS C:\>Invoke-ADCGetBotglobalbotpolicybinding -name <string>
+        Get botglobal_botpolicy_binding object by specifying for example the name.
     .EXAMPLE
-        Invoke-ADCGetBotglobalbotpolicybinding -Filter @{ 'name'='<value>' }
+        PS C:\>Invoke-ADCGetBotglobalbotpolicybinding -Filter @{ 'name'='<value>' }
+        Get botglobal_botpolicy_binding data with a filter.
     .NOTES
         File Name : Invoke-ADCGetBotglobalbotpolicybinding
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/bot/botglobal_botpolicy_binding/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
-    [CmdletBinding(DefaultParameterSetName = "Getall")]
+    #>
+    [CmdletBinding(DefaultParameterSetName = "GetAll")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
-        [Parameter(ParameterSetName = 'Count', Mandatory = $true)]
+        [Parameter(ParameterSetName = 'Count', Mandatory)]
         [Switch]$Count,
 			
         [hashtable]$Filter = @{ },
@@ -301,26 +311,24 @@ function Invoke-ADCGetBotglobalbotpolicybinding {
     }
     process {
         try {
-            if ( $PsCmdlet.ParameterSetName -eq 'Getall' ) {
-                $Query = @{ 
-                    bulkbindings = 'yes'
-                }
+            if ( $PsCmdlet.ParameterSetName -eq 'GetAll' ) {
+                $query = @{  bulkbindings = 'yes' }
                 Write-Verbose "Retrieving all botglobal_botpolicy_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type botglobal_botpolicy_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type botglobal_botpolicy_binding -NitroPath nitro/v1/config -Query $query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
-                if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
+                if ( $PSBoundParameters.ContainsKey('Count') ) { $query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for botglobal_botpolicy_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type botglobal_botpolicy_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type botglobal_botpolicy_binding -NitroPath nitro/v1/config -Query $query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving botglobal_botpolicy_binding objects by arguments"
-                $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type botglobal_botpolicy_binding -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
+                $arguments = @{ } 
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type botglobal_botpolicy_binding -NitroPath nitro/v1/config -Arguments $arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving botglobal_botpolicy_binding configuration for property ''"
 
             } else {
                 Write-Verbose "Retrieving botglobal_botpolicy_binding configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type botglobal_botpolicy_binding -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type botglobal_botpolicy_binding -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -334,88 +342,86 @@ function Invoke-ADCGetBotglobalbotpolicybinding {
 }
 
 function Invoke-ADCAddBotpolicy {
-<#
+    <#
     .SYNOPSIS
-        Add Bot configuration Object
+        Add Bot configuration Object.
     .DESCRIPTION
-        Add Bot configuration Object 
-    .PARAMETER name 
-        Name for the bot policy.  
+        Configuration for Bot policy resource.
+    .PARAMETER Name 
+        Name for the bot policy. 
         Must begin with a letter, number, or the underscore character (_), and must contain only letters, numbers, and the hyphen (-), period (.) pound (#), space ( ), at (@), equals (=), colon (:), and underscore characters. Can be changed after the bot policy is added. 
-    .PARAMETER rule 
+    .PARAMETER Rule 
         Expression that the policy uses to determine whether to apply bot profile on the specified request. 
-    .PARAMETER profilename 
+    .PARAMETER Profilename 
         Name of the bot profile to apply if the request matches this bot policy. 
-    .PARAMETER undefaction 
+    .PARAMETER Undefaction 
         Action to perform if the result of policy evaluation is undefined (UNDEF). An UNDEF event indicates an internal error condition. 
-    .PARAMETER comment 
+    .PARAMETER Comment 
         Any type of information about this bot policy. 
-    .PARAMETER logaction 
+    .PARAMETER Logaction 
         Name of the messagelog action to use for requests that match this policy. 
     .PARAMETER PassThru 
         Return details about the created botpolicy item.
     .EXAMPLE
-        Invoke-ADCAddBotpolicy -name <string> -rule <string> -profilename <string>
+        PS C:\>Invoke-ADCAddBotpolicy -name <string> -rule <string> -profilename <string>
+        An example how to add botpolicy configuration Object(s).
     .NOTES
         File Name : Invoke-ADCAddBotpolicy
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/bot/botpolicy/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
+    #>
     [CmdletBinding(SupportsShouldProcess = $true, ConfirmImpact = "Low")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
-        [Parameter(Mandatory = $true)]
-        [string]$name ,
+        [Parameter(Mandatory)]
+        [string]$Name,
 
-        [Parameter(Mandatory = $true)]
-        [string]$rule ,
+        [Parameter(Mandatory)]
+        [string]$Rule,
 
-        [Parameter(Mandatory = $true)]
-        [string]$profilename ,
+        [Parameter(Mandatory)]
+        [string]$Profilename,
 
-        [string]$undefaction ,
+        [string]$Undefaction,
 
-        [string]$comment ,
+        [string]$Comment,
 
-        [string]$logaction ,
+        [string]$Logaction,
 
         [Switch]$PassThru 
-
     )
     begin {
         Write-Verbose "Invoke-ADCAddBotpolicy: Starting"
     }
     process {
         try {
-            $Payload = @{
-                name = $name
-                rule = $rule
-                profilename = $profilename
+            $payload = @{ name = $name
+                rule           = $rule
+                profilename    = $profilename
             }
-            if ($PSBoundParameters.ContainsKey('undefaction')) { $Payload.Add('undefaction', $undefaction) }
-            if ($PSBoundParameters.ContainsKey('comment')) { $Payload.Add('comment', $comment) }
-            if ($PSBoundParameters.ContainsKey('logaction')) { $Payload.Add('logaction', $logaction) }
- 
-            if ($PSCmdlet.ShouldProcess("botpolicy", "Add Bot configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -NitroPath nitro/v1/config -Type botpolicy -Payload $Payload -GetWarning
+            if ( $PSBoundParameters.ContainsKey('undefaction') ) { $payload.Add('undefaction', $undefaction) }
+            if ( $PSBoundParameters.ContainsKey('comment') ) { $payload.Add('comment', $comment) }
+            if ( $PSBoundParameters.ContainsKey('logaction') ) { $payload.Add('logaction', $logaction) }
+            if ( $PSCmdlet.ShouldProcess("botpolicy", "Add Bot configuration Object") ) {
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -NitroPath nitro/v1/config -Type botpolicy -Payload $payload -GetWarning
                 #HTTP Status Code on Success: 201 Created
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
-                if ($PSBoundParameters.ContainsKey('PassThru')) {
-                    Write-Output (Invoke-ADCGetBotpolicy -Filter $Payload)
+                if ( $PSBoundParameters.ContainsKey('PassThru') ) {
+                    Write-Output (Invoke-ADCGetBotpolicy -Filter $payload)
                 } else {
                     Write-Output $result
                 }
-
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -428,47 +434,48 @@ function Invoke-ADCAddBotpolicy {
 }
 
 function Invoke-ADCDeleteBotpolicy {
-<#
+    <#
     .SYNOPSIS
-        Delete Bot configuration Object
+        Delete Bot configuration Object.
     .DESCRIPTION
-        Delete Bot configuration Object
-    .PARAMETER name 
-       Name for the bot policy.  
-       Must begin with a letter, number, or the underscore character (_), and must contain only letters, numbers, and the hyphen (-), period (.) pound (#), space ( ), at (@), equals (=), colon (:), and underscore characters. Can be changed after the bot policy is added. 
+        Configuration for Bot policy resource.
+    .PARAMETER Name 
+        Name for the bot policy. 
+        Must begin with a letter, number, or the underscore character (_), and must contain only letters, numbers, and the hyphen (-), period (.) pound (#), space ( ), at (@), equals (=), colon (:), and underscore characters. Can be changed after the bot policy is added.
     .EXAMPLE
-        Invoke-ADCDeleteBotpolicy -name <string>
+        PS C:\>Invoke-ADCDeleteBotpolicy -Name <string>
+        An example how to delete botpolicy configuration Object(s).
     .NOTES
         File Name : Invoke-ADCDeleteBotpolicy
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/bot/botpolicy/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
+    #>
     [CmdletBinding(SupportsShouldProcess = $true, ConfirmImpact = "Low")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
-        [Parameter(Mandatory = $true)]
-        [string]$name 
+        [Parameter(Mandatory)]
+        [string]$Name 
     )
     begin {
         Write-Verbose "Invoke-ADCDeleteBotpolicy: Starting"
     }
     process {
         try {
-            $Arguments = @{ 
-            }
+            $arguments = @{ }
 
-            if ($PSCmdlet.ShouldProcess("$name", "Delete Bot configuration Object")) {
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type botpolicy -NitroPath nitro/v1/config -Resource $name -Arguments $Arguments
+            if ( $PSCmdlet.ShouldProcess("$name", "Delete Bot configuration Object") ) {
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type botpolicy -NitroPath nitro/v1/config -Resource $name -Arguments $arguments
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $response
@@ -484,86 +491,83 @@ function Invoke-ADCDeleteBotpolicy {
 }
 
 function Invoke-ADCUpdateBotpolicy {
-<#
+    <#
     .SYNOPSIS
-        Update Bot configuration Object
+        Update Bot configuration Object.
     .DESCRIPTION
-        Update Bot configuration Object 
-    .PARAMETER name 
-        Name for the bot policy.  
+        Configuration for Bot policy resource.
+    .PARAMETER Name 
+        Name for the bot policy. 
         Must begin with a letter, number, or the underscore character (_), and must contain only letters, numbers, and the hyphen (-), period (.) pound (#), space ( ), at (@), equals (=), colon (:), and underscore characters. Can be changed after the bot policy is added. 
-    .PARAMETER rule 
+    .PARAMETER Rule 
         Expression that the policy uses to determine whether to apply bot profile on the specified request. 
-    .PARAMETER profilename 
+    .PARAMETER Profilename 
         Name of the bot profile to apply if the request matches this bot policy. 
-    .PARAMETER undefaction 
+    .PARAMETER Undefaction 
         Action to perform if the result of policy evaluation is undefined (UNDEF). An UNDEF event indicates an internal error condition. 
-    .PARAMETER comment 
+    .PARAMETER Comment 
         Any type of information about this bot policy. 
-    .PARAMETER logaction 
+    .PARAMETER Logaction 
         Name of the messagelog action to use for requests that match this policy. 
     .PARAMETER PassThru 
         Return details about the created botpolicy item.
     .EXAMPLE
-        Invoke-ADCUpdateBotpolicy -name <string>
+        PS C:\>Invoke-ADCUpdateBotpolicy -name <string>
+        An example how to update botpolicy configuration Object(s).
     .NOTES
         File Name : Invoke-ADCUpdateBotpolicy
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/bot/botpolicy/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
+    #>
     [CmdletBinding(SupportsShouldProcess = $true, ConfirmImpact = "Low")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
-        [Parameter(Mandatory = $true)]
-        [string]$name ,
+        [Parameter(Mandatory)]
+        [string]$Name,
 
-        [string]$rule ,
+        [string]$Rule,
 
-        [string]$profilename ,
+        [string]$Profilename,
 
-        [string]$undefaction ,
+        [string]$Undefaction,
 
-        [string]$comment ,
+        [string]$Comment,
 
-        [string]$logaction ,
+        [string]$Logaction,
 
         [Switch]$PassThru 
-
     )
     begin {
         Write-Verbose "Invoke-ADCUpdateBotpolicy: Starting"
     }
     process {
         try {
-            $Payload = @{
-                name = $name
-            }
-            if ($PSBoundParameters.ContainsKey('rule')) { $Payload.Add('rule', $rule) }
-            if ($PSBoundParameters.ContainsKey('profilename')) { $Payload.Add('profilename', $profilename) }
-            if ($PSBoundParameters.ContainsKey('undefaction')) { $Payload.Add('undefaction', $undefaction) }
-            if ($PSBoundParameters.ContainsKey('comment')) { $Payload.Add('comment', $comment) }
-            if ($PSBoundParameters.ContainsKey('logaction')) { $Payload.Add('logaction', $logaction) }
- 
-            if ($PSCmdlet.ShouldProcess("botpolicy", "Update Bot configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -NitroPath nitro/v1/config -Type botpolicy -Payload $Payload -GetWarning
+            $payload = @{ name = $name }
+            if ( $PSBoundParameters.ContainsKey('rule') ) { $payload.Add('rule', $rule) }
+            if ( $PSBoundParameters.ContainsKey('profilename') ) { $payload.Add('profilename', $profilename) }
+            if ( $PSBoundParameters.ContainsKey('undefaction') ) { $payload.Add('undefaction', $undefaction) }
+            if ( $PSBoundParameters.ContainsKey('comment') ) { $payload.Add('comment', $comment) }
+            if ( $PSBoundParameters.ContainsKey('logaction') ) { $payload.Add('logaction', $logaction) }
+            if ( $PSCmdlet.ShouldProcess("botpolicy", "Update Bot configuration Object") ) {
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -NitroPath nitro/v1/config -Type botpolicy -Payload $payload -GetWarning
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
-                if ($PSBoundParameters.ContainsKey('PassThru')) {
-                    Write-Output (Invoke-ADCGetBotpolicy -Filter $Payload)
+                if ( $PSBoundParameters.ContainsKey('PassThru') ) {
+                    Write-Output (Invoke-ADCGetBotpolicy -Filter $payload)
                 } else {
                     Write-Output $result
                 }
-
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -576,46 +580,47 @@ function Invoke-ADCUpdateBotpolicy {
 }
 
 function Invoke-ADCUnsetBotpolicy {
-<#
+    <#
     .SYNOPSIS
-        Unset Bot configuration Object
+        Unset Bot configuration Object.
     .DESCRIPTION
-        Unset Bot configuration Object 
-   .PARAMETER name 
-       Name for the bot policy.  
-       Must begin with a letter, number, or the underscore character (_), and must contain only letters, numbers, and the hyphen (-), period (.) pound (#), space ( ), at (@), equals (=), colon (:), and underscore characters. Can be changed after the bot policy is added. 
-   .PARAMETER undefaction 
-       Action to perform if the result of policy evaluation is undefined (UNDEF). An UNDEF event indicates an internal error condition. 
-   .PARAMETER comment 
-       Any type of information about this bot policy. 
-   .PARAMETER logaction 
-       Name of the messagelog action to use for requests that match this policy.
+        Configuration for Bot policy resource.
+    .PARAMETER Name 
+        Name for the bot policy. 
+        Must begin with a letter, number, or the underscore character (_), and must contain only letters, numbers, and the hyphen (-), period (.) pound (#), space ( ), at (@), equals (=), colon (:), and underscore characters. Can be changed after the bot policy is added. 
+    .PARAMETER Undefaction 
+        Action to perform if the result of policy evaluation is undefined (UNDEF). An UNDEF event indicates an internal error condition. 
+    .PARAMETER Comment 
+        Any type of information about this bot policy. 
+    .PARAMETER Logaction 
+        Name of the messagelog action to use for requests that match this policy.
     .EXAMPLE
-        Invoke-ADCUnsetBotpolicy -name <string>
+        PS C:\>Invoke-ADCUnsetBotpolicy -name <string>
+        An example how to unset botpolicy configuration Object(s).
     .NOTES
         File Name : Invoke-ADCUnsetBotpolicy
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/bot/botpolicy
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
+    #>
     [CmdletBinding(SupportsShouldProcess = $true, ConfirmImpact = "Low")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
-        [Parameter(Mandatory = $true)]
-        [string]$name ,
+        [string]$Name,
 
-        [Boolean]$undefaction ,
+        [Boolean]$undefaction,
 
-        [Boolean]$comment ,
+        [Boolean]$comment,
 
         [Boolean]$logaction 
     )
@@ -624,14 +629,12 @@ function Invoke-ADCUnsetBotpolicy {
     }
     process {
         try {
-            $Payload = @{
-                name = $name
-            }
-            if ($PSBoundParameters.ContainsKey('undefaction')) { $Payload.Add('undefaction', $undefaction) }
-            if ($PSBoundParameters.ContainsKey('comment')) { $Payload.Add('comment', $comment) }
-            if ($PSBoundParameters.ContainsKey('logaction')) { $Payload.Add('logaction', $logaction) }
-            if ($PSCmdlet.ShouldProcess("$name", "Unset Bot configuration Object")) {
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -Type botpolicy -NitroPath nitro/v1/config -Action unset -Payload $Payload -GetWarning
+            $payload = @{ name = $name }
+            if ( $PSBoundParameters.ContainsKey('undefaction') ) { $payload.Add('undefaction', $undefaction) }
+            if ( $PSBoundParameters.ContainsKey('comment') ) { $payload.Add('comment', $comment) }
+            if ( $PSBoundParameters.ContainsKey('logaction') ) { $payload.Add('logaction', $logaction) }
+            if ( $PSCmdlet.ShouldProcess("$name", "Unset Bot configuration Object") ) {
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -Type botpolicy -NitroPath nitro/v1/config -Action unset -Payload $payload -GetWarning
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $response
@@ -647,69 +650,67 @@ function Invoke-ADCUnsetBotpolicy {
 }
 
 function Invoke-ADCRenameBotpolicy {
-<#
+    <#
     .SYNOPSIS
-        Rename Bot configuration Object
+        Rename Bot configuration Object.
     .DESCRIPTION
-        Rename Bot configuration Object 
-    .PARAMETER name 
-        Name for the bot policy.  
+        Configuration for Bot policy resource.
+    .PARAMETER Name 
+        Name for the bot policy. 
         Must begin with a letter, number, or the underscore character (_), and must contain only letters, numbers, and the hyphen (-), period (.) pound (#), space ( ), at (@), equals (=), colon (:), and underscore characters. Can be changed after the bot policy is added. 
-    .PARAMETER newname 
+    .PARAMETER Newname 
         New name for the bot policy. Must begin with a letter, number, or the underscore character (_), and must contain only letters, numbers, and the hyphen (-), period (.) hash (#), space ( ), at (@), equals (=), colon (:), and underscore characters. 
     .PARAMETER PassThru 
         Return details about the created botpolicy item.
     .EXAMPLE
-        Invoke-ADCRenameBotpolicy -name <string> -newname <string>
+        PS C:\>Invoke-ADCRenameBotpolicy -name <string> -newname <string>
+        An example how to rename botpolicy configuration Object(s).
     .NOTES
         File Name : Invoke-ADCRenameBotpolicy
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/bot/botpolicy/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
+    #>
     [CmdletBinding(SupportsShouldProcess = $true, ConfirmImpact = "Low")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
-        [Parameter(Mandatory = $true)]
-        [string]$name ,
+        [Parameter(Mandatory)]
+        [string]$Name,
 
-        [Parameter(Mandatory = $true)]
+        [Parameter(Mandatory)]
         [ValidateScript({ $_.Length -gt 1 })]
-        [string]$newname ,
+        [string]$Newname,
 
         [Switch]$PassThru 
-
     )
     begin {
         Write-Verbose "Invoke-ADCRenameBotpolicy: Starting"
     }
     process {
         try {
-            $Payload = @{
-                name = $name
-                newname = $newname
+            $payload = @{ name = $name
+                newname        = $newname
             }
 
- 
-            if ($PSCmdlet.ShouldProcess("botpolicy", "Rename Bot configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -NitroPath nitro/v1/config -Type botpolicy -Action rename -Payload $Payload -GetWarning
+            if ( $PSCmdlet.ShouldProcess("botpolicy", "Rename Bot configuration Object") ) {
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -NitroPath nitro/v1/config -Type botpolicy -Action rename -Payload $payload -GetWarning
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
-                if ($PSBoundParameters.ContainsKey('PassThru')) {
-                    Write-Output (Invoke-ADCGetBotpolicy -Filter $Payload)
+                if ( $PSBoundParameters.ContainsKey('PassThru') ) {
+                    Write-Output (Invoke-ADCGetBotpolicy -Filter $payload)
                 } else {
                     Write-Output $result
                 }
-
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -722,55 +723,61 @@ function Invoke-ADCRenameBotpolicy {
 }
 
 function Invoke-ADCGetBotpolicy {
-<#
+    <#
     .SYNOPSIS
-        Get Bot configuration object(s)
+        Get Bot configuration object(s).
     .DESCRIPTION
-        Get Bot configuration object(s)
-    .PARAMETER name 
-       Name for the bot policy.  
-       Must begin with a letter, number, or the underscore character (_), and must contain only letters, numbers, and the hyphen (-), period (.) pound (#), space ( ), at (@), equals (=), colon (:), and underscore characters. Can be changed after the bot policy is added. 
+        Configuration for Bot policy resource.
+    .PARAMETER Name 
+        Name for the bot policy. 
+        Must begin with a letter, number, or the underscore character (_), and must contain only letters, numbers, and the hyphen (-), period (.) pound (#), space ( ), at (@), equals (=), colon (:), and underscore characters. Can be changed after the bot policy is added. 
     .PARAMETER GetAll 
-        Retreive all botpolicy object(s)
+        Retrieve all botpolicy object(s).
     .PARAMETER Count
-        If specified, the count of the botpolicy object(s) will be returned
+        If specified, the count of the botpolicy object(s) will be returned.
     .PARAMETER Filter
-        Specify a filter
+        Specify a filter.
         -Filter @{ 'name'='<value>' }
     .PARAMETER ViewSummary
-        When specified, only a summary of information is returned
+        When specified, only a summary of information is returned.
     .EXAMPLE
-        Invoke-ADCGetBotpolicy
+        PS C:\>Invoke-ADCGetBotpolicy
+        Get data.
     .EXAMPLE 
-        Invoke-ADCGetBotpolicy -GetAll 
+        PS C:\>Invoke-ADCGetBotpolicy -GetAll 
+        Get all botpolicy data. 
     .EXAMPLE 
-        Invoke-ADCGetBotpolicy -Count
+        PS C:\>Invoke-ADCGetBotpolicy -Count 
+        Get the number of botpolicy objects.
     .EXAMPLE
-        Invoke-ADCGetBotpolicy -name <string>
+        PS C:\>Invoke-ADCGetBotpolicy -name <string>
+        Get botpolicy object by specifying for example the name.
     .EXAMPLE
-        Invoke-ADCGetBotpolicy -Filter @{ 'name'='<value>' }
+        PS C:\>Invoke-ADCGetBotpolicy -Filter @{ 'name'='<value>' }
+        Get botpolicy data with a filter.
     .NOTES
         File Name : Invoke-ADCGetBotpolicy
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/bot/botpolicy/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
-    [CmdletBinding(DefaultParameterSetName = "Getall")]
+    #>
+    [CmdletBinding(DefaultParameterSetName = "GetAll")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
         [Parameter(ParameterSetName = 'GetByResource')]
-        [string]$name,
+        [string]$Name,
 
-        [Parameter(ParameterSetName = 'Count', Mandatory = $true)]
+        [Parameter(ParameterSetName = 'Count', Mandatory)]
         [Switch]$Count,
 			
         [hashtable]$Filter = @{ },
@@ -788,24 +795,24 @@ function Invoke-ADCGetBotpolicy {
     }
     process {
         try {
-            if ( $PsCmdlet.ParameterSetName -eq 'Getall' ) {
-                $Query = @{ }
+            if ( $PsCmdlet.ParameterSetName -eq 'GetAll' ) {
+                $query = @{ }
                 Write-Verbose "Retrieving all botpolicy objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type botpolicy -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type botpolicy -NitroPath nitro/v1/config -Query $query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
-                if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
+                if ( $PSBoundParameters.ContainsKey('Count') ) { $query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for botpolicy objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type botpolicy -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type botpolicy -NitroPath nitro/v1/config -Query $query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving botpolicy objects by arguments"
-                $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type botpolicy -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
+                $arguments = @{ } 
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type botpolicy -NitroPath nitro/v1/config -Arguments $arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving botpolicy configuration for property 'name'"
                 $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type botpolicy -NitroPath nitro/v1/config -Resource $name -Summary:$ViewSummary -Filter $Filter -GetWarning
             } else {
                 Write-Verbose "Retrieving botpolicy configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type botpolicy -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type botpolicy -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -819,65 +826,62 @@ function Invoke-ADCGetBotpolicy {
 }
 
 function Invoke-ADCAddBotpolicylabel {
-<#
+    <#
     .SYNOPSIS
-        Add Bot configuration Object
+        Add Bot configuration Object.
     .DESCRIPTION
-        Add Bot configuration Object 
-    .PARAMETER labelname 
+        Configuration for Bot policy label resource.
+    .PARAMETER Labelname 
         Name for the bot policy label. Must begin with a letter, number, or the underscore character (_), and must contain only letters, numbers, and the hyphen (-), period (.) hash (#), space ( ), at (@), equals (=), colon (:), and underscore characters. Cannot be changed after the responder policy label is added. 
-    .PARAMETER comment 
+    .PARAMETER Comment 
         Any comments to preserve information about this bot policy label. 
     .PARAMETER PassThru 
         Return details about the created botpolicylabel item.
     .EXAMPLE
-        Invoke-ADCAddBotpolicylabel -labelname <string>
+        PS C:\>Invoke-ADCAddBotpolicylabel -labelname <string>
+        An example how to add botpolicylabel configuration Object(s).
     .NOTES
         File Name : Invoke-ADCAddBotpolicylabel
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/bot/botpolicylabel/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
+    #>
     [CmdletBinding(SupportsShouldProcess = $true, ConfirmImpact = "Low")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
-        [Parameter(Mandatory = $true)]
-        [string]$labelname ,
+        [Parameter(Mandatory)]
+        [string]$Labelname,
 
-        [string]$comment ,
+        [string]$Comment,
 
         [Switch]$PassThru 
-
     )
     begin {
         Write-Verbose "Invoke-ADCAddBotpolicylabel: Starting"
     }
     process {
         try {
-            $Payload = @{
-                labelname = $labelname
-            }
-            if ($PSBoundParameters.ContainsKey('comment')) { $Payload.Add('comment', $comment) }
- 
-            if ($PSCmdlet.ShouldProcess("botpolicylabel", "Add Bot configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -NitroPath nitro/v1/config -Type botpolicylabel -Payload $Payload -GetWarning
+            $payload = @{ labelname = $labelname }
+            if ( $PSBoundParameters.ContainsKey('comment') ) { $payload.Add('comment', $comment) }
+            if ( $PSCmdlet.ShouldProcess("botpolicylabel", "Add Bot configuration Object") ) {
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -NitroPath nitro/v1/config -Type botpolicylabel -Payload $payload -GetWarning
                 #HTTP Status Code on Success: 201 Created
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
-                if ($PSBoundParameters.ContainsKey('PassThru')) {
-                    Write-Output (Invoke-ADCGetBotpolicylabel -Filter $Payload)
+                if ( $PSBoundParameters.ContainsKey('PassThru') ) {
+                    Write-Output (Invoke-ADCGetBotpolicylabel -Filter $payload)
                 } else {
                     Write-Output $result
                 }
-
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -890,46 +894,47 @@ function Invoke-ADCAddBotpolicylabel {
 }
 
 function Invoke-ADCDeleteBotpolicylabel {
-<#
+    <#
     .SYNOPSIS
-        Delete Bot configuration Object
+        Delete Bot configuration Object.
     .DESCRIPTION
-        Delete Bot configuration Object
-    .PARAMETER labelname 
-       Name for the bot policy label. Must begin with a letter, number, or the underscore character (_), and must contain only letters, numbers, and the hyphen (-), period (.) hash (#), space ( ), at (@), equals (=), colon (:), and underscore characters. Cannot be changed after the responder policy label is added. 
+        Configuration for Bot policy label resource.
+    .PARAMETER Labelname 
+        Name for the bot policy label. Must begin with a letter, number, or the underscore character (_), and must contain only letters, numbers, and the hyphen (-), period (.) hash (#), space ( ), at (@), equals (=), colon (:), and underscore characters. Cannot be changed after the responder policy label is added.
     .EXAMPLE
-        Invoke-ADCDeleteBotpolicylabel -labelname <string>
+        PS C:\>Invoke-ADCDeleteBotpolicylabel -Labelname <string>
+        An example how to delete botpolicylabel configuration Object(s).
     .NOTES
         File Name : Invoke-ADCDeleteBotpolicylabel
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/bot/botpolicylabel/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
+    #>
     [CmdletBinding(SupportsShouldProcess = $true, ConfirmImpact = "Low")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
-        [Parameter(Mandatory = $true)]
-        [string]$labelname 
+        [Parameter(Mandatory)]
+        [string]$Labelname 
     )
     begin {
         Write-Verbose "Invoke-ADCDeleteBotpolicylabel: Starting"
     }
     process {
         try {
-            $Arguments = @{ 
-            }
+            $arguments = @{ }
 
-            if ($PSCmdlet.ShouldProcess("$labelname", "Delete Bot configuration Object")) {
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type botpolicylabel -NitroPath nitro/v1/config -Resource $labelname -Arguments $Arguments
+            if ( $PSCmdlet.ShouldProcess("$labelname", "Delete Bot configuration Object") ) {
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type botpolicylabel -NitroPath nitro/v1/config -Resource $labelname -Arguments $arguments
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $response
@@ -945,69 +950,66 @@ function Invoke-ADCDeleteBotpolicylabel {
 }
 
 function Invoke-ADCRenameBotpolicylabel {
-<#
+    <#
     .SYNOPSIS
-        Rename Bot configuration Object
+        Rename Bot configuration Object.
     .DESCRIPTION
-        Rename Bot configuration Object 
-    .PARAMETER labelname 
+        Configuration for Bot policy label resource.
+    .PARAMETER Labelname 
         Name for the bot policy label. Must begin with a letter, number, or the underscore character (_), and must contain only letters, numbers, and the hyphen (-), period (.) hash (#), space ( ), at (@), equals (=), colon (:), and underscore characters. Cannot be changed after the responder policy label is added. 
-    .PARAMETER newname 
-        New name for the bot policy label. Must begin with a letter, number, or the underscore character (_), and must contain only letters, numbers, and the hyphen (-), period (.) hash (#), space ( ), at (@), equals (=), colon (:), and underscore characters.  
-        Minimum length = 1 
+    .PARAMETER Newname 
+        New name for the bot policy label. Must begin with a letter, number, or the underscore character (_), and must contain only letters, numbers, and the hyphen (-), period (.) hash (#), space ( ), at (@), equals (=), colon (:), and underscore characters. 
     .PARAMETER PassThru 
         Return details about the created botpolicylabel item.
     .EXAMPLE
-        Invoke-ADCRenameBotpolicylabel -labelname <string> -newname <string>
+        PS C:\>Invoke-ADCRenameBotpolicylabel -labelname <string> -newname <string>
+        An example how to rename botpolicylabel configuration Object(s).
     .NOTES
         File Name : Invoke-ADCRenameBotpolicylabel
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/bot/botpolicylabel/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
+    #>
     [CmdletBinding(SupportsShouldProcess = $true, ConfirmImpact = "Low")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
-        [Parameter(Mandatory = $true)]
-        [string]$labelname ,
+        [Parameter(Mandatory)]
+        [string]$Labelname,
 
-        [Parameter(Mandatory = $true)]
+        [Parameter(Mandatory)]
         [ValidateScript({ $_.Length -gt 1 })]
-        [string]$newname ,
+        [string]$Newname,
 
         [Switch]$PassThru 
-
     )
     begin {
         Write-Verbose "Invoke-ADCRenameBotpolicylabel: Starting"
     }
     process {
         try {
-            $Payload = @{
-                labelname = $labelname
-                newname = $newname
+            $payload = @{ labelname = $labelname
+                newname             = $newname
             }
 
- 
-            if ($PSCmdlet.ShouldProcess("botpolicylabel", "Rename Bot configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -NitroPath nitro/v1/config -Type botpolicylabel -Action rename -Payload $Payload -GetWarning
+            if ( $PSCmdlet.ShouldProcess("botpolicylabel", "Rename Bot configuration Object") ) {
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -NitroPath nitro/v1/config -Type botpolicylabel -Action rename -Payload $payload -GetWarning
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
-                if ($PSBoundParameters.ContainsKey('PassThru')) {
-                    Write-Output (Invoke-ADCGetBotpolicylabel -Filter $Payload)
+                if ( $PSBoundParameters.ContainsKey('PassThru') ) {
+                    Write-Output (Invoke-ADCGetBotpolicylabel -Filter $payload)
                 } else {
                     Write-Output $result
                 }
-
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -1020,54 +1022,60 @@ function Invoke-ADCRenameBotpolicylabel {
 }
 
 function Invoke-ADCGetBotpolicylabel {
-<#
+    <#
     .SYNOPSIS
-        Get Bot configuration object(s)
+        Get Bot configuration object(s).
     .DESCRIPTION
-        Get Bot configuration object(s)
-    .PARAMETER labelname 
-       Name for the bot policy label. Must begin with a letter, number, or the underscore character (_), and must contain only letters, numbers, and the hyphen (-), period (.) hash (#), space ( ), at (@), equals (=), colon (:), and underscore characters. Cannot be changed after the responder policy label is added. 
+        Configuration for Bot policy label resource.
+    .PARAMETER Labelname 
+        Name for the bot policy label. Must begin with a letter, number, or the underscore character (_), and must contain only letters, numbers, and the hyphen (-), period (.) hash (#), space ( ), at (@), equals (=), colon (:), and underscore characters. Cannot be changed after the responder policy label is added. 
     .PARAMETER GetAll 
-        Retreive all botpolicylabel object(s)
+        Retrieve all botpolicylabel object(s).
     .PARAMETER Count
-        If specified, the count of the botpolicylabel object(s) will be returned
+        If specified, the count of the botpolicylabel object(s) will be returned.
     .PARAMETER Filter
-        Specify a filter
+        Specify a filter.
         -Filter @{ 'name'='<value>' }
     .PARAMETER ViewSummary
-        When specified, only a summary of information is returned
+        When specified, only a summary of information is returned.
     .EXAMPLE
-        Invoke-ADCGetBotpolicylabel
+        PS C:\>Invoke-ADCGetBotpolicylabel
+        Get data.
     .EXAMPLE 
-        Invoke-ADCGetBotpolicylabel -GetAll 
+        PS C:\>Invoke-ADCGetBotpolicylabel -GetAll 
+        Get all botpolicylabel data. 
     .EXAMPLE 
-        Invoke-ADCGetBotpolicylabel -Count
+        PS C:\>Invoke-ADCGetBotpolicylabel -Count 
+        Get the number of botpolicylabel objects.
     .EXAMPLE
-        Invoke-ADCGetBotpolicylabel -name <string>
+        PS C:\>Invoke-ADCGetBotpolicylabel -name <string>
+        Get botpolicylabel object by specifying for example the name.
     .EXAMPLE
-        Invoke-ADCGetBotpolicylabel -Filter @{ 'name'='<value>' }
+        PS C:\>Invoke-ADCGetBotpolicylabel -Filter @{ 'name'='<value>' }
+        Get botpolicylabel data with a filter.
     .NOTES
         File Name : Invoke-ADCGetBotpolicylabel
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/bot/botpolicylabel/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
-    [CmdletBinding(DefaultParameterSetName = "Getall")]
+    #>
+    [CmdletBinding(DefaultParameterSetName = "GetAll")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
         [Parameter(ParameterSetName = 'GetByResource')]
-        [string]$labelname,
+        [string]$Labelname,
 
-        [Parameter(ParameterSetName = 'Count', Mandatory = $true)]
+        [Parameter(ParameterSetName = 'Count', Mandatory)]
         [Switch]$Count,
 			
         [hashtable]$Filter = @{ },
@@ -1085,24 +1093,24 @@ function Invoke-ADCGetBotpolicylabel {
     }
     process {
         try {
-            if ( $PsCmdlet.ParameterSetName -eq 'Getall' ) {
-                $Query = @{ }
+            if ( $PsCmdlet.ParameterSetName -eq 'GetAll' ) {
+                $query = @{ }
                 Write-Verbose "Retrieving all botpolicylabel objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type botpolicylabel -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type botpolicylabel -NitroPath nitro/v1/config -Query $query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
-                if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
+                if ( $PSBoundParameters.ContainsKey('Count') ) { $query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for botpolicylabel objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type botpolicylabel -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type botpolicylabel -NitroPath nitro/v1/config -Query $query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving botpolicylabel objects by arguments"
-                $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type botpolicylabel -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
+                $arguments = @{ } 
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type botpolicylabel -NitroPath nitro/v1/config -Arguments $arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving botpolicylabel configuration for property 'labelname'"
                 $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type botpolicylabel -NitroPath nitro/v1/config -Resource $labelname -Summary:$ViewSummary -Filter $Filter -GetWarning
             } else {
                 Write-Verbose "Retrieving botpolicylabel configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type botpolicylabel -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type botpolicylabel -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -1116,50 +1124,55 @@ function Invoke-ADCGetBotpolicylabel {
 }
 
 function Invoke-ADCGetBotpolicylabelbinding {
-<#
+    <#
     .SYNOPSIS
-        Get Bot configuration object(s)
+        Get Bot configuration object(s).
     .DESCRIPTION
-        Get Bot configuration object(s)
-    .PARAMETER labelname 
-       Name of the bot policy label. 
+        Binding object which returns the resources bound to botpolicylabel.
+    .PARAMETER Labelname 
+        Name of the bot policy label. 
     .PARAMETER GetAll 
-        Retreive all botpolicylabel_binding object(s)
+        Retrieve all botpolicylabel_binding object(s).
     .PARAMETER Count
-        If specified, the count of the botpolicylabel_binding object(s) will be returned
+        If specified, the count of the botpolicylabel_binding object(s) will be returned.
     .PARAMETER Filter
-        Specify a filter
+        Specify a filter.
         -Filter @{ 'name'='<value>' }
     .PARAMETER ViewSummary
-        When specified, only a summary of information is returned
+        When specified, only a summary of information is returned.
     .EXAMPLE
-        Invoke-ADCGetBotpolicylabelbinding
+        PS C:\>Invoke-ADCGetBotpolicylabelbinding
+        Get data.
     .EXAMPLE 
-        Invoke-ADCGetBotpolicylabelbinding -GetAll
+        PS C:\>Invoke-ADCGetBotpolicylabelbinding -GetAll 
+        Get all botpolicylabel_binding data.
     .EXAMPLE
-        Invoke-ADCGetBotpolicylabelbinding -name <string>
+        PS C:\>Invoke-ADCGetBotpolicylabelbinding -name <string>
+        Get botpolicylabel_binding object by specifying for example the name.
     .EXAMPLE
-        Invoke-ADCGetBotpolicylabelbinding -Filter @{ 'name'='<value>' }
+        PS C:\>Invoke-ADCGetBotpolicylabelbinding -Filter @{ 'name'='<value>' }
+        Get botpolicylabel_binding data with a filter.
     .NOTES
         File Name : Invoke-ADCGetBotpolicylabelbinding
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/bot/botpolicylabel_binding/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
-    [CmdletBinding(DefaultParameterSetName = "Getall")]
+    #>
+    [CmdletBinding(DefaultParameterSetName = "GetAll")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
         [Parameter(ParameterSetName = 'GetByResource')]
-        [string]$labelname,
+        [string]$Labelname,
 			
         [hashtable]$Filter = @{ },
 
@@ -1171,26 +1184,24 @@ function Invoke-ADCGetBotpolicylabelbinding {
     }
     process {
         try {
-            if ( $PsCmdlet.ParameterSetName -eq 'Getall' ) {
-                $Query = @{ 
-                    bulkbindings = 'yes'
-                }
+            if ( $PsCmdlet.ParameterSetName -eq 'GetAll' ) {
+                $query = @{  bulkbindings = 'yes' }
                 Write-Verbose "Retrieving all botpolicylabel_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type botpolicylabel_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type botpolicylabel_binding -NitroPath nitro/v1/config -Query $query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
-                if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
+                if ( $PSBoundParameters.ContainsKey('Count') ) { $query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for botpolicylabel_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type botpolicylabel_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type botpolicylabel_binding -NitroPath nitro/v1/config -Query $query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving botpolicylabel_binding objects by arguments"
-                $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type botpolicylabel_binding -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
+                $arguments = @{ } 
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type botpolicylabel_binding -NitroPath nitro/v1/config -Arguments $arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving botpolicylabel_binding configuration for property 'labelname'"
                 $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type botpolicylabel_binding -NitroPath nitro/v1/config -Resource $labelname -Summary:$ViewSummary -Filter $Filter -GetWarning
             } else {
                 Write-Verbose "Retrieving botpolicylabel_binding configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type botpolicylabel_binding -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type botpolicylabel_binding -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -1204,94 +1215,92 @@ function Invoke-ADCGetBotpolicylabelbinding {
 }
 
 function Invoke-ADCAddBotpolicylabelbotpolicybinding {
-<#
+    <#
     .SYNOPSIS
-        Add Bot configuration Object
+        Add Bot configuration Object.
     .DESCRIPTION
-        Add Bot configuration Object 
-    .PARAMETER labelname 
+        Binding object showing the botpolicy that can be bound to botpolicylabel.
+    .PARAMETER Labelname 
         Name of the bot policy label to which to bind the policy. 
-    .PARAMETER policyname 
+    .PARAMETER Policyname 
         Name of the bot policy. 
-    .PARAMETER priority 
+    .PARAMETER Priority 
         Specifies the priority of the policy. 
-    .PARAMETER gotopriorityexpression 
+    .PARAMETER Gotopriorityexpression 
         Expression specifying the priority of the next policy which will get evaluated if the current policy rule evaluates to TRUE. 
-    .PARAMETER invoke 
+    .PARAMETER Invoke 
         If the current policy evaluates to TRUE, terminate evaluation of policies bound to the current policy label and evaluate the specified policy label. 
-    .PARAMETER labeltype 
-        Type of policy label to invoke. Available settings function as follows: * vserver - Invoke an unnamed policy label associated with a virtual server. * policylabel - Invoke a user-defined policy label.  
+    .PARAMETER Labeltype 
+        Type of policy label to invoke. Available settings function as follows: * vserver - Invoke an unnamed policy label associated with a virtual server. * policylabel - Invoke a user-defined policy label. 
         Possible values = vserver, policylabel 
-    .PARAMETER invoke_labelname 
+    .PARAMETER Invoke_labelname 
         * If labelType is policylabel, name of the policy label to invoke. * If labelType is vserver, name of the virtual server. 
     .PARAMETER PassThru 
         Return details about the created botpolicylabel_botpolicy_binding item.
     .EXAMPLE
-        Invoke-ADCAddBotpolicylabelbotpolicybinding -labelname <string> -policyname <string> -priority <double>
+        PS C:\>Invoke-ADCAddBotpolicylabelbotpolicybinding -labelname <string> -policyname <string> -priority <double>
+        An example how to add botpolicylabel_botpolicy_binding configuration Object(s).
     .NOTES
         File Name : Invoke-ADCAddBotpolicylabelbotpolicybinding
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/bot/botpolicylabel_botpolicy_binding/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
+    #>
     [CmdletBinding(SupportsShouldProcess = $true, ConfirmImpact = "Low")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
-        [Parameter(Mandatory = $true)]
-        [string]$labelname ,
+        [Parameter(Mandatory)]
+        [string]$Labelname,
 
-        [Parameter(Mandatory = $true)]
-        [string]$policyname ,
+        [Parameter(Mandatory)]
+        [string]$Policyname,
 
-        [Parameter(Mandatory = $true)]
-        [double]$priority ,
+        [Parameter(Mandatory)]
+        [double]$Priority,
 
-        [string]$gotopriorityexpression ,
+        [string]$Gotopriorityexpression,
 
-        [boolean]$invoke ,
+        [boolean]$Invoke,
 
         [ValidateSet('vserver', 'policylabel')]
-        [string]$labeltype ,
+        [string]$Labeltype,
 
-        [string]$invoke_labelname ,
+        [string]$Invoke_labelname,
 
         [Switch]$PassThru 
-
     )
     begin {
         Write-Verbose "Invoke-ADCAddBotpolicylabelbotpolicybinding: Starting"
     }
     process {
         try {
-            $Payload = @{
-                labelname = $labelname
-                policyname = $policyname
-                priority = $priority
+            $payload = @{ labelname = $labelname
+                policyname          = $policyname
+                priority            = $priority
             }
-            if ($PSBoundParameters.ContainsKey('gotopriorityexpression')) { $Payload.Add('gotopriorityexpression', $gotopriorityexpression) }
-            if ($PSBoundParameters.ContainsKey('invoke')) { $Payload.Add('invoke', $invoke) }
-            if ($PSBoundParameters.ContainsKey('labeltype')) { $Payload.Add('labeltype', $labeltype) }
-            if ($PSBoundParameters.ContainsKey('invoke_labelname')) { $Payload.Add('invoke_labelname', $invoke_labelname) }
- 
-            if ($PSCmdlet.ShouldProcess("botpolicylabel_botpolicy_binding", "Add Bot configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -NitroPath nitro/v1/config -Type botpolicylabel_botpolicy_binding -Payload $Payload -GetWarning
+            if ( $PSBoundParameters.ContainsKey('gotopriorityexpression') ) { $payload.Add('gotopriorityexpression', $gotopriorityexpression) }
+            if ( $PSBoundParameters.ContainsKey('invoke') ) { $payload.Add('invoke', $invoke) }
+            if ( $PSBoundParameters.ContainsKey('labeltype') ) { $payload.Add('labeltype', $labeltype) }
+            if ( $PSBoundParameters.ContainsKey('invoke_labelname') ) { $payload.Add('invoke_labelname', $invoke_labelname) }
+            if ( $PSCmdlet.ShouldProcess("botpolicylabel_botpolicy_binding", "Add Bot configuration Object") ) {
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -NitroPath nitro/v1/config -Type botpolicylabel_botpolicy_binding -Payload $payload -GetWarning
                 #HTTP Status Code on Success: 201 Created
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
-                if ($PSBoundParameters.ContainsKey('PassThru')) {
-                    Write-Output (Invoke-ADCGetBotpolicylabelbotpolicybinding -Filter $Payload)
+                if ( $PSBoundParameters.ContainsKey('PassThru') ) {
+                    Write-Output (Invoke-ADCGetBotpolicylabelbotpolicybinding -Filter $payload)
                 } else {
                     Write-Output $result
                 }
-
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -1304,53 +1313,56 @@ function Invoke-ADCAddBotpolicylabelbotpolicybinding {
 }
 
 function Invoke-ADCDeleteBotpolicylabelbotpolicybinding {
-<#
+    <#
     .SYNOPSIS
-        Delete Bot configuration Object
+        Delete Bot configuration Object.
     .DESCRIPTION
-        Delete Bot configuration Object
-    .PARAMETER labelname 
-       Name of the bot policy label to which to bind the policy.    .PARAMETER policyname 
-       Name of the bot policy.    .PARAMETER priority 
-       Specifies the priority of the policy.
+        Binding object showing the botpolicy that can be bound to botpolicylabel.
+    .PARAMETER Labelname 
+        Name of the bot policy label to which to bind the policy. 
+    .PARAMETER Policyname 
+        Name of the bot policy. 
+    .PARAMETER Priority 
+        Specifies the priority of the policy.
     .EXAMPLE
-        Invoke-ADCDeleteBotpolicylabelbotpolicybinding -labelname <string>
+        PS C:\>Invoke-ADCDeleteBotpolicylabelbotpolicybinding -Labelname <string>
+        An example how to delete botpolicylabel_botpolicy_binding configuration Object(s).
     .NOTES
         File Name : Invoke-ADCDeleteBotpolicylabelbotpolicybinding
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/bot/botpolicylabel_botpolicy_binding/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
+    #>
     [CmdletBinding(SupportsShouldProcess = $true, ConfirmImpact = "Low")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
-        [Parameter(Mandatory = $true)]
-        [string]$labelname ,
+        [Parameter(Mandatory)]
+        [string]$Labelname,
 
-        [string]$policyname ,
+        [string]$Policyname,
 
-        [double]$priority 
+        [double]$Priority 
     )
     begin {
         Write-Verbose "Invoke-ADCDeleteBotpolicylabelbotpolicybinding: Starting"
     }
     process {
         try {
-            $Arguments = @{ 
-            }
-            if ($PSBoundParameters.ContainsKey('policyname')) { $Arguments.Add('policyname', $policyname) }
-            if ($PSBoundParameters.ContainsKey('priority')) { $Arguments.Add('priority', $priority) }
-            if ($PSCmdlet.ShouldProcess("$labelname", "Delete Bot configuration Object")) {
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type botpolicylabel_botpolicy_binding -NitroPath nitro/v1/config -Resource $labelname -Arguments $Arguments
+            $arguments = @{ }
+            if ( $PSBoundParameters.ContainsKey('Policyname') ) { $arguments.Add('policyname', $Policyname) }
+            if ( $PSBoundParameters.ContainsKey('Priority') ) { $arguments.Add('priority', $Priority) }
+            if ( $PSCmdlet.ShouldProcess("$labelname", "Delete Bot configuration Object") ) {
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type botpolicylabel_botpolicy_binding -NitroPath nitro/v1/config -Resource $labelname -Arguments $arguments
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $response
@@ -1366,54 +1378,60 @@ function Invoke-ADCDeleteBotpolicylabelbotpolicybinding {
 }
 
 function Invoke-ADCGetBotpolicylabelbotpolicybinding {
-<#
+    <#
     .SYNOPSIS
-        Get Bot configuration object(s)
+        Get Bot configuration object(s).
     .DESCRIPTION
-        Get Bot configuration object(s)
-    .PARAMETER labelname 
-       Name of the bot policy label to which to bind the policy. 
+        Binding object showing the botpolicy that can be bound to botpolicylabel.
+    .PARAMETER Labelname 
+        Name of the bot policy label to which to bind the policy. 
     .PARAMETER GetAll 
-        Retreive all botpolicylabel_botpolicy_binding object(s)
+        Retrieve all botpolicylabel_botpolicy_binding object(s).
     .PARAMETER Count
-        If specified, the count of the botpolicylabel_botpolicy_binding object(s) will be returned
+        If specified, the count of the botpolicylabel_botpolicy_binding object(s) will be returned.
     .PARAMETER Filter
-        Specify a filter
+        Specify a filter.
         -Filter @{ 'name'='<value>' }
     .PARAMETER ViewSummary
-        When specified, only a summary of information is returned
+        When specified, only a summary of information is returned.
     .EXAMPLE
-        Invoke-ADCGetBotpolicylabelbotpolicybinding
+        PS C:\>Invoke-ADCGetBotpolicylabelbotpolicybinding
+        Get data.
     .EXAMPLE 
-        Invoke-ADCGetBotpolicylabelbotpolicybinding -GetAll 
+        PS C:\>Invoke-ADCGetBotpolicylabelbotpolicybinding -GetAll 
+        Get all botpolicylabel_botpolicy_binding data. 
     .EXAMPLE 
-        Invoke-ADCGetBotpolicylabelbotpolicybinding -Count
+        PS C:\>Invoke-ADCGetBotpolicylabelbotpolicybinding -Count 
+        Get the number of botpolicylabel_botpolicy_binding objects.
     .EXAMPLE
-        Invoke-ADCGetBotpolicylabelbotpolicybinding -name <string>
+        PS C:\>Invoke-ADCGetBotpolicylabelbotpolicybinding -name <string>
+        Get botpolicylabel_botpolicy_binding object by specifying for example the name.
     .EXAMPLE
-        Invoke-ADCGetBotpolicylabelbotpolicybinding -Filter @{ 'name'='<value>' }
+        PS C:\>Invoke-ADCGetBotpolicylabelbotpolicybinding -Filter @{ 'name'='<value>' }
+        Get botpolicylabel_botpolicy_binding data with a filter.
     .NOTES
         File Name : Invoke-ADCGetBotpolicylabelbotpolicybinding
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/bot/botpolicylabel_botpolicy_binding/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
-    [CmdletBinding(DefaultParameterSetName = "Getall")]
+    #>
+    [CmdletBinding(DefaultParameterSetName = "GetAll")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
         [Parameter(ParameterSetName = 'GetByResource')]
-        [string]$labelname,
+        [string]$Labelname,
 
-        [Parameter(ParameterSetName = 'Count', Mandatory = $true)]
+        [Parameter(ParameterSetName = 'Count', Mandatory)]
         [Switch]$Count,
 			
         [hashtable]$Filter = @{ },
@@ -1426,26 +1444,24 @@ function Invoke-ADCGetBotpolicylabelbotpolicybinding {
     }
     process {
         try {
-            if ( $PsCmdlet.ParameterSetName -eq 'Getall' ) {
-                $Query = @{ 
-                    bulkbindings = 'yes'
-                }
+            if ( $PsCmdlet.ParameterSetName -eq 'GetAll' ) {
+                $query = @{  bulkbindings = 'yes' }
                 Write-Verbose "Retrieving all botpolicylabel_botpolicy_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type botpolicylabel_botpolicy_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type botpolicylabel_botpolicy_binding -NitroPath nitro/v1/config -Query $query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
-                if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
+                if ( $PSBoundParameters.ContainsKey('Count') ) { $query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for botpolicylabel_botpolicy_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type botpolicylabel_botpolicy_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type botpolicylabel_botpolicy_binding -NitroPath nitro/v1/config -Query $query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving botpolicylabel_botpolicy_binding objects by arguments"
-                $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type botpolicylabel_botpolicy_binding -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
+                $arguments = @{ } 
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type botpolicylabel_botpolicy_binding -NitroPath nitro/v1/config -Arguments $arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving botpolicylabel_botpolicy_binding configuration for property 'labelname'"
                 $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type botpolicylabel_botpolicy_binding -NitroPath nitro/v1/config -Resource $labelname -Summary:$ViewSummary -Filter $Filter -GetWarning
             } else {
                 Write-Verbose "Retrieving botpolicylabel_botpolicy_binding configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type botpolicylabel_botpolicy_binding -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type botpolicylabel_botpolicy_binding -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -1459,54 +1475,60 @@ function Invoke-ADCGetBotpolicylabelbotpolicybinding {
 }
 
 function Invoke-ADCGetBotpolicylabelpolicybindingbinding {
-<#
+    <#
     .SYNOPSIS
-        Get Bot configuration object(s)
+        Get Bot configuration object(s).
     .DESCRIPTION
-        Get Bot configuration object(s)
-    .PARAMETER labelname 
-       Name of the bot policy label to which to bind the policy. 
+        Binding object showing the policybinding that can be bound to botpolicylabel.
+    .PARAMETER Labelname 
+        Name of the bot policy label to which to bind the policy. 
     .PARAMETER GetAll 
-        Retreive all botpolicylabel_policybinding_binding object(s)
+        Retrieve all botpolicylabel_policybinding_binding object(s).
     .PARAMETER Count
-        If specified, the count of the botpolicylabel_policybinding_binding object(s) will be returned
+        If specified, the count of the botpolicylabel_policybinding_binding object(s) will be returned.
     .PARAMETER Filter
-        Specify a filter
+        Specify a filter.
         -Filter @{ 'name'='<value>' }
     .PARAMETER ViewSummary
-        When specified, only a summary of information is returned
+        When specified, only a summary of information is returned.
     .EXAMPLE
-        Invoke-ADCGetBotpolicylabelpolicybindingbinding
+        PS C:\>Invoke-ADCGetBotpolicylabelpolicybindingbinding
+        Get data.
     .EXAMPLE 
-        Invoke-ADCGetBotpolicylabelpolicybindingbinding -GetAll 
+        PS C:\>Invoke-ADCGetBotpolicylabelpolicybindingbinding -GetAll 
+        Get all botpolicylabel_policybinding_binding data. 
     .EXAMPLE 
-        Invoke-ADCGetBotpolicylabelpolicybindingbinding -Count
+        PS C:\>Invoke-ADCGetBotpolicylabelpolicybindingbinding -Count 
+        Get the number of botpolicylabel_policybinding_binding objects.
     .EXAMPLE
-        Invoke-ADCGetBotpolicylabelpolicybindingbinding -name <string>
+        PS C:\>Invoke-ADCGetBotpolicylabelpolicybindingbinding -name <string>
+        Get botpolicylabel_policybinding_binding object by specifying for example the name.
     .EXAMPLE
-        Invoke-ADCGetBotpolicylabelpolicybindingbinding -Filter @{ 'name'='<value>' }
+        PS C:\>Invoke-ADCGetBotpolicylabelpolicybindingbinding -Filter @{ 'name'='<value>' }
+        Get botpolicylabel_policybinding_binding data with a filter.
     .NOTES
         File Name : Invoke-ADCGetBotpolicylabelpolicybindingbinding
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/bot/botpolicylabel_policybinding_binding/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
-    [CmdletBinding(DefaultParameterSetName = "Getall")]
+    #>
+    [CmdletBinding(DefaultParameterSetName = "GetAll")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
         [Parameter(ParameterSetName = 'GetByResource')]
-        [string]$labelname,
+        [string]$Labelname,
 
-        [Parameter(ParameterSetName = 'Count', Mandatory = $true)]
+        [Parameter(ParameterSetName = 'Count', Mandatory)]
         [Switch]$Count,
 			
         [hashtable]$Filter = @{ },
@@ -1519,26 +1541,24 @@ function Invoke-ADCGetBotpolicylabelpolicybindingbinding {
     }
     process {
         try {
-            if ( $PsCmdlet.ParameterSetName -eq 'Getall' ) {
-                $Query = @{ 
-                    bulkbindings = 'yes'
-                }
+            if ( $PsCmdlet.ParameterSetName -eq 'GetAll' ) {
+                $query = @{  bulkbindings = 'yes' }
                 Write-Verbose "Retrieving all botpolicylabel_policybinding_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type botpolicylabel_policybinding_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type botpolicylabel_policybinding_binding -NitroPath nitro/v1/config -Query $query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
-                if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
+                if ( $PSBoundParameters.ContainsKey('Count') ) { $query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for botpolicylabel_policybinding_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type botpolicylabel_policybinding_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type botpolicylabel_policybinding_binding -NitroPath nitro/v1/config -Query $query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving botpolicylabel_policybinding_binding objects by arguments"
-                $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type botpolicylabel_policybinding_binding -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
+                $arguments = @{ } 
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type botpolicylabel_policybinding_binding -NitroPath nitro/v1/config -Arguments $arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving botpolicylabel_policybinding_binding configuration for property 'labelname'"
                 $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type botpolicylabel_policybinding_binding -NitroPath nitro/v1/config -Resource $labelname -Summary:$ViewSummary -Filter $Filter -GetWarning
             } else {
                 Write-Verbose "Retrieving botpolicylabel_policybinding_binding configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type botpolicylabel_policybinding_binding -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type botpolicylabel_policybinding_binding -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -1552,50 +1572,55 @@ function Invoke-ADCGetBotpolicylabelpolicybindingbinding {
 }
 
 function Invoke-ADCGetBotpolicybinding {
-<#
+    <#
     .SYNOPSIS
-        Get Bot configuration object(s)
+        Get Bot configuration object(s).
     .DESCRIPTION
-        Get Bot configuration object(s)
-    .PARAMETER name 
-       Name of the bot policy for which to display settings. 
+        Binding object which returns the resources bound to botpolicy.
+    .PARAMETER Name 
+        Name of the bot policy for which to display settings. 
     .PARAMETER GetAll 
-        Retreive all botpolicy_binding object(s)
+        Retrieve all botpolicy_binding object(s).
     .PARAMETER Count
-        If specified, the count of the botpolicy_binding object(s) will be returned
+        If specified, the count of the botpolicy_binding object(s) will be returned.
     .PARAMETER Filter
-        Specify a filter
+        Specify a filter.
         -Filter @{ 'name'='<value>' }
     .PARAMETER ViewSummary
-        When specified, only a summary of information is returned
+        When specified, only a summary of information is returned.
     .EXAMPLE
-        Invoke-ADCGetBotpolicybinding
+        PS C:\>Invoke-ADCGetBotpolicybinding
+        Get data.
     .EXAMPLE 
-        Invoke-ADCGetBotpolicybinding -GetAll
+        PS C:\>Invoke-ADCGetBotpolicybinding -GetAll 
+        Get all botpolicy_binding data.
     .EXAMPLE
-        Invoke-ADCGetBotpolicybinding -name <string>
+        PS C:\>Invoke-ADCGetBotpolicybinding -name <string>
+        Get botpolicy_binding object by specifying for example the name.
     .EXAMPLE
-        Invoke-ADCGetBotpolicybinding -Filter @{ 'name'='<value>' }
+        PS C:\>Invoke-ADCGetBotpolicybinding -Filter @{ 'name'='<value>' }
+        Get botpolicy_binding data with a filter.
     .NOTES
         File Name : Invoke-ADCGetBotpolicybinding
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/bot/botpolicy_binding/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
-    [CmdletBinding(DefaultParameterSetName = "Getall")]
+    #>
+    [CmdletBinding(DefaultParameterSetName = "GetAll")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
         [Parameter(ParameterSetName = 'GetByResource')]
-        [string]$name,
+        [string]$Name,
 			
         [hashtable]$Filter = @{ },
 
@@ -1607,26 +1632,24 @@ function Invoke-ADCGetBotpolicybinding {
     }
     process {
         try {
-            if ( $PsCmdlet.ParameterSetName -eq 'Getall' ) {
-                $Query = @{ 
-                    bulkbindings = 'yes'
-                }
+            if ( $PsCmdlet.ParameterSetName -eq 'GetAll' ) {
+                $query = @{  bulkbindings = 'yes' }
                 Write-Verbose "Retrieving all botpolicy_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type botpolicy_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type botpolicy_binding -NitroPath nitro/v1/config -Query $query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
-                if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
+                if ( $PSBoundParameters.ContainsKey('Count') ) { $query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for botpolicy_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type botpolicy_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type botpolicy_binding -NitroPath nitro/v1/config -Query $query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving botpolicy_binding objects by arguments"
-                $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type botpolicy_binding -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
+                $arguments = @{ } 
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type botpolicy_binding -NitroPath nitro/v1/config -Arguments $arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving botpolicy_binding configuration for property 'name'"
                 $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type botpolicy_binding -NitroPath nitro/v1/config -Resource $name -Summary:$ViewSummary -Filter $Filter -GetWarning
             } else {
                 Write-Verbose "Retrieving botpolicy_binding configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type botpolicy_binding -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type botpolicy_binding -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -1640,54 +1663,60 @@ function Invoke-ADCGetBotpolicybinding {
 }
 
 function Invoke-ADCGetBotpolicybotglobalbinding {
-<#
+    <#
     .SYNOPSIS
-        Get Bot configuration object(s)
+        Get Bot configuration object(s).
     .DESCRIPTION
-        Get Bot configuration object(s)
-    .PARAMETER name 
-       Name of the bot policy for which to display settings. 
+        Binding object showing the botglobal that can be bound to botpolicy.
+    .PARAMETER Name 
+        Name of the bot policy for which to display settings. 
     .PARAMETER GetAll 
-        Retreive all botpolicy_botglobal_binding object(s)
+        Retrieve all botpolicy_botglobal_binding object(s).
     .PARAMETER Count
-        If specified, the count of the botpolicy_botglobal_binding object(s) will be returned
+        If specified, the count of the botpolicy_botglobal_binding object(s) will be returned.
     .PARAMETER Filter
-        Specify a filter
+        Specify a filter.
         -Filter @{ 'name'='<value>' }
     .PARAMETER ViewSummary
-        When specified, only a summary of information is returned
+        When specified, only a summary of information is returned.
     .EXAMPLE
-        Invoke-ADCGetBotpolicybotglobalbinding
+        PS C:\>Invoke-ADCGetBotpolicybotglobalbinding
+        Get data.
     .EXAMPLE 
-        Invoke-ADCGetBotpolicybotglobalbinding -GetAll 
+        PS C:\>Invoke-ADCGetBotpolicybotglobalbinding -GetAll 
+        Get all botpolicy_botglobal_binding data. 
     .EXAMPLE 
-        Invoke-ADCGetBotpolicybotglobalbinding -Count
+        PS C:\>Invoke-ADCGetBotpolicybotglobalbinding -Count 
+        Get the number of botpolicy_botglobal_binding objects.
     .EXAMPLE
-        Invoke-ADCGetBotpolicybotglobalbinding -name <string>
+        PS C:\>Invoke-ADCGetBotpolicybotglobalbinding -name <string>
+        Get botpolicy_botglobal_binding object by specifying for example the name.
     .EXAMPLE
-        Invoke-ADCGetBotpolicybotglobalbinding -Filter @{ 'name'='<value>' }
+        PS C:\>Invoke-ADCGetBotpolicybotglobalbinding -Filter @{ 'name'='<value>' }
+        Get botpolicy_botglobal_binding data with a filter.
     .NOTES
         File Name : Invoke-ADCGetBotpolicybotglobalbinding
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/bot/botpolicy_botglobal_binding/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
-    [CmdletBinding(DefaultParameterSetName = "Getall")]
+    #>
+    [CmdletBinding(DefaultParameterSetName = "GetAll")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
         [Parameter(ParameterSetName = 'GetByResource')]
-        [string]$name,
+        [string]$Name,
 
-        [Parameter(ParameterSetName = 'Count', Mandatory = $true)]
+        [Parameter(ParameterSetName = 'Count', Mandatory)]
         [Switch]$Count,
 			
         [hashtable]$Filter = @{ },
@@ -1700,26 +1729,24 @@ function Invoke-ADCGetBotpolicybotglobalbinding {
     }
     process {
         try {
-            if ( $PsCmdlet.ParameterSetName -eq 'Getall' ) {
-                $Query = @{ 
-                    bulkbindings = 'yes'
-                }
+            if ( $PsCmdlet.ParameterSetName -eq 'GetAll' ) {
+                $query = @{  bulkbindings = 'yes' }
                 Write-Verbose "Retrieving all botpolicy_botglobal_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type botpolicy_botglobal_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type botpolicy_botglobal_binding -NitroPath nitro/v1/config -Query $query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
-                if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
+                if ( $PSBoundParameters.ContainsKey('Count') ) { $query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for botpolicy_botglobal_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type botpolicy_botglobal_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type botpolicy_botglobal_binding -NitroPath nitro/v1/config -Query $query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving botpolicy_botglobal_binding objects by arguments"
-                $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type botpolicy_botglobal_binding -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
+                $arguments = @{ } 
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type botpolicy_botglobal_binding -NitroPath nitro/v1/config -Arguments $arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving botpolicy_botglobal_binding configuration for property 'name'"
                 $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type botpolicy_botglobal_binding -NitroPath nitro/v1/config -Resource $name -Summary:$ViewSummary -Filter $Filter -GetWarning
             } else {
                 Write-Verbose "Retrieving botpolicy_botglobal_binding configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type botpolicy_botglobal_binding -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type botpolicy_botglobal_binding -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -1733,54 +1760,60 @@ function Invoke-ADCGetBotpolicybotglobalbinding {
 }
 
 function Invoke-ADCGetBotpolicybotpolicylabelbinding {
-<#
+    <#
     .SYNOPSIS
-        Get Bot configuration object(s)
+        Get Bot configuration object(s).
     .DESCRIPTION
-        Get Bot configuration object(s)
-    .PARAMETER name 
-       Name of the bot policy for which to display settings. 
+        Binding object showing the botpolicylabel that can be bound to botpolicy.
+    .PARAMETER Name 
+        Name of the bot policy for which to display settings. 
     .PARAMETER GetAll 
-        Retreive all botpolicy_botpolicylabel_binding object(s)
+        Retrieve all botpolicy_botpolicylabel_binding object(s).
     .PARAMETER Count
-        If specified, the count of the botpolicy_botpolicylabel_binding object(s) will be returned
+        If specified, the count of the botpolicy_botpolicylabel_binding object(s) will be returned.
     .PARAMETER Filter
-        Specify a filter
+        Specify a filter.
         -Filter @{ 'name'='<value>' }
     .PARAMETER ViewSummary
-        When specified, only a summary of information is returned
+        When specified, only a summary of information is returned.
     .EXAMPLE
-        Invoke-ADCGetBotpolicybotpolicylabelbinding
+        PS C:\>Invoke-ADCGetBotpolicybotpolicylabelbinding
+        Get data.
     .EXAMPLE 
-        Invoke-ADCGetBotpolicybotpolicylabelbinding -GetAll 
+        PS C:\>Invoke-ADCGetBotpolicybotpolicylabelbinding -GetAll 
+        Get all botpolicy_botpolicylabel_binding data. 
     .EXAMPLE 
-        Invoke-ADCGetBotpolicybotpolicylabelbinding -Count
+        PS C:\>Invoke-ADCGetBotpolicybotpolicylabelbinding -Count 
+        Get the number of botpolicy_botpolicylabel_binding objects.
     .EXAMPLE
-        Invoke-ADCGetBotpolicybotpolicylabelbinding -name <string>
+        PS C:\>Invoke-ADCGetBotpolicybotpolicylabelbinding -name <string>
+        Get botpolicy_botpolicylabel_binding object by specifying for example the name.
     .EXAMPLE
-        Invoke-ADCGetBotpolicybotpolicylabelbinding -Filter @{ 'name'='<value>' }
+        PS C:\>Invoke-ADCGetBotpolicybotpolicylabelbinding -Filter @{ 'name'='<value>' }
+        Get botpolicy_botpolicylabel_binding data with a filter.
     .NOTES
         File Name : Invoke-ADCGetBotpolicybotpolicylabelbinding
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/bot/botpolicy_botpolicylabel_binding/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
-    [CmdletBinding(DefaultParameterSetName = "Getall")]
+    #>
+    [CmdletBinding(DefaultParameterSetName = "GetAll")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
         [Parameter(ParameterSetName = 'GetByResource')]
-        [string]$name,
+        [string]$Name,
 
-        [Parameter(ParameterSetName = 'Count', Mandatory = $true)]
+        [Parameter(ParameterSetName = 'Count', Mandatory)]
         [Switch]$Count,
 			
         [hashtable]$Filter = @{ },
@@ -1793,26 +1826,24 @@ function Invoke-ADCGetBotpolicybotpolicylabelbinding {
     }
     process {
         try {
-            if ( $PsCmdlet.ParameterSetName -eq 'Getall' ) {
-                $Query = @{ 
-                    bulkbindings = 'yes'
-                }
+            if ( $PsCmdlet.ParameterSetName -eq 'GetAll' ) {
+                $query = @{  bulkbindings = 'yes' }
                 Write-Verbose "Retrieving all botpolicy_botpolicylabel_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type botpolicy_botpolicylabel_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type botpolicy_botpolicylabel_binding -NitroPath nitro/v1/config -Query $query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
-                if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
+                if ( $PSBoundParameters.ContainsKey('Count') ) { $query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for botpolicy_botpolicylabel_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type botpolicy_botpolicylabel_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type botpolicy_botpolicylabel_binding -NitroPath nitro/v1/config -Query $query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving botpolicy_botpolicylabel_binding objects by arguments"
-                $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type botpolicy_botpolicylabel_binding -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
+                $arguments = @{ } 
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type botpolicy_botpolicylabel_binding -NitroPath nitro/v1/config -Arguments $arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving botpolicy_botpolicylabel_binding configuration for property 'name'"
                 $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type botpolicy_botpolicylabel_binding -NitroPath nitro/v1/config -Resource $name -Summary:$ViewSummary -Filter $Filter -GetWarning
             } else {
                 Write-Verbose "Retrieving botpolicy_botpolicylabel_binding configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type botpolicy_botpolicylabel_binding -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type botpolicy_botpolicylabel_binding -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -1826,54 +1857,60 @@ function Invoke-ADCGetBotpolicybotpolicylabelbinding {
 }
 
 function Invoke-ADCGetBotpolicycsvserverbinding {
-<#
+    <#
     .SYNOPSIS
-        Get Bot configuration object(s)
+        Get Bot configuration object(s).
     .DESCRIPTION
-        Get Bot configuration object(s)
-    .PARAMETER name 
-       Name of the bot policy for which to display settings. 
+        Binding object showing the csvserver that can be bound to botpolicy.
+    .PARAMETER Name 
+        Name of the bot policy for which to display settings. 
     .PARAMETER GetAll 
-        Retreive all botpolicy_csvserver_binding object(s)
+        Retrieve all botpolicy_csvserver_binding object(s).
     .PARAMETER Count
-        If specified, the count of the botpolicy_csvserver_binding object(s) will be returned
+        If specified, the count of the botpolicy_csvserver_binding object(s) will be returned.
     .PARAMETER Filter
-        Specify a filter
+        Specify a filter.
         -Filter @{ 'name'='<value>' }
     .PARAMETER ViewSummary
-        When specified, only a summary of information is returned
+        When specified, only a summary of information is returned.
     .EXAMPLE
-        Invoke-ADCGetBotpolicycsvserverbinding
+        PS C:\>Invoke-ADCGetBotpolicycsvserverbinding
+        Get data.
     .EXAMPLE 
-        Invoke-ADCGetBotpolicycsvserverbinding -GetAll 
+        PS C:\>Invoke-ADCGetBotpolicycsvserverbinding -GetAll 
+        Get all botpolicy_csvserver_binding data. 
     .EXAMPLE 
-        Invoke-ADCGetBotpolicycsvserverbinding -Count
+        PS C:\>Invoke-ADCGetBotpolicycsvserverbinding -Count 
+        Get the number of botpolicy_csvserver_binding objects.
     .EXAMPLE
-        Invoke-ADCGetBotpolicycsvserverbinding -name <string>
+        PS C:\>Invoke-ADCGetBotpolicycsvserverbinding -name <string>
+        Get botpolicy_csvserver_binding object by specifying for example the name.
     .EXAMPLE
-        Invoke-ADCGetBotpolicycsvserverbinding -Filter @{ 'name'='<value>' }
+        PS C:\>Invoke-ADCGetBotpolicycsvserverbinding -Filter @{ 'name'='<value>' }
+        Get botpolicy_csvserver_binding data with a filter.
     .NOTES
         File Name : Invoke-ADCGetBotpolicycsvserverbinding
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/bot/botpolicy_csvserver_binding/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
-    [CmdletBinding(DefaultParameterSetName = "Getall")]
+    #>
+    [CmdletBinding(DefaultParameterSetName = "GetAll")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
         [Parameter(ParameterSetName = 'GetByResource')]
-        [string]$name,
+        [string]$Name,
 
-        [Parameter(ParameterSetName = 'Count', Mandatory = $true)]
+        [Parameter(ParameterSetName = 'Count', Mandatory)]
         [Switch]$Count,
 			
         [hashtable]$Filter = @{ },
@@ -1886,26 +1923,24 @@ function Invoke-ADCGetBotpolicycsvserverbinding {
     }
     process {
         try {
-            if ( $PsCmdlet.ParameterSetName -eq 'Getall' ) {
-                $Query = @{ 
-                    bulkbindings = 'yes'
-                }
+            if ( $PsCmdlet.ParameterSetName -eq 'GetAll' ) {
+                $query = @{  bulkbindings = 'yes' }
                 Write-Verbose "Retrieving all botpolicy_csvserver_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type botpolicy_csvserver_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type botpolicy_csvserver_binding -NitroPath nitro/v1/config -Query $query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
-                if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
+                if ( $PSBoundParameters.ContainsKey('Count') ) { $query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for botpolicy_csvserver_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type botpolicy_csvserver_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type botpolicy_csvserver_binding -NitroPath nitro/v1/config -Query $query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving botpolicy_csvserver_binding objects by arguments"
-                $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type botpolicy_csvserver_binding -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
+                $arguments = @{ } 
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type botpolicy_csvserver_binding -NitroPath nitro/v1/config -Arguments $arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving botpolicy_csvserver_binding configuration for property 'name'"
                 $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type botpolicy_csvserver_binding -NitroPath nitro/v1/config -Resource $name -Summary:$ViewSummary -Filter $Filter -GetWarning
             } else {
                 Write-Verbose "Retrieving botpolicy_csvserver_binding configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type botpolicy_csvserver_binding -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type botpolicy_csvserver_binding -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -1919,54 +1954,60 @@ function Invoke-ADCGetBotpolicycsvserverbinding {
 }
 
 function Invoke-ADCGetBotpolicylbvserverbinding {
-<#
+    <#
     .SYNOPSIS
-        Get Bot configuration object(s)
+        Get Bot configuration object(s).
     .DESCRIPTION
-        Get Bot configuration object(s)
-    .PARAMETER name 
-       Name of the bot policy for which to display settings. 
+        Binding object showing the lbvserver that can be bound to botpolicy.
+    .PARAMETER Name 
+        Name of the bot policy for which to display settings. 
     .PARAMETER GetAll 
-        Retreive all botpolicy_lbvserver_binding object(s)
+        Retrieve all botpolicy_lbvserver_binding object(s).
     .PARAMETER Count
-        If specified, the count of the botpolicy_lbvserver_binding object(s) will be returned
+        If specified, the count of the botpolicy_lbvserver_binding object(s) will be returned.
     .PARAMETER Filter
-        Specify a filter
+        Specify a filter.
         -Filter @{ 'name'='<value>' }
     .PARAMETER ViewSummary
-        When specified, only a summary of information is returned
+        When specified, only a summary of information is returned.
     .EXAMPLE
-        Invoke-ADCGetBotpolicylbvserverbinding
+        PS C:\>Invoke-ADCGetBotpolicylbvserverbinding
+        Get data.
     .EXAMPLE 
-        Invoke-ADCGetBotpolicylbvserverbinding -GetAll 
+        PS C:\>Invoke-ADCGetBotpolicylbvserverbinding -GetAll 
+        Get all botpolicy_lbvserver_binding data. 
     .EXAMPLE 
-        Invoke-ADCGetBotpolicylbvserverbinding -Count
+        PS C:\>Invoke-ADCGetBotpolicylbvserverbinding -Count 
+        Get the number of botpolicy_lbvserver_binding objects.
     .EXAMPLE
-        Invoke-ADCGetBotpolicylbvserverbinding -name <string>
+        PS C:\>Invoke-ADCGetBotpolicylbvserverbinding -name <string>
+        Get botpolicy_lbvserver_binding object by specifying for example the name.
     .EXAMPLE
-        Invoke-ADCGetBotpolicylbvserverbinding -Filter @{ 'name'='<value>' }
+        PS C:\>Invoke-ADCGetBotpolicylbvserverbinding -Filter @{ 'name'='<value>' }
+        Get botpolicy_lbvserver_binding data with a filter.
     .NOTES
         File Name : Invoke-ADCGetBotpolicylbvserverbinding
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/bot/botpolicy_lbvserver_binding/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
-    [CmdletBinding(DefaultParameterSetName = "Getall")]
+    #>
+    [CmdletBinding(DefaultParameterSetName = "GetAll")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
         [Parameter(ParameterSetName = 'GetByResource')]
-        [string]$name,
+        [string]$Name,
 
-        [Parameter(ParameterSetName = 'Count', Mandatory = $true)]
+        [Parameter(ParameterSetName = 'Count', Mandatory)]
         [Switch]$Count,
 			
         [hashtable]$Filter = @{ },
@@ -1979,26 +2020,24 @@ function Invoke-ADCGetBotpolicylbvserverbinding {
     }
     process {
         try {
-            if ( $PsCmdlet.ParameterSetName -eq 'Getall' ) {
-                $Query = @{ 
-                    bulkbindings = 'yes'
-                }
+            if ( $PsCmdlet.ParameterSetName -eq 'GetAll' ) {
+                $query = @{  bulkbindings = 'yes' }
                 Write-Verbose "Retrieving all botpolicy_lbvserver_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type botpolicy_lbvserver_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type botpolicy_lbvserver_binding -NitroPath nitro/v1/config -Query $query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
-                if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
+                if ( $PSBoundParameters.ContainsKey('Count') ) { $query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for botpolicy_lbvserver_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type botpolicy_lbvserver_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type botpolicy_lbvserver_binding -NitroPath nitro/v1/config -Query $query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving botpolicy_lbvserver_binding objects by arguments"
-                $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type botpolicy_lbvserver_binding -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
+                $arguments = @{ } 
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type botpolicy_lbvserver_binding -NitroPath nitro/v1/config -Arguments $arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving botpolicy_lbvserver_binding configuration for property 'name'"
                 $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type botpolicy_lbvserver_binding -NitroPath nitro/v1/config -Resource $name -Summary:$ViewSummary -Filter $Filter -GetWarning
             } else {
                 Write-Verbose "Retrieving botpolicy_lbvserver_binding configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type botpolicy_lbvserver_binding -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type botpolicy_lbvserver_binding -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -2012,162 +2051,197 @@ function Invoke-ADCGetBotpolicylbvserverbinding {
 }
 
 function Invoke-ADCAddBotprofile {
-<#
+    <#
     .SYNOPSIS
-        Add Bot configuration Object
+        Add Bot configuration Object.
     .DESCRIPTION
-        Add Bot configuration Object 
-    .PARAMETER name 
+        Configuration for Bot profile resource.
+    .PARAMETER Name 
         Name for the profile. Must begin with a letter, number, or the underscore character (_), and must contain only letters, numbers, and the hyphen (-), period (.), pound (#), space ( ), at (@), equals (=), colon (:), and underscore (_) characters. Cannot be changed after the profile is added. 
-    .PARAMETER signature 
-        Name of object containing bot static signature details.  
-        Minimum length = 1 
-    .PARAMETER errorurl 
-        URL that Bot protection uses as the Error URL.  
-        Minimum length = 1 
-    .PARAMETER trapurl 
-        URL that Bot protection uses as the Trap URL.  
-        Minimum length = 1  
-        Maximum length = 127 
-    .PARAMETER comment 
-        Any comments about the purpose of profile, or other useful information about the profile.  
-        Minimum length = 1 
-    .PARAMETER bot_enable_white_list 
-        Enable white-list bot detection.  
-        Default value: OFF  
+    .PARAMETER Signature 
+        Name of object containing bot static signature details. 
+    .PARAMETER Errorurl 
+        URL that Bot protection uses as the Error URL. 
+    .PARAMETER Trapurl 
+        URL that Bot protection uses as the Trap URL. 
+    .PARAMETER Comment 
+        Any comments about the purpose of profile, or other useful information about the profile. 
+    .PARAMETER Bot_enable_white_list 
+        Enable white-list bot detection. 
         Possible values = ON, OFF 
-    .PARAMETER bot_enable_black_list 
-        Enable black-list bot detection.  
-        Default value: OFF  
+    .PARAMETER Bot_enable_black_list 
+        Enable black-list bot detection. 
         Possible values = ON, OFF 
-    .PARAMETER bot_enable_rate_limit 
-        Enable rate-limit bot detection.  
-        Default value: OFF  
+    .PARAMETER Bot_enable_rate_limit 
+        Enable rate-limit bot detection. 
         Possible values = ON, OFF 
-    .PARAMETER devicefingerprint 
-        Enable device-fingerprint bot detection.  
-        Default value: OFF  
+    .PARAMETER Devicefingerprint 
+        Enable device-fingerprint bot detection. 
         Possible values = ON, OFF 
-    .PARAMETER devicefingerprintaction 
-        Action to be taken for device-fingerprint based bot detection.  
-        Default value: NONE  
+    .PARAMETER Devicefingerprintaction 
+        Action to be taken for device-fingerprint based bot detection. 
         Possible values = NONE, LOG, DROP, REDIRECT, RESET, MITIGATION 
-    .PARAMETER bot_enable_ip_reputation 
-        Enable IP-reputation bot detection.  
-        Default value: OFF  
+    .PARAMETER Bot_enable_ip_reputation 
+        Enable IP-reputation bot detection. 
         Possible values = ON, OFF 
-    .PARAMETER trap 
-        Enable trap bot detection.  
-        Default value: OFF  
+    .PARAMETER Trap 
+        Enable trap bot detection. 
         Possible values = ON, OFF 
-    .PARAMETER trapaction 
-        Action to be taken for bot trap based bot detection.  
-        Default value: NONE  
+    .PARAMETER Trapaction 
+        Action to be taken for bot trap based bot detection. 
         Possible values = NONE, LOG, DROP, REDIRECT, RESET 
-    .PARAMETER bot_enable_tps 
-        Enable TPS.  
-        Default value: OFF  
+    .PARAMETER Signaturenouseragentheaderaction 
+        Actions to be taken if no User-Agent header in the request (Applicable if Signature check is enabled). 
+        Possible values = NONE, LOG, DROP, REDIRECT, RESET 
+    .PARAMETER Signaturemultipleuseragentheaderaction 
+        Actions to be taken if multiple User-Agent headers are seen in a request (Applicable if Signature check is enabled). Log action should be combined with other actions. 
+        Possible values = CHECKLAST, LOG, DROP, REDIRECT, RESET 
+    .PARAMETER Bot_enable_tps 
+        Enable TPS. 
         Possible values = ON, OFF 
+    .PARAMETER Devicefingerprintmobile 
+        Enabling bot device fingerprint protection for mobile clients. 
+        Possible values = NONE, Android, iOS 
+    .PARAMETER Clientipexpression 
+        Expression to get the client IP. 
+    .PARAMETER Kmjavascriptname 
+        Name of the JavaScript file that the Bot Management feature will insert in the response for keyboard-mouse based detection. 
+        Must begin with a letter, number, or the underscore character (_), and must contain only letters, numbers, and the hyphen (-), period (.) hash (#), space ( ), at (@), equals (=), colon (:), and underscore characters. 
+    .PARAMETER Kmdetection 
+        Enable keyboard-mouse based bot detection. 
+        Possible values = ON, OFF 
+    .PARAMETER Kmeventspostbodylimit 
+        Size of the KM data send by the browser, needs to be processed on ADC. 
+    .PARAMETER Verboseloglevel 
+        Bot verbose Logging. Based on the log level, ADC will log additional information whenever client is detected as a bot. 
+        Possible values = NONE, HTTP_FULL_HEADER 
     .PARAMETER PassThru 
         Return details about the created botprofile item.
     .EXAMPLE
-        Invoke-ADCAddBotprofile -name <string>
+        PS C:\>Invoke-ADCAddBotprofile -name <string>
+        An example how to add botprofile configuration Object(s).
     .NOTES
         File Name : Invoke-ADCAddBotprofile
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/bot/botprofile/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
+    #>
     [CmdletBinding(SupportsShouldProcess = $true, ConfirmImpact = "Low")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
-        [Parameter(Mandatory = $true)]
+        [Parameter(Mandatory)]
         [ValidateLength(1, 31)]
-        [string]$name ,
+        [string]$Name,
 
         [ValidateScript({ $_.Length -gt 1 })]
-        [string]$signature ,
+        [string]$Signature,
 
         [ValidateScript({ $_.Length -gt 1 })]
-        [string]$errorurl ,
+        [string]$Errorurl,
 
         [ValidateLength(1, 127)]
-        [string]$trapurl ,
+        [string]$Trapurl,
 
         [ValidateScript({ $_.Length -gt 1 })]
-        [string]$comment ,
+        [string]$Comment,
 
         [ValidateSet('ON', 'OFF')]
-        [string]$bot_enable_white_list = 'OFF' ,
+        [string]$Bot_enable_white_list = 'OFF',
 
         [ValidateSet('ON', 'OFF')]
-        [string]$bot_enable_black_list = 'OFF' ,
+        [string]$Bot_enable_black_list = 'OFF',
 
         [ValidateSet('ON', 'OFF')]
-        [string]$bot_enable_rate_limit = 'OFF' ,
+        [string]$Bot_enable_rate_limit = 'OFF',
 
         [ValidateSet('ON', 'OFF')]
-        [string]$devicefingerprint = 'OFF' ,
+        [string]$Devicefingerprint = 'OFF',
 
         [ValidateSet('NONE', 'LOG', 'DROP', 'REDIRECT', 'RESET', 'MITIGATION')]
-        [string[]]$devicefingerprintaction = 'NONE' ,
+        [string[]]$Devicefingerprintaction = 'NONE',
 
         [ValidateSet('ON', 'OFF')]
-        [string]$bot_enable_ip_reputation = 'OFF' ,
+        [string]$Bot_enable_ip_reputation = 'OFF',
 
         [ValidateSet('ON', 'OFF')]
-        [string]$trap = 'OFF' ,
+        [string]$Trap = 'OFF',
 
         [ValidateSet('NONE', 'LOG', 'DROP', 'REDIRECT', 'RESET')]
-        [string[]]$trapaction = 'NONE' ,
+        [string[]]$Trapaction = 'NONE',
+
+        [ValidateSet('NONE', 'LOG', 'DROP', 'REDIRECT', 'RESET')]
+        [string[]]$Signaturenouseragentheaderaction = 'DROP',
+
+        [ValidateSet('CHECKLAST', 'LOG', 'DROP', 'REDIRECT', 'RESET')]
+        [string[]]$Signaturemultipleuseragentheaderaction = 'CHECKLAST',
 
         [ValidateSet('ON', 'OFF')]
-        [string]$bot_enable_tps = 'OFF' ,
+        [string]$Bot_enable_tps = 'OFF',
+
+        [ValidateSet('NONE', 'Android', 'iOS')]
+        [string[]]$Devicefingerprintmobile = 'NONE',
+
+        [string]$Clientipexpression,
+
+        [string]$Kmjavascriptname,
+
+        [ValidateSet('ON', 'OFF')]
+        [string]$Kmdetection = 'OFF',
+
+        [ValidateRange(1, 204800)]
+        [double]$Kmeventspostbodylimit,
+
+        [ValidateSet('NONE', 'HTTP_FULL_HEADER')]
+        [string]$Verboseloglevel = 'NONE',
 
         [Switch]$PassThru 
-
     )
     begin {
         Write-Verbose "Invoke-ADCAddBotprofile: Starting"
     }
     process {
         try {
-            $Payload = @{
-                name = $name
-            }
-            if ($PSBoundParameters.ContainsKey('signature')) { $Payload.Add('signature', $signature) }
-            if ($PSBoundParameters.ContainsKey('errorurl')) { $Payload.Add('errorurl', $errorurl) }
-            if ($PSBoundParameters.ContainsKey('trapurl')) { $Payload.Add('trapurl', $trapurl) }
-            if ($PSBoundParameters.ContainsKey('comment')) { $Payload.Add('comment', $comment) }
-            if ($PSBoundParameters.ContainsKey('bot_enable_white_list')) { $Payload.Add('bot_enable_white_list', $bot_enable_white_list) }
-            if ($PSBoundParameters.ContainsKey('bot_enable_black_list')) { $Payload.Add('bot_enable_black_list', $bot_enable_black_list) }
-            if ($PSBoundParameters.ContainsKey('bot_enable_rate_limit')) { $Payload.Add('bot_enable_rate_limit', $bot_enable_rate_limit) }
-            if ($PSBoundParameters.ContainsKey('devicefingerprint')) { $Payload.Add('devicefingerprint', $devicefingerprint) }
-            if ($PSBoundParameters.ContainsKey('devicefingerprintaction')) { $Payload.Add('devicefingerprintaction', $devicefingerprintaction) }
-            if ($PSBoundParameters.ContainsKey('bot_enable_ip_reputation')) { $Payload.Add('bot_enable_ip_reputation', $bot_enable_ip_reputation) }
-            if ($PSBoundParameters.ContainsKey('trap')) { $Payload.Add('trap', $trap) }
-            if ($PSBoundParameters.ContainsKey('trapaction')) { $Payload.Add('trapaction', $trapaction) }
-            if ($PSBoundParameters.ContainsKey('bot_enable_tps')) { $Payload.Add('bot_enable_tps', $bot_enable_tps) }
- 
-            if ($PSCmdlet.ShouldProcess("botprofile", "Add Bot configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -NitroPath nitro/v1/config -Type botprofile -Payload $Payload -GetWarning
+            $payload = @{ name = $name }
+            if ( $PSBoundParameters.ContainsKey('signature') ) { $payload.Add('signature', $signature) }
+            if ( $PSBoundParameters.ContainsKey('errorurl') ) { $payload.Add('errorurl', $errorurl) }
+            if ( $PSBoundParameters.ContainsKey('trapurl') ) { $payload.Add('trapurl', $trapurl) }
+            if ( $PSBoundParameters.ContainsKey('comment') ) { $payload.Add('comment', $comment) }
+            if ( $PSBoundParameters.ContainsKey('bot_enable_white_list') ) { $payload.Add('bot_enable_white_list', $bot_enable_white_list) }
+            if ( $PSBoundParameters.ContainsKey('bot_enable_black_list') ) { $payload.Add('bot_enable_black_list', $bot_enable_black_list) }
+            if ( $PSBoundParameters.ContainsKey('bot_enable_rate_limit') ) { $payload.Add('bot_enable_rate_limit', $bot_enable_rate_limit) }
+            if ( $PSBoundParameters.ContainsKey('devicefingerprint') ) { $payload.Add('devicefingerprint', $devicefingerprint) }
+            if ( $PSBoundParameters.ContainsKey('devicefingerprintaction') ) { $payload.Add('devicefingerprintaction', $devicefingerprintaction) }
+            if ( $PSBoundParameters.ContainsKey('bot_enable_ip_reputation') ) { $payload.Add('bot_enable_ip_reputation', $bot_enable_ip_reputation) }
+            if ( $PSBoundParameters.ContainsKey('trap') ) { $payload.Add('trap', $trap) }
+            if ( $PSBoundParameters.ContainsKey('trapaction') ) { $payload.Add('trapaction', $trapaction) }
+            if ( $PSBoundParameters.ContainsKey('signaturenouseragentheaderaction') ) { $payload.Add('signaturenouseragentheaderaction', $signaturenouseragentheaderaction) }
+            if ( $PSBoundParameters.ContainsKey('signaturemultipleuseragentheaderaction') ) { $payload.Add('signaturemultipleuseragentheaderaction', $signaturemultipleuseragentheaderaction) }
+            if ( $PSBoundParameters.ContainsKey('bot_enable_tps') ) { $payload.Add('bot_enable_tps', $bot_enable_tps) }
+            if ( $PSBoundParameters.ContainsKey('devicefingerprintmobile') ) { $payload.Add('devicefingerprintmobile', $devicefingerprintmobile) }
+            if ( $PSBoundParameters.ContainsKey('clientipexpression') ) { $payload.Add('clientipexpression', $clientipexpression) }
+            if ( $PSBoundParameters.ContainsKey('kmjavascriptname') ) { $payload.Add('kmjavascriptname', $kmjavascriptname) }
+            if ( $PSBoundParameters.ContainsKey('kmdetection') ) { $payload.Add('kmdetection', $kmdetection) }
+            if ( $PSBoundParameters.ContainsKey('kmeventspostbodylimit') ) { $payload.Add('kmeventspostbodylimit', $kmeventspostbodylimit) }
+            if ( $PSBoundParameters.ContainsKey('verboseloglevel') ) { $payload.Add('verboseloglevel', $verboseloglevel) }
+            if ( $PSCmdlet.ShouldProcess("botprofile", "Add Bot configuration Object") ) {
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -NitroPath nitro/v1/config -Type botprofile -Payload $payload -GetWarning
                 #HTTP Status Code on Success: 201 Created
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
-                if ($PSBoundParameters.ContainsKey('PassThru')) {
-                    Write-Output (Invoke-ADCGetBotprofile -Filter $Payload)
+                if ( $PSBoundParameters.ContainsKey('PassThru') ) {
+                    Write-Output (Invoke-ADCGetBotprofile -Filter $payload)
                 } else {
                     Write-Output $result
                 }
-
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -2180,162 +2254,197 @@ function Invoke-ADCAddBotprofile {
 }
 
 function Invoke-ADCUpdateBotprofile {
-<#
+    <#
     .SYNOPSIS
-        Update Bot configuration Object
+        Update Bot configuration Object.
     .DESCRIPTION
-        Update Bot configuration Object 
-    .PARAMETER name 
+        Configuration for Bot profile resource.
+    .PARAMETER Name 
         Name for the profile. Must begin with a letter, number, or the underscore character (_), and must contain only letters, numbers, and the hyphen (-), period (.), pound (#), space ( ), at (@), equals (=), colon (:), and underscore (_) characters. Cannot be changed after the profile is added. 
-    .PARAMETER signature 
-        Name of object containing bot static signature details.  
-        Minimum length = 1 
-    .PARAMETER errorurl 
-        URL that Bot protection uses as the Error URL.  
-        Minimum length = 1 
-    .PARAMETER trapurl 
-        URL that Bot protection uses as the Trap URL.  
-        Minimum length = 1  
-        Maximum length = 127 
-    .PARAMETER comment 
-        Any comments about the purpose of profile, or other useful information about the profile.  
-        Minimum length = 1 
-    .PARAMETER bot_enable_white_list 
-        Enable white-list bot detection.  
-        Default value: OFF  
+    .PARAMETER Signature 
+        Name of object containing bot static signature details. 
+    .PARAMETER Errorurl 
+        URL that Bot protection uses as the Error URL. 
+    .PARAMETER Trapurl 
+        URL that Bot protection uses as the Trap URL. 
+    .PARAMETER Comment 
+        Any comments about the purpose of profile, or other useful information about the profile. 
+    .PARAMETER Bot_enable_white_list 
+        Enable white-list bot detection. 
         Possible values = ON, OFF 
-    .PARAMETER bot_enable_black_list 
-        Enable black-list bot detection.  
-        Default value: OFF  
+    .PARAMETER Bot_enable_black_list 
+        Enable black-list bot detection. 
         Possible values = ON, OFF 
-    .PARAMETER bot_enable_rate_limit 
-        Enable rate-limit bot detection.  
-        Default value: OFF  
+    .PARAMETER Bot_enable_rate_limit 
+        Enable rate-limit bot detection. 
         Possible values = ON, OFF 
-    .PARAMETER devicefingerprint 
-        Enable device-fingerprint bot detection.  
-        Default value: OFF  
+    .PARAMETER Devicefingerprint 
+        Enable device-fingerprint bot detection. 
         Possible values = ON, OFF 
-    .PARAMETER devicefingerprintaction 
-        Action to be taken for device-fingerprint based bot detection.  
-        Default value: NONE  
+    .PARAMETER Devicefingerprintaction 
+        Action to be taken for device-fingerprint based bot detection. 
         Possible values = NONE, LOG, DROP, REDIRECT, RESET, MITIGATION 
-    .PARAMETER bot_enable_ip_reputation 
-        Enable IP-reputation bot detection.  
-        Default value: OFF  
+    .PARAMETER Bot_enable_ip_reputation 
+        Enable IP-reputation bot detection. 
         Possible values = ON, OFF 
-    .PARAMETER trap 
-        Enable trap bot detection.  
-        Default value: OFF  
+    .PARAMETER Trap 
+        Enable trap bot detection. 
         Possible values = ON, OFF 
-    .PARAMETER trapaction 
-        Action to be taken for bot trap based bot detection.  
-        Default value: NONE  
+    .PARAMETER Signaturenouseragentheaderaction 
+        Actions to be taken if no User-Agent header in the request (Applicable if Signature check is enabled). 
         Possible values = NONE, LOG, DROP, REDIRECT, RESET 
-    .PARAMETER bot_enable_tps 
-        Enable TPS.  
-        Default value: OFF  
+    .PARAMETER Signaturemultipleuseragentheaderaction 
+        Actions to be taken if multiple User-Agent headers are seen in a request (Applicable if Signature check is enabled). Log action should be combined with other actions. 
+        Possible values = CHECKLAST, LOG, DROP, REDIRECT, RESET 
+    .PARAMETER Trapaction 
+        Action to be taken for bot trap based bot detection. 
+        Possible values = NONE, LOG, DROP, REDIRECT, RESET 
+    .PARAMETER Bot_enable_tps 
+        Enable TPS. 
         Possible values = ON, OFF 
+    .PARAMETER Devicefingerprintmobile 
+        Enabling bot device fingerprint protection for mobile clients. 
+        Possible values = NONE, Android, iOS 
+    .PARAMETER Clientipexpression 
+        Expression to get the client IP. 
+    .PARAMETER Kmjavascriptname 
+        Name of the JavaScript file that the Bot Management feature will insert in the response for keyboard-mouse based detection. 
+        Must begin with a letter, number, or the underscore character (_), and must contain only letters, numbers, and the hyphen (-), period (.) hash (#), space ( ), at (@), equals (=), colon (:), and underscore characters. 
+    .PARAMETER Kmdetection 
+        Enable keyboard-mouse based bot detection. 
+        Possible values = ON, OFF 
+    .PARAMETER Kmeventspostbodylimit 
+        Size of the KM data send by the browser, needs to be processed on ADC. 
+    .PARAMETER Verboseloglevel 
+        Bot verbose Logging. Based on the log level, ADC will log additional information whenever client is detected as a bot. 
+        Possible values = NONE, HTTP_FULL_HEADER 
     .PARAMETER PassThru 
         Return details about the created botprofile item.
     .EXAMPLE
-        Invoke-ADCUpdateBotprofile -name <string>
+        PS C:\>Invoke-ADCUpdateBotprofile -name <string>
+        An example how to update botprofile configuration Object(s).
     .NOTES
         File Name : Invoke-ADCUpdateBotprofile
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/bot/botprofile/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
+    #>
     [CmdletBinding(SupportsShouldProcess = $true, ConfirmImpact = "Low")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
-        [Parameter(Mandatory = $true)]
+        [Parameter(Mandatory)]
         [ValidateLength(1, 31)]
-        [string]$name ,
+        [string]$Name,
 
         [ValidateScript({ $_.Length -gt 1 })]
-        [string]$signature ,
+        [string]$Signature,
 
         [ValidateScript({ $_.Length -gt 1 })]
-        [string]$errorurl ,
+        [string]$Errorurl,
 
         [ValidateLength(1, 127)]
-        [string]$trapurl ,
+        [string]$Trapurl,
 
         [ValidateScript({ $_.Length -gt 1 })]
-        [string]$comment ,
+        [string]$Comment,
 
         [ValidateSet('ON', 'OFF')]
-        [string]$bot_enable_white_list ,
+        [string]$Bot_enable_white_list,
 
         [ValidateSet('ON', 'OFF')]
-        [string]$bot_enable_black_list ,
+        [string]$Bot_enable_black_list,
 
         [ValidateSet('ON', 'OFF')]
-        [string]$bot_enable_rate_limit ,
+        [string]$Bot_enable_rate_limit,
 
         [ValidateSet('ON', 'OFF')]
-        [string]$devicefingerprint ,
+        [string]$Devicefingerprint,
 
         [ValidateSet('NONE', 'LOG', 'DROP', 'REDIRECT', 'RESET', 'MITIGATION')]
-        [string[]]$devicefingerprintaction ,
+        [string[]]$Devicefingerprintaction,
 
         [ValidateSet('ON', 'OFF')]
-        [string]$bot_enable_ip_reputation ,
+        [string]$Bot_enable_ip_reputation,
 
         [ValidateSet('ON', 'OFF')]
-        [string]$trap ,
+        [string]$Trap,
 
         [ValidateSet('NONE', 'LOG', 'DROP', 'REDIRECT', 'RESET')]
-        [string[]]$trapaction ,
+        [string[]]$Signaturenouseragentheaderaction,
+
+        [ValidateSet('CHECKLAST', 'LOG', 'DROP', 'REDIRECT', 'RESET')]
+        [string[]]$Signaturemultipleuseragentheaderaction,
+
+        [ValidateSet('NONE', 'LOG', 'DROP', 'REDIRECT', 'RESET')]
+        [string[]]$Trapaction,
 
         [ValidateSet('ON', 'OFF')]
-        [string]$bot_enable_tps ,
+        [string]$Bot_enable_tps,
+
+        [ValidateSet('NONE', 'Android', 'iOS')]
+        [string[]]$Devicefingerprintmobile,
+
+        [string]$Clientipexpression,
+
+        [string]$Kmjavascriptname,
+
+        [ValidateSet('ON', 'OFF')]
+        [string]$Kmdetection,
+
+        [ValidateRange(1, 204800)]
+        [double]$Kmeventspostbodylimit,
+
+        [ValidateSet('NONE', 'HTTP_FULL_HEADER')]
+        [string]$Verboseloglevel,
 
         [Switch]$PassThru 
-
     )
     begin {
         Write-Verbose "Invoke-ADCUpdateBotprofile: Starting"
     }
     process {
         try {
-            $Payload = @{
-                name = $name
-            }
-            if ($PSBoundParameters.ContainsKey('signature')) { $Payload.Add('signature', $signature) }
-            if ($PSBoundParameters.ContainsKey('errorurl')) { $Payload.Add('errorurl', $errorurl) }
-            if ($PSBoundParameters.ContainsKey('trapurl')) { $Payload.Add('trapurl', $trapurl) }
-            if ($PSBoundParameters.ContainsKey('comment')) { $Payload.Add('comment', $comment) }
-            if ($PSBoundParameters.ContainsKey('bot_enable_white_list')) { $Payload.Add('bot_enable_white_list', $bot_enable_white_list) }
-            if ($PSBoundParameters.ContainsKey('bot_enable_black_list')) { $Payload.Add('bot_enable_black_list', $bot_enable_black_list) }
-            if ($PSBoundParameters.ContainsKey('bot_enable_rate_limit')) { $Payload.Add('bot_enable_rate_limit', $bot_enable_rate_limit) }
-            if ($PSBoundParameters.ContainsKey('devicefingerprint')) { $Payload.Add('devicefingerprint', $devicefingerprint) }
-            if ($PSBoundParameters.ContainsKey('devicefingerprintaction')) { $Payload.Add('devicefingerprintaction', $devicefingerprintaction) }
-            if ($PSBoundParameters.ContainsKey('bot_enable_ip_reputation')) { $Payload.Add('bot_enable_ip_reputation', $bot_enable_ip_reputation) }
-            if ($PSBoundParameters.ContainsKey('trap')) { $Payload.Add('trap', $trap) }
-            if ($PSBoundParameters.ContainsKey('trapaction')) { $Payload.Add('trapaction', $trapaction) }
-            if ($PSBoundParameters.ContainsKey('bot_enable_tps')) { $Payload.Add('bot_enable_tps', $bot_enable_tps) }
- 
-            if ($PSCmdlet.ShouldProcess("botprofile", "Update Bot configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -NitroPath nitro/v1/config -Type botprofile -Payload $Payload -GetWarning
+            $payload = @{ name = $name }
+            if ( $PSBoundParameters.ContainsKey('signature') ) { $payload.Add('signature', $signature) }
+            if ( $PSBoundParameters.ContainsKey('errorurl') ) { $payload.Add('errorurl', $errorurl) }
+            if ( $PSBoundParameters.ContainsKey('trapurl') ) { $payload.Add('trapurl', $trapurl) }
+            if ( $PSBoundParameters.ContainsKey('comment') ) { $payload.Add('comment', $comment) }
+            if ( $PSBoundParameters.ContainsKey('bot_enable_white_list') ) { $payload.Add('bot_enable_white_list', $bot_enable_white_list) }
+            if ( $PSBoundParameters.ContainsKey('bot_enable_black_list') ) { $payload.Add('bot_enable_black_list', $bot_enable_black_list) }
+            if ( $PSBoundParameters.ContainsKey('bot_enable_rate_limit') ) { $payload.Add('bot_enable_rate_limit', $bot_enable_rate_limit) }
+            if ( $PSBoundParameters.ContainsKey('devicefingerprint') ) { $payload.Add('devicefingerprint', $devicefingerprint) }
+            if ( $PSBoundParameters.ContainsKey('devicefingerprintaction') ) { $payload.Add('devicefingerprintaction', $devicefingerprintaction) }
+            if ( $PSBoundParameters.ContainsKey('bot_enable_ip_reputation') ) { $payload.Add('bot_enable_ip_reputation', $bot_enable_ip_reputation) }
+            if ( $PSBoundParameters.ContainsKey('trap') ) { $payload.Add('trap', $trap) }
+            if ( $PSBoundParameters.ContainsKey('signaturenouseragentheaderaction') ) { $payload.Add('signaturenouseragentheaderaction', $signaturenouseragentheaderaction) }
+            if ( $PSBoundParameters.ContainsKey('signaturemultipleuseragentheaderaction') ) { $payload.Add('signaturemultipleuseragentheaderaction', $signaturemultipleuseragentheaderaction) }
+            if ( $PSBoundParameters.ContainsKey('trapaction') ) { $payload.Add('trapaction', $trapaction) }
+            if ( $PSBoundParameters.ContainsKey('bot_enable_tps') ) { $payload.Add('bot_enable_tps', $bot_enable_tps) }
+            if ( $PSBoundParameters.ContainsKey('devicefingerprintmobile') ) { $payload.Add('devicefingerprintmobile', $devicefingerprintmobile) }
+            if ( $PSBoundParameters.ContainsKey('clientipexpression') ) { $payload.Add('clientipexpression', $clientipexpression) }
+            if ( $PSBoundParameters.ContainsKey('kmjavascriptname') ) { $payload.Add('kmjavascriptname', $kmjavascriptname) }
+            if ( $PSBoundParameters.ContainsKey('kmdetection') ) { $payload.Add('kmdetection', $kmdetection) }
+            if ( $PSBoundParameters.ContainsKey('kmeventspostbodylimit') ) { $payload.Add('kmeventspostbodylimit', $kmeventspostbodylimit) }
+            if ( $PSBoundParameters.ContainsKey('verboseloglevel') ) { $payload.Add('verboseloglevel', $verboseloglevel) }
+            if ( $PSCmdlet.ShouldProcess("botprofile", "Update Bot configuration Object") ) {
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -NitroPath nitro/v1/config -Type botprofile -Payload $payload -GetWarning
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
-                if ($PSBoundParameters.ContainsKey('PassThru')) {
-                    Write-Output (Invoke-ADCGetBotprofile -Filter $Payload)
+                if ( $PSBoundParameters.ContainsKey('PassThru') ) {
+                    Write-Output (Invoke-ADCGetBotprofile -Filter $payload)
                 } else {
                     Write-Output $result
                 }
-
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -2348,121 +2457,166 @@ function Invoke-ADCUpdateBotprofile {
 }
 
 function Invoke-ADCUnsetBotprofile {
-<#
+    <#
     .SYNOPSIS
-        Unset Bot configuration Object
+        Unset Bot configuration Object.
     .DESCRIPTION
-        Unset Bot configuration Object 
-   .PARAMETER name 
-       Name for the profile. Must begin with a letter, number, or the underscore character (_), and must contain only letters, numbers, and the hyphen (-), period (.), pound (#), space ( ), at (@), equals (=), colon (:), and underscore (_) characters. Cannot be changed after the profile is added. 
-   .PARAMETER signature 
-       Name of object containing bot static signature details. 
-   .PARAMETER errorurl 
-       URL that Bot protection uses as the Error URL. 
-   .PARAMETER trapurl 
-       URL that Bot protection uses as the Trap URL. 
-   .PARAMETER comment 
-       Any comments about the purpose of profile, or other useful information about the profile. 
-   .PARAMETER bot_enable_white_list 
-       Enable white-list bot detection.  
-       Possible values = ON, OFF 
-   .PARAMETER bot_enable_black_list 
-       Enable black-list bot detection.  
-       Possible values = ON, OFF 
-   .PARAMETER bot_enable_rate_limit 
-       Enable rate-limit bot detection.  
-       Possible values = ON, OFF 
-   .PARAMETER devicefingerprint 
-       Enable device-fingerprint bot detection.  
-       Possible values = ON, OFF 
-   .PARAMETER devicefingerprintaction 
-       Action to be taken for device-fingerprint based bot detection.  
-       Possible values = NONE, LOG, DROP, REDIRECT, RESET, MITIGATION 
-   .PARAMETER bot_enable_ip_reputation 
-       Enable IP-reputation bot detection.  
-       Possible values = ON, OFF 
-   .PARAMETER trap 
-       Enable trap bot detection.  
-       Possible values = ON, OFF 
-   .PARAMETER trapaction 
-       Action to be taken for bot trap based bot detection.  
-       Possible values = NONE, LOG, DROP, REDIRECT, RESET 
-   .PARAMETER bot_enable_tps 
-       Enable TPS.  
-       Possible values = ON, OFF
+        Configuration for Bot profile resource.
+    .PARAMETER Name 
+        Name for the profile. Must begin with a letter, number, or the underscore character (_), and must contain only letters, numbers, and the hyphen (-), period (.), pound (#), space ( ), at (@), equals (=), colon (:), and underscore (_) characters. Cannot be changed after the profile is added. 
+    .PARAMETER Signature 
+        Name of object containing bot static signature details. 
+    .PARAMETER Errorurl 
+        URL that Bot protection uses as the Error URL. 
+    .PARAMETER Trapurl 
+        URL that Bot protection uses as the Trap URL. 
+    .PARAMETER Comment 
+        Any comments about the purpose of profile, or other useful information about the profile. 
+    .PARAMETER Bot_enable_white_list 
+        Enable white-list bot detection. 
+        Possible values = ON, OFF 
+    .PARAMETER Bot_enable_black_list 
+        Enable black-list bot detection. 
+        Possible values = ON, OFF 
+    .PARAMETER Bot_enable_rate_limit 
+        Enable rate-limit bot detection. 
+        Possible values = ON, OFF 
+    .PARAMETER Devicefingerprint 
+        Enable device-fingerprint bot detection. 
+        Possible values = ON, OFF 
+    .PARAMETER Devicefingerprintaction 
+        Action to be taken for device-fingerprint based bot detection. 
+        Possible values = NONE, LOG, DROP, REDIRECT, RESET, MITIGATION 
+    .PARAMETER Bot_enable_ip_reputation 
+        Enable IP-reputation bot detection. 
+        Possible values = ON, OFF 
+    .PARAMETER Trap 
+        Enable trap bot detection. 
+        Possible values = ON, OFF 
+    .PARAMETER Signaturenouseragentheaderaction 
+        Actions to be taken if no User-Agent header in the request (Applicable if Signature check is enabled). 
+        Possible values = NONE, LOG, DROP, REDIRECT, RESET 
+    .PARAMETER Signaturemultipleuseragentheaderaction 
+        Actions to be taken if multiple User-Agent headers are seen in a request (Applicable if Signature check is enabled). Log action should be combined with other actions. 
+        Possible values = CHECKLAST, LOG, DROP, REDIRECT, RESET 
+    .PARAMETER Trapaction 
+        Action to be taken for bot trap based bot detection. 
+        Possible values = NONE, LOG, DROP, REDIRECT, RESET 
+    .PARAMETER Bot_enable_tps 
+        Enable TPS. 
+        Possible values = ON, OFF 
+    .PARAMETER Devicefingerprintmobile 
+        Enabling bot device fingerprint protection for mobile clients. 
+        Possible values = NONE, Android, iOS 
+    .PARAMETER Clientipexpression 
+        Expression to get the client IP. 
+    .PARAMETER Kmjavascriptname 
+        Name of the JavaScript file that the Bot Management feature will insert in the response for keyboard-mouse based detection. 
+        Must begin with a letter, number, or the underscore character (_), and must contain only letters, numbers, and the hyphen (-), period (.) hash (#), space ( ), at (@), equals (=), colon (:), and underscore characters. 
+    .PARAMETER Kmdetection 
+        Enable keyboard-mouse based bot detection. 
+        Possible values = ON, OFF 
+    .PARAMETER Kmeventspostbodylimit 
+        Size of the KM data send by the browser, needs to be processed on ADC. 
+    .PARAMETER Verboseloglevel 
+        Bot verbose Logging. Based on the log level, ADC will log additional information whenever client is detected as a bot. 
+        Possible values = NONE, HTTP_FULL_HEADER
     .EXAMPLE
-        Invoke-ADCUnsetBotprofile -name <string>
+        PS C:\>Invoke-ADCUnsetBotprofile -name <string>
+        An example how to unset botprofile configuration Object(s).
     .NOTES
         File Name : Invoke-ADCUnsetBotprofile
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/bot/botprofile
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
+    #>
     [CmdletBinding(SupportsShouldProcess = $true, ConfirmImpact = "Low")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
-        [Parameter(Mandatory = $true)]
         [ValidateLength(1, 31)]
-        [string]$name ,
+        [string]$Name,
 
-        [Boolean]$signature ,
+        [Boolean]$signature,
 
-        [Boolean]$errorurl ,
+        [Boolean]$errorurl,
 
-        [Boolean]$trapurl ,
+        [Boolean]$trapurl,
 
-        [Boolean]$comment ,
+        [Boolean]$comment,
 
-        [Boolean]$bot_enable_white_list ,
+        [Boolean]$bot_enable_white_list,
 
-        [Boolean]$bot_enable_black_list ,
+        [Boolean]$bot_enable_black_list,
 
-        [Boolean]$bot_enable_rate_limit ,
+        [Boolean]$bot_enable_rate_limit,
 
-        [Boolean]$devicefingerprint ,
+        [Boolean]$devicefingerprint,
 
-        [Boolean]$devicefingerprintaction ,
+        [Boolean]$devicefingerprintaction,
 
-        [Boolean]$bot_enable_ip_reputation ,
+        [Boolean]$bot_enable_ip_reputation,
 
-        [Boolean]$trap ,
+        [Boolean]$trap,
 
-        [Boolean]$trapaction ,
+        [Boolean]$signaturenouseragentheaderaction,
 
-        [Boolean]$bot_enable_tps 
+        [Boolean]$signaturemultipleuseragentheaderaction,
+
+        [Boolean]$trapaction,
+
+        [Boolean]$bot_enable_tps,
+
+        [Boolean]$devicefingerprintmobile,
+
+        [Boolean]$clientipexpression,
+
+        [Boolean]$kmjavascriptname,
+
+        [Boolean]$kmdetection,
+
+        [Boolean]$kmeventspostbodylimit,
+
+        [Boolean]$verboseloglevel 
     )
     begin {
         Write-Verbose "Invoke-ADCUnsetBotprofile: Starting"
     }
     process {
         try {
-            $Payload = @{
-                name = $name
-            }
-            if ($PSBoundParameters.ContainsKey('signature')) { $Payload.Add('signature', $signature) }
-            if ($PSBoundParameters.ContainsKey('errorurl')) { $Payload.Add('errorurl', $errorurl) }
-            if ($PSBoundParameters.ContainsKey('trapurl')) { $Payload.Add('trapurl', $trapurl) }
-            if ($PSBoundParameters.ContainsKey('comment')) { $Payload.Add('comment', $comment) }
-            if ($PSBoundParameters.ContainsKey('bot_enable_white_list')) { $Payload.Add('bot_enable_white_list', $bot_enable_white_list) }
-            if ($PSBoundParameters.ContainsKey('bot_enable_black_list')) { $Payload.Add('bot_enable_black_list', $bot_enable_black_list) }
-            if ($PSBoundParameters.ContainsKey('bot_enable_rate_limit')) { $Payload.Add('bot_enable_rate_limit', $bot_enable_rate_limit) }
-            if ($PSBoundParameters.ContainsKey('devicefingerprint')) { $Payload.Add('devicefingerprint', $devicefingerprint) }
-            if ($PSBoundParameters.ContainsKey('devicefingerprintaction')) { $Payload.Add('devicefingerprintaction', $devicefingerprintaction) }
-            if ($PSBoundParameters.ContainsKey('bot_enable_ip_reputation')) { $Payload.Add('bot_enable_ip_reputation', $bot_enable_ip_reputation) }
-            if ($PSBoundParameters.ContainsKey('trap')) { $Payload.Add('trap', $trap) }
-            if ($PSBoundParameters.ContainsKey('trapaction')) { $Payload.Add('trapaction', $trapaction) }
-            if ($PSBoundParameters.ContainsKey('bot_enable_tps')) { $Payload.Add('bot_enable_tps', $bot_enable_tps) }
-            if ($PSCmdlet.ShouldProcess("$name", "Unset Bot configuration Object")) {
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -Type botprofile -NitroPath nitro/v1/config -Action unset -Payload $Payload -GetWarning
+            $payload = @{ name = $name }
+            if ( $PSBoundParameters.ContainsKey('signature') ) { $payload.Add('signature', $signature) }
+            if ( $PSBoundParameters.ContainsKey('errorurl') ) { $payload.Add('errorurl', $errorurl) }
+            if ( $PSBoundParameters.ContainsKey('trapurl') ) { $payload.Add('trapurl', $trapurl) }
+            if ( $PSBoundParameters.ContainsKey('comment') ) { $payload.Add('comment', $comment) }
+            if ( $PSBoundParameters.ContainsKey('bot_enable_white_list') ) { $payload.Add('bot_enable_white_list', $bot_enable_white_list) }
+            if ( $PSBoundParameters.ContainsKey('bot_enable_black_list') ) { $payload.Add('bot_enable_black_list', $bot_enable_black_list) }
+            if ( $PSBoundParameters.ContainsKey('bot_enable_rate_limit') ) { $payload.Add('bot_enable_rate_limit', $bot_enable_rate_limit) }
+            if ( $PSBoundParameters.ContainsKey('devicefingerprint') ) { $payload.Add('devicefingerprint', $devicefingerprint) }
+            if ( $PSBoundParameters.ContainsKey('devicefingerprintaction') ) { $payload.Add('devicefingerprintaction', $devicefingerprintaction) }
+            if ( $PSBoundParameters.ContainsKey('bot_enable_ip_reputation') ) { $payload.Add('bot_enable_ip_reputation', $bot_enable_ip_reputation) }
+            if ( $PSBoundParameters.ContainsKey('trap') ) { $payload.Add('trap', $trap) }
+            if ( $PSBoundParameters.ContainsKey('signaturenouseragentheaderaction') ) { $payload.Add('signaturenouseragentheaderaction', $signaturenouseragentheaderaction) }
+            if ( $PSBoundParameters.ContainsKey('signaturemultipleuseragentheaderaction') ) { $payload.Add('signaturemultipleuseragentheaderaction', $signaturemultipleuseragentheaderaction) }
+            if ( $PSBoundParameters.ContainsKey('trapaction') ) { $payload.Add('trapaction', $trapaction) }
+            if ( $PSBoundParameters.ContainsKey('bot_enable_tps') ) { $payload.Add('bot_enable_tps', $bot_enable_tps) }
+            if ( $PSBoundParameters.ContainsKey('devicefingerprintmobile') ) { $payload.Add('devicefingerprintmobile', $devicefingerprintmobile) }
+            if ( $PSBoundParameters.ContainsKey('clientipexpression') ) { $payload.Add('clientipexpression', $clientipexpression) }
+            if ( $PSBoundParameters.ContainsKey('kmjavascriptname') ) { $payload.Add('kmjavascriptname', $kmjavascriptname) }
+            if ( $PSBoundParameters.ContainsKey('kmdetection') ) { $payload.Add('kmdetection', $kmdetection) }
+            if ( $PSBoundParameters.ContainsKey('kmeventspostbodylimit') ) { $payload.Add('kmeventspostbodylimit', $kmeventspostbodylimit) }
+            if ( $PSBoundParameters.ContainsKey('verboseloglevel') ) { $payload.Add('verboseloglevel', $verboseloglevel) }
+            if ( $PSCmdlet.ShouldProcess("$name", "Unset Bot configuration Object") ) {
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -Type botprofile -NitroPath nitro/v1/config -Action unset -Payload $payload -GetWarning
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $response
@@ -2478,46 +2632,47 @@ function Invoke-ADCUnsetBotprofile {
 }
 
 function Invoke-ADCDeleteBotprofile {
-<#
+    <#
     .SYNOPSIS
-        Delete Bot configuration Object
+        Delete Bot configuration Object.
     .DESCRIPTION
-        Delete Bot configuration Object
-    .PARAMETER name 
-       Name for the profile. Must begin with a letter, number, or the underscore character (_), and must contain only letters, numbers, and the hyphen (-), period (.), pound (#), space ( ), at (@), equals (=), colon (:), and underscore (_) characters. Cannot be changed after the profile is added. 
+        Configuration for Bot profile resource.
+    .PARAMETER Name 
+        Name for the profile. Must begin with a letter, number, or the underscore character (_), and must contain only letters, numbers, and the hyphen (-), period (.), pound (#), space ( ), at (@), equals (=), colon (:), and underscore (_) characters. Cannot be changed after the profile is added.
     .EXAMPLE
-        Invoke-ADCDeleteBotprofile -name <string>
+        PS C:\>Invoke-ADCDeleteBotprofile -Name <string>
+        An example how to delete botprofile configuration Object(s).
     .NOTES
         File Name : Invoke-ADCDeleteBotprofile
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/bot/botprofile/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
+    #>
     [CmdletBinding(SupportsShouldProcess = $true, ConfirmImpact = "Low")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
-        [Parameter(Mandatory = $true)]
-        [string]$name 
+        [Parameter(Mandatory)]
+        [string]$Name 
     )
     begin {
         Write-Verbose "Invoke-ADCDeleteBotprofile: Starting"
     }
     process {
         try {
-            $Arguments = @{ 
-            }
+            $arguments = @{ }
 
-            if ($PSCmdlet.ShouldProcess("$name", "Delete Bot configuration Object")) {
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type botprofile -NitroPath nitro/v1/config -Resource $name -Arguments $Arguments
+            if ( $PSCmdlet.ShouldProcess("$name", "Delete Bot configuration Object") ) {
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type botprofile -NitroPath nitro/v1/config -Resource $name -Arguments $arguments
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $response
@@ -2533,55 +2688,61 @@ function Invoke-ADCDeleteBotprofile {
 }
 
 function Invoke-ADCGetBotprofile {
-<#
+    <#
     .SYNOPSIS
-        Get Bot configuration object(s)
+        Get Bot configuration object(s).
     .DESCRIPTION
-        Get Bot configuration object(s)
-    .PARAMETER name 
-       Name for the profile. Must begin with a letter, number, or the underscore character (_), and must contain only letters, numbers, and the hyphen (-), period (.), pound (#), space ( ), at (@), equals (=), colon (:), and underscore (_) characters. Cannot be changed after the profile is added. 
+        Configuration for Bot profile resource.
+    .PARAMETER Name 
+        Name for the profile. Must begin with a letter, number, or the underscore character (_), and must contain only letters, numbers, and the hyphen (-), period (.), pound (#), space ( ), at (@), equals (=), colon (:), and underscore (_) characters. Cannot be changed after the profile is added. 
     .PARAMETER GetAll 
-        Retreive all botprofile object(s)
+        Retrieve all botprofile object(s).
     .PARAMETER Count
-        If specified, the count of the botprofile object(s) will be returned
+        If specified, the count of the botprofile object(s) will be returned.
     .PARAMETER Filter
-        Specify a filter
+        Specify a filter.
         -Filter @{ 'name'='<value>' }
     .PARAMETER ViewSummary
-        When specified, only a summary of information is returned
+        When specified, only a summary of information is returned.
     .EXAMPLE
-        Invoke-ADCGetBotprofile
+        PS C:\>Invoke-ADCGetBotprofile
+        Get data.
     .EXAMPLE 
-        Invoke-ADCGetBotprofile -GetAll 
+        PS C:\>Invoke-ADCGetBotprofile -GetAll 
+        Get all botprofile data. 
     .EXAMPLE 
-        Invoke-ADCGetBotprofile -Count
+        PS C:\>Invoke-ADCGetBotprofile -Count 
+        Get the number of botprofile objects.
     .EXAMPLE
-        Invoke-ADCGetBotprofile -name <string>
+        PS C:\>Invoke-ADCGetBotprofile -name <string>
+        Get botprofile object by specifying for example the name.
     .EXAMPLE
-        Invoke-ADCGetBotprofile -Filter @{ 'name'='<value>' }
+        PS C:\>Invoke-ADCGetBotprofile -Filter @{ 'name'='<value>' }
+        Get botprofile data with a filter.
     .NOTES
         File Name : Invoke-ADCGetBotprofile
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/bot/botprofile/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
-    [CmdletBinding(DefaultParameterSetName = "Getall")]
+    #>
+    [CmdletBinding(DefaultParameterSetName = "GetAll")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
         [Parameter(ParameterSetName = 'GetByResource')]
         [ValidateLength(1, 31)]
-        [string]$name,
+        [string]$Name,
 
-        [Parameter(ParameterSetName = 'Count', Mandatory = $true)]
+        [Parameter(ParameterSetName = 'Count', Mandatory)]
         [Switch]$Count,
 			
         [hashtable]$Filter = @{ },
@@ -2599,24 +2760,24 @@ function Invoke-ADCGetBotprofile {
     }
     process {
         try {
-            if ( $PsCmdlet.ParameterSetName -eq 'Getall' ) {
-                $Query = @{ }
+            if ( $PsCmdlet.ParameterSetName -eq 'GetAll' ) {
+                $query = @{ }
                 Write-Verbose "Retrieving all botprofile objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type botprofile -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type botprofile -NitroPath nitro/v1/config -Query $query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
-                if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
+                if ( $PSBoundParameters.ContainsKey('Count') ) { $query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for botprofile objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type botprofile -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type botprofile -NitroPath nitro/v1/config -Query $query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving botprofile objects by arguments"
-                $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type botprofile -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
+                $arguments = @{ } 
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type botprofile -NitroPath nitro/v1/config -Arguments $arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving botprofile configuration for property 'name'"
                 $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type botprofile -NitroPath nitro/v1/config -Resource $name -Summary:$ViewSummary -Filter $Filter -GetWarning
             } else {
                 Write-Verbose "Retrieving botprofile configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type botprofile -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type botprofile -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -2630,51 +2791,56 @@ function Invoke-ADCGetBotprofile {
 }
 
 function Invoke-ADCGetBotprofilebinding {
-<#
+    <#
     .SYNOPSIS
-        Get Bot configuration object(s)
+        Get Bot configuration object(s).
     .DESCRIPTION
-        Get Bot configuration object(s)
-    .PARAMETER name 
-       Name of the bot management profile. 
+        Binding object which returns the resources bound to botprofile.
+    .PARAMETER Name 
+        Name of the bot management profile. 
     .PARAMETER GetAll 
-        Retreive all botprofile_binding object(s)
+        Retrieve all botprofile_binding object(s).
     .PARAMETER Count
-        If specified, the count of the botprofile_binding object(s) will be returned
+        If specified, the count of the botprofile_binding object(s) will be returned.
     .PARAMETER Filter
-        Specify a filter
+        Specify a filter.
         -Filter @{ 'name'='<value>' }
     .PARAMETER ViewSummary
-        When specified, only a summary of information is returned
+        When specified, only a summary of information is returned.
     .EXAMPLE
-        Invoke-ADCGetBotprofilebinding
+        PS C:\>Invoke-ADCGetBotprofilebinding
+        Get data.
     .EXAMPLE 
-        Invoke-ADCGetBotprofilebinding -GetAll
+        PS C:\>Invoke-ADCGetBotprofilebinding -GetAll 
+        Get all botprofile_binding data.
     .EXAMPLE
-        Invoke-ADCGetBotprofilebinding -name <string>
+        PS C:\>Invoke-ADCGetBotprofilebinding -name <string>
+        Get botprofile_binding object by specifying for example the name.
     .EXAMPLE
-        Invoke-ADCGetBotprofilebinding -Filter @{ 'name'='<value>' }
+        PS C:\>Invoke-ADCGetBotprofilebinding -Filter @{ 'name'='<value>' }
+        Get botprofile_binding data with a filter.
     .NOTES
         File Name : Invoke-ADCGetBotprofilebinding
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/bot/botprofile_binding/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
-    [CmdletBinding(DefaultParameterSetName = "Getall")]
+    #>
+    [CmdletBinding(DefaultParameterSetName = "GetAll")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
         [Parameter(ParameterSetName = 'GetByResource')]
         [ValidateLength(1, 31)]
-        [string]$name,
+        [string]$Name,
 			
         [hashtable]$Filter = @{ },
 
@@ -2686,26 +2852,24 @@ function Invoke-ADCGetBotprofilebinding {
     }
     process {
         try {
-            if ( $PsCmdlet.ParameterSetName -eq 'Getall' ) {
-                $Query = @{ 
-                    bulkbindings = 'yes'
-                }
+            if ( $PsCmdlet.ParameterSetName -eq 'GetAll' ) {
+                $query = @{  bulkbindings = 'yes' }
                 Write-Verbose "Retrieving all botprofile_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type botprofile_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type botprofile_binding -NitroPath nitro/v1/config -Query $query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
-                if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
+                if ( $PSBoundParameters.ContainsKey('Count') ) { $query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for botprofile_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type botprofile_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type botprofile_binding -NitroPath nitro/v1/config -Query $query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving botprofile_binding objects by arguments"
-                $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type botprofile_binding -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
+                $arguments = @{ } 
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type botprofile_binding -NitroPath nitro/v1/config -Arguments $arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving botprofile_binding configuration for property 'name'"
                 $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type botprofile_binding -NitroPath nitro/v1/config -Resource $name -Summary:$ViewSummary -Filter $Filter -GetWarning
             } else {
                 Write-Verbose "Retrieving botprofile_binding configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type botprofile_binding -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type botprofile_binding -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -2719,107 +2883,101 @@ function Invoke-ADCGetBotprofilebinding {
 }
 
 function Invoke-ADCAddBotprofileblacklistbinding {
-<#
+    <#
     .SYNOPSIS
-        Add Bot configuration Object
+        Add Bot configuration Object.
     .DESCRIPTION
-        Add Bot configuration Object 
-    .PARAMETER name 
+        Binding object showing the blacklist that can be bound to botprofile.
+    .PARAMETER Name 
         Name for the profile. Must begin with a letter, number, or the underscore character (_), and must contain only letters, numbers, and the hyphen (-), period (.), pound (#), space ( ), at (@), equals (=), colon (:), and underscore (_) characters. Cannot be changed after the profile is added. 
-    .PARAMETER bot_blacklist 
+    .PARAMETER Bot_blacklist 
         Blacklist binding. Maximum 32 bindings can be configured per profile for Blacklist detection. 
-    .PARAMETER bot_blacklist_type 
-        Type of the black-list entry.  
+    .PARAMETER Bot_blacklist_type 
+        Type of the black-list entry. 
         Possible values = IPv4, SUBNET, EXPRESSION 
-    .PARAMETER bot_blacklist_value 
+    .PARAMETER Bot_blacklist_value 
         Value of the bot black-list entry. 
-    .PARAMETER bot_blacklist_action 
-        One or more actions to be taken if bot is detected based on this Blacklist binding. Only LOG action can be combined with DROP or RESET action.  
-        Possible values = LOG, DROP, RESET 
-    .PARAMETER bot_blacklist_enabled 
-        Enabled or disbaled black-list binding.  
-        Default value: OFF  
+    .PARAMETER Bot_blacklist_action 
+        One or more actions to be taken if bot is detected based on this Blacklist binding. Only LOG action can be combined with DROP or RESET action. 
+        Possible values = NONE, LOG, DROP, RESET, REDIRECT 
+    .PARAMETER Bot_blacklist_enabled 
+        Enabled or disbaled black-list binding. 
         Possible values = ON, OFF 
-    .PARAMETER logmessage 
-        Message to be logged for this binding.  
-        Minimum length = 1 
-    .PARAMETER bot_bind_comment 
-        Any comments about this binding.  
-        Minimum length = 1 
+    .PARAMETER Logmessage 
+        Message to be logged for this binding. 
+    .PARAMETER Bot_bind_comment 
+        Any comments about this binding. 
     .PARAMETER PassThru 
         Return details about the created botprofile_blacklist_binding item.
     .EXAMPLE
-        Invoke-ADCAddBotprofileblacklistbinding -name <string>
+        PS C:\>Invoke-ADCAddBotprofileblacklistbinding -name <string>
+        An example how to add botprofile_blacklist_binding configuration Object(s).
     .NOTES
         File Name : Invoke-ADCAddBotprofileblacklistbinding
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/bot/botprofile_blacklist_binding/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
+    #>
     [CmdletBinding(SupportsShouldProcess = $true, ConfirmImpact = "Low")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
-        [Parameter(Mandatory = $true)]
+        [Parameter(Mandatory)]
         [ValidateLength(1, 31)]
-        [string]$name ,
+        [string]$Name,
 
-        [boolean]$bot_blacklist ,
+        [boolean]$Bot_blacklist,
 
         [ValidateSet('IPv4', 'SUBNET', 'EXPRESSION')]
-        [string]$bot_blacklist_type ,
+        [string]$Bot_blacklist_type,
 
-        [string]$bot_blacklist_value ,
+        [string]$Bot_blacklist_value,
 
-        [ValidateSet('LOG', 'DROP', 'RESET')]
-        [string[]]$bot_blacklist_action ,
+        [ValidateSet('NONE', 'LOG', 'DROP', 'RESET', 'REDIRECT')]
+        [string[]]$Bot_blacklist_action = 'NONE',
 
         [ValidateSet('ON', 'OFF')]
-        [string]$bot_blacklist_enabled = 'OFF' ,
+        [string]$Bot_blacklist_enabled = 'OFF',
 
         [ValidateScript({ $_.Length -gt 1 })]
-        [string]$logmessage ,
+        [string]$Logmessage,
 
         [ValidateScript({ $_.Length -gt 1 })]
-        [string]$bot_bind_comment ,
+        [string]$Bot_bind_comment,
 
         [Switch]$PassThru 
-
     )
     begin {
         Write-Verbose "Invoke-ADCAddBotprofileblacklistbinding: Starting"
     }
     process {
         try {
-            $Payload = @{
-                name = $name
-            }
-            if ($PSBoundParameters.ContainsKey('bot_blacklist')) { $Payload.Add('bot_blacklist', $bot_blacklist) }
-            if ($PSBoundParameters.ContainsKey('bot_blacklist_type')) { $Payload.Add('bot_blacklist_type', $bot_blacklist_type) }
-            if ($PSBoundParameters.ContainsKey('bot_blacklist_value')) { $Payload.Add('bot_blacklist_value', $bot_blacklist_value) }
-            if ($PSBoundParameters.ContainsKey('bot_blacklist_action')) { $Payload.Add('bot_blacklist_action', $bot_blacklist_action) }
-            if ($PSBoundParameters.ContainsKey('bot_blacklist_enabled')) { $Payload.Add('bot_blacklist_enabled', $bot_blacklist_enabled) }
-            if ($PSBoundParameters.ContainsKey('logmessage')) { $Payload.Add('logmessage', $logmessage) }
-            if ($PSBoundParameters.ContainsKey('bot_bind_comment')) { $Payload.Add('bot_bind_comment', $bot_bind_comment) }
- 
-            if ($PSCmdlet.ShouldProcess("botprofile_blacklist_binding", "Add Bot configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -NitroPath nitro/v1/config -Type botprofile_blacklist_binding -Payload $Payload -GetWarning
+            $payload = @{ name = $name }
+            if ( $PSBoundParameters.ContainsKey('bot_blacklist') ) { $payload.Add('bot_blacklist', $bot_blacklist) }
+            if ( $PSBoundParameters.ContainsKey('bot_blacklist_type') ) { $payload.Add('bot_blacklist_type', $bot_blacklist_type) }
+            if ( $PSBoundParameters.ContainsKey('bot_blacklist_value') ) { $payload.Add('bot_blacklist_value', $bot_blacklist_value) }
+            if ( $PSBoundParameters.ContainsKey('bot_blacklist_action') ) { $payload.Add('bot_blacklist_action', $bot_blacklist_action) }
+            if ( $PSBoundParameters.ContainsKey('bot_blacklist_enabled') ) { $payload.Add('bot_blacklist_enabled', $bot_blacklist_enabled) }
+            if ( $PSBoundParameters.ContainsKey('logmessage') ) { $payload.Add('logmessage', $logmessage) }
+            if ( $PSBoundParameters.ContainsKey('bot_bind_comment') ) { $payload.Add('bot_bind_comment', $bot_bind_comment) }
+            if ( $PSCmdlet.ShouldProcess("botprofile_blacklist_binding", "Add Bot configuration Object") ) {
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -NitroPath nitro/v1/config -Type botprofile_blacklist_binding -Payload $payload -GetWarning
                 #HTTP Status Code on Success: 201 Created
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
-                if ($PSBoundParameters.ContainsKey('PassThru')) {
-                    Write-Output (Invoke-ADCGetBotprofileblacklistbinding -Filter $Payload)
+                if ( $PSBoundParameters.ContainsKey('PassThru') ) {
+                    Write-Output (Invoke-ADCGetBotprofileblacklistbinding -Filter $payload)
                 } else {
                     Write-Output $result
                 }
-
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -2832,53 +2990,56 @@ function Invoke-ADCAddBotprofileblacklistbinding {
 }
 
 function Invoke-ADCDeleteBotprofileblacklistbinding {
-<#
+    <#
     .SYNOPSIS
-        Delete Bot configuration Object
+        Delete Bot configuration Object.
     .DESCRIPTION
-        Delete Bot configuration Object
-    .PARAMETER name 
-       Name for the profile. Must begin with a letter, number, or the underscore character (_), and must contain only letters, numbers, and the hyphen (-), period (.), pound (#), space ( ), at (@), equals (=), colon (:), and underscore (_) characters. Cannot be changed after the profile is added.    .PARAMETER bot_blacklist 
-       Blacklist binding. Maximum 32 bindings can be configured per profile for Blacklist detection.    .PARAMETER bot_blacklist_value 
-       Value of the bot black-list entry.
+        Binding object showing the blacklist that can be bound to botprofile.
+    .PARAMETER Name 
+        Name for the profile. Must begin with a letter, number, or the underscore character (_), and must contain only letters, numbers, and the hyphen (-), period (.), pound (#), space ( ), at (@), equals (=), colon (:), and underscore (_) characters. Cannot be changed after the profile is added. 
+    .PARAMETER Bot_blacklist 
+        Blacklist binding. Maximum 32 bindings can be configured per profile for Blacklist detection. 
+    .PARAMETER Bot_blacklist_value 
+        Value of the bot black-list entry.
     .EXAMPLE
-        Invoke-ADCDeleteBotprofileblacklistbinding -name <string>
+        PS C:\>Invoke-ADCDeleteBotprofileblacklistbinding -Name <string>
+        An example how to delete botprofile_blacklist_binding configuration Object(s).
     .NOTES
         File Name : Invoke-ADCDeleteBotprofileblacklistbinding
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/bot/botprofile_blacklist_binding/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
+    #>
     [CmdletBinding(SupportsShouldProcess = $true, ConfirmImpact = "Low")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
-        [Parameter(Mandatory = $true)]
-        [string]$name ,
+        [Parameter(Mandatory)]
+        [string]$Name,
 
-        [boolean]$bot_blacklist ,
+        [boolean]$Bot_blacklist,
 
-        [string]$bot_blacklist_value 
+        [string]$Bot_blacklist_value 
     )
     begin {
         Write-Verbose "Invoke-ADCDeleteBotprofileblacklistbinding: Starting"
     }
     process {
         try {
-            $Arguments = @{ 
-            }
-            if ($PSBoundParameters.ContainsKey('bot_blacklist')) { $Arguments.Add('bot_blacklist', $bot_blacklist) }
-            if ($PSBoundParameters.ContainsKey('bot_blacklist_value')) { $Arguments.Add('bot_blacklist_value', $bot_blacklist_value) }
-            if ($PSCmdlet.ShouldProcess("$name", "Delete Bot configuration Object")) {
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type botprofile_blacklist_binding -NitroPath nitro/v1/config -Resource $name -Arguments $Arguments
+            $arguments = @{ }
+            if ( $PSBoundParameters.ContainsKey('Bot_blacklist') ) { $arguments.Add('bot_blacklist', $Bot_blacklist) }
+            if ( $PSBoundParameters.ContainsKey('Bot_blacklist_value') ) { $arguments.Add('bot_blacklist_value', $Bot_blacklist_value) }
+            if ( $PSCmdlet.ShouldProcess("$name", "Delete Bot configuration Object") ) {
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type botprofile_blacklist_binding -NitroPath nitro/v1/config -Resource $name -Arguments $arguments
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $response
@@ -2894,55 +3055,61 @@ function Invoke-ADCDeleteBotprofileblacklistbinding {
 }
 
 function Invoke-ADCGetBotprofileblacklistbinding {
-<#
+    <#
     .SYNOPSIS
-        Get Bot configuration object(s)
+        Get Bot configuration object(s).
     .DESCRIPTION
-        Get Bot configuration object(s)
-    .PARAMETER name 
-       Name for the profile. Must begin with a letter, number, or the underscore character (_), and must contain only letters, numbers, and the hyphen (-), period (.), pound (#), space ( ), at (@), equals (=), colon (:), and underscore (_) characters. Cannot be changed after the profile is added. 
+        Binding object showing the blacklist that can be bound to botprofile.
+    .PARAMETER Name 
+        Name for the profile. Must begin with a letter, number, or the underscore character (_), and must contain only letters, numbers, and the hyphen (-), period (.), pound (#), space ( ), at (@), equals (=), colon (:), and underscore (_) characters. Cannot be changed after the profile is added. 
     .PARAMETER GetAll 
-        Retreive all botprofile_blacklist_binding object(s)
+        Retrieve all botprofile_blacklist_binding object(s).
     .PARAMETER Count
-        If specified, the count of the botprofile_blacklist_binding object(s) will be returned
+        If specified, the count of the botprofile_blacklist_binding object(s) will be returned.
     .PARAMETER Filter
-        Specify a filter
+        Specify a filter.
         -Filter @{ 'name'='<value>' }
     .PARAMETER ViewSummary
-        When specified, only a summary of information is returned
+        When specified, only a summary of information is returned.
     .EXAMPLE
-        Invoke-ADCGetBotprofileblacklistbinding
+        PS C:\>Invoke-ADCGetBotprofileblacklistbinding
+        Get data.
     .EXAMPLE 
-        Invoke-ADCGetBotprofileblacklistbinding -GetAll 
+        PS C:\>Invoke-ADCGetBotprofileblacklistbinding -GetAll 
+        Get all botprofile_blacklist_binding data. 
     .EXAMPLE 
-        Invoke-ADCGetBotprofileblacklistbinding -Count
+        PS C:\>Invoke-ADCGetBotprofileblacklistbinding -Count 
+        Get the number of botprofile_blacklist_binding objects.
     .EXAMPLE
-        Invoke-ADCGetBotprofileblacklistbinding -name <string>
+        PS C:\>Invoke-ADCGetBotprofileblacklistbinding -name <string>
+        Get botprofile_blacklist_binding object by specifying for example the name.
     .EXAMPLE
-        Invoke-ADCGetBotprofileblacklistbinding -Filter @{ 'name'='<value>' }
+        PS C:\>Invoke-ADCGetBotprofileblacklistbinding -Filter @{ 'name'='<value>' }
+        Get botprofile_blacklist_binding data with a filter.
     .NOTES
         File Name : Invoke-ADCGetBotprofileblacklistbinding
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/bot/botprofile_blacklist_binding/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
-    [CmdletBinding(DefaultParameterSetName = "Getall")]
+    #>
+    [CmdletBinding(DefaultParameterSetName = "GetAll")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
         [Parameter(ParameterSetName = 'GetByResource')]
         [ValidateLength(1, 31)]
-        [string]$name,
+        [string]$Name,
 
-        [Parameter(ParameterSetName = 'Count', Mandatory = $true)]
+        [Parameter(ParameterSetName = 'Count', Mandatory)]
         [Switch]$Count,
 			
         [hashtable]$Filter = @{ },
@@ -2955,26 +3122,24 @@ function Invoke-ADCGetBotprofileblacklistbinding {
     }
     process {
         try {
-            if ( $PsCmdlet.ParameterSetName -eq 'Getall' ) {
-                $Query = @{ 
-                    bulkbindings = 'yes'
-                }
+            if ( $PsCmdlet.ParameterSetName -eq 'GetAll' ) {
+                $query = @{  bulkbindings = 'yes' }
                 Write-Verbose "Retrieving all botprofile_blacklist_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type botprofile_blacklist_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type botprofile_blacklist_binding -NitroPath nitro/v1/config -Query $query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
-                if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
+                if ( $PSBoundParameters.ContainsKey('Count') ) { $query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for botprofile_blacklist_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type botprofile_blacklist_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type botprofile_blacklist_binding -NitroPath nitro/v1/config -Query $query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving botprofile_blacklist_binding objects by arguments"
-                $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type botprofile_blacklist_binding -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
+                $arguments = @{ } 
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type botprofile_blacklist_binding -NitroPath nitro/v1/config -Arguments $arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving botprofile_blacklist_binding configuration for property 'name'"
                 $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type botprofile_blacklist_binding -NitroPath nitro/v1/config -Resource $name -Summary:$ViewSummary -Filter $Filter -GetWarning
             } else {
                 Write-Verbose "Retrieving botprofile_blacklist_binding configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type botprofile_blacklist_binding -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type botprofile_blacklist_binding -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -2988,148 +3153,125 @@ function Invoke-ADCGetBotprofileblacklistbinding {
 }
 
 function Invoke-ADCAddBotprofilecaptchabinding {
-<#
+    <#
     .SYNOPSIS
-        Add Bot configuration Object
+        Add Bot configuration Object.
     .DESCRIPTION
-        Add Bot configuration Object 
-    .PARAMETER name 
+        Binding object showing the captcha that can be bound to botprofile.
+    .PARAMETER Name 
         Name for the profile. Must begin with a letter, number, or the underscore character (_), and must contain only letters, numbers, and the hyphen (-), period (.), pound (#), space ( ), at (@), equals (=), colon (:), and underscore (_) characters. Cannot be changed after the profile is added. 
-    .PARAMETER captcharesource 
-        Captcha action binding. For each URL, only one binding is allowed. If a binding exists for a URL and another binding is configured for the same URL, then the previous binding information is removed. Maximum 30 bindings can be configured per profile. 
-    .PARAMETER bot_captcha_url 
-        URL for which the Captcha action, if configured under IP reputation, TPS or device fingerprint, need to be applied.  
-        Minimum length = 1 
-    .PARAMETER waittime 
-        Wait time in seconds for which ADC needs to wait for the Captcha response. This is to avoid DOS attacks.  
-        Default value: 15  
-        Minimum value = 10  
-        Maximum value = 60 
-    .PARAMETER graceperiod 
-        Time (in seconds) duration for which no new captcha challenge is sent after current captcha challenge has been answered successfully.  
-        Default value: 900  
-        Minimum value = 60  
-        Maximum value = 900 
-    .PARAMETER muteperiod 
-        Time (in seconds) duration for which client which failed captcha need to wait until allowed to try again. The requests from this client are silently dropped during the mute period.  
-        Default value: 300  
-        Minimum value = 60  
-        Maximum value = 900 
-    .PARAMETER requestsizelimit 
-        Length of body request (in Bytes) up to (equal or less than) which captcha challenge will be provided to client. Above this length threshold the request will be dropped. This is to avoid DOS and DDOS attacks.  
-        Default value: 8000  
-        Minimum value = 10  
-        Maximum value = 30000 
-    .PARAMETER retryattempts 
-        Number of times client can retry solving the captcha.  
-        Default value: 3  
-        Minimum value = 1  
-        Maximum value = 10 
-    .PARAMETER bot_captcha_action 
-        One or more actions to be taken when client fails captcha challenge. Only, log action can be configured with DROP, REDIRECT or RESET action.  
-        Default value: NONE  
+    .PARAMETER Captcharesource 
+        Captcha action binding. For each URL, only one binding is allowed. To update the values of an existing URL binding, user has to first unbind that binding, and then needs to bind the URL again with new values. Maximum 30 bindings can be configured per profile. 
+    .PARAMETER Bot_captcha_url 
+        URL for which the Captcha action, if configured under IP reputation, TPS or device fingerprint, need to be applied. 
+    .PARAMETER Waittime 
+        Wait time in seconds for which ADC needs to wait for the Captcha response. This is to avoid DOS attacks. 
+    .PARAMETER Graceperiod 
+        Time (in seconds) duration for which no new captcha challenge is sent after current captcha challenge has been answered successfully. 
+    .PARAMETER Muteperiod 
+        Time (in seconds) duration for which client which failed captcha need to wait until allowed to try again. The requests from this client are silently dropped during the mute period. 
+    .PARAMETER Requestsizelimit 
+        Length of body request (in Bytes) up to (equal or less than) which captcha challenge will be provided to client. Above this length threshold the request will be dropped. This is to avoid DOS and DDOS attacks. 
+    .PARAMETER Retryattempts 
+        Number of times client can retry solving the captcha. 
+    .PARAMETER Bot_captcha_action 
+        One or more actions to be taken when client fails captcha challenge. Only, log action can be configured with DROP, REDIRECT or RESET action. 
         Possible values = NONE, LOG, DROP, REDIRECT, RESET 
-    .PARAMETER bot_captcha_enabled 
-        Enable or disable the captcha binding.  
-        Default value: OFF  
+    .PARAMETER Bot_captcha_enabled 
+        Enable or disable the captcha binding. 
         Possible values = ON, OFF 
-    .PARAMETER logmessage 
-        Message to be logged for this binding.  
-        Minimum length = 1 
-    .PARAMETER bot_bind_comment 
-        Any comments about this binding.  
-        Minimum length = 1 
+    .PARAMETER Logmessage 
+        Message to be logged for this binding. 
+    .PARAMETER Bot_bind_comment 
+        Any comments about this binding. 
     .PARAMETER PassThru 
         Return details about the created botprofile_captcha_binding item.
     .EXAMPLE
-        Invoke-ADCAddBotprofilecaptchabinding -name <string>
+        PS C:\>Invoke-ADCAddBotprofilecaptchabinding -name <string>
+        An example how to add botprofile_captcha_binding configuration Object(s).
     .NOTES
         File Name : Invoke-ADCAddBotprofilecaptchabinding
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/bot/botprofile_captcha_binding/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
+    #>
     [CmdletBinding(SupportsShouldProcess = $true, ConfirmImpact = "Low")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
-        [Parameter(Mandatory = $true)]
+        [Parameter(Mandatory)]
         [ValidateLength(1, 31)]
-        [string]$name ,
+        [string]$Name,
 
-        [boolean]$captcharesource ,
+        [boolean]$Captcharesource,
 
         [ValidateScript({ $_.Length -gt 1 })]
-        [string]$bot_captcha_url ,
+        [string]$Bot_captcha_url,
 
         [ValidateRange(10, 60)]
-        [double]$waittime = '15' ,
+        [double]$Waittime = '15',
 
         [ValidateRange(60, 900)]
-        [double]$graceperiod = '900' ,
+        [double]$Graceperiod = '900',
 
         [ValidateRange(60, 900)]
-        [double]$muteperiod = '300' ,
+        [double]$Muteperiod = '300',
 
         [ValidateRange(10, 30000)]
-        [double]$requestsizelimit = '8000' ,
+        [double]$Requestsizelimit = '8000',
 
         [ValidateRange(1, 10)]
-        [double]$retryattempts = '3' ,
+        [double]$Retryattempts = '3',
 
         [ValidateSet('NONE', 'LOG', 'DROP', 'REDIRECT', 'RESET')]
-        [string[]]$bot_captcha_action = 'NONE' ,
+        [string[]]$Bot_captcha_action = 'NONE',
 
         [ValidateSet('ON', 'OFF')]
-        [string]$bot_captcha_enabled = 'OFF' ,
+        [string]$Bot_captcha_enabled = 'OFF',
 
         [ValidateScript({ $_.Length -gt 1 })]
-        [string]$logmessage ,
+        [string]$Logmessage,
 
         [ValidateScript({ $_.Length -gt 1 })]
-        [string]$bot_bind_comment ,
+        [string]$Bot_bind_comment,
 
         [Switch]$PassThru 
-
     )
     begin {
         Write-Verbose "Invoke-ADCAddBotprofilecaptchabinding: Starting"
     }
     process {
         try {
-            $Payload = @{
-                name = $name
-            }
-            if ($PSBoundParameters.ContainsKey('captcharesource')) { $Payload.Add('captcharesource', $captcharesource) }
-            if ($PSBoundParameters.ContainsKey('bot_captcha_url')) { $Payload.Add('bot_captcha_url', $bot_captcha_url) }
-            if ($PSBoundParameters.ContainsKey('waittime')) { $Payload.Add('waittime', $waittime) }
-            if ($PSBoundParameters.ContainsKey('graceperiod')) { $Payload.Add('graceperiod', $graceperiod) }
-            if ($PSBoundParameters.ContainsKey('muteperiod')) { $Payload.Add('muteperiod', $muteperiod) }
-            if ($PSBoundParameters.ContainsKey('requestsizelimit')) { $Payload.Add('requestsizelimit', $requestsizelimit) }
-            if ($PSBoundParameters.ContainsKey('retryattempts')) { $Payload.Add('retryattempts', $retryattempts) }
-            if ($PSBoundParameters.ContainsKey('bot_captcha_action')) { $Payload.Add('bot_captcha_action', $bot_captcha_action) }
-            if ($PSBoundParameters.ContainsKey('bot_captcha_enabled')) { $Payload.Add('bot_captcha_enabled', $bot_captcha_enabled) }
-            if ($PSBoundParameters.ContainsKey('logmessage')) { $Payload.Add('logmessage', $logmessage) }
-            if ($PSBoundParameters.ContainsKey('bot_bind_comment')) { $Payload.Add('bot_bind_comment', $bot_bind_comment) }
- 
-            if ($PSCmdlet.ShouldProcess("botprofile_captcha_binding", "Add Bot configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -NitroPath nitro/v1/config -Type botprofile_captcha_binding -Payload $Payload -GetWarning
+            $payload = @{ name = $name }
+            if ( $PSBoundParameters.ContainsKey('captcharesource') ) { $payload.Add('captcharesource', $captcharesource) }
+            if ( $PSBoundParameters.ContainsKey('bot_captcha_url') ) { $payload.Add('bot_captcha_url', $bot_captcha_url) }
+            if ( $PSBoundParameters.ContainsKey('waittime') ) { $payload.Add('waittime', $waittime) }
+            if ( $PSBoundParameters.ContainsKey('graceperiod') ) { $payload.Add('graceperiod', $graceperiod) }
+            if ( $PSBoundParameters.ContainsKey('muteperiod') ) { $payload.Add('muteperiod', $muteperiod) }
+            if ( $PSBoundParameters.ContainsKey('requestsizelimit') ) { $payload.Add('requestsizelimit', $requestsizelimit) }
+            if ( $PSBoundParameters.ContainsKey('retryattempts') ) { $payload.Add('retryattempts', $retryattempts) }
+            if ( $PSBoundParameters.ContainsKey('bot_captcha_action') ) { $payload.Add('bot_captcha_action', $bot_captcha_action) }
+            if ( $PSBoundParameters.ContainsKey('bot_captcha_enabled') ) { $payload.Add('bot_captcha_enabled', $bot_captcha_enabled) }
+            if ( $PSBoundParameters.ContainsKey('logmessage') ) { $payload.Add('logmessage', $logmessage) }
+            if ( $PSBoundParameters.ContainsKey('bot_bind_comment') ) { $payload.Add('bot_bind_comment', $bot_bind_comment) }
+            if ( $PSCmdlet.ShouldProcess("botprofile_captcha_binding", "Add Bot configuration Object") ) {
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -NitroPath nitro/v1/config -Type botprofile_captcha_binding -Payload $payload -GetWarning
                 #HTTP Status Code on Success: 201 Created
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
-                if ($PSBoundParameters.ContainsKey('PassThru')) {
-                    Write-Output (Invoke-ADCGetBotprofilecaptchabinding -Filter $Payload)
+                if ( $PSBoundParameters.ContainsKey('PassThru') ) {
+                    Write-Output (Invoke-ADCGetBotprofilecaptchabinding -Filter $payload)
                 } else {
                     Write-Output $result
                 }
-
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -3142,54 +3284,56 @@ function Invoke-ADCAddBotprofilecaptchabinding {
 }
 
 function Invoke-ADCDeleteBotprofilecaptchabinding {
-<#
+    <#
     .SYNOPSIS
-        Delete Bot configuration Object
+        Delete Bot configuration Object.
     .DESCRIPTION
-        Delete Bot configuration Object
-    .PARAMETER name 
-       Name for the profile. Must begin with a letter, number, or the underscore character (_), and must contain only letters, numbers, and the hyphen (-), period (.), pound (#), space ( ), at (@), equals (=), colon (:), and underscore (_) characters. Cannot be changed after the profile is added.    .PARAMETER captcharesource 
-       Captcha action binding. For each URL, only one binding is allowed. If a binding exists for a URL and another binding is configured for the same URL, then the previous binding information is removed. Maximum 30 bindings can be configured per profile.    .PARAMETER bot_captcha_url 
-       URL for which the Captcha action, if configured under IP reputation, TPS or device fingerprint, need to be applied.  
-       Minimum length = 1
+        Binding object showing the captcha that can be bound to botprofile.
+    .PARAMETER Name 
+        Name for the profile. Must begin with a letter, number, or the underscore character (_), and must contain only letters, numbers, and the hyphen (-), period (.), pound (#), space ( ), at (@), equals (=), colon (:), and underscore (_) characters. Cannot be changed after the profile is added. 
+    .PARAMETER Captcharesource 
+        Captcha action binding. For each URL, only one binding is allowed. To update the values of an existing URL binding, user has to first unbind that binding, and then needs to bind the URL again with new values. Maximum 30 bindings can be configured per profile. 
+    .PARAMETER Bot_captcha_url 
+        URL for which the Captcha action, if configured under IP reputation, TPS or device fingerprint, need to be applied.
     .EXAMPLE
-        Invoke-ADCDeleteBotprofilecaptchabinding -name <string>
+        PS C:\>Invoke-ADCDeleteBotprofilecaptchabinding -Name <string>
+        An example how to delete botprofile_captcha_binding configuration Object(s).
     .NOTES
         File Name : Invoke-ADCDeleteBotprofilecaptchabinding
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/bot/botprofile_captcha_binding/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
+    #>
     [CmdletBinding(SupportsShouldProcess = $true, ConfirmImpact = "Low")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
-        [Parameter(Mandatory = $true)]
-        [string]$name ,
+        [Parameter(Mandatory)]
+        [string]$Name,
 
-        [boolean]$captcharesource ,
+        [boolean]$Captcharesource,
 
-        [string]$bot_captcha_url 
+        [string]$Bot_captcha_url 
     )
     begin {
         Write-Verbose "Invoke-ADCDeleteBotprofilecaptchabinding: Starting"
     }
     process {
         try {
-            $Arguments = @{ 
-            }
-            if ($PSBoundParameters.ContainsKey('captcharesource')) { $Arguments.Add('captcharesource', $captcharesource) }
-            if ($PSBoundParameters.ContainsKey('bot_captcha_url')) { $Arguments.Add('bot_captcha_url', $bot_captcha_url) }
-            if ($PSCmdlet.ShouldProcess("$name", "Delete Bot configuration Object")) {
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type botprofile_captcha_binding -NitroPath nitro/v1/config -Resource $name -Arguments $Arguments
+            $arguments = @{ }
+            if ( $PSBoundParameters.ContainsKey('Captcharesource') ) { $arguments.Add('captcharesource', $Captcharesource) }
+            if ( $PSBoundParameters.ContainsKey('Bot_captcha_url') ) { $arguments.Add('bot_captcha_url', $Bot_captcha_url) }
+            if ( $PSCmdlet.ShouldProcess("$name", "Delete Bot configuration Object") ) {
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type botprofile_captcha_binding -NitroPath nitro/v1/config -Resource $name -Arguments $arguments
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $response
@@ -3205,55 +3349,61 @@ function Invoke-ADCDeleteBotprofilecaptchabinding {
 }
 
 function Invoke-ADCGetBotprofilecaptchabinding {
-<#
+    <#
     .SYNOPSIS
-        Get Bot configuration object(s)
+        Get Bot configuration object(s).
     .DESCRIPTION
-        Get Bot configuration object(s)
-    .PARAMETER name 
-       Name for the profile. Must begin with a letter, number, or the underscore character (_), and must contain only letters, numbers, and the hyphen (-), period (.), pound (#), space ( ), at (@), equals (=), colon (:), and underscore (_) characters. Cannot be changed after the profile is added. 
+        Binding object showing the captcha that can be bound to botprofile.
+    .PARAMETER Name 
+        Name for the profile. Must begin with a letter, number, or the underscore character (_), and must contain only letters, numbers, and the hyphen (-), period (.), pound (#), space ( ), at (@), equals (=), colon (:), and underscore (_) characters. Cannot be changed after the profile is added. 
     .PARAMETER GetAll 
-        Retreive all botprofile_captcha_binding object(s)
+        Retrieve all botprofile_captcha_binding object(s).
     .PARAMETER Count
-        If specified, the count of the botprofile_captcha_binding object(s) will be returned
+        If specified, the count of the botprofile_captcha_binding object(s) will be returned.
     .PARAMETER Filter
-        Specify a filter
+        Specify a filter.
         -Filter @{ 'name'='<value>' }
     .PARAMETER ViewSummary
-        When specified, only a summary of information is returned
+        When specified, only a summary of information is returned.
     .EXAMPLE
-        Invoke-ADCGetBotprofilecaptchabinding
+        PS C:\>Invoke-ADCGetBotprofilecaptchabinding
+        Get data.
     .EXAMPLE 
-        Invoke-ADCGetBotprofilecaptchabinding -GetAll 
+        PS C:\>Invoke-ADCGetBotprofilecaptchabinding -GetAll 
+        Get all botprofile_captcha_binding data. 
     .EXAMPLE 
-        Invoke-ADCGetBotprofilecaptchabinding -Count
+        PS C:\>Invoke-ADCGetBotprofilecaptchabinding -Count 
+        Get the number of botprofile_captcha_binding objects.
     .EXAMPLE
-        Invoke-ADCGetBotprofilecaptchabinding -name <string>
+        PS C:\>Invoke-ADCGetBotprofilecaptchabinding -name <string>
+        Get botprofile_captcha_binding object by specifying for example the name.
     .EXAMPLE
-        Invoke-ADCGetBotprofilecaptchabinding -Filter @{ 'name'='<value>' }
+        PS C:\>Invoke-ADCGetBotprofilecaptchabinding -Filter @{ 'name'='<value>' }
+        Get botprofile_captcha_binding data with a filter.
     .NOTES
         File Name : Invoke-ADCGetBotprofilecaptchabinding
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/bot/botprofile_captcha_binding/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
-    [CmdletBinding(DefaultParameterSetName = "Getall")]
+    #>
+    [CmdletBinding(DefaultParameterSetName = "GetAll")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
         [Parameter(ParameterSetName = 'GetByResource')]
         [ValidateLength(1, 31)]
-        [string]$name,
+        [string]$Name,
 
-        [Parameter(ParameterSetName = 'Count', Mandatory = $true)]
+        [Parameter(ParameterSetName = 'Count', Mandatory)]
         [Switch]$Count,
 			
         [hashtable]$Filter = @{ },
@@ -3266,26 +3416,24 @@ function Invoke-ADCGetBotprofilecaptchabinding {
     }
     process {
         try {
-            if ( $PsCmdlet.ParameterSetName -eq 'Getall' ) {
-                $Query = @{ 
-                    bulkbindings = 'yes'
-                }
+            if ( $PsCmdlet.ParameterSetName -eq 'GetAll' ) {
+                $query = @{  bulkbindings = 'yes' }
                 Write-Verbose "Retrieving all botprofile_captcha_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type botprofile_captcha_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type botprofile_captcha_binding -NitroPath nitro/v1/config -Query $query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
-                if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
+                if ( $PSBoundParameters.ContainsKey('Count') ) { $query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for botprofile_captcha_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type botprofile_captcha_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type botprofile_captcha_binding -NitroPath nitro/v1/config -Query $query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving botprofile_captcha_binding objects by arguments"
-                $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type botprofile_captcha_binding -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
+                $arguments = @{ } 
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type botprofile_captcha_binding -NitroPath nitro/v1/config -Arguments $arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving botprofile_captcha_binding configuration for property 'name'"
                 $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type botprofile_captcha_binding -NitroPath nitro/v1/config -Resource $name -Summary:$ViewSummary -Filter $Filter -GetWarning
             } else {
                 Write-Verbose "Retrieving botprofile_captcha_binding configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type botprofile_captcha_binding -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type botprofile_captcha_binding -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -3299,103 +3447,96 @@ function Invoke-ADCGetBotprofilecaptchabinding {
 }
 
 function Invoke-ADCAddBotprofileipreputationbinding {
-<#
+    <#
     .SYNOPSIS
-        Add Bot configuration Object
+        Add Bot configuration Object.
     .DESCRIPTION
-        Add Bot configuration Object 
-    .PARAMETER name 
+        Binding object showing the ipreputation that can be bound to botprofile.
+    .PARAMETER Name 
         Name for the profile. Must begin with a letter, number, or the underscore character (_), and must contain only letters, numbers, and the hyphen (-), period (.), pound (#), space ( ), at (@), equals (=), colon (:), and underscore (_) characters. Cannot be changed after the profile is added. 
-    .PARAMETER bot_ipreputation 
-        IP reputation binding. For each category, only one binding is allowed. If a binding exists for a category and another binding is configured for the same category, then the previous binding information is removed. 
-    .PARAMETER category 
-        IP Repuation category. Following IP Reuputation categories are allowed: *IP_BASED - This category checks whether client IP is malicious or not. *BOTNET - This category includes Botnet C;C channels, and infected zombie machines controlled by Bot master. *SPAM_SOURCES - This category includes tunneling spam messages through a proxy, anomalous SMTP activities, and forum spam activities. *SCANNERS - This category includes all reconnaissance such as probes, host scan, domain scan, and password brute force attack. *DOS - This category includes DOS, DDOS, anomalous sync flood, and anomalous traffic detection. *REPUTATION - This category denies access from IP addresses currently known to be infected with malware. This category also includes IPs with average low Webroot Reputation Index score. Enabling this category will prevent access from sources identified to contact malware distribution points. *PHISHING - This category includes IP addresses hosting phishing sites and other kinds of fraud activities such as ad click fraud or gaming fraud. *PROXY - This category includes IP addresses providing proxy services. *NETWORK - IPs providing proxy and anonymization services including The Onion Router aka TOR or darknet. *MOBILE_THREATS - This category checks client IP with the list of IPs harmful for mobile devices.  
+    .PARAMETER Bot_ipreputation 
+        IP reputation binding. For each category, only one binding is allowed. To update the values of an existing binding, user has to first unbind that binding, and then needs to bind again with the new values. 
+    .PARAMETER Category 
+        IP Repuation category. Following IP Reuputation categories are allowed: *IP_BASED - This category checks whether client IP is malicious or not. *BOTNET - This category includes Botnet C;C channels, and infected zombie machines controlled by Bot master. *SPAM_SOURCES - This category includes tunneling spam messages through a proxy, anomalous SMTP activities, and forum spam activities. *SCANNERS - This category includes all reconnaissance such as probes, host scan, domain scan, and password brute force attack. *DOS - This category includes DOS, DDOS, anomalous sync flood, and anomalous traffic detection. *REPUTATION - This category denies access from IP addresses currently known to be infected with malware. This category also includes IPs with average low Webroot Reputation Index score. Enabling this category will prevent access from sources identified to contact malware distribution points. *PHISHING - This category includes IP addresses hosting phishing sites and other kinds of fraud activities such as ad click fraud or gaming fraud. *PROXY - This category includes IP addresses providing proxy services. *NETWORK - IPs providing proxy and anonymization services including The Onion Router aka TOR or darknet. *MOBILE_THREATS - This category checks client IP with the list of IPs harmful for mobile devices. 
         Possible values = IP, BOTNETS, SPAM_SOURCES, SCANNERS, DOS, REPUTATION, PHISHING, PROXY, NETWORK, MOBILE_THREATS 
-    .PARAMETER bot_iprep_enabled 
-        Enabled or disabled IP-repuation binding.  
-        Default value: OFF  
+    .PARAMETER Bot_iprep_enabled 
+        Enabled or disabled IP-repuation binding. 
         Possible values = ON, OFF 
-    .PARAMETER bot_iprep_action 
-        One or more actions to be taken if bot is detected based on this IP Reputation binding. Only LOG action can be combinded with DROP, RESET, REDIRECT or MITIGATION action.  
-        Default value: NONE  
+    .PARAMETER Bot_iprep_action 
+        One or more actions to be taken if bot is detected based on this IP Reputation binding. Only LOG action can be combinded with DROP, RESET, REDIRECT or MITIGATION action. 
         Possible values = NONE, LOG, DROP, REDIRECT, RESET, MITIGATION 
-    .PARAMETER logmessage 
-        Message to be logged for this binding.  
-        Minimum length = 1 
-    .PARAMETER bot_bind_comment 
-        Any comments about this binding.  
-        Minimum length = 1 
+    .PARAMETER Logmessage 
+        Message to be logged for this binding. 
+    .PARAMETER Bot_bind_comment 
+        Any comments about this binding. 
     .PARAMETER PassThru 
         Return details about the created botprofile_ipreputation_binding item.
     .EXAMPLE
-        Invoke-ADCAddBotprofileipreputationbinding -name <string>
+        PS C:\>Invoke-ADCAddBotprofileipreputationbinding -name <string>
+        An example how to add botprofile_ipreputation_binding configuration Object(s).
     .NOTES
         File Name : Invoke-ADCAddBotprofileipreputationbinding
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/bot/botprofile_ipreputation_binding/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
+    #>
     [CmdletBinding(SupportsShouldProcess = $true, ConfirmImpact = "Low")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
-        [Parameter(Mandatory = $true)]
+        [Parameter(Mandatory)]
         [ValidateLength(1, 31)]
-        [string]$name ,
+        [string]$Name,
 
-        [boolean]$bot_ipreputation ,
+        [boolean]$Bot_ipreputation,
 
         [ValidateSet('IP', 'BOTNETS', 'SPAM_SOURCES', 'SCANNERS', 'DOS', 'REPUTATION', 'PHISHING', 'PROXY', 'NETWORK', 'MOBILE_THREATS')]
-        [string]$category ,
+        [string]$Category,
 
         [ValidateSet('ON', 'OFF')]
-        [string]$bot_iprep_enabled = 'OFF' ,
+        [string]$Bot_iprep_enabled = 'OFF',
 
         [ValidateSet('NONE', 'LOG', 'DROP', 'REDIRECT', 'RESET', 'MITIGATION')]
-        [string[]]$bot_iprep_action = 'NONE' ,
+        [string[]]$Bot_iprep_action = 'NONE',
 
         [ValidateScript({ $_.Length -gt 1 })]
-        [string]$logmessage ,
+        [string]$Logmessage,
 
         [ValidateScript({ $_.Length -gt 1 })]
-        [string]$bot_bind_comment ,
+        [string]$Bot_bind_comment,
 
         [Switch]$PassThru 
-
     )
     begin {
         Write-Verbose "Invoke-ADCAddBotprofileipreputationbinding: Starting"
     }
     process {
         try {
-            $Payload = @{
-                name = $name
-            }
-            if ($PSBoundParameters.ContainsKey('bot_ipreputation')) { $Payload.Add('bot_ipreputation', $bot_ipreputation) }
-            if ($PSBoundParameters.ContainsKey('category')) { $Payload.Add('category', $category) }
-            if ($PSBoundParameters.ContainsKey('bot_iprep_enabled')) { $Payload.Add('bot_iprep_enabled', $bot_iprep_enabled) }
-            if ($PSBoundParameters.ContainsKey('bot_iprep_action')) { $Payload.Add('bot_iprep_action', $bot_iprep_action) }
-            if ($PSBoundParameters.ContainsKey('logmessage')) { $Payload.Add('logmessage', $logmessage) }
-            if ($PSBoundParameters.ContainsKey('bot_bind_comment')) { $Payload.Add('bot_bind_comment', $bot_bind_comment) }
- 
-            if ($PSCmdlet.ShouldProcess("botprofile_ipreputation_binding", "Add Bot configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -NitroPath nitro/v1/config -Type botprofile_ipreputation_binding -Payload $Payload -GetWarning
+            $payload = @{ name = $name }
+            if ( $PSBoundParameters.ContainsKey('bot_ipreputation') ) { $payload.Add('bot_ipreputation', $bot_ipreputation) }
+            if ( $PSBoundParameters.ContainsKey('category') ) { $payload.Add('category', $category) }
+            if ( $PSBoundParameters.ContainsKey('bot_iprep_enabled') ) { $payload.Add('bot_iprep_enabled', $bot_iprep_enabled) }
+            if ( $PSBoundParameters.ContainsKey('bot_iprep_action') ) { $payload.Add('bot_iprep_action', $bot_iprep_action) }
+            if ( $PSBoundParameters.ContainsKey('logmessage') ) { $payload.Add('logmessage', $logmessage) }
+            if ( $PSBoundParameters.ContainsKey('bot_bind_comment') ) { $payload.Add('bot_bind_comment', $bot_bind_comment) }
+            if ( $PSCmdlet.ShouldProcess("botprofile_ipreputation_binding", "Add Bot configuration Object") ) {
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -NitroPath nitro/v1/config -Type botprofile_ipreputation_binding -Payload $payload -GetWarning
                 #HTTP Status Code on Success: 201 Created
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
-                if ($PSBoundParameters.ContainsKey('PassThru')) {
-                    Write-Output (Invoke-ADCGetBotprofileipreputationbinding -Filter $Payload)
+                if ( $PSBoundParameters.ContainsKey('PassThru') ) {
+                    Write-Output (Invoke-ADCGetBotprofileipreputationbinding -Filter $payload)
                 } else {
                     Write-Output $result
                 }
-
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -3408,54 +3549,57 @@ function Invoke-ADCAddBotprofileipreputationbinding {
 }
 
 function Invoke-ADCDeleteBotprofileipreputationbinding {
-<#
+    <#
     .SYNOPSIS
-        Delete Bot configuration Object
+        Delete Bot configuration Object.
     .DESCRIPTION
-        Delete Bot configuration Object
-    .PARAMETER name 
-       Name for the profile. Must begin with a letter, number, or the underscore character (_), and must contain only letters, numbers, and the hyphen (-), period (.), pound (#), space ( ), at (@), equals (=), colon (:), and underscore (_) characters. Cannot be changed after the profile is added.    .PARAMETER bot_ipreputation 
-       IP reputation binding. For each category, only one binding is allowed. If a binding exists for a category and another binding is configured for the same category, then the previous binding information is removed.    .PARAMETER category 
-       IP Repuation category. Following IP Reuputation categories are allowed: *IP_BASED - This category checks whether client IP is malicious or not. *BOTNET - This category includes Botnet C;C channels, and infected zombie machines controlled by Bot master. *SPAM_SOURCES - This category includes tunneling spam messages through a proxy, anomalous SMTP activities, and forum spam activities. *SCANNERS - This category includes all reconnaissance such as probes, host scan, domain scan, and password brute force attack. *DOS - This category includes DOS, DDOS, anomalous sync flood, and anomalous traffic detection. *REPUTATION - This category denies access from IP addresses currently known to be infected with malware. This category also includes IPs with average low Webroot Reputation Index score. Enabling this category will prevent access from sources identified to contact malware distribution points. *PHISHING - This category includes IP addresses hosting phishing sites and other kinds of fraud activities such as ad click fraud or gaming fraud. *PROXY - This category includes IP addresses providing proxy services. *NETWORK - IPs providing proxy and anonymization services including The Onion Router aka TOR or darknet. *MOBILE_THREATS - This category checks client IP with the list of IPs harmful for mobile devices.  
-       Possible values = IP, BOTNETS, SPAM_SOURCES, SCANNERS, DOS, REPUTATION, PHISHING, PROXY, NETWORK, MOBILE_THREATS
+        Binding object showing the ipreputation that can be bound to botprofile.
+    .PARAMETER Name 
+        Name for the profile. Must begin with a letter, number, or the underscore character (_), and must contain only letters, numbers, and the hyphen (-), period (.), pound (#), space ( ), at (@), equals (=), colon (:), and underscore (_) characters. Cannot be changed after the profile is added. 
+    .PARAMETER Bot_ipreputation 
+        IP reputation binding. For each category, only one binding is allowed. To update the values of an existing binding, user has to first unbind that binding, and then needs to bind again with the new values. 
+    .PARAMETER Category 
+        IP Repuation category. Following IP Reuputation categories are allowed: *IP_BASED - This category checks whether client IP is malicious or not. *BOTNET - This category includes Botnet C;C channels, and infected zombie machines controlled by Bot master. *SPAM_SOURCES - This category includes tunneling spam messages through a proxy, anomalous SMTP activities, and forum spam activities. *SCANNERS - This category includes all reconnaissance such as probes, host scan, domain scan, and password brute force attack. *DOS - This category includes DOS, DDOS, anomalous sync flood, and anomalous traffic detection. *REPUTATION - This category denies access from IP addresses currently known to be infected with malware. This category also includes IPs with average low Webroot Reputation Index score. Enabling this category will prevent access from sources identified to contact malware distribution points. *PHISHING - This category includes IP addresses hosting phishing sites and other kinds of fraud activities such as ad click fraud or gaming fraud. *PROXY - This category includes IP addresses providing proxy services. *NETWORK - IPs providing proxy and anonymization services including The Onion Router aka TOR or darknet. *MOBILE_THREATS - This category checks client IP with the list of IPs harmful for mobile devices. 
+        Possible values = IP, BOTNETS, SPAM_SOURCES, SCANNERS, DOS, REPUTATION, PHISHING, PROXY, NETWORK, MOBILE_THREATS
     .EXAMPLE
-        Invoke-ADCDeleteBotprofileipreputationbinding -name <string>
+        PS C:\>Invoke-ADCDeleteBotprofileipreputationbinding -Name <string>
+        An example how to delete botprofile_ipreputation_binding configuration Object(s).
     .NOTES
         File Name : Invoke-ADCDeleteBotprofileipreputationbinding
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/bot/botprofile_ipreputation_binding/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
+    #>
     [CmdletBinding(SupportsShouldProcess = $true, ConfirmImpact = "Low")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
-        [Parameter(Mandatory = $true)]
-        [string]$name ,
+        [Parameter(Mandatory)]
+        [string]$Name,
 
-        [boolean]$bot_ipreputation ,
+        [boolean]$Bot_ipreputation,
 
-        [string]$category 
+        [string]$Category 
     )
     begin {
         Write-Verbose "Invoke-ADCDeleteBotprofileipreputationbinding: Starting"
     }
     process {
         try {
-            $Arguments = @{ 
-            }
-            if ($PSBoundParameters.ContainsKey('bot_ipreputation')) { $Arguments.Add('bot_ipreputation', $bot_ipreputation) }
-            if ($PSBoundParameters.ContainsKey('category')) { $Arguments.Add('category', $category) }
-            if ($PSCmdlet.ShouldProcess("$name", "Delete Bot configuration Object")) {
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type botprofile_ipreputation_binding -NitroPath nitro/v1/config -Resource $name -Arguments $Arguments
+            $arguments = @{ }
+            if ( $PSBoundParameters.ContainsKey('Bot_ipreputation') ) { $arguments.Add('bot_ipreputation', $Bot_ipreputation) }
+            if ( $PSBoundParameters.ContainsKey('Category') ) { $arguments.Add('category', $Category) }
+            if ( $PSCmdlet.ShouldProcess("$name", "Delete Bot configuration Object") ) {
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type botprofile_ipreputation_binding -NitroPath nitro/v1/config -Resource $name -Arguments $arguments
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $response
@@ -3471,55 +3615,61 @@ function Invoke-ADCDeleteBotprofileipreputationbinding {
 }
 
 function Invoke-ADCGetBotprofileipreputationbinding {
-<#
+    <#
     .SYNOPSIS
-        Get Bot configuration object(s)
+        Get Bot configuration object(s).
     .DESCRIPTION
-        Get Bot configuration object(s)
-    .PARAMETER name 
-       Name for the profile. Must begin with a letter, number, or the underscore character (_), and must contain only letters, numbers, and the hyphen (-), period (.), pound (#), space ( ), at (@), equals (=), colon (:), and underscore (_) characters. Cannot be changed after the profile is added. 
+        Binding object showing the ipreputation that can be bound to botprofile.
+    .PARAMETER Name 
+        Name for the profile. Must begin with a letter, number, or the underscore character (_), and must contain only letters, numbers, and the hyphen (-), period (.), pound (#), space ( ), at (@), equals (=), colon (:), and underscore (_) characters. Cannot be changed after the profile is added. 
     .PARAMETER GetAll 
-        Retreive all botprofile_ipreputation_binding object(s)
+        Retrieve all botprofile_ipreputation_binding object(s).
     .PARAMETER Count
-        If specified, the count of the botprofile_ipreputation_binding object(s) will be returned
+        If specified, the count of the botprofile_ipreputation_binding object(s) will be returned.
     .PARAMETER Filter
-        Specify a filter
+        Specify a filter.
         -Filter @{ 'name'='<value>' }
     .PARAMETER ViewSummary
-        When specified, only a summary of information is returned
+        When specified, only a summary of information is returned.
     .EXAMPLE
-        Invoke-ADCGetBotprofileipreputationbinding
+        PS C:\>Invoke-ADCGetBotprofileipreputationbinding
+        Get data.
     .EXAMPLE 
-        Invoke-ADCGetBotprofileipreputationbinding -GetAll 
+        PS C:\>Invoke-ADCGetBotprofileipreputationbinding -GetAll 
+        Get all botprofile_ipreputation_binding data. 
     .EXAMPLE 
-        Invoke-ADCGetBotprofileipreputationbinding -Count
+        PS C:\>Invoke-ADCGetBotprofileipreputationbinding -Count 
+        Get the number of botprofile_ipreputation_binding objects.
     .EXAMPLE
-        Invoke-ADCGetBotprofileipreputationbinding -name <string>
+        PS C:\>Invoke-ADCGetBotprofileipreputationbinding -name <string>
+        Get botprofile_ipreputation_binding object by specifying for example the name.
     .EXAMPLE
-        Invoke-ADCGetBotprofileipreputationbinding -Filter @{ 'name'='<value>' }
+        PS C:\>Invoke-ADCGetBotprofileipreputationbinding -Filter @{ 'name'='<value>' }
+        Get botprofile_ipreputation_binding data with a filter.
     .NOTES
         File Name : Invoke-ADCGetBotprofileipreputationbinding
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/bot/botprofile_ipreputation_binding/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
-    [CmdletBinding(DefaultParameterSetName = "Getall")]
+    #>
+    [CmdletBinding(DefaultParameterSetName = "GetAll")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
         [Parameter(ParameterSetName = 'GetByResource')]
         [ValidateLength(1, 31)]
-        [string]$name,
+        [string]$Name,
 
-        [Parameter(ParameterSetName = 'Count', Mandatory = $true)]
+        [Parameter(ParameterSetName = 'Count', Mandatory)]
         [Switch]$Count,
 			
         [hashtable]$Filter = @{ },
@@ -3532,26 +3682,24 @@ function Invoke-ADCGetBotprofileipreputationbinding {
     }
     process {
         try {
-            if ( $PsCmdlet.ParameterSetName -eq 'Getall' ) {
-                $Query = @{ 
-                    bulkbindings = 'yes'
-                }
+            if ( $PsCmdlet.ParameterSetName -eq 'GetAll' ) {
+                $query = @{  bulkbindings = 'yes' }
                 Write-Verbose "Retrieving all botprofile_ipreputation_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type botprofile_ipreputation_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type botprofile_ipreputation_binding -NitroPath nitro/v1/config -Query $query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
-                if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
+                if ( $PSBoundParameters.ContainsKey('Count') ) { $query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for botprofile_ipreputation_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type botprofile_ipreputation_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type botprofile_ipreputation_binding -NitroPath nitro/v1/config -Query $query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving botprofile_ipreputation_binding objects by arguments"
-                $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type botprofile_ipreputation_binding -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
+                $arguments = @{ } 
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type botprofile_ipreputation_binding -NitroPath nitro/v1/config -Arguments $arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving botprofile_ipreputation_binding configuration for property 'name'"
                 $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type botprofile_ipreputation_binding -NitroPath nitro/v1/config -Resource $name -Summary:$ViewSummary -Filter $Filter -GetWarning
             } else {
                 Write-Verbose "Retrieving botprofile_ipreputation_binding configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type botprofile_ipreputation_binding -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type botprofile_ipreputation_binding -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -3565,129 +3713,116 @@ function Invoke-ADCGetBotprofileipreputationbinding {
 }
 
 function Invoke-ADCAddBotprofileratelimitbinding {
-<#
+    <#
     .SYNOPSIS
-        Add Bot configuration Object
+        Add Bot configuration Object.
     .DESCRIPTION
-        Add Bot configuration Object 
-    .PARAMETER name 
+        Binding object showing the ratelimit that can be bound to botprofile.
+    .PARAMETER Name 
         Name for the profile. Must begin with a letter, number, or the underscore character (_), and must contain only letters, numbers, and the hyphen (-), period (.), pound (#), space ( ), at (@), equals (=), colon (:), and underscore (_) characters. Cannot be changed after the profile is added. 
-    .PARAMETER bot_ratelimit 
-        Rate-limit binding. Maximum 30 bindings can be configured per profile for rate-limit detection. For SESSION and IP_BASED types, only one binding can be configured. For these types, if a binding exists and another binding is configured then the previous binding information is removed. For URL type, only one binding is allowed per URL. Also, for URL type, previous binding information is removed if another binding is configured for the same URL. 
-    .PARAMETER bot_rate_limit_type 
-        Rate-limiting type Following rate-limiting types are allowed: *SOURCE_IP - Rate-limiting based on the client IP. *SESSION - Rate-limiting based on the configured cookie name. *URL - Rate-limiting based on the configured URL.  
+    .PARAMETER Bot_ratelimit 
+        Rate-limit binding. Maximum 30 bindings can be configured per profile for rate-limit detection. For SOURCE_IP type, only one binding can be configured, and for URL type, only one binding is allowed per URL, and for SESSION type, only one binding is allowed for a cookie name. To update the values of an existing binding, user has to first unbind that binding, and then needs to bind again with new values. 
+    .PARAMETER Bot_rate_limit_type 
+        Rate-limiting type Following rate-limiting types are allowed: *SOURCE_IP - Rate-limiting based on the client IP. *SESSION - Rate-limiting based on the configured cookie name. *URL - Rate-limiting based on the configured URL. 
         Possible values = SESSION, SOURCE_IP, URL 
-    .PARAMETER bot_rate_limit_url 
+    .PARAMETER Bot_rate_limit_url 
         URL for the resource based rate-limiting. 
-    .PARAMETER cookiename 
+    .PARAMETER Cookiename 
         Cookie name which is used to identify the session for session rate-limiting. 
-    .PARAMETER rate 
-        Maximum number of requests that are allowed in this session in the given period time.  
-        Minimum value = 1000  
-        Maximum value = 10000000 
-    .PARAMETER timeslice 
-        Time interval during which requests are tracked to check if they cross the given rate.  
-        Minimum value = 1000  
-        Maximum value = 10000000 
-    .PARAMETER bot_rate_limit_action 
-        One or more actions to be taken when the current rate becomes more than the configured rate. Only LOG action can be combined with DROP, REDIRECT or RESET action.  
-        Default value: NONE  
+    .PARAMETER Rate 
+        Maximum number of requests that are allowed in this session in the given period time. 
+    .PARAMETER Timeslice 
+        Time interval during which requests are tracked to check if they cross the given rate. 
+    .PARAMETER Bot_rate_limit_action 
+        One or more actions to be taken when the current rate becomes more than the configured rate. Only LOG action can be combined with DROP, REDIRECT or RESET action. 
         Possible values = NONE, LOG, DROP, REDIRECT, RESET 
-    .PARAMETER bot_rate_limit_enabled 
-        Enable or disable rate-limit binding.  
-        Default value: OFF  
+    .PARAMETER Bot_rate_limit_enabled 
+        Enable or disable rate-limit binding. 
         Possible values = ON, OFF 
-    .PARAMETER logmessage 
-        Message to be logged for this binding.  
-        Minimum length = 1 
-    .PARAMETER bot_bind_comment 
-        Any comments about this binding.  
-        Minimum length = 1 
+    .PARAMETER Logmessage 
+        Message to be logged for this binding. 
+    .PARAMETER Bot_bind_comment 
+        Any comments about this binding. 
     .PARAMETER PassThru 
         Return details about the created botprofile_ratelimit_binding item.
     .EXAMPLE
-        Invoke-ADCAddBotprofileratelimitbinding -name <string>
+        PS C:\>Invoke-ADCAddBotprofileratelimitbinding -name <string>
+        An example how to add botprofile_ratelimit_binding configuration Object(s).
     .NOTES
         File Name : Invoke-ADCAddBotprofileratelimitbinding
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/bot/botprofile_ratelimit_binding/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
+    #>
     [CmdletBinding(SupportsShouldProcess = $true, ConfirmImpact = "Low")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
-        [Parameter(Mandatory = $true)]
+        [Parameter(Mandatory)]
         [ValidateLength(1, 31)]
-        [string]$name ,
+        [string]$Name,
 
-        [boolean]$bot_ratelimit ,
+        [boolean]$Bot_ratelimit,
 
         [ValidateSet('SESSION', 'SOURCE_IP', 'URL')]
-        [string]$bot_rate_limit_type ,
+        [string]$Bot_rate_limit_type,
 
-        [string]$bot_rate_limit_url ,
+        [string]$Bot_rate_limit_url,
 
-        [string]$cookiename ,
+        [string]$Cookiename,
 
-        [ValidateRange(1000, 10000000)]
-        [double]$rate ,
+        [double]$Rate = '1',
 
-        [ValidateRange(1000, 10000000)]
-        [double]$timeslice ,
+        [double]$Timeslice = '1000',
 
         [ValidateSet('NONE', 'LOG', 'DROP', 'REDIRECT', 'RESET')]
-        [string[]]$bot_rate_limit_action = 'NONE' ,
+        [string[]]$Bot_rate_limit_action = 'NONE',
 
         [ValidateSet('ON', 'OFF')]
-        [string]$bot_rate_limit_enabled = 'OFF' ,
+        [string]$Bot_rate_limit_enabled = 'OFF',
 
         [ValidateScript({ $_.Length -gt 1 })]
-        [string]$logmessage ,
+        [string]$Logmessage,
 
         [ValidateScript({ $_.Length -gt 1 })]
-        [string]$bot_bind_comment ,
+        [string]$Bot_bind_comment,
 
         [Switch]$PassThru 
-
     )
     begin {
         Write-Verbose "Invoke-ADCAddBotprofileratelimitbinding: Starting"
     }
     process {
         try {
-            $Payload = @{
-                name = $name
-            }
-            if ($PSBoundParameters.ContainsKey('bot_ratelimit')) { $Payload.Add('bot_ratelimit', $bot_ratelimit) }
-            if ($PSBoundParameters.ContainsKey('bot_rate_limit_type')) { $Payload.Add('bot_rate_limit_type', $bot_rate_limit_type) }
-            if ($PSBoundParameters.ContainsKey('bot_rate_limit_url')) { $Payload.Add('bot_rate_limit_url', $bot_rate_limit_url) }
-            if ($PSBoundParameters.ContainsKey('cookiename')) { $Payload.Add('cookiename', $cookiename) }
-            if ($PSBoundParameters.ContainsKey('rate')) { $Payload.Add('rate', $rate) }
-            if ($PSBoundParameters.ContainsKey('timeslice')) { $Payload.Add('timeslice', $timeslice) }
-            if ($PSBoundParameters.ContainsKey('bot_rate_limit_action')) { $Payload.Add('bot_rate_limit_action', $bot_rate_limit_action) }
-            if ($PSBoundParameters.ContainsKey('bot_rate_limit_enabled')) { $Payload.Add('bot_rate_limit_enabled', $bot_rate_limit_enabled) }
-            if ($PSBoundParameters.ContainsKey('logmessage')) { $Payload.Add('logmessage', $logmessage) }
-            if ($PSBoundParameters.ContainsKey('bot_bind_comment')) { $Payload.Add('bot_bind_comment', $bot_bind_comment) }
- 
-            if ($PSCmdlet.ShouldProcess("botprofile_ratelimit_binding", "Add Bot configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -NitroPath nitro/v1/config -Type botprofile_ratelimit_binding -Payload $Payload -GetWarning
+            $payload = @{ name = $name }
+            if ( $PSBoundParameters.ContainsKey('bot_ratelimit') ) { $payload.Add('bot_ratelimit', $bot_ratelimit) }
+            if ( $PSBoundParameters.ContainsKey('bot_rate_limit_type') ) { $payload.Add('bot_rate_limit_type', $bot_rate_limit_type) }
+            if ( $PSBoundParameters.ContainsKey('bot_rate_limit_url') ) { $payload.Add('bot_rate_limit_url', $bot_rate_limit_url) }
+            if ( $PSBoundParameters.ContainsKey('cookiename') ) { $payload.Add('cookiename', $cookiename) }
+            if ( $PSBoundParameters.ContainsKey('rate') ) { $payload.Add('rate', $rate) }
+            if ( $PSBoundParameters.ContainsKey('timeslice') ) { $payload.Add('timeslice', $timeslice) }
+            if ( $PSBoundParameters.ContainsKey('bot_rate_limit_action') ) { $payload.Add('bot_rate_limit_action', $bot_rate_limit_action) }
+            if ( $PSBoundParameters.ContainsKey('bot_rate_limit_enabled') ) { $payload.Add('bot_rate_limit_enabled', $bot_rate_limit_enabled) }
+            if ( $PSBoundParameters.ContainsKey('logmessage') ) { $payload.Add('logmessage', $logmessage) }
+            if ( $PSBoundParameters.ContainsKey('bot_bind_comment') ) { $payload.Add('bot_bind_comment', $bot_bind_comment) }
+            if ( $PSCmdlet.ShouldProcess("botprofile_ratelimit_binding", "Add Bot configuration Object") ) {
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -NitroPath nitro/v1/config -Type botprofile_ratelimit_binding -Payload $payload -GetWarning
                 #HTTP Status Code on Success: 201 Created
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
-                if ($PSBoundParameters.ContainsKey('PassThru')) {
-                    Write-Output (Invoke-ADCGetBotprofileratelimitbinding -Filter $Payload)
+                if ( $PSBoundParameters.ContainsKey('PassThru') ) {
+                    Write-Output (Invoke-ADCGetBotprofileratelimitbinding -Filter $payload)
                 } else {
                     Write-Output $result
                 }
-
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -3700,58 +3835,67 @@ function Invoke-ADCAddBotprofileratelimitbinding {
 }
 
 function Invoke-ADCDeleteBotprofileratelimitbinding {
-<#
+    <#
     .SYNOPSIS
-        Delete Bot configuration Object
+        Delete Bot configuration Object.
     .DESCRIPTION
-        Delete Bot configuration Object
-    .PARAMETER name 
-       Name for the profile. Must begin with a letter, number, or the underscore character (_), and must contain only letters, numbers, and the hyphen (-), period (.), pound (#), space ( ), at (@), equals (=), colon (:), and underscore (_) characters. Cannot be changed after the profile is added.    .PARAMETER bot_ratelimit 
-       Rate-limit binding. Maximum 30 bindings can be configured per profile for rate-limit detection. For SESSION and IP_BASED types, only one binding can be configured. For these types, if a binding exists and another binding is configured then the previous binding information is removed. For URL type, only one binding is allowed per URL. Also, for URL type, previous binding information is removed if another binding is configured for the same URL.    .PARAMETER bot_rate_limit_type 
-       Rate-limiting type Following rate-limiting types are allowed: *SOURCE_IP - Rate-limiting based on the client IP. *SESSION - Rate-limiting based on the configured cookie name. *URL - Rate-limiting based on the configured URL.  
-       Possible values = SESSION, SOURCE_IP, URL    .PARAMETER bot_rate_limit_url 
-       URL for the resource based rate-limiting.
+        Binding object showing the ratelimit that can be bound to botprofile.
+    .PARAMETER Name 
+        Name for the profile. Must begin with a letter, number, or the underscore character (_), and must contain only letters, numbers, and the hyphen (-), period (.), pound (#), space ( ), at (@), equals (=), colon (:), and underscore (_) characters. Cannot be changed after the profile is added. 
+    .PARAMETER Bot_ratelimit 
+        Rate-limit binding. Maximum 30 bindings can be configured per profile for rate-limit detection. For SOURCE_IP type, only one binding can be configured, and for URL type, only one binding is allowed per URL, and for SESSION type, only one binding is allowed for a cookie name. To update the values of an existing binding, user has to first unbind that binding, and then needs to bind again with new values. 
+    .PARAMETER Bot_rate_limit_type 
+        Rate-limiting type Following rate-limiting types are allowed: *SOURCE_IP - Rate-limiting based on the client IP. *SESSION - Rate-limiting based on the configured cookie name. *URL - Rate-limiting based on the configured URL. 
+        Possible values = SESSION, SOURCE_IP, URL 
+    .PARAMETER Bot_rate_limit_url 
+        URL for the resource based rate-limiting. 
+    .PARAMETER Cookiename 
+        Cookie name which is used to identify the session for session rate-limiting.
     .EXAMPLE
-        Invoke-ADCDeleteBotprofileratelimitbinding -name <string>
+        PS C:\>Invoke-ADCDeleteBotprofileratelimitbinding -Name <string>
+        An example how to delete botprofile_ratelimit_binding configuration Object(s).
     .NOTES
         File Name : Invoke-ADCDeleteBotprofileratelimitbinding
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/bot/botprofile_ratelimit_binding/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
+    #>
     [CmdletBinding(SupportsShouldProcess = $true, ConfirmImpact = "Low")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
-        [Parameter(Mandatory = $true)]
-        [string]$name ,
+        [Parameter(Mandatory)]
+        [string]$Name,
 
-        [boolean]$bot_ratelimit ,
+        [boolean]$Bot_ratelimit,
 
-        [string]$bot_rate_limit_type ,
+        [string]$Bot_rate_limit_type,
 
-        [string]$bot_rate_limit_url 
+        [string]$Bot_rate_limit_url,
+
+        [string]$Cookiename 
     )
     begin {
         Write-Verbose "Invoke-ADCDeleteBotprofileratelimitbinding: Starting"
     }
     process {
         try {
-            $Arguments = @{ 
-            }
-            if ($PSBoundParameters.ContainsKey('bot_ratelimit')) { $Arguments.Add('bot_ratelimit', $bot_ratelimit) }
-            if ($PSBoundParameters.ContainsKey('bot_rate_limit_type')) { $Arguments.Add('bot_rate_limit_type', $bot_rate_limit_type) }
-            if ($PSBoundParameters.ContainsKey('bot_rate_limit_url')) { $Arguments.Add('bot_rate_limit_url', $bot_rate_limit_url) }
-            if ($PSCmdlet.ShouldProcess("$name", "Delete Bot configuration Object")) {
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type botprofile_ratelimit_binding -NitroPath nitro/v1/config -Resource $name -Arguments $Arguments
+            $arguments = @{ }
+            if ( $PSBoundParameters.ContainsKey('Bot_ratelimit') ) { $arguments.Add('bot_ratelimit', $Bot_ratelimit) }
+            if ( $PSBoundParameters.ContainsKey('Bot_rate_limit_type') ) { $arguments.Add('bot_rate_limit_type', $Bot_rate_limit_type) }
+            if ( $PSBoundParameters.ContainsKey('Bot_rate_limit_url') ) { $arguments.Add('bot_rate_limit_url', $Bot_rate_limit_url) }
+            if ( $PSBoundParameters.ContainsKey('Cookiename') ) { $arguments.Add('cookiename', $Cookiename) }
+            if ( $PSCmdlet.ShouldProcess("$name", "Delete Bot configuration Object") ) {
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type botprofile_ratelimit_binding -NitroPath nitro/v1/config -Resource $name -Arguments $arguments
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $response
@@ -3767,55 +3911,61 @@ function Invoke-ADCDeleteBotprofileratelimitbinding {
 }
 
 function Invoke-ADCGetBotprofileratelimitbinding {
-<#
+    <#
     .SYNOPSIS
-        Get Bot configuration object(s)
+        Get Bot configuration object(s).
     .DESCRIPTION
-        Get Bot configuration object(s)
-    .PARAMETER name 
-       Name for the profile. Must begin with a letter, number, or the underscore character (_), and must contain only letters, numbers, and the hyphen (-), period (.), pound (#), space ( ), at (@), equals (=), colon (:), and underscore (_) characters. Cannot be changed after the profile is added. 
+        Binding object showing the ratelimit that can be bound to botprofile.
+    .PARAMETER Name 
+        Name for the profile. Must begin with a letter, number, or the underscore character (_), and must contain only letters, numbers, and the hyphen (-), period (.), pound (#), space ( ), at (@), equals (=), colon (:), and underscore (_) characters. Cannot be changed after the profile is added. 
     .PARAMETER GetAll 
-        Retreive all botprofile_ratelimit_binding object(s)
+        Retrieve all botprofile_ratelimit_binding object(s).
     .PARAMETER Count
-        If specified, the count of the botprofile_ratelimit_binding object(s) will be returned
+        If specified, the count of the botprofile_ratelimit_binding object(s) will be returned.
     .PARAMETER Filter
-        Specify a filter
+        Specify a filter.
         -Filter @{ 'name'='<value>' }
     .PARAMETER ViewSummary
-        When specified, only a summary of information is returned
+        When specified, only a summary of information is returned.
     .EXAMPLE
-        Invoke-ADCGetBotprofileratelimitbinding
+        PS C:\>Invoke-ADCGetBotprofileratelimitbinding
+        Get data.
     .EXAMPLE 
-        Invoke-ADCGetBotprofileratelimitbinding -GetAll 
+        PS C:\>Invoke-ADCGetBotprofileratelimitbinding -GetAll 
+        Get all botprofile_ratelimit_binding data. 
     .EXAMPLE 
-        Invoke-ADCGetBotprofileratelimitbinding -Count
+        PS C:\>Invoke-ADCGetBotprofileratelimitbinding -Count 
+        Get the number of botprofile_ratelimit_binding objects.
     .EXAMPLE
-        Invoke-ADCGetBotprofileratelimitbinding -name <string>
+        PS C:\>Invoke-ADCGetBotprofileratelimitbinding -name <string>
+        Get botprofile_ratelimit_binding object by specifying for example the name.
     .EXAMPLE
-        Invoke-ADCGetBotprofileratelimitbinding -Filter @{ 'name'='<value>' }
+        PS C:\>Invoke-ADCGetBotprofileratelimitbinding -Filter @{ 'name'='<value>' }
+        Get botprofile_ratelimit_binding data with a filter.
     .NOTES
         File Name : Invoke-ADCGetBotprofileratelimitbinding
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/bot/botprofile_ratelimit_binding/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
-    [CmdletBinding(DefaultParameterSetName = "Getall")]
+    #>
+    [CmdletBinding(DefaultParameterSetName = "GetAll")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
         [Parameter(ParameterSetName = 'GetByResource')]
         [ValidateLength(1, 31)]
-        [string]$name,
+        [string]$Name,
 
-        [Parameter(ParameterSetName = 'Count', Mandatory = $true)]
+        [Parameter(ParameterSetName = 'Count', Mandatory)]
         [Switch]$Count,
 			
         [hashtable]$Filter = @{ },
@@ -3828,26 +3978,24 @@ function Invoke-ADCGetBotprofileratelimitbinding {
     }
     process {
         try {
-            if ( $PsCmdlet.ParameterSetName -eq 'Getall' ) {
-                $Query = @{ 
-                    bulkbindings = 'yes'
-                }
+            if ( $PsCmdlet.ParameterSetName -eq 'GetAll' ) {
+                $query = @{  bulkbindings = 'yes' }
                 Write-Verbose "Retrieving all botprofile_ratelimit_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type botprofile_ratelimit_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type botprofile_ratelimit_binding -NitroPath nitro/v1/config -Query $query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
-                if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
+                if ( $PSBoundParameters.ContainsKey('Count') ) { $query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for botprofile_ratelimit_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type botprofile_ratelimit_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type botprofile_ratelimit_binding -NitroPath nitro/v1/config -Query $query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving botprofile_ratelimit_binding objects by arguments"
-                $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type botprofile_ratelimit_binding -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
+                $arguments = @{ } 
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type botprofile_ratelimit_binding -NitroPath nitro/v1/config -Arguments $arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving botprofile_ratelimit_binding configuration for property 'name'"
                 $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type botprofile_ratelimit_binding -NitroPath nitro/v1/config -Resource $name -Summary:$ViewSummary -Filter $Filter -GetWarning
             } else {
                 Write-Verbose "Retrieving botprofile_ratelimit_binding configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type botprofile_ratelimit_binding -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type botprofile_ratelimit_binding -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -3861,111 +4009,106 @@ function Invoke-ADCGetBotprofileratelimitbinding {
 }
 
 function Invoke-ADCAddBotprofiletpsbinding {
-<#
+    <#
     .SYNOPSIS
-        Add Bot configuration Object
+        Add Bot configuration Object.
     .DESCRIPTION
-        Add Bot configuration Object 
-    .PARAMETER name 
+        Binding object showing the tps that can be bound to botprofile.
+    .PARAMETER Name 
         Name for the profile. Must begin with a letter, number, or the underscore character (_), and must contain only letters, numbers, and the hyphen (-), period (.), pound (#), space ( ), at (@), equals (=), colon (:), and underscore (_) characters. Cannot be changed after the profile is added. 
-    .PARAMETER bot_tps 
-        TPS binding. For each type only binding can be configured. If a binding exists for a type and another binding is configured for the same type, then the previous binding information is removed. 
-    .PARAMETER bot_tps_type 
-        Type of TPS binding.  
+    .PARAMETER Bot_tps 
+        TPS binding. For each type only binding can be configured. To update the values of an existing binding, user has to first unbind that binding, and then needs to bind again with new values. 
+    .PARAMETER Bot_tps_type 
+        Type of TPS binding. 
         Possible values = SOURCE_IP, GEOLOCATION, REQUEST_URL, Host 
-    .PARAMETER threshold 
-        Maximum number of requests that are allowed from (or to) a IP, Geolocation, URL or Host in 1 second time interval.  
-        Minimum value = 1  
-        Maximum value = 10000000 
-    .PARAMETER percentage 
-        Maximum percentage increase in the requests from (or to) a IP, Geolocation, URL or Host in 30 minutes interval.  
-        Minimum value = 10  
-        Maximum value = 10000000 
-    .PARAMETER bot_tps_action 
-        One to more actions to be taken if bot is detected based on this TPS binding. Only LOG action can be combined with DROP, RESET, REDIRECT, or MITIGIATION action.  
-        Default value: NONE  
+    .PARAMETER Threshold 
+        Maximum number of requests that are allowed from (or to) a IP, Geolocation, URL or Host in 1 second time interval. 
+    .PARAMETER Percentage 
+        Maximum percentage increase in the requests from (or to) a IP, Geolocation, URL or Host in 30 minutes interval. 
+    .PARAMETER Bot_tps_action 
+        One to more actions to be taken if bot is detected based on this TPS binding. Only LOG action can be combined with DROP, RESET, REDIRECT, or MITIGIATION action. 
         Possible values = NONE, LOG, DROP, REDIRECT, RESET, MITIGATION 
-    .PARAMETER logmessage 
-        Message to be logged for this binding.  
-        Minimum length = 1 
-    .PARAMETER bot_bind_comment 
-        Any comments about this binding.  
-        Minimum length = 1 
+    .PARAMETER Bot_tps_enabled 
+        Enabled or disabled TPS binding. 
+        Possible values = ON, OFF 
+    .PARAMETER Logmessage 
+        Message to be logged for this binding. 
+    .PARAMETER Bot_bind_comment 
+        Any comments about this binding. 
     .PARAMETER PassThru 
         Return details about the created botprofile_tps_binding item.
     .EXAMPLE
-        Invoke-ADCAddBotprofiletpsbinding -name <string>
+        PS C:\>Invoke-ADCAddBotprofiletpsbinding -name <string>
+        An example how to add botprofile_tps_binding configuration Object(s).
     .NOTES
         File Name : Invoke-ADCAddBotprofiletpsbinding
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/bot/botprofile_tps_binding/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
+    #>
     [CmdletBinding(SupportsShouldProcess = $true, ConfirmImpact = "Low")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
-        [Parameter(Mandatory = $true)]
+        [Parameter(Mandatory)]
         [ValidateLength(1, 31)]
-        [string]$name ,
+        [string]$Name,
 
-        [boolean]$bot_tps ,
+        [boolean]$Bot_tps,
 
         [ValidateSet('SOURCE_IP', 'GEOLOCATION', 'REQUEST_URL', 'Host')]
-        [string]$bot_tps_type ,
+        [string]$Bot_tps_type,
 
-        [ValidateRange(1, 10000000)]
-        [double]$threshold ,
+        [double]$Threshold,
 
-        [ValidateRange(10, 10000000)]
-        [double]$percentage ,
+        [double]$Percentage,
 
         [ValidateSet('NONE', 'LOG', 'DROP', 'REDIRECT', 'RESET', 'MITIGATION')]
-        [string[]]$bot_tps_action = 'NONE' ,
+        [string[]]$Bot_tps_action = 'NONE',
+
+        [ValidateSet('ON', 'OFF')]
+        [string]$Bot_tps_enabled = 'ON',
 
         [ValidateScript({ $_.Length -gt 1 })]
-        [string]$logmessage ,
+        [string]$Logmessage,
 
         [ValidateScript({ $_.Length -gt 1 })]
-        [string]$bot_bind_comment ,
+        [string]$Bot_bind_comment,
 
         [Switch]$PassThru 
-
     )
     begin {
         Write-Verbose "Invoke-ADCAddBotprofiletpsbinding: Starting"
     }
     process {
         try {
-            $Payload = @{
-                name = $name
-            }
-            if ($PSBoundParameters.ContainsKey('bot_tps')) { $Payload.Add('bot_tps', $bot_tps) }
-            if ($PSBoundParameters.ContainsKey('bot_tps_type')) { $Payload.Add('bot_tps_type', $bot_tps_type) }
-            if ($PSBoundParameters.ContainsKey('threshold')) { $Payload.Add('threshold', $threshold) }
-            if ($PSBoundParameters.ContainsKey('percentage')) { $Payload.Add('percentage', $percentage) }
-            if ($PSBoundParameters.ContainsKey('bot_tps_action')) { $Payload.Add('bot_tps_action', $bot_tps_action) }
-            if ($PSBoundParameters.ContainsKey('logmessage')) { $Payload.Add('logmessage', $logmessage) }
-            if ($PSBoundParameters.ContainsKey('bot_bind_comment')) { $Payload.Add('bot_bind_comment', $bot_bind_comment) }
- 
-            if ($PSCmdlet.ShouldProcess("botprofile_tps_binding", "Add Bot configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -NitroPath nitro/v1/config -Type botprofile_tps_binding -Payload $Payload -GetWarning
+            $payload = @{ name = $name }
+            if ( $PSBoundParameters.ContainsKey('bot_tps') ) { $payload.Add('bot_tps', $bot_tps) }
+            if ( $PSBoundParameters.ContainsKey('bot_tps_type') ) { $payload.Add('bot_tps_type', $bot_tps_type) }
+            if ( $PSBoundParameters.ContainsKey('threshold') ) { $payload.Add('threshold', $threshold) }
+            if ( $PSBoundParameters.ContainsKey('percentage') ) { $payload.Add('percentage', $percentage) }
+            if ( $PSBoundParameters.ContainsKey('bot_tps_action') ) { $payload.Add('bot_tps_action', $bot_tps_action) }
+            if ( $PSBoundParameters.ContainsKey('bot_tps_enabled') ) { $payload.Add('bot_tps_enabled', $bot_tps_enabled) }
+            if ( $PSBoundParameters.ContainsKey('logmessage') ) { $payload.Add('logmessage', $logmessage) }
+            if ( $PSBoundParameters.ContainsKey('bot_bind_comment') ) { $payload.Add('bot_bind_comment', $bot_bind_comment) }
+            if ( $PSCmdlet.ShouldProcess("botprofile_tps_binding", "Add Bot configuration Object") ) {
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -NitroPath nitro/v1/config -Type botprofile_tps_binding -Payload $payload -GetWarning
                 #HTTP Status Code on Success: 201 Created
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
-                if ($PSBoundParameters.ContainsKey('PassThru')) {
-                    Write-Output (Invoke-ADCGetBotprofiletpsbinding -Filter $Payload)
+                if ( $PSBoundParameters.ContainsKey('PassThru') ) {
+                    Write-Output (Invoke-ADCGetBotprofiletpsbinding -Filter $payload)
                 } else {
                     Write-Output $result
                 }
-
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -3978,54 +4121,57 @@ function Invoke-ADCAddBotprofiletpsbinding {
 }
 
 function Invoke-ADCDeleteBotprofiletpsbinding {
-<#
+    <#
     .SYNOPSIS
-        Delete Bot configuration Object
+        Delete Bot configuration Object.
     .DESCRIPTION
-        Delete Bot configuration Object
-    .PARAMETER name 
-       Name for the profile. Must begin with a letter, number, or the underscore character (_), and must contain only letters, numbers, and the hyphen (-), period (.), pound (#), space ( ), at (@), equals (=), colon (:), and underscore (_) characters. Cannot be changed after the profile is added.    .PARAMETER bot_tps 
-       TPS binding. For each type only binding can be configured. If a binding exists for a type and another binding is configured for the same type, then the previous binding information is removed.    .PARAMETER bot_tps_type 
-       Type of TPS binding.  
-       Possible values = SOURCE_IP, GEOLOCATION, REQUEST_URL, Host
+        Binding object showing the tps that can be bound to botprofile.
+    .PARAMETER Name 
+        Name for the profile. Must begin with a letter, number, or the underscore character (_), and must contain only letters, numbers, and the hyphen (-), period (.), pound (#), space ( ), at (@), equals (=), colon (:), and underscore (_) characters. Cannot be changed after the profile is added. 
+    .PARAMETER Bot_tps 
+        TPS binding. For each type only binding can be configured. To update the values of an existing binding, user has to first unbind that binding, and then needs to bind again with new values. 
+    .PARAMETER Bot_tps_type 
+        Type of TPS binding. 
+        Possible values = SOURCE_IP, GEOLOCATION, REQUEST_URL, Host
     .EXAMPLE
-        Invoke-ADCDeleteBotprofiletpsbinding -name <string>
+        PS C:\>Invoke-ADCDeleteBotprofiletpsbinding -Name <string>
+        An example how to delete botprofile_tps_binding configuration Object(s).
     .NOTES
         File Name : Invoke-ADCDeleteBotprofiletpsbinding
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/bot/botprofile_tps_binding/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
+    #>
     [CmdletBinding(SupportsShouldProcess = $true, ConfirmImpact = "Low")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
-        [Parameter(Mandatory = $true)]
-        [string]$name ,
+        [Parameter(Mandatory)]
+        [string]$Name,
 
-        [boolean]$bot_tps ,
+        [boolean]$Bot_tps,
 
-        [string]$bot_tps_type 
+        [string]$Bot_tps_type 
     )
     begin {
         Write-Verbose "Invoke-ADCDeleteBotprofiletpsbinding: Starting"
     }
     process {
         try {
-            $Arguments = @{ 
-            }
-            if ($PSBoundParameters.ContainsKey('bot_tps')) { $Arguments.Add('bot_tps', $bot_tps) }
-            if ($PSBoundParameters.ContainsKey('bot_tps_type')) { $Arguments.Add('bot_tps_type', $bot_tps_type) }
-            if ($PSCmdlet.ShouldProcess("$name", "Delete Bot configuration Object")) {
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type botprofile_tps_binding -NitroPath nitro/v1/config -Resource $name -Arguments $Arguments
+            $arguments = @{ }
+            if ( $PSBoundParameters.ContainsKey('Bot_tps') ) { $arguments.Add('bot_tps', $Bot_tps) }
+            if ( $PSBoundParameters.ContainsKey('Bot_tps_type') ) { $arguments.Add('bot_tps_type', $Bot_tps_type) }
+            if ( $PSCmdlet.ShouldProcess("$name", "Delete Bot configuration Object") ) {
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type botprofile_tps_binding -NitroPath nitro/v1/config -Resource $name -Arguments $arguments
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $response
@@ -4041,55 +4187,61 @@ function Invoke-ADCDeleteBotprofiletpsbinding {
 }
 
 function Invoke-ADCGetBotprofiletpsbinding {
-<#
+    <#
     .SYNOPSIS
-        Get Bot configuration object(s)
+        Get Bot configuration object(s).
     .DESCRIPTION
-        Get Bot configuration object(s)
-    .PARAMETER name 
-       Name for the profile. Must begin with a letter, number, or the underscore character (_), and must contain only letters, numbers, and the hyphen (-), period (.), pound (#), space ( ), at (@), equals (=), colon (:), and underscore (_) characters. Cannot be changed after the profile is added. 
+        Binding object showing the tps that can be bound to botprofile.
+    .PARAMETER Name 
+        Name for the profile. Must begin with a letter, number, or the underscore character (_), and must contain only letters, numbers, and the hyphen (-), period (.), pound (#), space ( ), at (@), equals (=), colon (:), and underscore (_) characters. Cannot be changed after the profile is added. 
     .PARAMETER GetAll 
-        Retreive all botprofile_tps_binding object(s)
+        Retrieve all botprofile_tps_binding object(s).
     .PARAMETER Count
-        If specified, the count of the botprofile_tps_binding object(s) will be returned
+        If specified, the count of the botprofile_tps_binding object(s) will be returned.
     .PARAMETER Filter
-        Specify a filter
+        Specify a filter.
         -Filter @{ 'name'='<value>' }
     .PARAMETER ViewSummary
-        When specified, only a summary of information is returned
+        When specified, only a summary of information is returned.
     .EXAMPLE
-        Invoke-ADCGetBotprofiletpsbinding
+        PS C:\>Invoke-ADCGetBotprofiletpsbinding
+        Get data.
     .EXAMPLE 
-        Invoke-ADCGetBotprofiletpsbinding -GetAll 
+        PS C:\>Invoke-ADCGetBotprofiletpsbinding -GetAll 
+        Get all botprofile_tps_binding data. 
     .EXAMPLE 
-        Invoke-ADCGetBotprofiletpsbinding -Count
+        PS C:\>Invoke-ADCGetBotprofiletpsbinding -Count 
+        Get the number of botprofile_tps_binding objects.
     .EXAMPLE
-        Invoke-ADCGetBotprofiletpsbinding -name <string>
+        PS C:\>Invoke-ADCGetBotprofiletpsbinding -name <string>
+        Get botprofile_tps_binding object by specifying for example the name.
     .EXAMPLE
-        Invoke-ADCGetBotprofiletpsbinding -Filter @{ 'name'='<value>' }
+        PS C:\>Invoke-ADCGetBotprofiletpsbinding -Filter @{ 'name'='<value>' }
+        Get botprofile_tps_binding data with a filter.
     .NOTES
         File Name : Invoke-ADCGetBotprofiletpsbinding
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/bot/botprofile_tps_binding/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
-    [CmdletBinding(DefaultParameterSetName = "Getall")]
+    #>
+    [CmdletBinding(DefaultParameterSetName = "GetAll")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
         [Parameter(ParameterSetName = 'GetByResource')]
         [ValidateLength(1, 31)]
-        [string]$name,
+        [string]$Name,
 
-        [Parameter(ParameterSetName = 'Count', Mandatory = $true)]
+        [Parameter(ParameterSetName = 'Count', Mandatory)]
         [Switch]$Count,
 			
         [hashtable]$Filter = @{ },
@@ -4102,26 +4254,24 @@ function Invoke-ADCGetBotprofiletpsbinding {
     }
     process {
         try {
-            if ( $PsCmdlet.ParameterSetName -eq 'Getall' ) {
-                $Query = @{ 
-                    bulkbindings = 'yes'
-                }
+            if ( $PsCmdlet.ParameterSetName -eq 'GetAll' ) {
+                $query = @{  bulkbindings = 'yes' }
                 Write-Verbose "Retrieving all botprofile_tps_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type botprofile_tps_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type botprofile_tps_binding -NitroPath nitro/v1/config -Query $query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
-                if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
+                if ( $PSBoundParameters.ContainsKey('Count') ) { $query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for botprofile_tps_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type botprofile_tps_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type botprofile_tps_binding -NitroPath nitro/v1/config -Query $query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving botprofile_tps_binding objects by arguments"
-                $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type botprofile_tps_binding -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
+                $arguments = @{ } 
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type botprofile_tps_binding -NitroPath nitro/v1/config -Arguments $arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving botprofile_tps_binding configuration for property 'name'"
                 $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type botprofile_tps_binding -NitroPath nitro/v1/config -Resource $name -Summary:$ViewSummary -Filter $Filter -GetWarning
             } else {
                 Write-Verbose "Retrieving botprofile_tps_binding configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type botprofile_tps_binding -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type botprofile_tps_binding -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -4135,108 +4285,101 @@ function Invoke-ADCGetBotprofiletpsbinding {
 }
 
 function Invoke-ADCAddBotprofilewhitelistbinding {
-<#
+    <#
     .SYNOPSIS
-        Add Bot configuration Object
+        Add Bot configuration Object.
     .DESCRIPTION
-        Add Bot configuration Object 
-    .PARAMETER name 
+        Binding object showing the whitelist that can be bound to botprofile.
+    .PARAMETER Name 
         Name for the profile. Must begin with a letter, number, or the underscore character (_), and must contain only letters, numbers, and the hyphen (-), period (.), pound (#), space ( ), at (@), equals (=), colon (:), and underscore (_) characters. Cannot be changed after the profile is added. 
-    .PARAMETER bot_whitelist 
+    .PARAMETER Bot_whitelist 
         Whitelist binding. Maximum 32 bindings can be configured per profile for Whitelist detection. 
-    .PARAMETER bot_whitelist_type 
-        Type of the white-list entry.  
+    .PARAMETER Bot_whitelist_type 
+        Type of the white-list entry. 
         Possible values = IPv4, SUBNET, EXPRESSION 
-    .PARAMETER bot_whitelist_value 
+    .PARAMETER Bot_whitelist_value 
         Value of bot white-list entry. 
-    .PARAMETER log 
-        Enable logging for Whitelist binding.  
-        Default value: OFF  
+    .PARAMETER Log 
+        Enable logging for Whitelist binding. 
         Possible values = ON, OFF 
-    .PARAMETER bot_whitelist_enabled 
-        Enabled or disabled white-list binding.  
-        Default value: OFF  
+    .PARAMETER Bot_whitelist_enabled 
+        Enabled or disabled white-list binding. 
         Possible values = ON, OFF 
-    .PARAMETER logmessage 
-        Message to be logged for this binding.  
-        Minimum length = 1 
-    .PARAMETER bot_bind_comment 
-        Any comments about this binding.  
-        Minimum length = 1 
+    .PARAMETER Logmessage 
+        Message to be logged for this binding. 
+    .PARAMETER Bot_bind_comment 
+        Any comments about this binding. 
     .PARAMETER PassThru 
         Return details about the created botprofile_whitelist_binding item.
     .EXAMPLE
-        Invoke-ADCAddBotprofilewhitelistbinding -name <string>
+        PS C:\>Invoke-ADCAddBotprofilewhitelistbinding -name <string>
+        An example how to add botprofile_whitelist_binding configuration Object(s).
     .NOTES
         File Name : Invoke-ADCAddBotprofilewhitelistbinding
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/bot/botprofile_whitelist_binding/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
+    #>
     [CmdletBinding(SupportsShouldProcess = $true, ConfirmImpact = "Low")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
-        [Parameter(Mandatory = $true)]
+        [Parameter(Mandatory)]
         [ValidateLength(1, 31)]
-        [string]$name ,
+        [string]$Name,
 
-        [boolean]$bot_whitelist ,
+        [boolean]$Bot_whitelist,
 
         [ValidateSet('IPv4', 'SUBNET', 'EXPRESSION')]
-        [string]$bot_whitelist_type ,
+        [string]$Bot_whitelist_type,
 
-        [string]$bot_whitelist_value ,
-
-        [ValidateSet('ON', 'OFF')]
-        [string]$log = 'OFF' ,
+        [string]$Bot_whitelist_value,
 
         [ValidateSet('ON', 'OFF')]
-        [string]$bot_whitelist_enabled = 'OFF' ,
+        [string]$Log = 'OFF',
+
+        [ValidateSet('ON', 'OFF')]
+        [string]$Bot_whitelist_enabled = 'OFF',
 
         [ValidateScript({ $_.Length -gt 1 })]
-        [string]$logmessage ,
+        [string]$Logmessage,
 
         [ValidateScript({ $_.Length -gt 1 })]
-        [string]$bot_bind_comment ,
+        [string]$Bot_bind_comment,
 
         [Switch]$PassThru 
-
     )
     begin {
         Write-Verbose "Invoke-ADCAddBotprofilewhitelistbinding: Starting"
     }
     process {
         try {
-            $Payload = @{
-                name = $name
-            }
-            if ($PSBoundParameters.ContainsKey('bot_whitelist')) { $Payload.Add('bot_whitelist', $bot_whitelist) }
-            if ($PSBoundParameters.ContainsKey('bot_whitelist_type')) { $Payload.Add('bot_whitelist_type', $bot_whitelist_type) }
-            if ($PSBoundParameters.ContainsKey('bot_whitelist_value')) { $Payload.Add('bot_whitelist_value', $bot_whitelist_value) }
-            if ($PSBoundParameters.ContainsKey('log')) { $Payload.Add('log', $log) }
-            if ($PSBoundParameters.ContainsKey('bot_whitelist_enabled')) { $Payload.Add('bot_whitelist_enabled', $bot_whitelist_enabled) }
-            if ($PSBoundParameters.ContainsKey('logmessage')) { $Payload.Add('logmessage', $logmessage) }
-            if ($PSBoundParameters.ContainsKey('bot_bind_comment')) { $Payload.Add('bot_bind_comment', $bot_bind_comment) }
- 
-            if ($PSCmdlet.ShouldProcess("botprofile_whitelist_binding", "Add Bot configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -NitroPath nitro/v1/config -Type botprofile_whitelist_binding -Payload $Payload -GetWarning
+            $payload = @{ name = $name }
+            if ( $PSBoundParameters.ContainsKey('bot_whitelist') ) { $payload.Add('bot_whitelist', $bot_whitelist) }
+            if ( $PSBoundParameters.ContainsKey('bot_whitelist_type') ) { $payload.Add('bot_whitelist_type', $bot_whitelist_type) }
+            if ( $PSBoundParameters.ContainsKey('bot_whitelist_value') ) { $payload.Add('bot_whitelist_value', $bot_whitelist_value) }
+            if ( $PSBoundParameters.ContainsKey('log') ) { $payload.Add('log', $log) }
+            if ( $PSBoundParameters.ContainsKey('bot_whitelist_enabled') ) { $payload.Add('bot_whitelist_enabled', $bot_whitelist_enabled) }
+            if ( $PSBoundParameters.ContainsKey('logmessage') ) { $payload.Add('logmessage', $logmessage) }
+            if ( $PSBoundParameters.ContainsKey('bot_bind_comment') ) { $payload.Add('bot_bind_comment', $bot_bind_comment) }
+            if ( $PSCmdlet.ShouldProcess("botprofile_whitelist_binding", "Add Bot configuration Object") ) {
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -NitroPath nitro/v1/config -Type botprofile_whitelist_binding -Payload $payload -GetWarning
                 #HTTP Status Code on Success: 201 Created
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
-                if ($PSBoundParameters.ContainsKey('PassThru')) {
-                    Write-Output (Invoke-ADCGetBotprofilewhitelistbinding -Filter $Payload)
+                if ( $PSBoundParameters.ContainsKey('PassThru') ) {
+                    Write-Output (Invoke-ADCGetBotprofilewhitelistbinding -Filter $payload)
                 } else {
                     Write-Output $result
                 }
-
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -4249,53 +4392,56 @@ function Invoke-ADCAddBotprofilewhitelistbinding {
 }
 
 function Invoke-ADCDeleteBotprofilewhitelistbinding {
-<#
+    <#
     .SYNOPSIS
-        Delete Bot configuration Object
+        Delete Bot configuration Object.
     .DESCRIPTION
-        Delete Bot configuration Object
-    .PARAMETER name 
-       Name for the profile. Must begin with a letter, number, or the underscore character (_), and must contain only letters, numbers, and the hyphen (-), period (.), pound (#), space ( ), at (@), equals (=), colon (:), and underscore (_) characters. Cannot be changed after the profile is added.    .PARAMETER bot_whitelist 
-       Whitelist binding. Maximum 32 bindings can be configured per profile for Whitelist detection.    .PARAMETER bot_whitelist_value 
-       Value of bot white-list entry.
+        Binding object showing the whitelist that can be bound to botprofile.
+    .PARAMETER Name 
+        Name for the profile. Must begin with a letter, number, or the underscore character (_), and must contain only letters, numbers, and the hyphen (-), period (.), pound (#), space ( ), at (@), equals (=), colon (:), and underscore (_) characters. Cannot be changed after the profile is added. 
+    .PARAMETER Bot_whitelist 
+        Whitelist binding. Maximum 32 bindings can be configured per profile for Whitelist detection. 
+    .PARAMETER Bot_whitelist_value 
+        Value of bot white-list entry.
     .EXAMPLE
-        Invoke-ADCDeleteBotprofilewhitelistbinding -name <string>
+        PS C:\>Invoke-ADCDeleteBotprofilewhitelistbinding -Name <string>
+        An example how to delete botprofile_whitelist_binding configuration Object(s).
     .NOTES
         File Name : Invoke-ADCDeleteBotprofilewhitelistbinding
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/bot/botprofile_whitelist_binding/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
+    #>
     [CmdletBinding(SupportsShouldProcess = $true, ConfirmImpact = "Low")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
-        [Parameter(Mandatory = $true)]
-        [string]$name ,
+        [Parameter(Mandatory)]
+        [string]$Name,
 
-        [boolean]$bot_whitelist ,
+        [boolean]$Bot_whitelist,
 
-        [string]$bot_whitelist_value 
+        [string]$Bot_whitelist_value 
     )
     begin {
         Write-Verbose "Invoke-ADCDeleteBotprofilewhitelistbinding: Starting"
     }
     process {
         try {
-            $Arguments = @{ 
-            }
-            if ($PSBoundParameters.ContainsKey('bot_whitelist')) { $Arguments.Add('bot_whitelist', $bot_whitelist) }
-            if ($PSBoundParameters.ContainsKey('bot_whitelist_value')) { $Arguments.Add('bot_whitelist_value', $bot_whitelist_value) }
-            if ($PSCmdlet.ShouldProcess("$name", "Delete Bot configuration Object")) {
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type botprofile_whitelist_binding -NitroPath nitro/v1/config -Resource $name -Arguments $Arguments
+            $arguments = @{ }
+            if ( $PSBoundParameters.ContainsKey('Bot_whitelist') ) { $arguments.Add('bot_whitelist', $Bot_whitelist) }
+            if ( $PSBoundParameters.ContainsKey('Bot_whitelist_value') ) { $arguments.Add('bot_whitelist_value', $Bot_whitelist_value) }
+            if ( $PSCmdlet.ShouldProcess("$name", "Delete Bot configuration Object") ) {
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type botprofile_whitelist_binding -NitroPath nitro/v1/config -Resource $name -Arguments $arguments
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $response
@@ -4311,55 +4457,61 @@ function Invoke-ADCDeleteBotprofilewhitelistbinding {
 }
 
 function Invoke-ADCGetBotprofilewhitelistbinding {
-<#
+    <#
     .SYNOPSIS
-        Get Bot configuration object(s)
+        Get Bot configuration object(s).
     .DESCRIPTION
-        Get Bot configuration object(s)
-    .PARAMETER name 
-       Name for the profile. Must begin with a letter, number, or the underscore character (_), and must contain only letters, numbers, and the hyphen (-), period (.), pound (#), space ( ), at (@), equals (=), colon (:), and underscore (_) characters. Cannot be changed after the profile is added. 
+        Binding object showing the whitelist that can be bound to botprofile.
+    .PARAMETER Name 
+        Name for the profile. Must begin with a letter, number, or the underscore character (_), and must contain only letters, numbers, and the hyphen (-), period (.), pound (#), space ( ), at (@), equals (=), colon (:), and underscore (_) characters. Cannot be changed after the profile is added. 
     .PARAMETER GetAll 
-        Retreive all botprofile_whitelist_binding object(s)
+        Retrieve all botprofile_whitelist_binding object(s).
     .PARAMETER Count
-        If specified, the count of the botprofile_whitelist_binding object(s) will be returned
+        If specified, the count of the botprofile_whitelist_binding object(s) will be returned.
     .PARAMETER Filter
-        Specify a filter
+        Specify a filter.
         -Filter @{ 'name'='<value>' }
     .PARAMETER ViewSummary
-        When specified, only a summary of information is returned
+        When specified, only a summary of information is returned.
     .EXAMPLE
-        Invoke-ADCGetBotprofilewhitelistbinding
+        PS C:\>Invoke-ADCGetBotprofilewhitelistbinding
+        Get data.
     .EXAMPLE 
-        Invoke-ADCGetBotprofilewhitelistbinding -GetAll 
+        PS C:\>Invoke-ADCGetBotprofilewhitelistbinding -GetAll 
+        Get all botprofile_whitelist_binding data. 
     .EXAMPLE 
-        Invoke-ADCGetBotprofilewhitelistbinding -Count
+        PS C:\>Invoke-ADCGetBotprofilewhitelistbinding -Count 
+        Get the number of botprofile_whitelist_binding objects.
     .EXAMPLE
-        Invoke-ADCGetBotprofilewhitelistbinding -name <string>
+        PS C:\>Invoke-ADCGetBotprofilewhitelistbinding -name <string>
+        Get botprofile_whitelist_binding object by specifying for example the name.
     .EXAMPLE
-        Invoke-ADCGetBotprofilewhitelistbinding -Filter @{ 'name'='<value>' }
+        PS C:\>Invoke-ADCGetBotprofilewhitelistbinding -Filter @{ 'name'='<value>' }
+        Get botprofile_whitelist_binding data with a filter.
     .NOTES
         File Name : Invoke-ADCGetBotprofilewhitelistbinding
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/bot/botprofile_whitelist_binding/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
-    [CmdletBinding(DefaultParameterSetName = "Getall")]
+    #>
+    [CmdletBinding(DefaultParameterSetName = "GetAll")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
         [Parameter(ParameterSetName = 'GetByResource')]
         [ValidateLength(1, 31)]
-        [string]$name,
+        [string]$Name,
 
-        [Parameter(ParameterSetName = 'Count', Mandatory = $true)]
+        [Parameter(ParameterSetName = 'Count', Mandatory)]
         [Switch]$Count,
 			
         [hashtable]$Filter = @{ },
@@ -4372,26 +4524,24 @@ function Invoke-ADCGetBotprofilewhitelistbinding {
     }
     process {
         try {
-            if ( $PsCmdlet.ParameterSetName -eq 'Getall' ) {
-                $Query = @{ 
-                    bulkbindings = 'yes'
-                }
+            if ( $PsCmdlet.ParameterSetName -eq 'GetAll' ) {
+                $query = @{  bulkbindings = 'yes' }
                 Write-Verbose "Retrieving all botprofile_whitelist_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type botprofile_whitelist_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type botprofile_whitelist_binding -NitroPath nitro/v1/config -Query $query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
-                if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
+                if ( $PSBoundParameters.ContainsKey('Count') ) { $query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for botprofile_whitelist_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type botprofile_whitelist_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type botprofile_whitelist_binding -NitroPath nitro/v1/config -Query $query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving botprofile_whitelist_binding objects by arguments"
-                $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type botprofile_whitelist_binding -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
+                $arguments = @{ } 
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type botprofile_whitelist_binding -NitroPath nitro/v1/config -Arguments $arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving botprofile_whitelist_binding configuration for property 'name'"
                 $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type botprofile_whitelist_binding -NitroPath nitro/v1/config -Resource $name -Summary:$ViewSummary -Filter $Filter -GetWarning
             } else {
                 Write-Verbose "Retrieving botprofile_whitelist_binding configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type botprofile_whitelist_binding -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type botprofile_whitelist_binding -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -4405,110 +4555,118 @@ function Invoke-ADCGetBotprofilewhitelistbinding {
 }
 
 function Invoke-ADCUpdateBotsettings {
-<#
+    <#
     .SYNOPSIS
-        Update Bot configuration Object
+        Update Bot configuration Object.
     .DESCRIPTION
-        Update Bot configuration Object 
-    .PARAMETER defaultprofile 
-        Profile to use when a connection does not match any policy. Default setting is " ", which sends unmatched connections back to the Citrix ADC without attempting to filter them further.  
-        Minimum length = 1 
-    .PARAMETER javascriptname 
-        Name of the JavaScript that the Bot Management feature uses in response.  
+        Configuration for Bot engine settings resource.
+    .PARAMETER Defaultprofile 
+        Profile to use when a connection does not match any policy. Default setting is " ", which sends unmatched connections back to the Citrix ADC without attempting to filter them further. 
+    .PARAMETER Javascriptname 
+        Name of the JavaScript that the Bot Management feature uses in response. 
         Must begin with a letter or number, and can consist of from 1 to 31 letters, numbers, and the hyphen (-) and underscore (_) symbols. 
-    .PARAMETER sessiontimeout 
-        Timeout, in seconds, after which a user session is terminated.  
-        Minimum value = 1  
-        Maximum value = 65535 
-    .PARAMETER sessioncookiename 
-        Name of the SessionCookie that the Bot Management feature uses for tracking.  
+    .PARAMETER Sessiontimeout 
+        Timeout, in seconds, after which a user session is terminated. 
+    .PARAMETER Sessioncookiename 
+        Name of the SessionCookie that the Bot Management feature uses for tracking. 
         Must begin with a letter or number, and can consist of from 1 to 31 letters, numbers, and the hyphen (-) and underscore (_) symbols. 
-    .PARAMETER dfprequestlimit 
-        Number of requests to allow without bot session cookie if device fingerprint is enabled.  
-        Minimum value = 1 
-    .PARAMETER signatureautoupdate 
-        Flag used to enable/disable bot auto update signatures.  
-        Default value: OFF  
+    .PARAMETER Dfprequestlimit 
+        Number of requests to allow without bot session cookie if device fingerprint is enabled. 
+    .PARAMETER Signatureautoupdate 
+        Flag used to enable/disable bot auto update signatures. 
         Possible values = ON, OFF 
-    .PARAMETER signatureurl 
-        URL to download the bot signature mapping file from server.  
-        Default value: https://nsbotsignatures.s3.amazonaws.com/BotSignatureMapping.json 
-    .PARAMETER proxyserver 
+    .PARAMETER Signatureurl 
+        URL to download the bot signature mapping file from server. 
+    .PARAMETER Proxyserver 
         Proxy Server IP to get updated signatures from AWS. 
-    .PARAMETER proxyport 
-        Proxy Server Port to get updated signatures from AWS.  
-        Default value: 8080  
-        Range 1 - 65535  
-        * in CLI is represented as 65535 in NITRO API
+    .PARAMETER Proxyport 
+        Proxy Server Port to get updated signatures from AWS. 
+        * in CLI is represented as 65535 in NITRO API 
+    .PARAMETER Trapurlautogenerate 
+        Enable/disable trap URL auto generation. When enabled, trap URL is updated within the configured interval. 
+        Possible values = ON, OFF 
+    .PARAMETER Trapurlinterval 
+        Time in seconds after which trap URL is updated. 
+    .PARAMETER Trapurllength 
+        Length of the auto-generated trap URL.
     .EXAMPLE
-        Invoke-ADCUpdateBotsettings 
+        PS C:\>Invoke-ADCUpdateBotsettings 
+        An example how to update botsettings configuration Object(s).
     .NOTES
         File Name : Invoke-ADCUpdateBotsettings
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/bot/botsettings/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
+    #>
     [CmdletBinding(SupportsShouldProcess = $true, ConfirmImpact = "Low")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
         [ValidateScript({ $_.Length -gt 1 })]
-        [string]$defaultprofile ,
+        [string]$Defaultprofile,
 
         [ValidateScript({ $_.Length -gt 1 })]
-        [string]$javascriptname ,
+        [string]$Javascriptname,
 
         [ValidateRange(1, 65535)]
-        [double]$sessiontimeout ,
+        [double]$Sessiontimeout,
 
         [ValidateScript({ $_.Length -gt 1 })]
-        [string]$sessioncookiename ,
+        [string]$Sessioncookiename,
 
-        [double]$dfprequestlimit ,
+        [double]$Dfprequestlimit,
 
         [ValidateSet('ON', 'OFF')]
-        [string]$signatureautoupdate ,
+        [string]$Signatureautoupdate,
 
-        [string]$signatureurl ,
+        [string]$Signatureurl,
 
-        [string]$proxyserver ,
+        [string]$Proxyserver,
 
         [ValidateRange(1, 65535)]
-        [int]$proxyport 
+        [int]$Proxyport,
 
+        [ValidateSet('ON', 'OFF')]
+        [string]$Trapurlautogenerate,
+
+        [ValidateRange(300, 86400)]
+        [double]$Trapurlinterval,
+
+        [ValidateRange(10, 255)]
+        [double]$Trapurllength 
     )
     begin {
         Write-Verbose "Invoke-ADCUpdateBotsettings: Starting"
     }
     process {
         try {
-            $Payload = @{
-
-            }
-            if ($PSBoundParameters.ContainsKey('defaultprofile')) { $Payload.Add('defaultprofile', $defaultprofile) }
-            if ($PSBoundParameters.ContainsKey('javascriptname')) { $Payload.Add('javascriptname', $javascriptname) }
-            if ($PSBoundParameters.ContainsKey('sessiontimeout')) { $Payload.Add('sessiontimeout', $sessiontimeout) }
-            if ($PSBoundParameters.ContainsKey('sessioncookiename')) { $Payload.Add('sessioncookiename', $sessioncookiename) }
-            if ($PSBoundParameters.ContainsKey('dfprequestlimit')) { $Payload.Add('dfprequestlimit', $dfprequestlimit) }
-            if ($PSBoundParameters.ContainsKey('signatureautoupdate')) { $Payload.Add('signatureautoupdate', $signatureautoupdate) }
-            if ($PSBoundParameters.ContainsKey('signatureurl')) { $Payload.Add('signatureurl', $signatureurl) }
-            if ($PSBoundParameters.ContainsKey('proxyserver')) { $Payload.Add('proxyserver', $proxyserver) }
-            if ($PSBoundParameters.ContainsKey('proxyport')) { $Payload.Add('proxyport', $proxyport) }
- 
-            if ($PSCmdlet.ShouldProcess("botsettings", "Update Bot configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -NitroPath nitro/v1/config -Type botsettings -Payload $Payload -GetWarning
+            $payload = @{ }
+            if ( $PSBoundParameters.ContainsKey('defaultprofile') ) { $payload.Add('defaultprofile', $defaultprofile) }
+            if ( $PSBoundParameters.ContainsKey('javascriptname') ) { $payload.Add('javascriptname', $javascriptname) }
+            if ( $PSBoundParameters.ContainsKey('sessiontimeout') ) { $payload.Add('sessiontimeout', $sessiontimeout) }
+            if ( $PSBoundParameters.ContainsKey('sessioncookiename') ) { $payload.Add('sessioncookiename', $sessioncookiename) }
+            if ( $PSBoundParameters.ContainsKey('dfprequestlimit') ) { $payload.Add('dfprequestlimit', $dfprequestlimit) }
+            if ( $PSBoundParameters.ContainsKey('signatureautoupdate') ) { $payload.Add('signatureautoupdate', $signatureautoupdate) }
+            if ( $PSBoundParameters.ContainsKey('signatureurl') ) { $payload.Add('signatureurl', $signatureurl) }
+            if ( $PSBoundParameters.ContainsKey('proxyserver') ) { $payload.Add('proxyserver', $proxyserver) }
+            if ( $PSBoundParameters.ContainsKey('proxyport') ) { $payload.Add('proxyport', $proxyport) }
+            if ( $PSBoundParameters.ContainsKey('trapurlautogenerate') ) { $payload.Add('trapurlautogenerate', $trapurlautogenerate) }
+            if ( $PSBoundParameters.ContainsKey('trapurlinterval') ) { $payload.Add('trapurlinterval', $trapurlinterval) }
+            if ( $PSBoundParameters.ContainsKey('trapurllength') ) { $payload.Add('trapurllength', $trapurllength) }
+            if ( $PSCmdlet.ShouldProcess("botsettings", "Update Bot configuration Object") ) {
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -NitroPath nitro/v1/config -Type botsettings -Payload $payload -GetWarning
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
-            Write-Output $result
-
+                Write-Output $result
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -4521,90 +4679,106 @@ function Invoke-ADCUpdateBotsettings {
 }
 
 function Invoke-ADCUnsetBotsettings {
-<#
+    <#
     .SYNOPSIS
-        Unset Bot configuration Object
+        Unset Bot configuration Object.
     .DESCRIPTION
-        Unset Bot configuration Object 
-   .PARAMETER defaultprofile 
-       Profile to use when a connection does not match any policy. Default setting is " ", which sends unmatched connections back to the Citrix ADC without attempting to filter them further. 
-   .PARAMETER javascriptname 
-       Name of the JavaScript that the Bot Management feature uses in response.  
-       Must begin with a letter or number, and can consist of from 1 to 31 letters, numbers, and the hyphen (-) and underscore (_) symbols. 
-   .PARAMETER sessiontimeout 
-       Timeout, in seconds, after which a user session is terminated. 
-   .PARAMETER sessioncookiename 
-       Name of the SessionCookie that the Bot Management feature uses for tracking.  
-       Must begin with a letter or number, and can consist of from 1 to 31 letters, numbers, and the hyphen (-) and underscore (_) symbols. 
-   .PARAMETER dfprequestlimit 
-       Number of requests to allow without bot session cookie if device fingerprint is enabled. 
-   .PARAMETER signatureautoupdate 
-       Flag used to enable/disable bot auto update signatures.  
-       Possible values = ON, OFF 
-   .PARAMETER signatureurl 
-       URL to download the bot signature mapping file from server. 
-   .PARAMETER proxyserver 
-       Proxy Server IP to get updated signatures from AWS. 
-   .PARAMETER proxyport 
-       Proxy Server Port to get updated signatures from AWS.  
-       * in CLI is represented as 65535 in NITRO API
+        Configuration for Bot engine settings resource.
+    .PARAMETER Defaultprofile 
+        Profile to use when a connection does not match any policy. Default setting is " ", which sends unmatched connections back to the Citrix ADC without attempting to filter them further. 
+    .PARAMETER Javascriptname 
+        Name of the JavaScript that the Bot Management feature uses in response. 
+        Must begin with a letter or number, and can consist of from 1 to 31 letters, numbers, and the hyphen (-) and underscore (_) symbols. 
+    .PARAMETER Sessiontimeout 
+        Timeout, in seconds, after which a user session is terminated. 
+    .PARAMETER Sessioncookiename 
+        Name of the SessionCookie that the Bot Management feature uses for tracking. 
+        Must begin with a letter or number, and can consist of from 1 to 31 letters, numbers, and the hyphen (-) and underscore (_) symbols. 
+    .PARAMETER Dfprequestlimit 
+        Number of requests to allow without bot session cookie if device fingerprint is enabled. 
+    .PARAMETER Signatureautoupdate 
+        Flag used to enable/disable bot auto update signatures. 
+        Possible values = ON, OFF 
+    .PARAMETER Signatureurl 
+        URL to download the bot signature mapping file from server. 
+    .PARAMETER Proxyserver 
+        Proxy Server IP to get updated signatures from AWS. 
+    .PARAMETER Proxyport 
+        Proxy Server Port to get updated signatures from AWS. 
+        * in CLI is represented as 65535 in NITRO API 
+    .PARAMETER Trapurlautogenerate 
+        Enable/disable trap URL auto generation. When enabled, trap URL is updated within the configured interval. 
+        Possible values = ON, OFF 
+    .PARAMETER Trapurlinterval 
+        Time in seconds after which trap URL is updated. 
+    .PARAMETER Trapurllength 
+        Length of the auto-generated trap URL.
     .EXAMPLE
-        Invoke-ADCUnsetBotsettings 
+        PS C:\>Invoke-ADCUnsetBotsettings 
+        An example how to unset botsettings configuration Object(s).
     .NOTES
         File Name : Invoke-ADCUnsetBotsettings
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/bot/botsettings
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
+    #>
     [CmdletBinding(SupportsShouldProcess = $true, ConfirmImpact = "Low")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
-        [Boolean]$defaultprofile ,
+        [Boolean]$defaultprofile,
 
-        [Boolean]$javascriptname ,
+        [Boolean]$javascriptname,
 
-        [Boolean]$sessiontimeout ,
+        [Boolean]$sessiontimeout,
 
-        [Boolean]$sessioncookiename ,
+        [Boolean]$sessioncookiename,
 
-        [Boolean]$dfprequestlimit ,
+        [Boolean]$dfprequestlimit,
 
-        [Boolean]$signatureautoupdate ,
+        [Boolean]$signatureautoupdate,
 
-        [Boolean]$signatureurl ,
+        [Boolean]$signatureurl,
 
-        [Boolean]$proxyserver ,
+        [Boolean]$proxyserver,
 
-        [Boolean]$proxyport 
+        [Boolean]$proxyport,
+
+        [Boolean]$trapurlautogenerate,
+
+        [Boolean]$trapurlinterval,
+
+        [Boolean]$trapurllength 
     )
     begin {
         Write-Verbose "Invoke-ADCUnsetBotsettings: Starting"
     }
     process {
         try {
-            $Payload = @{
-
-            }
-            if ($PSBoundParameters.ContainsKey('defaultprofile')) { $Payload.Add('defaultprofile', $defaultprofile) }
-            if ($PSBoundParameters.ContainsKey('javascriptname')) { $Payload.Add('javascriptname', $javascriptname) }
-            if ($PSBoundParameters.ContainsKey('sessiontimeout')) { $Payload.Add('sessiontimeout', $sessiontimeout) }
-            if ($PSBoundParameters.ContainsKey('sessioncookiename')) { $Payload.Add('sessioncookiename', $sessioncookiename) }
-            if ($PSBoundParameters.ContainsKey('dfprequestlimit')) { $Payload.Add('dfprequestlimit', $dfprequestlimit) }
-            if ($PSBoundParameters.ContainsKey('signatureautoupdate')) { $Payload.Add('signatureautoupdate', $signatureautoupdate) }
-            if ($PSBoundParameters.ContainsKey('signatureurl')) { $Payload.Add('signatureurl', $signatureurl) }
-            if ($PSBoundParameters.ContainsKey('proxyserver')) { $Payload.Add('proxyserver', $proxyserver) }
-            if ($PSBoundParameters.ContainsKey('proxyport')) { $Payload.Add('proxyport', $proxyport) }
-            if ($PSCmdlet.ShouldProcess("botsettings", "Unset Bot configuration Object")) {
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -Type botsettings -NitroPath nitro/v1/config -Action unset -Payload $Payload -GetWarning
+            $payload = @{ }
+            if ( $PSBoundParameters.ContainsKey('defaultprofile') ) { $payload.Add('defaultprofile', $defaultprofile) }
+            if ( $PSBoundParameters.ContainsKey('javascriptname') ) { $payload.Add('javascriptname', $javascriptname) }
+            if ( $PSBoundParameters.ContainsKey('sessiontimeout') ) { $payload.Add('sessiontimeout', $sessiontimeout) }
+            if ( $PSBoundParameters.ContainsKey('sessioncookiename') ) { $payload.Add('sessioncookiename', $sessioncookiename) }
+            if ( $PSBoundParameters.ContainsKey('dfprequestlimit') ) { $payload.Add('dfprequestlimit', $dfprequestlimit) }
+            if ( $PSBoundParameters.ContainsKey('signatureautoupdate') ) { $payload.Add('signatureautoupdate', $signatureautoupdate) }
+            if ( $PSBoundParameters.ContainsKey('signatureurl') ) { $payload.Add('signatureurl', $signatureurl) }
+            if ( $PSBoundParameters.ContainsKey('proxyserver') ) { $payload.Add('proxyserver', $proxyserver) }
+            if ( $PSBoundParameters.ContainsKey('proxyport') ) { $payload.Add('proxyport', $proxyport) }
+            if ( $PSBoundParameters.ContainsKey('trapurlautogenerate') ) { $payload.Add('trapurlautogenerate', $trapurlautogenerate) }
+            if ( $PSBoundParameters.ContainsKey('trapurlinterval') ) { $payload.Add('trapurlinterval', $trapurlinterval) }
+            if ( $PSBoundParameters.ContainsKey('trapurllength') ) { $payload.Add('trapurllength', $trapurllength) }
+            if ( $PSCmdlet.ShouldProcess("botsettings", "Unset Bot configuration Object") ) {
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -Type botsettings -NitroPath nitro/v1/config -Action unset -Payload $payload -GetWarning
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $response
@@ -4620,45 +4794,50 @@ function Invoke-ADCUnsetBotsettings {
 }
 
 function Invoke-ADCGetBotsettings {
-<#
+    <#
     .SYNOPSIS
-        Get Bot configuration object(s)
+        Get Bot configuration object(s).
     .DESCRIPTION
-        Get Bot configuration object(s)
+        Configuration for Bot engine settings resource.
     .PARAMETER GetAll 
-        Retreive all botsettings object(s)
+        Retrieve all botsettings object(s).
     .PARAMETER Count
-        If specified, the count of the botsettings object(s) will be returned
+        If specified, the count of the botsettings object(s) will be returned.
     .PARAMETER Filter
-        Specify a filter
+        Specify a filter.
         -Filter @{ 'name'='<value>' }
     .PARAMETER ViewSummary
-        When specified, only a summary of information is returned
+        When specified, only a summary of information is returned.
     .EXAMPLE
-        Invoke-ADCGetBotsettings
+        PS C:\>Invoke-ADCGetBotsettings
+        Get data.
     .EXAMPLE 
-        Invoke-ADCGetBotsettings -GetAll
+        PS C:\>Invoke-ADCGetBotsettings -GetAll 
+        Get all botsettings data.
     .EXAMPLE
-        Invoke-ADCGetBotsettings -name <string>
+        PS C:\>Invoke-ADCGetBotsettings -name <string>
+        Get botsettings object by specifying for example the name.
     .EXAMPLE
-        Invoke-ADCGetBotsettings -Filter @{ 'name'='<value>' }
+        PS C:\>Invoke-ADCGetBotsettings -Filter @{ 'name'='<value>' }
+        Get botsettings data with a filter.
     .NOTES
         File Name : Invoke-ADCGetBotsettings
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/bot/botsettings/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
-    [CmdletBinding(DefaultParameterSetName = "Getall")]
+    #>
+    [CmdletBinding(DefaultParameterSetName = "GetAll")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 			
         [hashtable]$Filter = @{ },
 
@@ -4670,24 +4849,24 @@ function Invoke-ADCGetBotsettings {
     }
     process {
         try {
-            if ( $PsCmdlet.ParameterSetName -eq 'Getall' ) {
-                $Query = @{ }
+            if ( $PsCmdlet.ParameterSetName -eq 'GetAll' ) {
+                $query = @{ }
                 Write-Verbose "Retrieving all botsettings objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type botsettings -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type botsettings -NitroPath nitro/v1/config -Query $query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
-                if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
+                if ( $PSBoundParameters.ContainsKey('Count') ) { $query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for botsettings objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type botsettings -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type botsettings -NitroPath nitro/v1/config -Query $query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving botsettings objects by arguments"
-                $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type botsettings -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
+                $arguments = @{ } 
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type botsettings -NitroPath nitro/v1/config -Arguments $arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving botsettings configuration for property ''"
 
             } else {
                 Write-Verbose "Retrieving botsettings configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type botsettings -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type botsettings -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -4701,50 +4880,52 @@ function Invoke-ADCGetBotsettings {
 }
 
 function Invoke-ADCImportBotsignature {
-<#
+    <#
     .SYNOPSIS
-        Import Bot configuration Object
+        Import Bot configuration Object.
     .DESCRIPTION
-        Import Bot configuration Object 
-    .PARAMETER src 
-        Local path to and name of, or URL (protocol, host, path, and file name) for, the file in which to store the imported signature file.  
+        Configuration for bot signatures resource.
+    .PARAMETER Src 
+        Local path to and name of, or URL (protocol, host, path, and file name) for, the file in which to store the imported signature file. 
         NOTE: The import fails if the object to be imported is on an HTTPS server that requires client certificate authentication for access. 
-    .PARAMETER name 
+    .PARAMETER Name 
         Name to assign to the bot signature file object on the Citrix ADC. 
-    .PARAMETER comment 
+    .PARAMETER Comment 
         Any comments to preserve information about the signature file object. 
-    .PARAMETER overwrite 
+    .PARAMETER Overwrite 
         Overwrites the existing file.
     .EXAMPLE
-        Invoke-ADCImportBotsignature -name <string>
+        PS C:\>Invoke-ADCImportBotsignature -name <string>
+        An example how to import botsignature configuration Object(s).
     .NOTES
         File Name : Invoke-ADCImportBotsignature
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/bot/botsignature/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
+    #>
     [CmdletBinding(SupportsShouldProcess = $true, ConfirmImpact = "Low")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
         [ValidateLength(1, 2047)]
-        [string]$src ,
+        [string]$Src,
 
-        [Parameter(Mandatory = $true)]
+        [Parameter(Mandatory)]
         [ValidateLength(1, 31)]
-        [string]$name ,
+        [string]$Name,
 
-        [string]$comment ,
+        [string]$Comment,
 
-        [boolean]$overwrite 
+        [boolean]$Overwrite 
 
     )
     begin {
@@ -4752,14 +4933,12 @@ function Invoke-ADCImportBotsignature {
     }
     process {
         try {
-            $Payload = @{
-                name = $name
-            }
-            if ($PSBoundParameters.ContainsKey('src')) { $Payload.Add('src', $src) }
-            if ($PSBoundParameters.ContainsKey('comment')) { $Payload.Add('comment', $comment) }
-            if ($PSBoundParameters.ContainsKey('overwrite')) { $Payload.Add('overwrite', $overwrite) }
-            if ($PSCmdlet.ShouldProcess($Name, "Import Bot configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -NitroPath nitro/v1/config -Type botsignature -Action import -Payload $Payload -GetWarning
+            $payload = @{ name = $name }
+            if ( $PSBoundParameters.ContainsKey('src') ) { $payload.Add('src', $src) }
+            if ( $PSBoundParameters.ContainsKey('comment') ) { $payload.Add('comment', $comment) }
+            if ( $PSBoundParameters.ContainsKey('overwrite') ) { $payload.Add('overwrite', $overwrite) }
+            if ( $PSCmdlet.ShouldProcess($Name, "Import Bot configuration Object") ) {
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -NitroPath nitro/v1/config -Type botsignature -Action import -Payload $payload -GetWarning
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $result
@@ -4775,48 +4954,47 @@ function Invoke-ADCImportBotsignature {
 }
 
 function Invoke-ADCDeleteBotsignature {
-<#
+    <#
     .SYNOPSIS
-        Delete Bot configuration Object
+        Delete Bot configuration Object.
     .DESCRIPTION
-        Delete Bot configuration Object
-    .PARAMETER name 
-       Name to assign to the bot signature file object on the Citrix ADC.  
-       Minimum length = 1  
-       Maximum length = 31 
+        Configuration for bot signatures resource.
+    .PARAMETER Name 
+        Name to assign to the bot signature file object on the Citrix ADC.
     .EXAMPLE
-        Invoke-ADCDeleteBotsignature -name <string>
+        PS C:\>Invoke-ADCDeleteBotsignature -Name <string>
+        An example how to delete botsignature configuration Object(s).
     .NOTES
         File Name : Invoke-ADCDeleteBotsignature
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/bot/botsignature/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
+    #>
     [CmdletBinding(SupportsShouldProcess = $true, ConfirmImpact = "Low")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
-        [Parameter(Mandatory = $true)]
-        [string]$name 
+        [Parameter(Mandatory)]
+        [string]$Name 
     )
     begin {
         Write-Verbose "Invoke-ADCDeleteBotsignature: Starting"
     }
     process {
         try {
-            $Arguments = @{ 
-            }
+            $arguments = @{ }
 
-            if ($PSCmdlet.ShouldProcess("$name", "Delete Bot configuration Object")) {
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type botsignature -NitroPath nitro/v1/config -Resource $name -Arguments $Arguments
+            if ( $PSCmdlet.ShouldProcess("$name", "Delete Bot configuration Object") ) {
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type botsignature -NitroPath nitro/v1/config -Resource $name -Arguments $arguments
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $response
@@ -4832,64 +5010,59 @@ function Invoke-ADCDeleteBotsignature {
 }
 
 function Invoke-ADCChangeBotsignature {
-<#
+    <#
     .SYNOPSIS
-        Change Bot configuration Object
+        Change Bot configuration Object.
     .DESCRIPTION
-        Change Bot configuration Object 
-    .PARAMETER name 
-        Name to assign to the bot signature file object on the Citrix ADC.  
-        Minimum length = 1  
-        Maximum length = 31 
+        Configuration for bot signatures resource.
+    .PARAMETER Name 
+        Name to assign to the bot signature file object on the Citrix ADC. 
     .PARAMETER PassThru 
         Return details about the created botsignature item.
     .EXAMPLE
-        Invoke-ADCChangeBotsignature -name <string>
+        PS C:\>Invoke-ADCChangeBotsignature -name <string>
+        An example how to change botsignature configuration Object(s).
     .NOTES
         File Name : Invoke-ADCChangeBotsignature
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/bot/botsignature/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
+    #>
     [CmdletBinding(SupportsShouldProcess = $true, ConfirmImpact = "Low")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
-        [Parameter(Mandatory = $true)]
+        [Parameter(Mandatory)]
         [ValidateLength(1, 31)]
-        [string]$name ,
+        [string]$Name,
 
         [Switch]$PassThru 
-
     )
     begin {
         Write-Verbose "Invoke-ADCChangeBotsignature: Starting"
     }
     process {
         try {
-            $Payload = @{
-                name = $name
-            }
+            $payload = @{ name = $name }
 
- 
-            if ($PSCmdlet.ShouldProcess("botsignature", "Change Bot configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -NitroPath nitro/v1/config -Type botsignature -Action update -Payload $Payload -GetWarning
+            if ( $PSCmdlet.ShouldProcess("botsignature", "Change Bot configuration Object") ) {
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -NitroPath nitro/v1/config -Type botsignature -Action update -Payload $payload -GetWarning
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
-                if ($PSBoundParameters.ContainsKey('PassThru')) {
-                    Write-Output (Invoke-ADCGetBotsignature -Filter $Payload)
+                if ( $PSBoundParameters.ContainsKey('PassThru') ) {
+                    Write-Output (Invoke-ADCGetBotsignature -Filter $payload)
                 } else {
                     Write-Output $result
                 }
-
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -4902,51 +5075,56 @@ function Invoke-ADCChangeBotsignature {
 }
 
 function Invoke-ADCGetBotsignature {
-<#
+    <#
     .SYNOPSIS
-        Get Bot configuration object(s)
+        Get Bot configuration object(s).
     .DESCRIPTION
-        Get Bot configuration object(s)
-    .PARAMETER name 
-       Name to assign to the bot signature file object on the Citrix ADC. 
+        Configuration for bot signatures resource.
+    .PARAMETER Name 
+        Name to assign to the bot signature file object on the Citrix ADC. 
     .PARAMETER GetAll 
-        Retreive all botsignature object(s)
+        Retrieve all botsignature object(s).
     .PARAMETER Count
-        If specified, the count of the botsignature object(s) will be returned
+        If specified, the count of the botsignature object(s) will be returned.
     .PARAMETER Filter
-        Specify a filter
+        Specify a filter.
         -Filter @{ 'name'='<value>' }
     .PARAMETER ViewSummary
-        When specified, only a summary of information is returned
+        When specified, only a summary of information is returned.
     .EXAMPLE
-        Invoke-ADCGetBotsignature
+        PS C:\>Invoke-ADCGetBotsignature
+        Get data.
     .EXAMPLE 
-        Invoke-ADCGetBotsignature -GetAll
+        PS C:\>Invoke-ADCGetBotsignature -GetAll 
+        Get all botsignature data.
     .EXAMPLE
-        Invoke-ADCGetBotsignature -name <string>
+        PS C:\>Invoke-ADCGetBotsignature -name <string>
+        Get botsignature object by specifying for example the name.
     .EXAMPLE
-        Invoke-ADCGetBotsignature -Filter @{ 'name'='<value>' }
+        PS C:\>Invoke-ADCGetBotsignature -Filter @{ 'name'='<value>' }
+        Get botsignature data with a filter.
     .NOTES
         File Name : Invoke-ADCGetBotsignature
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/bot/botsignature/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
-    [CmdletBinding(DefaultParameterSetName = "Getall")]
+    #>
+    [CmdletBinding(DefaultParameterSetName = "GetAll")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
         [Parameter(ParameterSetName = 'GetByResource')]
         [ValidateLength(1, 31)]
-        [string]$name,
+        [string]$Name,
 			
         [hashtable]$Filter = @{ },
 
@@ -4962,24 +5140,24 @@ function Invoke-ADCGetBotsignature {
     }
     process {
         try {
-            if ( $PsCmdlet.ParameterSetName -eq 'Getall' ) {
-                $Query = @{ }
+            if ( $PsCmdlet.ParameterSetName -eq 'GetAll' ) {
+                $query = @{ }
                 Write-Verbose "Retrieving all botsignature objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type botsignature -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type botsignature -NitroPath nitro/v1/config -Query $query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
-                if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
+                if ( $PSBoundParameters.ContainsKey('Count') ) { $query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for botsignature objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type botsignature -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type botsignature -NitroPath nitro/v1/config -Query $query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving botsignature objects by arguments"
-                $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type botsignature -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
+                $arguments = @{ } 
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type botsignature -NitroPath nitro/v1/config -Arguments $arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving botsignature configuration for property 'name'"
                 $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type botsignature -NitroPath nitro/v1/config -Resource $name -Summary:$ViewSummary -Filter $Filter -GetWarning
             } else {
                 Write-Verbose "Retrieving botsignature configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type botsignature -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type botsignature -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"

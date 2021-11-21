@@ -1,168 +1,109 @@
-function Invoke-ADCAddAppqoeaction {
-<#
+function Invoke-ADCUnsetAppqoeaction {
+    <#
     .SYNOPSIS
-        Add Appqoe configuration Object
+        Unset Appqoe configuration Object.
     .DESCRIPTION
-        Add Appqoe configuration Object 
-    .PARAMETER name 
+        Configuration for AppQoS action resource.
+    .PARAMETER Name 
         Name for the AppQoE action. Must begin with a letter, number, or the underscore symbol (_). Other characters allowed, after the first character, are the hyphen (-), period (.) hash (#), space ( ), at (@), equals (=), and colon (:) characters. This is a mandatory argument. 
-    .PARAMETER priority 
-        Priority for queuing the request. If server resources are not available for a request that matches the configured rule, this option specifies a priority for queuing the request until the server resources are available again. If priority is not configured then Lowest priority will be used to queue the request.  
+    .PARAMETER Priority 
+        Priority for queuing the request. If server resources are not available for a request that matches the configured rule, this option specifies a priority for queuing the request until the server resources are available again. If priority is not configured then Lowest priority will be used to queue the request. 
         Possible values = HIGH, MEDIUM, LOW, LOWEST 
-    .PARAMETER respondwith 
-        Responder action to be taken when the threshold is reached. Available settings function as follows:  
-        ACS - Serve content from an alternative content service  
-        Threshold : maxConn or delay  
-        NS - Serve from the Citrix ADC (built-in response)  
-        Threshold : maxConn or delay.  
-        Possible values = ACS, NS 
-    .PARAMETER customfile 
-        name of the HTML page object to use as the response.  
-        Minimum length = 1 
-    .PARAMETER altcontentsvcname 
-        Name of the alternative content service to be used in the ACS.  
-        Minimum length = 1  
-        Maximum length = 127 
-    .PARAMETER altcontentpath 
-        Path to the alternative content service to be used in the ACS.  
-        Minimum length = 4  
-        Maximum length = 127 
-    .PARAMETER polqdepth 
-        Policy queue depth threshold value. When the policy queue size (number of requests queued for the policy binding this action is attached to) increases to the specified polqDepth value, subsequent requests are dropped to the lowest priority level.  
-        Minimum value = 0  
-        Maximum value = 4294967294 
-    .PARAMETER priqdepth 
-        Queue depth threshold value per priorirty level. If the queue size (number of requests in the queue of that particular priorirty) on the virtual server to which this policy is bound, increases to the specified qDepth value, subsequent requests are dropped to the lowest priority level.  
-        Minimum value = 0  
-        Maximum value = 4294967294 
-    .PARAMETER maxconn 
-        Maximum number of concurrent connections that can be open for requests that matches with rule.  
-        Minimum value = 1  
-        Maximum value = 4294967294 
-    .PARAMETER delay 
-        Delay threshold, in microseconds, for requests that match the policy's rule. If the delay statistics gathered for the matching request exceed the specified delay, configured action triggered for that request, if there is no action then requests are dropped to the lowest priority level.  
-        Minimum value = 1  
-        Maximum value = 599999999 
-    .PARAMETER dostrigexpression 
-        Optional expression to add second level check to trigger DoS actions. Specifically used for Analytics based DoS response generation. 
-    .PARAMETER dosaction 
-        DoS Action to take when vserver will be considered under DoS attack and corresponding rule matches. Mandatory if AppQoE actions are to be used for DoS attack prevention.  
+    .PARAMETER Altcontentsvcname 
+        Name of the alternative content service to be used in the ACS. 
+    .PARAMETER Altcontentpath 
+        Path to the alternative content service to be used in the ACS. 
+    .PARAMETER Polqdepth 
+        Policy queue depth threshold value. When the policy queue size (number of requests queued for the policy binding this action is attached to) increases to the specified polqDepth value, subsequent requests are dropped to the lowest priority level. 
+    .PARAMETER Priqdepth 
+        Queue depth threshold value per priorirty level. If the queue size (number of requests in the queue of that particular priorirty) on the virtual server to which this policy is bound, increases to the specified qDepth value, subsequent requests are dropped to the lowest priority level. 
+    .PARAMETER Maxconn 
+        Maximum number of concurrent connections that can be open for requests that matches with rule. 
+    .PARAMETER Delay 
+        Delay threshold, in microseconds, for requests that match the policy's rule. If the delay statistics gathered for the matching request exceed the specified delay, configured action triggered for that request, if there is no action then requests are dropped to the lowest priority level. 
+    .PARAMETER Dosaction 
+        DoS Action to take when vserver will be considered under DoS attack and corresponding rule matches. Mandatory if AppQoE actions are to be used for DoS attack prevention. 
         Possible values = SimpleResponse, HICResponse 
-    .PARAMETER tcpprofile 
-        Bind TCP Profile based on L2/L3/L7 parameters.  
-        Minimum length = 1  
-        Maximum length = 127 
-    .PARAMETER retryonreset 
-        Retry on TCP Reset.  
-        Default value: NO  
+    .PARAMETER Tcpprofile 
+        Bind TCP Profile based on L2/L3/L7 parameters. 
+    .PARAMETER Retryonreset 
+        Retry on TCP Reset. 
         Possible values = YES, NO 
-    .PARAMETER numretries 
-        Retry count.  
-        Default value: 3  
-        Minimum value = 0  
-        Maximum value = 7 
-    .PARAMETER PassThru 
-        Return details about the created appqoeaction item.
+    .PARAMETER Retryontimeout 
+        Retry on request Timeout(in millisec) upon sending request to backend servers. 
+    .PARAMETER Numretries 
+        Retry count.
     .EXAMPLE
-        Invoke-ADCAddAppqoeaction -name <string>
+        PS C:\>Invoke-ADCUnsetAppqoeaction -name <string>
+        An example how to unset appqoeaction configuration Object(s).
     .NOTES
-        File Name : Invoke-ADCAddAppqoeaction
-        Version   : v2106.2309
+        File Name : Invoke-ADCUnsetAppqoeaction
+        Version   : v2111.2111
         Author    : John Billekens
-        Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/appqoe/appqoeaction/
+        Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/appqoe/appqoeaction
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
+    #>
     [CmdletBinding(SupportsShouldProcess = $true, ConfirmImpact = "Low")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
-        [Parameter(Mandatory = $true)]
-        [string]$name ,
+        [string]$Name,
 
-        [ValidateSet('HIGH', 'MEDIUM', 'LOW', 'LOWEST')]
-        [string]$priority ,
+        [Boolean]$priority,
 
-        [ValidateSet('ACS', 'NS')]
-        [string]$respondwith ,
+        [Boolean]$altcontentsvcname,
 
-        [ValidateScript({ $_.Length -gt 1 })]
-        [string]$customfile ,
+        [Boolean]$altcontentpath,
 
-        [ValidateLength(1, 127)]
-        [string]$altcontentsvcname ,
+        [Boolean]$polqdepth,
 
-        [ValidateLength(4, 127)]
-        [string]$altcontentpath ,
+        [Boolean]$priqdepth,
 
-        [ValidateRange(0, 4294967294)]
-        [double]$polqdepth ,
+        [Boolean]$maxconn,
 
-        [ValidateRange(0, 4294967294)]
-        [double]$priqdepth ,
+        [Boolean]$delay,
 
-        [ValidateRange(1, 4294967294)]
-        [double]$maxconn ,
+        [Boolean]$dosaction,
 
-        [ValidateRange(1, 599999999)]
-        [double]$delay ,
+        [Boolean]$tcpprofile,
 
-        [string]$dostrigexpression ,
+        [Boolean]$retryonreset,
 
-        [ValidateSet('SimpleResponse', 'HICResponse')]
-        [string]$dosaction ,
+        [Boolean]$retryontimeout,
 
-        [ValidateLength(1, 127)]
-        [string]$tcpprofile ,
-
-        [ValidateSet('YES', 'NO')]
-        [string]$retryonreset = 'NO' ,
-
-        [ValidateRange(0, 7)]
-        [double]$numretries = '3' ,
-
-        [Switch]$PassThru 
-
+        [Boolean]$numretries 
     )
     begin {
-        Write-Verbose "Invoke-ADCAddAppqoeaction: Starting"
+        Write-Verbose "Invoke-ADCUnsetAppqoeaction: Starting"
     }
     process {
         try {
-            $Payload = @{
-                name = $name
-            }
-            if ($PSBoundParameters.ContainsKey('priority')) { $Payload.Add('priority', $priority) }
-            if ($PSBoundParameters.ContainsKey('respondwith')) { $Payload.Add('respondwith', $respondwith) }
-            if ($PSBoundParameters.ContainsKey('customfile')) { $Payload.Add('customfile', $customfile) }
-            if ($PSBoundParameters.ContainsKey('altcontentsvcname')) { $Payload.Add('altcontentsvcname', $altcontentsvcname) }
-            if ($PSBoundParameters.ContainsKey('altcontentpath')) { $Payload.Add('altcontentpath', $altcontentpath) }
-            if ($PSBoundParameters.ContainsKey('polqdepth')) { $Payload.Add('polqdepth', $polqdepth) }
-            if ($PSBoundParameters.ContainsKey('priqdepth')) { $Payload.Add('priqdepth', $priqdepth) }
-            if ($PSBoundParameters.ContainsKey('maxconn')) { $Payload.Add('maxconn', $maxconn) }
-            if ($PSBoundParameters.ContainsKey('delay')) { $Payload.Add('delay', $delay) }
-            if ($PSBoundParameters.ContainsKey('dostrigexpression')) { $Payload.Add('dostrigexpression', $dostrigexpression) }
-            if ($PSBoundParameters.ContainsKey('dosaction')) { $Payload.Add('dosaction', $dosaction) }
-            if ($PSBoundParameters.ContainsKey('tcpprofile')) { $Payload.Add('tcpprofile', $tcpprofile) }
-            if ($PSBoundParameters.ContainsKey('retryonreset')) { $Payload.Add('retryonreset', $retryonreset) }
-            if ($PSBoundParameters.ContainsKey('numretries')) { $Payload.Add('numretries', $numretries) }
- 
-            if ($PSCmdlet.ShouldProcess("appqoeaction", "Add Appqoe configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -NitroPath nitro/v1/config -Type appqoeaction -Payload $Payload -GetWarning
-                #HTTP Status Code on Success: 201 Created
+            $payload = @{ name = $name }
+            if ( $PSBoundParameters.ContainsKey('priority') ) { $payload.Add('priority', $priority) }
+            if ( $PSBoundParameters.ContainsKey('altcontentsvcname') ) { $payload.Add('altcontentsvcname', $altcontentsvcname) }
+            if ( $PSBoundParameters.ContainsKey('altcontentpath') ) { $payload.Add('altcontentpath', $altcontentpath) }
+            if ( $PSBoundParameters.ContainsKey('polqdepth') ) { $payload.Add('polqdepth', $polqdepth) }
+            if ( $PSBoundParameters.ContainsKey('priqdepth') ) { $payload.Add('priqdepth', $priqdepth) }
+            if ( $PSBoundParameters.ContainsKey('maxconn') ) { $payload.Add('maxconn', $maxconn) }
+            if ( $PSBoundParameters.ContainsKey('delay') ) { $payload.Add('delay', $delay) }
+            if ( $PSBoundParameters.ContainsKey('dosaction') ) { $payload.Add('dosaction', $dosaction) }
+            if ( $PSBoundParameters.ContainsKey('tcpprofile') ) { $payload.Add('tcpprofile', $tcpprofile) }
+            if ( $PSBoundParameters.ContainsKey('retryonreset') ) { $payload.Add('retryonreset', $retryonreset) }
+            if ( $PSBoundParameters.ContainsKey('retryontimeout') ) { $payload.Add('retryontimeout', $retryontimeout) }
+            if ( $PSBoundParameters.ContainsKey('numretries') ) { $payload.Add('numretries', $numretries) }
+            if ( $PSCmdlet.ShouldProcess("$name", "Unset Appqoe configuration Object") ) {
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -Type appqoeaction -NitroPath nitro/v1/config -Action unset -Payload $payload -GetWarning
+                #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
-                if ($PSBoundParameters.ContainsKey('PassThru')) {
-                    Write-Output (Invoke-ADCGetAppqoeaction -Filter $Payload)
-                } else {
-                    Write-Output $result
-                }
-
+                Write-Output $response
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -170,51 +111,52 @@ function Invoke-ADCAddAppqoeaction {
         }
     }
     end {
-        Write-Verbose "Invoke-ADCAddAppqoeaction: Finished"
+        Write-Verbose "Invoke-ADCUnsetAppqoeaction: Finished"
     }
 }
 
 function Invoke-ADCDeleteAppqoeaction {
-<#
+    <#
     .SYNOPSIS
-        Delete Appqoe configuration Object
+        Delete Appqoe configuration Object.
     .DESCRIPTION
-        Delete Appqoe configuration Object
-    .PARAMETER name 
-       Name for the AppQoE action. Must begin with a letter, number, or the underscore symbol (_). Other characters allowed, after the first character, are the hyphen (-), period (.) hash (#), space ( ), at (@), equals (=), and colon (:) characters. This is a mandatory argument. 
+        Configuration for AppQoS action resource.
+    .PARAMETER Name 
+        Name for the AppQoE action. Must begin with a letter, number, or the underscore symbol (_). Other characters allowed, after the first character, are the hyphen (-), period (.) hash (#), space ( ), at (@), equals (=), and colon (:) characters. This is a mandatory argument.
     .EXAMPLE
-        Invoke-ADCDeleteAppqoeaction -name <string>
+        PS C:\>Invoke-ADCDeleteAppqoeaction -Name <string>
+        An example how to delete appqoeaction configuration Object(s).
     .NOTES
         File Name : Invoke-ADCDeleteAppqoeaction
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/appqoe/appqoeaction/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
+    #>
     [CmdletBinding(SupportsShouldProcess = $true, ConfirmImpact = "Low")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
-        [Parameter(Mandatory = $true)]
-        [string]$name 
+        [Parameter(Mandatory)]
+        [string]$Name 
     )
     begin {
         Write-Verbose "Invoke-ADCDeleteAppqoeaction: Starting"
     }
     process {
         try {
-            $Arguments = @{ 
-            }
+            $arguments = @{ }
 
-            if ($PSCmdlet.ShouldProcess("$name", "Delete Appqoe configuration Object")) {
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type appqoeaction -NitroPath nitro/v1/config -Resource $name -Arguments $Arguments
+            if ( $PSCmdlet.ShouldProcess("$name", "Delete Appqoe configuration Object") ) {
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type appqoeaction -NitroPath nitro/v1/config -Resource $name -Arguments $arguments
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $response
@@ -230,152 +172,137 @@ function Invoke-ADCDeleteAppqoeaction {
 }
 
 function Invoke-ADCUpdateAppqoeaction {
-<#
+    <#
     .SYNOPSIS
-        Update Appqoe configuration Object
+        Update Appqoe configuration Object.
     .DESCRIPTION
-        Update Appqoe configuration Object 
-    .PARAMETER name 
+        Configuration for AppQoS action resource.
+    .PARAMETER Name 
         Name for the AppQoE action. Must begin with a letter, number, or the underscore symbol (_). Other characters allowed, after the first character, are the hyphen (-), period (.) hash (#), space ( ), at (@), equals (=), and colon (:) characters. This is a mandatory argument. 
-    .PARAMETER priority 
-        Priority for queuing the request. If server resources are not available for a request that matches the configured rule, this option specifies a priority for queuing the request until the server resources are available again. If priority is not configured then Lowest priority will be used to queue the request.  
+    .PARAMETER Priority 
+        Priority for queuing the request. If server resources are not available for a request that matches the configured rule, this option specifies a priority for queuing the request until the server resources are available again. If priority is not configured then Lowest priority will be used to queue the request. 
         Possible values = HIGH, MEDIUM, LOW, LOWEST 
-    .PARAMETER altcontentsvcname 
-        Name of the alternative content service to be used in the ACS.  
-        Minimum length = 1  
-        Maximum length = 127 
-    .PARAMETER altcontentpath 
-        Path to the alternative content service to be used in the ACS.  
-        Minimum length = 4  
-        Maximum length = 127 
-    .PARAMETER polqdepth 
-        Policy queue depth threshold value. When the policy queue size (number of requests queued for the policy binding this action is attached to) increases to the specified polqDepth value, subsequent requests are dropped to the lowest priority level.  
-        Minimum value = 0  
-        Maximum value = 4294967294 
-    .PARAMETER priqdepth 
-        Queue depth threshold value per priorirty level. If the queue size (number of requests in the queue of that particular priorirty) on the virtual server to which this policy is bound, increases to the specified qDepth value, subsequent requests are dropped to the lowest priority level.  
-        Minimum value = 0  
-        Maximum value = 4294967294 
-    .PARAMETER maxconn 
-        Maximum number of concurrent connections that can be open for requests that matches with rule.  
-        Minimum value = 1  
-        Maximum value = 4294967294 
-    .PARAMETER delay 
-        Delay threshold, in microseconds, for requests that match the policy's rule. If the delay statistics gathered for the matching request exceed the specified delay, configured action triggered for that request, if there is no action then requests are dropped to the lowest priority level.  
-        Minimum value = 1  
-        Maximum value = 599999999 
-    .PARAMETER dostrigexpression 
+    .PARAMETER Altcontentsvcname 
+        Name of the alternative content service to be used in the ACS. 
+    .PARAMETER Altcontentpath 
+        Path to the alternative content service to be used in the ACS. 
+    .PARAMETER Polqdepth 
+        Policy queue depth threshold value. When the policy queue size (number of requests queued for the policy binding this action is attached to) increases to the specified polqDepth value, subsequent requests are dropped to the lowest priority level. 
+    .PARAMETER Priqdepth 
+        Queue depth threshold value per priorirty level. If the queue size (number of requests in the queue of that particular priorirty) on the virtual server to which this policy is bound, increases to the specified qDepth value, subsequent requests are dropped to the lowest priority level. 
+    .PARAMETER Maxconn 
+        Maximum number of concurrent connections that can be open for requests that matches with rule. 
+    .PARAMETER Delay 
+        Delay threshold, in microseconds, for requests that match the policy's rule. If the delay statistics gathered for the matching request exceed the specified delay, configured action triggered for that request, if there is no action then requests are dropped to the lowest priority level. 
+    .PARAMETER Dostrigexpression 
         Optional expression to add second level check to trigger DoS actions. Specifically used for Analytics based DoS response generation. 
-    .PARAMETER dosaction 
-        DoS Action to take when vserver will be considered under DoS attack and corresponding rule matches. Mandatory if AppQoE actions are to be used for DoS attack prevention.  
+    .PARAMETER Dosaction 
+        DoS Action to take when vserver will be considered under DoS attack and corresponding rule matches. Mandatory if AppQoE actions are to be used for DoS attack prevention. 
         Possible values = SimpleResponse, HICResponse 
-    .PARAMETER tcpprofile 
-        Bind TCP Profile based on L2/L3/L7 parameters.  
-        Minimum length = 1  
-        Maximum length = 127 
-    .PARAMETER retryonreset 
-        Retry on TCP Reset.  
-        Default value: NO  
+    .PARAMETER Tcpprofile 
+        Bind TCP Profile based on L2/L3/L7 parameters. 
+    .PARAMETER Retryonreset 
+        Retry on TCP Reset. 
         Possible values = YES, NO 
-    .PARAMETER numretries 
-        Retry count.  
-        Default value: 3  
-        Minimum value = 0  
-        Maximum value = 7 
+    .PARAMETER Retryontimeout 
+        Retry on request Timeout(in millisec) upon sending request to backend servers. 
+    .PARAMETER Numretries 
+        Retry count. 
     .PARAMETER PassThru 
         Return details about the created appqoeaction item.
     .EXAMPLE
-        Invoke-ADCUpdateAppqoeaction -name <string>
+        PS C:\>Invoke-ADCUpdateAppqoeaction -name <string>
+        An example how to update appqoeaction configuration Object(s).
     .NOTES
         File Name : Invoke-ADCUpdateAppqoeaction
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/appqoe/appqoeaction/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
+    #>
     [CmdletBinding(SupportsShouldProcess = $true, ConfirmImpact = "Low")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
-        [Parameter(Mandatory = $true)]
-        [string]$name ,
+        [Parameter(Mandatory)]
+        [string]$Name,
 
         [ValidateSet('HIGH', 'MEDIUM', 'LOW', 'LOWEST')]
-        [string]$priority ,
+        [string]$Priority,
 
         [ValidateLength(1, 127)]
-        [string]$altcontentsvcname ,
+        [string]$Altcontentsvcname,
 
         [ValidateLength(4, 127)]
-        [string]$altcontentpath ,
+        [string]$Altcontentpath,
 
         [ValidateRange(0, 4294967294)]
-        [double]$polqdepth ,
+        [double]$Polqdepth,
 
         [ValidateRange(0, 4294967294)]
-        [double]$priqdepth ,
+        [double]$Priqdepth,
 
         [ValidateRange(1, 4294967294)]
-        [double]$maxconn ,
+        [double]$Maxconn,
 
         [ValidateRange(1, 599999999)]
-        [double]$delay ,
+        [double]$Delay,
 
-        [string]$dostrigexpression ,
+        [string]$Dostrigexpression,
 
         [ValidateSet('SimpleResponse', 'HICResponse')]
-        [string]$dosaction ,
+        [string]$Dosaction,
 
         [ValidateLength(1, 127)]
-        [string]$tcpprofile ,
+        [string]$Tcpprofile,
 
         [ValidateSet('YES', 'NO')]
-        [string]$retryonreset ,
+        [string]$Retryonreset,
+
+        [ValidateRange(30, 2000)]
+        [double]$Retryontimeout,
 
         [ValidateRange(0, 7)]
-        [double]$numretries ,
+        [double]$Numretries,
 
         [Switch]$PassThru 
-
     )
     begin {
         Write-Verbose "Invoke-ADCUpdateAppqoeaction: Starting"
     }
     process {
         try {
-            $Payload = @{
-                name = $name
-            }
-            if ($PSBoundParameters.ContainsKey('priority')) { $Payload.Add('priority', $priority) }
-            if ($PSBoundParameters.ContainsKey('altcontentsvcname')) { $Payload.Add('altcontentsvcname', $altcontentsvcname) }
-            if ($PSBoundParameters.ContainsKey('altcontentpath')) { $Payload.Add('altcontentpath', $altcontentpath) }
-            if ($PSBoundParameters.ContainsKey('polqdepth')) { $Payload.Add('polqdepth', $polqdepth) }
-            if ($PSBoundParameters.ContainsKey('priqdepth')) { $Payload.Add('priqdepth', $priqdepth) }
-            if ($PSBoundParameters.ContainsKey('maxconn')) { $Payload.Add('maxconn', $maxconn) }
-            if ($PSBoundParameters.ContainsKey('delay')) { $Payload.Add('delay', $delay) }
-            if ($PSBoundParameters.ContainsKey('dostrigexpression')) { $Payload.Add('dostrigexpression', $dostrigexpression) }
-            if ($PSBoundParameters.ContainsKey('dosaction')) { $Payload.Add('dosaction', $dosaction) }
-            if ($PSBoundParameters.ContainsKey('tcpprofile')) { $Payload.Add('tcpprofile', $tcpprofile) }
-            if ($PSBoundParameters.ContainsKey('retryonreset')) { $Payload.Add('retryonreset', $retryonreset) }
-            if ($PSBoundParameters.ContainsKey('numretries')) { $Payload.Add('numretries', $numretries) }
- 
-            if ($PSCmdlet.ShouldProcess("appqoeaction", "Update Appqoe configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -NitroPath nitro/v1/config -Type appqoeaction -Payload $Payload -GetWarning
+            $payload = @{ name = $name }
+            if ( $PSBoundParameters.ContainsKey('priority') ) { $payload.Add('priority', $priority) }
+            if ( $PSBoundParameters.ContainsKey('altcontentsvcname') ) { $payload.Add('altcontentsvcname', $altcontentsvcname) }
+            if ( $PSBoundParameters.ContainsKey('altcontentpath') ) { $payload.Add('altcontentpath', $altcontentpath) }
+            if ( $PSBoundParameters.ContainsKey('polqdepth') ) { $payload.Add('polqdepth', $polqdepth) }
+            if ( $PSBoundParameters.ContainsKey('priqdepth') ) { $payload.Add('priqdepth', $priqdepth) }
+            if ( $PSBoundParameters.ContainsKey('maxconn') ) { $payload.Add('maxconn', $maxconn) }
+            if ( $PSBoundParameters.ContainsKey('delay') ) { $payload.Add('delay', $delay) }
+            if ( $PSBoundParameters.ContainsKey('dostrigexpression') ) { $payload.Add('dostrigexpression', $dostrigexpression) }
+            if ( $PSBoundParameters.ContainsKey('dosaction') ) { $payload.Add('dosaction', $dosaction) }
+            if ( $PSBoundParameters.ContainsKey('tcpprofile') ) { $payload.Add('tcpprofile', $tcpprofile) }
+            if ( $PSBoundParameters.ContainsKey('retryonreset') ) { $payload.Add('retryonreset', $retryonreset) }
+            if ( $PSBoundParameters.ContainsKey('retryontimeout') ) { $payload.Add('retryontimeout', $retryontimeout) }
+            if ( $PSBoundParameters.ContainsKey('numretries') ) { $payload.Add('numretries', $numretries) }
+            if ( $PSCmdlet.ShouldProcess("appqoeaction", "Update Appqoe configuration Object") ) {
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -NitroPath nitro/v1/config -Type appqoeaction -Payload $payload -GetWarning
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
-                if ($PSBoundParameters.ContainsKey('PassThru')) {
-                    Write-Output (Invoke-ADCGetAppqoeaction -Filter $Payload)
+                if ( $PSBoundParameters.ContainsKey('PassThru') ) {
+                    Write-Output (Invoke-ADCGetAppqoeaction -Filter $payload)
                 } else {
                     Write-Output $result
                 }
-
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -387,108 +314,155 @@ function Invoke-ADCUpdateAppqoeaction {
     }
 }
 
-function Invoke-ADCUnsetAppqoeaction {
-<#
+function Invoke-ADCAddAppqoeaction {
+    <#
     .SYNOPSIS
-        Unset Appqoe configuration Object
+        Add Appqoe configuration Object.
     .DESCRIPTION
-        Unset Appqoe configuration Object 
-   .PARAMETER name 
-       Name for the AppQoE action. Must begin with a letter, number, or the underscore symbol (_). Other characters allowed, after the first character, are the hyphen (-), period (.) hash (#), space ( ), at (@), equals (=), and colon (:) characters. This is a mandatory argument. 
-   .PARAMETER priority 
-       Priority for queuing the request. If server resources are not available for a request that matches the configured rule, this option specifies a priority for queuing the request until the server resources are available again. If priority is not configured then Lowest priority will be used to queue the request.  
-       Possible values = HIGH, MEDIUM, LOW, LOWEST 
-   .PARAMETER altcontentsvcname 
-       Name of the alternative content service to be used in the ACS. 
-   .PARAMETER altcontentpath 
-       Path to the alternative content service to be used in the ACS. 
-   .PARAMETER polqdepth 
-       Policy queue depth threshold value. When the policy queue size (number of requests queued for the policy binding this action is attached to) increases to the specified polqDepth value, subsequent requests are dropped to the lowest priority level. 
-   .PARAMETER priqdepth 
-       Queue depth threshold value per priorirty level. If the queue size (number of requests in the queue of that particular priorirty) on the virtual server to which this policy is bound, increases to the specified qDepth value, subsequent requests are dropped to the lowest priority level. 
-   .PARAMETER maxconn 
-       Maximum number of concurrent connections that can be open for requests that matches with rule. 
-   .PARAMETER delay 
-       Delay threshold, in microseconds, for requests that match the policy's rule. If the delay statistics gathered for the matching request exceed the specified delay, configured action triggered for that request, if there is no action then requests are dropped to the lowest priority level. 
-   .PARAMETER dosaction 
-       DoS Action to take when vserver will be considered under DoS attack and corresponding rule matches. Mandatory if AppQoE actions are to be used for DoS attack prevention.  
-       Possible values = SimpleResponse, HICResponse 
-   .PARAMETER tcpprofile 
-       Bind TCP Profile based on L2/L3/L7 parameters. 
-   .PARAMETER retryonreset 
-       Retry on TCP Reset.  
-       Possible values = YES, NO 
-   .PARAMETER numretries 
-       Retry count.
+        Configuration for AppQoS action resource.
+    .PARAMETER Name 
+        Name for the AppQoE action. Must begin with a letter, number, or the underscore symbol (_). Other characters allowed, after the first character, are the hyphen (-), period (.) hash (#), space ( ), at (@), equals (=), and colon (:) characters. This is a mandatory argument. 
+    .PARAMETER Priority 
+        Priority for queuing the request. If server resources are not available for a request that matches the configured rule, this option specifies a priority for queuing the request until the server resources are available again. If priority is not configured then Lowest priority will be used to queue the request. 
+        Possible values = HIGH, MEDIUM, LOW, LOWEST 
+    .PARAMETER Respondwith 
+        Responder action to be taken when the threshold is reached. Available settings function as follows: 
+        ACS - Serve content from an alternative content service 
+        Threshold : maxConn or delay 
+        NS - Serve from the Citrix ADC (built-in response) 
+        Threshold : maxConn or delay. 
+        Possible values = ACS, NS 
+    .PARAMETER Customfile 
+        name of the HTML page object to use as the response. 
+    .PARAMETER Altcontentsvcname 
+        Name of the alternative content service to be used in the ACS. 
+    .PARAMETER Altcontentpath 
+        Path to the alternative content service to be used in the ACS. 
+    .PARAMETER Polqdepth 
+        Policy queue depth threshold value. When the policy queue size (number of requests queued for the policy binding this action is attached to) increases to the specified polqDepth value, subsequent requests are dropped to the lowest priority level. 
+    .PARAMETER Priqdepth 
+        Queue depth threshold value per priorirty level. If the queue size (number of requests in the queue of that particular priorirty) on the virtual server to which this policy is bound, increases to the specified qDepth value, subsequent requests are dropped to the lowest priority level. 
+    .PARAMETER Maxconn 
+        Maximum number of concurrent connections that can be open for requests that matches with rule. 
+    .PARAMETER Delay 
+        Delay threshold, in microseconds, for requests that match the policy's rule. If the delay statistics gathered for the matching request exceed the specified delay, configured action triggered for that request, if there is no action then requests are dropped to the lowest priority level. 
+    .PARAMETER Dostrigexpression 
+        Optional expression to add second level check to trigger DoS actions. Specifically used for Analytics based DoS response generation. 
+    .PARAMETER Dosaction 
+        DoS Action to take when vserver will be considered under DoS attack and corresponding rule matches. Mandatory if AppQoE actions are to be used for DoS attack prevention. 
+        Possible values = SimpleResponse, HICResponse 
+    .PARAMETER Tcpprofile 
+        Bind TCP Profile based on L2/L3/L7 parameters. 
+    .PARAMETER Retryonreset 
+        Retry on TCP Reset. 
+        Possible values = YES, NO 
+    .PARAMETER Retryontimeout 
+        Retry on request Timeout(in millisec) upon sending request to backend servers. 
+    .PARAMETER Numretries 
+        Retry count. 
+    .PARAMETER PassThru 
+        Return details about the created appqoeaction item.
     .EXAMPLE
-        Invoke-ADCUnsetAppqoeaction -name <string>
+        PS C:\>Invoke-ADCAddAppqoeaction -name <string>
+        An example how to add appqoeaction configuration Object(s).
     .NOTES
-        File Name : Invoke-ADCUnsetAppqoeaction
-        Version   : v2106.2309
+        File Name : Invoke-ADCAddAppqoeaction
+        Version   : v2111.2111
         Author    : John Billekens
-        Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/appqoe/appqoeaction
+        Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/appqoe/appqoeaction/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
+    #>
     [CmdletBinding(SupportsShouldProcess = $true, ConfirmImpact = "Low")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
-        [Parameter(Mandatory = $true)]
-        [string]$name ,
+        [Parameter(Mandatory)]
+        [string]$Name,
 
-        [Boolean]$priority ,
+        [ValidateSet('HIGH', 'MEDIUM', 'LOW', 'LOWEST')]
+        [string]$Priority,
 
-        [Boolean]$altcontentsvcname ,
+        [ValidateSet('ACS', 'NS')]
+        [string]$Respondwith,
 
-        [Boolean]$altcontentpath ,
+        [ValidateScript({ $_.Length -gt 1 })]
+        [string]$Customfile,
 
-        [Boolean]$polqdepth ,
+        [ValidateLength(1, 127)]
+        [string]$Altcontentsvcname,
 
-        [Boolean]$priqdepth ,
+        [ValidateLength(4, 127)]
+        [string]$Altcontentpath,
 
-        [Boolean]$maxconn ,
+        [ValidateRange(0, 4294967294)]
+        [double]$Polqdepth,
 
-        [Boolean]$delay ,
+        [ValidateRange(0, 4294967294)]
+        [double]$Priqdepth,
 
-        [Boolean]$dosaction ,
+        [ValidateRange(1, 4294967294)]
+        [double]$Maxconn,
 
-        [Boolean]$tcpprofile ,
+        [ValidateRange(1, 599999999)]
+        [double]$Delay,
 
-        [Boolean]$retryonreset ,
+        [string]$Dostrigexpression,
 
-        [Boolean]$numretries 
+        [ValidateSet('SimpleResponse', 'HICResponse')]
+        [string]$Dosaction,
+
+        [ValidateLength(1, 127)]
+        [string]$Tcpprofile,
+
+        [ValidateSet('YES', 'NO')]
+        [string]$Retryonreset = 'NO',
+
+        [ValidateRange(30, 2000)]
+        [double]$Retryontimeout,
+
+        [ValidateRange(0, 7)]
+        [double]$Numretries = '3',
+
+        [Switch]$PassThru 
     )
     begin {
-        Write-Verbose "Invoke-ADCUnsetAppqoeaction: Starting"
+        Write-Verbose "Invoke-ADCAddAppqoeaction: Starting"
     }
     process {
         try {
-            $Payload = @{
-                name = $name
-            }
-            if ($PSBoundParameters.ContainsKey('priority')) { $Payload.Add('priority', $priority) }
-            if ($PSBoundParameters.ContainsKey('altcontentsvcname')) { $Payload.Add('altcontentsvcname', $altcontentsvcname) }
-            if ($PSBoundParameters.ContainsKey('altcontentpath')) { $Payload.Add('altcontentpath', $altcontentpath) }
-            if ($PSBoundParameters.ContainsKey('polqdepth')) { $Payload.Add('polqdepth', $polqdepth) }
-            if ($PSBoundParameters.ContainsKey('priqdepth')) { $Payload.Add('priqdepth', $priqdepth) }
-            if ($PSBoundParameters.ContainsKey('maxconn')) { $Payload.Add('maxconn', $maxconn) }
-            if ($PSBoundParameters.ContainsKey('delay')) { $Payload.Add('delay', $delay) }
-            if ($PSBoundParameters.ContainsKey('dosaction')) { $Payload.Add('dosaction', $dosaction) }
-            if ($PSBoundParameters.ContainsKey('tcpprofile')) { $Payload.Add('tcpprofile', $tcpprofile) }
-            if ($PSBoundParameters.ContainsKey('retryonreset')) { $Payload.Add('retryonreset', $retryonreset) }
-            if ($PSBoundParameters.ContainsKey('numretries')) { $Payload.Add('numretries', $numretries) }
-            if ($PSCmdlet.ShouldProcess("$name", "Unset Appqoe configuration Object")) {
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -Type appqoeaction -NitroPath nitro/v1/config -Action unset -Payload $Payload -GetWarning
-                #HTTP Status Code on Success: 200 OK
+            $payload = @{ name = $name }
+            if ( $PSBoundParameters.ContainsKey('priority') ) { $payload.Add('priority', $priority) }
+            if ( $PSBoundParameters.ContainsKey('respondwith') ) { $payload.Add('respondwith', $respondwith) }
+            if ( $PSBoundParameters.ContainsKey('customfile') ) { $payload.Add('customfile', $customfile) }
+            if ( $PSBoundParameters.ContainsKey('altcontentsvcname') ) { $payload.Add('altcontentsvcname', $altcontentsvcname) }
+            if ( $PSBoundParameters.ContainsKey('altcontentpath') ) { $payload.Add('altcontentpath', $altcontentpath) }
+            if ( $PSBoundParameters.ContainsKey('polqdepth') ) { $payload.Add('polqdepth', $polqdepth) }
+            if ( $PSBoundParameters.ContainsKey('priqdepth') ) { $payload.Add('priqdepth', $priqdepth) }
+            if ( $PSBoundParameters.ContainsKey('maxconn') ) { $payload.Add('maxconn', $maxconn) }
+            if ( $PSBoundParameters.ContainsKey('delay') ) { $payload.Add('delay', $delay) }
+            if ( $PSBoundParameters.ContainsKey('dostrigexpression') ) { $payload.Add('dostrigexpression', $dostrigexpression) }
+            if ( $PSBoundParameters.ContainsKey('dosaction') ) { $payload.Add('dosaction', $dosaction) }
+            if ( $PSBoundParameters.ContainsKey('tcpprofile') ) { $payload.Add('tcpprofile', $tcpprofile) }
+            if ( $PSBoundParameters.ContainsKey('retryonreset') ) { $payload.Add('retryonreset', $retryonreset) }
+            if ( $PSBoundParameters.ContainsKey('retryontimeout') ) { $payload.Add('retryontimeout', $retryontimeout) }
+            if ( $PSBoundParameters.ContainsKey('numretries') ) { $payload.Add('numretries', $numretries) }
+            if ( $PSCmdlet.ShouldProcess("appqoeaction", "Add Appqoe configuration Object") ) {
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -NitroPath nitro/v1/config -Type appqoeaction -Payload $payload -GetWarning
+                #HTTP Status Code on Success: 201 Created
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
-                Write-Output $response
+                if ( $PSBoundParameters.ContainsKey('PassThru') ) {
+                    Write-Output (Invoke-ADCGetAppqoeaction -Filter $payload)
+                } else {
+                    Write-Output $result
+                }
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -496,59 +470,65 @@ function Invoke-ADCUnsetAppqoeaction {
         }
     }
     end {
-        Write-Verbose "Invoke-ADCUnsetAppqoeaction: Finished"
+        Write-Verbose "Invoke-ADCAddAppqoeaction: Finished"
     }
 }
 
 function Invoke-ADCGetAppqoeaction {
-<#
+    <#
     .SYNOPSIS
-        Get Appqoe configuration object(s)
+        Get Appqoe configuration object(s).
     .DESCRIPTION
-        Get Appqoe configuration object(s)
-    .PARAMETER name 
-       Name for the AppQoE action. Must begin with a letter, number, or the underscore symbol (_). Other characters allowed, after the first character, are the hyphen (-), period (.) hash (#), space ( ), at (@), equals (=), and colon (:) characters. This is a mandatory argument. 
+        Configuration for AppQoS action resource.
+    .PARAMETER Name 
+        Name for the AppQoE action. Must begin with a letter, number, or the underscore symbol (_). Other characters allowed, after the first character, are the hyphen (-), period (.) hash (#), space ( ), at (@), equals (=), and colon (:) characters. This is a mandatory argument. 
     .PARAMETER GetAll 
-        Retreive all appqoeaction object(s)
+        Retrieve all appqoeaction object(s).
     .PARAMETER Count
-        If specified, the count of the appqoeaction object(s) will be returned
+        If specified, the count of the appqoeaction object(s) will be returned.
     .PARAMETER Filter
-        Specify a filter
+        Specify a filter.
         -Filter @{ 'name'='<value>' }
     .PARAMETER ViewSummary
-        When specified, only a summary of information is returned
+        When specified, only a summary of information is returned.
     .EXAMPLE
-        Invoke-ADCGetAppqoeaction
+        PS C:\>Invoke-ADCGetAppqoeaction
+        Get data.
     .EXAMPLE 
-        Invoke-ADCGetAppqoeaction -GetAll 
+        PS C:\>Invoke-ADCGetAppqoeaction -GetAll 
+        Get all appqoeaction data. 
     .EXAMPLE 
-        Invoke-ADCGetAppqoeaction -Count
+        PS C:\>Invoke-ADCGetAppqoeaction -Count 
+        Get the number of appqoeaction objects.
     .EXAMPLE
-        Invoke-ADCGetAppqoeaction -name <string>
+        PS C:\>Invoke-ADCGetAppqoeaction -name <string>
+        Get appqoeaction object by specifying for example the name.
     .EXAMPLE
-        Invoke-ADCGetAppqoeaction -Filter @{ 'name'='<value>' }
+        PS C:\>Invoke-ADCGetAppqoeaction -Filter @{ 'name'='<value>' }
+        Get appqoeaction data with a filter.
     .NOTES
         File Name : Invoke-ADCGetAppqoeaction
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/appqoe/appqoeaction/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
-    [CmdletBinding(DefaultParameterSetName = "Getall")]
+    #>
+    [CmdletBinding(DefaultParameterSetName = "GetAll")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
         [Parameter(ParameterSetName = 'GetByResource')]
-        [string]$name,
+        [string]$Name,
 
-        [Parameter(ParameterSetName = 'Count', Mandatory = $true)]
+        [Parameter(ParameterSetName = 'Count', Mandatory)]
         [Switch]$Count,
 			
         [hashtable]$Filter = @{ },
@@ -566,24 +546,24 @@ function Invoke-ADCGetAppqoeaction {
     }
     process {
         try {
-            if ( $PsCmdlet.ParameterSetName -eq 'Getall' ) {
-                $Query = @{ }
+            if ( $PsCmdlet.ParameterSetName -eq 'GetAll' ) {
+                $query = @{ }
                 Write-Verbose "Retrieving all appqoeaction objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type appqoeaction -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type appqoeaction -NitroPath nitro/v1/config -Query $query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
-                if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
+                if ( $PSBoundParameters.ContainsKey('Count') ) { $query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for appqoeaction objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type appqoeaction -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type appqoeaction -NitroPath nitro/v1/config -Query $query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving appqoeaction objects by arguments"
-                $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type appqoeaction -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
+                $arguments = @{ } 
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type appqoeaction -NitroPath nitro/v1/config -Arguments $arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving appqoeaction configuration for property 'name'"
                 $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type appqoeaction -NitroPath nitro/v1/config -Resource $name -Summary:$ViewSummary -Filter $Filter -GetWarning
             } else {
                 Write-Verbose "Retrieving appqoeaction configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type appqoeaction -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type appqoeaction -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -596,55 +576,49 @@ function Invoke-ADCGetAppqoeaction {
     }
 }
 
-function Invoke-ADCImportAppqoecustomresp {
-<#
+function Invoke-ADCChangeAppqoecustomresp {
+    <#
     .SYNOPSIS
-        Import Appqoe configuration Object
+        Change Appqoe configuration Object.
     .DESCRIPTION
-        Import Appqoe configuration Object 
-    .PARAMETER src 
-        . 
-    .PARAMETER name 
+        Configuration for AppQoE custom response page resource.
+    .PARAMETER Name 
         Indicates name of the custom response HTML page to import/update.
     .EXAMPLE
-        Invoke-ADCImportAppqoecustomresp -name <string>
+        PS C:\>Invoke-ADCChangeAppqoecustomresp -name <string>
+        An example how to change appqoecustomresp configuration Object(s).
     .NOTES
-        File Name : Invoke-ADCImportAppqoecustomresp
-        Version   : v2106.2309
+        File Name : Invoke-ADCChangeAppqoecustomresp
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/appqoe/appqoecustomresp/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
+    #>
     [CmdletBinding(SupportsShouldProcess = $true, ConfirmImpact = "Low")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
-        [ValidateLength(1, 2047)]
-        [string]$src ,
-
-        [Parameter(Mandatory = $true)]
+        [Parameter(Mandatory)]
         [ValidateLength(1, 31)]
-        [string]$name 
-
+        [string]$Name 
     )
     begin {
-        Write-Verbose "Invoke-ADCImportAppqoecustomresp: Starting"
+        Write-Verbose "Invoke-ADCChangeAppqoecustomresp: Starting"
     }
     process {
         try {
-            $Payload = @{
-                name = $name
-            }
-            if ($PSBoundParameters.ContainsKey('src')) { $Payload.Add('src', $src) }
-            if ($PSCmdlet.ShouldProcess($Name, "Import Appqoe configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -NitroPath nitro/v1/config -Type appqoecustomresp -Action import -Payload $Payload -GetWarning
+            $payload = @{ name = $name }
+
+            if ( $PSCmdlet.ShouldProcess("appqoecustomresp", "Change Appqoe configuration Object") ) {
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -NitroPath nitro/v1/config -Type appqoecustomresp -Action update -Payload $payload -GetWarning
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $result
@@ -655,53 +629,52 @@ function Invoke-ADCImportAppqoecustomresp {
         }
     }
     end {
-        Write-Verbose "Invoke-ADCImportAppqoecustomresp: Finished"
+        Write-Verbose "Invoke-ADCChangeAppqoecustomresp: Finished"
     }
 }
 
 function Invoke-ADCDeleteAppqoecustomresp {
-<#
+    <#
     .SYNOPSIS
-        Delete Appqoe configuration Object
+        Delete Appqoe configuration Object.
     .DESCRIPTION
-        Delete Appqoe configuration Object
-    .PARAMETER name 
-       Indicates name of the custom response HTML page to import/update.  
-       Minimum length = 1  
-       Maximum length = 31 
+        Configuration for AppQoE custom response page resource.
+    .PARAMETER Name 
+        Indicates name of the custom response HTML page to import/update.
     .EXAMPLE
-        Invoke-ADCDeleteAppqoecustomresp -name <string>
+        PS C:\>Invoke-ADCDeleteAppqoecustomresp -Name <string>
+        An example how to delete appqoecustomresp configuration Object(s).
     .NOTES
         File Name : Invoke-ADCDeleteAppqoecustomresp
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/appqoe/appqoecustomresp/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
+    #>
     [CmdletBinding(SupportsShouldProcess = $true, ConfirmImpact = "Low")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
-        [Parameter(Mandatory = $true)]
-        [string]$name 
+        [Parameter(Mandatory)]
+        [string]$Name 
     )
     begin {
         Write-Verbose "Invoke-ADCDeleteAppqoecustomresp: Starting"
     }
     process {
         try {
-            $Arguments = @{ 
-            }
+            $arguments = @{ }
 
-            if ($PSCmdlet.ShouldProcess("$name", "Delete Appqoe configuration Object")) {
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type appqoecustomresp -NitroPath nitro/v1/config -Resource $name -Arguments $Arguments
+            if ( $PSCmdlet.ShouldProcess("$name", "Delete Appqoe configuration Object") ) {
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type appqoecustomresp -NitroPath nitro/v1/config -Resource $name -Arguments $arguments
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $response
@@ -716,57 +689,58 @@ function Invoke-ADCDeleteAppqoecustomresp {
     }
 }
 
-function Invoke-ADCChangeAppqoecustomresp {
-<#
+function Invoke-ADCImportAppqoecustomresp {
+    <#
     .SYNOPSIS
-        Change Appqoe configuration Object
+        Import Appqoe configuration Object.
     .DESCRIPTION
-        Change Appqoe configuration Object 
-    .PARAMETER name 
-        Indicates name of the custom response HTML page to import/update.  
-        Minimum length = 1  
-        Maximum length = 31
+        Configuration for AppQoE custom response page resource.
+    .PARAMETER Src 
+        . 
+    .PARAMETER Name 
+        Indicates name of the custom response HTML page to import/update.
     .EXAMPLE
-        Invoke-ADCChangeAppqoecustomresp -name <string>
+        PS C:\>Invoke-ADCImportAppqoecustomresp -name <string>
+        An example how to import appqoecustomresp configuration Object(s).
     .NOTES
-        File Name : Invoke-ADCChangeAppqoecustomresp
-        Version   : v2106.2309
+        File Name : Invoke-ADCImportAppqoecustomresp
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/appqoe/appqoecustomresp/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
+    #>
     [CmdletBinding(SupportsShouldProcess = $true, ConfirmImpact = "Low")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
-        [Parameter(Mandatory = $true)]
+        [ValidateLength(1, 2047)]
+        [string]$Src,
+
+        [Parameter(Mandatory)]
         [ValidateLength(1, 31)]
-        [string]$name 
+        [string]$Name 
 
     )
     begin {
-        Write-Verbose "Invoke-ADCChangeAppqoecustomresp: Starting"
+        Write-Verbose "Invoke-ADCImportAppqoecustomresp: Starting"
     }
     process {
         try {
-            $Payload = @{
-                name = $name
-            }
-
- 
-            if ($PSCmdlet.ShouldProcess("appqoecustomresp", "Change Appqoe configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -NitroPath nitro/v1/config -Type appqoecustomresp -Action update -Payload $Payload -GetWarning
+            $payload = @{ name = $name }
+            if ( $PSBoundParameters.ContainsKey('src') ) { $payload.Add('src', $src) }
+            if ( $PSCmdlet.ShouldProcess($Name, "Import Appqoe configuration Object") ) {
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -NitroPath nitro/v1/config -Type appqoecustomresp -Action import -Payload $payload -GetWarning
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
-            Write-Output $result
-
+                Write-Output $result
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -774,54 +748,60 @@ function Invoke-ADCChangeAppqoecustomresp {
         }
     }
     end {
-        Write-Verbose "Invoke-ADCChangeAppqoecustomresp: Finished"
+        Write-Verbose "Invoke-ADCImportAppqoecustomresp: Finished"
     }
 }
 
 function Invoke-ADCGetAppqoecustomresp {
-<#
+    <#
     .SYNOPSIS
-        Get Appqoe configuration object(s)
+        Get Appqoe configuration object(s).
     .DESCRIPTION
-        Get Appqoe configuration object(s)
+        Configuration for AppQoE custom response page resource.
     .PARAMETER GetAll 
-        Retreive all appqoecustomresp object(s)
+        Retrieve all appqoecustomresp object(s).
     .PARAMETER Count
-        If specified, the count of the appqoecustomresp object(s) will be returned
+        If specified, the count of the appqoecustomresp object(s) will be returned.
     .PARAMETER Filter
-        Specify a filter
+        Specify a filter.
         -Filter @{ 'name'='<value>' }
     .PARAMETER ViewSummary
-        When specified, only a summary of information is returned
+        When specified, only a summary of information is returned.
     .EXAMPLE
-        Invoke-ADCGetAppqoecustomresp
+        PS C:\>Invoke-ADCGetAppqoecustomresp
+        Get data.
     .EXAMPLE 
-        Invoke-ADCGetAppqoecustomresp -GetAll 
+        PS C:\>Invoke-ADCGetAppqoecustomresp -GetAll 
+        Get all appqoecustomresp data. 
     .EXAMPLE 
-        Invoke-ADCGetAppqoecustomresp -Count
+        PS C:\>Invoke-ADCGetAppqoecustomresp -Count 
+        Get the number of appqoecustomresp objects.
     .EXAMPLE
-        Invoke-ADCGetAppqoecustomresp -name <string>
+        PS C:\>Invoke-ADCGetAppqoecustomresp -name <string>
+        Get appqoecustomresp object by specifying for example the name.
     .EXAMPLE
-        Invoke-ADCGetAppqoecustomresp -Filter @{ 'name'='<value>' }
+        PS C:\>Invoke-ADCGetAppqoecustomresp -Filter @{ 'name'='<value>' }
+        Get appqoecustomresp data with a filter.
     .NOTES
         File Name : Invoke-ADCGetAppqoecustomresp
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/appqoe/appqoecustomresp/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
-    [CmdletBinding(DefaultParameterSetName = "Getall")]
+    #>
+    [CmdletBinding(DefaultParameterSetName = "GetAll")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
-        [Parameter(ParameterSetName = 'Count', Mandatory = $true)]
+        [Parameter(ParameterSetName = 'Count', Mandatory)]
         [Switch]$Count,
 			
         [hashtable]$Filter = @{ },
@@ -838,24 +818,24 @@ function Invoke-ADCGetAppqoecustomresp {
     }
     process {
         try {
-            if ( $PsCmdlet.ParameterSetName -eq 'Getall' ) {
-                $Query = @{ }
+            if ( $PsCmdlet.ParameterSetName -eq 'GetAll' ) {
+                $query = @{ }
                 Write-Verbose "Retrieving all appqoecustomresp objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type appqoecustomresp -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type appqoecustomresp -NitroPath nitro/v1/config -Query $query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
-                if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
+                if ( $PSBoundParameters.ContainsKey('Count') ) { $query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for appqoecustomresp objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type appqoecustomresp -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type appqoecustomresp -NitroPath nitro/v1/config -Query $query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving appqoecustomresp objects by arguments"
-                $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type appqoecustomresp -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
+                $arguments = @{ } 
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type appqoecustomresp -NitroPath nitro/v1/config -Arguments $arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving appqoecustomresp configuration for property ''"
 
             } else {
                 Write-Verbose "Retrieving appqoecustomresp configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type appqoecustomresp -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type appqoecustomresp -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -869,83 +849,68 @@ function Invoke-ADCGetAppqoecustomresp {
 }
 
 function Invoke-ADCUpdateAppqoeparameter {
-<#
+    <#
     .SYNOPSIS
-        Update Appqoe configuration Object
+        Update Appqoe configuration Object.
     .DESCRIPTION
-        Update Appqoe configuration Object 
-    .PARAMETER sessionlife 
-        Time, in seconds, between the first time and the next time the AppQoE alternative content window is displayed. The alternative content window is displayed only once during a session for the same browser accessing a configured URL, so this parameter determines the length of a session.  
-        Default value: 300  
-        Minimum value = 1  
-        Maximum value = 4294967294 
-    .PARAMETER avgwaitingclient 
-        average number of client connections, that can sit in service waiting queue.  
-        Default value: 1000000  
-        Minimum value = 0  
-        Maximum value = 4294967294 
-    .PARAMETER maxaltrespbandwidth 
-        maximum bandwidth which will determine whether to send alternate content response.  
-        Default value: 100  
-        Minimum value = 1  
-        Maximum value = 4294967294 
-    .PARAMETER dosattackthresh 
-        average number of client connection that can queue up on vserver level without triggering DoS mitigation module.  
-        Default value: 2000  
-        Minimum value = 0  
-        Maximum value = 4294967294
+        Configuration for QOS parameter resource.
+    .PARAMETER Sessionlife 
+        Time, in seconds, between the first time and the next time the AppQoE alternative content window is displayed. The alternative content window is displayed only once during a session for the same browser accessing a configured URL, so this parameter determines the length of a session. 
+    .PARAMETER Avgwaitingclient 
+        average number of client connections, that can sit in service waiting queue. 
+    .PARAMETER Maxaltrespbandwidth 
+        maximum bandwidth which will determine whether to send alternate content response. 
+    .PARAMETER Dosattackthresh 
+        average number of client connection that can queue up on vserver level without triggering DoS mitigation module.
     .EXAMPLE
-        Invoke-ADCUpdateAppqoeparameter 
+        PS C:\>Invoke-ADCUpdateAppqoeparameter 
+        An example how to update appqoeparameter configuration Object(s).
     .NOTES
         File Name : Invoke-ADCUpdateAppqoeparameter
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/appqoe/appqoeparameter/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
+    #>
     [CmdletBinding(SupportsShouldProcess = $true, ConfirmImpact = "Low")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
         [ValidateRange(1, 4294967294)]
-        [double]$sessionlife ,
+        [double]$Sessionlife,
 
         [ValidateRange(0, 4294967294)]
-        [double]$avgwaitingclient ,
+        [double]$Avgwaitingclient,
 
         [ValidateRange(1, 4294967294)]
-        [double]$maxaltrespbandwidth ,
+        [double]$Maxaltrespbandwidth,
 
         [ValidateRange(0, 4294967294)]
-        [double]$dosattackthresh 
-
+        [double]$Dosattackthresh 
     )
     begin {
         Write-Verbose "Invoke-ADCUpdateAppqoeparameter: Starting"
     }
     process {
         try {
-            $Payload = @{
-
-            }
-            if ($PSBoundParameters.ContainsKey('sessionlife')) { $Payload.Add('sessionlife', $sessionlife) }
-            if ($PSBoundParameters.ContainsKey('avgwaitingclient')) { $Payload.Add('avgwaitingclient', $avgwaitingclient) }
-            if ($PSBoundParameters.ContainsKey('maxaltrespbandwidth')) { $Payload.Add('maxaltrespbandwidth', $maxaltrespbandwidth) }
-            if ($PSBoundParameters.ContainsKey('dosattackthresh')) { $Payload.Add('dosattackthresh', $dosattackthresh) }
- 
-            if ($PSCmdlet.ShouldProcess("appqoeparameter", "Update Appqoe configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -NitroPath nitro/v1/config -Type appqoeparameter -Payload $Payload -GetWarning
+            $payload = @{ }
+            if ( $PSBoundParameters.ContainsKey('sessionlife') ) { $payload.Add('sessionlife', $sessionlife) }
+            if ( $PSBoundParameters.ContainsKey('avgwaitingclient') ) { $payload.Add('avgwaitingclient', $avgwaitingclient) }
+            if ( $PSBoundParameters.ContainsKey('maxaltrespbandwidth') ) { $payload.Add('maxaltrespbandwidth', $maxaltrespbandwidth) }
+            if ( $PSBoundParameters.ContainsKey('dosattackthresh') ) { $payload.Add('dosattackthresh', $dosattackthresh) }
+            if ( $PSCmdlet.ShouldProcess("appqoeparameter", "Update Appqoe configuration Object") ) {
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -NitroPath nitro/v1/config -Type appqoeparameter -Payload $payload -GetWarning
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
-            Write-Output $result
-
+                Write-Output $result
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -958,44 +923,46 @@ function Invoke-ADCUpdateAppqoeparameter {
 }
 
 function Invoke-ADCUnsetAppqoeparameter {
-<#
+    <#
     .SYNOPSIS
-        Unset Appqoe configuration Object
+        Unset Appqoe configuration Object.
     .DESCRIPTION
-        Unset Appqoe configuration Object 
-   .PARAMETER sessionlife 
-       Time, in seconds, between the first time and the next time the AppQoE alternative content window is displayed. The alternative content window is displayed only once during a session for the same browser accessing a configured URL, so this parameter determines the length of a session. 
-   .PARAMETER avgwaitingclient 
-       average number of client connections, that can sit in service waiting queue. 
-   .PARAMETER maxaltrespbandwidth 
-       maximum bandwidth which will determine whether to send alternate content response. 
-   .PARAMETER dosattackthresh 
-       average number of client connection that can queue up on vserver level without triggering DoS mitigation module.
+        Configuration for QOS parameter resource.
+    .PARAMETER Sessionlife 
+        Time, in seconds, between the first time and the next time the AppQoE alternative content window is displayed. The alternative content window is displayed only once during a session for the same browser accessing a configured URL, so this parameter determines the length of a session. 
+    .PARAMETER Avgwaitingclient 
+        average number of client connections, that can sit in service waiting queue. 
+    .PARAMETER Maxaltrespbandwidth 
+        maximum bandwidth which will determine whether to send alternate content response. 
+    .PARAMETER Dosattackthresh 
+        average number of client connection that can queue up on vserver level without triggering DoS mitigation module.
     .EXAMPLE
-        Invoke-ADCUnsetAppqoeparameter 
+        PS C:\>Invoke-ADCUnsetAppqoeparameter 
+        An example how to unset appqoeparameter configuration Object(s).
     .NOTES
         File Name : Invoke-ADCUnsetAppqoeparameter
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/appqoe/appqoeparameter
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
+    #>
     [CmdletBinding(SupportsShouldProcess = $true, ConfirmImpact = "Low")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
-        [Boolean]$sessionlife ,
+        [Boolean]$sessionlife,
 
-        [Boolean]$avgwaitingclient ,
+        [Boolean]$avgwaitingclient,
 
-        [Boolean]$maxaltrespbandwidth ,
+        [Boolean]$maxaltrespbandwidth,
 
         [Boolean]$dosattackthresh 
     )
@@ -1004,15 +971,13 @@ function Invoke-ADCUnsetAppqoeparameter {
     }
     process {
         try {
-            $Payload = @{
-
-            }
-            if ($PSBoundParameters.ContainsKey('sessionlife')) { $Payload.Add('sessionlife', $sessionlife) }
-            if ($PSBoundParameters.ContainsKey('avgwaitingclient')) { $Payload.Add('avgwaitingclient', $avgwaitingclient) }
-            if ($PSBoundParameters.ContainsKey('maxaltrespbandwidth')) { $Payload.Add('maxaltrespbandwidth', $maxaltrespbandwidth) }
-            if ($PSBoundParameters.ContainsKey('dosattackthresh')) { $Payload.Add('dosattackthresh', $dosattackthresh) }
-            if ($PSCmdlet.ShouldProcess("appqoeparameter", "Unset Appqoe configuration Object")) {
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -Type appqoeparameter -NitroPath nitro/v1/config -Action unset -Payload $Payload -GetWarning
+            $payload = @{ }
+            if ( $PSBoundParameters.ContainsKey('sessionlife') ) { $payload.Add('sessionlife', $sessionlife) }
+            if ( $PSBoundParameters.ContainsKey('avgwaitingclient') ) { $payload.Add('avgwaitingclient', $avgwaitingclient) }
+            if ( $PSBoundParameters.ContainsKey('maxaltrespbandwidth') ) { $payload.Add('maxaltrespbandwidth', $maxaltrespbandwidth) }
+            if ( $PSBoundParameters.ContainsKey('dosattackthresh') ) { $payload.Add('dosattackthresh', $dosattackthresh) }
+            if ( $PSCmdlet.ShouldProcess("appqoeparameter", "Unset Appqoe configuration Object") ) {
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -Type appqoeparameter -NitroPath nitro/v1/config -Action unset -Payload $payload -GetWarning
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $response
@@ -1028,45 +993,50 @@ function Invoke-ADCUnsetAppqoeparameter {
 }
 
 function Invoke-ADCGetAppqoeparameter {
-<#
+    <#
     .SYNOPSIS
-        Get Appqoe configuration object(s)
+        Get Appqoe configuration object(s).
     .DESCRIPTION
-        Get Appqoe configuration object(s)
+        Configuration for QOS parameter resource.
     .PARAMETER GetAll 
-        Retreive all appqoeparameter object(s)
+        Retrieve all appqoeparameter object(s).
     .PARAMETER Count
-        If specified, the count of the appqoeparameter object(s) will be returned
+        If specified, the count of the appqoeparameter object(s) will be returned.
     .PARAMETER Filter
-        Specify a filter
+        Specify a filter.
         -Filter @{ 'name'='<value>' }
     .PARAMETER ViewSummary
-        When specified, only a summary of information is returned
+        When specified, only a summary of information is returned.
     .EXAMPLE
-        Invoke-ADCGetAppqoeparameter
+        PS C:\>Invoke-ADCGetAppqoeparameter
+        Get data.
     .EXAMPLE 
-        Invoke-ADCGetAppqoeparameter -GetAll
+        PS C:\>Invoke-ADCGetAppqoeparameter -GetAll 
+        Get all appqoeparameter data.
     .EXAMPLE
-        Invoke-ADCGetAppqoeparameter -name <string>
+        PS C:\>Invoke-ADCGetAppqoeparameter -name <string>
+        Get appqoeparameter object by specifying for example the name.
     .EXAMPLE
-        Invoke-ADCGetAppqoeparameter -Filter @{ 'name'='<value>' }
+        PS C:\>Invoke-ADCGetAppqoeparameter -Filter @{ 'name'='<value>' }
+        Get appqoeparameter data with a filter.
     .NOTES
         File Name : Invoke-ADCGetAppqoeparameter
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/appqoe/appqoeparameter/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
-    [CmdletBinding(DefaultParameterSetName = "Getall")]
+    #>
+    [CmdletBinding(DefaultParameterSetName = "GetAll")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 			
         [hashtable]$Filter = @{ },
 
@@ -1078,24 +1048,24 @@ function Invoke-ADCGetAppqoeparameter {
     }
     process {
         try {
-            if ( $PsCmdlet.ParameterSetName -eq 'Getall' ) {
-                $Query = @{ }
+            if ( $PsCmdlet.ParameterSetName -eq 'GetAll' ) {
+                $query = @{ }
                 Write-Verbose "Retrieving all appqoeparameter objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type appqoeparameter -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type appqoeparameter -NitroPath nitro/v1/config -Query $query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
-                if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
+                if ( $PSBoundParameters.ContainsKey('Count') ) { $query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for appqoeparameter objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type appqoeparameter -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type appqoeparameter -NitroPath nitro/v1/config -Query $query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving appqoeparameter objects by arguments"
-                $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type appqoeparameter -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
+                $arguments = @{ } 
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type appqoeparameter -NitroPath nitro/v1/config -Arguments $arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving appqoeparameter configuration for property ''"
 
             } else {
                 Write-Verbose "Retrieving appqoeparameter configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type appqoeparameter -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type appqoeparameter -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -1108,131 +1078,48 @@ function Invoke-ADCGetAppqoeparameter {
     }
 }
 
-function Invoke-ADCAddAppqoepolicy {
-<#
-    .SYNOPSIS
-        Add Appqoe configuration Object
-    .DESCRIPTION
-        Add Appqoe configuration Object 
-    .PARAMETER name 
-        .  
-        Minimum length = 1 
-    .PARAMETER rule 
-        Expression or name of a named expression, against which the request is evaluated. The policy is applied if the rule evaluates to true. 
-    .PARAMETER action 
-        Configured AppQoE action to trigger.  
-        Minimum length = 1 
-    .PARAMETER PassThru 
-        Return details about the created appqoepolicy item.
-    .EXAMPLE
-        Invoke-ADCAddAppqoepolicy -name <string> -rule <string> -action <string>
-    .NOTES
-        File Name : Invoke-ADCAddAppqoepolicy
-        Version   : v2106.2309
-        Author    : John Billekens
-        Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/appqoe/appqoepolicy/
-        Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
-    .LINK
-        https://blog.j81.nl
-#>
-    [CmdletBinding(SupportsShouldProcess = $true, ConfirmImpact = "Low")]
-    [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
-    [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
-    [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
-    param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
-
-        [Parameter(Mandatory = $true)]
-        [ValidateScript({ $_.Length -gt 1 })]
-        [string]$name ,
-
-        [Parameter(Mandatory = $true)]
-        [string]$rule ,
-
-        [Parameter(Mandatory = $true)]
-        [ValidateScript({ $_.Length -gt 1 })]
-        [string]$action ,
-
-        [Switch]$PassThru 
-
-    )
-    begin {
-        Write-Verbose "Invoke-ADCAddAppqoepolicy: Starting"
-    }
-    process {
-        try {
-            $Payload = @{
-                name = $name
-                rule = $rule
-                action = $action
-            }
-
- 
-            if ($PSCmdlet.ShouldProcess("appqoepolicy", "Add Appqoe configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -NitroPath nitro/v1/config -Type appqoepolicy -Payload $Payload -GetWarning
-                #HTTP Status Code on Success: 201 Created
-                #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
-                if ($PSBoundParameters.ContainsKey('PassThru')) {
-                    Write-Output (Invoke-ADCGetAppqoepolicy -Filter $Payload)
-                } else {
-                    Write-Output $result
-                }
-
-            }
-        } catch {
-            Write-Verbose "ERROR: $($_.Exception.Message)"
-            throw $_
-        }
-    }
-    end {
-        Write-Verbose "Invoke-ADCAddAppqoepolicy: Finished"
-    }
-}
-
 function Invoke-ADCDeleteAppqoepolicy {
-<#
+    <#
     .SYNOPSIS
-        Delete Appqoe configuration Object
+        Delete Appqoe configuration Object.
     .DESCRIPTION
-        Delete Appqoe configuration Object
-    .PARAMETER name 
-       .  
-       Minimum length = 1 
+        Configuration for AppQoS policy resource.
+    .PARAMETER Name 
+        .
     .EXAMPLE
-        Invoke-ADCDeleteAppqoepolicy -name <string>
+        PS C:\>Invoke-ADCDeleteAppqoepolicy -Name <string>
+        An example how to delete appqoepolicy configuration Object(s).
     .NOTES
         File Name : Invoke-ADCDeleteAppqoepolicy
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/appqoe/appqoepolicy/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
+    #>
     [CmdletBinding(SupportsShouldProcess = $true, ConfirmImpact = "Low")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
-        [Parameter(Mandatory = $true)]
-        [string]$name 
+        [Parameter(Mandatory)]
+        [string]$Name 
     )
     begin {
         Write-Verbose "Invoke-ADCDeleteAppqoepolicy: Starting"
     }
     process {
         try {
-            $Arguments = @{ 
-            }
+            $arguments = @{ }
 
-            if ($PSCmdlet.ShouldProcess("$name", "Delete Appqoe configuration Object")) {
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type appqoepolicy -NitroPath nitro/v1/config -Resource $name -Arguments $Arguments
+            if ( $PSCmdlet.ShouldProcess("$name", "Delete Appqoe configuration Object") ) {
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type appqoepolicy -NitroPath nitro/v1/config -Resource $name -Arguments $arguments
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $response
@@ -1248,74 +1135,69 @@ function Invoke-ADCDeleteAppqoepolicy {
 }
 
 function Invoke-ADCUpdateAppqoepolicy {
-<#
+    <#
     .SYNOPSIS
-        Update Appqoe configuration Object
+        Update Appqoe configuration Object.
     .DESCRIPTION
-        Update Appqoe configuration Object 
-    .PARAMETER name 
-        .  
-        Minimum length = 1 
-    .PARAMETER rule 
+        Configuration for AppQoS policy resource.
+    .PARAMETER Name 
+        . 
+    .PARAMETER Rule 
         Expression or name of a named expression, against which the request is evaluated. The policy is applied if the rule evaluates to true. 
-    .PARAMETER action 
-        Configured AppQoE action to trigger.  
-        Minimum length = 1 
+    .PARAMETER Action 
+        Configured AppQoE action to trigger. 
     .PARAMETER PassThru 
         Return details about the created appqoepolicy item.
     .EXAMPLE
-        Invoke-ADCUpdateAppqoepolicy -name <string>
+        PS C:\>Invoke-ADCUpdateAppqoepolicy -name <string>
+        An example how to update appqoepolicy configuration Object(s).
     .NOTES
         File Name : Invoke-ADCUpdateAppqoepolicy
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/appqoe/appqoepolicy/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
+    #>
     [CmdletBinding(SupportsShouldProcess = $true, ConfirmImpact = "Low")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
-        [Parameter(Mandatory = $true)]
+        [Parameter(Mandatory)]
         [ValidateScript({ $_.Length -gt 1 })]
-        [string]$name ,
+        [string]$Name,
 
-        [string]$rule ,
+        [string]$Rule,
 
         [ValidateScript({ $_.Length -gt 1 })]
-        [string]$action ,
+        [string]$Action,
 
         [Switch]$PassThru 
-
     )
     begin {
         Write-Verbose "Invoke-ADCUpdateAppqoepolicy: Starting"
     }
     process {
         try {
-            $Payload = @{
-                name = $name
-            }
-            if ($PSBoundParameters.ContainsKey('rule')) { $Payload.Add('rule', $rule) }
-            if ($PSBoundParameters.ContainsKey('action')) { $Payload.Add('action', $action) }
- 
-            if ($PSCmdlet.ShouldProcess("appqoepolicy", "Update Appqoe configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -NitroPath nitro/v1/config -Type appqoepolicy -Payload $Payload -GetWarning
+            $payload = @{ name = $name }
+            if ( $PSBoundParameters.ContainsKey('rule') ) { $payload.Add('rule', $rule) }
+            if ( $PSBoundParameters.ContainsKey('action') ) { $payload.Add('action', $action) }
+            if ( $PSCmdlet.ShouldProcess("appqoepolicy", "Update Appqoe configuration Object") ) {
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -NitroPath nitro/v1/config -Type appqoepolicy -Payload $payload -GetWarning
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
-                if ($PSBoundParameters.ContainsKey('PassThru')) {
-                    Write-Output (Invoke-ADCGetAppqoepolicy -Filter $Payload)
+                if ( $PSBoundParameters.ContainsKey('PassThru') ) {
+                    Write-Output (Invoke-ADCGetAppqoepolicy -Filter $payload)
                 } else {
                     Write-Output $result
                 }
-
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -1327,56 +1209,141 @@ function Invoke-ADCUpdateAppqoepolicy {
     }
 }
 
-function Invoke-ADCGetAppqoepolicy {
-<#
+function Invoke-ADCAddAppqoepolicy {
+    <#
     .SYNOPSIS
-        Get Appqoe configuration object(s)
+        Add Appqoe configuration Object.
     .DESCRIPTION
-        Get Appqoe configuration object(s)
-    .PARAMETER name 
-       . 
-    .PARAMETER GetAll 
-        Retreive all appqoepolicy object(s)
-    .PARAMETER Count
-        If specified, the count of the appqoepolicy object(s) will be returned
-    .PARAMETER Filter
-        Specify a filter
-        -Filter @{ 'name'='<value>' }
-    .PARAMETER ViewSummary
-        When specified, only a summary of information is returned
+        Configuration for AppQoS policy resource.
+    .PARAMETER Name 
+        . 
+    .PARAMETER Rule 
+        Expression or name of a named expression, against which the request is evaluated. The policy is applied if the rule evaluates to true. 
+    .PARAMETER Action 
+        Configured AppQoE action to trigger. 
+    .PARAMETER PassThru 
+        Return details about the created appqoepolicy item.
     .EXAMPLE
-        Invoke-ADCGetAppqoepolicy
-    .EXAMPLE 
-        Invoke-ADCGetAppqoepolicy -GetAll 
-    .EXAMPLE 
-        Invoke-ADCGetAppqoepolicy -Count
-    .EXAMPLE
-        Invoke-ADCGetAppqoepolicy -name <string>
-    .EXAMPLE
-        Invoke-ADCGetAppqoepolicy -Filter @{ 'name'='<value>' }
+        PS C:\>Invoke-ADCAddAppqoepolicy -name <string> -rule <string> -action <string>
+        An example how to add appqoepolicy configuration Object(s).
     .NOTES
-        File Name : Invoke-ADCGetAppqoepolicy
-        Version   : v2106.2309
+        File Name : Invoke-ADCAddAppqoepolicy
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/appqoe/appqoepolicy/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
-    [CmdletBinding(DefaultParameterSetName = "Getall")]
+    #>
+    [CmdletBinding(SupportsShouldProcess = $true, ConfirmImpact = "Low")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
+
+        [Parameter(Mandatory)]
+        [ValidateScript({ $_.Length -gt 1 })]
+        [string]$Name,
+
+        [Parameter(Mandatory)]
+        [string]$Rule,
+
+        [Parameter(Mandatory)]
+        [ValidateScript({ $_.Length -gt 1 })]
+        [string]$Action,
+
+        [Switch]$PassThru 
+    )
+    begin {
+        Write-Verbose "Invoke-ADCAddAppqoepolicy: Starting"
+    }
+    process {
+        try {
+            $payload = @{ name = $name
+                rule           = $rule
+                action         = $action
+            }
+
+            if ( $PSCmdlet.ShouldProcess("appqoepolicy", "Add Appqoe configuration Object") ) {
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -NitroPath nitro/v1/config -Type appqoepolicy -Payload $payload -GetWarning
+                #HTTP Status Code on Success: 201 Created
+                #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
+                if ( $PSBoundParameters.ContainsKey('PassThru') ) {
+                    Write-Output (Invoke-ADCGetAppqoepolicy -Filter $payload)
+                } else {
+                    Write-Output $result
+                }
+            }
+        } catch {
+            Write-Verbose "ERROR: $($_.Exception.Message)"
+            throw $_
+        }
+    }
+    end {
+        Write-Verbose "Invoke-ADCAddAppqoepolicy: Finished"
+    }
+}
+
+function Invoke-ADCGetAppqoepolicy {
+    <#
+    .SYNOPSIS
+        Get Appqoe configuration object(s).
+    .DESCRIPTION
+        Configuration for AppQoS policy resource.
+    .PARAMETER Name 
+        . 
+    .PARAMETER GetAll 
+        Retrieve all appqoepolicy object(s).
+    .PARAMETER Count
+        If specified, the count of the appqoepolicy object(s) will be returned.
+    .PARAMETER Filter
+        Specify a filter.
+        -Filter @{ 'name'='<value>' }
+    .PARAMETER ViewSummary
+        When specified, only a summary of information is returned.
+    .EXAMPLE
+        PS C:\>Invoke-ADCGetAppqoepolicy
+        Get data.
+    .EXAMPLE 
+        PS C:\>Invoke-ADCGetAppqoepolicy -GetAll 
+        Get all appqoepolicy data. 
+    .EXAMPLE 
+        PS C:\>Invoke-ADCGetAppqoepolicy -Count 
+        Get the number of appqoepolicy objects.
+    .EXAMPLE
+        PS C:\>Invoke-ADCGetAppqoepolicy -name <string>
+        Get appqoepolicy object by specifying for example the name.
+    .EXAMPLE
+        PS C:\>Invoke-ADCGetAppqoepolicy -Filter @{ 'name'='<value>' }
+        Get appqoepolicy data with a filter.
+    .NOTES
+        File Name : Invoke-ADCGetAppqoepolicy
+        Version   : v2111.2111
+        Author    : John Billekens
+        Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/appqoe/appqoepolicy/
+        Requires  : PowerShell v5.1 and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
+    .LINK
+        https://blog.j81.nl
+    #>
+    [CmdletBinding(DefaultParameterSetName = "GetAll")]
+    [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
+    [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
+    [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
+    param(
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
         [Parameter(ParameterSetName = 'GetByResource')]
         [ValidateScript({ $_.Length -gt 1 })]
-        [string]$name,
+        [string]$Name,
 
-        [Parameter(ParameterSetName = 'Count', Mandatory = $true)]
+        [Parameter(ParameterSetName = 'Count', Mandatory)]
         [Switch]$Count,
 			
         [hashtable]$Filter = @{ },
@@ -1394,24 +1361,24 @@ function Invoke-ADCGetAppqoepolicy {
     }
     process {
         try {
-            if ( $PsCmdlet.ParameterSetName -eq 'Getall' ) {
-                $Query = @{ }
+            if ( $PsCmdlet.ParameterSetName -eq 'GetAll' ) {
+                $query = @{ }
                 Write-Verbose "Retrieving all appqoepolicy objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type appqoepolicy -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type appqoepolicy -NitroPath nitro/v1/config -Query $query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
-                if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
+                if ( $PSBoundParameters.ContainsKey('Count') ) { $query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for appqoepolicy objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type appqoepolicy -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type appqoepolicy -NitroPath nitro/v1/config -Query $query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving appqoepolicy objects by arguments"
-                $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type appqoepolicy -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
+                $arguments = @{ } 
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type appqoepolicy -NitroPath nitro/v1/config -Arguments $arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving appqoepolicy configuration for property 'name'"
                 $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type appqoepolicy -NitroPath nitro/v1/config -Resource $name -Summary:$ViewSummary -Filter $Filter -GetWarning
             } else {
                 Write-Verbose "Retrieving appqoepolicy configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type appqoepolicy -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type appqoepolicy -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -1425,51 +1392,56 @@ function Invoke-ADCGetAppqoepolicy {
 }
 
 function Invoke-ADCGetAppqoepolicybinding {
-<#
+    <#
     .SYNOPSIS
-        Get Appqoe configuration object(s)
+        Get Appqoe configuration object(s).
     .DESCRIPTION
-        Get Appqoe configuration object(s)
-    .PARAMETER name 
-       . 
+        Binding object which returns the resources bound to appqoepolicy.
+    .PARAMETER Name 
+        . 
     .PARAMETER GetAll 
-        Retreive all appqoepolicy_binding object(s)
+        Retrieve all appqoepolicy_binding object(s).
     .PARAMETER Count
-        If specified, the count of the appqoepolicy_binding object(s) will be returned
+        If specified, the count of the appqoepolicy_binding object(s) will be returned.
     .PARAMETER Filter
-        Specify a filter
+        Specify a filter.
         -Filter @{ 'name'='<value>' }
     .PARAMETER ViewSummary
-        When specified, only a summary of information is returned
+        When specified, only a summary of information is returned.
     .EXAMPLE
-        Invoke-ADCGetAppqoepolicybinding
+        PS C:\>Invoke-ADCGetAppqoepolicybinding
+        Get data.
     .EXAMPLE 
-        Invoke-ADCGetAppqoepolicybinding -GetAll
+        PS C:\>Invoke-ADCGetAppqoepolicybinding -GetAll 
+        Get all appqoepolicy_binding data.
     .EXAMPLE
-        Invoke-ADCGetAppqoepolicybinding -name <string>
+        PS C:\>Invoke-ADCGetAppqoepolicybinding -name <string>
+        Get appqoepolicy_binding object by specifying for example the name.
     .EXAMPLE
-        Invoke-ADCGetAppqoepolicybinding -Filter @{ 'name'='<value>' }
+        PS C:\>Invoke-ADCGetAppqoepolicybinding -Filter @{ 'name'='<value>' }
+        Get appqoepolicy_binding data with a filter.
     .NOTES
         File Name : Invoke-ADCGetAppqoepolicybinding
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/appqoe/appqoepolicy_binding/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
-    [CmdletBinding(DefaultParameterSetName = "Getall")]
+    #>
+    [CmdletBinding(DefaultParameterSetName = "GetAll")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
         [Parameter(ParameterSetName = 'GetByResource')]
         [ValidateScript({ $_.Length -gt 1 })]
-        [string]$name,
+        [string]$Name,
 			
         [hashtable]$Filter = @{ },
 
@@ -1481,26 +1453,24 @@ function Invoke-ADCGetAppqoepolicybinding {
     }
     process {
         try {
-            if ( $PsCmdlet.ParameterSetName -eq 'Getall' ) {
-                $Query = @{ 
-                    bulkbindings = 'yes'
-                }
+            if ( $PsCmdlet.ParameterSetName -eq 'GetAll' ) {
+                $query = @{  bulkbindings = 'yes' }
                 Write-Verbose "Retrieving all appqoepolicy_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type appqoepolicy_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type appqoepolicy_binding -NitroPath nitro/v1/config -Query $query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
-                if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
+                if ( $PSBoundParameters.ContainsKey('Count') ) { $query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for appqoepolicy_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type appqoepolicy_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type appqoepolicy_binding -NitroPath nitro/v1/config -Query $query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving appqoepolicy_binding objects by arguments"
-                $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type appqoepolicy_binding -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
+                $arguments = @{ } 
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type appqoepolicy_binding -NitroPath nitro/v1/config -Arguments $arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving appqoepolicy_binding configuration for property 'name'"
                 $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type appqoepolicy_binding -NitroPath nitro/v1/config -Resource $name -Summary:$ViewSummary -Filter $Filter -GetWarning
             } else {
                 Write-Verbose "Retrieving appqoepolicy_binding configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type appqoepolicy_binding -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type appqoepolicy_binding -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -1514,55 +1484,61 @@ function Invoke-ADCGetAppqoepolicybinding {
 }
 
 function Invoke-ADCGetAppqoepolicylbvserverbinding {
-<#
+    <#
     .SYNOPSIS
-        Get Appqoe configuration object(s)
+        Get Appqoe configuration object(s).
     .DESCRIPTION
-        Get Appqoe configuration object(s)
-    .PARAMETER name 
-       . 
+        Binding object showing the lbvserver that can be bound to appqoepolicy.
+    .PARAMETER Name 
+        . 
     .PARAMETER GetAll 
-        Retreive all appqoepolicy_lbvserver_binding object(s)
+        Retrieve all appqoepolicy_lbvserver_binding object(s).
     .PARAMETER Count
-        If specified, the count of the appqoepolicy_lbvserver_binding object(s) will be returned
+        If specified, the count of the appqoepolicy_lbvserver_binding object(s) will be returned.
     .PARAMETER Filter
-        Specify a filter
+        Specify a filter.
         -Filter @{ 'name'='<value>' }
     .PARAMETER ViewSummary
-        When specified, only a summary of information is returned
+        When specified, only a summary of information is returned.
     .EXAMPLE
-        Invoke-ADCGetAppqoepolicylbvserverbinding
+        PS C:\>Invoke-ADCGetAppqoepolicylbvserverbinding
+        Get data.
     .EXAMPLE 
-        Invoke-ADCGetAppqoepolicylbvserverbinding -GetAll 
+        PS C:\>Invoke-ADCGetAppqoepolicylbvserverbinding -GetAll 
+        Get all appqoepolicy_lbvserver_binding data. 
     .EXAMPLE 
-        Invoke-ADCGetAppqoepolicylbvserverbinding -Count
+        PS C:\>Invoke-ADCGetAppqoepolicylbvserverbinding -Count 
+        Get the number of appqoepolicy_lbvserver_binding objects.
     .EXAMPLE
-        Invoke-ADCGetAppqoepolicylbvserverbinding -name <string>
+        PS C:\>Invoke-ADCGetAppqoepolicylbvserverbinding -name <string>
+        Get appqoepolicy_lbvserver_binding object by specifying for example the name.
     .EXAMPLE
-        Invoke-ADCGetAppqoepolicylbvserverbinding -Filter @{ 'name'='<value>' }
+        PS C:\>Invoke-ADCGetAppqoepolicylbvserverbinding -Filter @{ 'name'='<value>' }
+        Get appqoepolicy_lbvserver_binding data with a filter.
     .NOTES
         File Name : Invoke-ADCGetAppqoepolicylbvserverbinding
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/appqoe/appqoepolicy_lbvserver_binding/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
-    [CmdletBinding(DefaultParameterSetName = "Getall")]
+    #>
+    [CmdletBinding(DefaultParameterSetName = "GetAll")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
         [Parameter(ParameterSetName = 'GetByResource')]
         [ValidateScript({ $_.Length -gt 1 })]
-        [string]$name,
+        [string]$Name,
 
-        [Parameter(ParameterSetName = 'Count', Mandatory = $true)]
+        [Parameter(ParameterSetName = 'Count', Mandatory)]
         [Switch]$Count,
 			
         [hashtable]$Filter = @{ },
@@ -1575,26 +1551,24 @@ function Invoke-ADCGetAppqoepolicylbvserverbinding {
     }
     process {
         try {
-            if ( $PsCmdlet.ParameterSetName -eq 'Getall' ) {
-                $Query = @{ 
-                    bulkbindings = 'yes'
-                }
+            if ( $PsCmdlet.ParameterSetName -eq 'GetAll' ) {
+                $query = @{  bulkbindings = 'yes' }
                 Write-Verbose "Retrieving all appqoepolicy_lbvserver_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type appqoepolicy_lbvserver_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type appqoepolicy_lbvserver_binding -NitroPath nitro/v1/config -Query $query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
-                if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
+                if ( $PSBoundParameters.ContainsKey('Count') ) { $query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for appqoepolicy_lbvserver_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type appqoepolicy_lbvserver_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type appqoepolicy_lbvserver_binding -NitroPath nitro/v1/config -Query $query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving appqoepolicy_lbvserver_binding objects by arguments"
-                $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type appqoepolicy_lbvserver_binding -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
+                $arguments = @{ } 
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type appqoepolicy_lbvserver_binding -NitroPath nitro/v1/config -Arguments $arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving appqoepolicy_lbvserver_binding configuration for property 'name'"
                 $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type appqoepolicy_lbvserver_binding -NitroPath nitro/v1/config -Resource $name -Summary:$ViewSummary -Filter $Filter -GetWarning
             } else {
                 Write-Verbose "Retrieving appqoepolicy_lbvserver_binding configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type appqoepolicy_lbvserver_binding -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type appqoepolicy_lbvserver_binding -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"

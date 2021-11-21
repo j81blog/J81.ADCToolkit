@@ -1,22 +1,24 @@
 function Connect-ADCHANodes {
     <#
     .SYNOPSIS
-        Establish a session with (all) Citrix ADCs in a HA configuration.
+        Establish a session with (all) Citrix ADCs in a HA configuration
     .DESCRIPTION
-        Establish a session with (all) Citrix ADCs in a HA configuration.
+        Establish a session with (all) Citrix ADCs in a HA configuration
     .PARAMETER ManagementURL
-        The URL to connect to, E.g. "https://citrixadc.domain.local".
+        The URL to connect to, E.g. "https://citrixadc.domain.local"
     .PARAMETER Credential
-        The credential to authenticate to the ADC with.
+        The credential to authenticate to the ADC with
     .PARAMETER Timeout
-        Timeout in seconds for session object.
+        Timeout in seconds for session object
+    .PARAMETER DisplayConsoleText
+        The command will display text during each step when specified
     .PARAMETER PassThru
-        Return the ADC session object.
+        Return the ADC session object
     .EXAMPLE
         Connect-ADCNode -ManagementURL https://citrixacd.domain.local -Credential (Get-Credential)
     .NOTES
         File Name : Connect-ADCHANodes
-        Version   : v2101.0322
+        Version   : v2111.1520
         Author    : John Billekens
         Requires  : PowerShell v5.1 and up
                     ADC 11.x and up
@@ -58,8 +60,8 @@ function Connect-ADCHANodes {
             $ADCSession = Connect-ADCNode -ManagementURL $ManagementURL -Credential $Credential -Timeout $Timeout -PassThru -ErrorAction Stop
             $IsConnected = $true
             Write-ConsoleText -ForeGroundColor Yellow -NoNewLine "*" -NoConsoleOutput:$NoConsoleOutput
-            $HANode = Invoke-ADCGetHANode | Expand-ADCResult
-            $nsconfig = Invoke-ADCGetNSConfig | Expand-ADCResult
+            $HANode = Invoke-ADCGetHanode | Expand-ADCResult
+            $nsconfig = Invoke-ADCGetNsconfig | Expand-ADCResult
             if ($nsconfig.ipaddress -ne $nsconfig.primaryip) {
                 Write-Warning "You are connected to a secondary node (Primary node is $($nsconfig.primaryip))"
             }
@@ -154,14 +156,13 @@ function Connect-ADCHANodes {
                 Write-ConsoleText -ForeGroundColor Cyan "$($SecondarySessionDetails.Version)" -NoConsoleOutput:$NoConsoleOutput
             }
             if ($($PrimarySessionDetails | ConvertFrom-ADCVersion) -lt [System.Version]"11.0") {
-                Throw "Only ADC version 11 and up is supported"
+                Throw "Only ADC version 13 and up is supported, version 11.x & 12.x is best effort."
             }
         } else {
             $ADCSession = $null
         }
         Write-Output $ADCSession
     }
-    
     end {
         Write-Verbose "Connect-ADCHANodes: Ended"
     }

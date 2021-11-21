@@ -1,132 +1,120 @@
 function Invoke-ADCAddIcaaccessprofile {
-<#
+    <#
     .SYNOPSIS
-        Add Ica configuration Object
+        Add Ica configuration Object.
     .DESCRIPTION
-        Add Ica configuration Object 
-    .PARAMETER name 
-        Name for the ICA accessprofile. Must begin with a letter, number, or the underscore character (_), and must contain only letters, numbers, and  
+        Configuration for ica accessprofile resource.
+    .PARAMETER Name 
+        Name for the ICA accessprofile. Must begin with a letter, number, or the underscore character (_), and must contain only letters, numbers, and 
         the hyphen (-), period (.) pound (#), space ( ), at (@), equals (=), colon (:), and underscore characters. Cannot be changed after the ICA accessprofile is added. 
-    .PARAMETER connectclientlptports 
-        Allow Default access/Disable automatic connection of LPT ports from the client when the user logs on.  
-        Default value: DISABLED  
+    .PARAMETER Connectclientlptports 
+        Allow Default access/Disable automatic connection of LPT ports from the client when the user logs on. 
         Possible values = DEFAULT, DISABLED 
-    .PARAMETER clientaudioredirection 
-        Allow Default access/Disable applications hosted on the server to play sounds through a sound device installed on the client computer, also allows or prevents users to record audio input.  
-        Default value: DISABLED  
+    .PARAMETER Clientaudioredirection 
+        Allow Default access/Disable applications hosted on the server to play sounds through a sound device installed on the client computer, also allows or prevents users to record audio input. 
         Possible values = DEFAULT, DISABLED 
-    .PARAMETER localremotedatasharing 
-        Allow Default access/Disable file/data sharing via the Receiver for HTML5.  
-        Default value: DISABLED  
+    .PARAMETER Localremotedatasharing 
+        Allow Default access/Disable file/data sharing via the Receiver for HTML5. 
         Possible values = DEFAULT, DISABLED 
-    .PARAMETER clientclipboardredirection 
-        Allow Default access/Disable the clipboard on the client device to be mapped to the clipboard on the server.  
-        Default value: DISABLED  
+    .PARAMETER Clientclipboardredirection 
+        Allow Default access/Disable the clipboard on the client device to be mapped to the clipboard on the server. 
         Possible values = DEFAULT, DISABLED 
-    .PARAMETER clientcomportredirection 
-        Allow Default access/Disable COM port redirection to and from the client.  
-        Default value: DISABLED  
+    .PARAMETER Clientcomportredirection 
+        Allow Default access/Disable COM port redirection to and from the client. 
         Possible values = DEFAULT, DISABLED 
-    .PARAMETER clientdriveredirection 
-        Allow Default access/Disables drive redirection to and from the client.  
-        Default value: DISABLED  
+    .PARAMETER Clientdriveredirection 
+        Allow Default access/Disables drive redirection to and from the client. 
         Possible values = DEFAULT, DISABLED 
-    .PARAMETER clientprinterredirection 
-        Allow Default access/Disable client printers to be mapped to a server when a user logs on to a session.  
-        Default value: DISABLED  
+    .PARAMETER Clientprinterredirection 
+        Allow Default access/Disable client printers to be mapped to a server when a user logs on to a session. 
         Possible values = DEFAULT, DISABLED 
-    .PARAMETER multistream 
-        Allow Default access/Disable the multistream feature for the specified users.  
-        Default value: DISABLED  
+    .PARAMETER Multistream 
+        Allow Default access/Disable the multistream feature for the specified users. 
         Possible values = DEFAULT, DISABLED 
-    .PARAMETER clientusbdriveredirection 
-        Allow Default access/Disable the redirection of USB devices to and from the client.  
-        Default value: DISABLED  
+    .PARAMETER Clientusbdriveredirection 
+        Allow Default access/Disable the redirection of USB devices to and from the client. 
         Possible values = DEFAULT, DISABLED 
     .PARAMETER PassThru 
         Return details about the created icaaccessprofile item.
     .EXAMPLE
-        Invoke-ADCAddIcaaccessprofile -name <string>
+        PS C:\>Invoke-ADCAddIcaaccessprofile -name <string>
+        An example how to add icaaccessprofile configuration Object(s).
     .NOTES
         File Name : Invoke-ADCAddIcaaccessprofile
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ica/icaaccessprofile/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
+    #>
     [CmdletBinding(SupportsShouldProcess = $true, ConfirmImpact = "Low")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
-        [Parameter(Mandatory = $true)]
+        [Parameter(Mandatory)]
         [ValidateScript({ $_.Length -gt 1 })]
-        [string]$name ,
+        [string]$Name,
 
         [ValidateSet('DEFAULT', 'DISABLED')]
-        [string]$connectclientlptports = 'DISABLED' ,
+        [string]$Connectclientlptports = 'DISABLED',
 
         [ValidateSet('DEFAULT', 'DISABLED')]
-        [string]$clientaudioredirection = 'DISABLED' ,
+        [string]$Clientaudioredirection = 'DISABLED',
 
         [ValidateSet('DEFAULT', 'DISABLED')]
-        [string]$localremotedatasharing = 'DISABLED' ,
+        [string]$Localremotedatasharing = 'DISABLED',
 
         [ValidateSet('DEFAULT', 'DISABLED')]
-        [string]$clientclipboardredirection = 'DISABLED' ,
+        [string]$Clientclipboardredirection = 'DISABLED',
 
         [ValidateSet('DEFAULT', 'DISABLED')]
-        [string]$clientcomportredirection = 'DISABLED' ,
+        [string]$Clientcomportredirection = 'DISABLED',
 
         [ValidateSet('DEFAULT', 'DISABLED')]
-        [string]$clientdriveredirection = 'DISABLED' ,
+        [string]$Clientdriveredirection = 'DISABLED',
 
         [ValidateSet('DEFAULT', 'DISABLED')]
-        [string]$clientprinterredirection = 'DISABLED' ,
+        [string]$Clientprinterredirection = 'DISABLED',
 
         [ValidateSet('DEFAULT', 'DISABLED')]
-        [string]$multistream = 'DISABLED' ,
+        [string]$Multistream = 'DISABLED',
 
         [ValidateSet('DEFAULT', 'DISABLED')]
-        [string]$clientusbdriveredirection = 'DISABLED' ,
+        [string]$Clientusbdriveredirection = 'DISABLED',
 
         [Switch]$PassThru 
-
     )
     begin {
         Write-Verbose "Invoke-ADCAddIcaaccessprofile: Starting"
     }
     process {
         try {
-            $Payload = @{
-                name = $name
-            }
-            if ($PSBoundParameters.ContainsKey('connectclientlptports')) { $Payload.Add('connectclientlptports', $connectclientlptports) }
-            if ($PSBoundParameters.ContainsKey('clientaudioredirection')) { $Payload.Add('clientaudioredirection', $clientaudioredirection) }
-            if ($PSBoundParameters.ContainsKey('localremotedatasharing')) { $Payload.Add('localremotedatasharing', $localremotedatasharing) }
-            if ($PSBoundParameters.ContainsKey('clientclipboardredirection')) { $Payload.Add('clientclipboardredirection', $clientclipboardredirection) }
-            if ($PSBoundParameters.ContainsKey('clientcomportredirection')) { $Payload.Add('clientcomportredirection', $clientcomportredirection) }
-            if ($PSBoundParameters.ContainsKey('clientdriveredirection')) { $Payload.Add('clientdriveredirection', $clientdriveredirection) }
-            if ($PSBoundParameters.ContainsKey('clientprinterredirection')) { $Payload.Add('clientprinterredirection', $clientprinterredirection) }
-            if ($PSBoundParameters.ContainsKey('multistream')) { $Payload.Add('multistream', $multistream) }
-            if ($PSBoundParameters.ContainsKey('clientusbdriveredirection')) { $Payload.Add('clientusbdriveredirection', $clientusbdriveredirection) }
- 
-            if ($PSCmdlet.ShouldProcess("icaaccessprofile", "Add Ica configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -NitroPath nitro/v1/config -Type icaaccessprofile -Payload $Payload -GetWarning
+            $payload = @{ name = $name }
+            if ( $PSBoundParameters.ContainsKey('connectclientlptports') ) { $payload.Add('connectclientlptports', $connectclientlptports) }
+            if ( $PSBoundParameters.ContainsKey('clientaudioredirection') ) { $payload.Add('clientaudioredirection', $clientaudioredirection) }
+            if ( $PSBoundParameters.ContainsKey('localremotedatasharing') ) { $payload.Add('localremotedatasharing', $localremotedatasharing) }
+            if ( $PSBoundParameters.ContainsKey('clientclipboardredirection') ) { $payload.Add('clientclipboardredirection', $clientclipboardredirection) }
+            if ( $PSBoundParameters.ContainsKey('clientcomportredirection') ) { $payload.Add('clientcomportredirection', $clientcomportredirection) }
+            if ( $PSBoundParameters.ContainsKey('clientdriveredirection') ) { $payload.Add('clientdriveredirection', $clientdriveredirection) }
+            if ( $PSBoundParameters.ContainsKey('clientprinterredirection') ) { $payload.Add('clientprinterredirection', $clientprinterredirection) }
+            if ( $PSBoundParameters.ContainsKey('multistream') ) { $payload.Add('multistream', $multistream) }
+            if ( $PSBoundParameters.ContainsKey('clientusbdriveredirection') ) { $payload.Add('clientusbdriveredirection', $clientusbdriveredirection) }
+            if ( $PSCmdlet.ShouldProcess("icaaccessprofile", "Add Ica configuration Object") ) {
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -NitroPath nitro/v1/config -Type icaaccessprofile -Payload $payload -GetWarning
                 #HTTP Status Code on Success: 201 Created
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
-                if ($PSBoundParameters.ContainsKey('PassThru')) {
-                    Write-Output (Invoke-ADCGetIcaaccessprofile -Filter $Payload)
+                if ( $PSBoundParameters.ContainsKey('PassThru') ) {
+                    Write-Output (Invoke-ADCGetIcaaccessprofile -Filter $payload)
                 } else {
                     Write-Output $result
                 }
-
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -139,47 +127,48 @@ function Invoke-ADCAddIcaaccessprofile {
 }
 
 function Invoke-ADCDeleteIcaaccessprofile {
-<#
+    <#
     .SYNOPSIS
-        Delete Ica configuration Object
+        Delete Ica configuration Object.
     .DESCRIPTION
-        Delete Ica configuration Object
-    .PARAMETER name 
-       Name for the ICA accessprofile. Must begin with a letter, number, or the underscore character (_), and must contain only letters, numbers, and  
-       the hyphen (-), period (.) pound (#), space ( ), at (@), equals (=), colon (:), and underscore characters. Cannot be changed after the ICA accessprofile is added. 
+        Configuration for ica accessprofile resource.
+    .PARAMETER Name 
+        Name for the ICA accessprofile. Must begin with a letter, number, or the underscore character (_), and must contain only letters, numbers, and 
+        the hyphen (-), period (.) pound (#), space ( ), at (@), equals (=), colon (:), and underscore characters. Cannot be changed after the ICA accessprofile is added.
     .EXAMPLE
-        Invoke-ADCDeleteIcaaccessprofile -name <string>
+        PS C:\>Invoke-ADCDeleteIcaaccessprofile -Name <string>
+        An example how to delete icaaccessprofile configuration Object(s).
     .NOTES
         File Name : Invoke-ADCDeleteIcaaccessprofile
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ica/icaaccessprofile/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
+    #>
     [CmdletBinding(SupportsShouldProcess = $true, ConfirmImpact = "Low")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
-        [Parameter(Mandatory = $true)]
-        [string]$name 
+        [Parameter(Mandatory)]
+        [string]$Name 
     )
     begin {
         Write-Verbose "Invoke-ADCDeleteIcaaccessprofile: Starting"
     }
     process {
         try {
-            $Arguments = @{ 
-            }
+            $arguments = @{ }
 
-            if ($PSCmdlet.ShouldProcess("$name", "Delete Ica configuration Object")) {
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type icaaccessprofile -NitroPath nitro/v1/config -Resource $name -Arguments $Arguments
+            if ( $PSCmdlet.ShouldProcess("$name", "Delete Ica configuration Object") ) {
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type icaaccessprofile -NitroPath nitro/v1/config -Resource $name -Arguments $arguments
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $response
@@ -195,134 +184,122 @@ function Invoke-ADCDeleteIcaaccessprofile {
 }
 
 function Invoke-ADCUpdateIcaaccessprofile {
-<#
+    <#
     .SYNOPSIS
-        Update Ica configuration Object
+        Update Ica configuration Object.
     .DESCRIPTION
-        Update Ica configuration Object 
-    .PARAMETER name 
-        Name for the ICA accessprofile. Must begin with a letter, number, or the underscore character (_), and must contain only letters, numbers, and  
+        Configuration for ica accessprofile resource.
+    .PARAMETER Name 
+        Name for the ICA accessprofile. Must begin with a letter, number, or the underscore character (_), and must contain only letters, numbers, and 
         the hyphen (-), period (.) pound (#), space ( ), at (@), equals (=), colon (:), and underscore characters. Cannot be changed after the ICA accessprofile is added. 
-    .PARAMETER connectclientlptports 
-        Allow Default access/Disable automatic connection of LPT ports from the client when the user logs on.  
-        Default value: DISABLED  
+    .PARAMETER Connectclientlptports 
+        Allow Default access/Disable automatic connection of LPT ports from the client when the user logs on. 
         Possible values = DEFAULT, DISABLED 
-    .PARAMETER clientaudioredirection 
-        Allow Default access/Disable applications hosted on the server to play sounds through a sound device installed on the client computer, also allows or prevents users to record audio input.  
-        Default value: DISABLED  
+    .PARAMETER Clientaudioredirection 
+        Allow Default access/Disable applications hosted on the server to play sounds through a sound device installed on the client computer, also allows or prevents users to record audio input. 
         Possible values = DEFAULT, DISABLED 
-    .PARAMETER localremotedatasharing 
-        Allow Default access/Disable file/data sharing via the Receiver for HTML5.  
-        Default value: DISABLED  
+    .PARAMETER Localremotedatasharing 
+        Allow Default access/Disable file/data sharing via the Receiver for HTML5. 
         Possible values = DEFAULT, DISABLED 
-    .PARAMETER clientclipboardredirection 
-        Allow Default access/Disable the clipboard on the client device to be mapped to the clipboard on the server.  
-        Default value: DISABLED  
+    .PARAMETER Clientclipboardredirection 
+        Allow Default access/Disable the clipboard on the client device to be mapped to the clipboard on the server. 
         Possible values = DEFAULT, DISABLED 
-    .PARAMETER clientcomportredirection 
-        Allow Default access/Disable COM port redirection to and from the client.  
-        Default value: DISABLED  
+    .PARAMETER Clientcomportredirection 
+        Allow Default access/Disable COM port redirection to and from the client. 
         Possible values = DEFAULT, DISABLED 
-    .PARAMETER clientdriveredirection 
-        Allow Default access/Disables drive redirection to and from the client.  
-        Default value: DISABLED  
+    .PARAMETER Clientdriveredirection 
+        Allow Default access/Disables drive redirection to and from the client. 
         Possible values = DEFAULT, DISABLED 
-    .PARAMETER clientprinterredirection 
-        Allow Default access/Disable client printers to be mapped to a server when a user logs on to a session.  
-        Default value: DISABLED  
+    .PARAMETER Clientprinterredirection 
+        Allow Default access/Disable client printers to be mapped to a server when a user logs on to a session. 
         Possible values = DEFAULT, DISABLED 
-    .PARAMETER multistream 
-        Allow Default access/Disable the multistream feature for the specified users.  
-        Default value: DISABLED  
+    .PARAMETER Multistream 
+        Allow Default access/Disable the multistream feature for the specified users. 
         Possible values = DEFAULT, DISABLED 
-    .PARAMETER clientusbdriveredirection 
-        Allow Default access/Disable the redirection of USB devices to and from the client.  
-        Default value: DISABLED  
+    .PARAMETER Clientusbdriveredirection 
+        Allow Default access/Disable the redirection of USB devices to and from the client. 
         Possible values = DEFAULT, DISABLED 
     .PARAMETER PassThru 
         Return details about the created icaaccessprofile item.
     .EXAMPLE
-        Invoke-ADCUpdateIcaaccessprofile -name <string>
+        PS C:\>Invoke-ADCUpdateIcaaccessprofile -name <string>
+        An example how to update icaaccessprofile configuration Object(s).
     .NOTES
         File Name : Invoke-ADCUpdateIcaaccessprofile
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ica/icaaccessprofile/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
+    #>
     [CmdletBinding(SupportsShouldProcess = $true, ConfirmImpact = "Low")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
-        [Parameter(Mandatory = $true)]
+        [Parameter(Mandatory)]
         [ValidateScript({ $_.Length -gt 1 })]
-        [string]$name ,
+        [string]$Name,
 
         [ValidateSet('DEFAULT', 'DISABLED')]
-        [string]$connectclientlptports ,
+        [string]$Connectclientlptports,
 
         [ValidateSet('DEFAULT', 'DISABLED')]
-        [string]$clientaudioredirection ,
+        [string]$Clientaudioredirection,
 
         [ValidateSet('DEFAULT', 'DISABLED')]
-        [string]$localremotedatasharing ,
+        [string]$Localremotedatasharing,
 
         [ValidateSet('DEFAULT', 'DISABLED')]
-        [string]$clientclipboardredirection ,
+        [string]$Clientclipboardredirection,
 
         [ValidateSet('DEFAULT', 'DISABLED')]
-        [string]$clientcomportredirection ,
+        [string]$Clientcomportredirection,
 
         [ValidateSet('DEFAULT', 'DISABLED')]
-        [string]$clientdriveredirection ,
+        [string]$Clientdriveredirection,
 
         [ValidateSet('DEFAULT', 'DISABLED')]
-        [string]$clientprinterredirection ,
+        [string]$Clientprinterredirection,
 
         [ValidateSet('DEFAULT', 'DISABLED')]
-        [string]$multistream ,
+        [string]$Multistream,
 
         [ValidateSet('DEFAULT', 'DISABLED')]
-        [string]$clientusbdriveredirection ,
+        [string]$Clientusbdriveredirection,
 
         [Switch]$PassThru 
-
     )
     begin {
         Write-Verbose "Invoke-ADCUpdateIcaaccessprofile: Starting"
     }
     process {
         try {
-            $Payload = @{
-                name = $name
-            }
-            if ($PSBoundParameters.ContainsKey('connectclientlptports')) { $Payload.Add('connectclientlptports', $connectclientlptports) }
-            if ($PSBoundParameters.ContainsKey('clientaudioredirection')) { $Payload.Add('clientaudioredirection', $clientaudioredirection) }
-            if ($PSBoundParameters.ContainsKey('localremotedatasharing')) { $Payload.Add('localremotedatasharing', $localremotedatasharing) }
-            if ($PSBoundParameters.ContainsKey('clientclipboardredirection')) { $Payload.Add('clientclipboardredirection', $clientclipboardredirection) }
-            if ($PSBoundParameters.ContainsKey('clientcomportredirection')) { $Payload.Add('clientcomportredirection', $clientcomportredirection) }
-            if ($PSBoundParameters.ContainsKey('clientdriveredirection')) { $Payload.Add('clientdriveredirection', $clientdriveredirection) }
-            if ($PSBoundParameters.ContainsKey('clientprinterredirection')) { $Payload.Add('clientprinterredirection', $clientprinterredirection) }
-            if ($PSBoundParameters.ContainsKey('multistream')) { $Payload.Add('multistream', $multistream) }
-            if ($PSBoundParameters.ContainsKey('clientusbdriveredirection')) { $Payload.Add('clientusbdriveredirection', $clientusbdriveredirection) }
- 
-            if ($PSCmdlet.ShouldProcess("icaaccessprofile", "Update Ica configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -NitroPath nitro/v1/config -Type icaaccessprofile -Payload $Payload -GetWarning
+            $payload = @{ name = $name }
+            if ( $PSBoundParameters.ContainsKey('connectclientlptports') ) { $payload.Add('connectclientlptports', $connectclientlptports) }
+            if ( $PSBoundParameters.ContainsKey('clientaudioredirection') ) { $payload.Add('clientaudioredirection', $clientaudioredirection) }
+            if ( $PSBoundParameters.ContainsKey('localremotedatasharing') ) { $payload.Add('localremotedatasharing', $localremotedatasharing) }
+            if ( $PSBoundParameters.ContainsKey('clientclipboardredirection') ) { $payload.Add('clientclipboardredirection', $clientclipboardredirection) }
+            if ( $PSBoundParameters.ContainsKey('clientcomportredirection') ) { $payload.Add('clientcomportredirection', $clientcomportredirection) }
+            if ( $PSBoundParameters.ContainsKey('clientdriveredirection') ) { $payload.Add('clientdriveredirection', $clientdriveredirection) }
+            if ( $PSBoundParameters.ContainsKey('clientprinterredirection') ) { $payload.Add('clientprinterredirection', $clientprinterredirection) }
+            if ( $PSBoundParameters.ContainsKey('multistream') ) { $payload.Add('multistream', $multistream) }
+            if ( $PSBoundParameters.ContainsKey('clientusbdriveredirection') ) { $payload.Add('clientusbdriveredirection', $clientusbdriveredirection) }
+            if ( $PSCmdlet.ShouldProcess("icaaccessprofile", "Update Ica configuration Object") ) {
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -NitroPath nitro/v1/config -Type icaaccessprofile -Payload $payload -GetWarning
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
-                if ($PSBoundParameters.ContainsKey('PassThru')) {
-                    Write-Output (Invoke-ADCGetIcaaccessprofile -Filter $Payload)
+                if ( $PSBoundParameters.ContainsKey('PassThru') ) {
+                    Write-Output (Invoke-ADCGetIcaaccessprofile -Filter $payload)
                 } else {
                     Write-Output $result
                 }
-
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -335,80 +312,81 @@ function Invoke-ADCUpdateIcaaccessprofile {
 }
 
 function Invoke-ADCUnsetIcaaccessprofile {
-<#
+    <#
     .SYNOPSIS
-        Unset Ica configuration Object
+        Unset Ica configuration Object.
     .DESCRIPTION
-        Unset Ica configuration Object 
-   .PARAMETER name 
-       Name for the ICA accessprofile. Must begin with a letter, number, or the underscore character (_), and must contain only letters, numbers, and  
-       the hyphen (-), period (.) pound (#), space ( ), at (@), equals (=), colon (:), and underscore characters. Cannot be changed after the ICA accessprofile is added. 
-   .PARAMETER connectclientlptports 
-       Allow Default access/Disable automatic connection of LPT ports from the client when the user logs on.  
-       Possible values = DEFAULT, DISABLED 
-   .PARAMETER clientaudioredirection 
-       Allow Default access/Disable applications hosted on the server to play sounds through a sound device installed on the client computer, also allows or prevents users to record audio input.  
-       Possible values = DEFAULT, DISABLED 
-   .PARAMETER localremotedatasharing 
-       Allow Default access/Disable file/data sharing via the Receiver for HTML5.  
-       Possible values = DEFAULT, DISABLED 
-   .PARAMETER clientclipboardredirection 
-       Allow Default access/Disable the clipboard on the client device to be mapped to the clipboard on the server.  
-       Possible values = DEFAULT, DISABLED 
-   .PARAMETER clientcomportredirection 
-       Allow Default access/Disable COM port redirection to and from the client.  
-       Possible values = DEFAULT, DISABLED 
-   .PARAMETER clientdriveredirection 
-       Allow Default access/Disables drive redirection to and from the client.  
-       Possible values = DEFAULT, DISABLED 
-   .PARAMETER clientprinterredirection 
-       Allow Default access/Disable client printers to be mapped to a server when a user logs on to a session.  
-       Possible values = DEFAULT, DISABLED 
-   .PARAMETER multistream 
-       Allow Default access/Disable the multistream feature for the specified users.  
-       Possible values = DEFAULT, DISABLED 
-   .PARAMETER clientusbdriveredirection 
-       Allow Default access/Disable the redirection of USB devices to and from the client.  
-       Possible values = DEFAULT, DISABLED
+        Configuration for ica accessprofile resource.
+    .PARAMETER Name 
+        Name for the ICA accessprofile. Must begin with a letter, number, or the underscore character (_), and must contain only letters, numbers, and 
+        the hyphen (-), period (.) pound (#), space ( ), at (@), equals (=), colon (:), and underscore characters. Cannot be changed after the ICA accessprofile is added. 
+    .PARAMETER Connectclientlptports 
+        Allow Default access/Disable automatic connection of LPT ports from the client when the user logs on. 
+        Possible values = DEFAULT, DISABLED 
+    .PARAMETER Clientaudioredirection 
+        Allow Default access/Disable applications hosted on the server to play sounds through a sound device installed on the client computer, also allows or prevents users to record audio input. 
+        Possible values = DEFAULT, DISABLED 
+    .PARAMETER Localremotedatasharing 
+        Allow Default access/Disable file/data sharing via the Receiver for HTML5. 
+        Possible values = DEFAULT, DISABLED 
+    .PARAMETER Clientclipboardredirection 
+        Allow Default access/Disable the clipboard on the client device to be mapped to the clipboard on the server. 
+        Possible values = DEFAULT, DISABLED 
+    .PARAMETER Clientcomportredirection 
+        Allow Default access/Disable COM port redirection to and from the client. 
+        Possible values = DEFAULT, DISABLED 
+    .PARAMETER Clientdriveredirection 
+        Allow Default access/Disables drive redirection to and from the client. 
+        Possible values = DEFAULT, DISABLED 
+    .PARAMETER Clientprinterredirection 
+        Allow Default access/Disable client printers to be mapped to a server when a user logs on to a session. 
+        Possible values = DEFAULT, DISABLED 
+    .PARAMETER Multistream 
+        Allow Default access/Disable the multistream feature for the specified users. 
+        Possible values = DEFAULT, DISABLED 
+    .PARAMETER Clientusbdriveredirection 
+        Allow Default access/Disable the redirection of USB devices to and from the client. 
+        Possible values = DEFAULT, DISABLED
     .EXAMPLE
-        Invoke-ADCUnsetIcaaccessprofile -name <string>
+        PS C:\>Invoke-ADCUnsetIcaaccessprofile -name <string>
+        An example how to unset icaaccessprofile configuration Object(s).
     .NOTES
         File Name : Invoke-ADCUnsetIcaaccessprofile
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ica/icaaccessprofile
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
+    #>
     [CmdletBinding(SupportsShouldProcess = $true, ConfirmImpact = "Low")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
-        [Parameter(Mandatory = $true)]
         [ValidateScript({ $_.Length -gt 1 })]
-        [string]$name ,
+        [string]$Name,
 
-        [Boolean]$connectclientlptports ,
+        [Boolean]$connectclientlptports,
 
-        [Boolean]$clientaudioredirection ,
+        [Boolean]$clientaudioredirection,
 
-        [Boolean]$localremotedatasharing ,
+        [Boolean]$localremotedatasharing,
 
-        [Boolean]$clientclipboardredirection ,
+        [Boolean]$clientclipboardredirection,
 
-        [Boolean]$clientcomportredirection ,
+        [Boolean]$clientcomportredirection,
 
-        [Boolean]$clientdriveredirection ,
+        [Boolean]$clientdriveredirection,
 
-        [Boolean]$clientprinterredirection ,
+        [Boolean]$clientprinterredirection,
 
-        [Boolean]$multistream ,
+        [Boolean]$multistream,
 
         [Boolean]$clientusbdriveredirection 
     )
@@ -417,20 +395,18 @@ function Invoke-ADCUnsetIcaaccessprofile {
     }
     process {
         try {
-            $Payload = @{
-                name = $name
-            }
-            if ($PSBoundParameters.ContainsKey('connectclientlptports')) { $Payload.Add('connectclientlptports', $connectclientlptports) }
-            if ($PSBoundParameters.ContainsKey('clientaudioredirection')) { $Payload.Add('clientaudioredirection', $clientaudioredirection) }
-            if ($PSBoundParameters.ContainsKey('localremotedatasharing')) { $Payload.Add('localremotedatasharing', $localremotedatasharing) }
-            if ($PSBoundParameters.ContainsKey('clientclipboardredirection')) { $Payload.Add('clientclipboardredirection', $clientclipboardredirection) }
-            if ($PSBoundParameters.ContainsKey('clientcomportredirection')) { $Payload.Add('clientcomportredirection', $clientcomportredirection) }
-            if ($PSBoundParameters.ContainsKey('clientdriveredirection')) { $Payload.Add('clientdriveredirection', $clientdriveredirection) }
-            if ($PSBoundParameters.ContainsKey('clientprinterredirection')) { $Payload.Add('clientprinterredirection', $clientprinterredirection) }
-            if ($PSBoundParameters.ContainsKey('multistream')) { $Payload.Add('multistream', $multistream) }
-            if ($PSBoundParameters.ContainsKey('clientusbdriveredirection')) { $Payload.Add('clientusbdriveredirection', $clientusbdriveredirection) }
-            if ($PSCmdlet.ShouldProcess("$name", "Unset Ica configuration Object")) {
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -Type icaaccessprofile -NitroPath nitro/v1/config -Action unset -Payload $Payload -GetWarning
+            $payload = @{ name = $name }
+            if ( $PSBoundParameters.ContainsKey('connectclientlptports') ) { $payload.Add('connectclientlptports', $connectclientlptports) }
+            if ( $PSBoundParameters.ContainsKey('clientaudioredirection') ) { $payload.Add('clientaudioredirection', $clientaudioredirection) }
+            if ( $PSBoundParameters.ContainsKey('localremotedatasharing') ) { $payload.Add('localremotedatasharing', $localremotedatasharing) }
+            if ( $PSBoundParameters.ContainsKey('clientclipboardredirection') ) { $payload.Add('clientclipboardredirection', $clientclipboardredirection) }
+            if ( $PSBoundParameters.ContainsKey('clientcomportredirection') ) { $payload.Add('clientcomportredirection', $clientcomportredirection) }
+            if ( $PSBoundParameters.ContainsKey('clientdriveredirection') ) { $payload.Add('clientdriveredirection', $clientdriveredirection) }
+            if ( $PSBoundParameters.ContainsKey('clientprinterredirection') ) { $payload.Add('clientprinterredirection', $clientprinterredirection) }
+            if ( $PSBoundParameters.ContainsKey('multistream') ) { $payload.Add('multistream', $multistream) }
+            if ( $PSBoundParameters.ContainsKey('clientusbdriveredirection') ) { $payload.Add('clientusbdriveredirection', $clientusbdriveredirection) }
+            if ( $PSCmdlet.ShouldProcess("$name", "Unset Ica configuration Object") ) {
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -Type icaaccessprofile -NitroPath nitro/v1/config -Action unset -Payload $payload -GetWarning
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $response
@@ -446,56 +422,62 @@ function Invoke-ADCUnsetIcaaccessprofile {
 }
 
 function Invoke-ADCGetIcaaccessprofile {
-<#
+    <#
     .SYNOPSIS
-        Get Ica configuration object(s)
+        Get Ica configuration object(s).
     .DESCRIPTION
-        Get Ica configuration object(s)
-    .PARAMETER name 
-       Name for the ICA accessprofile. Must begin with a letter, number, or the underscore character (_), and must contain only letters, numbers, and  
-       the hyphen (-), period (.) pound (#), space ( ), at (@), equals (=), colon (:), and underscore characters. Cannot be changed after the ICA accessprofile is added. 
+        Configuration for ica accessprofile resource.
+    .PARAMETER Name 
+        Name for the ICA accessprofile. Must begin with a letter, number, or the underscore character (_), and must contain only letters, numbers, and 
+        the hyphen (-), period (.) pound (#), space ( ), at (@), equals (=), colon (:), and underscore characters. Cannot be changed after the ICA accessprofile is added. 
     .PARAMETER GetAll 
-        Retreive all icaaccessprofile object(s)
+        Retrieve all icaaccessprofile object(s).
     .PARAMETER Count
-        If specified, the count of the icaaccessprofile object(s) will be returned
+        If specified, the count of the icaaccessprofile object(s) will be returned.
     .PARAMETER Filter
-        Specify a filter
+        Specify a filter.
         -Filter @{ 'name'='<value>' }
     .PARAMETER ViewSummary
-        When specified, only a summary of information is returned
+        When specified, only a summary of information is returned.
     .EXAMPLE
-        Invoke-ADCGetIcaaccessprofile
+        PS C:\>Invoke-ADCGetIcaaccessprofile
+        Get data.
     .EXAMPLE 
-        Invoke-ADCGetIcaaccessprofile -GetAll 
+        PS C:\>Invoke-ADCGetIcaaccessprofile -GetAll 
+        Get all icaaccessprofile data. 
     .EXAMPLE 
-        Invoke-ADCGetIcaaccessprofile -Count
+        PS C:\>Invoke-ADCGetIcaaccessprofile -Count 
+        Get the number of icaaccessprofile objects.
     .EXAMPLE
-        Invoke-ADCGetIcaaccessprofile -name <string>
+        PS C:\>Invoke-ADCGetIcaaccessprofile -name <string>
+        Get icaaccessprofile object by specifying for example the name.
     .EXAMPLE
-        Invoke-ADCGetIcaaccessprofile -Filter @{ 'name'='<value>' }
+        PS C:\>Invoke-ADCGetIcaaccessprofile -Filter @{ 'name'='<value>' }
+        Get icaaccessprofile data with a filter.
     .NOTES
         File Name : Invoke-ADCGetIcaaccessprofile
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ica/icaaccessprofile/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
-    [CmdletBinding(DefaultParameterSetName = "Getall")]
+    #>
+    [CmdletBinding(DefaultParameterSetName = "GetAll")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
         [Parameter(ParameterSetName = 'GetByResource')]
         [ValidateScript({ $_.Length -gt 1 })]
-        [string]$name,
+        [string]$Name,
 
-        [Parameter(ParameterSetName = 'Count', Mandatory = $true)]
+        [Parameter(ParameterSetName = 'Count', Mandatory)]
         [Switch]$Count,
 			
         [hashtable]$Filter = @{ },
@@ -513,24 +495,24 @@ function Invoke-ADCGetIcaaccessprofile {
     }
     process {
         try {
-            if ( $PsCmdlet.ParameterSetName -eq 'Getall' ) {
-                $Query = @{ }
+            if ( $PsCmdlet.ParameterSetName -eq 'GetAll' ) {
+                $query = @{ }
                 Write-Verbose "Retrieving all icaaccessprofile objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type icaaccessprofile -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type icaaccessprofile -NitroPath nitro/v1/config -Query $query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
-                if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
+                if ( $PSBoundParameters.ContainsKey('Count') ) { $query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for icaaccessprofile objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type icaaccessprofile -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type icaaccessprofile -NitroPath nitro/v1/config -Query $query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving icaaccessprofile objects by arguments"
-                $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type icaaccessprofile -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
+                $arguments = @{ } 
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type icaaccessprofile -NitroPath nitro/v1/config -Arguments $arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving icaaccessprofile configuration for property 'name'"
                 $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type icaaccessprofile -NitroPath nitro/v1/config -Resource $name -Summary:$ViewSummary -Filter $Filter -GetWarning
             } else {
                 Write-Verbose "Retrieving icaaccessprofile configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type icaaccessprofile -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type icaaccessprofile -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -544,71 +526,68 @@ function Invoke-ADCGetIcaaccessprofile {
 }
 
 function Invoke-ADCAddIcaaction {
-<#
+    <#
     .SYNOPSIS
-        Add Ica configuration Object
+        Add Ica configuration Object.
     .DESCRIPTION
-        Add Ica configuration Object 
-    .PARAMETER name 
+        Configuration for ica action resource.
+    .PARAMETER Name 
         Name for the ICA action. Must begin with a letter, number, or the underscore character (_), and must contain only letters, numbers, and the hyphen (-), period (.) pound (#), space ( ), at (@), equals (=), colon (:), and underscore characters. Cannot be changed after the ICA action is added. 
-    .PARAMETER accessprofilename 
+    .PARAMETER Accessprofilename 
         Name of the ica accessprofile to be associated with this action. 
-    .PARAMETER latencyprofilename 
+    .PARAMETER Latencyprofilename 
         Name of the ica latencyprofile to be associated with this action. 
     .PARAMETER PassThru 
         Return details about the created icaaction item.
     .EXAMPLE
-        Invoke-ADCAddIcaaction -name <string>
+        PS C:\>Invoke-ADCAddIcaaction -name <string>
+        An example how to add icaaction configuration Object(s).
     .NOTES
         File Name : Invoke-ADCAddIcaaction
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ica/icaaction/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
+    #>
     [CmdletBinding(SupportsShouldProcess = $true, ConfirmImpact = "Low")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
-        [Parameter(Mandatory = $true)]
+        [Parameter(Mandatory)]
         [ValidateScript({ $_.Length -gt 1 })]
-        [string]$name ,
+        [string]$Name,
 
-        [string]$accessprofilename ,
+        [string]$Accessprofilename,
 
-        [string]$latencyprofilename ,
+        [string]$Latencyprofilename,
 
         [Switch]$PassThru 
-
     )
     begin {
         Write-Verbose "Invoke-ADCAddIcaaction: Starting"
     }
     process {
         try {
-            $Payload = @{
-                name = $name
-            }
-            if ($PSBoundParameters.ContainsKey('accessprofilename')) { $Payload.Add('accessprofilename', $accessprofilename) }
-            if ($PSBoundParameters.ContainsKey('latencyprofilename')) { $Payload.Add('latencyprofilename', $latencyprofilename) }
- 
-            if ($PSCmdlet.ShouldProcess("icaaction", "Add Ica configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -NitroPath nitro/v1/config -Type icaaction -Payload $Payload -GetWarning
+            $payload = @{ name = $name }
+            if ( $PSBoundParameters.ContainsKey('accessprofilename') ) { $payload.Add('accessprofilename', $accessprofilename) }
+            if ( $PSBoundParameters.ContainsKey('latencyprofilename') ) { $payload.Add('latencyprofilename', $latencyprofilename) }
+            if ( $PSCmdlet.ShouldProcess("icaaction", "Add Ica configuration Object") ) {
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -NitroPath nitro/v1/config -Type icaaction -Payload $payload -GetWarning
                 #HTTP Status Code on Success: 201 Created
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
-                if ($PSBoundParameters.ContainsKey('PassThru')) {
-                    Write-Output (Invoke-ADCGetIcaaction -Filter $Payload)
+                if ( $PSBoundParameters.ContainsKey('PassThru') ) {
+                    Write-Output (Invoke-ADCGetIcaaction -Filter $payload)
                 } else {
                     Write-Output $result
                 }
-
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -621,46 +600,47 @@ function Invoke-ADCAddIcaaction {
 }
 
 function Invoke-ADCDeleteIcaaction {
-<#
+    <#
     .SYNOPSIS
-        Delete Ica configuration Object
+        Delete Ica configuration Object.
     .DESCRIPTION
-        Delete Ica configuration Object
-    .PARAMETER name 
-       Name for the ICA action. Must begin with a letter, number, or the underscore character (_), and must contain only letters, numbers, and the hyphen (-), period (.) pound (#), space ( ), at (@), equals (=), colon (:), and underscore characters. Cannot be changed after the ICA action is added. 
+        Configuration for ica action resource.
+    .PARAMETER Name 
+        Name for the ICA action. Must begin with a letter, number, or the underscore character (_), and must contain only letters, numbers, and the hyphen (-), period (.) pound (#), space ( ), at (@), equals (=), colon (:), and underscore characters. Cannot be changed after the ICA action is added.
     .EXAMPLE
-        Invoke-ADCDeleteIcaaction -name <string>
+        PS C:\>Invoke-ADCDeleteIcaaction -Name <string>
+        An example how to delete icaaction configuration Object(s).
     .NOTES
         File Name : Invoke-ADCDeleteIcaaction
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ica/icaaction/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
+    #>
     [CmdletBinding(SupportsShouldProcess = $true, ConfirmImpact = "Low")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
-        [Parameter(Mandatory = $true)]
-        [string]$name 
+        [Parameter(Mandatory)]
+        [string]$Name 
     )
     begin {
         Write-Verbose "Invoke-ADCDeleteIcaaction: Starting"
     }
     process {
         try {
-            $Arguments = @{ 
-            }
+            $arguments = @{ }
 
-            if ($PSCmdlet.ShouldProcess("$name", "Delete Ica configuration Object")) {
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type icaaction -NitroPath nitro/v1/config -Resource $name -Arguments $Arguments
+            if ( $PSCmdlet.ShouldProcess("$name", "Delete Ica configuration Object") ) {
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type icaaction -NitroPath nitro/v1/config -Resource $name -Arguments $arguments
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $response
@@ -676,71 +656,68 @@ function Invoke-ADCDeleteIcaaction {
 }
 
 function Invoke-ADCUpdateIcaaction {
-<#
+    <#
     .SYNOPSIS
-        Update Ica configuration Object
+        Update Ica configuration Object.
     .DESCRIPTION
-        Update Ica configuration Object 
-    .PARAMETER name 
+        Configuration for ica action resource.
+    .PARAMETER Name 
         Name for the ICA action. Must begin with a letter, number, or the underscore character (_), and must contain only letters, numbers, and the hyphen (-), period (.) pound (#), space ( ), at (@), equals (=), colon (:), and underscore characters. Cannot be changed after the ICA action is added. 
-    .PARAMETER accessprofilename 
+    .PARAMETER Accessprofilename 
         Name of the ica accessprofile to be associated with this action. 
-    .PARAMETER latencyprofilename 
+    .PARAMETER Latencyprofilename 
         Name of the ica latencyprofile to be associated with this action. 
     .PARAMETER PassThru 
         Return details about the created icaaction item.
     .EXAMPLE
-        Invoke-ADCUpdateIcaaction -name <string>
+        PS C:\>Invoke-ADCUpdateIcaaction -name <string>
+        An example how to update icaaction configuration Object(s).
     .NOTES
         File Name : Invoke-ADCUpdateIcaaction
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ica/icaaction/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
+    #>
     [CmdletBinding(SupportsShouldProcess = $true, ConfirmImpact = "Low")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
-        [Parameter(Mandatory = $true)]
+        [Parameter(Mandatory)]
         [ValidateScript({ $_.Length -gt 1 })]
-        [string]$name ,
+        [string]$Name,
 
-        [string]$accessprofilename ,
+        [string]$Accessprofilename,
 
-        [string]$latencyprofilename ,
+        [string]$Latencyprofilename,
 
         [Switch]$PassThru 
-
     )
     begin {
         Write-Verbose "Invoke-ADCUpdateIcaaction: Starting"
     }
     process {
         try {
-            $Payload = @{
-                name = $name
-            }
-            if ($PSBoundParameters.ContainsKey('accessprofilename')) { $Payload.Add('accessprofilename', $accessprofilename) }
-            if ($PSBoundParameters.ContainsKey('latencyprofilename')) { $Payload.Add('latencyprofilename', $latencyprofilename) }
- 
-            if ($PSCmdlet.ShouldProcess("icaaction", "Update Ica configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -NitroPath nitro/v1/config -Type icaaction -Payload $Payload -GetWarning
+            $payload = @{ name = $name }
+            if ( $PSBoundParameters.ContainsKey('accessprofilename') ) { $payload.Add('accessprofilename', $accessprofilename) }
+            if ( $PSBoundParameters.ContainsKey('latencyprofilename') ) { $payload.Add('latencyprofilename', $latencyprofilename) }
+            if ( $PSCmdlet.ShouldProcess("icaaction", "Update Ica configuration Object") ) {
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -NitroPath nitro/v1/config -Type icaaction -Payload $payload -GetWarning
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
-                if ($PSBoundParameters.ContainsKey('PassThru')) {
-                    Write-Output (Invoke-ADCGetIcaaction -Filter $Payload)
+                if ( $PSBoundParameters.ContainsKey('PassThru') ) {
+                    Write-Output (Invoke-ADCGetIcaaction -Filter $payload)
                 } else {
                     Write-Output $result
                 }
-
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -753,42 +730,43 @@ function Invoke-ADCUpdateIcaaction {
 }
 
 function Invoke-ADCUnsetIcaaction {
-<#
+    <#
     .SYNOPSIS
-        Unset Ica configuration Object
+        Unset Ica configuration Object.
     .DESCRIPTION
-        Unset Ica configuration Object 
-   .PARAMETER name 
-       Name for the ICA action. Must begin with a letter, number, or the underscore character (_), and must contain only letters, numbers, and the hyphen (-), period (.) pound (#), space ( ), at (@), equals (=), colon (:), and underscore characters. Cannot be changed after the ICA action is added. 
-   .PARAMETER accessprofilename 
-       Name of the ica accessprofile to be associated with this action. 
-   .PARAMETER latencyprofilename 
-       Name of the ica latencyprofile to be associated with this action.
+        Configuration for ica action resource.
+    .PARAMETER Name 
+        Name for the ICA action. Must begin with a letter, number, or the underscore character (_), and must contain only letters, numbers, and the hyphen (-), period (.) pound (#), space ( ), at (@), equals (=), colon (:), and underscore characters. Cannot be changed after the ICA action is added. 
+    .PARAMETER Accessprofilename 
+        Name of the ica accessprofile to be associated with this action. 
+    .PARAMETER Latencyprofilename 
+        Name of the ica latencyprofile to be associated with this action.
     .EXAMPLE
-        Invoke-ADCUnsetIcaaction -name <string>
+        PS C:\>Invoke-ADCUnsetIcaaction -name <string>
+        An example how to unset icaaction configuration Object(s).
     .NOTES
         File Name : Invoke-ADCUnsetIcaaction
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ica/icaaction
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
+    #>
     [CmdletBinding(SupportsShouldProcess = $true, ConfirmImpact = "Low")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
-        [Parameter(Mandatory = $true)]
         [ValidateScript({ $_.Length -gt 1 })]
-        [string]$name ,
+        [string]$Name,
 
-        [Boolean]$accessprofilename ,
+        [Boolean]$accessprofilename,
 
         [Boolean]$latencyprofilename 
     )
@@ -797,13 +775,11 @@ function Invoke-ADCUnsetIcaaction {
     }
     process {
         try {
-            $Payload = @{
-                name = $name
-            }
-            if ($PSBoundParameters.ContainsKey('accessprofilename')) { $Payload.Add('accessprofilename', $accessprofilename) }
-            if ($PSBoundParameters.ContainsKey('latencyprofilename')) { $Payload.Add('latencyprofilename', $latencyprofilename) }
-            if ($PSCmdlet.ShouldProcess("$name", "Unset Ica configuration Object")) {
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -Type icaaction -NitroPath nitro/v1/config -Action unset -Payload $Payload -GetWarning
+            $payload = @{ name = $name }
+            if ( $PSBoundParameters.ContainsKey('accessprofilename') ) { $payload.Add('accessprofilename', $accessprofilename) }
+            if ( $PSBoundParameters.ContainsKey('latencyprofilename') ) { $payload.Add('latencyprofilename', $latencyprofilename) }
+            if ( $PSCmdlet.ShouldProcess("$name", "Unset Ica configuration Object") ) {
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -Type icaaction -NitroPath nitro/v1/config -Action unset -Payload $payload -GetWarning
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $response
@@ -819,70 +795,68 @@ function Invoke-ADCUnsetIcaaction {
 }
 
 function Invoke-ADCRenameIcaaction {
-<#
+    <#
     .SYNOPSIS
-        Rename Ica configuration Object
+        Rename Ica configuration Object.
     .DESCRIPTION
-        Rename Ica configuration Object 
-    .PARAMETER name 
+        Configuration for ica action resource.
+    .PARAMETER Name 
         Name for the ICA action. Must begin with a letter, number, or the underscore character (_), and must contain only letters, numbers, and the hyphen (-), period (.) pound (#), space ( ), at (@), equals (=), colon (:), and underscore characters. Cannot be changed after the ICA action is added. 
-    .PARAMETER newname 
+    .PARAMETER Newname 
         New name for the ICA action. Must begin with an ASCII alphabetic or underscore (_) character, and must contain only ASCII alphanumeric, underscore, hash (#),period (.), space, colon (:), at (@), equals (=), and hyphen (-) characters. 
     .PARAMETER PassThru 
         Return details about the created icaaction item.
     .EXAMPLE
-        Invoke-ADCRenameIcaaction -name <string> -newname <string>
+        PS C:\>Invoke-ADCRenameIcaaction -name <string> -newname <string>
+        An example how to rename icaaction configuration Object(s).
     .NOTES
         File Name : Invoke-ADCRenameIcaaction
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ica/icaaction/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
+    #>
     [CmdletBinding(SupportsShouldProcess = $true, ConfirmImpact = "Low")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
-        [Parameter(Mandatory = $true)]
+        [Parameter(Mandatory)]
         [ValidateScript({ $_.Length -gt 1 })]
-        [string]$name ,
+        [string]$Name,
 
-        [Parameter(Mandatory = $true)]
+        [Parameter(Mandatory)]
         [ValidateScript({ $_.Length -gt 1 })]
         [ValidatePattern('^(([a-zA-Z0-9]|[_])+([a-zA-Z0-9]|[_])+)$')]
-        [string]$newname ,
+        [string]$Newname,
 
         [Switch]$PassThru 
-
     )
     begin {
         Write-Verbose "Invoke-ADCRenameIcaaction: Starting"
     }
     process {
         try {
-            $Payload = @{
-                name = $name
-                newname = $newname
+            $payload = @{ name = $name
+                newname        = $newname
             }
 
- 
-            if ($PSCmdlet.ShouldProcess("icaaction", "Rename Ica configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -NitroPath nitro/v1/config -Type icaaction -Action rename -Payload $Payload -GetWarning
+            if ( $PSCmdlet.ShouldProcess("icaaction", "Rename Ica configuration Object") ) {
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -NitroPath nitro/v1/config -Type icaaction -Action rename -Payload $payload -GetWarning
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
-                if ($PSBoundParameters.ContainsKey('PassThru')) {
-                    Write-Output (Invoke-ADCGetIcaaction -Filter $Payload)
+                if ( $PSBoundParameters.ContainsKey('PassThru') ) {
+                    Write-Output (Invoke-ADCGetIcaaction -Filter $payload)
                 } else {
                     Write-Output $result
                 }
-
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -895,55 +869,61 @@ function Invoke-ADCRenameIcaaction {
 }
 
 function Invoke-ADCGetIcaaction {
-<#
+    <#
     .SYNOPSIS
-        Get Ica configuration object(s)
+        Get Ica configuration object(s).
     .DESCRIPTION
-        Get Ica configuration object(s)
-    .PARAMETER name 
-       Name for the ICA action. Must begin with a letter, number, or the underscore character (_), and must contain only letters, numbers, and the hyphen (-), period (.) pound (#), space ( ), at (@), equals (=), colon (:), and underscore characters. Cannot be changed after the ICA action is added. 
+        Configuration for ica action resource.
+    .PARAMETER Name 
+        Name for the ICA action. Must begin with a letter, number, or the underscore character (_), and must contain only letters, numbers, and the hyphen (-), period (.) pound (#), space ( ), at (@), equals (=), colon (:), and underscore characters. Cannot be changed after the ICA action is added. 
     .PARAMETER GetAll 
-        Retreive all icaaction object(s)
+        Retrieve all icaaction object(s).
     .PARAMETER Count
-        If specified, the count of the icaaction object(s) will be returned
+        If specified, the count of the icaaction object(s) will be returned.
     .PARAMETER Filter
-        Specify a filter
+        Specify a filter.
         -Filter @{ 'name'='<value>' }
     .PARAMETER ViewSummary
-        When specified, only a summary of information is returned
+        When specified, only a summary of information is returned.
     .EXAMPLE
-        Invoke-ADCGetIcaaction
+        PS C:\>Invoke-ADCGetIcaaction
+        Get data.
     .EXAMPLE 
-        Invoke-ADCGetIcaaction -GetAll 
+        PS C:\>Invoke-ADCGetIcaaction -GetAll 
+        Get all icaaction data. 
     .EXAMPLE 
-        Invoke-ADCGetIcaaction -Count
+        PS C:\>Invoke-ADCGetIcaaction -Count 
+        Get the number of icaaction objects.
     .EXAMPLE
-        Invoke-ADCGetIcaaction -name <string>
+        PS C:\>Invoke-ADCGetIcaaction -name <string>
+        Get icaaction object by specifying for example the name.
     .EXAMPLE
-        Invoke-ADCGetIcaaction -Filter @{ 'name'='<value>' }
+        PS C:\>Invoke-ADCGetIcaaction -Filter @{ 'name'='<value>' }
+        Get icaaction data with a filter.
     .NOTES
         File Name : Invoke-ADCGetIcaaction
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ica/icaaction/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
-    [CmdletBinding(DefaultParameterSetName = "Getall")]
+    #>
+    [CmdletBinding(DefaultParameterSetName = "GetAll")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
         [Parameter(ParameterSetName = 'GetByResource')]
         [ValidateScript({ $_.Length -gt 1 })]
-        [string]$name,
+        [string]$Name,
 
-        [Parameter(ParameterSetName = 'Count', Mandatory = $true)]
+        [Parameter(ParameterSetName = 'Count', Mandatory)]
         [Switch]$Count,
 			
         [hashtable]$Filter = @{ },
@@ -961,24 +941,24 @@ function Invoke-ADCGetIcaaction {
     }
     process {
         try {
-            if ( $PsCmdlet.ParameterSetName -eq 'Getall' ) {
-                $Query = @{ }
+            if ( $PsCmdlet.ParameterSetName -eq 'GetAll' ) {
+                $query = @{ }
                 Write-Verbose "Retrieving all icaaction objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type icaaction -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type icaaction -NitroPath nitro/v1/config -Query $query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
-                if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
+                if ( $PSBoundParameters.ContainsKey('Count') ) { $query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for icaaction objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type icaaction -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type icaaction -NitroPath nitro/v1/config -Query $query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving icaaction objects by arguments"
-                $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type icaaction -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
+                $arguments = @{ } 
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type icaaction -NitroPath nitro/v1/config -Arguments $arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving icaaction configuration for property 'name'"
                 $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type icaaction -NitroPath nitro/v1/config -Resource $name -Summary:$ViewSummary -Filter $Filter -GetWarning
             } else {
                 Write-Verbose "Retrieving icaaction configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type icaaction -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type icaaction -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -992,45 +972,50 @@ function Invoke-ADCGetIcaaction {
 }
 
 function Invoke-ADCGetIcaglobalbinding {
-<#
+    <#
     .SYNOPSIS
-        Get Ica configuration object(s)
+        Get Ica configuration object(s).
     .DESCRIPTION
-        Get Ica configuration object(s)
+        Binding object which returns the resources bound to icaglobal.
     .PARAMETER GetAll 
-        Retreive all icaglobal_binding object(s)
+        Retrieve all icaglobal_binding object(s).
     .PARAMETER Count
-        If specified, the count of the icaglobal_binding object(s) will be returned
+        If specified, the count of the icaglobal_binding object(s) will be returned.
     .PARAMETER Filter
-        Specify a filter
+        Specify a filter.
         -Filter @{ 'name'='<value>' }
     .PARAMETER ViewSummary
-        When specified, only a summary of information is returned
+        When specified, only a summary of information is returned.
     .EXAMPLE
-        Invoke-ADCGetIcaglobalbinding
+        PS C:\>Invoke-ADCGetIcaglobalbinding
+        Get data.
     .EXAMPLE 
-        Invoke-ADCGetIcaglobalbinding -GetAll
+        PS C:\>Invoke-ADCGetIcaglobalbinding -GetAll 
+        Get all icaglobal_binding data.
     .EXAMPLE
-        Invoke-ADCGetIcaglobalbinding -name <string>
+        PS C:\>Invoke-ADCGetIcaglobalbinding -name <string>
+        Get icaglobal_binding object by specifying for example the name.
     .EXAMPLE
-        Invoke-ADCGetIcaglobalbinding -Filter @{ 'name'='<value>' }
+        PS C:\>Invoke-ADCGetIcaglobalbinding -Filter @{ 'name'='<value>' }
+        Get icaglobal_binding data with a filter.
     .NOTES
         File Name : Invoke-ADCGetIcaglobalbinding
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ica/icaglobal_binding/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
-    [CmdletBinding(DefaultParameterSetName = "Getall")]
+    #>
+    [CmdletBinding(DefaultParameterSetName = "GetAll")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 			
         [hashtable]$Filter = @{ },
 
@@ -1042,26 +1027,24 @@ function Invoke-ADCGetIcaglobalbinding {
     }
     process {
         try {
-            if ( $PsCmdlet.ParameterSetName -eq 'Getall' ) {
-                $Query = @{ 
-                    bulkbindings = 'yes'
-                }
+            if ( $PsCmdlet.ParameterSetName -eq 'GetAll' ) {
+                $query = @{  bulkbindings = 'yes' }
                 Write-Verbose "Retrieving all icaglobal_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type icaglobal_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type icaglobal_binding -NitroPath nitro/v1/config -Query $query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
-                if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
+                if ( $PSBoundParameters.ContainsKey('Count') ) { $query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for icaglobal_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type icaglobal_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type icaglobal_binding -NitroPath nitro/v1/config -Query $query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving icaglobal_binding objects by arguments"
-                $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type icaglobal_binding -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
+                $arguments = @{ } 
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type icaglobal_binding -NitroPath nitro/v1/config -Arguments $arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving icaglobal_binding configuration for property ''"
 
             } else {
                 Write-Verbose "Retrieving icaglobal_binding configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type icaglobal_binding -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type icaglobal_binding -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -1075,78 +1058,76 @@ function Invoke-ADCGetIcaglobalbinding {
 }
 
 function Invoke-ADCAddIcaglobalicapolicybinding {
-<#
+    <#
     .SYNOPSIS
-        Add Ica configuration Object
+        Add Ica configuration Object.
     .DESCRIPTION
-        Add Ica configuration Object 
-    .PARAMETER policyname 
+        Binding object showing the icapolicy that can be bound to icaglobal.
+    .PARAMETER Policyname 
         Name of the ICA policy. 
-    .PARAMETER priority 
+    .PARAMETER Priority 
         Specifies the priority of the policy. 
-    .PARAMETER gotopriorityexpression 
+    .PARAMETER Gotopriorityexpression 
         Expression specifying the priority of the next policy which will get evaluated if the current policy rule evaluates to TRUE. 
-    .PARAMETER type 
-        Global bind point for which to show detailed information about the policies bound to the bind point.  
+    .PARAMETER Type 
+        Global bind point for which to show detailed information about the policies bound to the bind point. 
         Possible values = ICA_REQ_OVERRIDE, ICA_REQ_DEFAULT 
     .PARAMETER PassThru 
         Return details about the created icaglobal_icapolicy_binding item.
     .EXAMPLE
-        Invoke-ADCAddIcaglobalicapolicybinding -policyname <string> -priority <double>
+        PS C:\>Invoke-ADCAddIcaglobalicapolicybinding -policyname <string> -priority <double>
+        An example how to add icaglobal_icapolicy_binding configuration Object(s).
     .NOTES
         File Name : Invoke-ADCAddIcaglobalicapolicybinding
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ica/icaglobal_icapolicy_binding/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
+    #>
     [CmdletBinding(SupportsShouldProcess = $true, ConfirmImpact = "Low")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
-        [Parameter(Mandatory = $true)]
-        [string]$policyname ,
+        [Parameter(Mandatory)]
+        [string]$Policyname,
 
-        [Parameter(Mandatory = $true)]
-        [double]$priority ,
+        [Parameter(Mandatory)]
+        [double]$Priority,
 
-        [string]$gotopriorityexpression ,
+        [string]$Gotopriorityexpression,
 
         [ValidateSet('ICA_REQ_OVERRIDE', 'ICA_REQ_DEFAULT')]
-        [string]$type ,
+        [string]$Type,
 
         [Switch]$PassThru 
-
     )
     begin {
         Write-Verbose "Invoke-ADCAddIcaglobalicapolicybinding: Starting"
     }
     process {
         try {
-            $Payload = @{
-                policyname = $policyname
-                priority = $priority
+            $payload = @{ policyname = $policyname
+                priority             = $priority
             }
-            if ($PSBoundParameters.ContainsKey('gotopriorityexpression')) { $Payload.Add('gotopriorityexpression', $gotopriorityexpression) }
-            if ($PSBoundParameters.ContainsKey('type')) { $Payload.Add('type', $type) }
- 
-            if ($PSCmdlet.ShouldProcess("icaglobal_icapolicy_binding", "Add Ica configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -NitroPath nitro/v1/config -Type icaglobal_icapolicy_binding -Payload $Payload -GetWarning
+            if ( $PSBoundParameters.ContainsKey('gotopriorityexpression') ) { $payload.Add('gotopriorityexpression', $gotopriorityexpression) }
+            if ( $PSBoundParameters.ContainsKey('type') ) { $payload.Add('type', $type) }
+            if ( $PSCmdlet.ShouldProcess("icaglobal_icapolicy_binding", "Add Ica configuration Object") ) {
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -NitroPath nitro/v1/config -Type icaglobal_icapolicy_binding -Payload $payload -GetWarning
                 #HTTP Status Code on Success: 201 Created
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
-                if ($PSBoundParameters.ContainsKey('PassThru')) {
-                    Write-Output (Invoke-ADCGetIcaglobalicapolicybinding -Filter $Payload)
+                if ( $PSBoundParameters.ContainsKey('PassThru') ) {
+                    Write-Output (Invoke-ADCGetIcaglobalicapolicybinding -Filter $payload)
                 } else {
                     Write-Output $result
                 }
-
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -1159,54 +1140,57 @@ function Invoke-ADCAddIcaglobalicapolicybinding {
 }
 
 function Invoke-ADCDeleteIcaglobalicapolicybinding {
-<#
+    <#
     .SYNOPSIS
-        Delete Ica configuration Object
+        Delete Ica configuration Object.
     .DESCRIPTION
-        Delete Ica configuration Object
-     .PARAMETER policyname 
-       Name of the ICA policy.    .PARAMETER type 
-       Global bind point for which to show detailed information about the policies bound to the bind point.  
-       Possible values = ICA_REQ_OVERRIDE, ICA_REQ_DEFAULT    .PARAMETER priority 
-       Specifies the priority of the policy.
+        Binding object showing the icapolicy that can be bound to icaglobal.
+    .PARAMETER Policyname 
+        Name of the ICA policy. 
+    .PARAMETER Type 
+        Global bind point for which to show detailed information about the policies bound to the bind point. 
+        Possible values = ICA_REQ_OVERRIDE, ICA_REQ_DEFAULT 
+    .PARAMETER Priority 
+        Specifies the priority of the policy.
     .EXAMPLE
-        Invoke-ADCDeleteIcaglobalicapolicybinding 
+        PS C:\>Invoke-ADCDeleteIcaglobalicapolicybinding 
+        An example how to delete icaglobal_icapolicy_binding configuration Object(s).
     .NOTES
         File Name : Invoke-ADCDeleteIcaglobalicapolicybinding
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ica/icaglobal_icapolicy_binding/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
+    #>
     [CmdletBinding(SupportsShouldProcess = $true, ConfirmImpact = "Low")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
-        [string]$policyname ,
+        [string]$Policyname,
 
-        [string]$type ,
+        [string]$Type,
 
-        [double]$priority 
+        [double]$Priority 
     )
     begin {
         Write-Verbose "Invoke-ADCDeleteIcaglobalicapolicybinding: Starting"
     }
     process {
         try {
-            $Arguments = @{ 
-            }
-            if ($PSBoundParameters.ContainsKey('policyname')) { $Arguments.Add('policyname', $policyname) }
-            if ($PSBoundParameters.ContainsKey('type')) { $Arguments.Add('type', $type) }
-            if ($PSBoundParameters.ContainsKey('priority')) { $Arguments.Add('priority', $priority) }
-            if ($PSCmdlet.ShouldProcess("icaglobal_icapolicy_binding", "Delete Ica configuration Object")) {
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type icaglobal_icapolicy_binding -NitroPath nitro/v1/config -Resource $ -Arguments $Arguments
+            $arguments = @{ }
+            if ( $PSBoundParameters.ContainsKey('Policyname') ) { $arguments.Add('policyname', $Policyname) }
+            if ( $PSBoundParameters.ContainsKey('Type') ) { $arguments.Add('type', $Type) }
+            if ( $PSBoundParameters.ContainsKey('Priority') ) { $arguments.Add('priority', $Priority) }
+            if ( $PSCmdlet.ShouldProcess("icaglobal_icapolicy_binding", "Delete Ica configuration Object") ) {
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type icaglobal_icapolicy_binding -NitroPath nitro/v1/config -Resource $ -Arguments $arguments
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $response
@@ -1222,49 +1206,55 @@ function Invoke-ADCDeleteIcaglobalicapolicybinding {
 }
 
 function Invoke-ADCGetIcaglobalicapolicybinding {
-<#
+    <#
     .SYNOPSIS
-        Get Ica configuration object(s)
+        Get Ica configuration object(s).
     .DESCRIPTION
-        Get Ica configuration object(s)
+        Binding object showing the icapolicy that can be bound to icaglobal.
     .PARAMETER GetAll 
-        Retreive all icaglobal_icapolicy_binding object(s)
+        Retrieve all icaglobal_icapolicy_binding object(s).
     .PARAMETER Count
-        If specified, the count of the icaglobal_icapolicy_binding object(s) will be returned
+        If specified, the count of the icaglobal_icapolicy_binding object(s) will be returned.
     .PARAMETER Filter
-        Specify a filter
+        Specify a filter.
         -Filter @{ 'name'='<value>' }
     .PARAMETER ViewSummary
-        When specified, only a summary of information is returned
+        When specified, only a summary of information is returned.
     .EXAMPLE
-        Invoke-ADCGetIcaglobalicapolicybinding
+        PS C:\>Invoke-ADCGetIcaglobalicapolicybinding
+        Get data.
     .EXAMPLE 
-        Invoke-ADCGetIcaglobalicapolicybinding -GetAll 
+        PS C:\>Invoke-ADCGetIcaglobalicapolicybinding -GetAll 
+        Get all icaglobal_icapolicy_binding data. 
     .EXAMPLE 
-        Invoke-ADCGetIcaglobalicapolicybinding -Count
+        PS C:\>Invoke-ADCGetIcaglobalicapolicybinding -Count 
+        Get the number of icaglobal_icapolicy_binding objects.
     .EXAMPLE
-        Invoke-ADCGetIcaglobalicapolicybinding -name <string>
+        PS C:\>Invoke-ADCGetIcaglobalicapolicybinding -name <string>
+        Get icaglobal_icapolicy_binding object by specifying for example the name.
     .EXAMPLE
-        Invoke-ADCGetIcaglobalicapolicybinding -Filter @{ 'name'='<value>' }
+        PS C:\>Invoke-ADCGetIcaglobalicapolicybinding -Filter @{ 'name'='<value>' }
+        Get icaglobal_icapolicy_binding data with a filter.
     .NOTES
         File Name : Invoke-ADCGetIcaglobalicapolicybinding
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ica/icaglobal_icapolicy_binding/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
-    [CmdletBinding(DefaultParameterSetName = "Getall")]
+    #>
+    [CmdletBinding(DefaultParameterSetName = "GetAll")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
-        [Parameter(ParameterSetName = 'Count', Mandatory = $true)]
+        [Parameter(ParameterSetName = 'Count', Mandatory)]
         [Switch]$Count,
 			
         [hashtable]$Filter = @{ },
@@ -1277,26 +1267,24 @@ function Invoke-ADCGetIcaglobalicapolicybinding {
     }
     process {
         try {
-            if ( $PsCmdlet.ParameterSetName -eq 'Getall' ) {
-                $Query = @{ 
-                    bulkbindings = 'yes'
-                }
+            if ( $PsCmdlet.ParameterSetName -eq 'GetAll' ) {
+                $query = @{  bulkbindings = 'yes' }
                 Write-Verbose "Retrieving all icaglobal_icapolicy_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type icaglobal_icapolicy_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type icaglobal_icapolicy_binding -NitroPath nitro/v1/config -Query $query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
-                if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
+                if ( $PSBoundParameters.ContainsKey('Count') ) { $query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for icaglobal_icapolicy_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type icaglobal_icapolicy_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type icaglobal_icapolicy_binding -NitroPath nitro/v1/config -Query $query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving icaglobal_icapolicy_binding objects by arguments"
-                $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type icaglobal_icapolicy_binding -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
+                $arguments = @{ } 
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type icaglobal_icapolicy_binding -NitroPath nitro/v1/config -Arguments $arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving icaglobal_icapolicy_binding configuration for property ''"
 
             } else {
                 Write-Verbose "Retrieving icaglobal_icapolicy_binding configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type icaglobal_icapolicy_binding -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type icaglobal_icapolicy_binding -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -1310,106 +1298,90 @@ function Invoke-ADCGetIcaglobalicapolicybinding {
 }
 
 function Invoke-ADCAddIcalatencyprofile {
-<#
+    <#
     .SYNOPSIS
-        Add Ica configuration Object
+        Add Ica configuration Object.
     .DESCRIPTION
-        Add Ica configuration Object 
-    .PARAMETER name 
-        Name for the ICA latencyprofile. Must begin with a letter, number, or the underscore character (_), and must contain only letters, numbers, and  
+        Configuration for Profile for Latency monitoring resource.
+    .PARAMETER Name 
+        Name for the ICA latencyprofile. Must begin with a letter, number, or the underscore character (_), and must contain only letters, numbers, and 
         the hyphen (-), period (.) pound (#), space ( ), at (@), equals (=), colon (:), and underscore characters. Cannot be changed after the ICA latency profile is added. 
-    .PARAMETER l7latencymonitoring 
-        Enable/Disable L7 Latency monitoring for L7 latency notifications.  
-        Default value: DISABLED  
+    .PARAMETER L7latencymonitoring 
+        Enable/Disable L7 Latency monitoring for L7 latency notifications. 
         Possible values = ENABLED, DISABLED 
-    .PARAMETER l7latencythresholdfactor 
-        L7 Latency threshold factor. This is the factor by which the active latency should be greater than the minimum observed value to determine that the latency is high and may need to be reported.  
-        Default value: 4  
-        Minimum value = 2  
-        Maximum value = 65535 
-    .PARAMETER l7latencywaittime 
-        L7 Latency Wait time. This is the time for which the Citrix ADC waits after the threshold is exceeded before it sends out a Notification to the Insight Center.  
-        Default value: 20  
-        Minimum value = 1  
-        Maximum value = 65535 
-    .PARAMETER l7latencynotifyinterval 
-        L7 Latency Notify Interval. This is the interval at which the Citrix ADC sends out notifications to the Insight Center after the wait time has passed.  
-        Default value: 20  
-        Minimum value = 1  
-        Maximum value = 65535 
-    .PARAMETER l7latencymaxnotifycount 
-        L7 Latency Max notify Count. This is the upper limit on the number of notifications sent to the Insight Center within an interval where the Latency is above the threshold.  
-        Default value: 5  
-        Minimum value = 1  
-        Maximum value = 65535 
+    .PARAMETER L7latencythresholdfactor 
+        L7 Latency threshold factor. This is the factor by which the active latency should be greater than the minimum observed value to determine that the latency is high and may need to be reported. 
+    .PARAMETER L7latencywaittime 
+        L7 Latency Wait time. This is the time for which the Citrix ADC waits after the threshold is exceeded before it sends out a Notification to the Insight Center. 
+    .PARAMETER L7latencynotifyinterval 
+        L7 Latency Notify Interval. This is the interval at which the Citrix ADC sends out notifications to the Insight Center after the wait time has passed. 
+    .PARAMETER L7latencymaxnotifycount 
+        L7 Latency Max notify Count. This is the upper limit on the number of notifications sent to the Insight Center within an interval where the Latency is above the threshold. 
     .PARAMETER PassThru 
         Return details about the created icalatencyprofile item.
     .EXAMPLE
-        Invoke-ADCAddIcalatencyprofile -name <string>
+        PS C:\>Invoke-ADCAddIcalatencyprofile -name <string>
+        An example how to add icalatencyprofile configuration Object(s).
     .NOTES
         File Name : Invoke-ADCAddIcalatencyprofile
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ica/icalatencyprofile/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
+    #>
     [CmdletBinding(SupportsShouldProcess = $true, ConfirmImpact = "Low")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
-        [Parameter(Mandatory = $true)]
+        [Parameter(Mandatory)]
         [ValidateScript({ $_.Length -gt 1 })]
-        [string]$name ,
+        [string]$Name,
 
         [ValidateSet('ENABLED', 'DISABLED')]
-        [string]$l7latencymonitoring = 'DISABLED' ,
+        [string]$L7latencymonitoring = 'DISABLED',
 
         [ValidateRange(2, 65535)]
-        [double]$l7latencythresholdfactor = '4' ,
+        [double]$L7latencythresholdfactor = '4',
 
         [ValidateRange(1, 65535)]
-        [double]$l7latencywaittime = '20' ,
+        [double]$L7latencywaittime = '20',
 
         [ValidateRange(1, 65535)]
-        [double]$l7latencynotifyinterval = '20' ,
+        [double]$L7latencynotifyinterval = '20',
 
         [ValidateRange(1, 65535)]
-        [double]$l7latencymaxnotifycount = '5' ,
+        [double]$L7latencymaxnotifycount = '5',
 
         [Switch]$PassThru 
-
     )
     begin {
         Write-Verbose "Invoke-ADCAddIcalatencyprofile: Starting"
     }
     process {
         try {
-            $Payload = @{
-                name = $name
-            }
-            if ($PSBoundParameters.ContainsKey('l7latencymonitoring')) { $Payload.Add('l7latencymonitoring', $l7latencymonitoring) }
-            if ($PSBoundParameters.ContainsKey('l7latencythresholdfactor')) { $Payload.Add('l7latencythresholdfactor', $l7latencythresholdfactor) }
-            if ($PSBoundParameters.ContainsKey('l7latencywaittime')) { $Payload.Add('l7latencywaittime', $l7latencywaittime) }
-            if ($PSBoundParameters.ContainsKey('l7latencynotifyinterval')) { $Payload.Add('l7latencynotifyinterval', $l7latencynotifyinterval) }
-            if ($PSBoundParameters.ContainsKey('l7latencymaxnotifycount')) { $Payload.Add('l7latencymaxnotifycount', $l7latencymaxnotifycount) }
- 
-            if ($PSCmdlet.ShouldProcess("icalatencyprofile", "Add Ica configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -NitroPath nitro/v1/config -Type icalatencyprofile -Payload $Payload -GetWarning
+            $payload = @{ name = $name }
+            if ( $PSBoundParameters.ContainsKey('l7latencymonitoring') ) { $payload.Add('l7latencymonitoring', $l7latencymonitoring) }
+            if ( $PSBoundParameters.ContainsKey('l7latencythresholdfactor') ) { $payload.Add('l7latencythresholdfactor', $l7latencythresholdfactor) }
+            if ( $PSBoundParameters.ContainsKey('l7latencywaittime') ) { $payload.Add('l7latencywaittime', $l7latencywaittime) }
+            if ( $PSBoundParameters.ContainsKey('l7latencynotifyinterval') ) { $payload.Add('l7latencynotifyinterval', $l7latencynotifyinterval) }
+            if ( $PSBoundParameters.ContainsKey('l7latencymaxnotifycount') ) { $payload.Add('l7latencymaxnotifycount', $l7latencymaxnotifycount) }
+            if ( $PSCmdlet.ShouldProcess("icalatencyprofile", "Add Ica configuration Object") ) {
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -NitroPath nitro/v1/config -Type icalatencyprofile -Payload $payload -GetWarning
                 #HTTP Status Code on Success: 201 Created
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
-                if ($PSBoundParameters.ContainsKey('PassThru')) {
-                    Write-Output (Invoke-ADCGetIcalatencyprofile -Filter $Payload)
+                if ( $PSBoundParameters.ContainsKey('PassThru') ) {
+                    Write-Output (Invoke-ADCGetIcalatencyprofile -Filter $payload)
                 } else {
                     Write-Output $result
                 }
-
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -1422,47 +1394,48 @@ function Invoke-ADCAddIcalatencyprofile {
 }
 
 function Invoke-ADCDeleteIcalatencyprofile {
-<#
+    <#
     .SYNOPSIS
-        Delete Ica configuration Object
+        Delete Ica configuration Object.
     .DESCRIPTION
-        Delete Ica configuration Object
-    .PARAMETER name 
-       Name for the ICA latencyprofile. Must begin with a letter, number, or the underscore character (_), and must contain only letters, numbers, and  
-       the hyphen (-), period (.) pound (#), space ( ), at (@), equals (=), colon (:), and underscore characters. Cannot be changed after the ICA latency profile is added. 
+        Configuration for Profile for Latency monitoring resource.
+    .PARAMETER Name 
+        Name for the ICA latencyprofile. Must begin with a letter, number, or the underscore character (_), and must contain only letters, numbers, and 
+        the hyphen (-), period (.) pound (#), space ( ), at (@), equals (=), colon (:), and underscore characters. Cannot be changed after the ICA latency profile is added.
     .EXAMPLE
-        Invoke-ADCDeleteIcalatencyprofile -name <string>
+        PS C:\>Invoke-ADCDeleteIcalatencyprofile -Name <string>
+        An example how to delete icalatencyprofile configuration Object(s).
     .NOTES
         File Name : Invoke-ADCDeleteIcalatencyprofile
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ica/icalatencyprofile/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
+    #>
     [CmdletBinding(SupportsShouldProcess = $true, ConfirmImpact = "Low")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
-        [Parameter(Mandatory = $true)]
-        [string]$name 
+        [Parameter(Mandatory)]
+        [string]$Name 
     )
     begin {
         Write-Verbose "Invoke-ADCDeleteIcalatencyprofile: Starting"
     }
     process {
         try {
-            $Arguments = @{ 
-            }
+            $arguments = @{ }
 
-            if ($PSCmdlet.ShouldProcess("$name", "Delete Ica configuration Object")) {
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type icalatencyprofile -NitroPath nitro/v1/config -Resource $name -Arguments $Arguments
+            if ( $PSCmdlet.ShouldProcess("$name", "Delete Ica configuration Object") ) {
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type icalatencyprofile -NitroPath nitro/v1/config -Resource $name -Arguments $arguments
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $response
@@ -1478,106 +1451,90 @@ function Invoke-ADCDeleteIcalatencyprofile {
 }
 
 function Invoke-ADCUpdateIcalatencyprofile {
-<#
+    <#
     .SYNOPSIS
-        Update Ica configuration Object
+        Update Ica configuration Object.
     .DESCRIPTION
-        Update Ica configuration Object 
-    .PARAMETER name 
-        Name for the ICA latencyprofile. Must begin with a letter, number, or the underscore character (_), and must contain only letters, numbers, and  
+        Configuration for Profile for Latency monitoring resource.
+    .PARAMETER Name 
+        Name for the ICA latencyprofile. Must begin with a letter, number, or the underscore character (_), and must contain only letters, numbers, and 
         the hyphen (-), period (.) pound (#), space ( ), at (@), equals (=), colon (:), and underscore characters. Cannot be changed after the ICA latency profile is added. 
-    .PARAMETER l7latencymonitoring 
-        Enable/Disable L7 Latency monitoring for L7 latency notifications.  
-        Default value: DISABLED  
+    .PARAMETER L7latencymonitoring 
+        Enable/Disable L7 Latency monitoring for L7 latency notifications. 
         Possible values = ENABLED, DISABLED 
-    .PARAMETER l7latencythresholdfactor 
-        L7 Latency threshold factor. This is the factor by which the active latency should be greater than the minimum observed value to determine that the latency is high and may need to be reported.  
-        Default value: 4  
-        Minimum value = 2  
-        Maximum value = 65535 
-    .PARAMETER l7latencywaittime 
-        L7 Latency Wait time. This is the time for which the Citrix ADC waits after the threshold is exceeded before it sends out a Notification to the Insight Center.  
-        Default value: 20  
-        Minimum value = 1  
-        Maximum value = 65535 
-    .PARAMETER l7latencynotifyinterval 
-        L7 Latency Notify Interval. This is the interval at which the Citrix ADC sends out notifications to the Insight Center after the wait time has passed.  
-        Default value: 20  
-        Minimum value = 1  
-        Maximum value = 65535 
-    .PARAMETER l7latencymaxnotifycount 
-        L7 Latency Max notify Count. This is the upper limit on the number of notifications sent to the Insight Center within an interval where the Latency is above the threshold.  
-        Default value: 5  
-        Minimum value = 1  
-        Maximum value = 65535 
+    .PARAMETER L7latencythresholdfactor 
+        L7 Latency threshold factor. This is the factor by which the active latency should be greater than the minimum observed value to determine that the latency is high and may need to be reported. 
+    .PARAMETER L7latencywaittime 
+        L7 Latency Wait time. This is the time for which the Citrix ADC waits after the threshold is exceeded before it sends out a Notification to the Insight Center. 
+    .PARAMETER L7latencynotifyinterval 
+        L7 Latency Notify Interval. This is the interval at which the Citrix ADC sends out notifications to the Insight Center after the wait time has passed. 
+    .PARAMETER L7latencymaxnotifycount 
+        L7 Latency Max notify Count. This is the upper limit on the number of notifications sent to the Insight Center within an interval where the Latency is above the threshold. 
     .PARAMETER PassThru 
         Return details about the created icalatencyprofile item.
     .EXAMPLE
-        Invoke-ADCUpdateIcalatencyprofile -name <string>
+        PS C:\>Invoke-ADCUpdateIcalatencyprofile -name <string>
+        An example how to update icalatencyprofile configuration Object(s).
     .NOTES
         File Name : Invoke-ADCUpdateIcalatencyprofile
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ica/icalatencyprofile/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
+    #>
     [CmdletBinding(SupportsShouldProcess = $true, ConfirmImpact = "Low")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
-        [Parameter(Mandatory = $true)]
+        [Parameter(Mandatory)]
         [ValidateScript({ $_.Length -gt 1 })]
-        [string]$name ,
+        [string]$Name,
 
         [ValidateSet('ENABLED', 'DISABLED')]
-        [string]$l7latencymonitoring ,
+        [string]$L7latencymonitoring,
 
         [ValidateRange(2, 65535)]
-        [double]$l7latencythresholdfactor ,
+        [double]$L7latencythresholdfactor,
 
         [ValidateRange(1, 65535)]
-        [double]$l7latencywaittime ,
+        [double]$L7latencywaittime,
 
         [ValidateRange(1, 65535)]
-        [double]$l7latencynotifyinterval ,
+        [double]$L7latencynotifyinterval,
 
         [ValidateRange(1, 65535)]
-        [double]$l7latencymaxnotifycount ,
+        [double]$L7latencymaxnotifycount,
 
         [Switch]$PassThru 
-
     )
     begin {
         Write-Verbose "Invoke-ADCUpdateIcalatencyprofile: Starting"
     }
     process {
         try {
-            $Payload = @{
-                name = $name
-            }
-            if ($PSBoundParameters.ContainsKey('l7latencymonitoring')) { $Payload.Add('l7latencymonitoring', $l7latencymonitoring) }
-            if ($PSBoundParameters.ContainsKey('l7latencythresholdfactor')) { $Payload.Add('l7latencythresholdfactor', $l7latencythresholdfactor) }
-            if ($PSBoundParameters.ContainsKey('l7latencywaittime')) { $Payload.Add('l7latencywaittime', $l7latencywaittime) }
-            if ($PSBoundParameters.ContainsKey('l7latencynotifyinterval')) { $Payload.Add('l7latencynotifyinterval', $l7latencynotifyinterval) }
-            if ($PSBoundParameters.ContainsKey('l7latencymaxnotifycount')) { $Payload.Add('l7latencymaxnotifycount', $l7latencymaxnotifycount) }
- 
-            if ($PSCmdlet.ShouldProcess("icalatencyprofile", "Update Ica configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -NitroPath nitro/v1/config -Type icalatencyprofile -Payload $Payload -GetWarning
+            $payload = @{ name = $name }
+            if ( $PSBoundParameters.ContainsKey('l7latencymonitoring') ) { $payload.Add('l7latencymonitoring', $l7latencymonitoring) }
+            if ( $PSBoundParameters.ContainsKey('l7latencythresholdfactor') ) { $payload.Add('l7latencythresholdfactor', $l7latencythresholdfactor) }
+            if ( $PSBoundParameters.ContainsKey('l7latencywaittime') ) { $payload.Add('l7latencywaittime', $l7latencywaittime) }
+            if ( $PSBoundParameters.ContainsKey('l7latencynotifyinterval') ) { $payload.Add('l7latencynotifyinterval', $l7latencynotifyinterval) }
+            if ( $PSBoundParameters.ContainsKey('l7latencymaxnotifycount') ) { $payload.Add('l7latencymaxnotifycount', $l7latencymaxnotifycount) }
+            if ( $PSCmdlet.ShouldProcess("icalatencyprofile", "Update Ica configuration Object") ) {
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -NitroPath nitro/v1/config -Type icalatencyprofile -Payload $payload -GetWarning
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
-                if ($PSBoundParameters.ContainsKey('PassThru')) {
-                    Write-Output (Invoke-ADCGetIcalatencyprofile -Filter $Payload)
+                if ( $PSBoundParameters.ContainsKey('PassThru') ) {
+                    Write-Output (Invoke-ADCGetIcalatencyprofile -Filter $payload)
                 } else {
                     Write-Output $result
                 }
-
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -1590,56 +1547,57 @@ function Invoke-ADCUpdateIcalatencyprofile {
 }
 
 function Invoke-ADCUnsetIcalatencyprofile {
-<#
+    <#
     .SYNOPSIS
-        Unset Ica configuration Object
+        Unset Ica configuration Object.
     .DESCRIPTION
-        Unset Ica configuration Object 
-   .PARAMETER name 
-       Name for the ICA latencyprofile. Must begin with a letter, number, or the underscore character (_), and must contain only letters, numbers, and  
-       the hyphen (-), period (.) pound (#), space ( ), at (@), equals (=), colon (:), and underscore characters. Cannot be changed after the ICA latency profile is added. 
-   .PARAMETER l7latencymonitoring 
-       Enable/Disable L7 Latency monitoring for L7 latency notifications.  
-       Possible values = ENABLED, DISABLED 
-   .PARAMETER l7latencythresholdfactor 
-       L7 Latency threshold factor. This is the factor by which the active latency should be greater than the minimum observed value to determine that the latency is high and may need to be reported. 
-   .PARAMETER l7latencywaittime 
-       L7 Latency Wait time. This is the time for which the Citrix ADC waits after the threshold is exceeded before it sends out a Notification to the Insight Center. 
-   .PARAMETER l7latencynotifyinterval 
-       L7 Latency Notify Interval. This is the interval at which the Citrix ADC sends out notifications to the Insight Center after the wait time has passed. 
-   .PARAMETER l7latencymaxnotifycount 
-       L7 Latency Max notify Count. This is the upper limit on the number of notifications sent to the Insight Center within an interval where the Latency is above the threshold.
+        Configuration for Profile for Latency monitoring resource.
+    .PARAMETER Name 
+        Name for the ICA latencyprofile. Must begin with a letter, number, or the underscore character (_), and must contain only letters, numbers, and 
+        the hyphen (-), period (.) pound (#), space ( ), at (@), equals (=), colon (:), and underscore characters. Cannot be changed after the ICA latency profile is added. 
+    .PARAMETER L7latencymonitoring 
+        Enable/Disable L7 Latency monitoring for L7 latency notifications. 
+        Possible values = ENABLED, DISABLED 
+    .PARAMETER L7latencythresholdfactor 
+        L7 Latency threshold factor. This is the factor by which the active latency should be greater than the minimum observed value to determine that the latency is high and may need to be reported. 
+    .PARAMETER L7latencywaittime 
+        L7 Latency Wait time. This is the time for which the Citrix ADC waits after the threshold is exceeded before it sends out a Notification to the Insight Center. 
+    .PARAMETER L7latencynotifyinterval 
+        L7 Latency Notify Interval. This is the interval at which the Citrix ADC sends out notifications to the Insight Center after the wait time has passed. 
+    .PARAMETER L7latencymaxnotifycount 
+        L7 Latency Max notify Count. This is the upper limit on the number of notifications sent to the Insight Center within an interval where the Latency is above the threshold.
     .EXAMPLE
-        Invoke-ADCUnsetIcalatencyprofile -name <string>
+        PS C:\>Invoke-ADCUnsetIcalatencyprofile -name <string>
+        An example how to unset icalatencyprofile configuration Object(s).
     .NOTES
         File Name : Invoke-ADCUnsetIcalatencyprofile
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ica/icalatencyprofile
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
+    #>
     [CmdletBinding(SupportsShouldProcess = $true, ConfirmImpact = "Low")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
-        [Parameter(Mandatory = $true)]
         [ValidateScript({ $_.Length -gt 1 })]
-        [string]$name ,
+        [string]$Name,
 
-        [Boolean]$l7latencymonitoring ,
+        [Boolean]$l7latencymonitoring,
 
-        [Boolean]$l7latencythresholdfactor ,
+        [Boolean]$l7latencythresholdfactor,
 
-        [Boolean]$l7latencywaittime ,
+        [Boolean]$l7latencywaittime,
 
-        [Boolean]$l7latencynotifyinterval ,
+        [Boolean]$l7latencynotifyinterval,
 
         [Boolean]$l7latencymaxnotifycount 
     )
@@ -1648,16 +1606,14 @@ function Invoke-ADCUnsetIcalatencyprofile {
     }
     process {
         try {
-            $Payload = @{
-                name = $name
-            }
-            if ($PSBoundParameters.ContainsKey('l7latencymonitoring')) { $Payload.Add('l7latencymonitoring', $l7latencymonitoring) }
-            if ($PSBoundParameters.ContainsKey('l7latencythresholdfactor')) { $Payload.Add('l7latencythresholdfactor', $l7latencythresholdfactor) }
-            if ($PSBoundParameters.ContainsKey('l7latencywaittime')) { $Payload.Add('l7latencywaittime', $l7latencywaittime) }
-            if ($PSBoundParameters.ContainsKey('l7latencynotifyinterval')) { $Payload.Add('l7latencynotifyinterval', $l7latencynotifyinterval) }
-            if ($PSBoundParameters.ContainsKey('l7latencymaxnotifycount')) { $Payload.Add('l7latencymaxnotifycount', $l7latencymaxnotifycount) }
-            if ($PSCmdlet.ShouldProcess("$name", "Unset Ica configuration Object")) {
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -Type icalatencyprofile -NitroPath nitro/v1/config -Action unset -Payload $Payload -GetWarning
+            $payload = @{ name = $name }
+            if ( $PSBoundParameters.ContainsKey('l7latencymonitoring') ) { $payload.Add('l7latencymonitoring', $l7latencymonitoring) }
+            if ( $PSBoundParameters.ContainsKey('l7latencythresholdfactor') ) { $payload.Add('l7latencythresholdfactor', $l7latencythresholdfactor) }
+            if ( $PSBoundParameters.ContainsKey('l7latencywaittime') ) { $payload.Add('l7latencywaittime', $l7latencywaittime) }
+            if ( $PSBoundParameters.ContainsKey('l7latencynotifyinterval') ) { $payload.Add('l7latencynotifyinterval', $l7latencynotifyinterval) }
+            if ( $PSBoundParameters.ContainsKey('l7latencymaxnotifycount') ) { $payload.Add('l7latencymaxnotifycount', $l7latencymaxnotifycount) }
+            if ( $PSCmdlet.ShouldProcess("$name", "Unset Ica configuration Object") ) {
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -Type icalatencyprofile -NitroPath nitro/v1/config -Action unset -Payload $payload -GetWarning
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $response
@@ -1673,56 +1629,62 @@ function Invoke-ADCUnsetIcalatencyprofile {
 }
 
 function Invoke-ADCGetIcalatencyprofile {
-<#
+    <#
     .SYNOPSIS
-        Get Ica configuration object(s)
+        Get Ica configuration object(s).
     .DESCRIPTION
-        Get Ica configuration object(s)
-    .PARAMETER name 
-       Name for the ICA latencyprofile. Must begin with a letter, number, or the underscore character (_), and must contain only letters, numbers, and  
-       the hyphen (-), period (.) pound (#), space ( ), at (@), equals (=), colon (:), and underscore characters. Cannot be changed after the ICA latency profile is added. 
+        Configuration for Profile for Latency monitoring resource.
+    .PARAMETER Name 
+        Name for the ICA latencyprofile. Must begin with a letter, number, or the underscore character (_), and must contain only letters, numbers, and 
+        the hyphen (-), period (.) pound (#), space ( ), at (@), equals (=), colon (:), and underscore characters. Cannot be changed after the ICA latency profile is added. 
     .PARAMETER GetAll 
-        Retreive all icalatencyprofile object(s)
+        Retrieve all icalatencyprofile object(s).
     .PARAMETER Count
-        If specified, the count of the icalatencyprofile object(s) will be returned
+        If specified, the count of the icalatencyprofile object(s) will be returned.
     .PARAMETER Filter
-        Specify a filter
+        Specify a filter.
         -Filter @{ 'name'='<value>' }
     .PARAMETER ViewSummary
-        When specified, only a summary of information is returned
+        When specified, only a summary of information is returned.
     .EXAMPLE
-        Invoke-ADCGetIcalatencyprofile
+        PS C:\>Invoke-ADCGetIcalatencyprofile
+        Get data.
     .EXAMPLE 
-        Invoke-ADCGetIcalatencyprofile -GetAll 
+        PS C:\>Invoke-ADCGetIcalatencyprofile -GetAll 
+        Get all icalatencyprofile data. 
     .EXAMPLE 
-        Invoke-ADCGetIcalatencyprofile -Count
+        PS C:\>Invoke-ADCGetIcalatencyprofile -Count 
+        Get the number of icalatencyprofile objects.
     .EXAMPLE
-        Invoke-ADCGetIcalatencyprofile -name <string>
+        PS C:\>Invoke-ADCGetIcalatencyprofile -name <string>
+        Get icalatencyprofile object by specifying for example the name.
     .EXAMPLE
-        Invoke-ADCGetIcalatencyprofile -Filter @{ 'name'='<value>' }
+        PS C:\>Invoke-ADCGetIcalatencyprofile -Filter @{ 'name'='<value>' }
+        Get icalatencyprofile data with a filter.
     .NOTES
         File Name : Invoke-ADCGetIcalatencyprofile
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ica/icalatencyprofile/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
-    [CmdletBinding(DefaultParameterSetName = "Getall")]
+    #>
+    [CmdletBinding(DefaultParameterSetName = "GetAll")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
         [Parameter(ParameterSetName = 'GetByResource')]
         [ValidateScript({ $_.Length -gt 1 })]
-        [string]$name,
+        [string]$Name,
 
-        [Parameter(ParameterSetName = 'Count', Mandatory = $true)]
+        [Parameter(ParameterSetName = 'Count', Mandatory)]
         [Switch]$Count,
 			
         [hashtable]$Filter = @{ },
@@ -1740,24 +1702,24 @@ function Invoke-ADCGetIcalatencyprofile {
     }
     process {
         try {
-            if ( $PsCmdlet.ParameterSetName -eq 'Getall' ) {
-                $Query = @{ }
+            if ( $PsCmdlet.ParameterSetName -eq 'GetAll' ) {
+                $query = @{ }
                 Write-Verbose "Retrieving all icalatencyprofile objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type icalatencyprofile -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type icalatencyprofile -NitroPath nitro/v1/config -Query $query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
-                if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
+                if ( $PSBoundParameters.ContainsKey('Count') ) { $query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for icalatencyprofile objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type icalatencyprofile -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type icalatencyprofile -NitroPath nitro/v1/config -Query $query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving icalatencyprofile objects by arguments"
-                $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type icalatencyprofile -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
+                $arguments = @{ } 
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type icalatencyprofile -NitroPath nitro/v1/config -Arguments $arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving icalatencyprofile configuration for property 'name'"
                 $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type icalatencyprofile -NitroPath nitro/v1/config -Resource $name -Summary:$ViewSummary -Filter $Filter -GetWarning
             } else {
                 Write-Verbose "Retrieving icalatencyprofile configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type icalatencyprofile -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type icalatencyprofile -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -1771,63 +1733,58 @@ function Invoke-ADCGetIcalatencyprofile {
 }
 
 function Invoke-ADCUpdateIcaparameter {
-<#
+    <#
     .SYNOPSIS
-        Update Ica configuration Object
+        Update Ica configuration Object.
     .DESCRIPTION
-        Update Ica configuration Object 
-    .PARAMETER enablesronhafailover 
-        Enable/Disable Session Reliability on HA failover. The default value is No.  
-        Default value: NO  
+        Configuration for Config Parameters for NS ICA resource.
+    .PARAMETER Enablesronhafailover 
+        Enable/Disable Session Reliability on HA failover. The default value is No. 
         Possible values = YES, NO 
-    .PARAMETER hdxinsightnonnsap 
-        Enable/Disable HDXInsight for Non NSAP ICA Sessions. The default value is Yes.  
-        Default value: YES  
+    .PARAMETER Hdxinsightnonnsap 
+        Enable/Disable HDXInsight for Non NSAP ICA Sessions. The default value is Yes. 
         Possible values = YES, NO
     .EXAMPLE
-        Invoke-ADCUpdateIcaparameter 
+        PS C:\>Invoke-ADCUpdateIcaparameter 
+        An example how to update icaparameter configuration Object(s).
     .NOTES
         File Name : Invoke-ADCUpdateIcaparameter
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ica/icaparameter/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
+    #>
     [CmdletBinding(SupportsShouldProcess = $true, ConfirmImpact = "Low")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
         [ValidateSet('YES', 'NO')]
-        [string]$enablesronhafailover ,
+        [string]$Enablesronhafailover,
 
         [ValidateSet('YES', 'NO')]
-        [string]$hdxinsightnonnsap 
-
+        [string]$Hdxinsightnonnsap 
     )
     begin {
         Write-Verbose "Invoke-ADCUpdateIcaparameter: Starting"
     }
     process {
         try {
-            $Payload = @{
-
-            }
-            if ($PSBoundParameters.ContainsKey('enablesronhafailover')) { $Payload.Add('enablesronhafailover', $enablesronhafailover) }
-            if ($PSBoundParameters.ContainsKey('hdxinsightnonnsap')) { $Payload.Add('hdxinsightnonnsap', $hdxinsightnonnsap) }
- 
-            if ($PSCmdlet.ShouldProcess("icaparameter", "Update Ica configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -NitroPath nitro/v1/config -Type icaparameter -Payload $Payload -GetWarning
+            $payload = @{ }
+            if ( $PSBoundParameters.ContainsKey('enablesronhafailover') ) { $payload.Add('enablesronhafailover', $enablesronhafailover) }
+            if ( $PSBoundParameters.ContainsKey('hdxinsightnonnsap') ) { $payload.Add('hdxinsightnonnsap', $hdxinsightnonnsap) }
+            if ( $PSCmdlet.ShouldProcess("icaparameter", "Update Ica configuration Object") ) {
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -NitroPath nitro/v1/config -Type icaparameter -Payload $payload -GetWarning
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
-            Write-Output $result
-
+                Write-Output $result
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -1840,38 +1797,40 @@ function Invoke-ADCUpdateIcaparameter {
 }
 
 function Invoke-ADCUnsetIcaparameter {
-<#
+    <#
     .SYNOPSIS
-        Unset Ica configuration Object
+        Unset Ica configuration Object.
     .DESCRIPTION
-        Unset Ica configuration Object 
-   .PARAMETER enablesronhafailover 
-       Enable/Disable Session Reliability on HA failover. The default value is No.  
-       Possible values = YES, NO 
-   .PARAMETER hdxinsightnonnsap 
-       Enable/Disable HDXInsight for Non NSAP ICA Sessions. The default value is Yes.  
-       Possible values = YES, NO
+        Configuration for Config Parameters for NS ICA resource.
+    .PARAMETER Enablesronhafailover 
+        Enable/Disable Session Reliability on HA failover. The default value is No. 
+        Possible values = YES, NO 
+    .PARAMETER Hdxinsightnonnsap 
+        Enable/Disable HDXInsight for Non NSAP ICA Sessions. The default value is Yes. 
+        Possible values = YES, NO
     .EXAMPLE
-        Invoke-ADCUnsetIcaparameter 
+        PS C:\>Invoke-ADCUnsetIcaparameter 
+        An example how to unset icaparameter configuration Object(s).
     .NOTES
         File Name : Invoke-ADCUnsetIcaparameter
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ica/icaparameter
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
+    #>
     [CmdletBinding(SupportsShouldProcess = $true, ConfirmImpact = "Low")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
-        [Boolean]$enablesronhafailover ,
+        [Boolean]$enablesronhafailover,
 
         [Boolean]$hdxinsightnonnsap 
     )
@@ -1880,13 +1839,11 @@ function Invoke-ADCUnsetIcaparameter {
     }
     process {
         try {
-            $Payload = @{
-
-            }
-            if ($PSBoundParameters.ContainsKey('enablesronhafailover')) { $Payload.Add('enablesronhafailover', $enablesronhafailover) }
-            if ($PSBoundParameters.ContainsKey('hdxinsightnonnsap')) { $Payload.Add('hdxinsightnonnsap', $hdxinsightnonnsap) }
-            if ($PSCmdlet.ShouldProcess("icaparameter", "Unset Ica configuration Object")) {
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -Type icaparameter -NitroPath nitro/v1/config -Action unset -Payload $Payload -GetWarning
+            $payload = @{ }
+            if ( $PSBoundParameters.ContainsKey('enablesronhafailover') ) { $payload.Add('enablesronhafailover', $enablesronhafailover) }
+            if ( $PSBoundParameters.ContainsKey('hdxinsightnonnsap') ) { $payload.Add('hdxinsightnonnsap', $hdxinsightnonnsap) }
+            if ( $PSCmdlet.ShouldProcess("icaparameter", "Unset Ica configuration Object") ) {
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -Type icaparameter -NitroPath nitro/v1/config -Action unset -Payload $payload -GetWarning
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $response
@@ -1902,45 +1859,50 @@ function Invoke-ADCUnsetIcaparameter {
 }
 
 function Invoke-ADCGetIcaparameter {
-<#
+    <#
     .SYNOPSIS
-        Get Ica configuration object(s)
+        Get Ica configuration object(s).
     .DESCRIPTION
-        Get Ica configuration object(s)
+        Configuration for Config Parameters for NS ICA resource.
     .PARAMETER GetAll 
-        Retreive all icaparameter object(s)
+        Retrieve all icaparameter object(s).
     .PARAMETER Count
-        If specified, the count of the icaparameter object(s) will be returned
+        If specified, the count of the icaparameter object(s) will be returned.
     .PARAMETER Filter
-        Specify a filter
+        Specify a filter.
         -Filter @{ 'name'='<value>' }
     .PARAMETER ViewSummary
-        When specified, only a summary of information is returned
+        When specified, only a summary of information is returned.
     .EXAMPLE
-        Invoke-ADCGetIcaparameter
+        PS C:\>Invoke-ADCGetIcaparameter
+        Get data.
     .EXAMPLE 
-        Invoke-ADCGetIcaparameter -GetAll
+        PS C:\>Invoke-ADCGetIcaparameter -GetAll 
+        Get all icaparameter data.
     .EXAMPLE
-        Invoke-ADCGetIcaparameter -name <string>
+        PS C:\>Invoke-ADCGetIcaparameter -name <string>
+        Get icaparameter object by specifying for example the name.
     .EXAMPLE
-        Invoke-ADCGetIcaparameter -Filter @{ 'name'='<value>' }
+        PS C:\>Invoke-ADCGetIcaparameter -Filter @{ 'name'='<value>' }
+        Get icaparameter data with a filter.
     .NOTES
         File Name : Invoke-ADCGetIcaparameter
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ica/icaparameter/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
-    [CmdletBinding(DefaultParameterSetName = "Getall")]
+    #>
+    [CmdletBinding(DefaultParameterSetName = "GetAll")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 			
         [hashtable]$Filter = @{ },
 
@@ -1952,24 +1914,24 @@ function Invoke-ADCGetIcaparameter {
     }
     process {
         try {
-            if ( $PsCmdlet.ParameterSetName -eq 'Getall' ) {
-                $Query = @{ }
+            if ( $PsCmdlet.ParameterSetName -eq 'GetAll' ) {
+                $query = @{ }
                 Write-Verbose "Retrieving all icaparameter objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type icaparameter -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type icaparameter -NitroPath nitro/v1/config -Query $query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
-                if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
+                if ( $PSBoundParameters.ContainsKey('Count') ) { $query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for icaparameter objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type icaparameter -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type icaparameter -NitroPath nitro/v1/config -Query $query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving icaparameter objects by arguments"
-                $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type icaparameter -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
+                $arguments = @{ } 
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type icaparameter -NitroPath nitro/v1/config -Arguments $arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving icaparameter configuration for property ''"
 
             } else {
                 Write-Verbose "Retrieving icaparameter configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type icaparameter -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type icaparameter -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -1983,87 +1945,85 @@ function Invoke-ADCGetIcaparameter {
 }
 
 function Invoke-ADCAddIcapolicy {
-<#
+    <#
     .SYNOPSIS
-        Add Ica configuration Object
+        Add Ica configuration Object.
     .DESCRIPTION
-        Add Ica configuration Object 
-    .PARAMETER name 
+        Configuration for ICA policy resource.
+    .PARAMETER Name 
         Name for the policy. Must begin with an ASCII alphabetic or underscore (_) character, and must contain only ASCII alphanumeric, underscore, hash (#), period (.), space, colon (:), at (@), equals (=), and hyphen (-) characters. 
-    .PARAMETER rule 
-        Expression or other value against which the traffic is evaluated. Must be a Boolean expression.  
-        The following requirements apply only to the Citrix ADC CLI:  
-        * If the expression includes one or more spaces, enclose the entire expression in double quotation marks.  
-        * If the expression itself includes double quotation marks, escape the quotations by using the \ character.  
+    .PARAMETER Rule 
+        Expression or other value against which the traffic is evaluated. Must be a Boolean expression. 
+        The following requirements apply only to the Citrix ADC CLI: 
+        * If the expression includes one or more spaces, enclose the entire expression in double quotation marks. 
+        * If the expression itself includes double quotation marks, escape the quotations by using the \ character. 
         * Alternatively, you can use single quotation marks to enclose the rule, in which case you do not have to escape the double quotation marks. 
-    .PARAMETER action 
+    .PARAMETER Action 
         Name of the ica action to be associated with this policy. 
-    .PARAMETER comment 
+    .PARAMETER Comment 
         Any type of information about this ICA policy. 
-    .PARAMETER logaction 
+    .PARAMETER Logaction 
         Name of the messagelog action to use for requests that match this policy. 
     .PARAMETER PassThru 
         Return details about the created icapolicy item.
     .EXAMPLE
-        Invoke-ADCAddIcapolicy -name <string> -rule <string> -action <string>
+        PS C:\>Invoke-ADCAddIcapolicy -name <string> -rule <string> -action <string>
+        An example how to add icapolicy configuration Object(s).
     .NOTES
         File Name : Invoke-ADCAddIcapolicy
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ica/icapolicy/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
+    #>
     [CmdletBinding(SupportsShouldProcess = $true, ConfirmImpact = "Low")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
-        [Parameter(Mandatory = $true)]
+        [Parameter(Mandatory)]
         [ValidatePattern('^(([a-zA-Z0-9]|[_])+([a-zA-Z0-9]|[_])+)$')]
-        [string]$name ,
+        [string]$Name,
 
-        [Parameter(Mandatory = $true)]
-        [string]$rule ,
+        [Parameter(Mandatory)]
+        [string]$Rule,
 
-        [Parameter(Mandatory = $true)]
-        [string]$action ,
+        [Parameter(Mandatory)]
+        [string]$Action,
 
-        [string]$comment ,
+        [string]$Comment,
 
-        [string]$logaction ,
+        [string]$Logaction,
 
         [Switch]$PassThru 
-
     )
     begin {
         Write-Verbose "Invoke-ADCAddIcapolicy: Starting"
     }
     process {
         try {
-            $Payload = @{
-                name = $name
-                rule = $rule
-                action = $action
+            $payload = @{ name = $name
+                rule           = $rule
+                action         = $action
             }
-            if ($PSBoundParameters.ContainsKey('comment')) { $Payload.Add('comment', $comment) }
-            if ($PSBoundParameters.ContainsKey('logaction')) { $Payload.Add('logaction', $logaction) }
- 
-            if ($PSCmdlet.ShouldProcess("icapolicy", "Add Ica configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -NitroPath nitro/v1/config -Type icapolicy -Payload $Payload -GetWarning
+            if ( $PSBoundParameters.ContainsKey('comment') ) { $payload.Add('comment', $comment) }
+            if ( $PSBoundParameters.ContainsKey('logaction') ) { $payload.Add('logaction', $logaction) }
+            if ( $PSCmdlet.ShouldProcess("icapolicy", "Add Ica configuration Object") ) {
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -NitroPath nitro/v1/config -Type icapolicy -Payload $payload -GetWarning
                 #HTTP Status Code on Success: 201 Created
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
-                if ($PSBoundParameters.ContainsKey('PassThru')) {
-                    Write-Output (Invoke-ADCGetIcapolicy -Filter $Payload)
+                if ( $PSBoundParameters.ContainsKey('PassThru') ) {
+                    Write-Output (Invoke-ADCGetIcapolicy -Filter $payload)
                 } else {
                     Write-Output $result
                 }
-
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -2076,46 +2036,47 @@ function Invoke-ADCAddIcapolicy {
 }
 
 function Invoke-ADCDeleteIcapolicy {
-<#
+    <#
     .SYNOPSIS
-        Delete Ica configuration Object
+        Delete Ica configuration Object.
     .DESCRIPTION
-        Delete Ica configuration Object
-    .PARAMETER name 
-       Name for the policy. Must begin with an ASCII alphabetic or underscore (_) character, and must contain only ASCII alphanumeric, underscore, hash (#), period (.), space, colon (:), at (@), equals (=), and hyphen (-) characters. 
+        Configuration for ICA policy resource.
+    .PARAMETER Name 
+        Name for the policy. Must begin with an ASCII alphabetic or underscore (_) character, and must contain only ASCII alphanumeric, underscore, hash (#), period (.), space, colon (:), at (@), equals (=), and hyphen (-) characters.
     .EXAMPLE
-        Invoke-ADCDeleteIcapolicy -name <string>
+        PS C:\>Invoke-ADCDeleteIcapolicy -Name <string>
+        An example how to delete icapolicy configuration Object(s).
     .NOTES
         File Name : Invoke-ADCDeleteIcapolicy
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ica/icapolicy/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
+    #>
     [CmdletBinding(SupportsShouldProcess = $true, ConfirmImpact = "Low")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
-        [Parameter(Mandatory = $true)]
-        [string]$name 
+        [Parameter(Mandatory)]
+        [string]$Name 
     )
     begin {
         Write-Verbose "Invoke-ADCDeleteIcapolicy: Starting"
     }
     process {
         try {
-            $Arguments = @{ 
-            }
+            $arguments = @{ }
 
-            if ($PSCmdlet.ShouldProcess("$name", "Delete Ica configuration Object")) {
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type icapolicy -NitroPath nitro/v1/config -Resource $name -Arguments $Arguments
+            if ( $PSCmdlet.ShouldProcess("$name", "Delete Ica configuration Object") ) {
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type icapolicy -NitroPath nitro/v1/config -Resource $name -Arguments $arguments
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $response
@@ -2131,85 +2092,82 @@ function Invoke-ADCDeleteIcapolicy {
 }
 
 function Invoke-ADCUpdateIcapolicy {
-<#
+    <#
     .SYNOPSIS
-        Update Ica configuration Object
+        Update Ica configuration Object.
     .DESCRIPTION
-        Update Ica configuration Object 
-    .PARAMETER name 
+        Configuration for ICA policy resource.
+    .PARAMETER Name 
         Name for the policy. Must begin with an ASCII alphabetic or underscore (_) character, and must contain only ASCII alphanumeric, underscore, hash (#), period (.), space, colon (:), at (@), equals (=), and hyphen (-) characters. 
-    .PARAMETER rule 
-        Expression or other value against which the traffic is evaluated. Must be a Boolean expression.  
-        The following requirements apply only to the Citrix ADC CLI:  
-        * If the expression includes one or more spaces, enclose the entire expression in double quotation marks.  
-        * If the expression itself includes double quotation marks, escape the quotations by using the \ character.  
+    .PARAMETER Rule 
+        Expression or other value against which the traffic is evaluated. Must be a Boolean expression. 
+        The following requirements apply only to the Citrix ADC CLI: 
+        * If the expression includes one or more spaces, enclose the entire expression in double quotation marks. 
+        * If the expression itself includes double quotation marks, escape the quotations by using the \ character. 
         * Alternatively, you can use single quotation marks to enclose the rule, in which case you do not have to escape the double quotation marks. 
-    .PARAMETER action 
+    .PARAMETER Action 
         Name of the ica action to be associated with this policy. 
-    .PARAMETER comment 
+    .PARAMETER Comment 
         Any type of information about this ICA policy. 
-    .PARAMETER logaction 
+    .PARAMETER Logaction 
         Name of the messagelog action to use for requests that match this policy. 
     .PARAMETER PassThru 
         Return details about the created icapolicy item.
     .EXAMPLE
-        Invoke-ADCUpdateIcapolicy -name <string>
+        PS C:\>Invoke-ADCUpdateIcapolicy -name <string>
+        An example how to update icapolicy configuration Object(s).
     .NOTES
         File Name : Invoke-ADCUpdateIcapolicy
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ica/icapolicy/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
+    #>
     [CmdletBinding(SupportsShouldProcess = $true, ConfirmImpact = "Low")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
-        [Parameter(Mandatory = $true)]
+        [Parameter(Mandatory)]
         [ValidatePattern('^(([a-zA-Z0-9]|[_])+([a-zA-Z0-9]|[_])+)$')]
-        [string]$name ,
+        [string]$Name,
 
-        [string]$rule ,
+        [string]$Rule,
 
-        [string]$action ,
+        [string]$Action,
 
-        [string]$comment ,
+        [string]$Comment,
 
-        [string]$logaction ,
+        [string]$Logaction,
 
         [Switch]$PassThru 
-
     )
     begin {
         Write-Verbose "Invoke-ADCUpdateIcapolicy: Starting"
     }
     process {
         try {
-            $Payload = @{
-                name = $name
-            }
-            if ($PSBoundParameters.ContainsKey('rule')) { $Payload.Add('rule', $rule) }
-            if ($PSBoundParameters.ContainsKey('action')) { $Payload.Add('action', $action) }
-            if ($PSBoundParameters.ContainsKey('comment')) { $Payload.Add('comment', $comment) }
-            if ($PSBoundParameters.ContainsKey('logaction')) { $Payload.Add('logaction', $logaction) }
- 
-            if ($PSCmdlet.ShouldProcess("icapolicy", "Update Ica configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -NitroPath nitro/v1/config -Type icapolicy -Payload $Payload -GetWarning
+            $payload = @{ name = $name }
+            if ( $PSBoundParameters.ContainsKey('rule') ) { $payload.Add('rule', $rule) }
+            if ( $PSBoundParameters.ContainsKey('action') ) { $payload.Add('action', $action) }
+            if ( $PSBoundParameters.ContainsKey('comment') ) { $payload.Add('comment', $comment) }
+            if ( $PSBoundParameters.ContainsKey('logaction') ) { $payload.Add('logaction', $logaction) }
+            if ( $PSCmdlet.ShouldProcess("icapolicy", "Update Ica configuration Object") ) {
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -NitroPath nitro/v1/config -Type icapolicy -Payload $payload -GetWarning
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
-                if ($PSBoundParameters.ContainsKey('PassThru')) {
-                    Write-Output (Invoke-ADCGetIcapolicy -Filter $Payload)
+                if ( $PSBoundParameters.ContainsKey('PassThru') ) {
+                    Write-Output (Invoke-ADCGetIcapolicy -Filter $payload)
                 } else {
                     Write-Output $result
                 }
-
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -2222,42 +2180,43 @@ function Invoke-ADCUpdateIcapolicy {
 }
 
 function Invoke-ADCUnsetIcapolicy {
-<#
+    <#
     .SYNOPSIS
-        Unset Ica configuration Object
+        Unset Ica configuration Object.
     .DESCRIPTION
-        Unset Ica configuration Object 
-   .PARAMETER name 
-       Name for the policy. Must begin with an ASCII alphabetic or underscore (_) character, and must contain only ASCII alphanumeric, underscore, hash (#), period (.), space, colon (:), at (@), equals (=), and hyphen (-) characters. 
-   .PARAMETER comment 
-       Any type of information about this ICA policy. 
-   .PARAMETER logaction 
-       Name of the messagelog action to use for requests that match this policy.
+        Configuration for ICA policy resource.
+    .PARAMETER Name 
+        Name for the policy. Must begin with an ASCII alphabetic or underscore (_) character, and must contain only ASCII alphanumeric, underscore, hash (#), period (.), space, colon (:), at (@), equals (=), and hyphen (-) characters. 
+    .PARAMETER Comment 
+        Any type of information about this ICA policy. 
+    .PARAMETER Logaction 
+        Name of the messagelog action to use for requests that match this policy.
     .EXAMPLE
-        Invoke-ADCUnsetIcapolicy -name <string>
+        PS C:\>Invoke-ADCUnsetIcapolicy -name <string>
+        An example how to unset icapolicy configuration Object(s).
     .NOTES
         File Name : Invoke-ADCUnsetIcapolicy
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ica/icapolicy
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
+    #>
     [CmdletBinding(SupportsShouldProcess = $true, ConfirmImpact = "Low")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
-        [Parameter(Mandatory = $true)]
         [ValidatePattern('^(([a-zA-Z0-9]|[_])+([a-zA-Z0-9]|[_])+)$')]
-        [string]$name ,
+        [string]$Name,
 
-        [Boolean]$comment ,
+        [Boolean]$comment,
 
         [Boolean]$logaction 
     )
@@ -2266,13 +2225,11 @@ function Invoke-ADCUnsetIcapolicy {
     }
     process {
         try {
-            $Payload = @{
-                name = $name
-            }
-            if ($PSBoundParameters.ContainsKey('comment')) { $Payload.Add('comment', $comment) }
-            if ($PSBoundParameters.ContainsKey('logaction')) { $Payload.Add('logaction', $logaction) }
-            if ($PSCmdlet.ShouldProcess("$name", "Unset Ica configuration Object")) {
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -Type icapolicy -NitroPath nitro/v1/config -Action unset -Payload $Payload -GetWarning
+            $payload = @{ name = $name }
+            if ( $PSBoundParameters.ContainsKey('comment') ) { $payload.Add('comment', $comment) }
+            if ( $PSBoundParameters.ContainsKey('logaction') ) { $payload.Add('logaction', $logaction) }
+            if ( $PSCmdlet.ShouldProcess("$name", "Unset Ica configuration Object") ) {
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -Type icapolicy -NitroPath nitro/v1/config -Action unset -Payload $payload -GetWarning
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $response
@@ -2288,70 +2245,68 @@ function Invoke-ADCUnsetIcapolicy {
 }
 
 function Invoke-ADCRenameIcapolicy {
-<#
+    <#
     .SYNOPSIS
-        Rename Ica configuration Object
+        Rename Ica configuration Object.
     .DESCRIPTION
-        Rename Ica configuration Object 
-    .PARAMETER name 
+        Configuration for ICA policy resource.
+    .PARAMETER Name 
         Name for the policy. Must begin with an ASCII alphabetic or underscore (_) character, and must contain only ASCII alphanumeric, underscore, hash (#), period (.), space, colon (:), at (@), equals (=), and hyphen (-) characters. 
-    .PARAMETER newname 
-        New name for the policy. Must begin with an ASCII alphabetic or underscore (_)character, and must contain only ASCII alphanumeric, underscore, hash (#), period (.), s  
+    .PARAMETER Newname 
+        New name for the policy. Must begin with an ASCII alphabetic or underscore (_)character, and must contain only ASCII alphanumeric, underscore, hash (#), period (.), s 
         pace, colon (:), at (@), equals (=), and hyphen (-) characters. 
     .PARAMETER PassThru 
         Return details about the created icapolicy item.
     .EXAMPLE
-        Invoke-ADCRenameIcapolicy -name <string> -newname <string>
+        PS C:\>Invoke-ADCRenameIcapolicy -name <string> -newname <string>
+        An example how to rename icapolicy configuration Object(s).
     .NOTES
         File Name : Invoke-ADCRenameIcapolicy
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ica/icapolicy/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
+    #>
     [CmdletBinding(SupportsShouldProcess = $true, ConfirmImpact = "Low")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
-        [Parameter(Mandatory = $true)]
+        [Parameter(Mandatory)]
         [ValidatePattern('^(([a-zA-Z0-9]|[_])+([a-zA-Z0-9]|[_])+)$')]
-        [string]$name ,
+        [string]$Name,
 
-        [Parameter(Mandatory = $true)]
+        [Parameter(Mandatory)]
         [ValidateScript({ $_.Length -gt 1 })]
-        [string]$newname ,
+        [string]$Newname,
 
         [Switch]$PassThru 
-
     )
     begin {
         Write-Verbose "Invoke-ADCRenameIcapolicy: Starting"
     }
     process {
         try {
-            $Payload = @{
-                name = $name
-                newname = $newname
+            $payload = @{ name = $name
+                newname        = $newname
             }
 
- 
-            if ($PSCmdlet.ShouldProcess("icapolicy", "Rename Ica configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -NitroPath nitro/v1/config -Type icapolicy -Action rename -Payload $Payload -GetWarning
+            if ( $PSCmdlet.ShouldProcess("icapolicy", "Rename Ica configuration Object") ) {
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -NitroPath nitro/v1/config -Type icapolicy -Action rename -Payload $payload -GetWarning
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
-                if ($PSBoundParameters.ContainsKey('PassThru')) {
-                    Write-Output (Invoke-ADCGetIcapolicy -Filter $Payload)
+                if ( $PSBoundParameters.ContainsKey('PassThru') ) {
+                    Write-Output (Invoke-ADCGetIcapolicy -Filter $payload)
                 } else {
                     Write-Output $result
                 }
-
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -2364,55 +2319,61 @@ function Invoke-ADCRenameIcapolicy {
 }
 
 function Invoke-ADCGetIcapolicy {
-<#
+    <#
     .SYNOPSIS
-        Get Ica configuration object(s)
+        Get Ica configuration object(s).
     .DESCRIPTION
-        Get Ica configuration object(s)
-    .PARAMETER name 
-       Name for the policy. Must begin with an ASCII alphabetic or underscore (_) character, and must contain only ASCII alphanumeric, underscore, hash (#), period (.), space, colon (:), at (@), equals (=), and hyphen (-) characters. 
+        Configuration for ICA policy resource.
+    .PARAMETER Name 
+        Name for the policy. Must begin with an ASCII alphabetic or underscore (_) character, and must contain only ASCII alphanumeric, underscore, hash (#), period (.), space, colon (:), at (@), equals (=), and hyphen (-) characters. 
     .PARAMETER GetAll 
-        Retreive all icapolicy object(s)
+        Retrieve all icapolicy object(s).
     .PARAMETER Count
-        If specified, the count of the icapolicy object(s) will be returned
+        If specified, the count of the icapolicy object(s) will be returned.
     .PARAMETER Filter
-        Specify a filter
+        Specify a filter.
         -Filter @{ 'name'='<value>' }
     .PARAMETER ViewSummary
-        When specified, only a summary of information is returned
+        When specified, only a summary of information is returned.
     .EXAMPLE
-        Invoke-ADCGetIcapolicy
+        PS C:\>Invoke-ADCGetIcapolicy
+        Get data.
     .EXAMPLE 
-        Invoke-ADCGetIcapolicy -GetAll 
+        PS C:\>Invoke-ADCGetIcapolicy -GetAll 
+        Get all icapolicy data. 
     .EXAMPLE 
-        Invoke-ADCGetIcapolicy -Count
+        PS C:\>Invoke-ADCGetIcapolicy -Count 
+        Get the number of icapolicy objects.
     .EXAMPLE
-        Invoke-ADCGetIcapolicy -name <string>
+        PS C:\>Invoke-ADCGetIcapolicy -name <string>
+        Get icapolicy object by specifying for example the name.
     .EXAMPLE
-        Invoke-ADCGetIcapolicy -Filter @{ 'name'='<value>' }
+        PS C:\>Invoke-ADCGetIcapolicy -Filter @{ 'name'='<value>' }
+        Get icapolicy data with a filter.
     .NOTES
         File Name : Invoke-ADCGetIcapolicy
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ica/icapolicy/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
-    [CmdletBinding(DefaultParameterSetName = "Getall")]
+    #>
+    [CmdletBinding(DefaultParameterSetName = "GetAll")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
         [Parameter(ParameterSetName = 'GetByResource')]
         [ValidatePattern('^(([a-zA-Z0-9]|[_])+([a-zA-Z0-9]|[_])+)$')]
-        [string]$name,
+        [string]$Name,
 
-        [Parameter(ParameterSetName = 'Count', Mandatory = $true)]
+        [Parameter(ParameterSetName = 'Count', Mandatory)]
         [Switch]$Count,
 			
         [hashtable]$Filter = @{ },
@@ -2430,24 +2391,24 @@ function Invoke-ADCGetIcapolicy {
     }
     process {
         try {
-            if ( $PsCmdlet.ParameterSetName -eq 'Getall' ) {
-                $Query = @{ }
+            if ( $PsCmdlet.ParameterSetName -eq 'GetAll' ) {
+                $query = @{ }
                 Write-Verbose "Retrieving all icapolicy objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type icapolicy -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type icapolicy -NitroPath nitro/v1/config -Query $query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
-                if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
+                if ( $PSBoundParameters.ContainsKey('Count') ) { $query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for icapolicy objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type icapolicy -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type icapolicy -NitroPath nitro/v1/config -Query $query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving icapolicy objects by arguments"
-                $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type icapolicy -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
+                $arguments = @{ } 
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type icapolicy -NitroPath nitro/v1/config -Arguments $arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving icapolicy configuration for property 'name'"
                 $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type icapolicy -NitroPath nitro/v1/config -Resource $name -Summary:$ViewSummary -Filter $Filter -GetWarning
             } else {
                 Write-Verbose "Retrieving icapolicy configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type icapolicy -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type icapolicy -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -2461,50 +2422,55 @@ function Invoke-ADCGetIcapolicy {
 }
 
 function Invoke-ADCGetIcapolicybinding {
-<#
+    <#
     .SYNOPSIS
-        Get Ica configuration object(s)
+        Get Ica configuration object(s).
     .DESCRIPTION
-        Get Ica configuration object(s)
-    .PARAMETER name 
-       Name of the policy about which to display detailed information. 
+        Binding object which returns the resources bound to icapolicy.
+    .PARAMETER Name 
+        Name of the policy about which to display detailed information. 
     .PARAMETER GetAll 
-        Retreive all icapolicy_binding object(s)
+        Retrieve all icapolicy_binding object(s).
     .PARAMETER Count
-        If specified, the count of the icapolicy_binding object(s) will be returned
+        If specified, the count of the icapolicy_binding object(s) will be returned.
     .PARAMETER Filter
-        Specify a filter
+        Specify a filter.
         -Filter @{ 'name'='<value>' }
     .PARAMETER ViewSummary
-        When specified, only a summary of information is returned
+        When specified, only a summary of information is returned.
     .EXAMPLE
-        Invoke-ADCGetIcapolicybinding
+        PS C:\>Invoke-ADCGetIcapolicybinding
+        Get data.
     .EXAMPLE 
-        Invoke-ADCGetIcapolicybinding -GetAll
+        PS C:\>Invoke-ADCGetIcapolicybinding -GetAll 
+        Get all icapolicy_binding data.
     .EXAMPLE
-        Invoke-ADCGetIcapolicybinding -name <string>
+        PS C:\>Invoke-ADCGetIcapolicybinding -name <string>
+        Get icapolicy_binding object by specifying for example the name.
     .EXAMPLE
-        Invoke-ADCGetIcapolicybinding -Filter @{ 'name'='<value>' }
+        PS C:\>Invoke-ADCGetIcapolicybinding -Filter @{ 'name'='<value>' }
+        Get icapolicy_binding data with a filter.
     .NOTES
         File Name : Invoke-ADCGetIcapolicybinding
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ica/icapolicy_binding/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
-    [CmdletBinding(DefaultParameterSetName = "Getall")]
+    #>
+    [CmdletBinding(DefaultParameterSetName = "GetAll")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
         [Parameter(ParameterSetName = 'GetByResource')]
-        [string]$name,
+        [string]$Name,
 			
         [hashtable]$Filter = @{ },
 
@@ -2516,26 +2482,24 @@ function Invoke-ADCGetIcapolicybinding {
     }
     process {
         try {
-            if ( $PsCmdlet.ParameterSetName -eq 'Getall' ) {
-                $Query = @{ 
-                    bulkbindings = 'yes'
-                }
+            if ( $PsCmdlet.ParameterSetName -eq 'GetAll' ) {
+                $query = @{  bulkbindings = 'yes' }
                 Write-Verbose "Retrieving all icapolicy_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type icapolicy_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type icapolicy_binding -NitroPath nitro/v1/config -Query $query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
-                if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
+                if ( $PSBoundParameters.ContainsKey('Count') ) { $query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for icapolicy_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type icapolicy_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type icapolicy_binding -NitroPath nitro/v1/config -Query $query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving icapolicy_binding objects by arguments"
-                $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type icapolicy_binding -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
+                $arguments = @{ } 
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type icapolicy_binding -NitroPath nitro/v1/config -Arguments $arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving icapolicy_binding configuration for property 'name'"
                 $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type icapolicy_binding -NitroPath nitro/v1/config -Resource $name -Summary:$ViewSummary -Filter $Filter -GetWarning
             } else {
                 Write-Verbose "Retrieving icapolicy_binding configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type icapolicy_binding -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type icapolicy_binding -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -2549,54 +2513,60 @@ function Invoke-ADCGetIcapolicybinding {
 }
 
 function Invoke-ADCGetIcapolicycrvserverbinding {
-<#
+    <#
     .SYNOPSIS
-        Get Ica configuration object(s)
+        Get Ica configuration object(s).
     .DESCRIPTION
-        Get Ica configuration object(s)
-    .PARAMETER name 
-       Name of the policy about which to display detailed information. 
+        Binding object showing the crvserver that can be bound to icapolicy.
+    .PARAMETER Name 
+        Name of the policy about which to display detailed information. 
     .PARAMETER GetAll 
-        Retreive all icapolicy_crvserver_binding object(s)
+        Retrieve all icapolicy_crvserver_binding object(s).
     .PARAMETER Count
-        If specified, the count of the icapolicy_crvserver_binding object(s) will be returned
+        If specified, the count of the icapolicy_crvserver_binding object(s) will be returned.
     .PARAMETER Filter
-        Specify a filter
+        Specify a filter.
         -Filter @{ 'name'='<value>' }
     .PARAMETER ViewSummary
-        When specified, only a summary of information is returned
+        When specified, only a summary of information is returned.
     .EXAMPLE
-        Invoke-ADCGetIcapolicycrvserverbinding
+        PS C:\>Invoke-ADCGetIcapolicycrvserverbinding
+        Get data.
     .EXAMPLE 
-        Invoke-ADCGetIcapolicycrvserverbinding -GetAll 
+        PS C:\>Invoke-ADCGetIcapolicycrvserverbinding -GetAll 
+        Get all icapolicy_crvserver_binding data. 
     .EXAMPLE 
-        Invoke-ADCGetIcapolicycrvserverbinding -Count
+        PS C:\>Invoke-ADCGetIcapolicycrvserverbinding -Count 
+        Get the number of icapolicy_crvserver_binding objects.
     .EXAMPLE
-        Invoke-ADCGetIcapolicycrvserverbinding -name <string>
+        PS C:\>Invoke-ADCGetIcapolicycrvserverbinding -name <string>
+        Get icapolicy_crvserver_binding object by specifying for example the name.
     .EXAMPLE
-        Invoke-ADCGetIcapolicycrvserverbinding -Filter @{ 'name'='<value>' }
+        PS C:\>Invoke-ADCGetIcapolicycrvserverbinding -Filter @{ 'name'='<value>' }
+        Get icapolicy_crvserver_binding data with a filter.
     .NOTES
         File Name : Invoke-ADCGetIcapolicycrvserverbinding
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ica/icapolicy_crvserver_binding/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
-    [CmdletBinding(DefaultParameterSetName = "Getall")]
+    #>
+    [CmdletBinding(DefaultParameterSetName = "GetAll")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
         [Parameter(ParameterSetName = 'GetByResource')]
-        [string]$name,
+        [string]$Name,
 
-        [Parameter(ParameterSetName = 'Count', Mandatory = $true)]
+        [Parameter(ParameterSetName = 'Count', Mandatory)]
         [Switch]$Count,
 			
         [hashtable]$Filter = @{ },
@@ -2609,26 +2579,24 @@ function Invoke-ADCGetIcapolicycrvserverbinding {
     }
     process {
         try {
-            if ( $PsCmdlet.ParameterSetName -eq 'Getall' ) {
-                $Query = @{ 
-                    bulkbindings = 'yes'
-                }
+            if ( $PsCmdlet.ParameterSetName -eq 'GetAll' ) {
+                $query = @{  bulkbindings = 'yes' }
                 Write-Verbose "Retrieving all icapolicy_crvserver_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type icapolicy_crvserver_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type icapolicy_crvserver_binding -NitroPath nitro/v1/config -Query $query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
-                if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
+                if ( $PSBoundParameters.ContainsKey('Count') ) { $query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for icapolicy_crvserver_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type icapolicy_crvserver_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type icapolicy_crvserver_binding -NitroPath nitro/v1/config -Query $query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving icapolicy_crvserver_binding objects by arguments"
-                $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type icapolicy_crvserver_binding -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
+                $arguments = @{ } 
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type icapolicy_crvserver_binding -NitroPath nitro/v1/config -Arguments $arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving icapolicy_crvserver_binding configuration for property 'name'"
                 $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type icapolicy_crvserver_binding -NitroPath nitro/v1/config -Resource $name -Summary:$ViewSummary -Filter $Filter -GetWarning
             } else {
                 Write-Verbose "Retrieving icapolicy_crvserver_binding configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type icapolicy_crvserver_binding -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type icapolicy_crvserver_binding -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -2642,54 +2610,60 @@ function Invoke-ADCGetIcapolicycrvserverbinding {
 }
 
 function Invoke-ADCGetIcapolicyicaglobalbinding {
-<#
+    <#
     .SYNOPSIS
-        Get Ica configuration object(s)
+        Get Ica configuration object(s).
     .DESCRIPTION
-        Get Ica configuration object(s)
-    .PARAMETER name 
-       Name of the policy about which to display detailed information. 
+        Binding object showing the icaglobal that can be bound to icapolicy.
+    .PARAMETER Name 
+        Name of the policy about which to display detailed information. 
     .PARAMETER GetAll 
-        Retreive all icapolicy_icaglobal_binding object(s)
+        Retrieve all icapolicy_icaglobal_binding object(s).
     .PARAMETER Count
-        If specified, the count of the icapolicy_icaglobal_binding object(s) will be returned
+        If specified, the count of the icapolicy_icaglobal_binding object(s) will be returned.
     .PARAMETER Filter
-        Specify a filter
+        Specify a filter.
         -Filter @{ 'name'='<value>' }
     .PARAMETER ViewSummary
-        When specified, only a summary of information is returned
+        When specified, only a summary of information is returned.
     .EXAMPLE
-        Invoke-ADCGetIcapolicyicaglobalbinding
+        PS C:\>Invoke-ADCGetIcapolicyicaglobalbinding
+        Get data.
     .EXAMPLE 
-        Invoke-ADCGetIcapolicyicaglobalbinding -GetAll 
+        PS C:\>Invoke-ADCGetIcapolicyicaglobalbinding -GetAll 
+        Get all icapolicy_icaglobal_binding data. 
     .EXAMPLE 
-        Invoke-ADCGetIcapolicyicaglobalbinding -Count
+        PS C:\>Invoke-ADCGetIcapolicyicaglobalbinding -Count 
+        Get the number of icapolicy_icaglobal_binding objects.
     .EXAMPLE
-        Invoke-ADCGetIcapolicyicaglobalbinding -name <string>
+        PS C:\>Invoke-ADCGetIcapolicyicaglobalbinding -name <string>
+        Get icapolicy_icaglobal_binding object by specifying for example the name.
     .EXAMPLE
-        Invoke-ADCGetIcapolicyicaglobalbinding -Filter @{ 'name'='<value>' }
+        PS C:\>Invoke-ADCGetIcapolicyicaglobalbinding -Filter @{ 'name'='<value>' }
+        Get icapolicy_icaglobal_binding data with a filter.
     .NOTES
         File Name : Invoke-ADCGetIcapolicyicaglobalbinding
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ica/icapolicy_icaglobal_binding/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
-    [CmdletBinding(DefaultParameterSetName = "Getall")]
+    #>
+    [CmdletBinding(DefaultParameterSetName = "GetAll")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
         [Parameter(ParameterSetName = 'GetByResource')]
-        [string]$name,
+        [string]$Name,
 
-        [Parameter(ParameterSetName = 'Count', Mandatory = $true)]
+        [Parameter(ParameterSetName = 'Count', Mandatory)]
         [Switch]$Count,
 			
         [hashtable]$Filter = @{ },
@@ -2702,26 +2676,24 @@ function Invoke-ADCGetIcapolicyicaglobalbinding {
     }
     process {
         try {
-            if ( $PsCmdlet.ParameterSetName -eq 'Getall' ) {
-                $Query = @{ 
-                    bulkbindings = 'yes'
-                }
+            if ( $PsCmdlet.ParameterSetName -eq 'GetAll' ) {
+                $query = @{  bulkbindings = 'yes' }
                 Write-Verbose "Retrieving all icapolicy_icaglobal_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type icapolicy_icaglobal_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type icapolicy_icaglobal_binding -NitroPath nitro/v1/config -Query $query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
-                if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
+                if ( $PSBoundParameters.ContainsKey('Count') ) { $query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for icapolicy_icaglobal_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type icapolicy_icaglobal_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type icapolicy_icaglobal_binding -NitroPath nitro/v1/config -Query $query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving icapolicy_icaglobal_binding objects by arguments"
-                $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type icapolicy_icaglobal_binding -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
+                $arguments = @{ } 
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type icapolicy_icaglobal_binding -NitroPath nitro/v1/config -Arguments $arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving icapolicy_icaglobal_binding configuration for property 'name'"
                 $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type icapolicy_icaglobal_binding -NitroPath nitro/v1/config -Resource $name -Summary:$ViewSummary -Filter $Filter -GetWarning
             } else {
                 Write-Verbose "Retrieving icapolicy_icaglobal_binding configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type icapolicy_icaglobal_binding -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type icapolicy_icaglobal_binding -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -2735,54 +2707,60 @@ function Invoke-ADCGetIcapolicyicaglobalbinding {
 }
 
 function Invoke-ADCGetIcapolicyvpnvserverbinding {
-<#
+    <#
     .SYNOPSIS
-        Get Ica configuration object(s)
+        Get Ica configuration object(s).
     .DESCRIPTION
-        Get Ica configuration object(s)
-    .PARAMETER name 
-       Name of the policy about which to display detailed information. 
+        Binding object showing the vpnvserver that can be bound to icapolicy.
+    .PARAMETER Name 
+        Name of the policy about which to display detailed information. 
     .PARAMETER GetAll 
-        Retreive all icapolicy_vpnvserver_binding object(s)
+        Retrieve all icapolicy_vpnvserver_binding object(s).
     .PARAMETER Count
-        If specified, the count of the icapolicy_vpnvserver_binding object(s) will be returned
+        If specified, the count of the icapolicy_vpnvserver_binding object(s) will be returned.
     .PARAMETER Filter
-        Specify a filter
+        Specify a filter.
         -Filter @{ 'name'='<value>' }
     .PARAMETER ViewSummary
-        When specified, only a summary of information is returned
+        When specified, only a summary of information is returned.
     .EXAMPLE
-        Invoke-ADCGetIcapolicyvpnvserverbinding
+        PS C:\>Invoke-ADCGetIcapolicyvpnvserverbinding
+        Get data.
     .EXAMPLE 
-        Invoke-ADCGetIcapolicyvpnvserverbinding -GetAll 
+        PS C:\>Invoke-ADCGetIcapolicyvpnvserverbinding -GetAll 
+        Get all icapolicy_vpnvserver_binding data. 
     .EXAMPLE 
-        Invoke-ADCGetIcapolicyvpnvserverbinding -Count
+        PS C:\>Invoke-ADCGetIcapolicyvpnvserverbinding -Count 
+        Get the number of icapolicy_vpnvserver_binding objects.
     .EXAMPLE
-        Invoke-ADCGetIcapolicyvpnvserverbinding -name <string>
+        PS C:\>Invoke-ADCGetIcapolicyvpnvserverbinding -name <string>
+        Get icapolicy_vpnvserver_binding object by specifying for example the name.
     .EXAMPLE
-        Invoke-ADCGetIcapolicyvpnvserverbinding -Filter @{ 'name'='<value>' }
+        PS C:\>Invoke-ADCGetIcapolicyvpnvserverbinding -Filter @{ 'name'='<value>' }
+        Get icapolicy_vpnvserver_binding data with a filter.
     .NOTES
         File Name : Invoke-ADCGetIcapolicyvpnvserverbinding
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ica/icapolicy_vpnvserver_binding/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
-    [CmdletBinding(DefaultParameterSetName = "Getall")]
+    #>
+    [CmdletBinding(DefaultParameterSetName = "GetAll")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
         [Parameter(ParameterSetName = 'GetByResource')]
-        [string]$name,
+        [string]$Name,
 
-        [Parameter(ParameterSetName = 'Count', Mandatory = $true)]
+        [Parameter(ParameterSetName = 'Count', Mandatory)]
         [Switch]$Count,
 			
         [hashtable]$Filter = @{ },
@@ -2795,26 +2773,24 @@ function Invoke-ADCGetIcapolicyvpnvserverbinding {
     }
     process {
         try {
-            if ( $PsCmdlet.ParameterSetName -eq 'Getall' ) {
-                $Query = @{ 
-                    bulkbindings = 'yes'
-                }
+            if ( $PsCmdlet.ParameterSetName -eq 'GetAll' ) {
+                $query = @{  bulkbindings = 'yes' }
                 Write-Verbose "Retrieving all icapolicy_vpnvserver_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type icapolicy_vpnvserver_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type icapolicy_vpnvserver_binding -NitroPath nitro/v1/config -Query $query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
-                if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
+                if ( $PSBoundParameters.ContainsKey('Count') ) { $query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for icapolicy_vpnvserver_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type icapolicy_vpnvserver_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type icapolicy_vpnvserver_binding -NitroPath nitro/v1/config -Query $query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving icapolicy_vpnvserver_binding objects by arguments"
-                $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type icapolicy_vpnvserver_binding -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
+                $arguments = @{ } 
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type icapolicy_vpnvserver_binding -NitroPath nitro/v1/config -Arguments $arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving icapolicy_vpnvserver_binding configuration for property 'name'"
                 $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type icapolicy_vpnvserver_binding -NitroPath nitro/v1/config -Resource $name -Summary:$ViewSummary -Filter $Filter -GetWarning
             } else {
                 Write-Verbose "Retrieving icapolicy_vpnvserver_binding configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type icapolicy_vpnvserver_binding -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type icapolicy_vpnvserver_binding -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"

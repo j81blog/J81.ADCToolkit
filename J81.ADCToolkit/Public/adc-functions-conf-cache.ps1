@@ -1,350 +1,302 @@
 function Invoke-ADCAddCachecontentgroup {
-<#
+    <#
     .SYNOPSIS
-        Add Integrated Caching configuration Object
+        Add Integrated Caching configuration Object.
     .DESCRIPTION
-        Add Integrated Caching configuration Object 
-    .PARAMETER name 
-        Name for the content group. Must begin with an ASCII alphabetic or underscore (_) character, and must contain only ASCII alphanumeric, underscore, hash (#), period (.), space, colon (:), at (@), equals (=), and hyphen (-) characters. Cannot be changed after the content group is created.  
-        Minimum length = 1 
-    .PARAMETER weakposrelexpiry 
-        Relative expiry time, in seconds, for expiring positive responses with response codes between 200 and 399. Cannot be used in combination with other Expiry attributes. Similar to -relExpiry but has lower precedence.  
-        Minimum value = 0  
-        Maximum value = 31536000 
-    .PARAMETER heurexpiryparam 
-        Heuristic expiry time, in percent of the duration, since the object was last modified.  
-        Minimum value = 0  
-        Maximum value = 100 
-    .PARAMETER relexpiry 
-        Relative expiry time, in seconds, after which to expire an object cached in this content group.  
-        Minimum value = 0  
-        Maximum value = 31536000 
-    .PARAMETER relexpirymillisec 
-        Relative expiry time, in milliseconds, after which to expire an object cached in this content group.  
-        Minimum value = 0  
-        Maximum value = 86400000 
-    .PARAMETER absexpiry 
-        Local time, up to 4 times a day, at which all objects in the content group must expire.  
-        CLI Users:  
-        For example, to specify that the objects in the content group should expire by 11:00 PM, type the following command: add cache contentgroup <contentgroup name> -absexpiry 23:00  
+        Configuration for Integrated Cache content group resource.
+    .PARAMETER Name 
+        Name for the content group. Must begin with an ASCII alphabetic or underscore (_) character, and must contain only ASCII alphanumeric, underscore, hash (#), period (.), space, colon (:), at (@), equals (=), and hyphen (-) characters. Cannot be changed after the content group is created. 
+    .PARAMETER Weakposrelexpiry 
+        Relative expiry time, in seconds, for expiring positive responses with response codes between 200 and 399. Cannot be used in combination with other Expiry attributes. Similar to -relExpiry but has lower precedence. 
+    .PARAMETER Heurexpiryparam 
+        Heuristic expiry time, in percent of the duration, since the object was last modified. 
+    .PARAMETER Relexpiry 
+        Relative expiry time, in seconds, after which to expire an object cached in this content group. 
+    .PARAMETER Relexpirymillisec 
+        Relative expiry time, in milliseconds, after which to expire an object cached in this content group. 
+    .PARAMETER Absexpiry 
+        Local time, up to 4 times a day, at which all objects in the content group must expire. 
+        CLI Users: 
+        For example, to specify that the objects in the content group should expire by 11:00 PM, type the following command: add cache contentgroup <contentgroup name> -absexpiry 23:00 
         To specify that the objects in the content group should expire at 10:00 AM, 3 PM, 6 PM, and 11:00 PM, type: add cache contentgroup <contentgroup name> -absexpiry 10:00 15:00 18:00 23:00. 
-    .PARAMETER absexpirygmt 
+    .PARAMETER Absexpirygmt 
         Coordinated Universal Time (GMT), up to 4 times a day, when all objects in the content group must expire. 
-    .PARAMETER weaknegrelexpiry 
-        Relative expiry time, in seconds, for expiring negative responses. This value is used only if the expiry time cannot be determined from any other source. It is applicable only to the following status codes: 307, 403, 404, and 410.  
-        Minimum value = 0  
-        Maximum value = 31536000 
-    .PARAMETER hitparams 
-        Parameters to use for parameterized hit evaluation of an object. Up to 128 parameters can be specified. Mutually exclusive with the Hit Selector parameter.  
-        Minimum length = 1 
-    .PARAMETER invalparams 
-        Parameters for parameterized invalidation of an object. You can specify up to 8 parameters. Mutually exclusive with invalSelector.  
-        Minimum length = 1 
-    .PARAMETER ignoreparamvaluecase 
-        Ignore case when comparing parameter values during parameterized hit evaluation. (Parameter value case is ignored by default during parameterized invalidation.).  
+    .PARAMETER Weaknegrelexpiry 
+        Relative expiry time, in seconds, for expiring negative responses. This value is used only if the expiry time cannot be determined from any other source. It is applicable only to the following status codes: 307, 403, 404, and 410. 
+    .PARAMETER Hitparams 
+        Parameters to use for parameterized hit evaluation of an object. Up to 128 parameters can be specified. Mutually exclusive with the Hit Selector parameter. 
+    .PARAMETER Invalparams 
+        Parameters for parameterized invalidation of an object. You can specify up to 8 parameters. Mutually exclusive with invalSelector. 
+    .PARAMETER Ignoreparamvaluecase 
+        Ignore case when comparing parameter values during parameterized hit evaluation. (Parameter value case is ignored by default during parameterized invalidation.). 
         Possible values = YES, NO 
-    .PARAMETER matchcookies 
-        Evaluate for parameters in the cookie header also.  
+    .PARAMETER Matchcookies 
+        Evaluate for parameters in the cookie header also. 
         Possible values = YES, NO 
-    .PARAMETER invalrestrictedtohost 
-        Take the host header into account during parameterized invalidation.  
+    .PARAMETER Invalrestrictedtohost 
+        Take the host header into account during parameterized invalidation. 
         Possible values = YES, NO 
-    .PARAMETER polleverytime 
-        Always poll for the objects in this content group. That is, retrieve the objects from the origin server whenever they are requested.  
-        Default value: NO  
+    .PARAMETER Polleverytime 
+        Always poll for the objects in this content group. That is, retrieve the objects from the origin server whenever they are requested. 
         Possible values = YES, NO 
-    .PARAMETER ignorereloadreq 
-        Ignore any request to reload a cached object from the origin server.  
-        To guard against Denial of Service attacks, set this parameter to YES. For RFC-compliant behavior, set it to NO.  
-        Default value: YES  
+    .PARAMETER Ignorereloadreq 
+        Ignore any request to reload a cached object from the origin server. 
+        To guard against Denial of Service attacks, set this parameter to YES. For RFC-compliant behavior, set it to NO. 
         Possible values = YES, NO 
-    .PARAMETER removecookies 
-        Remove cookies from responses.  
-        Default value: YES  
+    .PARAMETER Removecookies 
+        Remove cookies from responses. 
         Possible values = YES, NO 
-    .PARAMETER prefetch 
-        Attempt to refresh objects that are about to go stale.  
-        Default value: YES  
+    .PARAMETER Prefetch 
+        Attempt to refresh objects that are about to go stale. 
         Possible values = YES, NO 
-    .PARAMETER prefetchperiod 
-        Time period, in seconds before an object's calculated expiry time, during which to attempt prefetch.  
-        Minimum value = 0  
-        Maximum value = 4294967294 
-    .PARAMETER prefetchperiodmillisec 
-        Time period, in milliseconds before an object's calculated expiry time, during which to attempt prefetch.  
-        Minimum value = 0  
-        Maximum value = 4294967290 
-    .PARAMETER prefetchmaxpending 
-        Maximum number of outstanding prefetches that can be queued for the content group.  
-        Minimum value = 0  
-        Maximum value = 4294967294 
-    .PARAMETER flashcache 
-        Perform flash cache. Mutually exclusive with Poll Every Time (PET) on the same content group.  
-        Default value: NO  
+    .PARAMETER Prefetchperiod 
+        Time period, in seconds before an object's calculated expiry time, during which to attempt prefetch. 
+    .PARAMETER Prefetchperiodmillisec 
+        Time period, in milliseconds before an object's calculated expiry time, during which to attempt prefetch. 
+    .PARAMETER Prefetchmaxpending 
+        Maximum number of outstanding prefetches that can be queued for the content group. 
+    .PARAMETER Flashcache 
+        Perform flash cache. Mutually exclusive with Poll Every Time (PET) on the same content group. 
         Possible values = YES, NO 
-    .PARAMETER expireatlastbyte 
-        Force expiration of the content immediately after the response is downloaded (upon receipt of the last byte of the response body). Applicable only to positive responses.  
-        Default value: NO  
+    .PARAMETER Expireatlastbyte 
+        Force expiration of the content immediately after the response is downloaded (upon receipt of the last byte of the response body). Applicable only to positive responses. 
         Possible values = YES, NO 
-    .PARAMETER insertvia 
-        Insert a Via header into the response.  
-        Default value: YES  
+    .PARAMETER Insertvia 
+        Insert a Via header into the response. 
         Possible values = YES, NO 
-    .PARAMETER insertage 
-        Insert an Age header into the response. An Age header contains information about the age of the object, in seconds, as calculated by the integrated cache.  
-        Default value: YES  
+    .PARAMETER Insertage 
+        Insert an Age header into the response. An Age header contains information about the age of the object, in seconds, as calculated by the integrated cache. 
         Possible values = YES, NO 
-    .PARAMETER insertetag 
-        Insert an ETag header in the response. With ETag header insertion, the integrated cache does not serve full responses on repeat requests.  
-        Default value: YES  
+    .PARAMETER Insertetag 
+        Insert an ETag header in the response. With ETag header insertion, the integrated cache does not serve full responses on repeat requests. 
         Possible values = YES, NO 
-    .PARAMETER cachecontrol 
-        Insert a Cache-Control header into the response.  
-        Minimum length = 1 
-    .PARAMETER quickabortsize 
-        If the size of an object that is being downloaded is less than or equal to the quick abort value, and a client aborts during the download, the cache stops downloading the response. If the object is larger than the quick abort size, the cache continues to download the response.  
-        Default value: 4194303  
-        Minimum value = 0  
-        Maximum value = 4194303 
-    .PARAMETER minressize 
-        Minimum size of a response that can be cached in this content group.  
-        Default minimum response size is 0.  
-        Minimum value = 0  
-        Maximum value = 2097151 
-    .PARAMETER maxressize 
-        Maximum size of a response that can be cached in this content group.  
-        Default value: 80  
-        Minimum value = 0  
-        Maximum value = 2097151 
-    .PARAMETER memlimit 
-        Maximum amount of memory that the cache can use. The effective limit is based on the available memory of the Citrix ADC.  
-        Default value: 65536 
-    .PARAMETER ignorereqcachinghdrs 
-        Ignore Cache-Control and Pragma headers in the incoming request.  
-        Default value: YES  
+    .PARAMETER Cachecontrol 
+        Insert a Cache-Control header into the response. 
+    .PARAMETER Quickabortsize 
+        If the size of an object that is being downloaded is less than or equal to the quick abort value, and a client aborts during the download, the cache stops downloading the response. If the object is larger than the quick abort size, the cache continues to download the response. 
+    .PARAMETER Minressize 
+        Minimum size of a response that can be cached in this content group. 
+        Default minimum response size is 0. 
+    .PARAMETER Maxressize 
+        Maximum size of a response that can be cached in this content group. 
+    .PARAMETER Memlimit 
+        Maximum amount of memory that the cache can use. The effective limit is based on the available memory of the Citrix ADC. 
+    .PARAMETER Ignorereqcachinghdrs 
+        Ignore Cache-Control and Pragma headers in the incoming request. 
         Possible values = YES, NO 
-    .PARAMETER minhits 
-        Number of hits that qualifies a response for storage in this content group.  
-        Default value: 0 
-    .PARAMETER alwaysevalpolicies 
-        Force policy evaluation for each response arriving from the origin server. Cannot be set to YES if the Prefetch parameter is also set to YES.  
-        Default value: NO  
+    .PARAMETER Minhits 
+        Number of hits that qualifies a response for storage in this content group. 
+    .PARAMETER Alwaysevalpolicies 
+        Force policy evaluation for each response arriving from the origin server. Cannot be set to YES if the Prefetch parameter is also set to YES. 
         Possible values = YES, NO 
-    .PARAMETER persistha 
-        Setting persistHA to YES causes IC to save objects in contentgroup to Secondary node in HA deployment.  
-        Default value: NO  
+    .PARAMETER Persistha 
+        Setting persistHA to YES causes IC to save objects in contentgroup to Secondary node in HA deployment. 
         Possible values = YES, NO 
-    .PARAMETER pinned 
-        Do not flush objects from this content group under memory pressure.  
-        Default value: NO  
+    .PARAMETER Pinned 
+        Do not flush objects from this content group under memory pressure. 
         Possible values = YES, NO 
-    .PARAMETER lazydnsresolve 
-        Perform DNS resolution for responses only if the destination IP address in the request does not match the destination IP address of the cached response.  
-        Default value: YES  
+    .PARAMETER Lazydnsresolve 
+        Perform DNS resolution for responses only if the destination IP address in the request does not match the destination IP address of the cached response. 
         Possible values = YES, NO 
-    .PARAMETER hitselector 
+    .PARAMETER Hitselector 
         Selector for evaluating whether an object gets stored in a particular content group. A selector is an abstraction for a collection of PIXL expressions. 
-    .PARAMETER invalselector 
+    .PARAMETER Invalselector 
         Selector for invalidating objects in the content group. A selector is an abstraction for a collection of PIXL expressions. 
-    .PARAMETER type 
-        The type of the content group.  
-        Default value: HTTP  
+    .PARAMETER Type 
+        The type of the content group. 
         Possible values = HTTP, MYSQL, MSSQL 
     .PARAMETER PassThru 
         Return details about the created cachecontentgroup item.
     .EXAMPLE
-        Invoke-ADCAddCachecontentgroup -name <string>
+        PS C:\>Invoke-ADCAddCachecontentgroup -name <string>
+        An example how to add cachecontentgroup configuration Object(s).
     .NOTES
         File Name : Invoke-ADCAddCachecontentgroup
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/cache/cachecontentgroup/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
+    #>
     [CmdletBinding(SupportsShouldProcess = $true, ConfirmImpact = "Low")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
-        [Parameter(Mandatory = $true)]
+        [Parameter(Mandatory)]
         [ValidateScript({ $_.Length -gt 1 })]
         [ValidatePattern('^(([a-zA-Z0-9]|[_])+([a-zA-Z0-9]|[_])+)$')]
-        [string]$name ,
+        [string]$Name,
 
         [ValidateRange(0, 31536000)]
-        [double]$weakposrelexpiry ,
+        [double]$Weakposrelexpiry,
 
         [ValidateRange(0, 100)]
-        [double]$heurexpiryparam ,
+        [double]$Heurexpiryparam,
 
         [ValidateRange(0, 31536000)]
-        [double]$relexpiry ,
+        [double]$Relexpiry,
 
         [ValidateRange(0, 86400000)]
-        [double]$relexpirymillisec ,
+        [double]$Relexpirymillisec,
 
-        [string[]]$absexpiry ,
+        [string[]]$Absexpiry,
 
-        [string[]]$absexpirygmt ,
+        [string[]]$Absexpirygmt,
 
         [ValidateRange(0, 31536000)]
-        [double]$weaknegrelexpiry ,
+        [double]$Weaknegrelexpiry,
 
         [ValidateScript({ $_.Length -gt 1 })]
-        [string[]]$hitparams ,
+        [string[]]$Hitparams,
 
         [ValidateScript({ $_.Length -gt 1 })]
-        [string[]]$invalparams ,
+        [string[]]$Invalparams,
 
         [ValidateSet('YES', 'NO')]
-        [string]$ignoreparamvaluecase ,
+        [string]$Ignoreparamvaluecase,
 
         [ValidateSet('YES', 'NO')]
-        [string]$matchcookies ,
+        [string]$Matchcookies,
 
         [ValidateSet('YES', 'NO')]
-        [string]$invalrestrictedtohost ,
+        [string]$Invalrestrictedtohost,
 
         [ValidateSet('YES', 'NO')]
-        [string]$polleverytime = 'NO' ,
+        [string]$Polleverytime = 'NO',
 
         [ValidateSet('YES', 'NO')]
-        [string]$ignorereloadreq = 'YES' ,
+        [string]$Ignorereloadreq = 'YES',
 
         [ValidateSet('YES', 'NO')]
-        [string]$removecookies = 'YES' ,
+        [string]$Removecookies = 'YES',
 
         [ValidateSet('YES', 'NO')]
-        [string]$prefetch = 'YES' ,
+        [string]$Prefetch = 'YES',
 
         [ValidateRange(0, 4294967294)]
-        [double]$prefetchperiod ,
+        [double]$Prefetchperiod,
 
         [ValidateRange(0, 4294967290)]
-        [double]$prefetchperiodmillisec ,
+        [double]$Prefetchperiodmillisec,
 
         [ValidateRange(0, 4294967294)]
-        [double]$prefetchmaxpending ,
+        [double]$Prefetchmaxpending,
 
         [ValidateSet('YES', 'NO')]
-        [string]$flashcache = 'NO' ,
+        [string]$Flashcache = 'NO',
 
         [ValidateSet('YES', 'NO')]
-        [string]$expireatlastbyte = 'NO' ,
+        [string]$Expireatlastbyte = 'NO',
 
         [ValidateSet('YES', 'NO')]
-        [string]$insertvia = 'YES' ,
+        [string]$Insertvia = 'YES',
 
         [ValidateSet('YES', 'NO')]
-        [string]$insertage = 'YES' ,
+        [string]$Insertage = 'YES',
 
         [ValidateSet('YES', 'NO')]
-        [string]$insertetag = 'YES' ,
+        [string]$Insertetag = 'YES',
 
         [ValidateScript({ $_.Length -gt 1 })]
-        [string]$cachecontrol ,
+        [string]$Cachecontrol,
 
         [ValidateRange(0, 4194303)]
-        [double]$quickabortsize = '4194303' ,
+        [double]$Quickabortsize = '4194303',
 
         [ValidateRange(0, 2097151)]
-        [double]$minressize ,
+        [double]$Minressize,
 
         [ValidateRange(0, 2097151)]
-        [double]$maxressize = '80' ,
+        [double]$Maxressize = '80',
 
-        [double]$memlimit = '65536' ,
-
-        [ValidateSet('YES', 'NO')]
-        [string]$ignorereqcachinghdrs = 'YES' ,
-
-        [int]$minhits = '0' ,
+        [double]$Memlimit = '65536',
 
         [ValidateSet('YES', 'NO')]
-        [string]$alwaysevalpolicies = 'NO' ,
+        [string]$Ignorereqcachinghdrs = 'YES',
+
+        [int]$Minhits = '0',
 
         [ValidateSet('YES', 'NO')]
-        [string]$persistha = 'NO' ,
+        [string]$Alwaysevalpolicies = 'NO',
 
         [ValidateSet('YES', 'NO')]
-        [string]$pinned = 'NO' ,
+        [string]$Persistha = 'NO',
 
         [ValidateSet('YES', 'NO')]
-        [string]$lazydnsresolve = 'YES' ,
+        [string]$Pinned = 'NO',
 
-        [string]$hitselector ,
+        [ValidateSet('YES', 'NO')]
+        [string]$Lazydnsresolve = 'YES',
 
-        [string]$invalselector ,
+        [string]$Hitselector,
+
+        [string]$Invalselector,
 
         [ValidateSet('HTTP', 'MYSQL', 'MSSQL')]
-        [string]$type = 'HTTP' ,
+        [string]$Type = 'HTTP',
 
         [Switch]$PassThru 
-
     )
     begin {
         Write-Verbose "Invoke-ADCAddCachecontentgroup: Starting"
     }
     process {
         try {
-            $Payload = @{
-                name = $name
-            }
-            if ($PSBoundParameters.ContainsKey('weakposrelexpiry')) { $Payload.Add('weakposrelexpiry', $weakposrelexpiry) }
-            if ($PSBoundParameters.ContainsKey('heurexpiryparam')) { $Payload.Add('heurexpiryparam', $heurexpiryparam) }
-            if ($PSBoundParameters.ContainsKey('relexpiry')) { $Payload.Add('relexpiry', $relexpiry) }
-            if ($PSBoundParameters.ContainsKey('relexpirymillisec')) { $Payload.Add('relexpirymillisec', $relexpirymillisec) }
-            if ($PSBoundParameters.ContainsKey('absexpiry')) { $Payload.Add('absexpiry', $absexpiry) }
-            if ($PSBoundParameters.ContainsKey('absexpirygmt')) { $Payload.Add('absexpirygmt', $absexpirygmt) }
-            if ($PSBoundParameters.ContainsKey('weaknegrelexpiry')) { $Payload.Add('weaknegrelexpiry', $weaknegrelexpiry) }
-            if ($PSBoundParameters.ContainsKey('hitparams')) { $Payload.Add('hitparams', $hitparams) }
-            if ($PSBoundParameters.ContainsKey('invalparams')) { $Payload.Add('invalparams', $invalparams) }
-            if ($PSBoundParameters.ContainsKey('ignoreparamvaluecase')) { $Payload.Add('ignoreparamvaluecase', $ignoreparamvaluecase) }
-            if ($PSBoundParameters.ContainsKey('matchcookies')) { $Payload.Add('matchcookies', $matchcookies) }
-            if ($PSBoundParameters.ContainsKey('invalrestrictedtohost')) { $Payload.Add('invalrestrictedtohost', $invalrestrictedtohost) }
-            if ($PSBoundParameters.ContainsKey('polleverytime')) { $Payload.Add('polleverytime', $polleverytime) }
-            if ($PSBoundParameters.ContainsKey('ignorereloadreq')) { $Payload.Add('ignorereloadreq', $ignorereloadreq) }
-            if ($PSBoundParameters.ContainsKey('removecookies')) { $Payload.Add('removecookies', $removecookies) }
-            if ($PSBoundParameters.ContainsKey('prefetch')) { $Payload.Add('prefetch', $prefetch) }
-            if ($PSBoundParameters.ContainsKey('prefetchperiod')) { $Payload.Add('prefetchperiod', $prefetchperiod) }
-            if ($PSBoundParameters.ContainsKey('prefetchperiodmillisec')) { $Payload.Add('prefetchperiodmillisec', $prefetchperiodmillisec) }
-            if ($PSBoundParameters.ContainsKey('prefetchmaxpending')) { $Payload.Add('prefetchmaxpending', $prefetchmaxpending) }
-            if ($PSBoundParameters.ContainsKey('flashcache')) { $Payload.Add('flashcache', $flashcache) }
-            if ($PSBoundParameters.ContainsKey('expireatlastbyte')) { $Payload.Add('expireatlastbyte', $expireatlastbyte) }
-            if ($PSBoundParameters.ContainsKey('insertvia')) { $Payload.Add('insertvia', $insertvia) }
-            if ($PSBoundParameters.ContainsKey('insertage')) { $Payload.Add('insertage', $insertage) }
-            if ($PSBoundParameters.ContainsKey('insertetag')) { $Payload.Add('insertetag', $insertetag) }
-            if ($PSBoundParameters.ContainsKey('cachecontrol')) { $Payload.Add('cachecontrol', $cachecontrol) }
-            if ($PSBoundParameters.ContainsKey('quickabortsize')) { $Payload.Add('quickabortsize', $quickabortsize) }
-            if ($PSBoundParameters.ContainsKey('minressize')) { $Payload.Add('minressize', $minressize) }
-            if ($PSBoundParameters.ContainsKey('maxressize')) { $Payload.Add('maxressize', $maxressize) }
-            if ($PSBoundParameters.ContainsKey('memlimit')) { $Payload.Add('memlimit', $memlimit) }
-            if ($PSBoundParameters.ContainsKey('ignorereqcachinghdrs')) { $Payload.Add('ignorereqcachinghdrs', $ignorereqcachinghdrs) }
-            if ($PSBoundParameters.ContainsKey('minhits')) { $Payload.Add('minhits', $minhits) }
-            if ($PSBoundParameters.ContainsKey('alwaysevalpolicies')) { $Payload.Add('alwaysevalpolicies', $alwaysevalpolicies) }
-            if ($PSBoundParameters.ContainsKey('persistha')) { $Payload.Add('persistha', $persistha) }
-            if ($PSBoundParameters.ContainsKey('pinned')) { $Payload.Add('pinned', $pinned) }
-            if ($PSBoundParameters.ContainsKey('lazydnsresolve')) { $Payload.Add('lazydnsresolve', $lazydnsresolve) }
-            if ($PSBoundParameters.ContainsKey('hitselector')) { $Payload.Add('hitselector', $hitselector) }
-            if ($PSBoundParameters.ContainsKey('invalselector')) { $Payload.Add('invalselector', $invalselector) }
-            if ($PSBoundParameters.ContainsKey('type')) { $Payload.Add('type', $type) }
- 
-            if ($PSCmdlet.ShouldProcess("cachecontentgroup", "Add Integrated Caching configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -NitroPath nitro/v1/config -Type cachecontentgroup -Payload $Payload -GetWarning
+            $payload = @{ name = $name }
+            if ( $PSBoundParameters.ContainsKey('weakposrelexpiry') ) { $payload.Add('weakposrelexpiry', $weakposrelexpiry) }
+            if ( $PSBoundParameters.ContainsKey('heurexpiryparam') ) { $payload.Add('heurexpiryparam', $heurexpiryparam) }
+            if ( $PSBoundParameters.ContainsKey('relexpiry') ) { $payload.Add('relexpiry', $relexpiry) }
+            if ( $PSBoundParameters.ContainsKey('relexpirymillisec') ) { $payload.Add('relexpirymillisec', $relexpirymillisec) }
+            if ( $PSBoundParameters.ContainsKey('absexpiry') ) { $payload.Add('absexpiry', $absexpiry) }
+            if ( $PSBoundParameters.ContainsKey('absexpirygmt') ) { $payload.Add('absexpirygmt', $absexpirygmt) }
+            if ( $PSBoundParameters.ContainsKey('weaknegrelexpiry') ) { $payload.Add('weaknegrelexpiry', $weaknegrelexpiry) }
+            if ( $PSBoundParameters.ContainsKey('hitparams') ) { $payload.Add('hitparams', $hitparams) }
+            if ( $PSBoundParameters.ContainsKey('invalparams') ) { $payload.Add('invalparams', $invalparams) }
+            if ( $PSBoundParameters.ContainsKey('ignoreparamvaluecase') ) { $payload.Add('ignoreparamvaluecase', $ignoreparamvaluecase) }
+            if ( $PSBoundParameters.ContainsKey('matchcookies') ) { $payload.Add('matchcookies', $matchcookies) }
+            if ( $PSBoundParameters.ContainsKey('invalrestrictedtohost') ) { $payload.Add('invalrestrictedtohost', $invalrestrictedtohost) }
+            if ( $PSBoundParameters.ContainsKey('polleverytime') ) { $payload.Add('polleverytime', $polleverytime) }
+            if ( $PSBoundParameters.ContainsKey('ignorereloadreq') ) { $payload.Add('ignorereloadreq', $ignorereloadreq) }
+            if ( $PSBoundParameters.ContainsKey('removecookies') ) { $payload.Add('removecookies', $removecookies) }
+            if ( $PSBoundParameters.ContainsKey('prefetch') ) { $payload.Add('prefetch', $prefetch) }
+            if ( $PSBoundParameters.ContainsKey('prefetchperiod') ) { $payload.Add('prefetchperiod', $prefetchperiod) }
+            if ( $PSBoundParameters.ContainsKey('prefetchperiodmillisec') ) { $payload.Add('prefetchperiodmillisec', $prefetchperiodmillisec) }
+            if ( $PSBoundParameters.ContainsKey('prefetchmaxpending') ) { $payload.Add('prefetchmaxpending', $prefetchmaxpending) }
+            if ( $PSBoundParameters.ContainsKey('flashcache') ) { $payload.Add('flashcache', $flashcache) }
+            if ( $PSBoundParameters.ContainsKey('expireatlastbyte') ) { $payload.Add('expireatlastbyte', $expireatlastbyte) }
+            if ( $PSBoundParameters.ContainsKey('insertvia') ) { $payload.Add('insertvia', $insertvia) }
+            if ( $PSBoundParameters.ContainsKey('insertage') ) { $payload.Add('insertage', $insertage) }
+            if ( $PSBoundParameters.ContainsKey('insertetag') ) { $payload.Add('insertetag', $insertetag) }
+            if ( $PSBoundParameters.ContainsKey('cachecontrol') ) { $payload.Add('cachecontrol', $cachecontrol) }
+            if ( $PSBoundParameters.ContainsKey('quickabortsize') ) { $payload.Add('quickabortsize', $quickabortsize) }
+            if ( $PSBoundParameters.ContainsKey('minressize') ) { $payload.Add('minressize', $minressize) }
+            if ( $PSBoundParameters.ContainsKey('maxressize') ) { $payload.Add('maxressize', $maxressize) }
+            if ( $PSBoundParameters.ContainsKey('memlimit') ) { $payload.Add('memlimit', $memlimit) }
+            if ( $PSBoundParameters.ContainsKey('ignorereqcachinghdrs') ) { $payload.Add('ignorereqcachinghdrs', $ignorereqcachinghdrs) }
+            if ( $PSBoundParameters.ContainsKey('minhits') ) { $payload.Add('minhits', $minhits) }
+            if ( $PSBoundParameters.ContainsKey('alwaysevalpolicies') ) { $payload.Add('alwaysevalpolicies', $alwaysevalpolicies) }
+            if ( $PSBoundParameters.ContainsKey('persistha') ) { $payload.Add('persistha', $persistha) }
+            if ( $PSBoundParameters.ContainsKey('pinned') ) { $payload.Add('pinned', $pinned) }
+            if ( $PSBoundParameters.ContainsKey('lazydnsresolve') ) { $payload.Add('lazydnsresolve', $lazydnsresolve) }
+            if ( $PSBoundParameters.ContainsKey('hitselector') ) { $payload.Add('hitselector', $hitselector) }
+            if ( $PSBoundParameters.ContainsKey('invalselector') ) { $payload.Add('invalselector', $invalselector) }
+            if ( $PSBoundParameters.ContainsKey('type') ) { $payload.Add('type', $type) }
+            if ( $PSCmdlet.ShouldProcess("cachecontentgroup", "Add Integrated Caching configuration Object") ) {
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -NitroPath nitro/v1/config -Type cachecontentgroup -Payload $payload -GetWarning
                 #HTTP Status Code on Success: 201 Created
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
-                if ($PSBoundParameters.ContainsKey('PassThru')) {
-                    Write-Output (Invoke-ADCGetCachecontentgroup -Filter $Payload)
+                if ( $PSBoundParameters.ContainsKey('PassThru') ) {
+                    Write-Output (Invoke-ADCGetCachecontentgroup -Filter $payload)
                 } else {
                     Write-Output $result
                 }
-
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -357,47 +309,47 @@ function Invoke-ADCAddCachecontentgroup {
 }
 
 function Invoke-ADCDeleteCachecontentgroup {
-<#
+    <#
     .SYNOPSIS
-        Delete Integrated Caching configuration Object
+        Delete Integrated Caching configuration Object.
     .DESCRIPTION
-        Delete Integrated Caching configuration Object
-    .PARAMETER name 
-       Name for the content group. Must begin with an ASCII alphabetic or underscore (_) character, and must contain only ASCII alphanumeric, underscore, hash (#), period (.), space, colon (:), at (@), equals (=), and hyphen (-) characters. Cannot be changed after the content group is created.  
-       Minimum length = 1 
+        Configuration for Integrated Cache content group resource.
+    .PARAMETER Name 
+        Name for the content group. Must begin with an ASCII alphabetic or underscore (_) character, and must contain only ASCII alphanumeric, underscore, hash (#), period (.), space, colon (:), at (@), equals (=), and hyphen (-) characters. Cannot be changed after the content group is created.
     .EXAMPLE
-        Invoke-ADCDeleteCachecontentgroup -name <string>
+        PS C:\>Invoke-ADCDeleteCachecontentgroup -Name <string>
+        An example how to delete cachecontentgroup configuration Object(s).
     .NOTES
         File Name : Invoke-ADCDeleteCachecontentgroup
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/cache/cachecontentgroup/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
+    #>
     [CmdletBinding(SupportsShouldProcess = $true, ConfirmImpact = "Low")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
-        [Parameter(Mandatory = $true)]
-        [string]$name 
+        [Parameter(Mandatory)]
+        [string]$Name 
     )
     begin {
         Write-Verbose "Invoke-ADCDeleteCachecontentgroup: Starting"
     }
     process {
         try {
-            $Arguments = @{ 
-            }
+            $arguments = @{ }
 
-            if ($PSCmdlet.ShouldProcess("$name", "Delete Integrated Caching configuration Object")) {
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type cachecontentgroup -NitroPath nitro/v1/config -Resource $name -Arguments $Arguments
+            if ( $PSCmdlet.ShouldProcess("$name", "Delete Integrated Caching configuration Object") ) {
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type cachecontentgroup -NitroPath nitro/v1/config -Resource $name -Arguments $arguments
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $response
@@ -413,344 +365,297 @@ function Invoke-ADCDeleteCachecontentgroup {
 }
 
 function Invoke-ADCUpdateCachecontentgroup {
-<#
+    <#
     .SYNOPSIS
-        Update Integrated Caching configuration Object
+        Update Integrated Caching configuration Object.
     .DESCRIPTION
-        Update Integrated Caching configuration Object 
-    .PARAMETER name 
-        Name for the content group. Must begin with an ASCII alphabetic or underscore (_) character, and must contain only ASCII alphanumeric, underscore, hash (#), period (.), space, colon (:), at (@), equals (=), and hyphen (-) characters. Cannot be changed after the content group is created.  
-        Minimum length = 1 
-    .PARAMETER weakposrelexpiry 
-        Relative expiry time, in seconds, for expiring positive responses with response codes between 200 and 399. Cannot be used in combination with other Expiry attributes. Similar to -relExpiry but has lower precedence.  
-        Minimum value = 0  
-        Maximum value = 31536000 
-    .PARAMETER heurexpiryparam 
-        Heuristic expiry time, in percent of the duration, since the object was last modified.  
-        Minimum value = 0  
-        Maximum value = 100 
-    .PARAMETER relexpiry 
-        Relative expiry time, in seconds, after which to expire an object cached in this content group.  
-        Minimum value = 0  
-        Maximum value = 31536000 
-    .PARAMETER relexpirymillisec 
-        Relative expiry time, in milliseconds, after which to expire an object cached in this content group.  
-        Minimum value = 0  
-        Maximum value = 86400000 
-    .PARAMETER absexpiry 
-        Local time, up to 4 times a day, at which all objects in the content group must expire.  
-        CLI Users:  
-        For example, to specify that the objects in the content group should expire by 11:00 PM, type the following command: add cache contentgroup <contentgroup name> -absexpiry 23:00  
+        Configuration for Integrated Cache content group resource.
+    .PARAMETER Name 
+        Name for the content group. Must begin with an ASCII alphabetic or underscore (_) character, and must contain only ASCII alphanumeric, underscore, hash (#), period (.), space, colon (:), at (@), equals (=), and hyphen (-) characters. Cannot be changed after the content group is created. 
+    .PARAMETER Weakposrelexpiry 
+        Relative expiry time, in seconds, for expiring positive responses with response codes between 200 and 399. Cannot be used in combination with other Expiry attributes. Similar to -relExpiry but has lower precedence. 
+    .PARAMETER Heurexpiryparam 
+        Heuristic expiry time, in percent of the duration, since the object was last modified. 
+    .PARAMETER Relexpiry 
+        Relative expiry time, in seconds, after which to expire an object cached in this content group. 
+    .PARAMETER Relexpirymillisec 
+        Relative expiry time, in milliseconds, after which to expire an object cached in this content group. 
+    .PARAMETER Absexpiry 
+        Local time, up to 4 times a day, at which all objects in the content group must expire. 
+        CLI Users: 
+        For example, to specify that the objects in the content group should expire by 11:00 PM, type the following command: add cache contentgroup <contentgroup name> -absexpiry 23:00 
         To specify that the objects in the content group should expire at 10:00 AM, 3 PM, 6 PM, and 11:00 PM, type: add cache contentgroup <contentgroup name> -absexpiry 10:00 15:00 18:00 23:00. 
-    .PARAMETER absexpirygmt 
+    .PARAMETER Absexpirygmt 
         Coordinated Universal Time (GMT), up to 4 times a day, when all objects in the content group must expire. 
-    .PARAMETER weaknegrelexpiry 
-        Relative expiry time, in seconds, for expiring negative responses. This value is used only if the expiry time cannot be determined from any other source. It is applicable only to the following status codes: 307, 403, 404, and 410.  
-        Minimum value = 0  
-        Maximum value = 31536000 
-    .PARAMETER hitparams 
-        Parameters to use for parameterized hit evaluation of an object. Up to 128 parameters can be specified. Mutually exclusive with the Hit Selector parameter.  
-        Minimum length = 1 
-    .PARAMETER invalparams 
-        Parameters for parameterized invalidation of an object. You can specify up to 8 parameters. Mutually exclusive with invalSelector.  
-        Minimum length = 1 
-    .PARAMETER ignoreparamvaluecase 
-        Ignore case when comparing parameter values during parameterized hit evaluation. (Parameter value case is ignored by default during parameterized invalidation.).  
+    .PARAMETER Weaknegrelexpiry 
+        Relative expiry time, in seconds, for expiring negative responses. This value is used only if the expiry time cannot be determined from any other source. It is applicable only to the following status codes: 307, 403, 404, and 410. 
+    .PARAMETER Hitparams 
+        Parameters to use for parameterized hit evaluation of an object. Up to 128 parameters can be specified. Mutually exclusive with the Hit Selector parameter. 
+    .PARAMETER Invalparams 
+        Parameters for parameterized invalidation of an object. You can specify up to 8 parameters. Mutually exclusive with invalSelector. 
+    .PARAMETER Ignoreparamvaluecase 
+        Ignore case when comparing parameter values during parameterized hit evaluation. (Parameter value case is ignored by default during parameterized invalidation.). 
         Possible values = YES, NO 
-    .PARAMETER matchcookies 
-        Evaluate for parameters in the cookie header also.  
+    .PARAMETER Matchcookies 
+        Evaluate for parameters in the cookie header also. 
         Possible values = YES, NO 
-    .PARAMETER invalrestrictedtohost 
-        Take the host header into account during parameterized invalidation.  
+    .PARAMETER Invalrestrictedtohost 
+        Take the host header into account during parameterized invalidation. 
         Possible values = YES, NO 
-    .PARAMETER polleverytime 
-        Always poll for the objects in this content group. That is, retrieve the objects from the origin server whenever they are requested.  
-        Default value: NO  
+    .PARAMETER Polleverytime 
+        Always poll for the objects in this content group. That is, retrieve the objects from the origin server whenever they are requested. 
         Possible values = YES, NO 
-    .PARAMETER ignorereloadreq 
-        Ignore any request to reload a cached object from the origin server.  
-        To guard against Denial of Service attacks, set this parameter to YES. For RFC-compliant behavior, set it to NO.  
-        Default value: YES  
+    .PARAMETER Ignorereloadreq 
+        Ignore any request to reload a cached object from the origin server. 
+        To guard against Denial of Service attacks, set this parameter to YES. For RFC-compliant behavior, set it to NO. 
         Possible values = YES, NO 
-    .PARAMETER removecookies 
-        Remove cookies from responses.  
-        Default value: YES  
+    .PARAMETER Removecookies 
+        Remove cookies from responses. 
         Possible values = YES, NO 
-    .PARAMETER prefetch 
-        Attempt to refresh objects that are about to go stale.  
-        Default value: YES  
+    .PARAMETER Prefetch 
+        Attempt to refresh objects that are about to go stale. 
         Possible values = YES, NO 
-    .PARAMETER prefetchperiod 
-        Time period, in seconds before an object's calculated expiry time, during which to attempt prefetch.  
-        Minimum value = 0  
-        Maximum value = 4294967294 
-    .PARAMETER prefetchperiodmillisec 
-        Time period, in milliseconds before an object's calculated expiry time, during which to attempt prefetch.  
-        Minimum value = 0  
-        Maximum value = 4294967290 
-    .PARAMETER prefetchmaxpending 
-        Maximum number of outstanding prefetches that can be queued for the content group.  
-        Minimum value = 0  
-        Maximum value = 4294967294 
-    .PARAMETER flashcache 
-        Perform flash cache. Mutually exclusive with Poll Every Time (PET) on the same content group.  
-        Default value: NO  
+    .PARAMETER Prefetchperiod 
+        Time period, in seconds before an object's calculated expiry time, during which to attempt prefetch. 
+    .PARAMETER Prefetchperiodmillisec 
+        Time period, in milliseconds before an object's calculated expiry time, during which to attempt prefetch. 
+    .PARAMETER Prefetchmaxpending 
+        Maximum number of outstanding prefetches that can be queued for the content group. 
+    .PARAMETER Flashcache 
+        Perform flash cache. Mutually exclusive with Poll Every Time (PET) on the same content group. 
         Possible values = YES, NO 
-    .PARAMETER expireatlastbyte 
-        Force expiration of the content immediately after the response is downloaded (upon receipt of the last byte of the response body). Applicable only to positive responses.  
-        Default value: NO  
+    .PARAMETER Expireatlastbyte 
+        Force expiration of the content immediately after the response is downloaded (upon receipt of the last byte of the response body). Applicable only to positive responses. 
         Possible values = YES, NO 
-    .PARAMETER insertvia 
-        Insert a Via header into the response.  
-        Default value: YES  
+    .PARAMETER Insertvia 
+        Insert a Via header into the response. 
         Possible values = YES, NO 
-    .PARAMETER insertage 
-        Insert an Age header into the response. An Age header contains information about the age of the object, in seconds, as calculated by the integrated cache.  
-        Default value: YES  
+    .PARAMETER Insertage 
+        Insert an Age header into the response. An Age header contains information about the age of the object, in seconds, as calculated by the integrated cache. 
         Possible values = YES, NO 
-    .PARAMETER insertetag 
-        Insert an ETag header in the response. With ETag header insertion, the integrated cache does not serve full responses on repeat requests.  
-        Default value: YES  
+    .PARAMETER Insertetag 
+        Insert an ETag header in the response. With ETag header insertion, the integrated cache does not serve full responses on repeat requests. 
         Possible values = YES, NO 
-    .PARAMETER cachecontrol 
-        Insert a Cache-Control header into the response.  
-        Minimum length = 1 
-    .PARAMETER quickabortsize 
-        If the size of an object that is being downloaded is less than or equal to the quick abort value, and a client aborts during the download, the cache stops downloading the response. If the object is larger than the quick abort size, the cache continues to download the response.  
-        Default value: 4194303  
-        Minimum value = 0  
-        Maximum value = 4194303 
-    .PARAMETER minressize 
-        Minimum size of a response that can be cached in this content group.  
-        Default minimum response size is 0.  
-        Minimum value = 0  
-        Maximum value = 2097151 
-    .PARAMETER maxressize 
-        Maximum size of a response that can be cached in this content group.  
-        Default value: 80  
-        Minimum value = 0  
-        Maximum value = 2097151 
-    .PARAMETER memlimit 
-        Maximum amount of memory that the cache can use. The effective limit is based on the available memory of the Citrix ADC.  
-        Default value: 65536 
-    .PARAMETER ignorereqcachinghdrs 
-        Ignore Cache-Control and Pragma headers in the incoming request.  
-        Default value: YES  
+    .PARAMETER Cachecontrol 
+        Insert a Cache-Control header into the response. 
+    .PARAMETER Quickabortsize 
+        If the size of an object that is being downloaded is less than or equal to the quick abort value, and a client aborts during the download, the cache stops downloading the response. If the object is larger than the quick abort size, the cache continues to download the response. 
+    .PARAMETER Minressize 
+        Minimum size of a response that can be cached in this content group. 
+        Default minimum response size is 0. 
+    .PARAMETER Maxressize 
+        Maximum size of a response that can be cached in this content group. 
+    .PARAMETER Memlimit 
+        Maximum amount of memory that the cache can use. The effective limit is based on the available memory of the Citrix ADC. 
+    .PARAMETER Ignorereqcachinghdrs 
+        Ignore Cache-Control and Pragma headers in the incoming request. 
         Possible values = YES, NO 
-    .PARAMETER minhits 
-        Number of hits that qualifies a response for storage in this content group.  
-        Default value: 0 
-    .PARAMETER alwaysevalpolicies 
-        Force policy evaluation for each response arriving from the origin server. Cannot be set to YES if the Prefetch parameter is also set to YES.  
-        Default value: NO  
+    .PARAMETER Minhits 
+        Number of hits that qualifies a response for storage in this content group. 
+    .PARAMETER Alwaysevalpolicies 
+        Force policy evaluation for each response arriving from the origin server. Cannot be set to YES if the Prefetch parameter is also set to YES. 
         Possible values = YES, NO 
-    .PARAMETER persistha 
-        Setting persistHA to YES causes IC to save objects in contentgroup to Secondary node in HA deployment.  
-        Default value: NO  
+    .PARAMETER Persistha 
+        Setting persistHA to YES causes IC to save objects in contentgroup to Secondary node in HA deployment. 
         Possible values = YES, NO 
-    .PARAMETER pinned 
-        Do not flush objects from this content group under memory pressure.  
-        Default value: NO  
+    .PARAMETER Pinned 
+        Do not flush objects from this content group under memory pressure. 
         Possible values = YES, NO 
-    .PARAMETER lazydnsresolve 
-        Perform DNS resolution for responses only if the destination IP address in the request does not match the destination IP address of the cached response.  
-        Default value: YES  
+    .PARAMETER Lazydnsresolve 
+        Perform DNS resolution for responses only if the destination IP address in the request does not match the destination IP address of the cached response. 
         Possible values = YES, NO 
-    .PARAMETER hitselector 
+    .PARAMETER Hitselector 
         Selector for evaluating whether an object gets stored in a particular content group. A selector is an abstraction for a collection of PIXL expressions. 
-    .PARAMETER invalselector 
+    .PARAMETER Invalselector 
         Selector for invalidating objects in the content group. A selector is an abstraction for a collection of PIXL expressions. 
     .PARAMETER PassThru 
         Return details about the created cachecontentgroup item.
     .EXAMPLE
-        Invoke-ADCUpdateCachecontentgroup -name <string>
+        PS C:\>Invoke-ADCUpdateCachecontentgroup -name <string>
+        An example how to update cachecontentgroup configuration Object(s).
     .NOTES
         File Name : Invoke-ADCUpdateCachecontentgroup
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/cache/cachecontentgroup/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
+    #>
     [CmdletBinding(SupportsShouldProcess = $true, ConfirmImpact = "Low")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
-        [Parameter(Mandatory = $true)]
+        [Parameter(Mandatory)]
         [ValidateScript({ $_.Length -gt 1 })]
         [ValidatePattern('^(([a-zA-Z0-9]|[_])+([a-zA-Z0-9]|[_])+)$')]
-        [string]$name ,
+        [string]$Name,
 
         [ValidateRange(0, 31536000)]
-        [double]$weakposrelexpiry ,
+        [double]$Weakposrelexpiry,
 
         [ValidateRange(0, 100)]
-        [double]$heurexpiryparam ,
+        [double]$Heurexpiryparam,
 
         [ValidateRange(0, 31536000)]
-        [double]$relexpiry ,
+        [double]$Relexpiry,
 
         [ValidateRange(0, 86400000)]
-        [double]$relexpirymillisec ,
+        [double]$Relexpirymillisec,
 
-        [string[]]$absexpiry ,
+        [string[]]$Absexpiry,
 
-        [string[]]$absexpirygmt ,
+        [string[]]$Absexpirygmt,
 
         [ValidateRange(0, 31536000)]
-        [double]$weaknegrelexpiry ,
+        [double]$Weaknegrelexpiry,
 
         [ValidateScript({ $_.Length -gt 1 })]
-        [string[]]$hitparams ,
+        [string[]]$Hitparams,
 
         [ValidateScript({ $_.Length -gt 1 })]
-        [string[]]$invalparams ,
+        [string[]]$Invalparams,
 
         [ValidateSet('YES', 'NO')]
-        [string]$ignoreparamvaluecase ,
+        [string]$Ignoreparamvaluecase,
 
         [ValidateSet('YES', 'NO')]
-        [string]$matchcookies ,
+        [string]$Matchcookies,
 
         [ValidateSet('YES', 'NO')]
-        [string]$invalrestrictedtohost ,
+        [string]$Invalrestrictedtohost,
 
         [ValidateSet('YES', 'NO')]
-        [string]$polleverytime ,
+        [string]$Polleverytime,
 
         [ValidateSet('YES', 'NO')]
-        [string]$ignorereloadreq ,
+        [string]$Ignorereloadreq,
 
         [ValidateSet('YES', 'NO')]
-        [string]$removecookies ,
+        [string]$Removecookies,
 
         [ValidateSet('YES', 'NO')]
-        [string]$prefetch ,
+        [string]$Prefetch,
 
         [ValidateRange(0, 4294967294)]
-        [double]$prefetchperiod ,
+        [double]$Prefetchperiod,
 
         [ValidateRange(0, 4294967290)]
-        [double]$prefetchperiodmillisec ,
+        [double]$Prefetchperiodmillisec,
 
         [ValidateRange(0, 4294967294)]
-        [double]$prefetchmaxpending ,
+        [double]$Prefetchmaxpending,
 
         [ValidateSet('YES', 'NO')]
-        [string]$flashcache ,
+        [string]$Flashcache,
 
         [ValidateSet('YES', 'NO')]
-        [string]$expireatlastbyte ,
+        [string]$Expireatlastbyte,
 
         [ValidateSet('YES', 'NO')]
-        [string]$insertvia ,
+        [string]$Insertvia,
 
         [ValidateSet('YES', 'NO')]
-        [string]$insertage ,
+        [string]$Insertage,
 
         [ValidateSet('YES', 'NO')]
-        [string]$insertetag ,
+        [string]$Insertetag,
 
         [ValidateScript({ $_.Length -gt 1 })]
-        [string]$cachecontrol ,
+        [string]$Cachecontrol,
 
         [ValidateRange(0, 4194303)]
-        [double]$quickabortsize ,
+        [double]$Quickabortsize,
 
         [ValidateRange(0, 2097151)]
-        [double]$minressize ,
+        [double]$Minressize,
 
         [ValidateRange(0, 2097151)]
-        [double]$maxressize ,
+        [double]$Maxressize,
 
-        [double]$memlimit ,
-
-        [ValidateSet('YES', 'NO')]
-        [string]$ignorereqcachinghdrs ,
-
-        [int]$minhits ,
+        [double]$Memlimit,
 
         [ValidateSet('YES', 'NO')]
-        [string]$alwaysevalpolicies ,
+        [string]$Ignorereqcachinghdrs,
+
+        [int]$Minhits,
 
         [ValidateSet('YES', 'NO')]
-        [string]$persistha ,
+        [string]$Alwaysevalpolicies,
 
         [ValidateSet('YES', 'NO')]
-        [string]$pinned ,
+        [string]$Persistha,
 
         [ValidateSet('YES', 'NO')]
-        [string]$lazydnsresolve ,
+        [string]$Pinned,
 
-        [string]$hitselector ,
+        [ValidateSet('YES', 'NO')]
+        [string]$Lazydnsresolve,
 
-        [string]$invalselector ,
+        [string]$Hitselector,
+
+        [string]$Invalselector,
 
         [Switch]$PassThru 
-
     )
     begin {
         Write-Verbose "Invoke-ADCUpdateCachecontentgroup: Starting"
     }
     process {
         try {
-            $Payload = @{
-                name = $name
-            }
-            if ($PSBoundParameters.ContainsKey('weakposrelexpiry')) { $Payload.Add('weakposrelexpiry', $weakposrelexpiry) }
-            if ($PSBoundParameters.ContainsKey('heurexpiryparam')) { $Payload.Add('heurexpiryparam', $heurexpiryparam) }
-            if ($PSBoundParameters.ContainsKey('relexpiry')) { $Payload.Add('relexpiry', $relexpiry) }
-            if ($PSBoundParameters.ContainsKey('relexpirymillisec')) { $Payload.Add('relexpirymillisec', $relexpirymillisec) }
-            if ($PSBoundParameters.ContainsKey('absexpiry')) { $Payload.Add('absexpiry', $absexpiry) }
-            if ($PSBoundParameters.ContainsKey('absexpirygmt')) { $Payload.Add('absexpirygmt', $absexpirygmt) }
-            if ($PSBoundParameters.ContainsKey('weaknegrelexpiry')) { $Payload.Add('weaknegrelexpiry', $weaknegrelexpiry) }
-            if ($PSBoundParameters.ContainsKey('hitparams')) { $Payload.Add('hitparams', $hitparams) }
-            if ($PSBoundParameters.ContainsKey('invalparams')) { $Payload.Add('invalparams', $invalparams) }
-            if ($PSBoundParameters.ContainsKey('ignoreparamvaluecase')) { $Payload.Add('ignoreparamvaluecase', $ignoreparamvaluecase) }
-            if ($PSBoundParameters.ContainsKey('matchcookies')) { $Payload.Add('matchcookies', $matchcookies) }
-            if ($PSBoundParameters.ContainsKey('invalrestrictedtohost')) { $Payload.Add('invalrestrictedtohost', $invalrestrictedtohost) }
-            if ($PSBoundParameters.ContainsKey('polleverytime')) { $Payload.Add('polleverytime', $polleverytime) }
-            if ($PSBoundParameters.ContainsKey('ignorereloadreq')) { $Payload.Add('ignorereloadreq', $ignorereloadreq) }
-            if ($PSBoundParameters.ContainsKey('removecookies')) { $Payload.Add('removecookies', $removecookies) }
-            if ($PSBoundParameters.ContainsKey('prefetch')) { $Payload.Add('prefetch', $prefetch) }
-            if ($PSBoundParameters.ContainsKey('prefetchperiod')) { $Payload.Add('prefetchperiod', $prefetchperiod) }
-            if ($PSBoundParameters.ContainsKey('prefetchperiodmillisec')) { $Payload.Add('prefetchperiodmillisec', $prefetchperiodmillisec) }
-            if ($PSBoundParameters.ContainsKey('prefetchmaxpending')) { $Payload.Add('prefetchmaxpending', $prefetchmaxpending) }
-            if ($PSBoundParameters.ContainsKey('flashcache')) { $Payload.Add('flashcache', $flashcache) }
-            if ($PSBoundParameters.ContainsKey('expireatlastbyte')) { $Payload.Add('expireatlastbyte', $expireatlastbyte) }
-            if ($PSBoundParameters.ContainsKey('insertvia')) { $Payload.Add('insertvia', $insertvia) }
-            if ($PSBoundParameters.ContainsKey('insertage')) { $Payload.Add('insertage', $insertage) }
-            if ($PSBoundParameters.ContainsKey('insertetag')) { $Payload.Add('insertetag', $insertetag) }
-            if ($PSBoundParameters.ContainsKey('cachecontrol')) { $Payload.Add('cachecontrol', $cachecontrol) }
-            if ($PSBoundParameters.ContainsKey('quickabortsize')) { $Payload.Add('quickabortsize', $quickabortsize) }
-            if ($PSBoundParameters.ContainsKey('minressize')) { $Payload.Add('minressize', $minressize) }
-            if ($PSBoundParameters.ContainsKey('maxressize')) { $Payload.Add('maxressize', $maxressize) }
-            if ($PSBoundParameters.ContainsKey('memlimit')) { $Payload.Add('memlimit', $memlimit) }
-            if ($PSBoundParameters.ContainsKey('ignorereqcachinghdrs')) { $Payload.Add('ignorereqcachinghdrs', $ignorereqcachinghdrs) }
-            if ($PSBoundParameters.ContainsKey('minhits')) { $Payload.Add('minhits', $minhits) }
-            if ($PSBoundParameters.ContainsKey('alwaysevalpolicies')) { $Payload.Add('alwaysevalpolicies', $alwaysevalpolicies) }
-            if ($PSBoundParameters.ContainsKey('persistha')) { $Payload.Add('persistha', $persistha) }
-            if ($PSBoundParameters.ContainsKey('pinned')) { $Payload.Add('pinned', $pinned) }
-            if ($PSBoundParameters.ContainsKey('lazydnsresolve')) { $Payload.Add('lazydnsresolve', $lazydnsresolve) }
-            if ($PSBoundParameters.ContainsKey('hitselector')) { $Payload.Add('hitselector', $hitselector) }
-            if ($PSBoundParameters.ContainsKey('invalselector')) { $Payload.Add('invalselector', $invalselector) }
- 
-            if ($PSCmdlet.ShouldProcess("cachecontentgroup", "Update Integrated Caching configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -NitroPath nitro/v1/config -Type cachecontentgroup -Payload $Payload -GetWarning
+            $payload = @{ name = $name }
+            if ( $PSBoundParameters.ContainsKey('weakposrelexpiry') ) { $payload.Add('weakposrelexpiry', $weakposrelexpiry) }
+            if ( $PSBoundParameters.ContainsKey('heurexpiryparam') ) { $payload.Add('heurexpiryparam', $heurexpiryparam) }
+            if ( $PSBoundParameters.ContainsKey('relexpiry') ) { $payload.Add('relexpiry', $relexpiry) }
+            if ( $PSBoundParameters.ContainsKey('relexpirymillisec') ) { $payload.Add('relexpirymillisec', $relexpirymillisec) }
+            if ( $PSBoundParameters.ContainsKey('absexpiry') ) { $payload.Add('absexpiry', $absexpiry) }
+            if ( $PSBoundParameters.ContainsKey('absexpirygmt') ) { $payload.Add('absexpirygmt', $absexpirygmt) }
+            if ( $PSBoundParameters.ContainsKey('weaknegrelexpiry') ) { $payload.Add('weaknegrelexpiry', $weaknegrelexpiry) }
+            if ( $PSBoundParameters.ContainsKey('hitparams') ) { $payload.Add('hitparams', $hitparams) }
+            if ( $PSBoundParameters.ContainsKey('invalparams') ) { $payload.Add('invalparams', $invalparams) }
+            if ( $PSBoundParameters.ContainsKey('ignoreparamvaluecase') ) { $payload.Add('ignoreparamvaluecase', $ignoreparamvaluecase) }
+            if ( $PSBoundParameters.ContainsKey('matchcookies') ) { $payload.Add('matchcookies', $matchcookies) }
+            if ( $PSBoundParameters.ContainsKey('invalrestrictedtohost') ) { $payload.Add('invalrestrictedtohost', $invalrestrictedtohost) }
+            if ( $PSBoundParameters.ContainsKey('polleverytime') ) { $payload.Add('polleverytime', $polleverytime) }
+            if ( $PSBoundParameters.ContainsKey('ignorereloadreq') ) { $payload.Add('ignorereloadreq', $ignorereloadreq) }
+            if ( $PSBoundParameters.ContainsKey('removecookies') ) { $payload.Add('removecookies', $removecookies) }
+            if ( $PSBoundParameters.ContainsKey('prefetch') ) { $payload.Add('prefetch', $prefetch) }
+            if ( $PSBoundParameters.ContainsKey('prefetchperiod') ) { $payload.Add('prefetchperiod', $prefetchperiod) }
+            if ( $PSBoundParameters.ContainsKey('prefetchperiodmillisec') ) { $payload.Add('prefetchperiodmillisec', $prefetchperiodmillisec) }
+            if ( $PSBoundParameters.ContainsKey('prefetchmaxpending') ) { $payload.Add('prefetchmaxpending', $prefetchmaxpending) }
+            if ( $PSBoundParameters.ContainsKey('flashcache') ) { $payload.Add('flashcache', $flashcache) }
+            if ( $PSBoundParameters.ContainsKey('expireatlastbyte') ) { $payload.Add('expireatlastbyte', $expireatlastbyte) }
+            if ( $PSBoundParameters.ContainsKey('insertvia') ) { $payload.Add('insertvia', $insertvia) }
+            if ( $PSBoundParameters.ContainsKey('insertage') ) { $payload.Add('insertage', $insertage) }
+            if ( $PSBoundParameters.ContainsKey('insertetag') ) { $payload.Add('insertetag', $insertetag) }
+            if ( $PSBoundParameters.ContainsKey('cachecontrol') ) { $payload.Add('cachecontrol', $cachecontrol) }
+            if ( $PSBoundParameters.ContainsKey('quickabortsize') ) { $payload.Add('quickabortsize', $quickabortsize) }
+            if ( $PSBoundParameters.ContainsKey('minressize') ) { $payload.Add('minressize', $minressize) }
+            if ( $PSBoundParameters.ContainsKey('maxressize') ) { $payload.Add('maxressize', $maxressize) }
+            if ( $PSBoundParameters.ContainsKey('memlimit') ) { $payload.Add('memlimit', $memlimit) }
+            if ( $PSBoundParameters.ContainsKey('ignorereqcachinghdrs') ) { $payload.Add('ignorereqcachinghdrs', $ignorereqcachinghdrs) }
+            if ( $PSBoundParameters.ContainsKey('minhits') ) { $payload.Add('minhits', $minhits) }
+            if ( $PSBoundParameters.ContainsKey('alwaysevalpolicies') ) { $payload.Add('alwaysevalpolicies', $alwaysevalpolicies) }
+            if ( $PSBoundParameters.ContainsKey('persistha') ) { $payload.Add('persistha', $persistha) }
+            if ( $PSBoundParameters.ContainsKey('pinned') ) { $payload.Add('pinned', $pinned) }
+            if ( $PSBoundParameters.ContainsKey('lazydnsresolve') ) { $payload.Add('lazydnsresolve', $lazydnsresolve) }
+            if ( $PSBoundParameters.ContainsKey('hitselector') ) { $payload.Add('hitselector', $hitselector) }
+            if ( $PSBoundParameters.ContainsKey('invalselector') ) { $payload.Add('invalselector', $invalselector) }
+            if ( $PSCmdlet.ShouldProcess("cachecontentgroup", "Update Integrated Caching configuration Object") ) {
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -NitroPath nitro/v1/config -Type cachecontentgroup -Payload $payload -GetWarning
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
-                if ($PSBoundParameters.ContainsKey('PassThru')) {
-                    Write-Output (Invoke-ADCGetCachecontentgroup -Filter $Payload)
+                if ( $PSBoundParameters.ContainsKey('PassThru') ) {
+                    Write-Output (Invoke-ADCGetCachecontentgroup -Filter $payload)
                 } else {
                     Write-Output $result
                 }
-
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -763,205 +668,206 @@ function Invoke-ADCUpdateCachecontentgroup {
 }
 
 function Invoke-ADCUnsetCachecontentgroup {
-<#
+    <#
     .SYNOPSIS
-        Unset Integrated Caching configuration Object
+        Unset Integrated Caching configuration Object.
     .DESCRIPTION
-        Unset Integrated Caching configuration Object 
-   .PARAMETER name 
-       Name for the content group. Must begin with an ASCII alphabetic or underscore (_) character, and must contain only ASCII alphanumeric, underscore, hash (#), period (.), space, colon (:), at (@), equals (=), and hyphen (-) characters. Cannot be changed after the content group is created. 
-   .PARAMETER weakposrelexpiry 
-       Relative expiry time, in seconds, for expiring positive responses with response codes between 200 and 399. Cannot be used in combination with other Expiry attributes. Similar to -relExpiry but has lower precedence. 
-   .PARAMETER heurexpiryparam 
-       Heuristic expiry time, in percent of the duration, since the object was last modified. 
-   .PARAMETER relexpiry 
-       Relative expiry time, in seconds, after which to expire an object cached in this content group. 
-   .PARAMETER relexpirymillisec 
-       Relative expiry time, in milliseconds, after which to expire an object cached in this content group. 
-   .PARAMETER absexpiry 
-       Local time, up to 4 times a day, at which all objects in the content group must expire.  
-       CLI Users:  
-       For example, to specify that the objects in the content group should expire by 11:00 PM, type the following command: add cache contentgroup <contentgroup name> -absexpiry 23:00  
-       To specify that the objects in the content group should expire at 10:00 AM, 3 PM, 6 PM, and 11:00 PM, type: add cache contentgroup <contentgroup name> -absexpiry 10:00 15:00 18:00 23:00. 
-   .PARAMETER absexpirygmt 
-       Coordinated Universal Time (GMT), up to 4 times a day, when all objects in the content group must expire. 
-   .PARAMETER weaknegrelexpiry 
-       Relative expiry time, in seconds, for expiring negative responses. This value is used only if the expiry time cannot be determined from any other source. It is applicable only to the following status codes: 307, 403, 404, and 410. 
-   .PARAMETER hitparams 
-       Parameters to use for parameterized hit evaluation of an object. Up to 128 parameters can be specified. Mutually exclusive with the Hit Selector parameter. 
-   .PARAMETER invalparams 
-       Parameters for parameterized invalidation of an object. You can specify up to 8 parameters. Mutually exclusive with invalSelector. 
-   .PARAMETER ignoreparamvaluecase 
-       Ignore case when comparing parameter values during parameterized hit evaluation. (Parameter value case is ignored by default during parameterized invalidation.).  
-       Possible values = YES, NO 
-   .PARAMETER matchcookies 
-       Evaluate for parameters in the cookie header also.  
-       Possible values = YES, NO 
-   .PARAMETER invalrestrictedtohost 
-       Take the host header into account during parameterized invalidation.  
-       Possible values = YES, NO 
-   .PARAMETER polleverytime 
-       Always poll for the objects in this content group. That is, retrieve the objects from the origin server whenever they are requested.  
-       Possible values = YES, NO 
-   .PARAMETER ignorereloadreq 
-       Ignore any request to reload a cached object from the origin server.  
-       To guard against Denial of Service attacks, set this parameter to YES. For RFC-compliant behavior, set it to NO.  
-       Possible values = YES, NO 
-   .PARAMETER removecookies 
-       Remove cookies from responses.  
-       Possible values = YES, NO 
-   .PARAMETER prefetch 
-       Attempt to refresh objects that are about to go stale.  
-       Possible values = YES, NO 
-   .PARAMETER prefetchperiod 
-       Time period, in seconds before an object's calculated expiry time, during which to attempt prefetch. 
-   .PARAMETER prefetchperiodmillisec 
-       Time period, in milliseconds before an object's calculated expiry time, during which to attempt prefetch. 
-   .PARAMETER prefetchmaxpending 
-       Maximum number of outstanding prefetches that can be queued for the content group. 
-   .PARAMETER flashcache 
-       Perform flash cache. Mutually exclusive with Poll Every Time (PET) on the same content group.  
-       Possible values = YES, NO 
-   .PARAMETER expireatlastbyte 
-       Force expiration of the content immediately after the response is downloaded (upon receipt of the last byte of the response body). Applicable only to positive responses.  
-       Possible values = YES, NO 
-   .PARAMETER insertvia 
-       Insert a Via header into the response.  
-       Possible values = YES, NO 
-   .PARAMETER insertage 
-       Insert an Age header into the response. An Age header contains information about the age of the object, in seconds, as calculated by the integrated cache.  
-       Possible values = YES, NO 
-   .PARAMETER insertetag 
-       Insert an ETag header in the response. With ETag header insertion, the integrated cache does not serve full responses on repeat requests.  
-       Possible values = YES, NO 
-   .PARAMETER cachecontrol 
-       Insert a Cache-Control header into the response. 
-   .PARAMETER quickabortsize 
-       If the size of an object that is being downloaded is less than or equal to the quick abort value, and a client aborts during the download, the cache stops downloading the response. If the object is larger than the quick abort size, the cache continues to download the response. 
-   .PARAMETER minressize 
-       Minimum size of a response that can be cached in this content group.  
-       Default minimum response size is 0. 
-   .PARAMETER maxressize 
-       Maximum size of a response that can be cached in this content group. 
-   .PARAMETER memlimit 
-       Maximum amount of memory that the cache can use. The effective limit is based on the available memory of the Citrix ADC. 
-   .PARAMETER ignorereqcachinghdrs 
-       Ignore Cache-Control and Pragma headers in the incoming request.  
-       Possible values = YES, NO 
-   .PARAMETER minhits 
-       Number of hits that qualifies a response for storage in this content group. 
-   .PARAMETER alwaysevalpolicies 
-       Force policy evaluation for each response arriving from the origin server. Cannot be set to YES if the Prefetch parameter is also set to YES.  
-       Possible values = YES, NO 
-   .PARAMETER persistha 
-       Setting persistHA to YES causes IC to save objects in contentgroup to Secondary node in HA deployment.  
-       Possible values = YES, NO 
-   .PARAMETER pinned 
-       Do not flush objects from this content group under memory pressure.  
-       Possible values = YES, NO 
-   .PARAMETER lazydnsresolve 
-       Perform DNS resolution for responses only if the destination IP address in the request does not match the destination IP address of the cached response.  
-       Possible values = YES, NO 
-   .PARAMETER hitselector 
-       Selector for evaluating whether an object gets stored in a particular content group. A selector is an abstraction for a collection of PIXL expressions. 
-   .PARAMETER invalselector 
-       Selector for invalidating objects in the content group. A selector is an abstraction for a collection of PIXL expressions.
+        Configuration for Integrated Cache content group resource.
+    .PARAMETER Name 
+        Name for the content group. Must begin with an ASCII alphabetic or underscore (_) character, and must contain only ASCII alphanumeric, underscore, hash (#), period (.), space, colon (:), at (@), equals (=), and hyphen (-) characters. Cannot be changed after the content group is created. 
+    .PARAMETER Weakposrelexpiry 
+        Relative expiry time, in seconds, for expiring positive responses with response codes between 200 and 399. Cannot be used in combination with other Expiry attributes. Similar to -relExpiry but has lower precedence. 
+    .PARAMETER Heurexpiryparam 
+        Heuristic expiry time, in percent of the duration, since the object was last modified. 
+    .PARAMETER Relexpiry 
+        Relative expiry time, in seconds, after which to expire an object cached in this content group. 
+    .PARAMETER Relexpirymillisec 
+        Relative expiry time, in milliseconds, after which to expire an object cached in this content group. 
+    .PARAMETER Absexpiry 
+        Local time, up to 4 times a day, at which all objects in the content group must expire. 
+        CLI Users: 
+        For example, to specify that the objects in the content group should expire by 11:00 PM, type the following command: add cache contentgroup <contentgroup name> -absexpiry 23:00 
+        To specify that the objects in the content group should expire at 10:00 AM, 3 PM, 6 PM, and 11:00 PM, type: add cache contentgroup <contentgroup name> -absexpiry 10:00 15:00 18:00 23:00. 
+    .PARAMETER Absexpirygmt 
+        Coordinated Universal Time (GMT), up to 4 times a day, when all objects in the content group must expire. 
+    .PARAMETER Weaknegrelexpiry 
+        Relative expiry time, in seconds, for expiring negative responses. This value is used only if the expiry time cannot be determined from any other source. It is applicable only to the following status codes: 307, 403, 404, and 410. 
+    .PARAMETER Hitparams 
+        Parameters to use for parameterized hit evaluation of an object. Up to 128 parameters can be specified. Mutually exclusive with the Hit Selector parameter. 
+    .PARAMETER Invalparams 
+        Parameters for parameterized invalidation of an object. You can specify up to 8 parameters. Mutually exclusive with invalSelector. 
+    .PARAMETER Ignoreparamvaluecase 
+        Ignore case when comparing parameter values during parameterized hit evaluation. (Parameter value case is ignored by default during parameterized invalidation.). 
+        Possible values = YES, NO 
+    .PARAMETER Matchcookies 
+        Evaluate for parameters in the cookie header also. 
+        Possible values = YES, NO 
+    .PARAMETER Invalrestrictedtohost 
+        Take the host header into account during parameterized invalidation. 
+        Possible values = YES, NO 
+    .PARAMETER Polleverytime 
+        Always poll for the objects in this content group. That is, retrieve the objects from the origin server whenever they are requested. 
+        Possible values = YES, NO 
+    .PARAMETER Ignorereloadreq 
+        Ignore any request to reload a cached object from the origin server. 
+        To guard against Denial of Service attacks, set this parameter to YES. For RFC-compliant behavior, set it to NO. 
+        Possible values = YES, NO 
+    .PARAMETER Removecookies 
+        Remove cookies from responses. 
+        Possible values = YES, NO 
+    .PARAMETER Prefetch 
+        Attempt to refresh objects that are about to go stale. 
+        Possible values = YES, NO 
+    .PARAMETER Prefetchperiod 
+        Time period, in seconds before an object's calculated expiry time, during which to attempt prefetch. 
+    .PARAMETER Prefetchperiodmillisec 
+        Time period, in milliseconds before an object's calculated expiry time, during which to attempt prefetch. 
+    .PARAMETER Prefetchmaxpending 
+        Maximum number of outstanding prefetches that can be queued for the content group. 
+    .PARAMETER Flashcache 
+        Perform flash cache. Mutually exclusive with Poll Every Time (PET) on the same content group. 
+        Possible values = YES, NO 
+    .PARAMETER Expireatlastbyte 
+        Force expiration of the content immediately after the response is downloaded (upon receipt of the last byte of the response body). Applicable only to positive responses. 
+        Possible values = YES, NO 
+    .PARAMETER Insertvia 
+        Insert a Via header into the response. 
+        Possible values = YES, NO 
+    .PARAMETER Insertage 
+        Insert an Age header into the response. An Age header contains information about the age of the object, in seconds, as calculated by the integrated cache. 
+        Possible values = YES, NO 
+    .PARAMETER Insertetag 
+        Insert an ETag header in the response. With ETag header insertion, the integrated cache does not serve full responses on repeat requests. 
+        Possible values = YES, NO 
+    .PARAMETER Cachecontrol 
+        Insert a Cache-Control header into the response. 
+    .PARAMETER Quickabortsize 
+        If the size of an object that is being downloaded is less than or equal to the quick abort value, and a client aborts during the download, the cache stops downloading the response. If the object is larger than the quick abort size, the cache continues to download the response. 
+    .PARAMETER Minressize 
+        Minimum size of a response that can be cached in this content group. 
+        Default minimum response size is 0. 
+    .PARAMETER Maxressize 
+        Maximum size of a response that can be cached in this content group. 
+    .PARAMETER Memlimit 
+        Maximum amount of memory that the cache can use. The effective limit is based on the available memory of the Citrix ADC. 
+    .PARAMETER Ignorereqcachinghdrs 
+        Ignore Cache-Control and Pragma headers in the incoming request. 
+        Possible values = YES, NO 
+    .PARAMETER Minhits 
+        Number of hits that qualifies a response for storage in this content group. 
+    .PARAMETER Alwaysevalpolicies 
+        Force policy evaluation for each response arriving from the origin server. Cannot be set to YES if the Prefetch parameter is also set to YES. 
+        Possible values = YES, NO 
+    .PARAMETER Persistha 
+        Setting persistHA to YES causes IC to save objects in contentgroup to Secondary node in HA deployment. 
+        Possible values = YES, NO 
+    .PARAMETER Pinned 
+        Do not flush objects from this content group under memory pressure. 
+        Possible values = YES, NO 
+    .PARAMETER Lazydnsresolve 
+        Perform DNS resolution for responses only if the destination IP address in the request does not match the destination IP address of the cached response. 
+        Possible values = YES, NO 
+    .PARAMETER Hitselector 
+        Selector for evaluating whether an object gets stored in a particular content group. A selector is an abstraction for a collection of PIXL expressions. 
+    .PARAMETER Invalselector 
+        Selector for invalidating objects in the content group. A selector is an abstraction for a collection of PIXL expressions.
     .EXAMPLE
-        Invoke-ADCUnsetCachecontentgroup -name <string>
+        PS C:\>Invoke-ADCUnsetCachecontentgroup -name <string>
+        An example how to unset cachecontentgroup configuration Object(s).
     .NOTES
         File Name : Invoke-ADCUnsetCachecontentgroup
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/cache/cachecontentgroup
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
+    #>
     [CmdletBinding(SupportsShouldProcess = $true, ConfirmImpact = "Low")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
-        [Parameter(Mandatory = $true)]
         [ValidateScript({ $_.Length -gt 1 })]
         [ValidatePattern('^(([a-zA-Z0-9]|[_])+([a-zA-Z0-9]|[_])+)$')]
-        [string]$name ,
+        [string]$Name,
 
-        [Boolean]$weakposrelexpiry ,
+        [Boolean]$weakposrelexpiry,
 
-        [Boolean]$heurexpiryparam ,
+        [Boolean]$heurexpiryparam,
 
-        [Boolean]$relexpiry ,
+        [Boolean]$relexpiry,
 
-        [Boolean]$relexpirymillisec ,
+        [Boolean]$relexpirymillisec,
 
-        [Boolean]$absexpiry ,
+        [Boolean]$absexpiry,
 
-        [Boolean]$absexpirygmt ,
+        [Boolean]$absexpirygmt,
 
-        [Boolean]$weaknegrelexpiry ,
+        [Boolean]$weaknegrelexpiry,
 
-        [Boolean]$hitparams ,
+        [Boolean]$hitparams,
 
-        [Boolean]$invalparams ,
+        [Boolean]$invalparams,
 
-        [Boolean]$ignoreparamvaluecase ,
+        [Boolean]$ignoreparamvaluecase,
 
-        [Boolean]$matchcookies ,
+        [Boolean]$matchcookies,
 
-        [Boolean]$invalrestrictedtohost ,
+        [Boolean]$invalrestrictedtohost,
 
-        [Boolean]$polleverytime ,
+        [Boolean]$polleverytime,
 
-        [Boolean]$ignorereloadreq ,
+        [Boolean]$ignorereloadreq,
 
-        [Boolean]$removecookies ,
+        [Boolean]$removecookies,
 
-        [Boolean]$prefetch ,
+        [Boolean]$prefetch,
 
-        [Boolean]$prefetchperiod ,
+        [Boolean]$prefetchperiod,
 
-        [Boolean]$prefetchperiodmillisec ,
+        [Boolean]$prefetchperiodmillisec,
 
-        [Boolean]$prefetchmaxpending ,
+        [Boolean]$prefetchmaxpending,
 
-        [Boolean]$flashcache ,
+        [Boolean]$flashcache,
 
-        [Boolean]$expireatlastbyte ,
+        [Boolean]$expireatlastbyte,
 
-        [Boolean]$insertvia ,
+        [Boolean]$insertvia,
 
-        [Boolean]$insertage ,
+        [Boolean]$insertage,
 
-        [Boolean]$insertetag ,
+        [Boolean]$insertetag,
 
-        [Boolean]$cachecontrol ,
+        [Boolean]$cachecontrol,
 
-        [Boolean]$quickabortsize ,
+        [Boolean]$quickabortsize,
 
-        [Boolean]$minressize ,
+        [Boolean]$minressize,
 
-        [Boolean]$maxressize ,
+        [Boolean]$maxressize,
 
-        [Boolean]$memlimit ,
+        [Boolean]$memlimit,
 
-        [Boolean]$ignorereqcachinghdrs ,
+        [Boolean]$ignorereqcachinghdrs,
 
-        [Boolean]$minhits ,
+        [Boolean]$minhits,
 
-        [Boolean]$alwaysevalpolicies ,
+        [Boolean]$alwaysevalpolicies,
 
-        [Boolean]$persistha ,
+        [Boolean]$persistha,
 
-        [Boolean]$pinned ,
+        [Boolean]$pinned,
 
-        [Boolean]$lazydnsresolve ,
+        [Boolean]$lazydnsresolve,
 
-        [Boolean]$hitselector ,
+        [Boolean]$hitselector,
 
         [Boolean]$invalselector 
     )
@@ -970,48 +876,46 @@ function Invoke-ADCUnsetCachecontentgroup {
     }
     process {
         try {
-            $Payload = @{
-                name = $name
-            }
-            if ($PSBoundParameters.ContainsKey('weakposrelexpiry')) { $Payload.Add('weakposrelexpiry', $weakposrelexpiry) }
-            if ($PSBoundParameters.ContainsKey('heurexpiryparam')) { $Payload.Add('heurexpiryparam', $heurexpiryparam) }
-            if ($PSBoundParameters.ContainsKey('relexpiry')) { $Payload.Add('relexpiry', $relexpiry) }
-            if ($PSBoundParameters.ContainsKey('relexpirymillisec')) { $Payload.Add('relexpirymillisec', $relexpirymillisec) }
-            if ($PSBoundParameters.ContainsKey('absexpiry')) { $Payload.Add('absexpiry', $absexpiry) }
-            if ($PSBoundParameters.ContainsKey('absexpirygmt')) { $Payload.Add('absexpirygmt', $absexpirygmt) }
-            if ($PSBoundParameters.ContainsKey('weaknegrelexpiry')) { $Payload.Add('weaknegrelexpiry', $weaknegrelexpiry) }
-            if ($PSBoundParameters.ContainsKey('hitparams')) { $Payload.Add('hitparams', $hitparams) }
-            if ($PSBoundParameters.ContainsKey('invalparams')) { $Payload.Add('invalparams', $invalparams) }
-            if ($PSBoundParameters.ContainsKey('ignoreparamvaluecase')) { $Payload.Add('ignoreparamvaluecase', $ignoreparamvaluecase) }
-            if ($PSBoundParameters.ContainsKey('matchcookies')) { $Payload.Add('matchcookies', $matchcookies) }
-            if ($PSBoundParameters.ContainsKey('invalrestrictedtohost')) { $Payload.Add('invalrestrictedtohost', $invalrestrictedtohost) }
-            if ($PSBoundParameters.ContainsKey('polleverytime')) { $Payload.Add('polleverytime', $polleverytime) }
-            if ($PSBoundParameters.ContainsKey('ignorereloadreq')) { $Payload.Add('ignorereloadreq', $ignorereloadreq) }
-            if ($PSBoundParameters.ContainsKey('removecookies')) { $Payload.Add('removecookies', $removecookies) }
-            if ($PSBoundParameters.ContainsKey('prefetch')) { $Payload.Add('prefetch', $prefetch) }
-            if ($PSBoundParameters.ContainsKey('prefetchperiod')) { $Payload.Add('prefetchperiod', $prefetchperiod) }
-            if ($PSBoundParameters.ContainsKey('prefetchperiodmillisec')) { $Payload.Add('prefetchperiodmillisec', $prefetchperiodmillisec) }
-            if ($PSBoundParameters.ContainsKey('prefetchmaxpending')) { $Payload.Add('prefetchmaxpending', $prefetchmaxpending) }
-            if ($PSBoundParameters.ContainsKey('flashcache')) { $Payload.Add('flashcache', $flashcache) }
-            if ($PSBoundParameters.ContainsKey('expireatlastbyte')) { $Payload.Add('expireatlastbyte', $expireatlastbyte) }
-            if ($PSBoundParameters.ContainsKey('insertvia')) { $Payload.Add('insertvia', $insertvia) }
-            if ($PSBoundParameters.ContainsKey('insertage')) { $Payload.Add('insertage', $insertage) }
-            if ($PSBoundParameters.ContainsKey('insertetag')) { $Payload.Add('insertetag', $insertetag) }
-            if ($PSBoundParameters.ContainsKey('cachecontrol')) { $Payload.Add('cachecontrol', $cachecontrol) }
-            if ($PSBoundParameters.ContainsKey('quickabortsize')) { $Payload.Add('quickabortsize', $quickabortsize) }
-            if ($PSBoundParameters.ContainsKey('minressize')) { $Payload.Add('minressize', $minressize) }
-            if ($PSBoundParameters.ContainsKey('maxressize')) { $Payload.Add('maxressize', $maxressize) }
-            if ($PSBoundParameters.ContainsKey('memlimit')) { $Payload.Add('memlimit', $memlimit) }
-            if ($PSBoundParameters.ContainsKey('ignorereqcachinghdrs')) { $Payload.Add('ignorereqcachinghdrs', $ignorereqcachinghdrs) }
-            if ($PSBoundParameters.ContainsKey('minhits')) { $Payload.Add('minhits', $minhits) }
-            if ($PSBoundParameters.ContainsKey('alwaysevalpolicies')) { $Payload.Add('alwaysevalpolicies', $alwaysevalpolicies) }
-            if ($PSBoundParameters.ContainsKey('persistha')) { $Payload.Add('persistha', $persistha) }
-            if ($PSBoundParameters.ContainsKey('pinned')) { $Payload.Add('pinned', $pinned) }
-            if ($PSBoundParameters.ContainsKey('lazydnsresolve')) { $Payload.Add('lazydnsresolve', $lazydnsresolve) }
-            if ($PSBoundParameters.ContainsKey('hitselector')) { $Payload.Add('hitselector', $hitselector) }
-            if ($PSBoundParameters.ContainsKey('invalselector')) { $Payload.Add('invalselector', $invalselector) }
-            if ($PSCmdlet.ShouldProcess("$name", "Unset Integrated Caching configuration Object")) {
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -Type cachecontentgroup -NitroPath nitro/v1/config -Action unset -Payload $Payload -GetWarning
+            $payload = @{ name = $name }
+            if ( $PSBoundParameters.ContainsKey('weakposrelexpiry') ) { $payload.Add('weakposrelexpiry', $weakposrelexpiry) }
+            if ( $PSBoundParameters.ContainsKey('heurexpiryparam') ) { $payload.Add('heurexpiryparam', $heurexpiryparam) }
+            if ( $PSBoundParameters.ContainsKey('relexpiry') ) { $payload.Add('relexpiry', $relexpiry) }
+            if ( $PSBoundParameters.ContainsKey('relexpirymillisec') ) { $payload.Add('relexpirymillisec', $relexpirymillisec) }
+            if ( $PSBoundParameters.ContainsKey('absexpiry') ) { $payload.Add('absexpiry', $absexpiry) }
+            if ( $PSBoundParameters.ContainsKey('absexpirygmt') ) { $payload.Add('absexpirygmt', $absexpirygmt) }
+            if ( $PSBoundParameters.ContainsKey('weaknegrelexpiry') ) { $payload.Add('weaknegrelexpiry', $weaknegrelexpiry) }
+            if ( $PSBoundParameters.ContainsKey('hitparams') ) { $payload.Add('hitparams', $hitparams) }
+            if ( $PSBoundParameters.ContainsKey('invalparams') ) { $payload.Add('invalparams', $invalparams) }
+            if ( $PSBoundParameters.ContainsKey('ignoreparamvaluecase') ) { $payload.Add('ignoreparamvaluecase', $ignoreparamvaluecase) }
+            if ( $PSBoundParameters.ContainsKey('matchcookies') ) { $payload.Add('matchcookies', $matchcookies) }
+            if ( $PSBoundParameters.ContainsKey('invalrestrictedtohost') ) { $payload.Add('invalrestrictedtohost', $invalrestrictedtohost) }
+            if ( $PSBoundParameters.ContainsKey('polleverytime') ) { $payload.Add('polleverytime', $polleverytime) }
+            if ( $PSBoundParameters.ContainsKey('ignorereloadreq') ) { $payload.Add('ignorereloadreq', $ignorereloadreq) }
+            if ( $PSBoundParameters.ContainsKey('removecookies') ) { $payload.Add('removecookies', $removecookies) }
+            if ( $PSBoundParameters.ContainsKey('prefetch') ) { $payload.Add('prefetch', $prefetch) }
+            if ( $PSBoundParameters.ContainsKey('prefetchperiod') ) { $payload.Add('prefetchperiod', $prefetchperiod) }
+            if ( $PSBoundParameters.ContainsKey('prefetchperiodmillisec') ) { $payload.Add('prefetchperiodmillisec', $prefetchperiodmillisec) }
+            if ( $PSBoundParameters.ContainsKey('prefetchmaxpending') ) { $payload.Add('prefetchmaxpending', $prefetchmaxpending) }
+            if ( $PSBoundParameters.ContainsKey('flashcache') ) { $payload.Add('flashcache', $flashcache) }
+            if ( $PSBoundParameters.ContainsKey('expireatlastbyte') ) { $payload.Add('expireatlastbyte', $expireatlastbyte) }
+            if ( $PSBoundParameters.ContainsKey('insertvia') ) { $payload.Add('insertvia', $insertvia) }
+            if ( $PSBoundParameters.ContainsKey('insertage') ) { $payload.Add('insertage', $insertage) }
+            if ( $PSBoundParameters.ContainsKey('insertetag') ) { $payload.Add('insertetag', $insertetag) }
+            if ( $PSBoundParameters.ContainsKey('cachecontrol') ) { $payload.Add('cachecontrol', $cachecontrol) }
+            if ( $PSBoundParameters.ContainsKey('quickabortsize') ) { $payload.Add('quickabortsize', $quickabortsize) }
+            if ( $PSBoundParameters.ContainsKey('minressize') ) { $payload.Add('minressize', $minressize) }
+            if ( $PSBoundParameters.ContainsKey('maxressize') ) { $payload.Add('maxressize', $maxressize) }
+            if ( $PSBoundParameters.ContainsKey('memlimit') ) { $payload.Add('memlimit', $memlimit) }
+            if ( $PSBoundParameters.ContainsKey('ignorereqcachinghdrs') ) { $payload.Add('ignorereqcachinghdrs', $ignorereqcachinghdrs) }
+            if ( $PSBoundParameters.ContainsKey('minhits') ) { $payload.Add('minhits', $minhits) }
+            if ( $PSBoundParameters.ContainsKey('alwaysevalpolicies') ) { $payload.Add('alwaysevalpolicies', $alwaysevalpolicies) }
+            if ( $PSBoundParameters.ContainsKey('persistha') ) { $payload.Add('persistha', $persistha) }
+            if ( $PSBoundParameters.ContainsKey('pinned') ) { $payload.Add('pinned', $pinned) }
+            if ( $PSBoundParameters.ContainsKey('lazydnsresolve') ) { $payload.Add('lazydnsresolve', $lazydnsresolve) }
+            if ( $PSBoundParameters.ContainsKey('hitselector') ) { $payload.Add('hitselector', $hitselector) }
+            if ( $PSBoundParameters.ContainsKey('invalselector') ) { $payload.Add('invalselector', $invalselector) }
+            if ( $PSCmdlet.ShouldProcess("$name", "Unset Integrated Caching configuration Object") ) {
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -Type cachecontentgroup -NitroPath nitro/v1/config -Action unset -Payload $payload -GetWarning
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $response
@@ -1027,37 +931,39 @@ function Invoke-ADCUnsetCachecontentgroup {
 }
 
 function Invoke-ADCExpireCachecontentgroup {
-<#
+    <#
     .SYNOPSIS
-        Expire Integrated Caching configuration Object
+        Expire Integrated Caching configuration Object.
     .DESCRIPTION
-        Expire Integrated Caching configuration Object 
-    .PARAMETER name 
+        Configuration for Integrated Cache content group resource.
+    .PARAMETER Name 
         Name for the content group. Must begin with an ASCII alphabetic or underscore (_) character, and must contain only ASCII alphanumeric, underscore, hash (#), period (.), space, colon (:), at (@), equals (=), and hyphen (-) characters. Cannot be changed after the content group is created.
     .EXAMPLE
-        Invoke-ADCExpireCachecontentgroup -name <string>
+        PS C:\>Invoke-ADCExpireCachecontentgroup -name <string>
+        An example how to expire cachecontentgroup configuration Object(s).
     .NOTES
         File Name : Invoke-ADCExpireCachecontentgroup
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/cache/cachecontentgroup/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
+    #>
     [CmdletBinding(SupportsShouldProcess = $true, ConfirmImpact = "Low")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
-        [Parameter(Mandatory = $true)]
+        [Parameter(Mandatory)]
         [ValidateScript({ $_.Length -gt 1 })]
         [ValidatePattern('^(([a-zA-Z0-9]|[_])+([a-zA-Z0-9]|[_])+)$')]
-        [string]$name 
+        [string]$Name 
 
     )
     begin {
@@ -1065,12 +971,10 @@ function Invoke-ADCExpireCachecontentgroup {
     }
     process {
         try {
-            $Payload = @{
-                name = $name
-            }
+            $payload = @{ name = $name }
 
-            if ($PSCmdlet.ShouldProcess($Name, "Expire Integrated Caching configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -NitroPath nitro/v1/config -Type cachecontentgroup -Action expire -Payload $Payload -GetWarning
+            if ( $PSCmdlet.ShouldProcess($Name, "Expire Integrated Caching configuration Object") ) {
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -NitroPath nitro/v1/config -Type cachecontentgroup -Action expire -Payload $payload -GetWarning
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $result
@@ -1086,53 +990,55 @@ function Invoke-ADCExpireCachecontentgroup {
 }
 
 function Invoke-ADCFlushCachecontentgroup {
-<#
+    <#
     .SYNOPSIS
-        Flush Integrated Caching configuration Object
+        Flush Integrated Caching configuration Object.
     .DESCRIPTION
-        Flush Integrated Caching configuration Object 
-    .PARAMETER name 
+        Configuration for Integrated Cache content group resource.
+    .PARAMETER Name 
         Name for the content group. Must begin with an ASCII alphabetic or underscore (_) character, and must contain only ASCII alphanumeric, underscore, hash (#), period (.), space, colon (:), at (@), equals (=), and hyphen (-) characters. Cannot be changed after the content group is created. 
-    .PARAMETER query 
+    .PARAMETER Query 
         Query string specifying individual objects to flush from this group by using parameterized invalidation. If this parameter is not set, all objects are flushed from the group. 
-    .PARAMETER hostname 
+    .PARAMETER Hostname 
         Flush only objects that belong to the specified host. Do not use except with parameterized invalidation. Also, the Invalidation Restricted to Host parameter for the group must be set to YES. 
-        NOTE: The Nitro parameter "host" cannot be used in PowerShell thus an alternative name was chosen. 
-    .PARAMETER selectorvalue 
+        NOTE: The Nitro parameter 'host' cannot be used as a PowerShell parameter, therefore an alternative Parameter name was chosen. 
+    .PARAMETER Selectorvalue 
         Value of the selector to be used for flushing objects from the content group. Requires that an invalidation selector be configured for the content group.
     .EXAMPLE
-        Invoke-ADCFlushCachecontentgroup -name <string>
+        PS C:\>Invoke-ADCFlushCachecontentgroup -name <string>
+        An example how to flush cachecontentgroup configuration Object(s).
     .NOTES
         File Name : Invoke-ADCFlushCachecontentgroup
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/cache/cachecontentgroup/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
+    #>
     [CmdletBinding(SupportsShouldProcess = $true, ConfirmImpact = "Low")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
-        [Parameter(Mandatory = $true)]
+        [Parameter(Mandatory)]
         [ValidateScript({ $_.Length -gt 1 })]
         [ValidatePattern('^(([a-zA-Z0-9]|[_])+([a-zA-Z0-9]|[_])+)$')]
-        [string]$name ,
+        [string]$Name,
 
         [ValidateScript({ $_.Length -gt 1 })]
-        [string]$query ,
+        [string]$Query,
 
         [ValidateScript({ $_.Length -gt 1 })]
-        [string]$hostname ,
+        [string]$Hostname,
 
         [ValidateScript({ $_.Length -gt 1 })]
-        [string]$selectorvalue 
+        [string]$Selectorvalue 
 
     )
     begin {
@@ -1140,14 +1046,12 @@ function Invoke-ADCFlushCachecontentgroup {
     }
     process {
         try {
-            $Payload = @{
-                name = $name
-            }
-            if ($PSBoundParameters.ContainsKey('query')) { $Payload.Add('query', $query) }
-            if ($PSBoundParameters.ContainsKey('hostname')) { $Payload.Add('host', $hostname) }
-            if ($PSBoundParameters.ContainsKey('selectorvalue')) { $Payload.Add('selectorvalue', $selectorvalue) }
-            if ($PSCmdlet.ShouldProcess($Name, "Flush Integrated Caching configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -NitroPath nitro/v1/config -Type cachecontentgroup -Action flush -Payload $Payload -GetWarning
+            $payload = @{ name = $name }
+            if ( $PSBoundParameters.ContainsKey('query') ) { $payload.Add('query', $query) }
+            if ( $PSBoundParameters.ContainsKey('hostname') ) { $payload.Add('host', $hostname) }
+            if ( $PSBoundParameters.ContainsKey('selectorvalue') ) { $payload.Add('selectorvalue', $selectorvalue) }
+            if ( $PSCmdlet.ShouldProcess($Name, "Flush Integrated Caching configuration Object") ) {
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -NitroPath nitro/v1/config -Type cachecontentgroup -Action flush -Payload $payload -GetWarning
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $result
@@ -1163,43 +1067,45 @@ function Invoke-ADCFlushCachecontentgroup {
 }
 
 function Invoke-ADCSaveCachecontentgroup {
-<#
+    <#
     .SYNOPSIS
-        Save Integrated Caching configuration Object
+        Save Integrated Caching configuration Object.
     .DESCRIPTION
-        Save Integrated Caching configuration Object 
-    .PARAMETER name 
+        Configuration for Integrated Cache content group resource.
+    .PARAMETER Name 
         Name for the content group. Must begin with an ASCII alphabetic or underscore (_) character, and must contain only ASCII alphanumeric, underscore, hash (#), period (.), space, colon (:), at (@), equals (=), and hyphen (-) characters. Cannot be changed after the content group is created. 
-    .PARAMETER tosecondary 
-        content group whose objects are to be sent to secondary.  
+    .PARAMETER Tosecondary 
+        content group whose objects are to be sent to secondary. 
         Possible values = YES, NO
     .EXAMPLE
-        Invoke-ADCSaveCachecontentgroup -name <string>
+        PS C:\>Invoke-ADCSaveCachecontentgroup -name <string>
+        An example how to save cachecontentgroup configuration Object(s).
     .NOTES
         File Name : Invoke-ADCSaveCachecontentgroup
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/cache/cachecontentgroup/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
+    #>
     [CmdletBinding(SupportsShouldProcess = $true, ConfirmImpact = "Low")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
-        [Parameter(Mandatory = $true)]
+        [Parameter(Mandatory)]
         [ValidateScript({ $_.Length -gt 1 })]
         [ValidatePattern('^(([a-zA-Z0-9]|[_])+([a-zA-Z0-9]|[_])+)$')]
-        [string]$name ,
+        [string]$Name,
 
         [ValidateSet('YES', 'NO')]
-        [string]$tosecondary 
+        [string]$Tosecondary 
 
     )
     begin {
@@ -1207,12 +1113,10 @@ function Invoke-ADCSaveCachecontentgroup {
     }
     process {
         try {
-            $Payload = @{
-                name = $name
-            }
-            if ($PSBoundParameters.ContainsKey('tosecondary')) { $Payload.Add('tosecondary', $tosecondary) }
-            if ($PSCmdlet.ShouldProcess($Name, "Save Integrated Caching configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -NitroPath nitro/v1/config -Type cachecontentgroup -Action save -Payload $Payload -GetWarning
+            $payload = @{ name = $name }
+            if ( $PSBoundParameters.ContainsKey('tosecondary') ) { $payload.Add('tosecondary', $tosecondary) }
+            if ( $PSCmdlet.ShouldProcess($Name, "Save Integrated Caching configuration Object") ) {
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -NitroPath nitro/v1/config -Type cachecontentgroup -Action save -Payload $payload -GetWarning
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $result
@@ -1228,56 +1132,62 @@ function Invoke-ADCSaveCachecontentgroup {
 }
 
 function Invoke-ADCGetCachecontentgroup {
-<#
+    <#
     .SYNOPSIS
-        Get Integrated Caching configuration object(s)
+        Get Integrated Caching configuration object(s).
     .DESCRIPTION
-        Get Integrated Caching configuration object(s)
-    .PARAMETER name 
-       Name for the content group. Must begin with an ASCII alphabetic or underscore (_) character, and must contain only ASCII alphanumeric, underscore, hash (#), period (.), space, colon (:), at (@), equals (=), and hyphen (-) characters. Cannot be changed after the content group is created. 
+        Configuration for Integrated Cache content group resource.
+    .PARAMETER Name 
+        Name for the content group. Must begin with an ASCII alphabetic or underscore (_) character, and must contain only ASCII alphanumeric, underscore, hash (#), period (.), space, colon (:), at (@), equals (=), and hyphen (-) characters. Cannot be changed after the content group is created. 
     .PARAMETER GetAll 
-        Retreive all cachecontentgroup object(s)
+        Retrieve all cachecontentgroup object(s).
     .PARAMETER Count
-        If specified, the count of the cachecontentgroup object(s) will be returned
+        If specified, the count of the cachecontentgroup object(s) will be returned.
     .PARAMETER Filter
-        Specify a filter
+        Specify a filter.
         -Filter @{ 'name'='<value>' }
     .PARAMETER ViewSummary
-        When specified, only a summary of information is returned
+        When specified, only a summary of information is returned.
     .EXAMPLE
-        Invoke-ADCGetCachecontentgroup
+        PS C:\>Invoke-ADCGetCachecontentgroup
+        Get data.
     .EXAMPLE 
-        Invoke-ADCGetCachecontentgroup -GetAll 
+        PS C:\>Invoke-ADCGetCachecontentgroup -GetAll 
+        Get all cachecontentgroup data. 
     .EXAMPLE 
-        Invoke-ADCGetCachecontentgroup -Count
+        PS C:\>Invoke-ADCGetCachecontentgroup -Count 
+        Get the number of cachecontentgroup objects.
     .EXAMPLE
-        Invoke-ADCGetCachecontentgroup -name <string>
+        PS C:\>Invoke-ADCGetCachecontentgroup -name <string>
+        Get cachecontentgroup object by specifying for example the name.
     .EXAMPLE
-        Invoke-ADCGetCachecontentgroup -Filter @{ 'name'='<value>' }
+        PS C:\>Invoke-ADCGetCachecontentgroup -Filter @{ 'name'='<value>' }
+        Get cachecontentgroup data with a filter.
     .NOTES
         File Name : Invoke-ADCGetCachecontentgroup
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/cache/cachecontentgroup/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
-    [CmdletBinding(DefaultParameterSetName = "Getall")]
+    #>
+    [CmdletBinding(DefaultParameterSetName = "GetAll")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
         [Parameter(ParameterSetName = 'GetByResource')]
         [ValidateScript({ $_.Length -gt 1 })]
         [ValidatePattern('^(([a-zA-Z0-9]|[_])+([a-zA-Z0-9]|[_])+)$')]
-        [string]$name,
+        [string]$Name,
 
-        [Parameter(ParameterSetName = 'Count', Mandatory = $true)]
+        [Parameter(ParameterSetName = 'Count', Mandatory)]
         [Switch]$Count,
 			
         [hashtable]$Filter = @{ },
@@ -1295,24 +1205,24 @@ function Invoke-ADCGetCachecontentgroup {
     }
     process {
         try {
-            if ( $PsCmdlet.ParameterSetName -eq 'Getall' ) {
-                $Query = @{ }
+            if ( $PsCmdlet.ParameterSetName -eq 'GetAll' ) {
+                $query = @{ }
                 Write-Verbose "Retrieving all cachecontentgroup objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type cachecontentgroup -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type cachecontentgroup -NitroPath nitro/v1/config -Query $query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
-                if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
+                if ( $PSBoundParameters.ContainsKey('Count') ) { $query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for cachecontentgroup objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type cachecontentgroup -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type cachecontentgroup -NitroPath nitro/v1/config -Query $query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving cachecontentgroup objects by arguments"
-                $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type cachecontentgroup -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
+                $arguments = @{ } 
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type cachecontentgroup -NitroPath nitro/v1/config -Arguments $arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving cachecontentgroup configuration for property 'name'"
                 $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type cachecontentgroup -NitroPath nitro/v1/config -Resource $name -Summary:$ViewSummary -Filter $Filter -GetWarning
             } else {
                 Write-Verbose "Retrieving cachecontentgroup configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type cachecontentgroup -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type cachecontentgroup -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -1326,65 +1236,60 @@ function Invoke-ADCGetCachecontentgroup {
 }
 
 function Invoke-ADCAddCacheforwardproxy {
-<#
+    <#
     .SYNOPSIS
-        Add Integrated Caching configuration Object
+        Add Integrated Caching configuration Object.
     .DESCRIPTION
-        Add Integrated Caching configuration Object 
-    .PARAMETER ipaddress 
-        IP address of the Citrix ADC or a cache server for which the cache acts as a proxy. Requests coming to the Citrix ADC with the configured IP address are forwarded to the particular address, without involving the Integrated Cache in any way.  
-        Minimum length = 1 
-    .PARAMETER port 
-        Port on the Citrix ADC or a server for which the cache acts as a proxy.  
-        Minimum value = 1  
-        Range 1 - 65535  
+        Configuration for forward proxy resource.
+    .PARAMETER Ipaddress 
+        IP address of the Citrix ADC or a cache server for which the cache acts as a proxy. Requests coming to the Citrix ADC with the configured IP address are forwarded to the particular address, without involving the Integrated Cache in any way. 
+    .PARAMETER Port 
+        Port on the Citrix ADC or a server for which the cache acts as a proxy. 
         * in CLI is represented as 65535 in NITRO API
     .EXAMPLE
-        Invoke-ADCAddCacheforwardproxy -ipaddress <string> -port <int>
+        PS C:\>Invoke-ADCAddCacheforwardproxy -ipaddress <string> -port <int>
+        An example how to add cacheforwardproxy configuration Object(s).
     .NOTES
         File Name : Invoke-ADCAddCacheforwardproxy
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/cache/cacheforwardproxy/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
+    #>
     [CmdletBinding(SupportsShouldProcess = $true, ConfirmImpact = "Low")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
-        [Parameter(Mandatory = $true)]
+        [Parameter(Mandatory)]
         [ValidateScript({ $_.Length -gt 1 })]
-        [string]$ipaddress ,
+        [string]$Ipaddress,
 
-        [Parameter(Mandatory = $true)]
+        [Parameter(Mandatory)]
         [ValidateRange(1, 65535)]
-        [int]$port 
-
+        [int]$Port 
     )
     begin {
         Write-Verbose "Invoke-ADCAddCacheforwardproxy: Starting"
     }
     process {
         try {
-            $Payload = @{
-                ipaddress = $ipaddress
-                port = $port
+            $payload = @{ ipaddress = $ipaddress
+                port                = $port
             }
 
- 
-            if ($PSCmdlet.ShouldProcess("cacheforwardproxy", "Add Integrated Caching configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -NitroPath nitro/v1/config -Type cacheforwardproxy -Payload $Payload -GetWarning
+            if ( $PSCmdlet.ShouldProcess("cacheforwardproxy", "Add Integrated Caching configuration Object") ) {
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -NitroPath nitro/v1/config -Type cacheforwardproxy -Payload $payload -GetWarning
                 #HTTP Status Code on Success: 201 Created
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
-            Write-Output $result
-
+                Write-Output $result
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -1397,53 +1302,52 @@ function Invoke-ADCAddCacheforwardproxy {
 }
 
 function Invoke-ADCDeleteCacheforwardproxy {
-<#
+    <#
     .SYNOPSIS
-        Delete Integrated Caching configuration Object
+        Delete Integrated Caching configuration Object.
     .DESCRIPTION
-        Delete Integrated Caching configuration Object
-    .PARAMETER ipaddress 
-       IP address of the Citrix ADC or a cache server for which the cache acts as a proxy. Requests coming to the Citrix ADC with the configured IP address are forwarded to the particular address, without involving the Integrated Cache in any way.  
-       Minimum length = 1    .PARAMETER port 
-       Port on the Citrix ADC or a server for which the cache acts as a proxy.  
-       Minimum value = 1  
-       Range 1 - 65535  
-       * in CLI is represented as 65535 in NITRO API
+        Configuration for forward proxy resource.
+    .PARAMETER Ipaddress 
+        IP address of the Citrix ADC or a cache server for which the cache acts as a proxy. Requests coming to the Citrix ADC with the configured IP address are forwarded to the particular address, without involving the Integrated Cache in any way. 
+    .PARAMETER Port 
+        Port on the Citrix ADC or a server for which the cache acts as a proxy. 
+        * in CLI is represented as 65535 in NITRO API
     .EXAMPLE
-        Invoke-ADCDeleteCacheforwardproxy -ipaddress <string>
+        PS C:\>Invoke-ADCDeleteCacheforwardproxy -Ipaddress <string>
+        An example how to delete cacheforwardproxy configuration Object(s).
     .NOTES
         File Name : Invoke-ADCDeleteCacheforwardproxy
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/cache/cacheforwardproxy/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
+    #>
     [CmdletBinding(SupportsShouldProcess = $true, ConfirmImpact = "Low")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
-        [Parameter(Mandatory = $true)]
-        [string]$ipaddress ,
+        [Parameter(Mandatory)]
+        [string]$Ipaddress,
 
-        [int]$port 
+        [int]$Port 
     )
     begin {
         Write-Verbose "Invoke-ADCDeleteCacheforwardproxy: Starting"
     }
     process {
         try {
-            $Arguments = @{ 
-            }
-            if ($PSBoundParameters.ContainsKey('port')) { $Arguments.Add('port', $port) }
-            if ($PSCmdlet.ShouldProcess("$ipaddress", "Delete Integrated Caching configuration Object")) {
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type cacheforwardproxy -NitroPath nitro/v1/config -Resource $ipaddress -Arguments $Arguments
+            $arguments = @{ }
+            if ( $PSBoundParameters.ContainsKey('Port') ) { $arguments.Add('port', $Port) }
+            if ( $PSCmdlet.ShouldProcess("$ipaddress", "Delete Integrated Caching configuration Object") ) {
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type cacheforwardproxy -NitroPath nitro/v1/config -Resource $ipaddress -Arguments $arguments
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $response
@@ -1459,49 +1363,55 @@ function Invoke-ADCDeleteCacheforwardproxy {
 }
 
 function Invoke-ADCGetCacheforwardproxy {
-<#
+    <#
     .SYNOPSIS
-        Get Integrated Caching configuration object(s)
+        Get Integrated Caching configuration object(s).
     .DESCRIPTION
-        Get Integrated Caching configuration object(s)
+        Configuration for forward proxy resource.
     .PARAMETER GetAll 
-        Retreive all cacheforwardproxy object(s)
+        Retrieve all cacheforwardproxy object(s).
     .PARAMETER Count
-        If specified, the count of the cacheforwardproxy object(s) will be returned
+        If specified, the count of the cacheforwardproxy object(s) will be returned.
     .PARAMETER Filter
-        Specify a filter
+        Specify a filter.
         -Filter @{ 'name'='<value>' }
     .PARAMETER ViewSummary
-        When specified, only a summary of information is returned
+        When specified, only a summary of information is returned.
     .EXAMPLE
-        Invoke-ADCGetCacheforwardproxy
+        PS C:\>Invoke-ADCGetCacheforwardproxy
+        Get data.
     .EXAMPLE 
-        Invoke-ADCGetCacheforwardproxy -GetAll 
+        PS C:\>Invoke-ADCGetCacheforwardproxy -GetAll 
+        Get all cacheforwardproxy data. 
     .EXAMPLE 
-        Invoke-ADCGetCacheforwardproxy -Count
+        PS C:\>Invoke-ADCGetCacheforwardproxy -Count 
+        Get the number of cacheforwardproxy objects.
     .EXAMPLE
-        Invoke-ADCGetCacheforwardproxy -name <string>
+        PS C:\>Invoke-ADCGetCacheforwardproxy -name <string>
+        Get cacheforwardproxy object by specifying for example the name.
     .EXAMPLE
-        Invoke-ADCGetCacheforwardproxy -Filter @{ 'name'='<value>' }
+        PS C:\>Invoke-ADCGetCacheforwardproxy -Filter @{ 'name'='<value>' }
+        Get cacheforwardproxy data with a filter.
     .NOTES
         File Name : Invoke-ADCGetCacheforwardproxy
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/cache/cacheforwardproxy/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
-    [CmdletBinding(DefaultParameterSetName = "Getall")]
+    #>
+    [CmdletBinding(DefaultParameterSetName = "GetAll")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
-        [Parameter(ParameterSetName = 'Count', Mandatory = $true)]
+        [Parameter(ParameterSetName = 'Count', Mandatory)]
         [Switch]$Count,
 			
         [hashtable]$Filter = @{ },
@@ -1518,24 +1428,24 @@ function Invoke-ADCGetCacheforwardproxy {
     }
     process {
         try {
-            if ( $PsCmdlet.ParameterSetName -eq 'Getall' ) {
-                $Query = @{ }
+            if ( $PsCmdlet.ParameterSetName -eq 'GetAll' ) {
+                $query = @{ }
                 Write-Verbose "Retrieving all cacheforwardproxy objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type cacheforwardproxy -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type cacheforwardproxy -NitroPath nitro/v1/config -Query $query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
-                if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
+                if ( $PSBoundParameters.ContainsKey('Count') ) { $query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for cacheforwardproxy objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type cacheforwardproxy -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type cacheforwardproxy -NitroPath nitro/v1/config -Query $query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving cacheforwardproxy objects by arguments"
-                $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type cacheforwardproxy -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
+                $arguments = @{ } 
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type cacheforwardproxy -NitroPath nitro/v1/config -Arguments $arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving cacheforwardproxy configuration for property ''"
 
             } else {
                 Write-Verbose "Retrieving cacheforwardproxy configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type cacheforwardproxy -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type cacheforwardproxy -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -1549,45 +1459,50 @@ function Invoke-ADCGetCacheforwardproxy {
 }
 
 function Invoke-ADCGetCacheglobalbinding {
-<#
+    <#
     .SYNOPSIS
-        Get Integrated Caching configuration object(s)
+        Get Integrated Caching configuration object(s).
     .DESCRIPTION
-        Get Integrated Caching configuration object(s)
+        Binding object which returns the resources bound to cacheglobal.
     .PARAMETER GetAll 
-        Retreive all cacheglobal_binding object(s)
+        Retrieve all cacheglobal_binding object(s).
     .PARAMETER Count
-        If specified, the count of the cacheglobal_binding object(s) will be returned
+        If specified, the count of the cacheglobal_binding object(s) will be returned.
     .PARAMETER Filter
-        Specify a filter
+        Specify a filter.
         -Filter @{ 'name'='<value>' }
     .PARAMETER ViewSummary
-        When specified, only a summary of information is returned
+        When specified, only a summary of information is returned.
     .EXAMPLE
-        Invoke-ADCGetCacheglobalbinding
+        PS C:\>Invoke-ADCGetCacheglobalbinding
+        Get data.
     .EXAMPLE 
-        Invoke-ADCGetCacheglobalbinding -GetAll
+        PS C:\>Invoke-ADCGetCacheglobalbinding -GetAll 
+        Get all cacheglobal_binding data.
     .EXAMPLE
-        Invoke-ADCGetCacheglobalbinding -name <string>
+        PS C:\>Invoke-ADCGetCacheglobalbinding -name <string>
+        Get cacheglobal_binding object by specifying for example the name.
     .EXAMPLE
-        Invoke-ADCGetCacheglobalbinding -Filter @{ 'name'='<value>' }
+        PS C:\>Invoke-ADCGetCacheglobalbinding -Filter @{ 'name'='<value>' }
+        Get cacheglobal_binding data with a filter.
     .NOTES
         File Name : Invoke-ADCGetCacheglobalbinding
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/cache/cacheglobal_binding/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
-    [CmdletBinding(DefaultParameterSetName = "Getall")]
+    #>
+    [CmdletBinding(DefaultParameterSetName = "GetAll")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 			
         [hashtable]$Filter = @{ },
 
@@ -1599,26 +1514,24 @@ function Invoke-ADCGetCacheglobalbinding {
     }
     process {
         try {
-            if ( $PsCmdlet.ParameterSetName -eq 'Getall' ) {
-                $Query = @{ 
-                    bulkbindings = 'yes'
-                }
+            if ( $PsCmdlet.ParameterSetName -eq 'GetAll' ) {
+                $query = @{  bulkbindings = 'yes' }
                 Write-Verbose "Retrieving all cacheglobal_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type cacheglobal_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type cacheglobal_binding -NitroPath nitro/v1/config -Query $query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
-                if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
+                if ( $PSBoundParameters.ContainsKey('Count') ) { $query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for cacheglobal_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type cacheglobal_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type cacheglobal_binding -NitroPath nitro/v1/config -Query $query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving cacheglobal_binding objects by arguments"
-                $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type cacheglobal_binding -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
+                $arguments = @{ } 
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type cacheglobal_binding -NitroPath nitro/v1/config -Arguments $arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving cacheglobal_binding configuration for property ''"
 
             } else {
                 Write-Verbose "Retrieving cacheglobal_binding configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type cacheglobal_binding -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type cacheglobal_binding -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -1632,103 +1545,100 @@ function Invoke-ADCGetCacheglobalbinding {
 }
 
 function Invoke-ADCAddCacheglobalcachepolicybinding {
-<#
+    <#
     .SYNOPSIS
-        Add Integrated Caching configuration Object
+        Add Integrated Caching configuration Object.
     .DESCRIPTION
-        Add Integrated Caching configuration Object 
-    .PARAMETER policy 
+        Binding object showing the cachepolicy that can be bound to cacheglobal.
+    .PARAMETER Policy 
         Name of the cache policy. 
-    .PARAMETER priority 
+    .PARAMETER Priority 
         Specifies the priority of the policy. 
-    .PARAMETER precededefrules 
-        Specify whether this policy should be evaluated.  
-        Default value: NO  
+    .PARAMETER Precededefrules 
+        Specify whether this policy should be evaluated. 
         Possible values = YES, NO 
-    .PARAMETER gotopriorityexpression 
+    .PARAMETER Gotopriorityexpression 
         Expression specifying the priority of the next policy which will get evaluated if the current policy rule evaluates to TRUE. 
-    .PARAMETER type 
-        The bind point to which policy is bound. When you specify the type, detailed information about that bind point appears.  
-        Possible values = REQ_OVERRIDE, REQ_DEFAULT, RES_OVERRIDE, RES_DEFAULT 
-    .PARAMETER invoke 
+    .PARAMETER Type 
+        The bind point to which policy is bound. When you specify the type, detailed information about that bind point appears. 
+        Possible values = REQ_OVERRIDE, REQ_DEFAULT, RES_OVERRIDE, RES_DEFAULT, HTTPQUIC_REQ_OVERRIDE, HTTPQUIC_REQ_DEFAULT, HTTPQUIC_RES_OVERRIDE, HTTPQUIC_RES_DEFAULT 
+    .PARAMETER Invoke 
         Invoke policies bound to a virtual server or a user-defined policy label. After the invoked policies are evaluated, the flow returns to the policy with the next priority. Applicable only to default-syntax policies. 
-    .PARAMETER labeltype 
-        Type of policy label to invoke.  
+    .PARAMETER Labeltype 
+        Type of policy label to invoke. 
         Possible values = reqvserver, resvserver, policylabel 
-    .PARAMETER labelname 
+    .PARAMETER Labelname 
         Name of the label to invoke if the current policy rule evaluates to TRUE. (To invoke a label associated with a virtual server, specify the name of the virtual server.). 
     .PARAMETER PassThru 
         Return details about the created cacheglobal_cachepolicy_binding item.
     .EXAMPLE
-        Invoke-ADCAddCacheglobalcachepolicybinding -policy <string> -priority <double>
+        PS C:\>Invoke-ADCAddCacheglobalcachepolicybinding -policy <string> -priority <double>
+        An example how to add cacheglobal_cachepolicy_binding configuration Object(s).
     .NOTES
         File Name : Invoke-ADCAddCacheglobalcachepolicybinding
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/cache/cacheglobal_cachepolicy_binding/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
+    #>
     [CmdletBinding(SupportsShouldProcess = $true, ConfirmImpact = "Low")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
-        [Parameter(Mandatory = $true)]
-        [string]$policy ,
+        [Parameter(Mandatory)]
+        [string]$Policy,
 
-        [Parameter(Mandatory = $true)]
-        [double]$priority ,
+        [Parameter(Mandatory)]
+        [double]$Priority,
 
         [ValidateSet('YES', 'NO')]
-        [string]$precededefrules = 'NO' ,
+        [string]$Precededefrules = 'NO',
 
-        [string]$gotopriorityexpression ,
+        [string]$Gotopriorityexpression,
 
-        [ValidateSet('REQ_OVERRIDE', 'REQ_DEFAULT', 'RES_OVERRIDE', 'RES_DEFAULT')]
-        [string]$type ,
+        [ValidateSet('REQ_OVERRIDE', 'REQ_DEFAULT', 'RES_OVERRIDE', 'RES_DEFAULT', 'HTTPQUIC_REQ_OVERRIDE', 'HTTPQUIC_REQ_DEFAULT', 'HTTPQUIC_RES_OVERRIDE', 'HTTPQUIC_RES_DEFAULT')]
+        [string]$Type,
 
-        [boolean]$invoke ,
+        [boolean]$Invoke,
 
         [ValidateSet('reqvserver', 'resvserver', 'policylabel')]
-        [string]$labeltype ,
+        [string]$Labeltype,
 
-        [string]$labelname ,
+        [string]$Labelname,
 
         [Switch]$PassThru 
-
     )
     begin {
         Write-Verbose "Invoke-ADCAddCacheglobalcachepolicybinding: Starting"
     }
     process {
         try {
-            $Payload = @{
-                policy = $policy
-                priority = $priority
+            $payload = @{ policy = $policy
+                priority         = $priority
             }
-            if ($PSBoundParameters.ContainsKey('precededefrules')) { $Payload.Add('precededefrules', $precededefrules) }
-            if ($PSBoundParameters.ContainsKey('gotopriorityexpression')) { $Payload.Add('gotopriorityexpression', $gotopriorityexpression) }
-            if ($PSBoundParameters.ContainsKey('type')) { $Payload.Add('type', $type) }
-            if ($PSBoundParameters.ContainsKey('invoke')) { $Payload.Add('invoke', $invoke) }
-            if ($PSBoundParameters.ContainsKey('labeltype')) { $Payload.Add('labeltype', $labeltype) }
-            if ($PSBoundParameters.ContainsKey('labelname')) { $Payload.Add('labelname', $labelname) }
- 
-            if ($PSCmdlet.ShouldProcess("cacheglobal_cachepolicy_binding", "Add Integrated Caching configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -NitroPath nitro/v1/config -Type cacheglobal_cachepolicy_binding -Payload $Payload -GetWarning
+            if ( $PSBoundParameters.ContainsKey('precededefrules') ) { $payload.Add('precededefrules', $precededefrules) }
+            if ( $PSBoundParameters.ContainsKey('gotopriorityexpression') ) { $payload.Add('gotopriorityexpression', $gotopriorityexpression) }
+            if ( $PSBoundParameters.ContainsKey('type') ) { $payload.Add('type', $type) }
+            if ( $PSBoundParameters.ContainsKey('invoke') ) { $payload.Add('invoke', $invoke) }
+            if ( $PSBoundParameters.ContainsKey('labeltype') ) { $payload.Add('labeltype', $labeltype) }
+            if ( $PSBoundParameters.ContainsKey('labelname') ) { $payload.Add('labelname', $labelname) }
+            if ( $PSCmdlet.ShouldProcess("cacheglobal_cachepolicy_binding", "Add Integrated Caching configuration Object") ) {
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -NitroPath nitro/v1/config -Type cacheglobal_cachepolicy_binding -Payload $payload -GetWarning
                 #HTTP Status Code on Success: 201 Created
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
-                if ($PSBoundParameters.ContainsKey('PassThru')) {
-                    Write-Output (Invoke-ADCGetCacheglobalcachepolicybinding -Filter $Payload)
+                if ( $PSBoundParameters.ContainsKey('PassThru') ) {
+                    Write-Output (Invoke-ADCGetCacheglobalcachepolicybinding -Filter $payload)
                 } else {
                     Write-Output $result
                 }
-
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -1741,54 +1651,57 @@ function Invoke-ADCAddCacheglobalcachepolicybinding {
 }
 
 function Invoke-ADCDeleteCacheglobalcachepolicybinding {
-<#
+    <#
     .SYNOPSIS
-        Delete Integrated Caching configuration Object
+        Delete Integrated Caching configuration Object.
     .DESCRIPTION
-        Delete Integrated Caching configuration Object
-     .PARAMETER policy 
-       Name of the cache policy.    .PARAMETER type 
-       The bind point to which policy is bound. When you specify the type, detailed information about that bind point appears.  
-       Possible values = REQ_OVERRIDE, REQ_DEFAULT, RES_OVERRIDE, RES_DEFAULT    .PARAMETER priority 
-       Specifies the priority of the policy.
+        Binding object showing the cachepolicy that can be bound to cacheglobal.
+    .PARAMETER Policy 
+        Name of the cache policy. 
+    .PARAMETER Type 
+        The bind point to which policy is bound. When you specify the type, detailed information about that bind point appears. 
+        Possible values = REQ_OVERRIDE, REQ_DEFAULT, RES_OVERRIDE, RES_DEFAULT, HTTPQUIC_REQ_OVERRIDE, HTTPQUIC_REQ_DEFAULT, HTTPQUIC_RES_OVERRIDE, HTTPQUIC_RES_DEFAULT 
+    .PARAMETER Priority 
+        Specifies the priority of the policy.
     .EXAMPLE
-        Invoke-ADCDeleteCacheglobalcachepolicybinding 
+        PS C:\>Invoke-ADCDeleteCacheglobalcachepolicybinding 
+        An example how to delete cacheglobal_cachepolicy_binding configuration Object(s).
     .NOTES
         File Name : Invoke-ADCDeleteCacheglobalcachepolicybinding
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/cache/cacheglobal_cachepolicy_binding/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
+    #>
     [CmdletBinding(SupportsShouldProcess = $true, ConfirmImpact = "Low")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
-        [string]$policy ,
+        [string]$Policy,
 
-        [string]$type ,
+        [string]$Type,
 
-        [double]$priority 
+        [double]$Priority 
     )
     begin {
         Write-Verbose "Invoke-ADCDeleteCacheglobalcachepolicybinding: Starting"
     }
     process {
         try {
-            $Arguments = @{ 
-            }
-            if ($PSBoundParameters.ContainsKey('policy')) { $Arguments.Add('policy', $policy) }
-            if ($PSBoundParameters.ContainsKey('type')) { $Arguments.Add('type', $type) }
-            if ($PSBoundParameters.ContainsKey('priority')) { $Arguments.Add('priority', $priority) }
-            if ($PSCmdlet.ShouldProcess("cacheglobal_cachepolicy_binding", "Delete Integrated Caching configuration Object")) {
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type cacheglobal_cachepolicy_binding -NitroPath nitro/v1/config -Resource $ -Arguments $Arguments
+            $arguments = @{ }
+            if ( $PSBoundParameters.ContainsKey('Policy') ) { $arguments.Add('policy', $Policy) }
+            if ( $PSBoundParameters.ContainsKey('Type') ) { $arguments.Add('type', $Type) }
+            if ( $PSBoundParameters.ContainsKey('Priority') ) { $arguments.Add('priority', $Priority) }
+            if ( $PSCmdlet.ShouldProcess("cacheglobal_cachepolicy_binding", "Delete Integrated Caching configuration Object") ) {
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type cacheglobal_cachepolicy_binding -NitroPath nitro/v1/config -Resource $ -Arguments $arguments
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $response
@@ -1804,49 +1717,55 @@ function Invoke-ADCDeleteCacheglobalcachepolicybinding {
 }
 
 function Invoke-ADCGetCacheglobalcachepolicybinding {
-<#
+    <#
     .SYNOPSIS
-        Get Integrated Caching configuration object(s)
+        Get Integrated Caching configuration object(s).
     .DESCRIPTION
-        Get Integrated Caching configuration object(s)
+        Binding object showing the cachepolicy that can be bound to cacheglobal.
     .PARAMETER GetAll 
-        Retreive all cacheglobal_cachepolicy_binding object(s)
+        Retrieve all cacheglobal_cachepolicy_binding object(s).
     .PARAMETER Count
-        If specified, the count of the cacheglobal_cachepolicy_binding object(s) will be returned
+        If specified, the count of the cacheglobal_cachepolicy_binding object(s) will be returned.
     .PARAMETER Filter
-        Specify a filter
+        Specify a filter.
         -Filter @{ 'name'='<value>' }
     .PARAMETER ViewSummary
-        When specified, only a summary of information is returned
+        When specified, only a summary of information is returned.
     .EXAMPLE
-        Invoke-ADCGetCacheglobalcachepolicybinding
+        PS C:\>Invoke-ADCGetCacheglobalcachepolicybinding
+        Get data.
     .EXAMPLE 
-        Invoke-ADCGetCacheglobalcachepolicybinding -GetAll 
+        PS C:\>Invoke-ADCGetCacheglobalcachepolicybinding -GetAll 
+        Get all cacheglobal_cachepolicy_binding data. 
     .EXAMPLE 
-        Invoke-ADCGetCacheglobalcachepolicybinding -Count
+        PS C:\>Invoke-ADCGetCacheglobalcachepolicybinding -Count 
+        Get the number of cacheglobal_cachepolicy_binding objects.
     .EXAMPLE
-        Invoke-ADCGetCacheglobalcachepolicybinding -name <string>
+        PS C:\>Invoke-ADCGetCacheglobalcachepolicybinding -name <string>
+        Get cacheglobal_cachepolicy_binding object by specifying for example the name.
     .EXAMPLE
-        Invoke-ADCGetCacheglobalcachepolicybinding -Filter @{ 'name'='<value>' }
+        PS C:\>Invoke-ADCGetCacheglobalcachepolicybinding -Filter @{ 'name'='<value>' }
+        Get cacheglobal_cachepolicy_binding data with a filter.
     .NOTES
         File Name : Invoke-ADCGetCacheglobalcachepolicybinding
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/cache/cacheglobal_cachepolicy_binding/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
-    [CmdletBinding(DefaultParameterSetName = "Getall")]
+    #>
+    [CmdletBinding(DefaultParameterSetName = "GetAll")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
-        [Parameter(ParameterSetName = 'Count', Mandatory = $true)]
+        [Parameter(ParameterSetName = 'Count', Mandatory)]
         [Switch]$Count,
 			
         [hashtable]$Filter = @{ },
@@ -1859,26 +1778,24 @@ function Invoke-ADCGetCacheglobalcachepolicybinding {
     }
     process {
         try {
-            if ( $PsCmdlet.ParameterSetName -eq 'Getall' ) {
-                $Query = @{ 
-                    bulkbindings = 'yes'
-                }
+            if ( $PsCmdlet.ParameterSetName -eq 'GetAll' ) {
+                $query = @{  bulkbindings = 'yes' }
                 Write-Verbose "Retrieving all cacheglobal_cachepolicy_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type cacheglobal_cachepolicy_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type cacheglobal_cachepolicy_binding -NitroPath nitro/v1/config -Query $query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
-                if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
+                if ( $PSBoundParameters.ContainsKey('Count') ) { $query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for cacheglobal_cachepolicy_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type cacheglobal_cachepolicy_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type cacheglobal_cachepolicy_binding -NitroPath nitro/v1/config -Query $query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving cacheglobal_cachepolicy_binding objects by arguments"
-                $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type cacheglobal_cachepolicy_binding -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
+                $arguments = @{ } 
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type cacheglobal_cachepolicy_binding -NitroPath nitro/v1/config -Arguments $arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving cacheglobal_cachepolicy_binding configuration for property ''"
 
             } else {
                 Write-Verbose "Retrieving cacheglobal_cachepolicy_binding configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type cacheglobal_cachepolicy_binding -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type cacheglobal_cachepolicy_binding -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -1892,59 +1809,61 @@ function Invoke-ADCGetCacheglobalcachepolicybinding {
 }
 
 function Invoke-ADCExpireCacheobject {
-<#
+    <#
     .SYNOPSIS
-        Expire Integrated Caching configuration Object
+        Expire Integrated Caching configuration Object.
     .DESCRIPTION
-        Expire Integrated Caching configuration Object 
-    .PARAMETER locator 
+        Configuration for cache object resource.
+    .PARAMETER Locator 
         ID of the cached object. 
-    .PARAMETER url 
+    .PARAMETER Url 
         URL of the particular object whose details is required. Parameter "host" must be specified along with the URL. 
-    .PARAMETER hostname 
+    .PARAMETER Hostname 
         Host name of the object. Parameter "url" must be specified. 
-        NOTE: The Nitro parameter "host" cannot be used in PowerShell thus an alternative name was chosen. 
-    .PARAMETER port 
+        NOTE: The Nitro parameter 'host' cannot be used as a PowerShell parameter, therefore an alternative Parameter name was chosen. 
+    .PARAMETER Port 
         Host port of the object. You must also set the Host parameter. 
-    .PARAMETER groupname 
+    .PARAMETER Groupname 
         Name of the content group to which the object belongs. It will display only the objects belonging to the specified content group. You must also set the Host parameter. 
-    .PARAMETER httpmethod 
-        HTTP request method that caused the object to be stored.  
+    .PARAMETER Httpmethod 
+        HTTP request method that caused the object to be stored. 
         Possible values = GET, POST
     .EXAMPLE
-        Invoke-ADCExpireCacheobject 
+        PS C:\>Invoke-ADCExpireCacheobject 
+        An example how to expire cacheobject configuration Object(s).
     .NOTES
         File Name : Invoke-ADCExpireCacheobject
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/cache/cacheobject/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
+    #>
     [CmdletBinding(SupportsShouldProcess = $true, ConfirmImpact = "Low")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
-        [double]$locator ,
-
-        [ValidateScript({ $_.Length -gt 1 })]
-        [string]$url ,
+        [double]$Locator,
 
         [ValidateScript({ $_.Length -gt 1 })]
-        [string]$hostname ,
+        [string]$Url,
 
-        [int]$port ,
+        [ValidateScript({ $_.Length -gt 1 })]
+        [string]$Hostname,
 
-        [string]$groupname ,
+        [int]$Port,
+
+        [string]$Groupname,
 
         [ValidateSet('GET', 'POST')]
-        [string]$httpmethod 
+        [string]$Httpmethod 
 
     )
     begin {
@@ -1952,17 +1871,15 @@ function Invoke-ADCExpireCacheobject {
     }
     process {
         try {
-            $Payload = @{
-
-            }
-            if ($PSBoundParameters.ContainsKey('locator')) { $Payload.Add('locator', $locator) }
-            if ($PSBoundParameters.ContainsKey('url')) { $Payload.Add('url', $url) }
-            if ($PSBoundParameters.ContainsKey('hostname')) { $Payload.Add('host', $hostname) }
-            if ($PSBoundParameters.ContainsKey('port')) { $Payload.Add('port', $port) }
-            if ($PSBoundParameters.ContainsKey('groupname')) { $Payload.Add('groupname', $groupname) }
-            if ($PSBoundParameters.ContainsKey('httpmethod')) { $Payload.Add('httpmethod', $httpmethod) }
-            if ($PSCmdlet.ShouldProcess($Name, "Expire Integrated Caching configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -NitroPath nitro/v1/config -Type cacheobject -Action expire -Payload $Payload -GetWarning
+            $payload = @{ }
+            if ( $PSBoundParameters.ContainsKey('locator') ) { $payload.Add('locator', $locator) }
+            if ( $PSBoundParameters.ContainsKey('url') ) { $payload.Add('url', $url) }
+            if ( $PSBoundParameters.ContainsKey('hostname') ) { $payload.Add('host', $hostname) }
+            if ( $PSBoundParameters.ContainsKey('port') ) { $payload.Add('port', $port) }
+            if ( $PSBoundParameters.ContainsKey('groupname') ) { $payload.Add('groupname', $groupname) }
+            if ( $PSBoundParameters.ContainsKey('httpmethod') ) { $payload.Add('httpmethod', $httpmethod) }
+            if ( $PSCmdlet.ShouldProcess($Name, "Expire Integrated Caching configuration Object") ) {
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -NitroPath nitro/v1/config -Type cacheobject -Action expire -Payload $payload -GetWarning
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $result
@@ -1978,59 +1895,61 @@ function Invoke-ADCExpireCacheobject {
 }
 
 function Invoke-ADCFlushCacheobject {
-<#
+    <#
     .SYNOPSIS
-        Flush Integrated Caching configuration Object
+        Flush Integrated Caching configuration Object.
     .DESCRIPTION
-        Flush Integrated Caching configuration Object 
-    .PARAMETER locator 
+        Configuration for cache object resource.
+    .PARAMETER Locator 
         ID of the cached object. 
-    .PARAMETER url 
+    .PARAMETER Url 
         URL of the particular object whose details is required. Parameter "host" must be specified along with the URL. 
-    .PARAMETER hostname 
+    .PARAMETER Hostname 
         Host name of the object. Parameter "url" must be specified. 
-        NOTE: The Nitro parameter "host" cannot be used in PowerShell thus an alternative name was chosen. 
-    .PARAMETER port 
+        NOTE: The Nitro parameter 'host' cannot be used as a PowerShell parameter, therefore an alternative Parameter name was chosen. 
+    .PARAMETER Port 
         Host port of the object. You must also set the Host parameter. 
-    .PARAMETER groupname 
+    .PARAMETER Groupname 
         Name of the content group to which the object belongs. It will display only the objects belonging to the specified content group. You must also set the Host parameter. 
-    .PARAMETER httpmethod 
-        HTTP request method that caused the object to be stored.  
+    .PARAMETER Httpmethod 
+        HTTP request method that caused the object to be stored. 
         Possible values = GET, POST
     .EXAMPLE
-        Invoke-ADCFlushCacheobject 
+        PS C:\>Invoke-ADCFlushCacheobject 
+        An example how to flush cacheobject configuration Object(s).
     .NOTES
         File Name : Invoke-ADCFlushCacheobject
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/cache/cacheobject/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
+    #>
     [CmdletBinding(SupportsShouldProcess = $true, ConfirmImpact = "Low")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
-        [double]$locator ,
-
-        [ValidateScript({ $_.Length -gt 1 })]
-        [string]$url ,
+        [double]$Locator,
 
         [ValidateScript({ $_.Length -gt 1 })]
-        [string]$hostname ,
+        [string]$Url,
 
-        [int]$port ,
+        [ValidateScript({ $_.Length -gt 1 })]
+        [string]$Hostname,
 
-        [string]$groupname ,
+        [int]$Port,
+
+        [string]$Groupname,
 
         [ValidateSet('GET', 'POST')]
-        [string]$httpmethod 
+        [string]$Httpmethod 
 
     )
     begin {
@@ -2038,17 +1957,15 @@ function Invoke-ADCFlushCacheobject {
     }
     process {
         try {
-            $Payload = @{
-
-            }
-            if ($PSBoundParameters.ContainsKey('locator')) { $Payload.Add('locator', $locator) }
-            if ($PSBoundParameters.ContainsKey('url')) { $Payload.Add('url', $url) }
-            if ($PSBoundParameters.ContainsKey('hostname')) { $Payload.Add('host', $hostname) }
-            if ($PSBoundParameters.ContainsKey('port')) { $Payload.Add('port', $port) }
-            if ($PSBoundParameters.ContainsKey('groupname')) { $Payload.Add('groupname', $groupname) }
-            if ($PSBoundParameters.ContainsKey('httpmethod')) { $Payload.Add('httpmethod', $httpmethod) }
-            if ($PSCmdlet.ShouldProcess($Name, "Flush Integrated Caching configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -NitroPath nitro/v1/config -Type cacheobject -Action flush -Payload $Payload -GetWarning
+            $payload = @{ }
+            if ( $PSBoundParameters.ContainsKey('locator') ) { $payload.Add('locator', $locator) }
+            if ( $PSBoundParameters.ContainsKey('url') ) { $payload.Add('url', $url) }
+            if ( $PSBoundParameters.ContainsKey('hostname') ) { $payload.Add('host', $hostname) }
+            if ( $PSBoundParameters.ContainsKey('port') ) { $payload.Add('port', $port) }
+            if ( $PSBoundParameters.ContainsKey('groupname') ) { $payload.Add('groupname', $groupname) }
+            if ( $PSBoundParameters.ContainsKey('httpmethod') ) { $payload.Add('httpmethod', $httpmethod) }
+            if ( $PSCmdlet.ShouldProcess($Name, "Flush Integrated Caching configuration Object") ) {
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -NitroPath nitro/v1/config -Type cacheobject -Action flush -Payload $payload -GetWarning
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $result
@@ -2064,40 +1981,42 @@ function Invoke-ADCFlushCacheobject {
 }
 
 function Invoke-ADCSaveCacheobject {
-<#
+    <#
     .SYNOPSIS
-        Save Integrated Caching configuration Object
+        Save Integrated Caching configuration Object.
     .DESCRIPTION
-        Save Integrated Caching configuration Object 
-    .PARAMETER locator 
+        Configuration for cache object resource.
+    .PARAMETER Locator 
         ID of the cached object. 
-    .PARAMETER tosecondary 
-        Object will be saved onto Secondary.  
+    .PARAMETER Tosecondary 
+        Object will be saved onto Secondary. 
         Possible values = YES, NO
     .EXAMPLE
-        Invoke-ADCSaveCacheobject 
+        PS C:\>Invoke-ADCSaveCacheobject 
+        An example how to save cacheobject configuration Object(s).
     .NOTES
         File Name : Invoke-ADCSaveCacheobject
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/cache/cacheobject/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
+    #>
     [CmdletBinding(SupportsShouldProcess = $true, ConfirmImpact = "Low")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
-        [double]$locator ,
+        [double]$Locator,
 
         [ValidateSet('YES', 'NO')]
-        [string]$tosecondary 
+        [string]$Tosecondary 
 
     )
     begin {
@@ -2105,13 +2024,11 @@ function Invoke-ADCSaveCacheobject {
     }
     process {
         try {
-            $Payload = @{
-
-            }
-            if ($PSBoundParameters.ContainsKey('locator')) { $Payload.Add('locator', $locator) }
-            if ($PSBoundParameters.ContainsKey('tosecondary')) { $Payload.Add('tosecondary', $tosecondary) }
-            if ($PSCmdlet.ShouldProcess($Name, "Save Integrated Caching configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -NitroPath nitro/v1/config -Type cacheobject -Action save -Payload $Payload -GetWarning
+            $payload = @{ }
+            if ( $PSBoundParameters.ContainsKey('locator') ) { $payload.Add('locator', $locator) }
+            if ( $PSBoundParameters.ContainsKey('tosecondary') ) { $payload.Add('tosecondary', $tosecondary) }
+            if ( $PSCmdlet.ShouldProcess($Name, "Save Integrated Caching configuration Object") ) {
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -NitroPath nitro/v1/config -Type cacheobject -Action save -Payload $payload -GetWarning
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $result
@@ -2127,114 +2044,120 @@ function Invoke-ADCSaveCacheobject {
 }
 
 function Invoke-ADCGetCacheobject {
-<#
+    <#
     .SYNOPSIS
-        Get Integrated Caching configuration object(s)
+        Get Integrated Caching configuration object(s).
     .DESCRIPTION
-        Get Integrated Caching configuration object(s)
-    .PARAMETER url 
-       URL of the particular object whose details is required. Parameter "host" must be specified along with the URL. 
-    .PARAMETER locator 
-       ID of the cached object. 
-    .PARAMETER httpstatus 
-       HTTP status of the object. 
-    .PARAMETER hostname 
-       Host name of the object. Parameter "url" must be specified. 
-       NOTE: The Nitro parameter "host" cannot be used in PowerShell thus an alternative name was chosen. 
-    .PARAMETER port 
-       Host port of the object. You must also set the Host parameter. 
-    .PARAMETER groupname 
-       Name of the content group to which the object belongs. It will display only the objects belonging to the specified content group. You must also set the Host parameter. 
-    .PARAMETER httpmethod 
-       HTTP request method that caused the object to be stored.  
-       Possible values = GET, POST 
-    .PARAMETER group 
-       Name of the content group whose objects should be listed. 
-    .PARAMETER ignoremarkerobjects 
-       Ignore marker objects. Marker objects are created when a response exceeds the maximum or minimum response size for the content group or has not yet received the minimum number of hits for the content group.  
-       Possible values = ON, OFF 
-    .PARAMETER includenotreadyobjects 
-       Include responses that have not yet reached a minimum number of hits before being cached.  
-       Possible values = ON, OFF 
-    .PARAMETER nodeid 
-       Unique number that identifies the cluster node. 
+        Configuration for cache object resource.
+    .PARAMETER Url 
+        URL of the particular object whose details is required. Parameter "host" must be specified along with the URL. 
+    .PARAMETER Locator 
+        ID of the cached object. 
+    .PARAMETER Httpstatus 
+        HTTP status of the object. 
+    .PARAMETER Hostname 
+        Host name of the object. Parameter "url" must be specified. 
+        NOTE: The Nitro parameter 'host' cannot be used as a PowerShell parameter, therefore an alternative Parameter name was chosen. 
+    .PARAMETER Port 
+        Host port of the object. You must also set the Host parameter. 
+    .PARAMETER Groupname 
+        Name of the content group to which the object belongs. It will display only the objects belonging to the specified content group. You must also set the Host parameter. 
+    .PARAMETER Httpmethod 
+        HTTP request method that caused the object to be stored. 
+        Possible values = GET, POST 
+    .PARAMETER Group 
+        Name of the content group whose objects should be listed. 
+    .PARAMETER Ignoremarkerobjects 
+        Ignore marker objects. Marker objects are created when a response exceeds the maximum or minimum response size for the content group or has not yet received the minimum number of hits for the content group. 
+        Possible values = ON, OFF 
+    .PARAMETER Includenotreadyobjects 
+        Include responses that have not yet reached a minimum number of hits before being cached. 
+        Possible values = ON, OFF 
+    .PARAMETER Nodeid 
+        Unique number that identifies the cluster node. 
     .PARAMETER GetAll 
-        Retreive all cacheobject object(s)
+        Retrieve all cacheobject object(s).
     .PARAMETER Count
-        If specified, the count of the cacheobject object(s) will be returned
+        If specified, the count of the cacheobject object(s) will be returned.
     .PARAMETER Filter
-        Specify a filter
+        Specify a filter.
         -Filter @{ 'name'='<value>' }
     .PARAMETER ViewSummary
-        When specified, only a summary of information is returned
+        When specified, only a summary of information is returned.
     .EXAMPLE
-        Invoke-ADCGetCacheobject
+        PS C:\>Invoke-ADCGetCacheobject
+        Get data.
     .EXAMPLE 
-        Invoke-ADCGetCacheobject -GetAll 
+        PS C:\>Invoke-ADCGetCacheobject -GetAll 
+        Get all cacheobject data. 
     .EXAMPLE 
-        Invoke-ADCGetCacheobject -Count
+        PS C:\>Invoke-ADCGetCacheobject -Count 
+        Get the number of cacheobject objects.
     .EXAMPLE
-        Invoke-ADCGetCacheobject -name <string>
+        PS C:\>Invoke-ADCGetCacheobject -name <string>
+        Get cacheobject object by specifying for example the name.
     .EXAMPLE
-        Invoke-ADCGetCacheobject -Filter @{ 'name'='<value>' }
+        PS C:\>Invoke-ADCGetCacheobject -Filter @{ 'name'='<value>' }
+        Get cacheobject data with a filter.
     .NOTES
         File Name : Invoke-ADCGetCacheobject
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/cache/cacheobject/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
-    [CmdletBinding(DefaultParameterSetName = "Getall")]
+    #>
+    [CmdletBinding(DefaultParameterSetName = "GetAll")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
         [Parameter(ParameterSetName = 'GetByArgument')]
         [ValidateScript({ $_.Length -gt 1 })]
-        [string]$url ,
+        [string]$Url,
 
         [Parameter(ParameterSetName = 'GetByArgument')]
-        [double]$locator ,
+        [double]$Locator,
 
         [Parameter(ParameterSetName = 'GetByArgument')]
-        [double]$httpstatus ,
+        [double]$Httpstatus,
 
         [Parameter(ParameterSetName = 'GetByArgument')]
         [ValidateScript({ $_.Length -gt 1 })]
-        [string]$hostname ,
+        [string]$Hostname,
 
         [Parameter(ParameterSetName = 'GetByArgument')]
-        [int]$port ,
+        [int]$Port,
 
         [Parameter(ParameterSetName = 'GetByArgument')]
-        [string]$groupname ,
+        [string]$Groupname,
 
         [Parameter(ParameterSetName = 'GetByArgument')]
         [ValidateSet('GET', 'POST')]
-        [string]$httpmethod ,
+        [string]$Httpmethod,
 
         [Parameter(ParameterSetName = 'GetByArgument')]
-        [string]$group ,
-
-        [Parameter(ParameterSetName = 'GetByArgument')]
-        [ValidateSet('ON', 'OFF')]
-        [string]$ignoremarkerobjects ,
+        [string]$Group,
 
         [Parameter(ParameterSetName = 'GetByArgument')]
         [ValidateSet('ON', 'OFF')]
-        [string]$includenotreadyobjects ,
+        [string]$Ignoremarkerobjects,
+
+        [Parameter(ParameterSetName = 'GetByArgument')]
+        [ValidateSet('ON', 'OFF')]
+        [string]$Includenotreadyobjects,
 
         [Parameter(ParameterSetName = 'GetByArgument')]
         [ValidateRange(0, 31)]
-        [double]$nodeid,
+        [double]$Nodeid,
 
-        [Parameter(ParameterSetName = 'Count', Mandatory = $true)]
+        [Parameter(ParameterSetName = 'Count', Mandatory)]
         [Switch]$Count,
 			
         [hashtable]$Filter = @{ },
@@ -2251,35 +2174,35 @@ function Invoke-ADCGetCacheobject {
     }
     process {
         try {
-            if ( $PsCmdlet.ParameterSetName -eq 'Getall' ) {
-                $Query = @{ }
+            if ( $PsCmdlet.ParameterSetName -eq 'GetAll' ) {
+                $query = @{ }
                 Write-Verbose "Retrieving all cacheobject objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type cacheobject -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type cacheobject -NitroPath nitro/v1/config -Query $query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
-                if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
+                if ( $PSBoundParameters.ContainsKey('Count') ) { $query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for cacheobject objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type cacheobject -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type cacheobject -NitroPath nitro/v1/config -Query $query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving cacheobject objects by arguments"
-                $Arguments = @{ } 
-                if ($PSBoundParameters.ContainsKey('url')) { $Arguments.Add('url', $url) } 
-                if ($PSBoundParameters.ContainsKey('locator')) { $Arguments.Add('locator', $locator) } 
-                if ($PSBoundParameters.ContainsKey('httpstatus')) { $Arguments.Add('httpstatus', $httpstatus) } 
-                if ($PSBoundParameters.ContainsKey('hostname')) { $Arguments.Add('host', $hostname) } 
-                if ($PSBoundParameters.ContainsKey('port')) { $Arguments.Add('port', $port) } 
-                if ($PSBoundParameters.ContainsKey('groupname')) { $Arguments.Add('groupname', $groupname) } 
-                if ($PSBoundParameters.ContainsKey('httpmethod')) { $Arguments.Add('httpmethod', $httpmethod) } 
-                if ($PSBoundParameters.ContainsKey('group')) { $Arguments.Add('group', $group) } 
-                if ($PSBoundParameters.ContainsKey('ignoremarkerobjects')) { $Arguments.Add('ignoremarkerobjects', $ignoremarkerobjects) } 
-                if ($PSBoundParameters.ContainsKey('includenotreadyobjects')) { $Arguments.Add('includenotreadyobjects', $includenotreadyobjects) } 
-                if ($PSBoundParameters.ContainsKey('nodeid')) { $Arguments.Add('nodeid', $nodeid) }
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type cacheobject -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
+                $arguments = @{ } 
+                if ( $PSBoundParameters.ContainsKey('url') ) { $arguments.Add('url', $url) } 
+                if ( $PSBoundParameters.ContainsKey('locator') ) { $arguments.Add('locator', $locator) } 
+                if ( $PSBoundParameters.ContainsKey('httpstatus') ) { $arguments.Add('httpstatus', $httpstatus) } 
+                if ( $PSBoundParameters.ContainsKey('hostname') ) { $arguments.Add('host', $hostname) } 
+                if ( $PSBoundParameters.ContainsKey('port') ) { $arguments.Add('port', $port) } 
+                if ( $PSBoundParameters.ContainsKey('groupname') ) { $arguments.Add('groupname', $groupname) } 
+                if ( $PSBoundParameters.ContainsKey('httpmethod') ) { $arguments.Add('httpmethod', $httpmethod) } 
+                if ( $PSBoundParameters.ContainsKey('group') ) { $arguments.Add('group', $group) } 
+                if ( $PSBoundParameters.ContainsKey('ignoremarkerobjects') ) { $arguments.Add('ignoremarkerobjects', $ignoremarkerobjects) } 
+                if ( $PSBoundParameters.ContainsKey('includenotreadyobjects') ) { $arguments.Add('includenotreadyobjects', $includenotreadyobjects) } 
+                if ( $PSBoundParameters.ContainsKey('nodeid') ) { $arguments.Add('nodeid', $nodeid) }
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type cacheobject -NitroPath nitro/v1/config -Arguments $arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving cacheobject configuration for property ''"
 
             } else {
                 Write-Verbose "Retrieving cacheobject configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type cacheobject -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type cacheobject -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -2293,108 +2216,100 @@ function Invoke-ADCGetCacheobject {
 }
 
 function Invoke-ADCUpdateCacheparameter {
-<#
+    <#
     .SYNOPSIS
-        Update Integrated Caching configuration Object
+        Update Integrated Caching configuration Object.
     .DESCRIPTION
-        Update Integrated Caching configuration Object 
-    .PARAMETER memlimit 
+        Configuration for cache parameter resource.
+    .PARAMETER Memlimit 
         Amount of memory available for storing the cache objects. In practice, the amount of memory available for caching can be less than half the total memory of the Citrix ADC. 
-    .PARAMETER via 
-        String to include in the Via header. A Via header is inserted into all responses served from a content group if its Insert Via flag is set.  
-        Minimum length = 1 
-    .PARAMETER verifyusing 
-        Criteria for deciding whether a cached object can be served for an incoming HTTP request. Available settings function as follows:  
-        HOSTNAME - The URL, host name, and host port values in the incoming HTTP request header must match the cache policy. The IP address and the TCP port of the destination host are not evaluated. Do not use the HOSTNAME setting unless you are certain that no rogue client can access a rogue server through the cache.  
-        HOSTNAME_AND_IP - The URL, host name, host port in the incoming HTTP request header, and the IP address and TCP port of  
-        the destination server, must match the cache policy.  
-        DNS - The URL, host name and host port in the incoming HTTP request, and the TCP port must match the cache policy. The host name is used for DNS lookup of the destination server's IP address, and is compared with the set of addresses returned by the DNS lookup.  
+    .PARAMETER Via 
+        String to include in the Via header. A Via header is inserted into all responses served from a content group if its Insert Via flag is set. 
+    .PARAMETER Verifyusing 
+        Criteria for deciding whether a cached object can be served for an incoming HTTP request. Available settings function as follows: 
+        HOSTNAME - The URL, host name, and host port values in the incoming HTTP request header must match the cache policy. The IP address and the TCP port of the destination host are not evaluated. Do not use the HOSTNAME setting unless you are certain that no rogue client can access a rogue server through the cache. 
+        HOSTNAME_AND_IP - The URL, host name, host port in the incoming HTTP request header, and the IP address and TCP port of 
+        the destination server, must match the cache policy. 
+        DNS - The URL, host name and host port in the incoming HTTP request, and the TCP port must match the cache policy. The host name is used for DNS lookup of the destination server's IP address, and is compared with the set of addresses returned by the DNS lookup. 
         Possible values = HOSTNAME, HOSTNAME_AND_IP, DNS 
-    .PARAMETER maxpostlen 
-        Maximum number of POST body bytes to consider when evaluating parameters for a content group for which you have configured hit parameters and invalidation parameters.  
-        Default value: 4096  
-        Minimum value = 0  
-        Maximum value = 131072 
-    .PARAMETER prefetchmaxpending 
+    .PARAMETER Maxpostlen 
+        Maximum number of POST body bytes to consider when evaluating parameters for a content group for which you have configured hit parameters and invalidation parameters. 
+    .PARAMETER Prefetchmaxpending 
         Maximum number of outstanding prefetches in the Integrated Cache. 
-    .PARAMETER enablebypass 
-        Evaluate the request-time policies before attempting hit selection. If set to NO, an incoming request for which a matching object is found in cache storage results in a response regardless of the policy configuration.  
-        If the request matches a policy with a NOCACHE action, the request bypasses all cache processing.  
-        This parameter does not affect processing of requests that match any invalidation policy.  
+    .PARAMETER Enablebypass 
+        Evaluate the request-time policies before attempting hit selection. If set to NO, an incoming request for which a matching object is found in cache storage results in a response regardless of the policy configuration. 
+        If the request matches a policy with a NOCACHE action, the request bypasses all cache processing. 
+        This parameter does not affect processing of requests that match any invalidation policy. 
         Possible values = YES, NO 
-    .PARAMETER undefaction 
-        Action to take when a policy cannot be evaluated.  
+    .PARAMETER Undefaction 
+        Action to take when a policy cannot be evaluated. 
         Possible values = NOCACHE, RESET 
-    .PARAMETER enablehaobjpersist 
-        The HA object persisting parameter. When this value is set to YES, cache objects can be synced to Secondary in a HA deployment. If set to NO, objects will never be synced to Secondary node.  
-        Default value: NO  
+    .PARAMETER Enablehaobjpersist 
+        The HA object persisting parameter. When this value is set to YES, cache objects can be synced to Secondary in a HA deployment. If set to NO, objects will never be synced to Secondary node. 
         Possible values = YES, NO
     .EXAMPLE
-        Invoke-ADCUpdateCacheparameter 
+        PS C:\>Invoke-ADCUpdateCacheparameter 
+        An example how to update cacheparameter configuration Object(s).
     .NOTES
         File Name : Invoke-ADCUpdateCacheparameter
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/cache/cacheparameter/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
+    #>
     [CmdletBinding(SupportsShouldProcess = $true, ConfirmImpact = "Low")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
-        [double]$memlimit ,
+        [double]$Memlimit,
 
         [ValidateScript({ $_.Length -gt 1 })]
-        [string]$via ,
+        [string]$Via,
 
         [ValidateSet('HOSTNAME', 'HOSTNAME_AND_IP', 'DNS')]
-        [string]$verifyusing ,
+        [string]$Verifyusing,
 
         [ValidateRange(0, 131072)]
-        [double]$maxpostlen ,
+        [double]$Maxpostlen,
 
-        [double]$prefetchmaxpending ,
+        [double]$Prefetchmaxpending,
 
         [ValidateSet('YES', 'NO')]
-        [string]$enablebypass ,
+        [string]$Enablebypass,
 
         [ValidateSet('NOCACHE', 'RESET')]
-        [string]$undefaction ,
+        [string]$Undefaction,
 
         [ValidateSet('YES', 'NO')]
-        [string]$enablehaobjpersist 
-
+        [string]$Enablehaobjpersist 
     )
     begin {
         Write-Verbose "Invoke-ADCUpdateCacheparameter: Starting"
     }
     process {
         try {
-            $Payload = @{
-
-            }
-            if ($PSBoundParameters.ContainsKey('memlimit')) { $Payload.Add('memlimit', $memlimit) }
-            if ($PSBoundParameters.ContainsKey('via')) { $Payload.Add('via', $via) }
-            if ($PSBoundParameters.ContainsKey('verifyusing')) { $Payload.Add('verifyusing', $verifyusing) }
-            if ($PSBoundParameters.ContainsKey('maxpostlen')) { $Payload.Add('maxpostlen', $maxpostlen) }
-            if ($PSBoundParameters.ContainsKey('prefetchmaxpending')) { $Payload.Add('prefetchmaxpending', $prefetchmaxpending) }
-            if ($PSBoundParameters.ContainsKey('enablebypass')) { $Payload.Add('enablebypass', $enablebypass) }
-            if ($PSBoundParameters.ContainsKey('undefaction')) { $Payload.Add('undefaction', $undefaction) }
-            if ($PSBoundParameters.ContainsKey('enablehaobjpersist')) { $Payload.Add('enablehaobjpersist', $enablehaobjpersist) }
- 
-            if ($PSCmdlet.ShouldProcess("cacheparameter", "Update Integrated Caching configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -NitroPath nitro/v1/config -Type cacheparameter -Payload $Payload -GetWarning
+            $payload = @{ }
+            if ( $PSBoundParameters.ContainsKey('memlimit') ) { $payload.Add('memlimit', $memlimit) }
+            if ( $PSBoundParameters.ContainsKey('via') ) { $payload.Add('via', $via) }
+            if ( $PSBoundParameters.ContainsKey('verifyusing') ) { $payload.Add('verifyusing', $verifyusing) }
+            if ( $PSBoundParameters.ContainsKey('maxpostlen') ) { $payload.Add('maxpostlen', $maxpostlen) }
+            if ( $PSBoundParameters.ContainsKey('prefetchmaxpending') ) { $payload.Add('prefetchmaxpending', $prefetchmaxpending) }
+            if ( $PSBoundParameters.ContainsKey('enablebypass') ) { $payload.Add('enablebypass', $enablebypass) }
+            if ( $PSBoundParameters.ContainsKey('undefaction') ) { $payload.Add('undefaction', $undefaction) }
+            if ( $PSBoundParameters.ContainsKey('enablehaobjpersist') ) { $payload.Add('enablehaobjpersist', $enablehaobjpersist) }
+            if ( $PSCmdlet.ShouldProcess("cacheparameter", "Update Integrated Caching configuration Object") ) {
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -NitroPath nitro/v1/config -Type cacheparameter -Payload $payload -GetWarning
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
-            Write-Output $result
-
+                Write-Output $result
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -2407,70 +2322,72 @@ function Invoke-ADCUpdateCacheparameter {
 }
 
 function Invoke-ADCUnsetCacheparameter {
-<#
+    <#
     .SYNOPSIS
-        Unset Integrated Caching configuration Object
+        Unset Integrated Caching configuration Object.
     .DESCRIPTION
-        Unset Integrated Caching configuration Object 
-   .PARAMETER memlimit 
-       Amount of memory available for storing the cache objects. In practice, the amount of memory available for caching can be less than half the total memory of the Citrix ADC. 
-   .PARAMETER via 
-       String to include in the Via header. A Via header is inserted into all responses served from a content group if its Insert Via flag is set. 
-   .PARAMETER verifyusing 
-       Criteria for deciding whether a cached object can be served for an incoming HTTP request. Available settings function as follows:  
-       HOSTNAME - The URL, host name, and host port values in the incoming HTTP request header must match the cache policy. The IP address and the TCP port of the destination host are not evaluated. Do not use the HOSTNAME setting unless you are certain that no rogue client can access a rogue server through the cache.  
-       HOSTNAME_AND_IP - The URL, host name, host port in the incoming HTTP request header, and the IP address and TCP port of  
-       the destination server, must match the cache policy.  
-       DNS - The URL, host name and host port in the incoming HTTP request, and the TCP port must match the cache policy. The host name is used for DNS lookup of the destination server's IP address, and is compared with the set of addresses returned by the DNS lookup.  
-       Possible values = HOSTNAME, HOSTNAME_AND_IP, DNS 
-   .PARAMETER maxpostlen 
-       Maximum number of POST body bytes to consider when evaluating parameters for a content group for which you have configured hit parameters and invalidation parameters. 
-   .PARAMETER prefetchmaxpending 
-       Maximum number of outstanding prefetches in the Integrated Cache. 
-   .PARAMETER enablebypass 
-       Evaluate the request-time policies before attempting hit selection. If set to NO, an incoming request for which a matching object is found in cache storage results in a response regardless of the policy configuration.  
-       If the request matches a policy with a NOCACHE action, the request bypasses all cache processing.  
-       This parameter does not affect processing of requests that match any invalidation policy.  
-       Possible values = YES, NO 
-   .PARAMETER undefaction 
-       Action to take when a policy cannot be evaluated.  
-       Possible values = NOCACHE, RESET 
-   .PARAMETER enablehaobjpersist 
-       The HA object persisting parameter. When this value is set to YES, cache objects can be synced to Secondary in a HA deployment. If set to NO, objects will never be synced to Secondary node.  
-       Possible values = YES, NO
+        Configuration for cache parameter resource.
+    .PARAMETER Memlimit 
+        Amount of memory available for storing the cache objects. In practice, the amount of memory available for caching can be less than half the total memory of the Citrix ADC. 
+    .PARAMETER Via 
+        String to include in the Via header. A Via header is inserted into all responses served from a content group if its Insert Via flag is set. 
+    .PARAMETER Verifyusing 
+        Criteria for deciding whether a cached object can be served for an incoming HTTP request. Available settings function as follows: 
+        HOSTNAME - The URL, host name, and host port values in the incoming HTTP request header must match the cache policy. The IP address and the TCP port of the destination host are not evaluated. Do not use the HOSTNAME setting unless you are certain that no rogue client can access a rogue server through the cache. 
+        HOSTNAME_AND_IP - The URL, host name, host port in the incoming HTTP request header, and the IP address and TCP port of 
+        the destination server, must match the cache policy. 
+        DNS - The URL, host name and host port in the incoming HTTP request, and the TCP port must match the cache policy. The host name is used for DNS lookup of the destination server's IP address, and is compared with the set of addresses returned by the DNS lookup. 
+        Possible values = HOSTNAME, HOSTNAME_AND_IP, DNS 
+    .PARAMETER Maxpostlen 
+        Maximum number of POST body bytes to consider when evaluating parameters for a content group for which you have configured hit parameters and invalidation parameters. 
+    .PARAMETER Prefetchmaxpending 
+        Maximum number of outstanding prefetches in the Integrated Cache. 
+    .PARAMETER Enablebypass 
+        Evaluate the request-time policies before attempting hit selection. If set to NO, an incoming request for which a matching object is found in cache storage results in a response regardless of the policy configuration. 
+        If the request matches a policy with a NOCACHE action, the request bypasses all cache processing. 
+        This parameter does not affect processing of requests that match any invalidation policy. 
+        Possible values = YES, NO 
+    .PARAMETER Undefaction 
+        Action to take when a policy cannot be evaluated. 
+        Possible values = NOCACHE, RESET 
+    .PARAMETER Enablehaobjpersist 
+        The HA object persisting parameter. When this value is set to YES, cache objects can be synced to Secondary in a HA deployment. If set to NO, objects will never be synced to Secondary node. 
+        Possible values = YES, NO
     .EXAMPLE
-        Invoke-ADCUnsetCacheparameter 
+        PS C:\>Invoke-ADCUnsetCacheparameter 
+        An example how to unset cacheparameter configuration Object(s).
     .NOTES
         File Name : Invoke-ADCUnsetCacheparameter
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/cache/cacheparameter
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
+    #>
     [CmdletBinding(SupportsShouldProcess = $true, ConfirmImpact = "Low")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
-        [Boolean]$memlimit ,
+        [Boolean]$memlimit,
 
-        [Boolean]$via ,
+        [Boolean]$via,
 
-        [Boolean]$verifyusing ,
+        [Boolean]$verifyusing,
 
-        [Boolean]$maxpostlen ,
+        [Boolean]$maxpostlen,
 
-        [Boolean]$prefetchmaxpending ,
+        [Boolean]$prefetchmaxpending,
 
-        [Boolean]$enablebypass ,
+        [Boolean]$enablebypass,
 
-        [Boolean]$undefaction ,
+        [Boolean]$undefaction,
 
         [Boolean]$enablehaobjpersist 
     )
@@ -2479,19 +2396,17 @@ function Invoke-ADCUnsetCacheparameter {
     }
     process {
         try {
-            $Payload = @{
-
-            }
-            if ($PSBoundParameters.ContainsKey('memlimit')) { $Payload.Add('memlimit', $memlimit) }
-            if ($PSBoundParameters.ContainsKey('via')) { $Payload.Add('via', $via) }
-            if ($PSBoundParameters.ContainsKey('verifyusing')) { $Payload.Add('verifyusing', $verifyusing) }
-            if ($PSBoundParameters.ContainsKey('maxpostlen')) { $Payload.Add('maxpostlen', $maxpostlen) }
-            if ($PSBoundParameters.ContainsKey('prefetchmaxpending')) { $Payload.Add('prefetchmaxpending', $prefetchmaxpending) }
-            if ($PSBoundParameters.ContainsKey('enablebypass')) { $Payload.Add('enablebypass', $enablebypass) }
-            if ($PSBoundParameters.ContainsKey('undefaction')) { $Payload.Add('undefaction', $undefaction) }
-            if ($PSBoundParameters.ContainsKey('enablehaobjpersist')) { $Payload.Add('enablehaobjpersist', $enablehaobjpersist) }
-            if ($PSCmdlet.ShouldProcess("cacheparameter", "Unset Integrated Caching configuration Object")) {
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -Type cacheparameter -NitroPath nitro/v1/config -Action unset -Payload $Payload -GetWarning
+            $payload = @{ }
+            if ( $PSBoundParameters.ContainsKey('memlimit') ) { $payload.Add('memlimit', $memlimit) }
+            if ( $PSBoundParameters.ContainsKey('via') ) { $payload.Add('via', $via) }
+            if ( $PSBoundParameters.ContainsKey('verifyusing') ) { $payload.Add('verifyusing', $verifyusing) }
+            if ( $PSBoundParameters.ContainsKey('maxpostlen') ) { $payload.Add('maxpostlen', $maxpostlen) }
+            if ( $PSBoundParameters.ContainsKey('prefetchmaxpending') ) { $payload.Add('prefetchmaxpending', $prefetchmaxpending) }
+            if ( $PSBoundParameters.ContainsKey('enablebypass') ) { $payload.Add('enablebypass', $enablebypass) }
+            if ( $PSBoundParameters.ContainsKey('undefaction') ) { $payload.Add('undefaction', $undefaction) }
+            if ( $PSBoundParameters.ContainsKey('enablehaobjpersist') ) { $payload.Add('enablehaobjpersist', $enablehaobjpersist) }
+            if ( $PSCmdlet.ShouldProcess("cacheparameter", "Unset Integrated Caching configuration Object") ) {
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -Type cacheparameter -NitroPath nitro/v1/config -Action unset -Payload $payload -GetWarning
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $response
@@ -2507,45 +2422,50 @@ function Invoke-ADCUnsetCacheparameter {
 }
 
 function Invoke-ADCGetCacheparameter {
-<#
+    <#
     .SYNOPSIS
-        Get Integrated Caching configuration object(s)
+        Get Integrated Caching configuration object(s).
     .DESCRIPTION
-        Get Integrated Caching configuration object(s)
+        Configuration for cache parameter resource.
     .PARAMETER GetAll 
-        Retreive all cacheparameter object(s)
+        Retrieve all cacheparameter object(s).
     .PARAMETER Count
-        If specified, the count of the cacheparameter object(s) will be returned
+        If specified, the count of the cacheparameter object(s) will be returned.
     .PARAMETER Filter
-        Specify a filter
+        Specify a filter.
         -Filter @{ 'name'='<value>' }
     .PARAMETER ViewSummary
-        When specified, only a summary of information is returned
+        When specified, only a summary of information is returned.
     .EXAMPLE
-        Invoke-ADCGetCacheparameter
+        PS C:\>Invoke-ADCGetCacheparameter
+        Get data.
     .EXAMPLE 
-        Invoke-ADCGetCacheparameter -GetAll
+        PS C:\>Invoke-ADCGetCacheparameter -GetAll 
+        Get all cacheparameter data.
     .EXAMPLE
-        Invoke-ADCGetCacheparameter -name <string>
+        PS C:\>Invoke-ADCGetCacheparameter -name <string>
+        Get cacheparameter object by specifying for example the name.
     .EXAMPLE
-        Invoke-ADCGetCacheparameter -Filter @{ 'name'='<value>' }
+        PS C:\>Invoke-ADCGetCacheparameter -Filter @{ 'name'='<value>' }
+        Get cacheparameter data with a filter.
     .NOTES
         File Name : Invoke-ADCGetCacheparameter
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/cache/cacheparameter/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
-    [CmdletBinding(DefaultParameterSetName = "Getall")]
+    #>
+    [CmdletBinding(DefaultParameterSetName = "GetAll")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 			
         [hashtable]$Filter = @{ },
 
@@ -2557,24 +2477,24 @@ function Invoke-ADCGetCacheparameter {
     }
     process {
         try {
-            if ( $PsCmdlet.ParameterSetName -eq 'Getall' ) {
-                $Query = @{ }
+            if ( $PsCmdlet.ParameterSetName -eq 'GetAll' ) {
+                $query = @{ }
                 Write-Verbose "Retrieving all cacheparameter objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type cacheparameter -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type cacheparameter -NitroPath nitro/v1/config -Query $query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
-                if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
+                if ( $PSBoundParameters.ContainsKey('Count') ) { $query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for cacheparameter objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type cacheparameter -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type cacheparameter -NitroPath nitro/v1/config -Query $query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving cacheparameter objects by arguments"
-                $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type cacheparameter -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
+                $arguments = @{ } 
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type cacheparameter -NitroPath nitro/v1/config -Arguments $arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving cacheparameter configuration for property ''"
 
             } else {
                 Write-Verbose "Retrieving cacheparameter configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type cacheparameter -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type cacheparameter -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -2588,112 +2508,106 @@ function Invoke-ADCGetCacheparameter {
 }
 
 function Invoke-ADCAddCachepolicy {
-<#
+    <#
     .SYNOPSIS
-        Add Integrated Caching configuration Object
+        Add Integrated Caching configuration Object.
     .DESCRIPTION
-        Add Integrated Caching configuration Object 
-    .PARAMETER policyname 
-        Name for the policy. Must begin with an ASCII alphabetic or underscore (_) character, and must contain only ASCII alphanumeric, underscore, hash (#), period (.), space, colon (:), at (@), equals (=), and hyphen (-) characters. Can be changed after the policy is created.  
-        Minimum length = 1 
-    .PARAMETER rule 
-        Expression against which the traffic is evaluated.  
-        The following requirements apply only to the Citrix ADC CLI:  
-        * If the expression includes one or more spaces, enclose the entire expression in double quotation marks.  
-        * If the expression itself includes double quotation marks, escape the quotations by using the \ character.  
+        Configuration for Integrated Cache policy resource.
+    .PARAMETER Policyname 
+        Name for the policy. Must begin with an ASCII alphabetic or underscore (_) character, and must contain only ASCII alphanumeric, underscore, hash (#), period (.), space, colon (:), at (@), equals (=), and hyphen (-) characters. Can be changed after the policy is created. 
+    .PARAMETER Rule 
+        Expression against which the traffic is evaluated. 
+        The following requirements apply only to the Citrix ADC CLI: 
+        * If the expression includes one or more spaces, enclose the entire expression in double quotation marks. 
+        * If the expression itself includes double quotation marks, escape the quotations by using the \ character. 
         * Alternatively, you can use single quotation marks to enclose the rule, in which case you do not have to escape the double quotation marks. 
-    .PARAMETER action 
-        Action to apply to content that matches the policy.  
-        * CACHE or MAY_CACHE action - positive cachability policy  
-        * NOCACHE or MAY_NOCACHE action - negative cachability policy  
-        * INVAL action - Dynamic Invalidation Policy.  
+    .PARAMETER Action 
+        Action to apply to content that matches the policy. 
+        * CACHE or MAY_CACHE action - positive cachability policy 
+        * NOCACHE or MAY_NOCACHE action - negative cachability policy 
+        * INVAL action - Dynamic Invalidation Policy. 
         Possible values = CACHE, NOCACHE, MAY_CACHE, MAY_NOCACHE, INVAL 
-    .PARAMETER storeingroup 
-        Name of the content group in which to store the object when the final result of policy evaluation is CACHE. The content group must exist before being mentioned here. Use the "show cache contentgroup" command to view the list of existing content groups.  
-        Minimum length = 1 
-    .PARAMETER invalgroups 
-        Content group(s) to be invalidated when the INVAL action is applied. Maximum number of content groups that can be specified is 16.  
-        Minimum length = 1 
-    .PARAMETER invalobjects 
-        Content groups(s) in which the objects will be invalidated if the action is INVAL.  
-        Minimum length = 1 
-    .PARAMETER undefaction 
-        Action to be performed when the result of rule evaluation is undefined.  
+    .PARAMETER Storeingroup 
+        Name of the content group in which to store the object when the final result of policy evaluation is CACHE. The content group must exist before being mentioned here. Use the "show cache contentgroup" command to view the list of existing content groups. 
+    .PARAMETER Invalgroups 
+        Content group(s) to be invalidated when the INVAL action is applied. Maximum number of content groups that can be specified is 16. 
+    .PARAMETER Invalobjects 
+        Content groups(s) in which the objects will be invalidated if the action is INVAL. 
+    .PARAMETER Undefaction 
+        Action to be performed when the result of rule evaluation is undefined. 
         Possible values = NOCACHE, RESET 
     .PARAMETER PassThru 
         Return details about the created cachepolicy item.
     .EXAMPLE
-        Invoke-ADCAddCachepolicy -policyname <string> -rule <string> -action <string>
+        PS C:\>Invoke-ADCAddCachepolicy -policyname <string> -rule <string> -action <string>
+        An example how to add cachepolicy configuration Object(s).
     .NOTES
         File Name : Invoke-ADCAddCachepolicy
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/cache/cachepolicy/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
+    #>
     [CmdletBinding(SupportsShouldProcess = $true, ConfirmImpact = "Low")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
-        [Parameter(Mandatory = $true)]
+        [Parameter(Mandatory)]
         [ValidateScript({ $_.Length -gt 1 })]
         [ValidatePattern('^(([a-zA-Z0-9]|[_])+([a-zA-Z0-9]|[_])+)$')]
-        [string]$policyname ,
+        [string]$Policyname,
 
-        [Parameter(Mandatory = $true)]
-        [string]$rule ,
+        [Parameter(Mandatory)]
+        [string]$Rule,
 
-        [Parameter(Mandatory = $true)]
+        [Parameter(Mandatory)]
         [ValidateSet('CACHE', 'NOCACHE', 'MAY_CACHE', 'MAY_NOCACHE', 'INVAL')]
-        [string]$action ,
+        [string]$Action,
 
         [ValidateScript({ $_.Length -gt 1 })]
-        [string]$storeingroup ,
+        [string]$Storeingroup,
 
         [ValidateScript({ $_.Length -gt 1 })]
-        [string[]]$invalgroups ,
+        [string[]]$Invalgroups,
 
         [ValidateScript({ $_.Length -gt 1 })]
-        [string[]]$invalobjects ,
+        [string[]]$Invalobjects,
 
         [ValidateSet('NOCACHE', 'RESET')]
-        [string]$undefaction ,
+        [string]$Undefaction,
 
         [Switch]$PassThru 
-
     )
     begin {
         Write-Verbose "Invoke-ADCAddCachepolicy: Starting"
     }
     process {
         try {
-            $Payload = @{
-                policyname = $policyname
-                rule = $rule
-                action = $action
+            $payload = @{ policyname = $policyname
+                rule                 = $rule
+                action               = $action
             }
-            if ($PSBoundParameters.ContainsKey('storeingroup')) { $Payload.Add('storeingroup', $storeingroup) }
-            if ($PSBoundParameters.ContainsKey('invalgroups')) { $Payload.Add('invalgroups', $invalgroups) }
-            if ($PSBoundParameters.ContainsKey('invalobjects')) { $Payload.Add('invalobjects', $invalobjects) }
-            if ($PSBoundParameters.ContainsKey('undefaction')) { $Payload.Add('undefaction', $undefaction) }
- 
-            if ($PSCmdlet.ShouldProcess("cachepolicy", "Add Integrated Caching configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -NitroPath nitro/v1/config -Type cachepolicy -Payload $Payload -GetWarning
+            if ( $PSBoundParameters.ContainsKey('storeingroup') ) { $payload.Add('storeingroup', $storeingroup) }
+            if ( $PSBoundParameters.ContainsKey('invalgroups') ) { $payload.Add('invalgroups', $invalgroups) }
+            if ( $PSBoundParameters.ContainsKey('invalobjects') ) { $payload.Add('invalobjects', $invalobjects) }
+            if ( $PSBoundParameters.ContainsKey('undefaction') ) { $payload.Add('undefaction', $undefaction) }
+            if ( $PSCmdlet.ShouldProcess("cachepolicy", "Add Integrated Caching configuration Object") ) {
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -NitroPath nitro/v1/config -Type cachepolicy -Payload $payload -GetWarning
                 #HTTP Status Code on Success: 201 Created
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
-                if ($PSBoundParameters.ContainsKey('PassThru')) {
-                    Write-Output (Invoke-ADCGetCachepolicy -Filter $Payload)
+                if ( $PSBoundParameters.ContainsKey('PassThru') ) {
+                    Write-Output (Invoke-ADCGetCachepolicy -Filter $payload)
                 } else {
                     Write-Output $result
                 }
-
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -2706,47 +2620,47 @@ function Invoke-ADCAddCachepolicy {
 }
 
 function Invoke-ADCDeleteCachepolicy {
-<#
+    <#
     .SYNOPSIS
-        Delete Integrated Caching configuration Object
+        Delete Integrated Caching configuration Object.
     .DESCRIPTION
-        Delete Integrated Caching configuration Object
-    .PARAMETER policyname 
-       Name for the policy. Must begin with an ASCII alphabetic or underscore (_) character, and must contain only ASCII alphanumeric, underscore, hash (#), period (.), space, colon (:), at (@), equals (=), and hyphen (-) characters. Can be changed after the policy is created.  
-       Minimum length = 1 
+        Configuration for Integrated Cache policy resource.
+    .PARAMETER Policyname 
+        Name for the policy. Must begin with an ASCII alphabetic or underscore (_) character, and must contain only ASCII alphanumeric, underscore, hash (#), period (.), space, colon (:), at (@), equals (=), and hyphen (-) characters. Can be changed after the policy is created.
     .EXAMPLE
-        Invoke-ADCDeleteCachepolicy -policyname <string>
+        PS C:\>Invoke-ADCDeleteCachepolicy -Policyname <string>
+        An example how to delete cachepolicy configuration Object(s).
     .NOTES
         File Name : Invoke-ADCDeleteCachepolicy
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/cache/cachepolicy/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
+    #>
     [CmdletBinding(SupportsShouldProcess = $true, ConfirmImpact = "Low")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
-        [Parameter(Mandatory = $true)]
-        [string]$policyname 
+        [Parameter(Mandatory)]
+        [string]$Policyname 
     )
     begin {
         Write-Verbose "Invoke-ADCDeleteCachepolicy: Starting"
     }
     process {
         try {
-            $Arguments = @{ 
-            }
+            $arguments = @{ }
 
-            if ($PSCmdlet.ShouldProcess("$policyname", "Delete Integrated Caching configuration Object")) {
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type cachepolicy -NitroPath nitro/v1/config -Resource $policyname -Arguments $Arguments
+            if ( $PSCmdlet.ShouldProcess("$policyname", "Delete Integrated Caching configuration Object") ) {
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type cachepolicy -NitroPath nitro/v1/config -Resource $policyname -Arguments $arguments
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $response
@@ -2762,110 +2676,103 @@ function Invoke-ADCDeleteCachepolicy {
 }
 
 function Invoke-ADCUpdateCachepolicy {
-<#
+    <#
     .SYNOPSIS
-        Update Integrated Caching configuration Object
+        Update Integrated Caching configuration Object.
     .DESCRIPTION
-        Update Integrated Caching configuration Object 
-    .PARAMETER policyname 
-        Name for the policy. Must begin with an ASCII alphabetic or underscore (_) character, and must contain only ASCII alphanumeric, underscore, hash (#), period (.), space, colon (:), at (@), equals (=), and hyphen (-) characters. Can be changed after the policy is created.  
-        Minimum length = 1 
-    .PARAMETER rule 
-        Expression against which the traffic is evaluated.  
-        The following requirements apply only to the Citrix ADC CLI:  
-        * If the expression includes one or more spaces, enclose the entire expression in double quotation marks.  
-        * If the expression itself includes double quotation marks, escape the quotations by using the \ character.  
+        Configuration for Integrated Cache policy resource.
+    .PARAMETER Policyname 
+        Name for the policy. Must begin with an ASCII alphabetic or underscore (_) character, and must contain only ASCII alphanumeric, underscore, hash (#), period (.), space, colon (:), at (@), equals (=), and hyphen (-) characters. Can be changed after the policy is created. 
+    .PARAMETER Rule 
+        Expression against which the traffic is evaluated. 
+        The following requirements apply only to the Citrix ADC CLI: 
+        * If the expression includes one or more spaces, enclose the entire expression in double quotation marks. 
+        * If the expression itself includes double quotation marks, escape the quotations by using the \ character. 
         * Alternatively, you can use single quotation marks to enclose the rule, in which case you do not have to escape the double quotation marks. 
-    .PARAMETER action 
-        Action to apply to content that matches the policy.  
-        * CACHE or MAY_CACHE action - positive cachability policy  
-        * NOCACHE or MAY_NOCACHE action - negative cachability policy  
-        * INVAL action - Dynamic Invalidation Policy.  
+    .PARAMETER Action 
+        Action to apply to content that matches the policy. 
+        * CACHE or MAY_CACHE action - positive cachability policy 
+        * NOCACHE or MAY_NOCACHE action - negative cachability policy 
+        * INVAL action - Dynamic Invalidation Policy. 
         Possible values = CACHE, NOCACHE, MAY_CACHE, MAY_NOCACHE, INVAL 
-    .PARAMETER storeingroup 
-        Name of the content group in which to store the object when the final result of policy evaluation is CACHE. The content group must exist before being mentioned here. Use the "show cache contentgroup" command to view the list of existing content groups.  
-        Minimum length = 1 
-    .PARAMETER invalgroups 
-        Content group(s) to be invalidated when the INVAL action is applied. Maximum number of content groups that can be specified is 16.  
-        Minimum length = 1 
-    .PARAMETER invalobjects 
-        Content groups(s) in which the objects will be invalidated if the action is INVAL.  
-        Minimum length = 1 
-    .PARAMETER undefaction 
-        Action to be performed when the result of rule evaluation is undefined.  
+    .PARAMETER Storeingroup 
+        Name of the content group in which to store the object when the final result of policy evaluation is CACHE. The content group must exist before being mentioned here. Use the "show cache contentgroup" command to view the list of existing content groups. 
+    .PARAMETER Invalgroups 
+        Content group(s) to be invalidated when the INVAL action is applied. Maximum number of content groups that can be specified is 16. 
+    .PARAMETER Invalobjects 
+        Content groups(s) in which the objects will be invalidated if the action is INVAL. 
+    .PARAMETER Undefaction 
+        Action to be performed when the result of rule evaluation is undefined. 
         Possible values = NOCACHE, RESET 
     .PARAMETER PassThru 
         Return details about the created cachepolicy item.
     .EXAMPLE
-        Invoke-ADCUpdateCachepolicy -policyname <string>
+        PS C:\>Invoke-ADCUpdateCachepolicy -policyname <string>
+        An example how to update cachepolicy configuration Object(s).
     .NOTES
         File Name : Invoke-ADCUpdateCachepolicy
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/cache/cachepolicy/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
+    #>
     [CmdletBinding(SupportsShouldProcess = $true, ConfirmImpact = "Low")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
-        [Parameter(Mandatory = $true)]
+        [Parameter(Mandatory)]
         [ValidateScript({ $_.Length -gt 1 })]
         [ValidatePattern('^(([a-zA-Z0-9]|[_])+([a-zA-Z0-9]|[_])+)$')]
-        [string]$policyname ,
+        [string]$Policyname,
 
-        [string]$rule ,
+        [string]$Rule,
 
         [ValidateSet('CACHE', 'NOCACHE', 'MAY_CACHE', 'MAY_NOCACHE', 'INVAL')]
-        [string]$action ,
+        [string]$Action,
 
         [ValidateScript({ $_.Length -gt 1 })]
-        [string]$storeingroup ,
+        [string]$Storeingroup,
 
         [ValidateScript({ $_.Length -gt 1 })]
-        [string[]]$invalgroups ,
+        [string[]]$Invalgroups,
 
         [ValidateScript({ $_.Length -gt 1 })]
-        [string[]]$invalobjects ,
+        [string[]]$Invalobjects,
 
         [ValidateSet('NOCACHE', 'RESET')]
-        [string]$undefaction ,
+        [string]$Undefaction,
 
         [Switch]$PassThru 
-
     )
     begin {
         Write-Verbose "Invoke-ADCUpdateCachepolicy: Starting"
     }
     process {
         try {
-            $Payload = @{
-                policyname = $policyname
-            }
-            if ($PSBoundParameters.ContainsKey('rule')) { $Payload.Add('rule', $rule) }
-            if ($PSBoundParameters.ContainsKey('action')) { $Payload.Add('action', $action) }
-            if ($PSBoundParameters.ContainsKey('storeingroup')) { $Payload.Add('storeingroup', $storeingroup) }
-            if ($PSBoundParameters.ContainsKey('invalgroups')) { $Payload.Add('invalgroups', $invalgroups) }
-            if ($PSBoundParameters.ContainsKey('invalobjects')) { $Payload.Add('invalobjects', $invalobjects) }
-            if ($PSBoundParameters.ContainsKey('undefaction')) { $Payload.Add('undefaction', $undefaction) }
- 
-            if ($PSCmdlet.ShouldProcess("cachepolicy", "Update Integrated Caching configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -NitroPath nitro/v1/config -Type cachepolicy -Payload $Payload -GetWarning
+            $payload = @{ policyname = $policyname }
+            if ( $PSBoundParameters.ContainsKey('rule') ) { $payload.Add('rule', $rule) }
+            if ( $PSBoundParameters.ContainsKey('action') ) { $payload.Add('action', $action) }
+            if ( $PSBoundParameters.ContainsKey('storeingroup') ) { $payload.Add('storeingroup', $storeingroup) }
+            if ( $PSBoundParameters.ContainsKey('invalgroups') ) { $payload.Add('invalgroups', $invalgroups) }
+            if ( $PSBoundParameters.ContainsKey('invalobjects') ) { $payload.Add('invalobjects', $invalobjects) }
+            if ( $PSBoundParameters.ContainsKey('undefaction') ) { $payload.Add('undefaction', $undefaction) }
+            if ( $PSCmdlet.ShouldProcess("cachepolicy", "Update Integrated Caching configuration Object") ) {
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -NitroPath nitro/v1/config -Type cachepolicy -Payload $payload -GetWarning
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
-                if ($PSBoundParameters.ContainsKey('PassThru')) {
-                    Write-Output (Invoke-ADCGetCachepolicy -Filter $Payload)
+                if ( $PSBoundParameters.ContainsKey('PassThru') ) {
+                    Write-Output (Invoke-ADCGetCachepolicy -Filter $payload)
                 } else {
                     Write-Output $result
                 }
-
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -2878,52 +2785,53 @@ function Invoke-ADCUpdateCachepolicy {
 }
 
 function Invoke-ADCUnsetCachepolicy {
-<#
+    <#
     .SYNOPSIS
-        Unset Integrated Caching configuration Object
+        Unset Integrated Caching configuration Object.
     .DESCRIPTION
-        Unset Integrated Caching configuration Object 
-   .PARAMETER policyname 
-       Name for the policy. Must begin with an ASCII alphabetic or underscore (_) character, and must contain only ASCII alphanumeric, underscore, hash (#), period (.), space, colon (:), at (@), equals (=), and hyphen (-) characters. Can be changed after the policy is created. 
-   .PARAMETER storeingroup 
-       Name of the content group in which to store the object when the final result of policy evaluation is CACHE. The content group must exist before being mentioned here. Use the "show cache contentgroup" command to view the list of existing content groups. 
-   .PARAMETER invalgroups 
-       Content group(s) to be invalidated when the INVAL action is applied. Maximum number of content groups that can be specified is 16. 
-   .PARAMETER invalobjects 
-       Content groups(s) in which the objects will be invalidated if the action is INVAL. 
-   .PARAMETER undefaction 
-       Action to be performed when the result of rule evaluation is undefined.  
-       Possible values = NOCACHE, RESET
+        Configuration for Integrated Cache policy resource.
+    .PARAMETER Policyname 
+        Name for the policy. Must begin with an ASCII alphabetic or underscore (_) character, and must contain only ASCII alphanumeric, underscore, hash (#), period (.), space, colon (:), at (@), equals (=), and hyphen (-) characters. Can be changed after the policy is created. 
+    .PARAMETER Storeingroup 
+        Name of the content group in which to store the object when the final result of policy evaluation is CACHE. The content group must exist before being mentioned here. Use the "show cache contentgroup" command to view the list of existing content groups. 
+    .PARAMETER Invalgroups 
+        Content group(s) to be invalidated when the INVAL action is applied. Maximum number of content groups that can be specified is 16. 
+    .PARAMETER Invalobjects 
+        Content groups(s) in which the objects will be invalidated if the action is INVAL. 
+    .PARAMETER Undefaction 
+        Action to be performed when the result of rule evaluation is undefined. 
+        Possible values = NOCACHE, RESET
     .EXAMPLE
-        Invoke-ADCUnsetCachepolicy -policyname <string>
+        PS C:\>Invoke-ADCUnsetCachepolicy -policyname <string>
+        An example how to unset cachepolicy configuration Object(s).
     .NOTES
         File Name : Invoke-ADCUnsetCachepolicy
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/cache/cachepolicy
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
+    #>
     [CmdletBinding(SupportsShouldProcess = $true, ConfirmImpact = "Low")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
-        [Parameter(Mandatory = $true)]
         [ValidateScript({ $_.Length -gt 1 })]
         [ValidatePattern('^(([a-zA-Z0-9]|[_])+([a-zA-Z0-9]|[_])+)$')]
-        [string]$policyname ,
+        [string]$Policyname,
 
-        [Boolean]$storeingroup ,
+        [Boolean]$storeingroup,
 
-        [Boolean]$invalgroups ,
+        [Boolean]$invalgroups,
 
-        [Boolean]$invalobjects ,
+        [Boolean]$invalobjects,
 
         [Boolean]$undefaction 
     )
@@ -2932,15 +2840,13 @@ function Invoke-ADCUnsetCachepolicy {
     }
     process {
         try {
-            $Payload = @{
-                policyname = $policyname
-            }
-            if ($PSBoundParameters.ContainsKey('storeingroup')) { $Payload.Add('storeingroup', $storeingroup) }
-            if ($PSBoundParameters.ContainsKey('invalgroups')) { $Payload.Add('invalgroups', $invalgroups) }
-            if ($PSBoundParameters.ContainsKey('invalobjects')) { $Payload.Add('invalobjects', $invalobjects) }
-            if ($PSBoundParameters.ContainsKey('undefaction')) { $Payload.Add('undefaction', $undefaction) }
-            if ($PSCmdlet.ShouldProcess("$policyname", "Unset Integrated Caching configuration Object")) {
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -Type cachepolicy -NitroPath nitro/v1/config -Action unset -Payload $Payload -GetWarning
+            $payload = @{ policyname = $policyname }
+            if ( $PSBoundParameters.ContainsKey('storeingroup') ) { $payload.Add('storeingroup', $storeingroup) }
+            if ( $PSBoundParameters.ContainsKey('invalgroups') ) { $payload.Add('invalgroups', $invalgroups) }
+            if ( $PSBoundParameters.ContainsKey('invalobjects') ) { $payload.Add('invalobjects', $invalobjects) }
+            if ( $PSBoundParameters.ContainsKey('undefaction') ) { $payload.Add('undefaction', $undefaction) }
+            if ( $PSCmdlet.ShouldProcess("$policyname", "Unset Integrated Caching configuration Object") ) {
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -Type cachepolicy -NitroPath nitro/v1/config -Action unset -Payload $payload -GetWarning
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $response
@@ -2956,73 +2862,69 @@ function Invoke-ADCUnsetCachepolicy {
 }
 
 function Invoke-ADCRenameCachepolicy {
-<#
+    <#
     .SYNOPSIS
-        Rename Integrated Caching configuration Object
+        Rename Integrated Caching configuration Object.
     .DESCRIPTION
-        Rename Integrated Caching configuration Object 
-    .PARAMETER policyname 
-        Name for the policy. Must begin with an ASCII alphabetic or underscore (_) character, and must contain only ASCII alphanumeric, underscore, hash (#), period (.), space, colon (:), at (@), equals (=), and hyphen (-) characters. Can be changed after the policy is created.  
-        Minimum length = 1 
-    .PARAMETER newname 
-        New name for the cache policy. Must begin with an ASCII alphabetic or underscore (_) character, and must contain only ASCII alphanumeric, underscore, hash (#), period (.), space, colon (:), at (@), equals (=), and hyphen (-) characters.  
-        Minimum length = 1 
+        Configuration for Integrated Cache policy resource.
+    .PARAMETER Policyname 
+        Name for the policy. Must begin with an ASCII alphabetic or underscore (_) character, and must contain only ASCII alphanumeric, underscore, hash (#), period (.), space, colon (:), at (@), equals (=), and hyphen (-) characters. Can be changed after the policy is created. 
+    .PARAMETER Newname 
+        New name for the cache policy. Must begin with an ASCII alphabetic or underscore (_) character, and must contain only ASCII alphanumeric, underscore, hash (#), period (.), space, colon (:), at (@), equals (=), and hyphen (-) characters. 
     .PARAMETER PassThru 
         Return details about the created cachepolicy item.
     .EXAMPLE
-        Invoke-ADCRenameCachepolicy -policyname <string> -newname <string>
+        PS C:\>Invoke-ADCRenameCachepolicy -policyname <string> -newname <string>
+        An example how to rename cachepolicy configuration Object(s).
     .NOTES
         File Name : Invoke-ADCRenameCachepolicy
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/cache/cachepolicy/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
+    #>
     [CmdletBinding(SupportsShouldProcess = $true, ConfirmImpact = "Low")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
-        [Parameter(Mandatory = $true)]
+        [Parameter(Mandatory)]
         [ValidateScript({ $_.Length -gt 1 })]
         [ValidatePattern('^(([a-zA-Z0-9]|[_])+([a-zA-Z0-9]|[_])+)$')]
-        [string]$policyname ,
+        [string]$Policyname,
 
-        [Parameter(Mandatory = $true)]
+        [Parameter(Mandatory)]
         [ValidateScript({ $_.Length -gt 1 })]
         [ValidatePattern('^(([a-zA-Z0-9]|[_])+([a-zA-Z0-9]|[_])+)$')]
-        [string]$newname ,
+        [string]$Newname,
 
         [Switch]$PassThru 
-
     )
     begin {
         Write-Verbose "Invoke-ADCRenameCachepolicy: Starting"
     }
     process {
         try {
-            $Payload = @{
-                policyname = $policyname
-                newname = $newname
+            $payload = @{ policyname = $policyname
+                newname              = $newname
             }
 
- 
-            if ($PSCmdlet.ShouldProcess("cachepolicy", "Rename Integrated Caching configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -NitroPath nitro/v1/config -Type cachepolicy -Action rename -Payload $Payload -GetWarning
+            if ( $PSCmdlet.ShouldProcess("cachepolicy", "Rename Integrated Caching configuration Object") ) {
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -NitroPath nitro/v1/config -Type cachepolicy -Action rename -Payload $payload -GetWarning
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
-                if ($PSBoundParameters.ContainsKey('PassThru')) {
-                    Write-Output (Invoke-ADCGetCachepolicy -Filter $Payload)
+                if ( $PSBoundParameters.ContainsKey('PassThru') ) {
+                    Write-Output (Invoke-ADCGetCachepolicy -Filter $payload)
                 } else {
                     Write-Output $result
                 }
-
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -3035,56 +2937,62 @@ function Invoke-ADCRenameCachepolicy {
 }
 
 function Invoke-ADCGetCachepolicy {
-<#
+    <#
     .SYNOPSIS
-        Get Integrated Caching configuration object(s)
+        Get Integrated Caching configuration object(s).
     .DESCRIPTION
-        Get Integrated Caching configuration object(s)
-    .PARAMETER policyname 
-       Name for the policy. Must begin with an ASCII alphabetic or underscore (_) character, and must contain only ASCII alphanumeric, underscore, hash (#), period (.), space, colon (:), at (@), equals (=), and hyphen (-) characters. Can be changed after the policy is created. 
+        Configuration for Integrated Cache policy resource.
+    .PARAMETER Policyname 
+        Name for the policy. Must begin with an ASCII alphabetic or underscore (_) character, and must contain only ASCII alphanumeric, underscore, hash (#), period (.), space, colon (:), at (@), equals (=), and hyphen (-) characters. Can be changed after the policy is created. 
     .PARAMETER GetAll 
-        Retreive all cachepolicy object(s)
+        Retrieve all cachepolicy object(s).
     .PARAMETER Count
-        If specified, the count of the cachepolicy object(s) will be returned
+        If specified, the count of the cachepolicy object(s) will be returned.
     .PARAMETER Filter
-        Specify a filter
+        Specify a filter.
         -Filter @{ 'name'='<value>' }
     .PARAMETER ViewSummary
-        When specified, only a summary of information is returned
+        When specified, only a summary of information is returned.
     .EXAMPLE
-        Invoke-ADCGetCachepolicy
+        PS C:\>Invoke-ADCGetCachepolicy
+        Get data.
     .EXAMPLE 
-        Invoke-ADCGetCachepolicy -GetAll 
+        PS C:\>Invoke-ADCGetCachepolicy -GetAll 
+        Get all cachepolicy data. 
     .EXAMPLE 
-        Invoke-ADCGetCachepolicy -Count
+        PS C:\>Invoke-ADCGetCachepolicy -Count 
+        Get the number of cachepolicy objects.
     .EXAMPLE
-        Invoke-ADCGetCachepolicy -name <string>
+        PS C:\>Invoke-ADCGetCachepolicy -name <string>
+        Get cachepolicy object by specifying for example the name.
     .EXAMPLE
-        Invoke-ADCGetCachepolicy -Filter @{ 'name'='<value>' }
+        PS C:\>Invoke-ADCGetCachepolicy -Filter @{ 'name'='<value>' }
+        Get cachepolicy data with a filter.
     .NOTES
         File Name : Invoke-ADCGetCachepolicy
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/cache/cachepolicy/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
-    [CmdletBinding(DefaultParameterSetName = "Getall")]
+    #>
+    [CmdletBinding(DefaultParameterSetName = "GetAll")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
         [Parameter(ParameterSetName = 'GetByResource')]
         [ValidateScript({ $_.Length -gt 1 })]
         [ValidatePattern('^(([a-zA-Z0-9]|[_])+([a-zA-Z0-9]|[_])+)$')]
-        [string]$policyname,
+        [string]$Policyname,
 
-        [Parameter(ParameterSetName = 'Count', Mandatory = $true)]
+        [Parameter(ParameterSetName = 'Count', Mandatory)]
         [Switch]$Count,
 			
         [hashtable]$Filter = @{ },
@@ -3102,24 +3010,24 @@ function Invoke-ADCGetCachepolicy {
     }
     process {
         try {
-            if ( $PsCmdlet.ParameterSetName -eq 'Getall' ) {
-                $Query = @{ }
+            if ( $PsCmdlet.ParameterSetName -eq 'GetAll' ) {
+                $query = @{ }
                 Write-Verbose "Retrieving all cachepolicy objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type cachepolicy -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type cachepolicy -NitroPath nitro/v1/config -Query $query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
-                if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
+                if ( $PSBoundParameters.ContainsKey('Count') ) { $query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for cachepolicy objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type cachepolicy -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type cachepolicy -NitroPath nitro/v1/config -Query $query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving cachepolicy objects by arguments"
-                $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type cachepolicy -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
+                $arguments = @{ } 
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type cachepolicy -NitroPath nitro/v1/config -Arguments $arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving cachepolicy configuration for property 'policyname'"
                 $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type cachepolicy -NitroPath nitro/v1/config -Resource $policyname -Summary:$ViewSummary -Filter $Filter -GetWarning
             } else {
                 Write-Verbose "Retrieving cachepolicy configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type cachepolicy -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type cachepolicy -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -3133,70 +3041,68 @@ function Invoke-ADCGetCachepolicy {
 }
 
 function Invoke-ADCAddCachepolicylabel {
-<#
+    <#
     .SYNOPSIS
-        Add Integrated Caching configuration Object
+        Add Integrated Caching configuration Object.
     .DESCRIPTION
-        Add Integrated Caching configuration Object 
-    .PARAMETER labelname 
+        Configuration for cache policy label resource.
+    .PARAMETER Labelname 
         Name for the label. Must begin with an ASCII alphabetic or underscore (_) character, and must contain only ASCII alphanumeric, underscore, hash (#), period (.), space, colon (:), at (@), equals (=), and hyphen (-) characters. Can be changed after the label is created. 
-    .PARAMETER evaluates 
-        When to evaluate policies bound to this label: request-time or response-time.  
-        Possible values = REQ, RES, MSSQL_REQ, MSSQL_RES, MYSQL_REQ, MYSQL_RES 
+    .PARAMETER Evaluates 
+        When to evaluate policies bound to this label: request-time or response-time. 
+        Possible values = REQ, RES, MSSQL_REQ, MSSQL_RES, MYSQL_REQ, MYSQL_RES, HTTPQUIC_REQ, HTTPQUIC_RES 
     .PARAMETER PassThru 
         Return details about the created cachepolicylabel item.
     .EXAMPLE
-        Invoke-ADCAddCachepolicylabel -labelname <string> -evaluates <string>
+        PS C:\>Invoke-ADCAddCachepolicylabel -labelname <string> -evaluates <string>
+        An example how to add cachepolicylabel configuration Object(s).
     .NOTES
         File Name : Invoke-ADCAddCachepolicylabel
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/cache/cachepolicylabel/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
+    #>
     [CmdletBinding(SupportsShouldProcess = $true, ConfirmImpact = "Low")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
-        [Parameter(Mandatory = $true)]
+        [Parameter(Mandatory)]
         [ValidatePattern('^(([a-zA-Z0-9]|[_])+([a-zA-Z0-9]|[_])+)$')]
-        [string]$labelname ,
+        [string]$Labelname,
 
-        [Parameter(Mandatory = $true)]
-        [ValidateSet('REQ', 'RES', 'MSSQL_REQ', 'MSSQL_RES', 'MYSQL_REQ', 'MYSQL_RES')]
-        [string]$evaluates ,
+        [Parameter(Mandatory)]
+        [ValidateSet('REQ', 'RES', 'MSSQL_REQ', 'MSSQL_RES', 'MYSQL_REQ', 'MYSQL_RES', 'HTTPQUIC_REQ', 'HTTPQUIC_RES')]
+        [string]$Evaluates,
 
         [Switch]$PassThru 
-
     )
     begin {
         Write-Verbose "Invoke-ADCAddCachepolicylabel: Starting"
     }
     process {
         try {
-            $Payload = @{
-                labelname = $labelname
-                evaluates = $evaluates
+            $payload = @{ labelname = $labelname
+                evaluates           = $evaluates
             }
 
- 
-            if ($PSCmdlet.ShouldProcess("cachepolicylabel", "Add Integrated Caching configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -NitroPath nitro/v1/config -Type cachepolicylabel -Payload $Payload -GetWarning
+            if ( $PSCmdlet.ShouldProcess("cachepolicylabel", "Add Integrated Caching configuration Object") ) {
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -NitroPath nitro/v1/config -Type cachepolicylabel -Payload $payload -GetWarning
                 #HTTP Status Code on Success: 201 Created
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
-                if ($PSBoundParameters.ContainsKey('PassThru')) {
-                    Write-Output (Invoke-ADCGetCachepolicylabel -Filter $Payload)
+                if ( $PSBoundParameters.ContainsKey('PassThru') ) {
+                    Write-Output (Invoke-ADCGetCachepolicylabel -Filter $payload)
                 } else {
                     Write-Output $result
                 }
-
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -3209,46 +3115,47 @@ function Invoke-ADCAddCachepolicylabel {
 }
 
 function Invoke-ADCDeleteCachepolicylabel {
-<#
+    <#
     .SYNOPSIS
-        Delete Integrated Caching configuration Object
+        Delete Integrated Caching configuration Object.
     .DESCRIPTION
-        Delete Integrated Caching configuration Object
-    .PARAMETER labelname 
-       Name for the label. Must begin with an ASCII alphabetic or underscore (_) character, and must contain only ASCII alphanumeric, underscore, hash (#), period (.), space, colon (:), at (@), equals (=), and hyphen (-) characters. Can be changed after the label is created. 
+        Configuration for cache policy label resource.
+    .PARAMETER Labelname 
+        Name for the label. Must begin with an ASCII alphabetic or underscore (_) character, and must contain only ASCII alphanumeric, underscore, hash (#), period (.), space, colon (:), at (@), equals (=), and hyphen (-) characters. Can be changed after the label is created.
     .EXAMPLE
-        Invoke-ADCDeleteCachepolicylabel -labelname <string>
+        PS C:\>Invoke-ADCDeleteCachepolicylabel -Labelname <string>
+        An example how to delete cachepolicylabel configuration Object(s).
     .NOTES
         File Name : Invoke-ADCDeleteCachepolicylabel
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/cache/cachepolicylabel/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
+    #>
     [CmdletBinding(SupportsShouldProcess = $true, ConfirmImpact = "Low")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
-        [Parameter(Mandatory = $true)]
-        [string]$labelname 
+        [Parameter(Mandatory)]
+        [string]$Labelname 
     )
     begin {
         Write-Verbose "Invoke-ADCDeleteCachepolicylabel: Starting"
     }
     process {
         try {
-            $Arguments = @{ 
-            }
+            $arguments = @{ }
 
-            if ($PSCmdlet.ShouldProcess("$labelname", "Delete Integrated Caching configuration Object")) {
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type cachepolicylabel -NitroPath nitro/v1/config -Resource $labelname -Arguments $Arguments
+            if ( $PSCmdlet.ShouldProcess("$labelname", "Delete Integrated Caching configuration Object") ) {
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type cachepolicylabel -NitroPath nitro/v1/config -Resource $labelname -Arguments $arguments
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $response
@@ -3264,71 +3171,68 @@ function Invoke-ADCDeleteCachepolicylabel {
 }
 
 function Invoke-ADCRenameCachepolicylabel {
-<#
+    <#
     .SYNOPSIS
-        Rename Integrated Caching configuration Object
+        Rename Integrated Caching configuration Object.
     .DESCRIPTION
-        Rename Integrated Caching configuration Object 
-    .PARAMETER labelname 
+        Configuration for cache policy label resource.
+    .PARAMETER Labelname 
         Name for the label. Must begin with an ASCII alphabetic or underscore (_) character, and must contain only ASCII alphanumeric, underscore, hash (#), period (.), space, colon (:), at (@), equals (=), and hyphen (-) characters. Can be changed after the label is created. 
-    .PARAMETER newname 
-        New name for the cache-policy label. Must begin with an ASCII alphabetic or underscore (_) character, and must contain only ASCII alphanumeric, underscore, hash (#), period (.), space, colon (:), at (@), equals (=), and hyphen (-) characters.  
-        Minimum length = 1 
+    .PARAMETER Newname 
+        New name for the cache-policy label. Must begin with an ASCII alphabetic or underscore (_) character, and must contain only ASCII alphanumeric, underscore, hash (#), period (.), space, colon (:), at (@), equals (=), and hyphen (-) characters. 
     .PARAMETER PassThru 
         Return details about the created cachepolicylabel item.
     .EXAMPLE
-        Invoke-ADCRenameCachepolicylabel -labelname <string> -newname <string>
+        PS C:\>Invoke-ADCRenameCachepolicylabel -labelname <string> -newname <string>
+        An example how to rename cachepolicylabel configuration Object(s).
     .NOTES
         File Name : Invoke-ADCRenameCachepolicylabel
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/cache/cachepolicylabel/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
+    #>
     [CmdletBinding(SupportsShouldProcess = $true, ConfirmImpact = "Low")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
-        [Parameter(Mandatory = $true)]
+        [Parameter(Mandatory)]
         [ValidatePattern('^(([a-zA-Z0-9]|[_])+([a-zA-Z0-9]|[_])+)$')]
-        [string]$labelname ,
+        [string]$Labelname,
 
-        [Parameter(Mandatory = $true)]
+        [Parameter(Mandatory)]
         [ValidateScript({ $_.Length -gt 1 })]
         [ValidatePattern('^(([a-zA-Z0-9]|[_])+([a-zA-Z0-9]|[_])+)$')]
-        [string]$newname ,
+        [string]$Newname,
 
         [Switch]$PassThru 
-
     )
     begin {
         Write-Verbose "Invoke-ADCRenameCachepolicylabel: Starting"
     }
     process {
         try {
-            $Payload = @{
-                labelname = $labelname
-                newname = $newname
+            $payload = @{ labelname = $labelname
+                newname             = $newname
             }
 
- 
-            if ($PSCmdlet.ShouldProcess("cachepolicylabel", "Rename Integrated Caching configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -NitroPath nitro/v1/config -Type cachepolicylabel -Action rename -Payload $Payload -GetWarning
+            if ( $PSCmdlet.ShouldProcess("cachepolicylabel", "Rename Integrated Caching configuration Object") ) {
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -NitroPath nitro/v1/config -Type cachepolicylabel -Action rename -Payload $payload -GetWarning
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
-                if ($PSBoundParameters.ContainsKey('PassThru')) {
-                    Write-Output (Invoke-ADCGetCachepolicylabel -Filter $Payload)
+                if ( $PSBoundParameters.ContainsKey('PassThru') ) {
+                    Write-Output (Invoke-ADCGetCachepolicylabel -Filter $payload)
                 } else {
                     Write-Output $result
                 }
-
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -3341,55 +3245,61 @@ function Invoke-ADCRenameCachepolicylabel {
 }
 
 function Invoke-ADCGetCachepolicylabel {
-<#
+    <#
     .SYNOPSIS
-        Get Integrated Caching configuration object(s)
+        Get Integrated Caching configuration object(s).
     .DESCRIPTION
-        Get Integrated Caching configuration object(s)
-    .PARAMETER labelname 
-       Name for the label. Must begin with an ASCII alphabetic or underscore (_) character, and must contain only ASCII alphanumeric, underscore, hash (#), period (.), space, colon (:), at (@), equals (=), and hyphen (-) characters. Can be changed after the label is created. 
+        Configuration for cache policy label resource.
+    .PARAMETER Labelname 
+        Name for the label. Must begin with an ASCII alphabetic or underscore (_) character, and must contain only ASCII alphanumeric, underscore, hash (#), period (.), space, colon (:), at (@), equals (=), and hyphen (-) characters. Can be changed after the label is created. 
     .PARAMETER GetAll 
-        Retreive all cachepolicylabel object(s)
+        Retrieve all cachepolicylabel object(s).
     .PARAMETER Count
-        If specified, the count of the cachepolicylabel object(s) will be returned
+        If specified, the count of the cachepolicylabel object(s) will be returned.
     .PARAMETER Filter
-        Specify a filter
+        Specify a filter.
         -Filter @{ 'name'='<value>' }
     .PARAMETER ViewSummary
-        When specified, only a summary of information is returned
+        When specified, only a summary of information is returned.
     .EXAMPLE
-        Invoke-ADCGetCachepolicylabel
+        PS C:\>Invoke-ADCGetCachepolicylabel
+        Get data.
     .EXAMPLE 
-        Invoke-ADCGetCachepolicylabel -GetAll 
+        PS C:\>Invoke-ADCGetCachepolicylabel -GetAll 
+        Get all cachepolicylabel data. 
     .EXAMPLE 
-        Invoke-ADCGetCachepolicylabel -Count
+        PS C:\>Invoke-ADCGetCachepolicylabel -Count 
+        Get the number of cachepolicylabel objects.
     .EXAMPLE
-        Invoke-ADCGetCachepolicylabel -name <string>
+        PS C:\>Invoke-ADCGetCachepolicylabel -name <string>
+        Get cachepolicylabel object by specifying for example the name.
     .EXAMPLE
-        Invoke-ADCGetCachepolicylabel -Filter @{ 'name'='<value>' }
+        PS C:\>Invoke-ADCGetCachepolicylabel -Filter @{ 'name'='<value>' }
+        Get cachepolicylabel data with a filter.
     .NOTES
         File Name : Invoke-ADCGetCachepolicylabel
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/cache/cachepolicylabel/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
-    [CmdletBinding(DefaultParameterSetName = "Getall")]
+    #>
+    [CmdletBinding(DefaultParameterSetName = "GetAll")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
         [Parameter(ParameterSetName = 'GetByResource')]
         [ValidatePattern('^(([a-zA-Z0-9]|[_])+([a-zA-Z0-9]|[_])+)$')]
-        [string]$labelname,
+        [string]$Labelname,
 
-        [Parameter(ParameterSetName = 'Count', Mandatory = $true)]
+        [Parameter(ParameterSetName = 'Count', Mandatory)]
         [Switch]$Count,
 			
         [hashtable]$Filter = @{ },
@@ -3407,24 +3317,24 @@ function Invoke-ADCGetCachepolicylabel {
     }
     process {
         try {
-            if ( $PsCmdlet.ParameterSetName -eq 'Getall' ) {
-                $Query = @{ }
+            if ( $PsCmdlet.ParameterSetName -eq 'GetAll' ) {
+                $query = @{ }
                 Write-Verbose "Retrieving all cachepolicylabel objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type cachepolicylabel -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type cachepolicylabel -NitroPath nitro/v1/config -Query $query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
-                if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
+                if ( $PSBoundParameters.ContainsKey('Count') ) { $query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for cachepolicylabel objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type cachepolicylabel -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type cachepolicylabel -NitroPath nitro/v1/config -Query $query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving cachepolicylabel objects by arguments"
-                $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type cachepolicylabel -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
+                $arguments = @{ } 
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type cachepolicylabel -NitroPath nitro/v1/config -Arguments $arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving cachepolicylabel configuration for property 'labelname'"
                 $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type cachepolicylabel -NitroPath nitro/v1/config -Resource $labelname -Summary:$ViewSummary -Filter $Filter -GetWarning
             } else {
                 Write-Verbose "Retrieving cachepolicylabel configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type cachepolicylabel -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type cachepolicylabel -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -3438,50 +3348,55 @@ function Invoke-ADCGetCachepolicylabel {
 }
 
 function Invoke-ADCGetCachepolicylabelbinding {
-<#
+    <#
     .SYNOPSIS
-        Get Integrated Caching configuration object(s)
+        Get Integrated Caching configuration object(s).
     .DESCRIPTION
-        Get Integrated Caching configuration object(s)
-    .PARAMETER labelname 
-       Name of the cache-policy label about which to display information. 
+        Binding object which returns the resources bound to cachepolicylabel.
+    .PARAMETER Labelname 
+        Name of the cache-policy label about which to display information. 
     .PARAMETER GetAll 
-        Retreive all cachepolicylabel_binding object(s)
+        Retrieve all cachepolicylabel_binding object(s).
     .PARAMETER Count
-        If specified, the count of the cachepolicylabel_binding object(s) will be returned
+        If specified, the count of the cachepolicylabel_binding object(s) will be returned.
     .PARAMETER Filter
-        Specify a filter
+        Specify a filter.
         -Filter @{ 'name'='<value>' }
     .PARAMETER ViewSummary
-        When specified, only a summary of information is returned
+        When specified, only a summary of information is returned.
     .EXAMPLE
-        Invoke-ADCGetCachepolicylabelbinding
+        PS C:\>Invoke-ADCGetCachepolicylabelbinding
+        Get data.
     .EXAMPLE 
-        Invoke-ADCGetCachepolicylabelbinding -GetAll
+        PS C:\>Invoke-ADCGetCachepolicylabelbinding -GetAll 
+        Get all cachepolicylabel_binding data.
     .EXAMPLE
-        Invoke-ADCGetCachepolicylabelbinding -name <string>
+        PS C:\>Invoke-ADCGetCachepolicylabelbinding -name <string>
+        Get cachepolicylabel_binding object by specifying for example the name.
     .EXAMPLE
-        Invoke-ADCGetCachepolicylabelbinding -Filter @{ 'name'='<value>' }
+        PS C:\>Invoke-ADCGetCachepolicylabelbinding -Filter @{ 'name'='<value>' }
+        Get cachepolicylabel_binding data with a filter.
     .NOTES
         File Name : Invoke-ADCGetCachepolicylabelbinding
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/cache/cachepolicylabel_binding/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
-    [CmdletBinding(DefaultParameterSetName = "Getall")]
+    #>
+    [CmdletBinding(DefaultParameterSetName = "GetAll")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
         [Parameter(ParameterSetName = 'GetByResource')]
-        [string]$labelname,
+        [string]$Labelname,
 			
         [hashtable]$Filter = @{ },
 
@@ -3493,26 +3408,24 @@ function Invoke-ADCGetCachepolicylabelbinding {
     }
     process {
         try {
-            if ( $PsCmdlet.ParameterSetName -eq 'Getall' ) {
-                $Query = @{ 
-                    bulkbindings = 'yes'
-                }
+            if ( $PsCmdlet.ParameterSetName -eq 'GetAll' ) {
+                $query = @{  bulkbindings = 'yes' }
                 Write-Verbose "Retrieving all cachepolicylabel_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type cachepolicylabel_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type cachepolicylabel_binding -NitroPath nitro/v1/config -Query $query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
-                if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
+                if ( $PSBoundParameters.ContainsKey('Count') ) { $query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for cachepolicylabel_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type cachepolicylabel_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type cachepolicylabel_binding -NitroPath nitro/v1/config -Query $query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving cachepolicylabel_binding objects by arguments"
-                $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type cachepolicylabel_binding -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
+                $arguments = @{ } 
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type cachepolicylabel_binding -NitroPath nitro/v1/config -Arguments $arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving cachepolicylabel_binding configuration for property 'labelname'"
                 $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type cachepolicylabel_binding -NitroPath nitro/v1/config -Resource $labelname -Summary:$ViewSummary -Filter $Filter -GetWarning
             } else {
                 Write-Verbose "Retrieving cachepolicylabel_binding configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type cachepolicylabel_binding -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type cachepolicylabel_binding -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -3526,94 +3439,92 @@ function Invoke-ADCGetCachepolicylabelbinding {
 }
 
 function Invoke-ADCAddCachepolicylabelcachepolicybinding {
-<#
+    <#
     .SYNOPSIS
-        Add Integrated Caching configuration Object
+        Add Integrated Caching configuration Object.
     .DESCRIPTION
-        Add Integrated Caching configuration Object 
-    .PARAMETER labelname 
+        Binding object showing the cachepolicy that can be bound to cachepolicylabel.
+    .PARAMETER Labelname 
         Name of the cache policy label to which to bind the policy. 
-    .PARAMETER policyname 
+    .PARAMETER Policyname 
         Name of the cache policy to bind to the policy label. 
-    .PARAMETER priority 
+    .PARAMETER Priority 
         Specifies the priority of the policy. 
-    .PARAMETER gotopriorityexpression 
+    .PARAMETER Gotopriorityexpression 
         Expression specifying the priority of the next policy which will get evaluated if the current policy rule evaluates to TRUE. 
-    .PARAMETER invoke 
+    .PARAMETER Invoke 
         Invoke policies bound to a virtual server or a user-defined policy label. After the invoked policies are evaluated, the flow returns to the policy with the next-lower priority. 
-    .PARAMETER labeltype 
-        Type of policy label to invoke: an unnamed label associated with a virtual server, or user-defined policy label.  
+    .PARAMETER Labeltype 
+        Type of policy label to invoke: an unnamed label associated with a virtual server, or user-defined policy label. 
         Possible values = reqvserver, resvserver, policylabel 
-    .PARAMETER invoke_labelname 
+    .PARAMETER Invoke_labelname 
         Name of the policy label to invoke if the current policy rule evaluates to TRUE. 
     .PARAMETER PassThru 
         Return details about the created cachepolicylabel_cachepolicy_binding item.
     .EXAMPLE
-        Invoke-ADCAddCachepolicylabelcachepolicybinding -labelname <string> -policyname <string> -priority <double>
+        PS C:\>Invoke-ADCAddCachepolicylabelcachepolicybinding -labelname <string> -policyname <string> -priority <double>
+        An example how to add cachepolicylabel_cachepolicy_binding configuration Object(s).
     .NOTES
         File Name : Invoke-ADCAddCachepolicylabelcachepolicybinding
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/cache/cachepolicylabel_cachepolicy_binding/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
+    #>
     [CmdletBinding(SupportsShouldProcess = $true, ConfirmImpact = "Low")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
-        [Parameter(Mandatory = $true)]
-        [string]$labelname ,
+        [Parameter(Mandatory)]
+        [string]$Labelname,
 
-        [Parameter(Mandatory = $true)]
-        [string]$policyname ,
+        [Parameter(Mandatory)]
+        [string]$Policyname,
 
-        [Parameter(Mandatory = $true)]
-        [double]$priority ,
+        [Parameter(Mandatory)]
+        [double]$Priority,
 
-        [string]$gotopriorityexpression ,
+        [string]$Gotopriorityexpression,
 
-        [boolean]$invoke ,
+        [boolean]$Invoke,
 
         [ValidateSet('reqvserver', 'resvserver', 'policylabel')]
-        [string]$labeltype ,
+        [string]$Labeltype,
 
-        [string]$invoke_labelname ,
+        [string]$Invoke_labelname,
 
         [Switch]$PassThru 
-
     )
     begin {
         Write-Verbose "Invoke-ADCAddCachepolicylabelcachepolicybinding: Starting"
     }
     process {
         try {
-            $Payload = @{
-                labelname = $labelname
-                policyname = $policyname
-                priority = $priority
+            $payload = @{ labelname = $labelname
+                policyname          = $policyname
+                priority            = $priority
             }
-            if ($PSBoundParameters.ContainsKey('gotopriorityexpression')) { $Payload.Add('gotopriorityexpression', $gotopriorityexpression) }
-            if ($PSBoundParameters.ContainsKey('invoke')) { $Payload.Add('invoke', $invoke) }
-            if ($PSBoundParameters.ContainsKey('labeltype')) { $Payload.Add('labeltype', $labeltype) }
-            if ($PSBoundParameters.ContainsKey('invoke_labelname')) { $Payload.Add('invoke_labelname', $invoke_labelname) }
- 
-            if ($PSCmdlet.ShouldProcess("cachepolicylabel_cachepolicy_binding", "Add Integrated Caching configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -NitroPath nitro/v1/config -Type cachepolicylabel_cachepolicy_binding -Payload $Payload -GetWarning
+            if ( $PSBoundParameters.ContainsKey('gotopriorityexpression') ) { $payload.Add('gotopriorityexpression', $gotopriorityexpression) }
+            if ( $PSBoundParameters.ContainsKey('invoke') ) { $payload.Add('invoke', $invoke) }
+            if ( $PSBoundParameters.ContainsKey('labeltype') ) { $payload.Add('labeltype', $labeltype) }
+            if ( $PSBoundParameters.ContainsKey('invoke_labelname') ) { $payload.Add('invoke_labelname', $invoke_labelname) }
+            if ( $PSCmdlet.ShouldProcess("cachepolicylabel_cachepolicy_binding", "Add Integrated Caching configuration Object") ) {
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -NitroPath nitro/v1/config -Type cachepolicylabel_cachepolicy_binding -Payload $payload -GetWarning
                 #HTTP Status Code on Success: 201 Created
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
-                if ($PSBoundParameters.ContainsKey('PassThru')) {
-                    Write-Output (Invoke-ADCGetCachepolicylabelcachepolicybinding -Filter $Payload)
+                if ( $PSBoundParameters.ContainsKey('PassThru') ) {
+                    Write-Output (Invoke-ADCGetCachepolicylabelcachepolicybinding -Filter $payload)
                 } else {
                     Write-Output $result
                 }
-
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -3626,53 +3537,56 @@ function Invoke-ADCAddCachepolicylabelcachepolicybinding {
 }
 
 function Invoke-ADCDeleteCachepolicylabelcachepolicybinding {
-<#
+    <#
     .SYNOPSIS
-        Delete Integrated Caching configuration Object
+        Delete Integrated Caching configuration Object.
     .DESCRIPTION
-        Delete Integrated Caching configuration Object
-    .PARAMETER labelname 
-       Name of the cache policy label to which to bind the policy.    .PARAMETER policyname 
-       Name of the cache policy to bind to the policy label.    .PARAMETER priority 
-       Specifies the priority of the policy.
+        Binding object showing the cachepolicy that can be bound to cachepolicylabel.
+    .PARAMETER Labelname 
+        Name of the cache policy label to which to bind the policy. 
+    .PARAMETER Policyname 
+        Name of the cache policy to bind to the policy label. 
+    .PARAMETER Priority 
+        Specifies the priority of the policy.
     .EXAMPLE
-        Invoke-ADCDeleteCachepolicylabelcachepolicybinding -labelname <string>
+        PS C:\>Invoke-ADCDeleteCachepolicylabelcachepolicybinding -Labelname <string>
+        An example how to delete cachepolicylabel_cachepolicy_binding configuration Object(s).
     .NOTES
         File Name : Invoke-ADCDeleteCachepolicylabelcachepolicybinding
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/cache/cachepolicylabel_cachepolicy_binding/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
+    #>
     [CmdletBinding(SupportsShouldProcess = $true, ConfirmImpact = "Low")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
-        [Parameter(Mandatory = $true)]
-        [string]$labelname ,
+        [Parameter(Mandatory)]
+        [string]$Labelname,
 
-        [string]$policyname ,
+        [string]$Policyname,
 
-        [double]$priority 
+        [double]$Priority 
     )
     begin {
         Write-Verbose "Invoke-ADCDeleteCachepolicylabelcachepolicybinding: Starting"
     }
     process {
         try {
-            $Arguments = @{ 
-            }
-            if ($PSBoundParameters.ContainsKey('policyname')) { $Arguments.Add('policyname', $policyname) }
-            if ($PSBoundParameters.ContainsKey('priority')) { $Arguments.Add('priority', $priority) }
-            if ($PSCmdlet.ShouldProcess("$labelname", "Delete Integrated Caching configuration Object")) {
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type cachepolicylabel_cachepolicy_binding -NitroPath nitro/v1/config -Resource $labelname -Arguments $Arguments
+            $arguments = @{ }
+            if ( $PSBoundParameters.ContainsKey('Policyname') ) { $arguments.Add('policyname', $Policyname) }
+            if ( $PSBoundParameters.ContainsKey('Priority') ) { $arguments.Add('priority', $Priority) }
+            if ( $PSCmdlet.ShouldProcess("$labelname", "Delete Integrated Caching configuration Object") ) {
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type cachepolicylabel_cachepolicy_binding -NitroPath nitro/v1/config -Resource $labelname -Arguments $arguments
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $response
@@ -3688,54 +3602,60 @@ function Invoke-ADCDeleteCachepolicylabelcachepolicybinding {
 }
 
 function Invoke-ADCGetCachepolicylabelcachepolicybinding {
-<#
+    <#
     .SYNOPSIS
-        Get Integrated Caching configuration object(s)
+        Get Integrated Caching configuration object(s).
     .DESCRIPTION
-        Get Integrated Caching configuration object(s)
-    .PARAMETER labelname 
-       Name of the cache policy label to which to bind the policy. 
+        Binding object showing the cachepolicy that can be bound to cachepolicylabel.
+    .PARAMETER Labelname 
+        Name of the cache policy label to which to bind the policy. 
     .PARAMETER GetAll 
-        Retreive all cachepolicylabel_cachepolicy_binding object(s)
+        Retrieve all cachepolicylabel_cachepolicy_binding object(s).
     .PARAMETER Count
-        If specified, the count of the cachepolicylabel_cachepolicy_binding object(s) will be returned
+        If specified, the count of the cachepolicylabel_cachepolicy_binding object(s) will be returned.
     .PARAMETER Filter
-        Specify a filter
+        Specify a filter.
         -Filter @{ 'name'='<value>' }
     .PARAMETER ViewSummary
-        When specified, only a summary of information is returned
+        When specified, only a summary of information is returned.
     .EXAMPLE
-        Invoke-ADCGetCachepolicylabelcachepolicybinding
+        PS C:\>Invoke-ADCGetCachepolicylabelcachepolicybinding
+        Get data.
     .EXAMPLE 
-        Invoke-ADCGetCachepolicylabelcachepolicybinding -GetAll 
+        PS C:\>Invoke-ADCGetCachepolicylabelcachepolicybinding -GetAll 
+        Get all cachepolicylabel_cachepolicy_binding data. 
     .EXAMPLE 
-        Invoke-ADCGetCachepolicylabelcachepolicybinding -Count
+        PS C:\>Invoke-ADCGetCachepolicylabelcachepolicybinding -Count 
+        Get the number of cachepolicylabel_cachepolicy_binding objects.
     .EXAMPLE
-        Invoke-ADCGetCachepolicylabelcachepolicybinding -name <string>
+        PS C:\>Invoke-ADCGetCachepolicylabelcachepolicybinding -name <string>
+        Get cachepolicylabel_cachepolicy_binding object by specifying for example the name.
     .EXAMPLE
-        Invoke-ADCGetCachepolicylabelcachepolicybinding -Filter @{ 'name'='<value>' }
+        PS C:\>Invoke-ADCGetCachepolicylabelcachepolicybinding -Filter @{ 'name'='<value>' }
+        Get cachepolicylabel_cachepolicy_binding data with a filter.
     .NOTES
         File Name : Invoke-ADCGetCachepolicylabelcachepolicybinding
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/cache/cachepolicylabel_cachepolicy_binding/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
-    [CmdletBinding(DefaultParameterSetName = "Getall")]
+    #>
+    [CmdletBinding(DefaultParameterSetName = "GetAll")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
         [Parameter(ParameterSetName = 'GetByResource')]
-        [string]$labelname,
+        [string]$Labelname,
 
-        [Parameter(ParameterSetName = 'Count', Mandatory = $true)]
+        [Parameter(ParameterSetName = 'Count', Mandatory)]
         [Switch]$Count,
 			
         [hashtable]$Filter = @{ },
@@ -3748,26 +3668,24 @@ function Invoke-ADCGetCachepolicylabelcachepolicybinding {
     }
     process {
         try {
-            if ( $PsCmdlet.ParameterSetName -eq 'Getall' ) {
-                $Query = @{ 
-                    bulkbindings = 'yes'
-                }
+            if ( $PsCmdlet.ParameterSetName -eq 'GetAll' ) {
+                $query = @{  bulkbindings = 'yes' }
                 Write-Verbose "Retrieving all cachepolicylabel_cachepolicy_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type cachepolicylabel_cachepolicy_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type cachepolicylabel_cachepolicy_binding -NitroPath nitro/v1/config -Query $query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
-                if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
+                if ( $PSBoundParameters.ContainsKey('Count') ) { $query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for cachepolicylabel_cachepolicy_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type cachepolicylabel_cachepolicy_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type cachepolicylabel_cachepolicy_binding -NitroPath nitro/v1/config -Query $query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving cachepolicylabel_cachepolicy_binding objects by arguments"
-                $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type cachepolicylabel_cachepolicy_binding -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
+                $arguments = @{ } 
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type cachepolicylabel_cachepolicy_binding -NitroPath nitro/v1/config -Arguments $arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving cachepolicylabel_cachepolicy_binding configuration for property 'labelname'"
                 $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type cachepolicylabel_cachepolicy_binding -NitroPath nitro/v1/config -Resource $labelname -Summary:$ViewSummary -Filter $Filter -GetWarning
             } else {
                 Write-Verbose "Retrieving cachepolicylabel_cachepolicy_binding configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type cachepolicylabel_cachepolicy_binding -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type cachepolicylabel_cachepolicy_binding -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -3781,54 +3699,60 @@ function Invoke-ADCGetCachepolicylabelcachepolicybinding {
 }
 
 function Invoke-ADCGetCachepolicylabelpolicybindingbinding {
-<#
+    <#
     .SYNOPSIS
-        Get Integrated Caching configuration object(s)
+        Get Integrated Caching configuration object(s).
     .DESCRIPTION
-        Get Integrated Caching configuration object(s)
-    .PARAMETER labelname 
-       Name of the cache policy label to which to bind the policy. 
+        Binding object showing the policybinding that can be bound to cachepolicylabel.
+    .PARAMETER Labelname 
+        Name of the cache policy label to which to bind the policy. 
     .PARAMETER GetAll 
-        Retreive all cachepolicylabel_policybinding_binding object(s)
+        Retrieve all cachepolicylabel_policybinding_binding object(s).
     .PARAMETER Count
-        If specified, the count of the cachepolicylabel_policybinding_binding object(s) will be returned
+        If specified, the count of the cachepolicylabel_policybinding_binding object(s) will be returned.
     .PARAMETER Filter
-        Specify a filter
+        Specify a filter.
         -Filter @{ 'name'='<value>' }
     .PARAMETER ViewSummary
-        When specified, only a summary of information is returned
+        When specified, only a summary of information is returned.
     .EXAMPLE
-        Invoke-ADCGetCachepolicylabelpolicybindingbinding
+        PS C:\>Invoke-ADCGetCachepolicylabelpolicybindingbinding
+        Get data.
     .EXAMPLE 
-        Invoke-ADCGetCachepolicylabelpolicybindingbinding -GetAll 
+        PS C:\>Invoke-ADCGetCachepolicylabelpolicybindingbinding -GetAll 
+        Get all cachepolicylabel_policybinding_binding data. 
     .EXAMPLE 
-        Invoke-ADCGetCachepolicylabelpolicybindingbinding -Count
+        PS C:\>Invoke-ADCGetCachepolicylabelpolicybindingbinding -Count 
+        Get the number of cachepolicylabel_policybinding_binding objects.
     .EXAMPLE
-        Invoke-ADCGetCachepolicylabelpolicybindingbinding -name <string>
+        PS C:\>Invoke-ADCGetCachepolicylabelpolicybindingbinding -name <string>
+        Get cachepolicylabel_policybinding_binding object by specifying for example the name.
     .EXAMPLE
-        Invoke-ADCGetCachepolicylabelpolicybindingbinding -Filter @{ 'name'='<value>' }
+        PS C:\>Invoke-ADCGetCachepolicylabelpolicybindingbinding -Filter @{ 'name'='<value>' }
+        Get cachepolicylabel_policybinding_binding data with a filter.
     .NOTES
         File Name : Invoke-ADCGetCachepolicylabelpolicybindingbinding
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/cache/cachepolicylabel_policybinding_binding/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
-    [CmdletBinding(DefaultParameterSetName = "Getall")]
+    #>
+    [CmdletBinding(DefaultParameterSetName = "GetAll")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
         [Parameter(ParameterSetName = 'GetByResource')]
-        [string]$labelname,
+        [string]$Labelname,
 
-        [Parameter(ParameterSetName = 'Count', Mandatory = $true)]
+        [Parameter(ParameterSetName = 'Count', Mandatory)]
         [Switch]$Count,
 			
         [hashtable]$Filter = @{ },
@@ -3841,26 +3765,24 @@ function Invoke-ADCGetCachepolicylabelpolicybindingbinding {
     }
     process {
         try {
-            if ( $PsCmdlet.ParameterSetName -eq 'Getall' ) {
-                $Query = @{ 
-                    bulkbindings = 'yes'
-                }
+            if ( $PsCmdlet.ParameterSetName -eq 'GetAll' ) {
+                $query = @{  bulkbindings = 'yes' }
                 Write-Verbose "Retrieving all cachepolicylabel_policybinding_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type cachepolicylabel_policybinding_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type cachepolicylabel_policybinding_binding -NitroPath nitro/v1/config -Query $query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
-                if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
+                if ( $PSBoundParameters.ContainsKey('Count') ) { $query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for cachepolicylabel_policybinding_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type cachepolicylabel_policybinding_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type cachepolicylabel_policybinding_binding -NitroPath nitro/v1/config -Query $query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving cachepolicylabel_policybinding_binding objects by arguments"
-                $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type cachepolicylabel_policybinding_binding -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
+                $arguments = @{ } 
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type cachepolicylabel_policybinding_binding -NitroPath nitro/v1/config -Arguments $arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving cachepolicylabel_policybinding_binding configuration for property 'labelname'"
                 $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type cachepolicylabel_policybinding_binding -NitroPath nitro/v1/config -Resource $labelname -Summary:$ViewSummary -Filter $Filter -GetWarning
             } else {
                 Write-Verbose "Retrieving cachepolicylabel_policybinding_binding configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type cachepolicylabel_policybinding_binding -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type cachepolicylabel_policybinding_binding -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -3874,51 +3796,56 @@ function Invoke-ADCGetCachepolicylabelpolicybindingbinding {
 }
 
 function Invoke-ADCGetCachepolicybinding {
-<#
+    <#
     .SYNOPSIS
-        Get Integrated Caching configuration object(s)
+        Get Integrated Caching configuration object(s).
     .DESCRIPTION
-        Get Integrated Caching configuration object(s)
-    .PARAMETER policyname 
-       Name of the cache policy about which to display details. 
+        Binding object which returns the resources bound to cachepolicy.
+    .PARAMETER Policyname 
+        Name of the cache policy about which to display details. 
     .PARAMETER GetAll 
-        Retreive all cachepolicy_binding object(s)
+        Retrieve all cachepolicy_binding object(s).
     .PARAMETER Count
-        If specified, the count of the cachepolicy_binding object(s) will be returned
+        If specified, the count of the cachepolicy_binding object(s) will be returned.
     .PARAMETER Filter
-        Specify a filter
+        Specify a filter.
         -Filter @{ 'name'='<value>' }
     .PARAMETER ViewSummary
-        When specified, only a summary of information is returned
+        When specified, only a summary of information is returned.
     .EXAMPLE
-        Invoke-ADCGetCachepolicybinding
+        PS C:\>Invoke-ADCGetCachepolicybinding
+        Get data.
     .EXAMPLE 
-        Invoke-ADCGetCachepolicybinding -GetAll
+        PS C:\>Invoke-ADCGetCachepolicybinding -GetAll 
+        Get all cachepolicy_binding data.
     .EXAMPLE
-        Invoke-ADCGetCachepolicybinding -name <string>
+        PS C:\>Invoke-ADCGetCachepolicybinding -name <string>
+        Get cachepolicy_binding object by specifying for example the name.
     .EXAMPLE
-        Invoke-ADCGetCachepolicybinding -Filter @{ 'name'='<value>' }
+        PS C:\>Invoke-ADCGetCachepolicybinding -Filter @{ 'name'='<value>' }
+        Get cachepolicy_binding data with a filter.
     .NOTES
         File Name : Invoke-ADCGetCachepolicybinding
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/cache/cachepolicy_binding/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
-    [CmdletBinding(DefaultParameterSetName = "Getall")]
+    #>
+    [CmdletBinding(DefaultParameterSetName = "GetAll")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
         [Parameter(ParameterSetName = 'GetByResource')]
         [ValidateScript({ $_.Length -gt 1 })]
-        [string]$policyname,
+        [string]$Policyname,
 			
         [hashtable]$Filter = @{ },
 
@@ -3930,26 +3857,24 @@ function Invoke-ADCGetCachepolicybinding {
     }
     process {
         try {
-            if ( $PsCmdlet.ParameterSetName -eq 'Getall' ) {
-                $Query = @{ 
-                    bulkbindings = 'yes'
-                }
+            if ( $PsCmdlet.ParameterSetName -eq 'GetAll' ) {
+                $query = @{  bulkbindings = 'yes' }
                 Write-Verbose "Retrieving all cachepolicy_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type cachepolicy_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type cachepolicy_binding -NitroPath nitro/v1/config -Query $query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
-                if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
+                if ( $PSBoundParameters.ContainsKey('Count') ) { $query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for cachepolicy_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type cachepolicy_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type cachepolicy_binding -NitroPath nitro/v1/config -Query $query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving cachepolicy_binding objects by arguments"
-                $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type cachepolicy_binding -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
+                $arguments = @{ } 
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type cachepolicy_binding -NitroPath nitro/v1/config -Arguments $arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving cachepolicy_binding configuration for property 'policyname'"
                 $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type cachepolicy_binding -NitroPath nitro/v1/config -Resource $policyname -Summary:$ViewSummary -Filter $Filter -GetWarning
             } else {
                 Write-Verbose "Retrieving cachepolicy_binding configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type cachepolicy_binding -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type cachepolicy_binding -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -3963,55 +3888,61 @@ function Invoke-ADCGetCachepolicybinding {
 }
 
 function Invoke-ADCGetCachepolicycacheglobalbinding {
-<#
+    <#
     .SYNOPSIS
-        Get Integrated Caching configuration object(s)
+        Get Integrated Caching configuration object(s).
     .DESCRIPTION
-        Get Integrated Caching configuration object(s)
-    .PARAMETER policyname 
-       Name of the cache policy about which to display details. 
+        Binding object showing the cacheglobal that can be bound to cachepolicy.
+    .PARAMETER Policyname 
+        Name of the cache policy about which to display details. 
     .PARAMETER GetAll 
-        Retreive all cachepolicy_cacheglobal_binding object(s)
+        Retrieve all cachepolicy_cacheglobal_binding object(s).
     .PARAMETER Count
-        If specified, the count of the cachepolicy_cacheglobal_binding object(s) will be returned
+        If specified, the count of the cachepolicy_cacheglobal_binding object(s) will be returned.
     .PARAMETER Filter
-        Specify a filter
+        Specify a filter.
         -Filter @{ 'name'='<value>' }
     .PARAMETER ViewSummary
-        When specified, only a summary of information is returned
+        When specified, only a summary of information is returned.
     .EXAMPLE
-        Invoke-ADCGetCachepolicycacheglobalbinding
+        PS C:\>Invoke-ADCGetCachepolicycacheglobalbinding
+        Get data.
     .EXAMPLE 
-        Invoke-ADCGetCachepolicycacheglobalbinding -GetAll 
+        PS C:\>Invoke-ADCGetCachepolicycacheglobalbinding -GetAll 
+        Get all cachepolicy_cacheglobal_binding data. 
     .EXAMPLE 
-        Invoke-ADCGetCachepolicycacheglobalbinding -Count
+        PS C:\>Invoke-ADCGetCachepolicycacheglobalbinding -Count 
+        Get the number of cachepolicy_cacheglobal_binding objects.
     .EXAMPLE
-        Invoke-ADCGetCachepolicycacheglobalbinding -name <string>
+        PS C:\>Invoke-ADCGetCachepolicycacheglobalbinding -name <string>
+        Get cachepolicy_cacheglobal_binding object by specifying for example the name.
     .EXAMPLE
-        Invoke-ADCGetCachepolicycacheglobalbinding -Filter @{ 'name'='<value>' }
+        PS C:\>Invoke-ADCGetCachepolicycacheglobalbinding -Filter @{ 'name'='<value>' }
+        Get cachepolicy_cacheglobal_binding data with a filter.
     .NOTES
         File Name : Invoke-ADCGetCachepolicycacheglobalbinding
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/cache/cachepolicy_cacheglobal_binding/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
-    [CmdletBinding(DefaultParameterSetName = "Getall")]
+    #>
+    [CmdletBinding(DefaultParameterSetName = "GetAll")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
         [Parameter(ParameterSetName = 'GetByResource')]
         [ValidateScript({ $_.Length -gt 1 })]
-        [string]$policyname,
+        [string]$Policyname,
 
-        [Parameter(ParameterSetName = 'Count', Mandatory = $true)]
+        [Parameter(ParameterSetName = 'Count', Mandatory)]
         [Switch]$Count,
 			
         [hashtable]$Filter = @{ },
@@ -4024,26 +3955,24 @@ function Invoke-ADCGetCachepolicycacheglobalbinding {
     }
     process {
         try {
-            if ( $PsCmdlet.ParameterSetName -eq 'Getall' ) {
-                $Query = @{ 
-                    bulkbindings = 'yes'
-                }
+            if ( $PsCmdlet.ParameterSetName -eq 'GetAll' ) {
+                $query = @{  bulkbindings = 'yes' }
                 Write-Verbose "Retrieving all cachepolicy_cacheglobal_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type cachepolicy_cacheglobal_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type cachepolicy_cacheglobal_binding -NitroPath nitro/v1/config -Query $query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
-                if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
+                if ( $PSBoundParameters.ContainsKey('Count') ) { $query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for cachepolicy_cacheglobal_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type cachepolicy_cacheglobal_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type cachepolicy_cacheglobal_binding -NitroPath nitro/v1/config -Query $query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving cachepolicy_cacheglobal_binding objects by arguments"
-                $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type cachepolicy_cacheglobal_binding -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
+                $arguments = @{ } 
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type cachepolicy_cacheglobal_binding -NitroPath nitro/v1/config -Arguments $arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving cachepolicy_cacheglobal_binding configuration for property 'policyname'"
                 $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type cachepolicy_cacheglobal_binding -NitroPath nitro/v1/config -Resource $policyname -Summary:$ViewSummary -Filter $Filter -GetWarning
             } else {
                 Write-Verbose "Retrieving cachepolicy_cacheglobal_binding configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type cachepolicy_cacheglobal_binding -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type cachepolicy_cacheglobal_binding -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -4057,55 +3986,61 @@ function Invoke-ADCGetCachepolicycacheglobalbinding {
 }
 
 function Invoke-ADCGetCachepolicycachepolicylabelbinding {
-<#
+    <#
     .SYNOPSIS
-        Get Integrated Caching configuration object(s)
+        Get Integrated Caching configuration object(s).
     .DESCRIPTION
-        Get Integrated Caching configuration object(s)
-    .PARAMETER policyname 
-       Name of the cache policy about which to display details. 
+        Binding object showing the cachepolicylabel that can be bound to cachepolicy.
+    .PARAMETER Policyname 
+        Name of the cache policy about which to display details. 
     .PARAMETER GetAll 
-        Retreive all cachepolicy_cachepolicylabel_binding object(s)
+        Retrieve all cachepolicy_cachepolicylabel_binding object(s).
     .PARAMETER Count
-        If specified, the count of the cachepolicy_cachepolicylabel_binding object(s) will be returned
+        If specified, the count of the cachepolicy_cachepolicylabel_binding object(s) will be returned.
     .PARAMETER Filter
-        Specify a filter
+        Specify a filter.
         -Filter @{ 'name'='<value>' }
     .PARAMETER ViewSummary
-        When specified, only a summary of information is returned
+        When specified, only a summary of information is returned.
     .EXAMPLE
-        Invoke-ADCGetCachepolicycachepolicylabelbinding
+        PS C:\>Invoke-ADCGetCachepolicycachepolicylabelbinding
+        Get data.
     .EXAMPLE 
-        Invoke-ADCGetCachepolicycachepolicylabelbinding -GetAll 
+        PS C:\>Invoke-ADCGetCachepolicycachepolicylabelbinding -GetAll 
+        Get all cachepolicy_cachepolicylabel_binding data. 
     .EXAMPLE 
-        Invoke-ADCGetCachepolicycachepolicylabelbinding -Count
+        PS C:\>Invoke-ADCGetCachepolicycachepolicylabelbinding -Count 
+        Get the number of cachepolicy_cachepolicylabel_binding objects.
     .EXAMPLE
-        Invoke-ADCGetCachepolicycachepolicylabelbinding -name <string>
+        PS C:\>Invoke-ADCGetCachepolicycachepolicylabelbinding -name <string>
+        Get cachepolicy_cachepolicylabel_binding object by specifying for example the name.
     .EXAMPLE
-        Invoke-ADCGetCachepolicycachepolicylabelbinding -Filter @{ 'name'='<value>' }
+        PS C:\>Invoke-ADCGetCachepolicycachepolicylabelbinding -Filter @{ 'name'='<value>' }
+        Get cachepolicy_cachepolicylabel_binding data with a filter.
     .NOTES
         File Name : Invoke-ADCGetCachepolicycachepolicylabelbinding
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/cache/cachepolicy_cachepolicylabel_binding/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
-    [CmdletBinding(DefaultParameterSetName = "Getall")]
+    #>
+    [CmdletBinding(DefaultParameterSetName = "GetAll")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
         [Parameter(ParameterSetName = 'GetByResource')]
         [ValidateScript({ $_.Length -gt 1 })]
-        [string]$policyname,
+        [string]$Policyname,
 
-        [Parameter(ParameterSetName = 'Count', Mandatory = $true)]
+        [Parameter(ParameterSetName = 'Count', Mandatory)]
         [Switch]$Count,
 			
         [hashtable]$Filter = @{ },
@@ -4118,26 +4053,24 @@ function Invoke-ADCGetCachepolicycachepolicylabelbinding {
     }
     process {
         try {
-            if ( $PsCmdlet.ParameterSetName -eq 'Getall' ) {
-                $Query = @{ 
-                    bulkbindings = 'yes'
-                }
+            if ( $PsCmdlet.ParameterSetName -eq 'GetAll' ) {
+                $query = @{  bulkbindings = 'yes' }
                 Write-Verbose "Retrieving all cachepolicy_cachepolicylabel_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type cachepolicy_cachepolicylabel_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type cachepolicy_cachepolicylabel_binding -NitroPath nitro/v1/config -Query $query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
-                if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
+                if ( $PSBoundParameters.ContainsKey('Count') ) { $query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for cachepolicy_cachepolicylabel_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type cachepolicy_cachepolicylabel_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type cachepolicy_cachepolicylabel_binding -NitroPath nitro/v1/config -Query $query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving cachepolicy_cachepolicylabel_binding objects by arguments"
-                $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type cachepolicy_cachepolicylabel_binding -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
+                $arguments = @{ } 
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type cachepolicy_cachepolicylabel_binding -NitroPath nitro/v1/config -Arguments $arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving cachepolicy_cachepolicylabel_binding configuration for property 'policyname'"
                 $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type cachepolicy_cachepolicylabel_binding -NitroPath nitro/v1/config -Resource $policyname -Summary:$ViewSummary -Filter $Filter -GetWarning
             } else {
                 Write-Verbose "Retrieving cachepolicy_cachepolicylabel_binding configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type cachepolicy_cachepolicylabel_binding -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type cachepolicy_cachepolicylabel_binding -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -4151,55 +4084,61 @@ function Invoke-ADCGetCachepolicycachepolicylabelbinding {
 }
 
 function Invoke-ADCGetCachepolicycsvserverbinding {
-<#
+    <#
     .SYNOPSIS
-        Get Integrated Caching configuration object(s)
+        Get Integrated Caching configuration object(s).
     .DESCRIPTION
-        Get Integrated Caching configuration object(s)
-    .PARAMETER policyname 
-       Name of the cache policy about which to display details. 
+        Binding object showing the csvserver that can be bound to cachepolicy.
+    .PARAMETER Policyname 
+        Name of the cache policy about which to display details. 
     .PARAMETER GetAll 
-        Retreive all cachepolicy_csvserver_binding object(s)
+        Retrieve all cachepolicy_csvserver_binding object(s).
     .PARAMETER Count
-        If specified, the count of the cachepolicy_csvserver_binding object(s) will be returned
+        If specified, the count of the cachepolicy_csvserver_binding object(s) will be returned.
     .PARAMETER Filter
-        Specify a filter
+        Specify a filter.
         -Filter @{ 'name'='<value>' }
     .PARAMETER ViewSummary
-        When specified, only a summary of information is returned
+        When specified, only a summary of information is returned.
     .EXAMPLE
-        Invoke-ADCGetCachepolicycsvserverbinding
+        PS C:\>Invoke-ADCGetCachepolicycsvserverbinding
+        Get data.
     .EXAMPLE 
-        Invoke-ADCGetCachepolicycsvserverbinding -GetAll 
+        PS C:\>Invoke-ADCGetCachepolicycsvserverbinding -GetAll 
+        Get all cachepolicy_csvserver_binding data. 
     .EXAMPLE 
-        Invoke-ADCGetCachepolicycsvserverbinding -Count
+        PS C:\>Invoke-ADCGetCachepolicycsvserverbinding -Count 
+        Get the number of cachepolicy_csvserver_binding objects.
     .EXAMPLE
-        Invoke-ADCGetCachepolicycsvserverbinding -name <string>
+        PS C:\>Invoke-ADCGetCachepolicycsvserverbinding -name <string>
+        Get cachepolicy_csvserver_binding object by specifying for example the name.
     .EXAMPLE
-        Invoke-ADCGetCachepolicycsvserverbinding -Filter @{ 'name'='<value>' }
+        PS C:\>Invoke-ADCGetCachepolicycsvserverbinding -Filter @{ 'name'='<value>' }
+        Get cachepolicy_csvserver_binding data with a filter.
     .NOTES
         File Name : Invoke-ADCGetCachepolicycsvserverbinding
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/cache/cachepolicy_csvserver_binding/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
-    [CmdletBinding(DefaultParameterSetName = "Getall")]
+    #>
+    [CmdletBinding(DefaultParameterSetName = "GetAll")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
         [Parameter(ParameterSetName = 'GetByResource')]
         [ValidateScript({ $_.Length -gt 1 })]
-        [string]$policyname,
+        [string]$Policyname,
 
-        [Parameter(ParameterSetName = 'Count', Mandatory = $true)]
+        [Parameter(ParameterSetName = 'Count', Mandatory)]
         [Switch]$Count,
 			
         [hashtable]$Filter = @{ },
@@ -4212,26 +4151,24 @@ function Invoke-ADCGetCachepolicycsvserverbinding {
     }
     process {
         try {
-            if ( $PsCmdlet.ParameterSetName -eq 'Getall' ) {
-                $Query = @{ 
-                    bulkbindings = 'yes'
-                }
+            if ( $PsCmdlet.ParameterSetName -eq 'GetAll' ) {
+                $query = @{  bulkbindings = 'yes' }
                 Write-Verbose "Retrieving all cachepolicy_csvserver_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type cachepolicy_csvserver_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type cachepolicy_csvserver_binding -NitroPath nitro/v1/config -Query $query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
-                if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
+                if ( $PSBoundParameters.ContainsKey('Count') ) { $query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for cachepolicy_csvserver_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type cachepolicy_csvserver_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type cachepolicy_csvserver_binding -NitroPath nitro/v1/config -Query $query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving cachepolicy_csvserver_binding objects by arguments"
-                $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type cachepolicy_csvserver_binding -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
+                $arguments = @{ } 
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type cachepolicy_csvserver_binding -NitroPath nitro/v1/config -Arguments $arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving cachepolicy_csvserver_binding configuration for property 'policyname'"
                 $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type cachepolicy_csvserver_binding -NitroPath nitro/v1/config -Resource $policyname -Summary:$ViewSummary -Filter $Filter -GetWarning
             } else {
                 Write-Verbose "Retrieving cachepolicy_csvserver_binding configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type cachepolicy_csvserver_binding -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type cachepolicy_csvserver_binding -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -4245,55 +4182,61 @@ function Invoke-ADCGetCachepolicycsvserverbinding {
 }
 
 function Invoke-ADCGetCachepolicylbvserverbinding {
-<#
+    <#
     .SYNOPSIS
-        Get Integrated Caching configuration object(s)
+        Get Integrated Caching configuration object(s).
     .DESCRIPTION
-        Get Integrated Caching configuration object(s)
-    .PARAMETER policyname 
-       Name of the cache policy about which to display details. 
+        Binding object showing the lbvserver that can be bound to cachepolicy.
+    .PARAMETER Policyname 
+        Name of the cache policy about which to display details. 
     .PARAMETER GetAll 
-        Retreive all cachepolicy_lbvserver_binding object(s)
+        Retrieve all cachepolicy_lbvserver_binding object(s).
     .PARAMETER Count
-        If specified, the count of the cachepolicy_lbvserver_binding object(s) will be returned
+        If specified, the count of the cachepolicy_lbvserver_binding object(s) will be returned.
     .PARAMETER Filter
-        Specify a filter
+        Specify a filter.
         -Filter @{ 'name'='<value>' }
     .PARAMETER ViewSummary
-        When specified, only a summary of information is returned
+        When specified, only a summary of information is returned.
     .EXAMPLE
-        Invoke-ADCGetCachepolicylbvserverbinding
+        PS C:\>Invoke-ADCGetCachepolicylbvserverbinding
+        Get data.
     .EXAMPLE 
-        Invoke-ADCGetCachepolicylbvserverbinding -GetAll 
+        PS C:\>Invoke-ADCGetCachepolicylbvserverbinding -GetAll 
+        Get all cachepolicy_lbvserver_binding data. 
     .EXAMPLE 
-        Invoke-ADCGetCachepolicylbvserverbinding -Count
+        PS C:\>Invoke-ADCGetCachepolicylbvserverbinding -Count 
+        Get the number of cachepolicy_lbvserver_binding objects.
     .EXAMPLE
-        Invoke-ADCGetCachepolicylbvserverbinding -name <string>
+        PS C:\>Invoke-ADCGetCachepolicylbvserverbinding -name <string>
+        Get cachepolicy_lbvserver_binding object by specifying for example the name.
     .EXAMPLE
-        Invoke-ADCGetCachepolicylbvserverbinding -Filter @{ 'name'='<value>' }
+        PS C:\>Invoke-ADCGetCachepolicylbvserverbinding -Filter @{ 'name'='<value>' }
+        Get cachepolicy_lbvserver_binding data with a filter.
     .NOTES
         File Name : Invoke-ADCGetCachepolicylbvserverbinding
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/cache/cachepolicy_lbvserver_binding/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
-    [CmdletBinding(DefaultParameterSetName = "Getall")]
+    #>
+    [CmdletBinding(DefaultParameterSetName = "GetAll")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
         [Parameter(ParameterSetName = 'GetByResource')]
         [ValidateScript({ $_.Length -gt 1 })]
-        [string]$policyname,
+        [string]$Policyname,
 
-        [Parameter(ParameterSetName = 'Count', Mandatory = $true)]
+        [Parameter(ParameterSetName = 'Count', Mandatory)]
         [Switch]$Count,
 			
         [hashtable]$Filter = @{ },
@@ -4306,26 +4249,24 @@ function Invoke-ADCGetCachepolicylbvserverbinding {
     }
     process {
         try {
-            if ( $PsCmdlet.ParameterSetName -eq 'Getall' ) {
-                $Query = @{ 
-                    bulkbindings = 'yes'
-                }
+            if ( $PsCmdlet.ParameterSetName -eq 'GetAll' ) {
+                $query = @{  bulkbindings = 'yes' }
                 Write-Verbose "Retrieving all cachepolicy_lbvserver_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type cachepolicy_lbvserver_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type cachepolicy_lbvserver_binding -NitroPath nitro/v1/config -Query $query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
-                if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
+                if ( $PSBoundParameters.ContainsKey('Count') ) { $query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for cachepolicy_lbvserver_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type cachepolicy_lbvserver_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type cachepolicy_lbvserver_binding -NitroPath nitro/v1/config -Query $query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving cachepolicy_lbvserver_binding objects by arguments"
-                $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type cachepolicy_lbvserver_binding -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
+                $arguments = @{ } 
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type cachepolicy_lbvserver_binding -NitroPath nitro/v1/config -Arguments $arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving cachepolicy_lbvserver_binding configuration for property 'policyname'"
                 $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type cachepolicy_lbvserver_binding -NitroPath nitro/v1/config -Resource $policyname -Summary:$ViewSummary -Filter $Filter -GetWarning
             } else {
                 Write-Verbose "Retrieving cachepolicy_lbvserver_binding configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type cachepolicy_lbvserver_binding -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type cachepolicy_lbvserver_binding -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -4339,70 +4280,67 @@ function Invoke-ADCGetCachepolicylbvserverbinding {
 }
 
 function Invoke-ADCAddCacheselector {
-<#
+    <#
     .SYNOPSIS
-        Add Integrated Caching configuration Object
+        Add Integrated Caching configuration Object.
     .DESCRIPTION
-        Add Integrated Caching configuration Object 
-    .PARAMETER selectorname 
+        Configuration for cache selector resource.
+    .PARAMETER Selectorname 
         Name for the selector. Must begin with an ASCII alphabetic or underscore (_) character, and must contain only ASCII alphanumeric, underscore, hash (#), period (.), space, colon (:), at (@), equals (=), and hyphen (-) characters. 
-    .PARAMETER rule 
-        One or multiple PIXL expressions for evaluating an HTTP request or response.  
-        Minimum length = 1 
+    .PARAMETER Rule 
+        One or multiple PIXL expressions for evaluating an HTTP request or response. 
     .PARAMETER PassThru 
         Return details about the created cacheselector item.
     .EXAMPLE
-        Invoke-ADCAddCacheselector -selectorname <string> -rule <string[]>
+        PS C:\>Invoke-ADCAddCacheselector -selectorname <string> -rule <string[]>
+        An example how to add cacheselector configuration Object(s).
     .NOTES
         File Name : Invoke-ADCAddCacheselector
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/cache/cacheselector/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
+    #>
     [CmdletBinding(SupportsShouldProcess = $true, ConfirmImpact = "Low")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
-        [Parameter(Mandatory = $true)]
+        [Parameter(Mandatory)]
         [ValidatePattern('^(([a-zA-Z0-9]|[_])+([a-zA-Z0-9]|[_])+)$')]
-        [string]$selectorname ,
+        [string]$Selectorname,
 
-        [Parameter(Mandatory = $true)]
+        [Parameter(Mandatory)]
         [ValidateScript({ $_.Length -gt 1 })]
-        [string[]]$rule ,
+        [string[]]$Rule,
 
         [Switch]$PassThru 
-
     )
     begin {
         Write-Verbose "Invoke-ADCAddCacheselector: Starting"
     }
     process {
         try {
-            $Payload = @{
-                selectorname = $selectorname
-                rule = $rule
+            $payload = @{ selectorname = $selectorname
+                rule                   = $rule
             }
 
- 
-            if ($PSCmdlet.ShouldProcess("cacheselector", "Add Integrated Caching configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -NitroPath nitro/v1/config -Type cacheselector -Payload $Payload -GetWarning
+            if ( $PSCmdlet.ShouldProcess("cacheselector", "Add Integrated Caching configuration Object") ) {
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -NitroPath nitro/v1/config -Type cacheselector -Payload $payload -GetWarning
                 #HTTP Status Code on Success: 201 Created
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
-                if ($PSBoundParameters.ContainsKey('PassThru')) {
-                    Write-Output (Invoke-ADCGetCacheselector -Filter $Payload)
+                if ( $PSBoundParameters.ContainsKey('PassThru') ) {
+                    Write-Output (Invoke-ADCGetCacheselector -Filter $payload)
                 } else {
                     Write-Output $result
                 }
-
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -4415,46 +4353,47 @@ function Invoke-ADCAddCacheselector {
 }
 
 function Invoke-ADCDeleteCacheselector {
-<#
+    <#
     .SYNOPSIS
-        Delete Integrated Caching configuration Object
+        Delete Integrated Caching configuration Object.
     .DESCRIPTION
-        Delete Integrated Caching configuration Object
-    .PARAMETER selectorname 
-       Name for the selector. Must begin with an ASCII alphabetic or underscore (_) character, and must contain only ASCII alphanumeric, underscore, hash (#), period (.), space, colon (:), at (@), equals (=), and hyphen (-) characters. 
+        Configuration for cache selector resource.
+    .PARAMETER Selectorname 
+        Name for the selector. Must begin with an ASCII alphabetic or underscore (_) character, and must contain only ASCII alphanumeric, underscore, hash (#), period (.), space, colon (:), at (@), equals (=), and hyphen (-) characters.
     .EXAMPLE
-        Invoke-ADCDeleteCacheselector -selectorname <string>
+        PS C:\>Invoke-ADCDeleteCacheselector -Selectorname <string>
+        An example how to delete cacheselector configuration Object(s).
     .NOTES
         File Name : Invoke-ADCDeleteCacheselector
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/cache/cacheselector/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
+    #>
     [CmdletBinding(SupportsShouldProcess = $true, ConfirmImpact = "Low")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
-        [Parameter(Mandatory = $true)]
-        [string]$selectorname 
+        [Parameter(Mandatory)]
+        [string]$Selectorname 
     )
     begin {
         Write-Verbose "Invoke-ADCDeleteCacheselector: Starting"
     }
     process {
         try {
-            $Arguments = @{ 
-            }
+            $arguments = @{ }
 
-            if ($PSCmdlet.ShouldProcess("$selectorname", "Delete Integrated Caching configuration Object")) {
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type cacheselector -NitroPath nitro/v1/config -Resource $selectorname -Arguments $Arguments
+            if ( $PSCmdlet.ShouldProcess("$selectorname", "Delete Integrated Caching configuration Object") ) {
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type cacheselector -NitroPath nitro/v1/config -Resource $selectorname -Arguments $arguments
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $response
@@ -4470,70 +4409,67 @@ function Invoke-ADCDeleteCacheselector {
 }
 
 function Invoke-ADCUpdateCacheselector {
-<#
+    <#
     .SYNOPSIS
-        Update Integrated Caching configuration Object
+        Update Integrated Caching configuration Object.
     .DESCRIPTION
-        Update Integrated Caching configuration Object 
-    .PARAMETER selectorname 
+        Configuration for cache selector resource.
+    .PARAMETER Selectorname 
         Name for the selector. Must begin with an ASCII alphabetic or underscore (_) character, and must contain only ASCII alphanumeric, underscore, hash (#), period (.), space, colon (:), at (@), equals (=), and hyphen (-) characters. 
-    .PARAMETER rule 
-        One or multiple PIXL expressions for evaluating an HTTP request or response.  
-        Minimum length = 1 
+    .PARAMETER Rule 
+        One or multiple PIXL expressions for evaluating an HTTP request or response. 
     .PARAMETER PassThru 
         Return details about the created cacheselector item.
     .EXAMPLE
-        Invoke-ADCUpdateCacheselector -selectorname <string> -rule <string[]>
+        PS C:\>Invoke-ADCUpdateCacheselector -selectorname <string> -rule <string[]>
+        An example how to update cacheselector configuration Object(s).
     .NOTES
         File Name : Invoke-ADCUpdateCacheselector
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/cache/cacheselector/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
+    #>
     [CmdletBinding(SupportsShouldProcess = $true, ConfirmImpact = "Low")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
-        [Parameter(Mandatory = $true)]
+        [Parameter(Mandatory)]
         [ValidatePattern('^(([a-zA-Z0-9]|[_])+([a-zA-Z0-9]|[_])+)$')]
-        [string]$selectorname ,
+        [string]$Selectorname,
 
-        [Parameter(Mandatory = $true)]
+        [Parameter(Mandatory)]
         [ValidateScript({ $_.Length -gt 1 })]
-        [string[]]$rule ,
+        [string[]]$Rule,
 
         [Switch]$PassThru 
-
     )
     begin {
         Write-Verbose "Invoke-ADCUpdateCacheselector: Starting"
     }
     process {
         try {
-            $Payload = @{
-                selectorname = $selectorname
-                rule = $rule
+            $payload = @{ selectorname = $selectorname
+                rule                   = $rule
             }
 
- 
-            if ($PSCmdlet.ShouldProcess("cacheselector", "Update Integrated Caching configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -NitroPath nitro/v1/config -Type cacheselector -Payload $Payload -GetWarning
+            if ( $PSCmdlet.ShouldProcess("cacheselector", "Update Integrated Caching configuration Object") ) {
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -NitroPath nitro/v1/config -Type cacheselector -Payload $payload -GetWarning
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
-                if ($PSBoundParameters.ContainsKey('PassThru')) {
-                    Write-Output (Invoke-ADCGetCacheselector -Filter $Payload)
+                if ( $PSBoundParameters.ContainsKey('PassThru') ) {
+                    Write-Output (Invoke-ADCGetCacheselector -Filter $payload)
                 } else {
                     Write-Output $result
                 }
-
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -4546,55 +4482,61 @@ function Invoke-ADCUpdateCacheselector {
 }
 
 function Invoke-ADCGetCacheselector {
-<#
+    <#
     .SYNOPSIS
-        Get Integrated Caching configuration object(s)
+        Get Integrated Caching configuration object(s).
     .DESCRIPTION
-        Get Integrated Caching configuration object(s)
-    .PARAMETER selectorname 
-       Name for the selector. Must begin with an ASCII alphabetic or underscore (_) character, and must contain only ASCII alphanumeric, underscore, hash (#), period (.), space, colon (:), at (@), equals (=), and hyphen (-) characters. 
+        Configuration for cache selector resource.
+    .PARAMETER Selectorname 
+        Name for the selector. Must begin with an ASCII alphabetic or underscore (_) character, and must contain only ASCII alphanumeric, underscore, hash (#), period (.), space, colon (:), at (@), equals (=), and hyphen (-) characters. 
     .PARAMETER GetAll 
-        Retreive all cacheselector object(s)
+        Retrieve all cacheselector object(s).
     .PARAMETER Count
-        If specified, the count of the cacheselector object(s) will be returned
+        If specified, the count of the cacheselector object(s) will be returned.
     .PARAMETER Filter
-        Specify a filter
+        Specify a filter.
         -Filter @{ 'name'='<value>' }
     .PARAMETER ViewSummary
-        When specified, only a summary of information is returned
+        When specified, only a summary of information is returned.
     .EXAMPLE
-        Invoke-ADCGetCacheselector
+        PS C:\>Invoke-ADCGetCacheselector
+        Get data.
     .EXAMPLE 
-        Invoke-ADCGetCacheselector -GetAll 
+        PS C:\>Invoke-ADCGetCacheselector -GetAll 
+        Get all cacheselector data. 
     .EXAMPLE 
-        Invoke-ADCGetCacheselector -Count
+        PS C:\>Invoke-ADCGetCacheselector -Count 
+        Get the number of cacheselector objects.
     .EXAMPLE
-        Invoke-ADCGetCacheselector -name <string>
+        PS C:\>Invoke-ADCGetCacheselector -name <string>
+        Get cacheselector object by specifying for example the name.
     .EXAMPLE
-        Invoke-ADCGetCacheselector -Filter @{ 'name'='<value>' }
+        PS C:\>Invoke-ADCGetCacheselector -Filter @{ 'name'='<value>' }
+        Get cacheselector data with a filter.
     .NOTES
         File Name : Invoke-ADCGetCacheselector
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/cache/cacheselector/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
-    [CmdletBinding(DefaultParameterSetName = "Getall")]
+    #>
+    [CmdletBinding(DefaultParameterSetName = "GetAll")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
         [Parameter(ParameterSetName = 'GetByResource')]
         [ValidatePattern('^(([a-zA-Z0-9]|[_])+([a-zA-Z0-9]|[_])+)$')]
-        [string]$selectorname,
+        [string]$Selectorname,
 
-        [Parameter(ParameterSetName = 'Count', Mandatory = $true)]
+        [Parameter(ParameterSetName = 'Count', Mandatory)]
         [Switch]$Count,
 			
         [hashtable]$Filter = @{ },
@@ -4612,24 +4554,24 @@ function Invoke-ADCGetCacheselector {
     }
     process {
         try {
-            if ( $PsCmdlet.ParameterSetName -eq 'Getall' ) {
-                $Query = @{ }
+            if ( $PsCmdlet.ParameterSetName -eq 'GetAll' ) {
+                $query = @{ }
                 Write-Verbose "Retrieving all cacheselector objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type cacheselector -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type cacheselector -NitroPath nitro/v1/config -Query $query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
-                if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
+                if ( $PSBoundParameters.ContainsKey('Count') ) { $query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for cacheselector objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type cacheselector -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type cacheselector -NitroPath nitro/v1/config -Query $query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving cacheselector objects by arguments"
-                $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type cacheselector -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
+                $arguments = @{ } 
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type cacheselector -NitroPath nitro/v1/config -Arguments $arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving cacheselector configuration for property 'selectorname'"
                 $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type cacheselector -NitroPath nitro/v1/config -Resource $selectorname -Summary:$ViewSummary -Filter $Filter -GetWarning
             } else {
                 Write-Verbose "Retrieving cacheselector configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type cacheselector -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type cacheselector -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"

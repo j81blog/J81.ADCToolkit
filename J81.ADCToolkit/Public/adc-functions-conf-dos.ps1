@@ -1,75 +1,69 @@
 function Invoke-ADCAddDospolicy {
-<#
+    <#
     .SYNOPSIS
-        Add HTTP DoS Protection configuration Object
+        Add HTTP DoS Protection configuration Object.
     .DESCRIPTION
-        Add HTTP DoS Protection configuration Object 
-    .PARAMETER name 
-        Name for the HTTP DoS protection policy. Must begin with a letter, number, or the underscore character (_). Other characters allowed, after the first character, are the hyphen (-), period (.) hash (#), space ( ), at (@), equals (=), and colon (:) characters.  
-        Minimum length = 1 
-    .PARAMETER qdepth 
-        Queue depth. The queue size (the number of outstanding service requests on the system) before DoS protection is activated on the service to which the DoS protection policy is bound.  
-        Minimum value = 21 
-    .PARAMETER cltdetectrate 
-        Client detect rate. Integer representing the percentage of traffic to which the HTTP DoS policy is to be applied after the queue depth condition is satisfied.  
-        Minimum value = 0  
-        Maximum value = 100 
+        Configuration for DoS policy resource.
+    .PARAMETER Name 
+        Name for the HTTP DoS protection policy. Must begin with a letter, number, or the underscore character (_). Other characters allowed, after the first character, are the hyphen (-), period (.) hash (#), space ( ), at (@), equals (=), and colon (:) characters. 
+    .PARAMETER Qdepth 
+        Queue depth. The queue size (the number of outstanding service requests on the system) before DoS protection is activated on the service to which the DoS protection policy is bound. 
+    .PARAMETER Cltdetectrate 
+        Client detect rate. Integer representing the percentage of traffic to which the HTTP DoS policy is to be applied after the queue depth condition is satisfied. 
     .PARAMETER PassThru 
         Return details about the created dospolicy item.
     .EXAMPLE
-        Invoke-ADCAddDospolicy -name <string> -qdepth <double>
+        PS C:\>Invoke-ADCAddDospolicy -name <string> -qdepth <double>
+        An example how to add dospolicy configuration Object(s).
     .NOTES
         File Name : Invoke-ADCAddDospolicy
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
-        Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/dos/dospolicy/
+        Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/dos/dospolicy.md/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
+    #>
     [CmdletBinding(SupportsShouldProcess = $true, ConfirmImpact = "Low")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
-        [Parameter(Mandatory = $true)]
+        [Parameter(Mandatory)]
         [ValidateScript({ $_.Length -gt 1 })]
-        [string]$name ,
+        [string]$Name,
 
-        [Parameter(Mandatory = $true)]
-        [double]$qdepth ,
+        [Parameter(Mandatory)]
+        [double]$Qdepth,
 
         [ValidateRange(0, 100)]
-        [double]$cltdetectrate ,
+        [double]$Cltdetectrate,
 
         [Switch]$PassThru 
-
     )
     begin {
         Write-Verbose "Invoke-ADCAddDospolicy: Starting"
     }
     process {
         try {
-            $Payload = @{
-                name = $name
-                qdepth = $qdepth
+            $payload = @{ name = $name
+                qdepth         = $qdepth
             }
-            if ($PSBoundParameters.ContainsKey('cltdetectrate')) { $Payload.Add('cltdetectrate', $cltdetectrate) }
- 
-            if ($PSCmdlet.ShouldProcess("dospolicy", "Add HTTP DoS Protection configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -NitroPath nitro/v1/config -Type dospolicy -Payload $Payload -GetWarning
+            if ( $PSBoundParameters.ContainsKey('cltdetectrate') ) { $payload.Add('cltdetectrate', $cltdetectrate) }
+            if ( $PSCmdlet.ShouldProcess("dospolicy", "Add HTTP DoS Protection configuration Object") ) {
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -NitroPath nitro/v1/config -Type dospolicy -Payload $payload -GetWarning
                 #HTTP Status Code on Success: 201 Created
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
-                if ($PSBoundParameters.ContainsKey('PassThru')) {
-                    Write-Output (Invoke-ADCGetDospolicy -Filter $Payload)
+                if ( $PSBoundParameters.ContainsKey('PassThru') ) {
+                    Write-Output (Invoke-ADCGetDospolicy -Filter $payload)
                 } else {
                     Write-Output $result
                 }
-
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -82,47 +76,47 @@ function Invoke-ADCAddDospolicy {
 }
 
 function Invoke-ADCDeleteDospolicy {
-<#
+    <#
     .SYNOPSIS
-        Delete HTTP DoS Protection configuration Object
+        Delete HTTP DoS Protection configuration Object.
     .DESCRIPTION
-        Delete HTTP DoS Protection configuration Object
-    .PARAMETER name 
-       Name for the HTTP DoS protection policy. Must begin with a letter, number, or the underscore character (_). Other characters allowed, after the first character, are the hyphen (-), period (.) hash (#), space ( ), at (@), equals (=), and colon (:) characters.  
-       Minimum length = 1 
+        Configuration for DoS policy resource.
+    .PARAMETER Name 
+        Name for the HTTP DoS protection policy. Must begin with a letter, number, or the underscore character (_). Other characters allowed, after the first character, are the hyphen (-), period (.) hash (#), space ( ), at (@), equals (=), and colon (:) characters.
     .EXAMPLE
-        Invoke-ADCDeleteDospolicy -name <string>
+        PS C:\>Invoke-ADCDeleteDospolicy -Name <string>
+        An example how to delete dospolicy configuration Object(s).
     .NOTES
         File Name : Invoke-ADCDeleteDospolicy
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
-        Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/dos/dospolicy/
+        Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/dos/dospolicy.md/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
+    #>
     [CmdletBinding(SupportsShouldProcess = $true, ConfirmImpact = "Low")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
-        [Parameter(Mandatory = $true)]
-        [string]$name 
+        [Parameter(Mandatory)]
+        [string]$Name 
     )
     begin {
         Write-Verbose "Invoke-ADCDeleteDospolicy: Starting"
     }
     process {
         try {
-            $Arguments = @{ 
-            }
+            $arguments = @{ }
 
-            if ($PSCmdlet.ShouldProcess("$name", "Delete HTTP DoS Protection configuration Object")) {
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type dospolicy -NitroPath nitro/v1/config -Resource $name -Arguments $Arguments
+            if ( $PSCmdlet.ShouldProcess("$name", "Delete HTTP DoS Protection configuration Object") ) {
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type dospolicy -NitroPath nitro/v1/config -Resource $name -Arguments $arguments
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $response
@@ -138,76 +132,69 @@ function Invoke-ADCDeleteDospolicy {
 }
 
 function Invoke-ADCUpdateDospolicy {
-<#
+    <#
     .SYNOPSIS
-        Update HTTP DoS Protection configuration Object
+        Update HTTP DoS Protection configuration Object.
     .DESCRIPTION
-        Update HTTP DoS Protection configuration Object 
-    .PARAMETER name 
-        Name for the HTTP DoS protection policy. Must begin with a letter, number, or the underscore character (_). Other characters allowed, after the first character, are the hyphen (-), period (.) hash (#), space ( ), at (@), equals (=), and colon (:) characters.  
-        Minimum length = 1 
-    .PARAMETER qdepth 
-        Queue depth. The queue size (the number of outstanding service requests on the system) before DoS protection is activated on the service to which the DoS protection policy is bound.  
-        Minimum value = 21 
-    .PARAMETER cltdetectrate 
-        Client detect rate. Integer representing the percentage of traffic to which the HTTP DoS policy is to be applied after the queue depth condition is satisfied.  
-        Minimum value = 0  
-        Maximum value = 100 
+        Configuration for DoS policy resource.
+    .PARAMETER Name 
+        Name for the HTTP DoS protection policy. Must begin with a letter, number, or the underscore character (_). Other characters allowed, after the first character, are the hyphen (-), period (.) hash (#), space ( ), at (@), equals (=), and colon (:) characters. 
+    .PARAMETER Qdepth 
+        Queue depth. The queue size (the number of outstanding service requests on the system) before DoS protection is activated on the service to which the DoS protection policy is bound. 
+    .PARAMETER Cltdetectrate 
+        Client detect rate. Integer representing the percentage of traffic to which the HTTP DoS policy is to be applied after the queue depth condition is satisfied. 
     .PARAMETER PassThru 
         Return details about the created dospolicy item.
     .EXAMPLE
-        Invoke-ADCUpdateDospolicy -name <string>
+        PS C:\>Invoke-ADCUpdateDospolicy -name <string>
+        An example how to update dospolicy configuration Object(s).
     .NOTES
         File Name : Invoke-ADCUpdateDospolicy
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
-        Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/dos/dospolicy/
+        Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/dos/dospolicy.md/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
+    #>
     [CmdletBinding(SupportsShouldProcess = $true, ConfirmImpact = "Low")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
-        [Parameter(Mandatory = $true)]
+        [Parameter(Mandatory)]
         [ValidateScript({ $_.Length -gt 1 })]
-        [string]$name ,
+        [string]$Name,
 
-        [double]$qdepth ,
+        [double]$Qdepth,
 
         [ValidateRange(0, 100)]
-        [double]$cltdetectrate ,
+        [double]$Cltdetectrate,
 
         [Switch]$PassThru 
-
     )
     begin {
         Write-Verbose "Invoke-ADCUpdateDospolicy: Starting"
     }
     process {
         try {
-            $Payload = @{
-                name = $name
-            }
-            if ($PSBoundParameters.ContainsKey('qdepth')) { $Payload.Add('qdepth', $qdepth) }
-            if ($PSBoundParameters.ContainsKey('cltdetectrate')) { $Payload.Add('cltdetectrate', $cltdetectrate) }
- 
-            if ($PSCmdlet.ShouldProcess("dospolicy", "Update HTTP DoS Protection configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -NitroPath nitro/v1/config -Type dospolicy -Payload $Payload -GetWarning
+            $payload = @{ name = $name }
+            if ( $PSBoundParameters.ContainsKey('qdepth') ) { $payload.Add('qdepth', $qdepth) }
+            if ( $PSBoundParameters.ContainsKey('cltdetectrate') ) { $payload.Add('cltdetectrate', $cltdetectrate) }
+            if ( $PSCmdlet.ShouldProcess("dospolicy", "Update HTTP DoS Protection configuration Object") ) {
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -NitroPath nitro/v1/config -Type dospolicy -Payload $payload -GetWarning
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
-                if ($PSBoundParameters.ContainsKey('PassThru')) {
-                    Write-Output (Invoke-ADCGetDospolicy -Filter $Payload)
+                if ( $PSBoundParameters.ContainsKey('PassThru') ) {
+                    Write-Output (Invoke-ADCGetDospolicy -Filter $payload)
                 } else {
                     Write-Output $result
                 }
-
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -220,38 +207,39 @@ function Invoke-ADCUpdateDospolicy {
 }
 
 function Invoke-ADCUnsetDospolicy {
-<#
+    <#
     .SYNOPSIS
-        Unset HTTP DoS Protection configuration Object
+        Unset HTTP DoS Protection configuration Object.
     .DESCRIPTION
-        Unset HTTP DoS Protection configuration Object 
-   .PARAMETER name 
-       Name for the HTTP DoS protection policy. Must begin with a letter, number, or the underscore character (_). Other characters allowed, after the first character, are the hyphen (-), period (.) hash (#), space ( ), at (@), equals (=), and colon (:) characters. 
-   .PARAMETER cltdetectrate 
-       Client detect rate. Integer representing the percentage of traffic to which the HTTP DoS policy is to be applied after the queue depth condition is satisfied.
+        Configuration for DoS policy resource.
+    .PARAMETER Name 
+        Name for the HTTP DoS protection policy. Must begin with a letter, number, or the underscore character (_). Other characters allowed, after the first character, are the hyphen (-), period (.) hash (#), space ( ), at (@), equals (=), and colon (:) characters. 
+    .PARAMETER Cltdetectrate 
+        Client detect rate. Integer representing the percentage of traffic to which the HTTP DoS policy is to be applied after the queue depth condition is satisfied.
     .EXAMPLE
-        Invoke-ADCUnsetDospolicy -name <string>
+        PS C:\>Invoke-ADCUnsetDospolicy -name <string>
+        An example how to unset dospolicy configuration Object(s).
     .NOTES
         File Name : Invoke-ADCUnsetDospolicy
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
-        Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/dos/dospolicy
+        Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/dos/dospolicy.md
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
+    #>
     [CmdletBinding(SupportsShouldProcess = $true, ConfirmImpact = "Low")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
-        [Parameter(Mandatory = $true)]
         [ValidateScript({ $_.Length -gt 1 })]
-        [string]$name ,
+        [string]$Name,
 
         [Boolean]$cltdetectrate 
     )
@@ -260,12 +248,10 @@ function Invoke-ADCUnsetDospolicy {
     }
     process {
         try {
-            $Payload = @{
-                name = $name
-            }
-            if ($PSBoundParameters.ContainsKey('cltdetectrate')) { $Payload.Add('cltdetectrate', $cltdetectrate) }
-            if ($PSCmdlet.ShouldProcess("$name", "Unset HTTP DoS Protection configuration Object")) {
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -Type dospolicy -NitroPath nitro/v1/config -Action unset -Payload $Payload -GetWarning
+            $payload = @{ name = $name }
+            if ( $PSBoundParameters.ContainsKey('cltdetectrate') ) { $payload.Add('cltdetectrate', $cltdetectrate) }
+            if ( $PSCmdlet.ShouldProcess("$name", "Unset HTTP DoS Protection configuration Object") ) {
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -Type dospolicy -NitroPath nitro/v1/config -Action unset -Payload $payload -GetWarning
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $response
@@ -281,55 +267,61 @@ function Invoke-ADCUnsetDospolicy {
 }
 
 function Invoke-ADCGetDospolicy {
-<#
+    <#
     .SYNOPSIS
-        Get HTTP DoS Protection configuration object(s)
+        Get HTTP DoS Protection configuration object(s).
     .DESCRIPTION
-        Get HTTP DoS Protection configuration object(s)
-    .PARAMETER name 
-       Name for the HTTP DoS protection policy. Must begin with a letter, number, or the underscore character (_). Other characters allowed, after the first character, are the hyphen (-), period (.) hash (#), space ( ), at (@), equals (=), and colon (:) characters. 
+        Configuration for DoS policy resource.
+    .PARAMETER Name 
+        Name for the HTTP DoS protection policy. Must begin with a letter, number, or the underscore character (_). Other characters allowed, after the first character, are the hyphen (-), period (.) hash (#), space ( ), at (@), equals (=), and colon (:) characters. 
     .PARAMETER GetAll 
-        Retreive all dospolicy object(s)
+        Retrieve all dospolicy object(s).
     .PARAMETER Count
-        If specified, the count of the dospolicy object(s) will be returned
+        If specified, the count of the dospolicy object(s) will be returned.
     .PARAMETER Filter
-        Specify a filter
+        Specify a filter.
         -Filter @{ 'name'='<value>' }
     .PARAMETER ViewSummary
-        When specified, only a summary of information is returned
+        When specified, only a summary of information is returned.
     .EXAMPLE
-        Invoke-ADCGetDospolicy
+        PS C:\>Invoke-ADCGetDospolicy
+        Get data.
     .EXAMPLE 
-        Invoke-ADCGetDospolicy -GetAll 
+        PS C:\>Invoke-ADCGetDospolicy -GetAll 
+        Get all dospolicy data. 
     .EXAMPLE 
-        Invoke-ADCGetDospolicy -Count
+        PS C:\>Invoke-ADCGetDospolicy -Count 
+        Get the number of dospolicy objects.
     .EXAMPLE
-        Invoke-ADCGetDospolicy -name <string>
+        PS C:\>Invoke-ADCGetDospolicy -name <string>
+        Get dospolicy object by specifying for example the name.
     .EXAMPLE
-        Invoke-ADCGetDospolicy -Filter @{ 'name'='<value>' }
+        PS C:\>Invoke-ADCGetDospolicy -Filter @{ 'name'='<value>' }
+        Get dospolicy data with a filter.
     .NOTES
         File Name : Invoke-ADCGetDospolicy
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
-        Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/dos/dospolicy/
+        Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/dos/dospolicy.md/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
-    [CmdletBinding(DefaultParameterSetName = "Getall")]
+    #>
+    [CmdletBinding(DefaultParameterSetName = "GetAll")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
         [Parameter(ParameterSetName = 'GetByResource')]
         [ValidateScript({ $_.Length -gt 1 })]
-        [string]$name,
+        [string]$Name,
 
-        [Parameter(ParameterSetName = 'Count', Mandatory = $true)]
+        [Parameter(ParameterSetName = 'Count', Mandatory)]
         [Switch]$Count,
 			
         [hashtable]$Filter = @{ },
@@ -347,24 +339,24 @@ function Invoke-ADCGetDospolicy {
     }
     process {
         try {
-            if ( $PsCmdlet.ParameterSetName -eq 'Getall' ) {
-                $Query = @{ }
+            if ( $PsCmdlet.ParameterSetName -eq 'GetAll' ) {
+                $query = @{ }
                 Write-Verbose "Retrieving all dospolicy objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type dospolicy -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type dospolicy -NitroPath nitro/v1/config -Query $query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
-                if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
+                if ( $PSBoundParameters.ContainsKey('Count') ) { $query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for dospolicy objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type dospolicy -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type dospolicy -NitroPath nitro/v1/config -Query $query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving dospolicy objects by arguments"
-                $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type dospolicy -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
+                $arguments = @{ } 
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type dospolicy -NitroPath nitro/v1/config -Arguments $arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving dospolicy configuration for property 'name'"
                 $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type dospolicy -NitroPath nitro/v1/config -Resource $name -Summary:$ViewSummary -Filter $Filter -GetWarning
             } else {
                 Write-Verbose "Retrieving dospolicy configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type dospolicy -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type dospolicy -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"

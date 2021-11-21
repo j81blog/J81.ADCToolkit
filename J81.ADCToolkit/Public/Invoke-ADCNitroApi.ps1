@@ -1,5 +1,5 @@
 function Invoke-ADCNitroApi {
-<#
+    <#
     .SYNOPSIS
         Invoke ADC NITRO REST API
     .DESCRIPTION
@@ -25,59 +25,68 @@ function Invoke-ADCNitroApi {
     .PARAMETER GetWarning
         Switch parameter, when turned on, warning message will be sent in 'message' field and 'WARNING' value is set in severity field of the response in case there is a warning.
         Turned off by default
+    .PARAMETER Summary
+        Return a subset of the requested data (if supported)
+    .PARAMETER NitroPath
+        Specify the nitro path to the specified command.
+        E.g. 'nitro/v1/config'
     .PARAMETER OnErrorAction
         Use this parameter to set the onerror status for nitro request. Applicable only for bulk requests.
         Acceptable values: "EXIT", "CONTINUE", "ROLLBACK", default to "EXIT"
     .EXAMPLE
         Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type nsip
+    .EXAMPLE
+        $Payload = @{ name = $name }
+        Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -NitroPath nitro/v1/config -Type lbvserver -Action enable -Payload $Payload
     .NOTES
         File Name : Invoke-ADCNitroApi
-        Version   : v2101.0322
+        Version   : v2111.1520
         Author    : John Billekens
         Requires  : PowerShell v5.1 and up
                     ADC 11.x and up
                     Initial source https://github.com/devblackops/NetScaler
-#>
+    #>
     [CmdletBinding()]
     param (
         [alias("Session")]
-        [Parameter(Mandatory = $true)]
+        [Parameter(Mandatory)]
         [PSObject]$ADCSession,
-    
-        [Parameter(Mandatory = $true)]
+
+        [Parameter(Mandatory)]
         [ValidateSet('DELETE', 'GET', 'POST', 'PUT')]
         [string]$Method,
 
-        [Parameter(Mandatory = $true)]
+        [Parameter(Mandatory)]
         [string]$Type,
-    
+
         [string]$Resource,
-    
+
         [string]$Action,
-    
+
         [hashtable]$Arguments = @{ },
-            
+        
         [ValidateCount(0, 1)]
         [hashtable]$Query = @{ },
-    
+
         [ValidateScript( { $Method -in 'GET', 'GET-ALL' })]
         [hashtable]$Filters = @{ },
-    
+
         [ValidateScript( { $Method -ne 'GET' })]
         [hashtable]$Payload = @{ },
-    
+
         [switch]$GetWarning = $false,
-    
+
         [ValidateScript( { $Method -in 'GET', 'GET-ALL' })]
         [switch]$Summary = $false,
-    
+
         [ValidateSet('EXIT', 'CONTINUE', 'ROLLBACK')]
         [string]$OnErrorAction = 'EXIT',
 
         [ValidatePattern('^nitro\/v[0-9]\/(config|stat)$')]
         [string]$NitroPath = "nitro/v1/config",
-            
-        [Switch]$Clean
+
+        [Parameter(DontShow, ValueFromRemainingArguments)]
+        [Object]$RemainingArguments
     )
     if ([string]::IsNullOrEmpty($($ADCSession.ManagementURL.AbsoluteUri))) {
         throw "ERROR. Probably not logged into the ADC, Connect by running `"Connect-ADCNode`""
@@ -91,7 +100,6 @@ function Invoke-ADCNitroApi {
         if (-not ([string]::IsNullOrEmpty($Action))) {
             $uri += "?action=$Action"
         }
-    
         if ($Arguments.Count -gt 0) {
             $queryPresent = $true
             if ($uri -like '*?action*') {
@@ -176,9 +184,9 @@ function Invoke-ADCNitroApi {
             $response = $restError.Message
         }
         if ($restError.InnerException.Message) {
-            $response | Add-Member -Membertype NoteProperty -Name ErrorMessage -value $restError.InnerException.Message -ErrorAction SilentlyContinue
+            $response | Add-Member -MemberType NoteProperty -Name ErrorMessage -Value $restError.InnerException.Message-ErrorAction SilentlyContinue
         }
-        if ($Type -eq 'reboot' -and $restError[0].Message -eq 'The underlying connection was closed: The connection was closed unexpectedly.') {
+        if ($Type -eq 'reboot' -and $restError[0].Message -eq 'The underlying connection was closed: The connection wasclosed unexpectedly.') {
             Write-Warning -Message 'Connection closed due to reboot'
         } else {
             if ([String]::IsNullOrEmpty($($restError.Message)) -and -not ($ErrorActionPreference -eq "SilentlyContinue")) {
@@ -187,13 +195,13 @@ function Invoke-ADCNitroApi {
         }
     }
     if ($response -and $type) {
-        $response | Add-Member -Membertype NoteProperty -Name type -value $Type -ErrorAction SilentlyContinue
+        $response | Add-Member -MemberType NoteProperty -Name type -Value $Type -ErrorAction SilentlyContinue
     }
     if ($webResult.statuscode) {
-        $response | Add-Member -Membertype NoteProperty -Name StatusCode -value $webResult.statuscode -ErrorAction SilentlyContinue
+        $response | Add-Member -MemberType NoteProperty -Name StatusCode -Value $webResult.statuscode -ErrorAction SilentlyContinue
     }
     if ($webResult.StatusDescription) {
-        $response | Add-Member -Membertype NoteProperty -Name StatusDescription -value $webResult.StatusDescription -ErrorAction SilentlyContinue
+        $response | Add-Member -MemberType NoteProperty -Name StatusDescription -Value $webResult.StatusDescription -ErrorAction SilentlyContinue
     }
     Write-Output $response
     if (($response.severity -eq 'ERROR') -and -not ($ErrorActionPreference -eq "SilentlyContinue")) {
